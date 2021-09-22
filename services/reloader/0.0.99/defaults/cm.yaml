@@ -1,0 +1,11 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: reloader-0.0.99-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: "---\nreloader:\n  logFormat: json\n  deployment:\n    resources:\n\
+    \      limits:\n        cpu: \"100m\"\n        memory: \"512Mi\"\n      requests:\n\
+    \        cpu: \"100m\"\n        memory: \"128Mi\"\n"

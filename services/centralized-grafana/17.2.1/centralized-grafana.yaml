@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: centralized-grafana
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-staging
+        namespace: kommander-flux
+      version: 17.2.1
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: centralized-grafana
+  valuesFrom:
+    - kind: ConfigMap
+      name: centralized-grafana-17.2.1-d2iq-defaults
+  targetNamespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-view
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/grafana
+      - /dkp/kommander/monitoring/grafana/*
+    verbs:
+      - get
+      - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/grafana
+      - /dkp/kommander/monitoring/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/grafana
+      - /dkp/kommander/monitoring/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: centralized-grafana-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "kommander-grafana"
+data:
+  name: "Grafana"
+  dashboardLink: "/dkp/kommander/monitoring/grafana"
+  docsLink: "https://grafana.com/docs/"
+  version: "8.0.5"

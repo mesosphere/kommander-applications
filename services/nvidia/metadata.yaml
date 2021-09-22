@@ -1,0 +1,33 @@
+displayName: NVIDIA DCGM
+description: NVIDIA Data Center GPU Manager (DCGM) manages and monitors NVIDIA datacentre GPUs in cluster environments.
+category:
+  - monitoring
+type: platform
+scope:
+  - workspace
+certifications:
+  - certified
+  - supported
+  - airgapped
+overview: |-
+  # Overview
+  NVIDIA Data Center GPU Manager (DCGM) is a suite of tools for managing and monitoring NVIDIA datacenter GPUs in cluster environments. It includes active health monitoring, comprehensive diagnostics, system alerts and governance policies including power and clock management.
+
+  ## Key Features
+  ### GPU Diagnostics and System Validation
+  Effectively identify failures, performance degradations, power inefficiencies and their root causes.
+
+  ### GPU Telemetry
+  Gather rich set of GPU telemetry to explain job behavior, identifying opportunities to drive utilization and efficiencies, and determining root causes of potential application performance issues.
+
+  ### Active GPU Health Monitoring
+  Use low-overhead, non-invasive health monitoring while jobs are running without impact to application behavior and performance.
+
+  ### Integration with Management Ecosystem
+  Easily deploy a DCGM based monitoring solution in a Kubernetes cluster environment. Out of the box integration with various ISV solutions such as Bright Cluster Manager, IBM Spectrum LSF and open-source tools such as Prometheus, collected.
+
+  ## More Information
+  - [developer.nvidia.com/dcgm](https://developer.nvidia.com/dcgm)
+  - [NVIDIA DCGM Documentation](https://docs.nvidia.com/datacenter/dcgm/)
+  - [NVIDIA DCGM - GitHub](https://github.com/NVIDIA/DCGM)
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48cGF0aCBkPSJNMTE5LjA4IDExNy42NzF2LTE0LjQzM2w0LjI1NS0uMjJjMzkuNDY5LTEuMjM5IDY1LjM1OCAzMy45MTUgNjUuMzU4IDMzLjkxNXMtMjcuOTY0IDM4Ljg0Mi01Ny45NDggMzguODQyYy00LjMxNiAwLTguMTg2LS42OTktMTEuNjY1LTEuODY2VjEzMC4xNWMxNS4zNjQgMS44NTUgMTguNDUyIDguNjQyIDI3LjY4OSAyNC4wMzlsMjAuNTQ0LTE3LjMyM3MtMTQuOTk1LTE5LjY2OC00MC4yNzMtMTkuNjY4Yy0yLjc1MiAwLTUuMzg0LjE5My03Ljk2LjQ3M20wLTQ3LjY3MXYyMS41NTdhOTAuMTY1IDkwLjE2NSAwIDAgMSA0LjI1NS0uMjUzYzU0Ljg4OC0xLjg1IDkwLjY0MSA0NS4wMDcgOTAuNjQxIDQ1LjAwN3MtNDEuMDcxIDQ5Ljk0NS04My44NTkgNDkuOTQ1Yy0zLjkxOSAwLTcuNTkxLS4zNjMtMTEuMDM3LS45NzR2MTMuMzI3YzIuOTQ1LjM3NCA2LjAwNi41OTQgOS4xOTMuNTk0IDM5LjgxNiAwIDY4LjYxMS0yMC4zMzUgOTYuNDk4LTQ0LjQwMSA0LjYxOCAzLjcwNSAyMy41NDQgMTIuNzA1IDI3LjQ0MSAxNi42NTItMjYuNTE2IDIyLjE5NS04OC4zMDIgNDAuMDg2LTEyMy4zMjggNDAuMDg2LTMuMzc0IDAtNi42MjItLjIwNC05LjgwNC0uNTEydjE4LjcyN2gxNTEuMzM3VjcwSDExOS4wOHptMCAxMDMuOTA4djExLjM3M2MtMzYuODMyLTYuNTYyLTQ3LjA1NS00NC44NDctNDcuMDU1LTQ0Ljg0N3MxNy42ODctMTkuNTkxIDQ3LjA1NS0yMi43NjJ2MTIuNDc5Yy0uMDI3IDAtLjAzOC0uMDA2LS4wNjEtLjAwNi0xNS40MDgtMS44NS0yNy40NTIgMTIuNTQ1LTI3LjQ1MiAxMi41NDVzNi43NDkgMjQuMjQzIDI3LjUxMyAzMS4yMTdtLTY1LjQxMy0zNS4xMzFzMjEuODI2LTMyLjIwOCA2NS40MTMtMzUuNTM5di0xMS42OEM3MC44MDMgOTUuNDI3IDI5IDEzNi4zMSAyOSAxMzYuMzFzMjMuNjc2IDY4LjQ1MiA5MC4wOCA3NC43MTZ2LTEyLjQxOWMtNDguNzI4LTYuMTMyLTY1LjQxMy01OS44MzEtNjUuNDEzLTU5LjgzMSIgZmlsbD0iIzc3YjkwMCIvPjwvc3ZnPg==

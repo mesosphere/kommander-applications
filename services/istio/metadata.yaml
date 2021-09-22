@@ -1,0 +1,32 @@
+displayName: Istio Service Mesh
+description: Open source service mesh that layers transparently onto existing distributed applications. Requires Prometheus.
+category:
+  - service-mesh
+type: catalog
+scope:
+  - workspace
+overview: |-
+  # Overview
+  Istio is an open platform for providing a uniform way to integrate microservices, manage traffic flow across microservices, enforce policies and aggregate telemetry data. Istio's control plane provides an abstraction layer over the underlying cluster management platform, such as Kubernetes, Mesos, etc. A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. To use Istio, Prometheus needs to be deployed.
+
+  ## Key Features
+  ### Secure Communication
+  Secure service-to-service communication in a cluster with TLS encryption, strong identity-based authentication and authorization
+
+  ### Automatic Load Balancing
+  Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
+
+  ### Rich Traffic and Routing Controls
+  Fine-grained control of traffic behavior with rich routing rules, retries, failovers, and fault injection
+
+  ### Flexible Service Access Control
+  A pluggable policy layer and configuration API supporting access controls, rate limits and quotas
+
+  ### Automatic Traffic Metrics and Logging
+  Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
+
+  ## More Information
+  - [istio.io](https://istio.io/)
+  - [Istio Documentation](https://istio.io/latest/docs/)
+  - [Istio - GitHub](https://github.com/istio/community)
+icon: PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3R5bGU9ImJhY2tncm91bmQ6I2RhZGRlMiI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBmaWxsPSIjREFEREUyIiBkPSJNMCAwaDQ4djQ4SDB6Ii8+PHBhdGggZmlsbD0iIzQ2NkJCMCIgZD0iTTAgMGg0OHY0OEgweiIvPjxwYXRoIGQ9Ik0xMCAzOS43NWgyOEwyMC41IDQ1ek0xMCAzOGwxMC41LTEuNzVWMTd6bTEyLjI1LTEuNzVMMzggMzggMjIuMjUgM3oiIGZpbGw9IiNGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4=

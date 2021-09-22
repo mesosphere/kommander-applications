@@ -1,0 +1,58 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kubefed
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kubefed
+      sourceRef:
+        kind: HelmRepository
+        name: kubefed
+        namespace: kommander-flux
+      version: "0.8.1"
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: kubefed
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubefed-d2iq-defaults
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubefed-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    controllermanager:
+        # override value is necessary due to a "featureGates":interface {}(nil)... spec.featureGates in body must be of type array: "null"
+        # bug found
+        featureGates:
+          CrossClusterServiceDiscovery: "Disabled"
+          FederatedIngress: "Enabled"
+          PushReconciler: "Enabled"
+          SchedulerPreferences: "Disabled"
+        controller:
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+        certManager:
+          enabled: true
+          rootCertificate:
+            organizations:
+              - "cert-manager"
+            dnsNames:
+              - ca.webhook.kubefed
+            commonName: ca.webhook.kubefed
+        service:
+          labels:
+            servicemonitor.kommander.mesosphere.io/path: metrics

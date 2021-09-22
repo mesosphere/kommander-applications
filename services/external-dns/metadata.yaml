@@ -1,0 +1,15 @@
+displayName: External DNS
+description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
+category:
+  -  tools
+type: internal
+scope:
+  - workspace
+certifications:
+  - certified
+  - supported
+  - airgapped
+overview: |-
+  # External DNS
+
+  ExternalDNS synchronizes exposed Kubernetes Services and Ingresses with DNS providers.

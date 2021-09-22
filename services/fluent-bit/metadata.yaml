@@ -1,0 +1,39 @@
+displayName: Fluent Bit
+description: Open source and multi-platform log processor tool which aims to be a generic Swiss knife for logs processing and distribution.
+category:
+  - logging
+type: platform
+scope:
+  - workspace
+certifications:
+  - certified
+  - supported
+  - airgapped
+overview: |-
+  # Overview
+  Fluent Bit is an open source Log Processor and Forwarder. It is a CNCF subproject under the umbrella of Fluentd. Fluent Bit is fully designed and built on top of the best ideas of Fluentd architecture and general design. It has been made with a strong focus on performance to allow the collection of events from different sources without complexity. This application has been designed with performance and low resources consumption in mind.
+
+  ## Key Features
+  ### Event Driven
+  Fully event-driven service that only use asynchronous operations to collect and deliver data.
+
+  ### Flexible Routing
+  The data that comes in the pipeline, can be routed to multiple places using custom routing rules. Ship your data to multiple places with zero-copy strategy.
+
+  ### Configuration
+  Configuration is very simple and human-readable. It allows you to specify how it will behave, which features to enable and how routing is performed. Optionally Fluent Bit can run from the command line without it.
+
+  ### I/O Handler
+  The Input/Output layer provides an abstraction that allow to perform read/write operations in an asynchronous way.
+
+  ### Upstream Manager
+  When dealing with upstream backends like remote network services, handling TCP connections can be challenging. The Upstream manager simplify the connection process and take care of timeout/network exceptions and Keepalive states.
+
+  ### Security & TLS
+  When delivering data to destinations, output connectors inherit full TLS capabilities in an abstracted way. Add your certificates as required.
+
+  ## More Information
+  - [fluentbit.io](https://fluentbit.io/)
+  - [Fluent Bit Documentation](https://docs.fluentbit.io/manual/)
+  - [Fluent Bit - GitHub](https://github.com/fluent/fluent-bit/)
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgaWQ9ImEiPjxzdG9wIHN0b3AtY29sb3I9IiM5M2MxNjgiIG9mZnNldD0iMjIlIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzU2YWE4NiIgb2Zmc2V0PSI1NyUiLz48c3RvcCBzdG9wLWNvbG9yPSIjMjA5ZGFlIiBvZmZzZXQ9Ijc5JSIvPjxzdG9wIHN0b3AtY29sb3I9IiMyMjlkYWQiIG9mZnNldD0iOTglIi8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSIgaWQ9ImIiPjxzdG9wIHN0b3AtY29sb3I9IiM0YzYwYWEiIG9mZnNldD0iMSUiLz48c3RvcCBzdG9wLWNvbG9yPSIjM2E4OGM4IiBvZmZzZXQ9IjMzJSIvPjxzdG9wIHN0b3AtY29sb3I9IiMyZWEzZGIiIG9mZnNldD0iNzMlIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzIyYmNlZSIgb2Zmc2V0PSI5MSUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Im03NS4xOTggMTI0Ljg4LTQuNjA5LTUuOTg5LTEwLjU5OS0xNS42NzJjLTkuMjE4LTE3LjUyMy0xMi45MDYtMjQuODk4LTEzLjgyOC0zMy4xOTUtLjkyMi01LjUzMSAxLjg0NC0xMS4wNjIgMjcuNjU3IDQuNjEuMjM2LjExOCAyOC4zNDIgMTguMzE5IDI4LjU3OCAxOC40MzggNS41MzEgNS41MzEgOS45OTMgNy40MDUgMjguODE0IDQyLjQyOCA0LjYwOSAxMS4wNjMgMS43OTkgMzYuNDYyLTQuNjA5IDQzLjMyOC0xNy4zMDItOC43MTgtMjcuNzIzLTI0LjI3MS0zOC44ODItMzUuNzYyTDc1LjE5OCAxMjQuODh6IiBmaWxsPSIjMmQ3MGFhIi8+PHBhdGggZD0iTTEzMy4xNjMgMTE4LjcwOGMuMjA2LTcuODEtLjc1Mi0xNC44NTMtMy40NTktMjIuMjk1YTE4My44MjQgMTgzLjgyNCAwIDAgMS0yMy4yOSAxLjkyNWMtMTUuMTc4LS4wODEtOS40NjItMjEuNzA1LTM3LjExOCAxNy45MzYtMjAuOTk3IDIzLjM3MS01OS40NTcgNDEuOTQyLTU5LjQ1NyA0MS45NDJzNDUuMTg3IDEwLjY1NyA4My4yNDItNC42NDZjMTIuOTA2LTUuNTMxIDMyLjcwOC0yMi40MTMgMzkuMTYxLTMzLjQ3NSAxLjM0Mi0xLjI4MyAxLjM4Ni0uOTIyIDEuMzg2LTEuODQ0bC0uNDY1LjQ1N3oiIGZpbGw9InVybCgjYSkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ2IDY0LjM3NSkiLz48cGF0aCBkPSJNMjI2Ljk2NiA1OC41MDNjNy4xMSAyLjU4OS01LjAxNS03LjIyLTI5LjcwNy0xMC44MTJsLTguOTc1LTIuMjg2LTMuNDY2LTEuMjYxYy01LjMxNy0yLjkxMy02LjQ5Ny0yLjM2Ny0xMC45NDUtNC45NjMtNS45ODktNS4xMjYtMTIuNDQ5LTguOTQ2LTIzLjkyNS05LjQ0Ny0xOS41NTEtLjQ5NC00Mi4zNTUgMjAuOTgyLTQ1Ljg1IDIxLjMyOWwxMC4yMjIgMTguNDIzIDIuODk4IDYuOTI1YzI5LjkzNS00LjUxNCA3Ljg5MSAxMi4yNjUgMzcuMDc0LTUuNzUzbDI2LjY2OC0xNS4zMTFjNy45NTgtMi45ODcgMjIuNjA0LS4xMTEgMjguODY2LjIwN2wxNy4xNCAyLjk1eiIgZmlsbD0idXJsKCNiKSIgdHJhbnNmb3JtPSJyb3RhdGUoLTIwIDM3Mi4wODUgLTQzLjc4NykiLz48cGF0aCBkPSJNMjAzLjU4OSAxMTIuMzU3YTMuNDU5IDMuNDU5IDAgMCAxIDYuOTE4IDAgMy40NTkgMy40NTkgMCAwIDEtNi45MTggMHoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNMTE5LjI0OSAxNzQuNzk0YzIwLjI4MSAxNC43NSA1Ni4yMzQgMTIuOTA2IDYwLjM4NiA4LjI5NyAxLjM4Ny0yLjc2NiAyMC4zMjYtMzEuMTM3IDI3LjE5OS00NS4xNzItNDcuOTM3IDI5LjUtNjUuMDQtMjAuNDk1LTEwNC40My00NC4zODMgMjkuNSAyMy45NjkgMTguNjk2IDc4LjQ5MiAxNy4zMDkgNzkuODc5bC0uNDY1IDEuMzc5eiIgZmlsbD0iIzAwYjhiYiIvPjxwYXRoIGQ9Ik01OC44MSA2Ni43MmM3LjM3NSAzLjA3MyAxNC40NDMgNy4wNjggMjEuMjAzIDExLjk4NCAxOS42NjcgMTIuMjkyIDM0LjQxNyAyMi44OTUgNDQuMjUxIDMxLjgwOSA3Ljk5IDguMjk5IDE3LjUxNiAxNy4yMTEgMjguNTc4IDI2LjczNC0zMy45ODkgMTcuMjc3LTY3LjE0Ny0uNzYtOTkuNDc0LTU0LjExLTExLjA2My0xNy4yMDgtOS4yNDktMjIuNjgxIDUuNDQyLTE2LjQxN3oiIGZpbGwtb3BhY2l0eT0iLjMiIGZpbGw9IiNmZmYiLz48L2c+PC9zdmc+

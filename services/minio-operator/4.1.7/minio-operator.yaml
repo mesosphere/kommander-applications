@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio-operator
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: minio-operator
+      sourceRef:
+        kind: HelmRepository
+        name: operator.min.io
+        namespace: kommander-flux
+      version: 4.1.7
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: minio-operator
+  valuesFrom:
+    - kind: ConfigMap
+      name: minio-operator-4.1.7-d2iq-defaults
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-operator-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "minio-operator"
+data:
+  name: "MinIO Operator"
+  # MinIO Console doesn't yet support being hosted behind a subpath.
+  # See https://github.com/minio/console/issues/853.
+  #dashboardLink: "/dkp/logging/minio-operator"
+  docsLink: "https://docs.min.io/minio/k8s/"
+  version: "4.1.7"

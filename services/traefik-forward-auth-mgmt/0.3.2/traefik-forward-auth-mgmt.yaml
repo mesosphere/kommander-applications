@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik-forward-auth-mgmt
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: traefik
+    - namespace: ${releaseNamespace}
+      name: dex
+  chart:
+    spec:
+      chart: traefik-forward-auth
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-staging
+        namespace: kommander-flux
+      version: 0.3.2
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: traefik-forward-auth-mgmt
+  valuesFrom:
+    - kind: ConfigMap
+      name: traefik-forward-auth-mgmt-0.3.2-d2iq-defaults
+  targetNamespace: ${releaseNamespace}

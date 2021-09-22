@@ -1,0 +1,195 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: thanos
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-charts.banzaicloud.com
+        namespace: kommander-flux
+      version: 0.4.5
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: thanos
+  valuesFrom:
+    - kind: ConfigMap
+      name: thanos-0.4.5-d2iq-defaults
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kommander-thanos-client-cert
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-install
+spec:
+  commonName: client.thanos.localhost.localdomain
+  duration: 87600h
+  dnsNames:
+    - client.thanos.localhost.localdomain
+  subject:
+    organizations:
+      - D2iQ
+  secretName: kommander-thanos-client-tls
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kommander-thanos-configmap-edit
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kommander-thanos-configmap-edit
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kommander-thanos-configmap-edit
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kommander-thanos-configmap-edit
+subjects:
+  - kind: ServiceAccount
+    name: kommander-thanos-configmap-edit
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-kommander-thanos-query-stores-configmap
+  namespace: ${releaseNamespace}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "4"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: create-kommander-thanos-query-stores-configmap
+    spec:
+      serviceAccountName: kommander-thanos-configmap-edit
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl:1.19.7
+          command:
+          - sh
+          - "-c"
+          - |
+            /bin/bash <<'EOF'
+            set -o nounset
+            set -o errexit
+            set -o pipefail
+
+            echo "checking if kommander-thanos-query-stores configmap exists"
+
+            RES=$(set -o errexit; kubectl get configmap --ignore-not-found -n ${releaseNamespace} kommander-thanos-query-stores)
+            if [[ $RES == "" ]]; then
+              echo "kommander-thanos-query-stores configmap does not exist - creating"
+              printf '%s\n' "apiVersion: v1" "kind: ConfigMap" "metadata:" "  namespace: ${releaseNamespace}" "  name: kommander-thanos-query-stores" "data:" "  stores.yaml: |-" "    - targets: []" > /tmp/kommander-thanos-query-stores.yaml
+              kubectl apply -f /tmp/kommander-thanos-query-stores.yaml
+              exit 0
+            fi
+
+            echo "kommander-thanos-query-stores configmap already exists - no need to create"
+            EOF
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kommander-thanos-query-stores-configmap-cleanup
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: kommander-thanos-query-stores-configmap-cleanup
+    spec:
+      serviceAccountName: kommander-thanos-configmap-edit
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl:1.19.7
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - kubectl delete configmap --ignore-not-found -n ${releaseNamespace} kommander-thanos-query-stores
+      restartPolicy: OnFailure
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-thanos-query-view
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
+    verbs:
+      - get
+      - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-thanos-query-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-thanos-query-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete

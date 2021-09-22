@@ -1,0 +1,118 @@
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: clusterrolebindings.rbac.authorization.k8s.io
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedClusterRoleBinding
+    pluralName: federatedclusterrolebindings
+    scope: Cluster
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    group: rbac.authorization.k8s.io
+    kind: ClusterRoleBinding
+    pluralName: clusterrolebindings
+    scope: Cluster
+    version: v1
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: limitranges
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedLimitRange
+    pluralName: federatedlimitranges
+    scope: Namespaced
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    kind: LimitRange
+    pluralName: limitranges
+    scope: Namespaced
+    version: v1
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: networkpolicies.networking.k8s.io
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedNetworkPolicy
+    pluralName: federatednetworkpolicies
+    scope: Namespaced
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    group: networking.k8s.io
+    kind: NetworkPolicy
+    pluralName: networkpolicies
+    scope: Namespaced
+    version: v1
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: resourcequotas
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedResourceQuota
+    pluralName: federatedresourcequotas
+    scope: Namespaced
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    kind: ResourceQuota
+    pluralName: resourcequotas
+    scope: Namespaced
+    version: v1
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: roles.rbac.authorization.k8s.io
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedRole
+    pluralName: federatedroles
+    scope: Namespaced
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    group: rbac.authorization.k8s.io
+    kind: Role
+    pluralName: roles
+    scope: Namespaced
+    version: v1
+---
+apiVersion: core.kubefed.io/v1beta1
+kind: FederatedTypeConfig
+metadata:
+  name: rolebindings.rbac.authorization.k8s.io
+  namespace: ${releaseNamespace}
+spec:
+  federatedType:
+    group: types.kubefed.io
+    kind: FederatedRoleBinding
+    pluralName: federatedrolebindings
+    scope: Namespaced
+    version: v1beta1
+  propagation: Enabled
+  targetType:
+    group: rbac.authorization.k8s.io
+    kind: RoleBinding
+    pluralName: rolebindings
+    scope: Namespaced
+    version: v1

@@ -1,0 +1,35 @@
+displayName: Traefik Forward Auth
+description: Installs a forward authentication service - from D2iQ - that provides OAuth based authentication for Traefik. Requires Traefik.
+category:
+  - sso
+type: internal
+scope:
+  - workspace
+certifications:
+  - certified
+  - supported
+  - airgapped
+overview: |-
+  # Overview
+  ForwardAuth middleware from  Traefik allows a user to delegate authentication to an external authentication service, provided by the user. Traefik Forward Auth is deployed to serve the role of the external authentication server. This application by D2iQ is based on an upstream version by Thom Sedon. To use Traefik Forward Auth, Traefik needs to be deployed.
+
+  ## Key Features
+  ### Seamless Overlay of any HTTP Service
+  Seamlessly overlays any http service with a single endpoint.
+
+  ### Support for Multiple Providers
+  Supports multiple providers including Google and OpenID Connect (supported by Azure, Github, Salesforce etc.)
+
+  ### Support for Multiple Domains
+  Supports multiple domains/subdomains by dynamically generating redirect_uri's
+
+  ### Centralised Authentication
+  Supports use of centralised authentication host/redirect_uri
+
+  ### Selective Authentication
+  Allows authentication to be selectively applied/bypassed based on request parameters.
+
+  ## More Information
+  - [D2iQ - Traefik Forward Auth - GitHub](https://github.com/mesosphere/traefik-forward-auth)
+  - [Traefik ForwardAuth Documentation](https://doc.traefik.io/traefik/middlewares/forwardauth/)
+  - [Thom Seddon - Traefik Forward Auth - GitHub](https://github.com/thomseddon/traefik-forward-auth)

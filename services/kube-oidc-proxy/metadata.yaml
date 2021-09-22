@@ -1,0 +1,30 @@
+displayName: kube-oidc-proxy
+description: Proxy to consistently authenticate to managed Kubernetes clusters, on multi-cloud, using OIDC. Requires cert-manager and Traefik.
+category:
+  - sso
+type: internal
+scope:
+  - workspace
+certifications:
+  - certified
+  - supported
+  - airgapped
+overview: |-
+  # Overview
+  kube-oidc-proxy is a reverse proxy that sits in front of the Kubernetes API server that receives requests from users, authenticates using the OIDC protocol, and forwards the request to the API server, returning the result. This gives the control of user identity back into the hands of cluster administrators, and enables consistency of authorization of these identities in the form of RBAC. To use kube-oidc-proxy, Cert-Manager and Traefik need to be deployed.
+
+  ## Key Features
+  ### OIDC Authentication
+  Supports authentication using OIDC across multiple clusters.
+
+  ### Consistent Authentication Across Multiple Clouds
+  Delivers consistent authentication of managed kubernetes across multiple cloud providers.
+
+  ### Allows for Deeper Control for Cluster Administrators
+  Provides administrators more control over user identity while maintaining interoperability.
+
+  ## More Information
+  - [jetstack.io](https://www.jetstack.io/)
+  - [kube-oidc-proxy - GitHub](https://github.com/jetstack/kube-oidc-proxy)
+  - [Blog: Announcement post from Jetstack](https://www.jetstack.io/blog/kube-oidc-proxy/)
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCI+PGcgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48cGF0aCBmaWxsPSIjMDIxMTFhIiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48ZyBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9Im5vbnplcm8iPjxwYXRoIGQ9Ik0yMjIuMTI1IDc3Ljg3NWE5IDkgMCAwIDEgLjE4NSAxMi41MzhsLS4xODUuMTktMTA3LjQ4IDEwNy40OGE5IDkgMCAwIDEtMTIuOTEzLTEyLjUzOGwuMTg1LS4xOSAxMDcuNDgtMTA3LjQ4YTkgOSAwIDAgMSAxMi43MjggMHoiLz48dXNlIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSB4bGluazpocmVmPSIjYSIgeD0iLTUwLjkxMiIgeT0iLTUwLjkxMiIvPjx1c2UgeGxpbms6aHJlZj0iI2IiLz48dXNlIHhsaW5rOmhyZWY9IiNiIiB4PSIxMDIuNTMxIiB5PSIxMDIuNTMiLz48L2c+PC9nPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJNMjE1LjA1NCAxMzUuODU4YTkgOSAwIDAgMSAuMTg1IDEyLjUzOGwtLjE4NS4xOS01MS42MTkgNTEuNjE5YTkgOSAwIDAgMS0xMi45MTMtMTIuNTM4bC4xODUtLjE5IDUxLjYxOS01MS42MTlhOSA5IDAgMCAxIDEyLjcyOCAweiIvPjxwYXRoIGlkPSJiIiBkPSJNOTkuNzk1IDk2Ljk2N2E5IDkgMCAwIDEgLjE4NSAxMi41MzhsLS4xODUuMTktMjIuNjI3IDIyLjYyN2E5IDkgMCAwIDEtMTIuOTEzLTEyLjUzOGwuMTg1LS4xOSAyMi42MjctMjIuNjI3YTkgOSAwIDAgMSAxMi43MjggMHoiLz48L2RlZnM+PC9zdmc+

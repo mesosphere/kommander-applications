@@ -1,0 +1,15 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubetunnel-0.0.8-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    serviceMonitor:
+      enabled: false
+    issuer:
+      name: tunnel
+      selfSigned: true

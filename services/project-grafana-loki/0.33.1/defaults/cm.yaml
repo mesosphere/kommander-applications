@@ -1,0 +1,135 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: project-grafana-loki-0.33.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    loki:
+      ingesterFullname: loki-ingester
+
+      config: |
+        auth_enabled: false
+        server:
+          http_listen_port: 3100
+          # info is a little too quiet.
+          log_level: debug
+        distributor:
+          ring:
+            kvstore:
+              store: memberlist
+        memberlist:
+          join_members:
+            - {{ include "loki.fullname" . }}-memberlist
+        ingester:
+          lifecycler:
+            ring:
+              kvstore:
+                store: memberlist
+              replication_factor: 1
+          chunk_idle_period: 30m
+          chunk_block_size: 262144
+          chunk_encoding: snappy
+          chunk_retain_period: 1m
+          max_transfer_retries: 0
+          wal:
+            enabled: true
+            flush_on_shutdown: false
+            checkpoint_duration: 5m
+            replay_memory_ceiling: 4GB
+            dir: /var/loki/wal
+        limits_config:
+          # TODO tried to enable retention_period but fails.
+          #retention_period: 336h
+          enforce_metric_name: false
+          reject_old_samples: true
+          reject_old_samples_max_age: 168h
+          max_cache_freshness_per_query: 10m
+        schema_config:
+          configs:
+            - from: 2020-09-07
+              store: boltdb-shipper
+              object_store: aws
+              schema: v11
+              index:
+                prefix: loki_index_
+                period: 24h
+        storage_config:
+          boltdb_shipper:
+            shared_store: s3
+            active_index_directory: /var/loki/index
+            cache_location: /var/loki/cache
+            cache_ttl: 168h
+          aws:
+            s3: "http://minio:minio123@project-grafana-loki-minio-hl.${releaseNamespace}.svc.cluster.local.:9000/loki"
+            s3forcepathstyle: true
+        chunk_store_config:
+          max_look_back_period: 0s
+        table_manager:
+          # TODO: switch to compactor retention once its supported (in 2.3.0+)
+          retention_deletes_enabled: true
+          retention_period: 336h
+        query_range:
+          align_queries_with_step: true
+          max_retries: 5
+          split_queries_by_interval: 15m
+          cache_results: true
+          results_cache:
+            cache:
+              enable_fifocache: true
+              fifocache:
+                max_size_items: 1024
+                validity: 24h
+        frontend_worker:
+          frontend_address: {{ include "loki.queryFrontendFullname" . }}:9095
+        frontend:
+          log_queries_longer_than: 5s
+          compress_responses: true
+          tail_proxy_url: http://{{ include "loki.querierFullname" . }}:3100
+        compactor:
+          shared_store: s3
+          # TODO enable, fails config parsing
+          #retention_enabled: true
+        ruler:
+          storage:
+            type: local
+            local:
+              directory: /etc/loki/rules
+          ring:
+            kvstore:
+              store: memberlist
+          rule_path: /tmp/loki/scratch
+          alertmanager_url: http://kube-prometheus-stack-alertmanager.${workspaceNamespace}.svc.cluster.local:9093
+          external_url: ""
+
+    ingester:
+      replicas: 1
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+      persistence:
+        enabled: true
+        size: 10Gi
+
+    querier:
+      replicas: 1
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+      persistence:
+        enabled: true
+        size: 10Gi
+
+    compactor:
+      enabled: true
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+      persistence:
+        enabled: true
+        size: 10Gi
+
+    ruler:
+      enabled: false
