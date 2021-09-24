@@ -16,6 +16,7 @@ resources:
 - apps_v1_deployment_source-controller.yaml
 - networking.k8s.io_v1_networkpolicy_allow-egress.yaml
 - networking.k8s.io_v1_networkpolicy_allow-scraping.yaml
+- networking.k8s.io_v1_networkpolicy_allow-source.yaml
 - networking.k8s.io_v1_networkpolicy_allow-webhooks.yaml
 - rbac.authorization.k8s.io_v1_clusterrole_crd-controller-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_cluster-reconciler-kommander-flux.yaml
