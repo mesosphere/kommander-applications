@@ -1,18 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - kommander.yaml
-  - kommander-ui.yaml
-  - traefik.yaml
+  - banzaicloud.yaml
   - dashboard.yaml
-  - prometheus-community.yaml
-  - kiali.yaml
+  - fluent.yaml
+  - gitea.yaml
+  - grafana.yaml
   - jaegertracing.yaml
+  - kiali.yaml
+  - kommander-ui.yaml
+  - kommander.yaml
+  - kubefed.yaml
+  - kubetunnel.yaml
   - mesosphere-repos.yaml
   - minio.yaml
+  - prometheus-community.yaml
   - reloader.yaml
-  - kubefed.yaml
-  - grafana.yaml
-  - banzaicloud.yaml
-  - kubetunnel.yaml
-  - fluent.yaml
+  - traefik.yaml
