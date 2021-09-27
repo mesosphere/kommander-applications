@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 0.4.2
+      version: 0.4.3
   interval: 15s
   install:
     remediation:
@@ -24,5 +24,5 @@ spec:
   releaseName: nvidia
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-0.4.2-d2iq-defaults
+      name: nvidia-0.4.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}
