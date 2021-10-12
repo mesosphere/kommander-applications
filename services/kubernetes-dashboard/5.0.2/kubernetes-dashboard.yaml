@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: kubernetes-github-io-dashboard
         namespace: kommander-flux
-      version: "4.0.3"
+      version: "5.0.2"
   interval: 15s
   install:
     remediation:
@@ -23,7 +23,7 @@ spec:
   releaseName: kubernetes-dashboard
   valuesFrom:
     - kind: ConfigMap
-      name: kubernetes-dashboard-4.0.3-d2iq-defaults
+      name: kubernetes-dashboard-5.0.2-d2iq-defaults
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -77,4 +77,4 @@ data:
   name: "Kubernetes"
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/home/"
-  version: "4.0.3"
+  version: "5.0.2"
