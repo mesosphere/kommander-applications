@@ -36,7 +36,7 @@ metadata:
 data:
   name: "Traefik"
   dashboardLink: "/dkp/traefik/dashboard/"
-  docsLink: "https://docs.traefik.io/v2.4"
+  docsLink: "https://doc.traefik.io/traefik/v2.5"
   version: "2.5.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -164,7 +164,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: traefik-dashboard
     app.kubernetes.io/name: traefik-dashboard
-    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/version: 2.5.0
   annotations:
     kubernetes.io/ingress.class: kommander-traefik
     traefik.ingress.kubernetes.io/router.tls: "true"
