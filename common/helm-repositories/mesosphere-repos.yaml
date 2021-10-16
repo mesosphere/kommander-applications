@@ -18,3 +18,15 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging}"
+---
+# This is to support the HelmReleases created by Kommander's cluster observer controller.
+# See https://github.com/mesosphere/kommander/blob/main/federation/pkg/controllers/clusterobserver_controller.go
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: mesosphere.github.io-kommander-auditing-pipeline-charts
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
