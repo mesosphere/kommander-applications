@@ -130,7 +130,7 @@ data:
     coreDns:
       enabled: false
     kubeDns:
-      enabled: fales
+      enabled: false
     kubeEtcd:
       enabled: false
     kubeScheduler:
