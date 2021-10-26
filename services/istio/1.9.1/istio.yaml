@@ -8,8 +8,6 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: ${releaseNamespace}
-    - name: cert-manager
-      namespace: ${releaseNamespace}
   chart:
     spec:
       chart: istio
@@ -26,7 +24,7 @@ spec:
     remediation:
       retries: 30
   releaseName: istio
-  targetNamespace: ${releaseNamespace}
+  targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
       name: istio-1.9.1-d2iq-defaults
@@ -35,7 +33,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: istio-ca
-  namespace: ${releaseNamespace}
+  namespace: istio-system
   annotations:
     "helm.sh/hook": pre-install
 spec:
