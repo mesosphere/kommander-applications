@@ -11,7 +11,7 @@ data:
     replicaCount: 1
     image:
       repository: mesosphere/traefik-forward-auth
-      tag: 3.0.2
+      tag: 3.0.3
       pullPolicy: IfNotPresent
     resources:
       requests:
