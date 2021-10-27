@@ -29,6 +29,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kiali-1.29.1-d2iq-defaults
+  targetNamespace: istio-system
 ---
 apiVersion: v1
 kind: ConfigMap
