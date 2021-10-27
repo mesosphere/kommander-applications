@@ -21,6 +21,7 @@ spec:
     remediation:
       retries: 30
   releaseName: jaeger
+  targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
       name: jaeger-2.21.0-d2iq-defaults
