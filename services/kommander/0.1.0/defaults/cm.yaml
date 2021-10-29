@@ -24,6 +24,7 @@ data:
       containers:
         manager:
           rootCertSecretName: ${caSecretName}
+          rootCertSecretNamespace: ${caSecretNamespace}
           image:
             tag: ${controllerManagerImageTag}
             repository: ${controllerManagerImageRepository}
