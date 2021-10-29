@@ -28,24 +28,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: istio-1.9.1-d2iq-defaults
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: istio-ca
-  namespace: istio-system
-  annotations:
-    "helm.sh/hook": pre-install
-spec:
-  isCA: true
-  commonName: istio-ca
-  dnsNames:
-  - ca.istio.io
-  duration: 87600h
-  subject:
-    organizations:
-      - D2iQ
-  secretName: istio-ca
-  issuerRef:
-    name: ${caIssuerName}
-    kind: Issuer

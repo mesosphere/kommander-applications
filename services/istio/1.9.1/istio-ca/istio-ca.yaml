@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: istio-ca
+  namespace: istio-system
+spec:
+  isCA: true
+  commonName: istio-ca
+  dnsNames:
+  - ca.istio.io
+  duration: 87600h
+  subject:
+    organizations:
+      - D2iQ
+  secretName: istio-ca
+  issuerRef:
+    name: ${caIssuerName}
+    kind: Issuer
