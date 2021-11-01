@@ -3,6 +3,8 @@ kind: Certificate
 metadata:
   name: istio-ca
   namespace: istio-system
+  annotations:
+    "helm.sh/hook": pre-install
 spec:
   isCA: true
   commonName: istio-ca
