@@ -9,11 +9,22 @@ data:
     ---
     image:
       rootless: true
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        traefik.ingress.kubernetes.io/router.middlewares: kommander-stripprefixes@kubernetescrd
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      hosts:
+        - paths:
+          - path: /dkp/kommander/gitserver
+            pathType: ImplementationSpecific
     gitea:
       admin:
         existingSecret: ${adminCredentialsSecret}
       config:
         server:
+          ROOT_URL: https://localhost
           PROTOCOL: https
           CERT_FILE: /git-tls/tls.crt
           KEY_FILE: /git-tls/tls.key
