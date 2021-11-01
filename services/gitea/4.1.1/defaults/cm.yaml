@@ -24,7 +24,7 @@ data:
         existingSecret: ${adminCredentialsSecret}
       config:
         server:
-          ROOT_URL: https://localhost
+          ROOT_URL: https://localhost/dkp/kommander/gitserver
           PROTOCOL: https
           CERT_FILE: /git-tls/tls.crt
           KEY_FILE: /git-tls/tls.key
