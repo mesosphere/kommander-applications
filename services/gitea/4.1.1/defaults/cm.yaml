@@ -17,14 +17,14 @@ data:
         traefik.ingress.kubernetes.io/router.tls: "true"
       hosts:
         - paths:
-          - path: /dkp/kommander/gitserver
+          - path: /dkp/kommander/git
             pathType: ImplementationSpecific
     gitea:
       admin:
         existingSecret: ${adminCredentialsSecret}
       config:
         server:
-          ROOT_URL: https://localhost/dkp/kommander/gitserver
+          ROOT_URL: https://localhost/dkp/kommander/git
           PROTOCOL: https
           CERT_FILE: /git-tls/tls.crt
           KEY_FILE: /git-tls/tls.key
