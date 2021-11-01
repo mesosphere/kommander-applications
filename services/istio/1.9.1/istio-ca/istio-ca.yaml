@@ -17,4 +17,4 @@ spec:
   secretName: istio-ca
   issuerRef:
     name: ${caIssuerName}
-    kind: Issuer
+    kind: ClusterIssuer
