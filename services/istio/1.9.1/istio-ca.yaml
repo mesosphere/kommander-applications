@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   force: false
-  prune: true
+  prune: false
   interval: 10s
   path: ./services/istio/1.9.1/istio-ca
   dependsOn:
