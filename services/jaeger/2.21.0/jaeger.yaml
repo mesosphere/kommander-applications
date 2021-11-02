@@ -13,6 +13,10 @@ spec:
         name: jaegertracing-github-io
         namespace: kommander-flux
       version: "2.21.0"
+  # The main reason behind this dependency is to wait until
+  # the istio-system namespace is actually created
+  dependsOn:
+    - name: istio
   interval: 15s
   install:
     remediation:

@@ -1,0 +1,20 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: istio-ca
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: false
+  interval: 10s
+  path: ./services/istio/1.9.1/istio-ca
+  dependsOn:
+  - name: istio-system-namespace
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
