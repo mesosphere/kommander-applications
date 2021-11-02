@@ -1,3 +1,5 @@
+# Creating this correctly should be a responsibility of the Helm chart
+# - see D2IQ-80630
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
