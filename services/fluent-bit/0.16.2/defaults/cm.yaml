@@ -134,7 +134,7 @@ data:
             Match audit.*
             Alias kubernetes_audit
             Labels log_source=kubernetes_audit
-            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local.
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
             Port 80
             Retry_Limit 10
         [OUTPUT]
@@ -142,7 +142,7 @@ data:
             Match host.*
             Alias kubernetes_host
             Labels log_source=kubernetes_host
-            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local.
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
             Port 80
             Retry_Limit 10
         [OUTPUT]
@@ -150,7 +150,7 @@ data:
             Match kernel
             Alias kubernetes_host_kernel
             Labels log_source=kubernetes_host_kernel
-            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local.
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
             Port 80
             Retry_Limit 10
 
