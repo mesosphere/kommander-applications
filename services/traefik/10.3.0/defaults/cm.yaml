@@ -99,6 +99,7 @@ data:
                     - /dkp/api-server
                     - /dkp/kommander/dashboard
                     - /dkp/kommander/git
+                    - /dkp/kommander/gitserver
                     - /dkp/kommander/helm-mirror
                     - /dkp/kommander/kubecost/frontend
                     - /dkp/kommander/kubecost/query
