@@ -39,6 +39,8 @@ data:
 
       ingress:
         enabled: true
+        # We can remove this once https://github.com/kubecost/cost-analyzer-helm-chart/pull/1132 is released.
+        className: ""
         annotations:
           kubernetes.io/ingress.class: kommander-traefik
           ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
