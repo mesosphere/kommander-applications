@@ -61,7 +61,7 @@ data:
     deploymentAnnotations:
       # The certificate can change because it was rotated or different cluster
       # DNS name has been set.
-      secret.reloader.stakater.com/reload: "traefik-certificate,dex"
+      secret.reloader.stakater.com/reload: "kommander-traefik-certificate,dex"
     initContainers:
     # initialize-traefik-forward-auth deploys credentials for use by the proxy
     - name: initialize-traefik-forward-auth
