@@ -33,73 +33,6 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kubecost-configmap-edit
-  namespace: kubecost
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: kubecost-configmap-edit
-rules:
-  - apiGroups: [""]
-    resources: ["configmaps"]
-    verbs: ["get", "list", "create", "update", "patch", "delete"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: kubecost-configmap-edit
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: kubecost-configmap-edit
-subjects:
-  - kind: ServiceAccount
-    name: kubecost-configmap-edit
-    namespace: kubecost
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: copy-kubecost-grafana-datasource-cm
-  namespace: kubecost
-spec:
-  template:
-    metadata:
-      name: copy-kubecost-grafana-datasource-cm
-    spec:
-      serviceAccountName: kubecost-configmap-edit
-      restartPolicy: OnFailure
-      containers:
-        - name: kubectl
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.21.3}"
-          command:
-            - sh
-            - -c
-            - |
-              kubectl get configmap grafana-datasource --namespace=kubecost -o yaml | sed 's/namespace: kubecost/namespace: ${releaseNamespace}/' | sed 's/name: grafana-datasource/name: centralized-kubecost-grafana-datasource/' | grep -v '^\s*uid:\s' | grep -v '^\s*resourceVersion:\s' | kubectl apply -f -
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kommander-kubecost-thanos-client-cert
-  namespace: kubecost
-spec:
-  commonName: client.thanos.kubecost.localhost.localdomain
-  dnsNames:
-    - client.thanos.kubecost.localhost.localdomain
-  duration: 87600h
-  subject:
-    organizations:
-      - D2iQ
-  secretName: kommander-kubecost-thanos-client-tls
-  issuerRef:
-    name: kommander-ca
-    kind: ClusterIssuer
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
   name: kubecost-thanos-configmap-edit
   namespace: kubecost
 ---
@@ -163,6 +96,24 @@ spec:
 
               echo "kubecost-thanos-query-stores configmap already exists - no need to create"
               EOF
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kommander-kubecost-thanos-client-cert
+  namespace: kubecost
+spec:
+  commonName: client.thanos.kubecost.localhost.localdomain
+  dnsNames:
+    - client.thanos.kubecost.localhost.localdomain
+  duration: 87600h
+  subject:
+    organizations:
+      - D2iQ
+  secretName: kommander-kubecost-thanos-client-tls
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
