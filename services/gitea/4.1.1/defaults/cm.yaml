@@ -31,6 +31,15 @@ data:
           HTTP_PORT: 3000
         service:
           REQUIRE_SIGNIN_VIEW: true
+        database:
+          HOST: db
+          DB_TYPE: sqlite3
+      database:
+        builtIn:
+          postgresql:
+            enabled: false
+    persistence:
+      size: 250Mi
     service:
       http:
         port: 443
