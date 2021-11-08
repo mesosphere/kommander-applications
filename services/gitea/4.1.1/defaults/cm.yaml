@@ -31,6 +31,8 @@ data:
           HTTP_PORT: 3000
         service:
           REQUIRE_SIGNIN_VIEW: true
+    persistence:
+      size: 250Mi
     service:
       http:
         port: 443
@@ -43,3 +45,6 @@ data:
     - name: git-tls
       readOnly: true
       mountPath: "/git-tls"
+    postgresql:
+      persistence:
+        size: 250Mi
