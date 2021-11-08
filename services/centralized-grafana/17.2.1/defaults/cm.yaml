@@ -34,7 +34,7 @@ data:
           # label that the configmaps with datasources are marked with
           label: grafana_datasource_kommander
           searchNamespace: ALL
-      anontations:
+      annotations:
         configmap.reloader.stakater.com/reload: "centralized-kubecost-grafana-datasource"
       ingress:
         enabled: true
