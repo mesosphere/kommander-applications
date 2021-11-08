@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: centralized-kubecost-release
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  interval: 1m0s
+  path: ./services/centralized-kubecost/0.19.0/release
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 60s
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
