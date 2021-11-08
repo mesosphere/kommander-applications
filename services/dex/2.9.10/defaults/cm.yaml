@@ -14,7 +14,7 @@ data:
         cpu: 100m
         memory: 50Mi
     deploymentAnnotations:
-      secret.reloader.stakater.com/reload: traefik-certificate,${dkpCredentialsSecret:=dkp-credentials}
+      secret.reloader.stakater.com/reload: kommander-traefik-certificate,${dkpCredentialsSecret:=dkp-credentials}
     ingress:
       enabled: true
       annotations:
