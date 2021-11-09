@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.17.2
+    app.kubernetes.io/version: v0.21.1
   name: crd-controller-kommander-flux
 rules:
 - apiGroups:
@@ -40,6 +40,7 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - namespaces
   - secrets
   verbs:
   - get

@@ -1,0 +1,10 @@
+#Just workaround for using empty k8s kustomizations
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-flux-0.21.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
