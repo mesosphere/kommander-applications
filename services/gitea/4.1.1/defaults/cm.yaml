@@ -43,3 +43,4 @@ data:
     - name: git-tls
       readOnly: true
       mountPath: "/git-tls"
+    clusterDomain: cluster.local.
