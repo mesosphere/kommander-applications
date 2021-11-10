@@ -41,11 +41,11 @@ data:
       gitRepo:
         gitCredentialsSecret:
           namespace: kommander-flux
-          name: git-repository-https-credentials
-        branch: master
+          name: kommander-git-credentials
+        branch: main
         service:
           namespace: ${releaseNamespace}
-          name: git-repository
+          name: gitea
         caCertSecret:
           namespace: ${releaseNamespace}
           name: ${kommanderFullName}-root-ca
