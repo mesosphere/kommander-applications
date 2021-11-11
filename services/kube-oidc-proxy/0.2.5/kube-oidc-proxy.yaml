@@ -14,6 +14,9 @@ spec:
   # The dependency is not added yet because it would break default installation
   # into management cluster ns.
   # JIRA: https://jira.d2iq.com/browse/D2IQ-78147
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: traefik
   chart:
     spec:
       chart: kube-oidc-proxy
