@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - namespace: ${releaseNamespace}
       name: dex
+    - namespace: ${releaseNamespace}
+      name: traefik
   chart:
     spec:
       chart: dex-k8s-authenticator
