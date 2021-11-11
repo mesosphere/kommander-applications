@@ -3,7 +3,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: clusterrolebindings.rbac.authorization.k8s.io
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io
@@ -23,7 +23,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: limitranges
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io
@@ -42,7 +42,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: networkpolicies.networking.k8s.io
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io
@@ -62,7 +62,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: resourcequotas
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io
@@ -81,7 +81,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: roles.rbac.authorization.k8s.io
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io
@@ -101,7 +101,7 @@ apiVersion: core.kubefed.io/v1beta1
 kind: FederatedTypeConfig
 metadata:
   name: rolebindings.rbac.authorization.k8s.io
-  namespace: ${releaseNamespace}
+  namespace: kube-federation-system
 spec:
   federatedType:
     group: types.kubefed.io

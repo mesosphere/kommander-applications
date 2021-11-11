@@ -9,6 +9,7 @@ spec:
   interval: 1m0s
   path: ./services/kubefed/0.8.1/federatedtypeconfigs
   dependsOn:
+    - name: kube-federation-system-namespace
     - name: kubefed-release
   sourceRef:
     kind: GitRepository
