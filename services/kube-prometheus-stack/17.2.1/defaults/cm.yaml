@@ -353,6 +353,8 @@ data:
           enabled: false
         users:
           auto_assign_org_role: Admin
+        plugins:
+          allow_loading_unsigned_plugins: "grafana-piechart-panel"
       service:
         type: ClusterIP
         port: 3000
