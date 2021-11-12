@@ -19,12 +19,21 @@ spec:
         namespace: kommander-flux
       version: "${chartVersion}"
   interval: 15s
+  # Kommander is quite a big chart and it may need some more time than
+  # other charts to get ready so setting this to 10 minutes increases
+  # the chance of the installation not timing out.
   timeout: 10m
   install:
     remediation:
+      # The Kommander chart cannot be uninstalled in its current form. That's
+      # a known issue and trying to remediate an installation failure by
+      # deleting and retrying won't work so we can just as well not retry to
+      # begin with.
       retries: 0
   upgrade:
     remediation:
+      # Rolling back an upgrade will very like not work and is untested so
+      # let's disable any remediation.
       retries: 0
   releaseName: kommander
   valuesFrom:
