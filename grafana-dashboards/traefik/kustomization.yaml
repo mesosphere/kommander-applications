@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: ${releaseNamespace}
 configMapGenerator:
   - name: grafana-dashboards-traefik
+    namespace: ${releaseNamespace}
     files:
       - traefik.json
 generatorOptions:

@@ -1,7 +1,7 @@
 # After the HelmRelease becomes the only object created by Kustomizations
 # in the `istio-system` Namespace, creating this Namespace should be made
 # a responsibility of the HelmRelease (see D2IQ-80630).
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: istio-system-namespace
