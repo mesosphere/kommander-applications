@@ -19,6 +19,7 @@ spec:
         namespace: kommander-flux
       version: "${chartVersion}"
   interval: 15s
+  timeout: 10m
   install:
     remediation:
       retries: 0
