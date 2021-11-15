@@ -20,6 +20,7 @@ function update_flux() {
     pushd "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
     ls ..
     cp -a ../"$CURRENT_FLUX_VERSION"/* .
+    rm -r ../"$CURRENT_FLUX_VERSION"
     rm templates/*
     flux install -n kommander-flux --export > templates/flux.yaml
     cp "$REPO_ROOT/hack/flux/flux-update-kustomization.yaml" templates/kustomization.yaml
