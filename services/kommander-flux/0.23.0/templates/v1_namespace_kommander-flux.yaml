@@ -1,9 +1,8 @@
 apiVersion: v1
-kind: ServiceAccount
+kind: Namespace
 metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.22.1
-  name: helm-controller
-  namespace: kommander-flux
+    app.kubernetes.io/version: v0.23.0
+  name: kommander-flux

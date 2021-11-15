@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.22.1
+    app.kubernetes.io/version: v0.23.0
   name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -137,7 +137,7 @@ spec:
                   chart sync.
                 properties:
                   checksum:
-                    description: Checksum is the SHA1 checksum of the artifact.
+                    description: Checksum is the SHA256 checksum of the artifact.
                     type: string
                   lastUpdateTime:
                     description: LastUpdateTime is the timestamp corresponding to
