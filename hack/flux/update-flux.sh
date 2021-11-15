@@ -29,6 +29,7 @@ function update_flux() {
     rm templates/flux.yaml templates/kustomization.yaml
     pushd "templates"
     kustomize create --autodetect
+    popd && popd
 
     git add .
 
