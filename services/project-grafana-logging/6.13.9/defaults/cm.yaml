@@ -75,6 +75,7 @@ data:
       failureThreshold: 10
     rbac:
       enabled: true
+      namespaced: true
       pspUseAppArmor: false
       pspEnabled: false
     # to avoid needing to download any plugins at runtime, use a container and a shared volume
