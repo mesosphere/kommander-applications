@@ -21,6 +21,7 @@ resources:
 - rbac.authorization.k8s.io_v1_clusterrole_crd-controller-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_cluster-reconciler-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_crd-controller-kommander-flux.yaml
+- v1_namespace_kommander-flux.yaml
 - v1_service_notification-controller.yaml
 - v1_service_source-controller.yaml
 - v1_service_webhook-receiver.yaml
