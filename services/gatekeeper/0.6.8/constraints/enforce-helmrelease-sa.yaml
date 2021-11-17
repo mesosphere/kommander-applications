@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: RequiredServiceAccountName
+metadata:
+  name: helmrelease-must-have-sa
+spec:
+  match:
+    kinds:
+      - apiGroups: ["helm.toolkit.fluxcd.io"]
+        kinds: ["HelmRelease"]
+    namespaceSelector:
+      matchLabels:
+        kommander.d2iq.io/managed-by-kind: "Project"
