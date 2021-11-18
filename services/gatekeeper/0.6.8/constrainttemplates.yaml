@@ -13,7 +13,7 @@ spec:
     name: management
     namespace: kommander-flux
   dependsOn:
-    - name: gatekeeper
+    - name: gatekeeper-release
   timeout: 60s
   healthChecks:
     - apiVersion: templates.gatekeeper.sh/v1beta1
