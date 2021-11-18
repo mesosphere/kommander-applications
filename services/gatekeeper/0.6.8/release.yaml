@@ -14,6 +14,9 @@ spec:
     namespace: kommander-flux
   timeout: 60s
   postBuild:
+    # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
+    substitute:
+      releaseNamespace: ${releaseNamespace}
     substituteFrom:
       - kind: ConfigMap
         name: substitution-vars
