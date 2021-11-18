@@ -7,7 +7,7 @@ spec:
   force: false
   prune: true
   interval: 1m0s
-  path: ./services/kubefed/0.8.1/federatedtypeconfigs
+  path: ./services/kubefed/0.9.0/federatedtypeconfigs
   dependsOn:
     - name: kube-federation-system-namespace
     - name: kubefed-release
