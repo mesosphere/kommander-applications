@@ -7,7 +7,7 @@ spec:
   force: false
   prune: false
   interval: 1m0s
-  path: ./services/kubefed/0.8.1/kube-federation-system-namespace
+  path: ./services/kubefed/0.9.0/kube-federation-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
