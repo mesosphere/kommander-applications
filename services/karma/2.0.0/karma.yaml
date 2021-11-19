@@ -5,6 +5,9 @@ metadata:
   name: karma
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: karma-traefik
   chart:
     spec:
       chart: karma
