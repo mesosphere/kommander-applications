@@ -1,0 +1,25 @@
+{
+  "override-status": {
+    "enabled": true,
+    "jira_label": "mergebot-override"
+  },
+  "test": true,
+  "backport": true,
+  "update_jira_on_merge": {
+    "enabled": true,
+    "interactive": false,
+    "fix_version_map": {
+      "main": "Kommander 2.2.0",
+      "release-2.1": "Kommander 2.1.1"
+    },
+    "jira_regex": "((?:COPS|D2IQ)-\\d+)"
+  },
+  "autotest-on-backports-and-trains": true,
+  "autotrigger-tests-on-ready-for-review": true,
+  "ready-for-review-label": "ok-to-test",
+  "backport-strategy": {
+    "interactive": false,
+    "strategy": "single-repo",
+    "copy-labels": true
+  }
+}
