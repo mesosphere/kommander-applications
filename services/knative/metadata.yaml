@@ -1,0 +1,10 @@
+displayName: Knative
+description: Knative serving
+category:
+  - foundation
+type: catalog
+scope:
+  - workspace
+overview: |-
+  TODO
+icon: TODO
