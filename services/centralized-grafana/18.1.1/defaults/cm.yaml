@@ -19,8 +19,7 @@ data:
       defaultDashboardsEnabled: true
       sidecar:
         image:
-          # TODO: @rishabh96b figure out what tag to use here.
-          tag: 1.3.0
+          tag: 1.12.3
         dashboards:
           enabled: true
           # label that the configmaps with dashboards are marked with
