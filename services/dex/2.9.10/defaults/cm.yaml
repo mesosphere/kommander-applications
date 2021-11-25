@@ -8,7 +8,7 @@ data:
   values.yaml: |-
     ---
     image: mesosphere/dex
-    imageTag: v2.27.0-7-g258c09-d2iq
+    imageTag: v2.27.0-4-g8c72a-d2iq
     resources:
       requests:
         cpu: 100m
