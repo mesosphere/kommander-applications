@@ -12,10 +12,3 @@ data:
       size: 100Gi
     storageClass:
       name: nfsserverprovisioner
-    resources:
-      limits:
-         cpu: 1000m
-         memory: 1024Mi
-      requests:
-         cpu: 50m
-         memory: 256Mi
