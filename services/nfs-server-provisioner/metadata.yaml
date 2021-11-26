@@ -1,6 +1,8 @@
 displayName: NFS Server Provisioner
 description: NFS Server Provisioner is an out-of-tree dynamic provisioner for Kubernetes. You can use it to quickly & easily deploy shared storage that works almost anywhere.
 type: platform
+scope:
+  - workspace
 overview: |-
   # Overview
   NFS Server Provisioner is an out-of-tree dynamic provisioner for Kubernetes. You can use it to quickly & easily deploy
