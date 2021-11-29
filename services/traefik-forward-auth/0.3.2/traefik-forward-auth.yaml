@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - namespace: ${traefikNamespace}
+    - namespace: ${workspaceNamespace}
       name: traefik
   chart:
     spec:
