@@ -134,6 +134,7 @@ data:
             Match audit.*
             Alias kubernetes_audit
             Labels log_source=kubernetes_audit
+            label_keys $verb,$user['username'],$objectRef['namespace'],$objectRef['resource']
             Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
             Port 80
             Retry_Limit 10
