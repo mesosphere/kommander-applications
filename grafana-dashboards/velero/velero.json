@@ -5,7 +5,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.0.5"
+      "version": "8.2.1"
     },
     {
       "type": "panel",
