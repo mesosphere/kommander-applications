@@ -30,6 +30,8 @@ data:
 
     sidecar:
       dashboards:
+        enabled: true
+        label: grafana_logging_dashboard
         searchNamespace: ALL
 
     grafana.ini:
