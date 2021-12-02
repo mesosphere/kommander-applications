@@ -30,14 +30,3 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
----
-# This is to support the internal charts of Knative.
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: HelmRepository
-metadata:
-  name: mesosphere.github.io-charts-staging-knative-charts
-  namespace: kommander-flux
-spec:
-  interval: 10m
-  timeout: 1m
-  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging/knative/charts}"

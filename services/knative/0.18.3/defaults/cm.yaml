@@ -1,0 +1,11 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: knative-0.18.3-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    knative:
+      testing: true

@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: knative-serving
+  name: knative
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -10,10 +10,10 @@ spec:
       namespace: ${releaseNamespace}
   chart:
     spec:
-      chart: serving
+      chart: knative
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging-knative-charts
+        name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
       version: "0.3.7"
   interval: 15s
@@ -23,8 +23,8 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: knative-serving
+  releaseName: knative
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-serving-0.18.3-d2iq-defaults
+      name: knative-0.18.3-d2iq-defaults
