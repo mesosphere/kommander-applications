@@ -13,7 +13,7 @@ data:
       caSecretName: kommander-traefik-certificate
     image:
       repository: mesosphere/dex-k8s-authenticator
-      tag: v1.2.2-d2iq
+      tag: v1.2.3-d2iq
     ingress:
       enabled: true
       annotations:
