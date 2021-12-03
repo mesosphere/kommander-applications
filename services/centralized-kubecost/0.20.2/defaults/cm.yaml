@@ -63,7 +63,6 @@ data:
         # These values are set so that kubecost grafana dashboards are installed.
         # Grafana itself is not installed.
         sidecar:
-          image: kiwigrid/k8s-sidecar:1.12.3
           dashboards:
             enabled: true
             label: grafana_dashboard_kommander
