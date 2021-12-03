@@ -7,5 +7,9 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    knative:
-      testing: true
+    eventing:
+      enabled: false
+    eventing-sources:
+      enabled: false
+    serving:
+      enabled: true
