@@ -13,3 +13,5 @@ data:
       enabled: false
     serving:
       enabled: true
+      customMetricsApiservice:
+        enabled: false
