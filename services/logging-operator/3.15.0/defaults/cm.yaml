@@ -104,6 +104,13 @@ data:
        requests:
          cpu: 350m
          memory: 350Mi
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+        - operator: Exists
+          effect: NoExecute
+        - operator: Exists
+          key: CriticalAddonsOnly
       flush: 1
       grace: 5
       logLevel: info
