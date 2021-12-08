@@ -30,3 +30,4 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
+  
