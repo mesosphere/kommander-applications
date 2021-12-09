@@ -1,0 +1,17 @@
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: knative-0.18.3-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    eventing:
+      enabled: false
+    eventing-sources:
+      enabled: false
+    serving:
+      enabled: true
+      customMetricsApiservice:
+        enabled: false
