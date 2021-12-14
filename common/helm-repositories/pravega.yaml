@@ -1,0 +1,10 @@
+# TODO: Remove once airgapped support for catalog is implemented
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: charts.pravega.io
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  url: "${helmMirrorURL:=https://charts.pravega.io}"
