@@ -17,3 +17,4 @@ resources:
   - prometheus-community.yaml
   - reloader.yaml
   - traefik.yaml
+  - gatekeeper.yaml

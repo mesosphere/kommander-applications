@@ -1,0 +1,20 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gatekeeper-webhook-tls
+  namespace: ${releaseNamespace}
+  labels:
+    app: gatekeeper
+    gatekeeper.sh/system: "yes"
+spec:
+  secretName: gatekeeper-webhook-server-cert
+  duration: 8760h # 1y
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
+  dnsNames:
+  - gatekeeper-webhook-service
+  - gatekeeper-webhook-service.${releaseNamespace}
+  - gatekeeper-webhook-service.${releaseNamespace}.svc
+  - gatekeeper-webhook-service.${releaseNamespace}.svc.cluster.local
