@@ -1,7 +1,7 @@
 displayName: cert-manager
 description: Automates management and issuance of TLS certificates from various issuing sources.
 category:
-  - foundation
+  - security
 type: platform
 scope:
   - workspace
