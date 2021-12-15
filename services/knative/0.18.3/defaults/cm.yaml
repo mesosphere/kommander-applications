@@ -15,3 +15,14 @@ data:
       enabled: true
       customMetricsApiservice:
         enabled: false
+      namespaceKnativeServing:
+        additionalLabels:
+          ca.istio.io/override: "true"
+      configDeployment:
+        registriesSkippingTagResolving: "gcr.io,k8s.gcr.io,docker.io,index.docker.io,registry-1.docker.io,registry.hub.docker.com,quay.io,mcr.microsoft.com,nvcr.io,public.ecr.aws"
+      gc:
+        responsiveRevisionGC: "allowed"
+        retainSinceCreateTime: "48h"
+        retainSinceLastActiveTime: "15h"
+        minNonActiveRevisions: "20"
+        maxNonActiveRevisions: "1000"
