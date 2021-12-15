@@ -5,9 +5,6 @@ metadata:
   name: knative
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: ${releaseNamespace}
   chart:
     spec:
       chart: knative
