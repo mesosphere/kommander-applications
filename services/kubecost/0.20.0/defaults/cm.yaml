@@ -33,6 +33,12 @@ data:
         enabled: false
 
       grafana:
+        image:
+          # Overriding version to pull in a fix for a CVE.
+          # See <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-43798>.
+          # Can remove once image bump done in below PR is released.
+          # https://github.com/kubecost/cost-analyzer-helm-chart/pull/1171
+          tag: 8.3.2
         ingress:
           enabled: true
           annotations:
