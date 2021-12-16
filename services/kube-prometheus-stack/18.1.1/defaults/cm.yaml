@@ -411,3 +411,6 @@ data:
     #     keyFile: "/etc/prometheus/secrets/etcd-certs/server.key"
     nodeExporter:
       enabled: true
+    kube-state-metrics:
+      metricLabelsAllowlist:
+        - pods=[*]
