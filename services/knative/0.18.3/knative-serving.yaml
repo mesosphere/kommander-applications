@@ -4,6 +4,10 @@ kind: HelmRelease
 metadata:
   name: knative
   namespace: ${releaseNamespace}
+  dependsOn:
+    - name: istio
+      namespace: ${releaseNamespace}
+
 spec:
   chart:
     spec:
