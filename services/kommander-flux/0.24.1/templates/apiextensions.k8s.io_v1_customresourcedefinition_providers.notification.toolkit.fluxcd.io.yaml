@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.23.0
+    app.kubernetes.io/version: v0.24.1
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -79,6 +79,10 @@ spec:
                 required:
                 - name
                 type: object
+              suspend:
+                description: This flag tells the controller to suspend subsequent
+                  events handling. Defaults to false.
+                type: boolean
               type:
                 description: Type of provider
                 enum:
