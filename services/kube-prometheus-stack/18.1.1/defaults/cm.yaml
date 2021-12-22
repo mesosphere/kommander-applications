@@ -7,6 +7,12 @@ metadata:
 data:
   values.yaml: |
     ---
+    prometheusOperator:
+      admissionWebhooks:
+        patch:
+          image:
+            # Set SHA to empty so airgapped deployments work out of box.
+            sha: ""    
     mesosphereResources:
       create: true
       rules:
