@@ -12,7 +12,7 @@ data:
         patch:
           image:
             # Set SHA to empty so airgapped deployments work out of box.
-            sha: ""    
+            sha: ""
     mesosphereResources:
       create: true
       rules:
