@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 2.9.10
+      version: 2.9.11
   interval: 15s
   install:
     remediation:
@@ -23,5 +23,5 @@ spec:
   releaseName: dex
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.9.10-d2iq-defaults
+      name: dex-2.9.11-d2iq-defaults
   targetNamespace: ${releaseNamespace}
