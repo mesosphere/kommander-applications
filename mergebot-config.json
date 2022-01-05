@@ -14,6 +14,14 @@
     },
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },
+  "test-binding": {
+    "kommander-applications/pre-commit": {
+      "type": "teamcity",
+      "required": "true",
+      "priority": 2,
+      "id": "ClosedSource_Kommander2_KommanderApplications_PreCommitChecks"
+    },
+  },
   "autotest-on-backports-and-trains": true,
   "autotrigger-tests-on-ready-for-review": true,
   "ready-for-review-label": "ok-to-test",
