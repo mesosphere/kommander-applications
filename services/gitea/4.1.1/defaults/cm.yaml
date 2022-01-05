@@ -31,6 +31,7 @@ data:
           HTTP_PORT: 3000
         service:
           REQUIRE_SIGNIN_VIEW: true
+          DISABLE_REGISTRATION: true
     service:
       http:
         port: 443
