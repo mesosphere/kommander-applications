@@ -20,7 +20,7 @@
       "required": "true",
       "priority": 2,
       "id": "ClosedSource_Kommander2_KommanderApplications_PreCommitChecks"
-    },
+    }
   },
   "autotest-on-backports-and-trains": true,
   "autotrigger-tests-on-ready-for-review": true,
