@@ -10,7 +10,7 @@
     "interactive": false,
     "fix_version_map": {
       "main": "Kommander 2.2.0",
-      "release-2.1": "Kommander 2.1.1"
+      "release-2.1": "Kommander 2.1.2"
     },
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },
