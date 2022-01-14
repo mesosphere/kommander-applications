@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: kubernetes-charts.banzaicloud.com
         namespace: kommander-flux
-      version: 0.4.5
+      version: 0.4.6
   interval: 15s
   install:
     remediation:
@@ -23,7 +23,7 @@ spec:
   releaseName: thanos
   valuesFrom:
     - kind: ConfigMap
-      name: thanos-0.4.5-d2iq-defaults
+      name: thanos-0.4.6-d2iq-defaults
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
