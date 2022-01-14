@@ -7,6 +7,7 @@ configMapGenerator:
       - calico.json
       - flux-control-plane.json
       - flux-cluster-stats.json
+      - grafana.json
 generatorOptions:
   labels:
-    grafana_dashboard: "core-components"
+    grafana_dashboard: "kube-prometheus-stack"
