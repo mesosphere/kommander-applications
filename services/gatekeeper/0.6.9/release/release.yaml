@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: "0.6.8"
+      version: "0.6.9"
   interval: 15s
   install:
     remediation:
@@ -24,7 +24,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-0.6.8-d2iq-defaults
+      name: gatekeeper-0.6.9-d2iq-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
