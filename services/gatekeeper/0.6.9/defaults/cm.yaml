@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-0.6.8-d2iq-defaults
+  name: gatekeeper-0.6.9-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -22,3 +22,4 @@ data:
         httpsProxy:
       excludeNamespacesFromProxy: []
       namespaceSelectorForProxy: {}
+      sideEffects: "None"

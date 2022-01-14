@@ -13,5 +13,5 @@ patchesJson6902:
     kind: HelmRelease
     name: gatekeeper
 resources:
-  - ../0.6.8/
-  - ../0.6.8/defaults/
+  - ../0.6.9/
+  - ../0.6.9/defaults/
