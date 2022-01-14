@@ -21,7 +21,7 @@ data:
         velero: false
       homeDashboard:
         cronJob:
-          enabled: false
+          enabled: true
     prometheus:
       ingress:
         enabled: true
