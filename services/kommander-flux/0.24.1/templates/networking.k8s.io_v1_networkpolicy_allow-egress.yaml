@@ -4,15 +4,16 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.25.2
-  name: allow-webhooks
+    app.kubernetes.io/version: v0.24.1
+  name: allow-egress
   namespace: kommander-flux
 spec:
+  egress:
+  - {}
   ingress:
   - from:
-    - namespaceSelector: {}
-  podSelector:
-    matchLabels:
-      app: notification-controller
+    - podSelector: {}
+  podSelector: {}
   policyTypes:
   - Ingress
+  - Egress

@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.25.2
+    app.kubernetes.io/version: v0.24.1
     control-plane: controller
   name: notification-controller
   namespace: kommander-flux
