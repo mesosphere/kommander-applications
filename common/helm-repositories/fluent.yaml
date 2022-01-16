@@ -8,3 +8,4 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://fluent.github.io/helm-charts/}"
+  secretRef: "${chartmuseumCASecret}"

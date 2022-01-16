@@ -8,3 +8,4 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://operator.min.io/}"
+  secretRef: "${chartmuseumCASecret}"
