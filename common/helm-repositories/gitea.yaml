@@ -8,3 +8,4 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://dl.gitea.io/charts/}"
+  secretRef: "${chartmuseumCASecret}"

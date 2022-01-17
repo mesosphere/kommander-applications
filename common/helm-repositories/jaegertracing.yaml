@@ -8,3 +8,4 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://jaegertracing.github.io/helm-charts/}"
+  secretRef: "${chartmuseumCASecret}"
