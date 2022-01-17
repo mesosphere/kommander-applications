@@ -8,4 +8,3 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://raw.githubusercontent.com/kubernetes-sigs/kubefed/master/charts}"
-  secretRef: "${chartmuseumCASecret}"
