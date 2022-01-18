@@ -50,6 +50,7 @@ spec:
         - --log-level={{ .Values.logLevel }}
         - --exempt-namespace={{ .Release.Namespace }}
         - --operation=webhook
+        - --disable-cert-rotation=true
         - --enable-external-data={{ .Values.enableExternalData }}
         {{ if not .Values.disableMutation}}- --operation=mutation-webhook{{- end }}
 

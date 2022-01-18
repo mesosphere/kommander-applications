@@ -1,3 +1,45 @@
+# Create a selfsigned Issuer, in order to create a root CA certificate for
+# signing webhook serving certificates
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gatekeeper-selfsign
+  namespace: ${releaseNamespace}
+  labels:
+    app: gatekeeper
+    gatekeeper.sh/system: "yes"
+spec:
+  selfSigned: {}
+---
+# Generate a CA Certificate used to sign certificates for the webhook
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gatekeeper-ca
+  namespace: ${releaseNamespace}
+  labels:
+    app: gatekeeper
+    gatekeeper.sh/system: "yes"
+spec:
+  secretName: gatekeeper-ca
+  duration: 43800h # 5y
+  issuerRef:
+    name: gatekeeper-selfsign
+  commonName: "ca.webhook.gatekeeper"
+  isCA: true
+---
+# Create an Issuer that uses the above generated CA certificate to issue certs
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gatekeeper-ca-issuer
+  namespace: ${releaseNamespace}
+  labels:
+    app: gatekeeper
+    gatekeeper.sh/system: "yes"
+spec:
+  ca:
+    secretName: gatekeeper-ca
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -11,8 +53,7 @@ spec:
   secretName: gatekeeper-webhook-server-cert
   duration: 8760h # 1y
   issuerRef:
-    name: kommander-ca
-    kind: ClusterIssuer
+    name: gatekeeper-ca-issuer
   dnsNames:
   - gatekeeper-webhook-service
   - gatekeeper-webhook-service.${releaseNamespace}
