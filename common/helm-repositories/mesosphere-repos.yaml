@@ -8,7 +8,6 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
-  secretRef: "${chartmuseumCASecret}"
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
@@ -19,7 +18,6 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging}"
-  secretRef: "${chartmuseumCASecret}"
 ---
 # This is to support the HelmReleases created by Kommander's cluster observer controller.
 # See https://github.com/mesosphere/kommander/blob/main/federation/pkg/controllers/clusterobserver_controller.go
@@ -32,4 +30,3 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
-  secretRef: "${chartmuseumCASecret}"
