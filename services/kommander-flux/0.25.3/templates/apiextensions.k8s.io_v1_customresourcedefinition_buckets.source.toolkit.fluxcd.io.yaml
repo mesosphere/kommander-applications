@@ -7,22 +7,20 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.24.1
-  name: helmrepositories.source.toolkit.fluxcd.io
+    app.kubernetes.io/version: v0.25.3
+  name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
   names:
-    kind: HelmRepository
-    listKind: HelmRepositoryList
-    plural: helmrepositories
-    shortNames:
-    - helmrepo
-    singular: helmrepository
+    kind: Bucket
+    listKind: BucketList
+    plural: buckets
+    singular: bucket
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.url
-      name: URL
+    - jsonPath: .spec.endpoint
+      name: Endpoint
       type: string
     - jsonPath: .status.conditions[?(@.type=="Ready")].status
       name: Ready
@@ -36,7 +34,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: HelmRepository is the Schema for the helmrepositories API
+        description: Bucket is the Schema for the buckets API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +49,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: HelmRepositorySpec defines the reference to a Helm repository.
+            description: BucketSpec defines the desired state of an S3 compatible
+              bucket
             properties:
               accessFrom:
                 description: AccessFrom defines an Access Control List for allowing
@@ -80,22 +79,38 @@ spec:
                 required:
                 - namespaceSelectors
                 type: object
-              interval:
-                description: The interval at which to check the upstream for updates.
+              bucketName:
+                description: The bucket name.
                 type: string
-              passCredentials:
-                description: PassCredentials allows the credentials from the SecretRef
-                  to be passed on to a host that does not match the host as defined
-                  in URL. This may be required if the host of the advertised chart
-                  URLs in the index differ from the defined URL. Enabling this should
-                  be done with caution, as it can potentially result in credentials
-                  getting stolen in a MITM-attack.
+              endpoint:
+                description: The bucket endpoint address.
+                type: string
+              ignore:
+                description: Ignore overrides the set of excluded patterns in the
+                  .sourceignore format (which is the same as .gitignore). If not provided,
+                  a default will be used, consult the documentation for your version
+                  to find out what those are.
+                type: string
+              insecure:
+                description: Insecure allows connecting to a non-TLS S3 HTTP endpoint.
                 type: boolean
+              interval:
+                description: The interval at which to check for bucket updates.
+                type: string
+              provider:
+                default: generic
+                description: The S3 compatible storage provider name, default ('generic').
+                enum:
+                - generic
+                - aws
+                - gcp
+                type: string
+              region:
+                description: The bucket region.
+                type: string
               secretRef:
                 description: The name of the secret containing authentication credentials
-                  for the Helm repository. For HTTP/S basic auth the secret must contain
-                  username and password fields. For TLS the secret must contain a
-                  certFile and keyFile, and/or caCert fields.
+                  for the Bucket.
                 properties:
                   name:
                     description: Name of the referent
@@ -108,25 +123,22 @@ spec:
                   of this source.
                 type: boolean
               timeout:
-                default: 60s
-                description: The timeout of index downloading, defaults to 60s.
-                type: string
-              url:
-                description: The Helm repository URL, a valid URL contains at least
-                  a protocol and host.
+                default: 20s
+                description: The timeout for download operations, defaults to 20s.
                 type: string
             required:
+            - bucketName
+            - endpoint
             - interval
-            - url
             type: object
           status:
             default:
               observedGeneration: -1
-            description: HelmRepositoryStatus defines the observed state of the HelmRepository.
+            description: BucketStatus defines the observed state of a bucket
             properties:
               artifact:
                 description: Artifact represents the output of the last successful
-                  repository sync.
+                  Bucket sync.
                 properties:
                   checksum:
                     description: Checksum is the SHA256 checksum of the artifact.
@@ -152,7 +164,7 @@ spec:
                 - url
                 type: object
               conditions:
-                description: Conditions holds the conditions for the HelmRepository.
+                description: Conditions holds the conditions for the Bucket.
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
@@ -230,7 +242,8 @@ spec:
                 format: int64
                 type: integer
               url:
-                description: URL is the download link for the last index fetched.
+                description: URL is the download link for the artifact output of the
+                  last Bucket sync.
                 type: string
             type: object
         type: object
