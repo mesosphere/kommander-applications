@@ -11,7 +11,7 @@ data:
       create: false
       homeDashboard:
         cronJob:
-          enabled: false
+          enabled: true
       ingressRBAC:
         enabled: false
     grafana:
