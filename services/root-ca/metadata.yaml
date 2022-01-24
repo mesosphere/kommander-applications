@@ -1,0 +1,10 @@
+displayName: kommander-root-ca
+description: The bootstrap CA issuers of Kommander
+category:
+  - security
+type: internal
+scope:
+  - workspace
+overview: |-
+  # Overview
+  The Kommander Root CA issuers that is to issue certificates used by Applications
