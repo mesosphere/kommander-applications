@@ -10,8 +10,8 @@ spec:
   interval: 1m0s
   path: ./services/cert-manager/0.2.7/root-ca
   dependsOn:
-    - name: cert-manager-release
-      namespace: ${releaseNamespace}
+    - name: "issuers.cert-manager.io"
+      # namespace: ${releaseNamespace}
   sourceRef:
     kind: GitRepository
     name: management
