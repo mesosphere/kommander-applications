@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-10.3.0-d2iq-defaults
+  name: traefik-10.9.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
