@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: "10.3.0"
+      version: "10.9.1"
   interval: 15s
   install:
     remediation:
@@ -24,7 +24,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-10.3.0-d2iq-defaults
+      name: traefik-10.9.1-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -37,7 +37,7 @@ data:
   name: "Traefik"
   dashboardLink: "/dkp/traefik/dashboard/"
   docsLink: "https://doc.traefik.io/traefik/v2.5"
-  version: "2.5.0"
+  version: "2.5.6"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -164,7 +164,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: traefik-dashboard
     app.kubernetes.io/name: traefik-dashboard
-    app.kubernetes.io/version: 2.5.0
+    app.kubernetes.io/version: 2.5.6
   annotations:
     kubernetes.io/ingress.class: kommander-traefik
     traefik.ingress.kubernetes.io/router.tls: "true"
