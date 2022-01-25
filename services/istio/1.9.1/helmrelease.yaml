@@ -16,6 +16,5 @@ spec:
     name: management
     namespace: kommander-flux
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+    substitute:
+      releaseNamespace: ${releaseNamespace}
