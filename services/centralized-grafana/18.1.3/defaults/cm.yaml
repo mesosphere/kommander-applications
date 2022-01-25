@@ -10,6 +10,8 @@ data:
     mesosphereResources:
       create: false
       homeDashboard:
+        name: "Global Overview"
+        serviceNameOverride: "centralized-grafana"
         cronJob:
           enabled: true
       ingressRBAC:
