@@ -2,11 +2,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: needsToBeOverridden
-  namespace: needsToBeOverridden
+  generateName: ${generatedName}
+  namespace: ${namespace}
   labels:
-    kommander.mesosphere.io/cluster-id: needsToBeOverridden
-    kommander.d2iq.com/prometheus-service: needsToBeOverridden
+    kommander.mesosphere.io/cluster-id: ${clusterID}
+    kommander.d2iq.com/prometheus-service: ${prometheusService}
 spec:
   chart:
     spec:
@@ -24,8 +24,8 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: needsToBeOverridden
+  releaseName: ${releaseName}
   valuesFrom:
     - kind: ConfigMap
-      name: needsToBeOverridden
-  targetNamespace: needsToBeOverridden
+      name: ${valuesFrom}
+  targetNamespace: ${targetNamespace}

@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: needsToBeOverridden
-  namespace: needsToBeOverridden
+  name: ${name}
+  namespace: ${namespace}
   labels:
-    kommander.mesosphere.io/cluster-id: needsToBeOverridden
+    kommander.mesosphere.io/cluster-id: ${clusterID}
 spec:
   chart:
     spec:
@@ -22,8 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: needsToBeOverridden
+  releaseName: ${releaseName}
   valuesFrom:
     - kind: ConfigMap
-      name: needsToBeOverridden
-  targetNamespace: needsToBeOverridden
+      name: ${valuesFrom}
+  targetNamespace: ${targetNamespace}
