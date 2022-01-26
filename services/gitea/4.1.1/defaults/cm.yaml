@@ -30,7 +30,7 @@ data:
           KEY_FILE: /git-tls/tls.key
           HTTP_PORT: 3000
         service:
-          REQUIRE_SIGNIN_VIEW: true
+          REQUIRE_SIGNIN_VIEW: false
           DISABLE_REGISTRATION: true
     service:
       http:
