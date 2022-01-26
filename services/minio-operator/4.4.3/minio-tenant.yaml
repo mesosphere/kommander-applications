@@ -13,6 +13,9 @@ spec:
         name: operator.min.io
         namespace: kommander-flux
       version: 4.4.3
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: minio-operator
   interval: 15s
   install:
     remediation:
