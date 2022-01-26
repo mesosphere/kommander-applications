@@ -10,7 +10,7 @@ spec:
   force: false
   prune: false
   interval: 1m0s
-  path: ./services/istio/1.9.1/istio-system-namespace
+  path: ./services/istio/1.9.2/istio-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
