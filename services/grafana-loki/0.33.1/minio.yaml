@@ -47,18 +47,6 @@ spec:
     - name: MINIO_PROMETHEUS_AUTH_TYPE
       value: public
 
-  console:
-    replicas: 1
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-    consoleSecret:
-      name: grafana-loki-minio-console
-
   s3:
     bucketDNS: false
 
@@ -75,22 +63,6 @@ data:
   accesskey: bWluaW8=
   ## Secret Key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
   secretkey: bWluaW8xMjM=
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: grafana-loki-minio-console
-  namespace: ${releaseNamespace}
-type: Opaque
-data:
-  ## Passphrase to encrypt jwt payload, base64 encoded (echo -n 'SECRET' | base64)
-  CONSOLE_PBKDF_PASSPHRASE: U0VDUkVU
-  ## Salt to encrypt jwt payload, base64 encoded (echo -n 'SECRET' | base64)
-  CONSOLE_PBKDF_SALT: U0VDUkVU
-  ## MinIO User Access Key (used for Console Login), base64 encoded (echo -n 'YOURCONSOLEACCESS' | base64)
-  CONSOLE_ACCESS_KEY: WU9VUkNPTlNPTEVBQ0NFU1M=
-  ## MinIO User Secret Key (used for Console Login), base64 encoded (echo -n 'YOURCONSOLESECRET' | base64)
-  CONSOLE_SECRET_KEY: WU9VUkNPTlNPTEVTRUNSRVQ=
 ---
 apiVersion: batch/v1
 kind: Job
