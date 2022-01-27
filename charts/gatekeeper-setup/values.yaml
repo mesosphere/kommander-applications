@@ -21,10 +21,6 @@ admissionControllerObjectSelector:
 
 # Copied from gatekeeper values
 replicas: 3
-auditInterval: 60
-auditMatchKindOnly: false
-constraintViolationsLimit: 20
-auditFromCache: false
 disableMutation: false
 disableValidatingWebhook: false
 validatingWebhookTimeoutSeconds: 3
@@ -34,20 +30,9 @@ enableDeleteOperations: false
 enableExternalData: false
 mutatingWebhookFailurePolicy: Ignore
 mutatingWebhookTimeoutSeconds: 3
-auditChunkSize: 500
 logLevel: INFO
 logDenies: false
 emitAdmissionEvents: false
-emitAuditEvents: false
-resourceQuota: true
-postInstall:
-  labelNamespace:
-    enabled: true
-    image:
-      repository: openpolicyagent/gatekeeper-crds
-      tag: v3.7.0
-      pullPolicy: IfNotPresent
-      pullSecrets: []
 image:
   repository: openpolicyagent/gatekeeper
   crdRepository: openpolicyagent/gatekeeper-crds
@@ -57,8 +42,6 @@ image:
 podAnnotations:
   { container.seccomp.security.alpha.kubernetes.io/manager: runtime/default }
 podLabels: {}
-podCountLimit: 100
-secretAnnotations: {}
 controllerManager:
   exemptNamespaces: []
   exemptNamespacePrefixes: []
@@ -89,33 +72,5 @@ controllerManager:
     requests:
       cpu: 100m
       memory: 256Mi
-audit:
-  hostNetwork: false
-  dnsPolicy: Default
-  metricsPort: 8888
-  healthPort: 9090
-  priorityClassName: system-cluster-critical
-  affinity: {}
-  tolerations: []
-  nodeSelector: { kubernetes.io/os: linux }
-  writeToRAMDisk: false
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 512Mi
-    requests:
-      cpu: 100m
-      memory: 256Mi
-crds:
-  resources: {}
-pdb:
-  controllerManager:
-    minAvailable: 1
 service: {}
 disabledBuiltins:
-psp:
-  enabled: true
-upgradeCRDs:
-  enabled: true
-rbac:
-  create: true
