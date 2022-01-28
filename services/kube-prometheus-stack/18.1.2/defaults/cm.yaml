@@ -138,6 +138,11 @@ data:
           version: v0.17.1
         externalLabels:
           cluster: $(CLUSTER_ID)
+        containers:
+          - name: config-reloader
+            envFrom:
+            - configMapRef:
+                name: cluster-info-configmap
         initContainers:
           - name: init-config-reloader
             envFrom:
