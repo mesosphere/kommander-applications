@@ -10,7 +10,7 @@ data:
     ---
     image:
       repository: quay.io/jetstack/kube-oidc-proxy
-      tag: v0.2.0
+      tag: v0.3.0
       pullPolicy: IfNotPresent
     deploymentAnnotations:
       # The certificate can change because it was rotated or different cluster
