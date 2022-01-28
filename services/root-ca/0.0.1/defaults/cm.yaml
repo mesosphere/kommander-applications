@@ -6,4 +6,4 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-
+  # Just a workaround for empty kubernetes kustomizations
