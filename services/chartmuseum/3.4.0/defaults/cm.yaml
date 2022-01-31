@@ -20,6 +20,8 @@ data:
       existingClaim: chartmuseum
     service:
       servicename: chartmuseum
+      annotations:
+        traefik.ingress.kubernetes.io/service.serversscheme: https
     deployment:
       extraVolumeMounts:
         - name: tls
