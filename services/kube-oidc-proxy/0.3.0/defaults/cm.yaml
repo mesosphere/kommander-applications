@@ -8,10 +8,6 @@ metadata:
 data:
   values.yaml: |-
     ---
-    image:
-      repository: quay.io/jetstack/kube-oidc-proxy
-      tag: v0.3.0
-      pullPolicy: IfNotPresent
     deploymentAnnotations:
       # The certificate can change because it was rotated or different cluster
       # DNS name has been set.
