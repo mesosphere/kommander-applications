@@ -1,0 +1,80 @@
+package main
+
+import (
+	"fmt"
+
+	fluxhelmv2beta1 "github.com/fluxcd/helm-controller/api/v2beta1"
+	fluxkustomizev1beta2 "github.com/fluxcd/kustomize-controller/api/v1beta2"
+	fluxsourcesv1beta1 "github.com/fluxcd/source-controller/api/v1beta1"
+	"github.com/mesosphere/dkp-cli-runtime/core/output"
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	apiextensionsv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/serializer"
+	k8sscheme "k8s.io/client-go/kubernetes/scheme"
+	apiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
+	apiregistrationv1beta1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1beta1"
+	"k8s.io/kube-openapi/pkg/validation/spec"
+)
+
+type Context struct {
+	output.Output
+	Config  Config
+	Decoder runtime.Decoder
+
+	TempDir            string
+	ConfigMaps         map[string]map[string]string
+	CRDSchemas         map[string]*spec.Schema
+	FluxKustomizations map[string]*fluxkustomizev1beta2.Kustomization
+	HelmRepos          map[string]string
+	HelmReleaseQueue   map[string]HelmReleaseFix
+
+	Failed    bool
+	AnyFailed bool
+}
+
+func NewContext(out output.Output) *Context {
+	scheme := runtime.NewScheme()
+	//nolint:errcheck
+	{
+		k8sscheme.AddToScheme(scheme)
+		apiextensionsv1.AddToScheme(scheme)
+		apiextensionsv1beta1.AddToScheme(scheme)
+		apiregistrationv1.AddToScheme(scheme)
+		apiregistrationv1beta1.AddToScheme(scheme)
+		fluxhelmv2beta1.AddToScheme(scheme)
+		fluxkustomizev1beta2.AddToScheme(scheme)
+		fluxsourcesv1beta1.AddToScheme(scheme)
+	}
+
+	codecs := serializer.NewCodecFactory(scheme, serializer.EnableStrict)
+	decoder := codecs.UniversalDeserializer()
+
+	return &Context{
+		Output:  out,
+		Config:  DefaultConfig(),
+		Decoder: decoder,
+
+		ConfigMaps:         make(map[string]map[string]string),
+		CRDSchemas:         make(map[string]*spec.Schema),
+		FluxKustomizations: make(map[string]*fluxkustomizev1beta2.Kustomization),
+		HelmRepos:          make(map[string]string),
+		HelmReleaseQueue:   make(map[string]HelmReleaseFix),
+	}
+}
+
+func (c *Context) Error(err error, msg string) {
+	c.Failed = true
+	c.AnyFailed = true
+	c.EndOperation(false)
+	c.Output.Error(err, msg)
+}
+
+func (c *Context) Errorf(err error, format string, args ...interface{}) {
+	c.Error(err, fmt.Sprintf(format, args...))
+}
+
+func (c *Context) StartOperation(status string) {
+	c.Failed = false
+	c.Output.StartOperation(status)
+}

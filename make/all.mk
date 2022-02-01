@@ -10,3 +10,4 @@ include $(INCLUDE_DIR)flux.mk
 include $(INCLUDE_DIR)tools.mk
 include $(INCLUDE_DIR)release.mk
 include $(INCLUDE_DIR)pre-commit.mk
+include $(INCLUDE_DIR)test.mk
