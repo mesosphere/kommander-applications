@@ -7,7 +7,7 @@ spec:
   force: false
   prune: false
   interval: 10s
-  path: ./services/istio/1.9.1/istio-ca
+  path: ./services/istio/1.9.2/istio-ca
   dependsOn:
   - name: istio-system-namespace
   sourceRef:

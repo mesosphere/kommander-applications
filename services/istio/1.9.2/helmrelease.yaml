@@ -7,7 +7,7 @@ spec:
   force: false
   prune: true
   interval: 10s
-  path: ./services/istio/1.9.1/helmrelease
+  path: ./services/istio/1.9.2/helmrelease
   dependsOn:
     - name: istio-ca
     - name: istio-system-namespace
@@ -16,6 +16,5 @@ spec:
     name: management
     namespace: kommander-flux
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+    substitute:
+      releaseNamespace: ${releaseNamespace}
