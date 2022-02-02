@@ -43,16 +43,6 @@ data:
           namespace: kommander-flux
           name: kommander-git-credentials
         branch: main
-        service:
-          namespace: ${releaseNamespace}
-          name: gitea
-        caCertSecret:
-          namespace: ${releaseNamespace}
-          name: ${kommanderFullName}-root-ca
-      helmMirror:
-        service:
-          namespace: ${releaseNamespace}
-          name: ${kommanderFullName}-helm-mirror
     kommander-licensing:
       certificates:
         issuer:
