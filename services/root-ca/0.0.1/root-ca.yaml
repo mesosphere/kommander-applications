@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   force: false
-  prune: false
+  prune: true
   interval: 1m0s
   sourceRef:
     kind: GitRepository
