@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"path/filepath"
-	"regexp"
 
 	fluxhelmv2beta1 "github.com/fluxcd/helm-controller/api/v2beta1"
+	"github.com/fluxcd/pkg/apis/meta"
 	"github.com/fluxcd/pkg/runtime/dependency"
 	"github.com/fluxcd/pkg/runtime/transform"
 	fluxsourcesv1beta1 "github.com/fluxcd/source-controller/api/v1beta1"
@@ -14,20 +14,15 @@ import (
 	"helm.sh/helm/v3/pkg/chart/loader"
 	"helm.sh/helm/v3/pkg/chartutil"
 	"helm.sh/helm/v3/pkg/cli"
+	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
 
-var helmRepoRegexp = regexp.MustCompile(`^\${helmMirrorURL:=` + "(.+)" + `}$`)
-
 func addHelmRepo(ctx *Context, helmRepo *fluxsourcesv1beta1.HelmRepository) {
 	ctx.V(1).Infof("Adding Helm repository: %s", helmRepo.Name)
-	matches := helmRepoRegexp.FindStringSubmatch(helmRepo.Spec.URL)
-	if len(matches) != 2 {
-		ctx.Errorf(nil, "HelmRepository %q is hardcoded, but should have the $helmMirrorURL variable (see other HelmRepositories)", helmRepo.Name)
-		return
-	}
-	ctx.HelmRepos[helmRepo.Name] = matches[1]
+	ctx.SetData(metasToRef(metav1.TypeMeta{Kind: helmRepo.Kind}, helmRepo.ObjectMeta), helmRepo)
 }
 
 func handleHelmRelease(ctx *Context, helmRelease *fluxhelmv2beta1.HelmRelease) {
@@ -119,12 +114,12 @@ func getChart(ctx *Context, client *action.Install, helmRelease *fluxhelmv2beta1
 	chart := helmRelease.Spec.Chart.Spec.Chart
 	switch helmRelease.Spec.Chart.Spec.SourceRef.Kind {
 	case "HelmRepository":
-		chartRepo := helmRelease.Spec.Chart.Spec.SourceRef.Name
-		var ok bool
-		client.RepoURL, ok = ctx.HelmRepos[chartRepo]
+		ref := meta.NamespacedObjectKindReference(helmRelease.Spec.Chart.Spec.SourceRef)
+		helmRepo, ok := ctx.GetData(ref).(*fluxsourcesv1beta1.HelmRepository)
 		if !ok {
-			return nil, fmt.Errorf("HelmRepository %q not found", chartRepo)
+			return nil, fmt.Errorf("HelmRepository %q not found", helmRelease.Spec.Chart.Spec.SourceRef.Name)
 		}
+		client.RepoURL = helmRepo.Spec.URL
 		cliConfig := cli.New()
 		chartPath, err := client.LocateChart(chart, cliConfig)
 		if err != nil {
@@ -146,14 +141,20 @@ func getChartValues(ctx *Context, helmRelease *fluxhelmv2beta1.HelmRelease) (map
 	for _, valuesFrom := range helmRelease.Spec.ValuesFrom {
 		switch valuesFrom.Kind {
 		case "ConfigMap":
-			configMap, ok := ctx.ConfigMaps[valuesFrom.Name]
+			ref := meta.NamespacedObjectKindReference{
+				APIVersion: "v1",
+				Kind:       valuesFrom.Kind,
+				Name:       valuesFrom.Name,
+				Namespace:  helmRelease.Namespace,
+			}
+			configMap, ok := ctx.GetData(ref).(*v1.ConfigMap)
 			if !ok {
 				if valuesFrom.Optional {
 					continue
 				}
 				return nil, fmt.Errorf("Referenced ConfigMap %q not found", valuesFrom.Name)
 			}
-			valueString, ok := configMap[valuesFrom.GetValuesKey()]
+			valueString, ok := configMap.Data[valuesFrom.GetValuesKey()]
 			if !ok {
 				if valuesFrom.Optional {
 					continue

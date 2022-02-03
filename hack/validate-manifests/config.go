@@ -15,8 +15,9 @@ func DefaultConfig() Config {
 			"kaptain": true,
 		},
 		ReplacementVars: map[string]string{
-			"releaseNamespace":   "release",
-			"workspaceNamespace": "workspace",
+			"releaseNamespace":       "release",
+			"workspaceNamespace":     "workspace",
+			"certificatesIssuerName": "issuer",
 		},
 		SkipTypes: map[string]bool{
 			"constraints.gatekeeper.sh/v1beta1": true,

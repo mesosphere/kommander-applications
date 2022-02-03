@@ -14,19 +14,16 @@ import (
 	k8sscheme "k8s.io/client-go/kubernetes/scheme"
 	apiregistrationv1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1"
 	apiregistrationv1beta1 "k8s.io/kube-aggregator/pkg/apis/apiregistration/v1beta1"
-	"k8s.io/kube-openapi/pkg/validation/spec"
 )
 
 type Context struct {
+	*Registry
 	output.Output
 	Config  Config
 	Decoder runtime.Decoder
 
 	TempDir            string
-	ConfigMaps         map[string]map[string]string
-	CRDSchemas         map[string]*spec.Schema
 	FluxKustomizations map[string]*fluxkustomizev1beta2.Kustomization
-	HelmRepos          map[string]string
 	HelmReleaseQueue   map[string]HelmReleaseFix
 
 	Failed    bool
@@ -51,15 +48,12 @@ func NewContext(out output.Output) *Context {
 	decoder := codecs.UniversalDeserializer()
 
 	return &Context{
-		Output:  out,
-		Config:  DefaultConfig(),
-		Decoder: decoder,
-
-		ConfigMaps:         make(map[string]map[string]string),
-		CRDSchemas:         make(map[string]*spec.Schema),
+		Output:             out,
+		Registry:           NewRegistry(),
+		Config:             DefaultConfig(),
 		FluxKustomizations: make(map[string]*fluxkustomizev1beta2.Kustomization),
-		HelmRepos:          make(map[string]string),
 		HelmReleaseQueue:   make(map[string]HelmReleaseFix),
+		Decoder:            decoder,
 	}
 }
 

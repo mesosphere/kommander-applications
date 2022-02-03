@@ -1,8 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"path/filepath"
+	"regexp"
 
 	fluxkustomizev1beta2 "github.com/fluxcd/kustomize-controller/api/v1beta2"
 	"github.com/fluxcd/kustomize-controller/controllers"
@@ -69,9 +69,17 @@ func checkKustomization(ctx *Context, path string) {
 			ctx.Error(err, "")
 			continue
 		}
-		for k, v := range ctx.Config.ReplacementVars {
-			resourceYaml = bytes.ReplaceAll(resourceYaml, []byte("${"+k+"}"), []byte(v))
-		}
+		// replace variables ${varName}, with support for defaults ${varName:=defaultValue}
+		varRegexp := regexp.MustCompile(`\${` + "(.+?)(?::=(.+?))?" + `}`)
+		resourceYaml = varRegexp.ReplaceAllFunc(resourceYaml, func(b []byte) []byte {
+			matches := varRegexp.FindStringSubmatch(string(b))
+			varName := matches[1]
+			value := ctx.Config.ReplacementVars[varName]
+			if value == "" && len(matches) == 3 {
+				value = matches[2]
+			}
+			return []byte(value)
+		})
 		validateResource(ctx, resourceYaml)
 	}
 }

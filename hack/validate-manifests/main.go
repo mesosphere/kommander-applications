@@ -63,8 +63,14 @@ func main() {
 			return errValidationFailed
 		}
 		if ctx.Config.EnableLegacyCertmanagerGroup {
-			ctx.CRDSchemas["certmanager.k8s.io/v1alpha1/Certificate"] = ctx.CRDSchemas["cert-manager.io/v1/Certificate"]
-			ctx.CRDSchemas["certmanager.k8s.io/v1alpha1/Issuer"] = ctx.CRDSchemas["cert-manager.io/v1/Issuer"]
+			ctx.SetCRDSchema(
+				metav1.TypeMeta{APIVersion: "certmanager.k8s.io/v1alpha1", Kind: "Certificate"},
+				ctx.GetCRDSchema(metav1.TypeMeta{APIVersion: "cert-manager.io/v1", Kind: "Certificate"}),
+			)
+			ctx.SetCRDSchema(
+				metav1.TypeMeta{APIVersion: "certmanager.k8s.io/v1alpha1", Kind: "Issuer"},
+				ctx.GetCRDSchema(metav1.TypeMeta{APIVersion: "cert-manager.io/v1", Kind: "Issuer"}),
+			)
 		}
 
 		ctx.StartOperation("checking Helm repositories")
@@ -168,7 +174,7 @@ func validateResource(ctx *Context, resourceYaml []byte) {
 
 		switch obj := obj.(type) {
 		case *v1.ConfigMap:
-			ctx.ConfigMaps[obj.Name] = obj.Data
+			ctx.SetData(metasToRef(obj.TypeMeta, obj.ObjectMeta), obj)
 		case *apiextensionsv1.CustomResourceDefinition:
 			addCRDv1(ctx, obj)
 		case *apiextensionsv1beta1.CustomResourceDefinition:

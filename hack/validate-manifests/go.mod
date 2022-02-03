@@ -6,6 +6,7 @@ require (
 	github.com/fluxcd/helm-controller/api v0.16.0
 	github.com/fluxcd/kustomize-controller v0.20.0
 	github.com/fluxcd/kustomize-controller/api v0.20.0
+	github.com/fluxcd/pkg/apis/meta v0.10.2
 	github.com/fluxcd/pkg/runtime v0.12.4
 	github.com/fluxcd/source-controller/api v0.21.1
 	github.com/mesosphere/dkp-cli-runtime/core v0.3.0
@@ -73,7 +74,6 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/fluxcd/pkg/apis/acl v0.0.3 // indirect
 	github.com/fluxcd/pkg/apis/kustomize v0.3.1 // indirect
-	github.com/fluxcd/pkg/apis/meta v0.10.2 // indirect
 	github.com/fluxcd/pkg/ssa v0.12.0 // indirect
 	github.com/fluxcd/pkg/untar v0.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect

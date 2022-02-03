@@ -8,6 +8,7 @@ import (
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/kube-openapi/pkg/validation/spec"
 	"k8s.io/kube-openapi/pkg/validation/strfmt"
@@ -16,7 +17,11 @@ import (
 
 func addCRDv1(ctx *Context, crd *apiextensionsv1.CustomResourceDefinition) {
 	for _, version := range crd.Spec.Versions {
-		addCRDSchema(ctx, fmt.Sprintf("%s/%s/%s", crd.Spec.Group, version.Name, crd.Spec.Names.Kind), version.Schema.OpenAPIV3Schema)
+		ctx.V(1).Infof("Adding CRD %q", crd.Name)
+		addCRDSchema(ctx, metav1.TypeMeta{
+			APIVersion: crd.Spec.Group + "/" + version.Name,
+			Kind:       crd.Spec.Names.Kind,
+		}, version.Schema.OpenAPIV3Schema)
 	}
 }
 
@@ -28,12 +33,15 @@ func addCRDv1beta1(ctx *Context, crd *apiextensionsv1beta1.CustomResourceDefinit
 		} else if crd.Spec.Validation != nil {
 			schema = crd.Spec.Validation.OpenAPIV3Schema
 		}
-		addCRDSchema(ctx, fmt.Sprintf("%s/%s/%s", crd.Spec.Group, version.Name, crd.Spec.Names.Kind), schema)
+		ctx.V(1).Infof("Adding CRD %q", crd.Name)
+		addCRDSchema(ctx, metav1.TypeMeta{
+			APIVersion: crd.Spec.Group + "/" + version.Name,
+			Kind:       crd.Spec.Names.Kind,
+		}, schema)
 	}
 }
 
-func addCRDSchema(ctx *Context, name string, schema interface{}) {
-	ctx.V(1).Infof("Adding CRD %q", name)
+func addCRDSchema(ctx *Context, typeMeta metav1.TypeMeta, schema interface{}) {
 	schemaJSON, err := json.Marshal(schema)
 	if err != nil {
 		ctx.Error(err, "")
@@ -45,7 +53,7 @@ func addCRDSchema(ctx *Context, name string, schema interface{}) {
 		ctx.Error(err, "")
 		return
 	}
-	ctx.CRDSchemas[name] = specSchema
+	ctx.SetCRDSchema(typeMeta, specSchema)
 }
 
 func validateResourceAgainstCRDs(ctx *Context, yamlData []byte) {
@@ -56,16 +64,16 @@ func validateResourceAgainstCRDs(ctx *Context, yamlData []byte) {
 		return
 	}
 
-	apiVersion := resource["apiVersion"]
-	kind := resource["kind"]
+	apiVersion := resource["apiVersion"].(string)
+	kind := resource["kind"].(string)
 	gvk := fmt.Sprintf("%s/%s", apiVersion, kind)
-	if ctx.Config.SkipTypes[fmt.Sprint(apiVersion)] || ctx.Config.SkipTypes[gvk] {
+	if ctx.Config.SkipTypes[apiVersion] || ctx.Config.SkipTypes[gvk] {
 		ctx.V(2).Infof("Validation of type %q skipped", gvk)
 		return
 	}
 	ctx.V(2).Infof("Validating resource of type %q against CRD schema", gvk)
-	crdSchema, ok := ctx.CRDSchemas[gvk]
-	if !ok {
+	crdSchema := ctx.GetCRDSchema(metav1.TypeMeta{APIVersion: apiVersion, Kind: kind})
+	if crdSchema == nil {
 		ctx.Errorf(nil, "Resource type %q not found", gvk)
 		return
 	}
