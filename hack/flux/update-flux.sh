@@ -27,6 +27,7 @@ function update_flux() {
     cp "$REPO_ROOT"/hack/flux/templates/* templates/
     kustomize build --output templates templates
     rm templates/flux.yaml templates/kustomization.yaml
+    yq e -i ".metadata.name=\"kommander-flux-$CURRENT_FLUX_VERSION-d2iq-defaults\"" defaults/cm.yaml
     pushd "templates"
     kustomize create --autodetect
     popd && popd
