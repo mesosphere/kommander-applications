@@ -65,6 +65,8 @@ data:
   ## Secret Key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
   secretkey: bWluaW8xMjM=
 ---
+# TODO(branden): Use Tenant spec.buckets to create this bucket once <https://github.com/minio/operator/issues/1002> is
+# resolved. See <https://github.com/minio/operator/blob/master/docs/crd.adoc#tenantspec>.
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -84,7 +86,7 @@ spec:
                 name: project-grafana-loki-minio
       containers:
       - name: minio-mc
-        image: minio/mc:RELEASE.2020-11-25T23-04-07Z
+        image: minio/mc:RELEASE.2022-01-07T06-01-38Z
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "/config/create_bucket.sh"]
         env:
