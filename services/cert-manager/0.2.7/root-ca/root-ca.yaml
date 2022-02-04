@@ -4,36 +4,33 @@
 ## follow-up ticket for mirroring: https://jira.d2iq.com/browse/D2IQ-78135
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: kommander-bootstrap-ca-issuer
-  namespace: ${releaseNamespace}
+  name: selfsigned-issuer
 spec:
   selfSigned: {}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: kommander-bootstrap-root-certificate
-  namespace: ${releaseNamespace}
+  name: kommander-ca
+  namespace: cert-manager
 spec:
-  commonName: ca.kommander-bootstrap
-  dnsNames:
-    - ca.kommander-bootstrap
-  duration: 8760h
   isCA: true
+  commonName: kommander-ca
+  secretName: kommander-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
   issuerRef:
-    name: kommander-bootstrap-ca-issuer
-  secretName: kommander-bootstrap-root-ca
-  subject:
-    organizations:
-      - cert-manager
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: kommander-bootstrap-issuer
-  namespace: ${releaseNamespace}
+  name: kommander-ca
 spec:
   ca:
-    secretName: kommander-bootstrap-root-ca
+    secretName: kommander-ca
