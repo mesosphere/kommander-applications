@@ -9,9 +9,6 @@ spec:
   prune: true
   interval: 1m0s
   path: ./services/cert-manager/0.2.7/root-ca
-  dependsOn:
-    - name: cert-manager-release
-      namespace: ${releaseNamespace}
   sourceRef:
     kind: GitRepository
     name: management
