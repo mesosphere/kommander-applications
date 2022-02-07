@@ -83,8 +83,8 @@ func (v *FluxKustomizationValidator) Check(ctx *Context) (done bool, errs []erro
 					dep := meta.NamespacedObjectKindReference{
 						APIVersion: resource.GetApiVersion(),
 						Kind:       resource.GetKind(),
-						Namespace:  resource.GetNamespace(),
-						Name:       resource.GetName(),
+						Namespace:  string(replaceVariables([]byte(resource.GetNamespace()), ctx.Config.ReplacementVars)),
+						Name:       string(replaceVariables([]byte(resource.GetName()), ctx.Config.ReplacementVars)),
 					}
 					v.kustomization.Spec.HealthChecks = append(v.kustomization.Spec.HealthChecks, dep)
 				}
@@ -98,6 +98,7 @@ func (v *FluxKustomizationValidator) Check(ctx *Context) (done bool, errs []erro
 			dep.Namespace, dep.Name,
 		)
 		if !ctx.IsChecked(ref) {
+			ctx.V(2).Infof("Health check not ready: %v", dep)
 			return false, nil
 		}
 	}
