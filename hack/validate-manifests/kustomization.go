@@ -1,55 +1,125 @@
 package main
 
 import (
+	"fmt"
 	"path/filepath"
 	"regexp"
 
+	fluxhelmv2beta1 "github.com/fluxcd/helm-controller/api/v2beta1"
 	fluxkustomizev1beta2 "github.com/fluxcd/kustomize-controller/api/v1beta2"
 	"github.com/fluxcd/kustomize-controller/controllers"
-	"github.com/fluxcd/pkg/runtime/dependency"
+	"github.com/fluxcd/pkg/apis/meta"
 	"sigs.k8s.io/kustomize/api/krusty"
+	"sigs.k8s.io/kustomize/api/resource"
 	kustypes "sigs.k8s.io/kustomize/api/types"
 	"sigs.k8s.io/kustomize/kyaml/filesys"
 )
 
-func handleFluxCustomization(ctx *Context, k *fluxkustomizev1beta2.Kustomization) {
-	ctx.FluxKustomizations[k.Name] = k
+type FluxKustomizationValidator struct {
+	kustomization *fluxkustomizev1beta2.Kustomization
+	checked       bool
+	errors        []error
 }
 
-func checkFluxKustomizations(ctx *Context) {
-	kustomizationList := make([]dependency.Dependent, 0, len(ctx.FluxKustomizations))
-	for _, kustomization := range ctx.FluxKustomizations {
-		kustomizationList = append(kustomizationList, kustomization)
-	}
-	sorted, err := dependency.Sort(kustomizationList)
-	if err != nil {
-		ctx.Error(err, "")
-		return
-	}
-	for _, ref := range sorted {
-		ctx.StartOperation("Kustomization " + ref.Name)
-		checkFluxKustomization(ctx, ctx.FluxKustomizations[ref.Name], "")
-		ctx.EndOperation(true)
-	}
+func (v *FluxKustomizationValidator) Name() string {
+	return "Flux Kustomization " + v.kustomization.Name
 }
 
-func checkFluxKustomization(ctx *Context, kustomization *fluxkustomizev1beta2.Kustomization, path string) {
-	if kustomization.Spec.SourceRef.Kind != "GitRepository" || kustomization.Spec.SourceRef.Name != "management" {
-		ctx.Error(nil, "Can't handle Flux customizations pointing to other repos yet")
-		return
+func (v *FluxKustomizationValidator) Check(ctx *Context) (done bool, errs []error) {
+	defer func() {
+		if done {
+			ref := metasToRef(v.kustomization.TypeMeta, v.kustomization.ObjectMeta)
+			ctx.MarkChecked(ref)
+		}
+	}()
+
+	for _, dep := range v.kustomization.Spec.DependsOn {
+		ref := NewObjectRef(
+			v.kustomization.APIVersion, v.kustomization.Kind,
+			dep.Namespace, dep.Name,
+		)
+		if ref.Metadata.Namespace == "" {
+			ref.Metadata.Namespace = v.kustomization.Namespace
+		}
+		if !ctx.IsChecked(ref) {
+			return false, nil
+		}
 	}
-	kPath := filepath.Join(ctx.TempDir, kustomization.Spec.Path)
-	err := controllers.NewGenerator(*kustomization).WriteFile(kPath)
-	if err != nil {
-		ctx.Error(err, "")
-		return
+
+	if !v.checked {
+		v.checked = true
+		if v.kustomization.Spec.SourceRef.Kind != "GitRepository" || v.kustomization.Spec.SourceRef.Name != "management" {
+			return true, []error{fmt.Errorf("Can't handle Flux customizations pointing to other repos yet")}
+		}
+		kPath := filepath.Join(ctx.RootDir, v.kustomization.Spec.Path)
+		err := controllers.NewGenerator(*v.kustomization).WriteFile(kPath)
+		if err != nil {
+			return true, []error{err}
+		}
+
+		ctx.V(1).Infof("Validating Flux Kustomization %q", v.kustomization.Name)
+		resources, err := renderKustomization(kPath)
+		if err != nil {
+			return true, []error{err}
+		}
+		for _, resource := range resources {
+			resourceYaml, err := resource.AsYAML()
+			if err != nil {
+				v.errors = append(v.errors, err)
+				continue
+			}
+			resourceYaml = replaceVariables(resourceYaml, ctx.Config.ReplacementVars)
+			errs := validateResource(ctx, resourceYaml)
+			if errs != nil {
+				v.errors = append(v.errors, errs...)
+			}
+		}
+
+		if v.kustomization.Spec.Wait {
+			v.kustomization.Spec.HealthChecks = nil
+			for _, resource := range resources {
+				switch resource.GetKind() {
+				case fluxkustomizev1beta2.KustomizationKind, fluxhelmv2beta1.HelmReleaseKind:
+					dep := meta.NamespacedObjectKindReference{
+						APIVersion: resource.GetApiVersion(),
+						Kind:       resource.GetKind(),
+						Namespace:  resource.GetNamespace(),
+						Name:       resource.GetName(),
+					}
+					v.kustomization.Spec.HealthChecks = append(v.kustomization.Spec.HealthChecks, dep)
+				}
+			}
+		}
 	}
-	checkKustomization(ctx, kPath)
+
+	for _, dep := range v.kustomization.Spec.HealthChecks {
+		ref := NewObjectRef(
+			dep.APIVersion, dep.Kind,
+			dep.Namespace, dep.Name,
+		)
+		if !ctx.IsChecked(ref) {
+			return false, nil
+		}
+	}
+	return true, v.errors
 }
 
-func checkKustomization(ctx *Context, path string) {
-	relPath, _ := filepath.Rel(ctx.TempDir, path)
-	ctx.V(1).Infof("Validating Kustomization in %q", relPath)
+var variableRegexp = regexp.MustCompile(`\${` + "(.+?)(?::=(.+?))?" + `}`)
+
+// replaceVariables replaces variables ${varName}, with support for defaults ${varName:=defaultValue}
+func replaceVariables(yaml []byte, variables map[string]string) []byte {
+	return variableRegexp.ReplaceAllFunc(yaml, func(b []byte) []byte {
+		matches := variableRegexp.FindStringSubmatch(string(b))
+		varName := matches[1]
+		value := variables[varName]
+		if value == "" && len(matches) == 3 {
+			value = matches[2]
+		}
+		return []byte(value)
+	})
+}
+
+func renderKustomization(path string) ([]*resource.Resource, error) {
 	buildOptions := &krusty.Options{
 		LoadRestrictions: kustypes.LoadRestrictionsNone,
 		PluginConfig:     kustypes.DisabledPluginConfig(),
@@ -58,28 +128,27 @@ func checkKustomization(ctx *Context, path string) {
 	fs := filesys.MakeFsOnDisk()
 	resMap, err := k.Run(fs, path)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return nil, err
 	}
+	return resMap.Resources(), nil
+}
 
-	resources := resMap.Resources()
+func checkKustomization(ctx *Context, path string) (errors []error) {
+	resources, err := renderKustomization(path)
+	if err != nil {
+		return []error{err}
+	}
 	for _, resource := range resources {
 		resourceYaml, err := resource.AsYAML()
 		if err != nil {
-			ctx.Error(err, "")
+			errors = append(errors, err)
 			continue
 		}
-		// replace variables ${varName}, with support for defaults ${varName:=defaultValue}
-		varRegexp := regexp.MustCompile(`\${` + "(.+?)(?::=(.+?))?" + `}`)
-		resourceYaml = varRegexp.ReplaceAllFunc(resourceYaml, func(b []byte) []byte {
-			matches := varRegexp.FindStringSubmatch(string(b))
-			varName := matches[1]
-			value := ctx.Config.ReplacementVars[varName]
-			if value == "" && len(matches) == 3 {
-				value = matches[2]
-			}
-			return []byte(value)
-		})
-		validateResource(ctx, resourceYaml)
+		resourceYaml = replaceVariables(resourceYaml, ctx.Config.ReplacementVars)
+		errs := validateResource(ctx, resourceYaml)
+		if errs != nil {
+			errors = append(errors, errs...)
+		}
 	}
+	return
 }

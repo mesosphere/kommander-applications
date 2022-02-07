@@ -3,62 +3,47 @@ package main
 import (
 	"sync"
 
-	"github.com/fluxcd/pkg/apis/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/kube-openapi/pkg/validation/spec"
 )
 
 type Registry struct {
-	objects    map[meta.NamespacedObjectKindReference]interface{}
-	checked    map[meta.NamespacedObjectKindReference]bool
-	valid      map[meta.NamespacedObjectKindReference]bool
+	objects    map[ObjectRef]interface{}
+	checked    map[ObjectRef]bool
 	crdSchemas map[metav1.TypeMeta]*spec.Schema
 	sync.RWMutex
 }
 
 func NewRegistry() *Registry {
 	return &Registry{
-		objects:    make(map[meta.NamespacedObjectKindReference]interface{}),
-		checked:    make(map[meta.NamespacedObjectKindReference]bool),
-		valid:      make(map[meta.NamespacedObjectKindReference]bool),
+		objects:    make(map[ObjectRef]interface{}),
+		checked:    make(map[ObjectRef]bool),
 		crdSchemas: make(map[metav1.TypeMeta]*spec.Schema),
 	}
 }
 
-func (r *Registry) SetData(ref meta.NamespacedObjectKindReference, obj interface{}) {
+func (r *Registry) SetObject(ref ObjectRef, obj interface{}) {
 	r.Lock()
 	r.objects[ref] = obj
 	r.Unlock()
 }
 
-func (r *Registry) GetData(ref meta.NamespacedObjectKindReference) interface{} {
+func (r *Registry) GetObject(ref ObjectRef) interface{} {
 	r.RLock()
 	defer r.RUnlock()
 	return r.objects[ref]
 }
 
-func (r *Registry) MarkChecked(ref meta.NamespacedObjectKindReference) {
+func (r *Registry) MarkChecked(ref ObjectRef) {
 	r.Lock()
 	r.checked[ref] = true
 	r.Unlock()
 }
 
-func (r *Registry) IsChecked(ref meta.NamespacedObjectKindReference) bool {
+func (r *Registry) IsChecked(ref ObjectRef) bool {
 	r.RLock()
 	defer r.RUnlock()
 	return r.checked[ref]
-}
-
-func (r *Registry) MarkValid(ref meta.NamespacedObjectKindReference) {
-	r.Lock()
-	r.valid[ref] = true
-	r.Unlock()
-}
-
-func (r *Registry) IsValid(ref meta.NamespacedObjectKindReference) bool {
-	r.RLock()
-	defer r.RUnlock()
-	return r.valid[ref]
 }
 
 func (r *Registry) SetCRDSchema(typeMeta metav1.TypeMeta, schema *spec.Schema) {
@@ -73,11 +58,35 @@ func (r *Registry) GetCRDSchema(typeMeta metav1.TypeMeta) *spec.Schema {
 	return r.crdSchemas[typeMeta]
 }
 
-func metasToRef(typeMeta metav1.TypeMeta, objectMeta metav1.ObjectMeta) meta.NamespacedObjectKindReference {
-	return meta.NamespacedObjectKindReference{
-		APIVersion: typeMeta.APIVersion,
-		Kind:       typeMeta.Kind,
-		Namespace:  objectMeta.Namespace,
-		Name:       objectMeta.Name,
+type ObjectRef struct {
+	metav1.TypeMeta `json:",inline"`
+	Metadata        ObjectRefMeta `json:"metadata,omitempty"`
+}
+
+type ObjectRefMeta struct {
+	Namespace string `json:"namespace,omitempty"`
+	Name      string `json:"name"`
+}
+
+func NewObjectRef(apiVersion, kind, namespace, name string) ObjectRef {
+	return ObjectRef{
+		TypeMeta: metav1.TypeMeta{
+			APIVersion: apiVersion,
+			Kind:       kind,
+		},
+		Metadata: ObjectRefMeta{
+			Namespace: namespace,
+			Name:      name,
+		},
+	}
+}
+
+func metasToRef(typeMeta metav1.TypeMeta, objectMeta metav1.ObjectMeta) ObjectRef {
+	return ObjectRef{
+		TypeMeta: typeMeta,
+		Metadata: ObjectRefMeta{
+			Name:      objectMeta.Name,
+			Namespace: objectMeta.Namespace,
+		},
 	}
 }

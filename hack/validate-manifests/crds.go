@@ -15,17 +15,20 @@ import (
 	"k8s.io/kube-openapi/pkg/validation/validate"
 )
 
-func addCRDv1(ctx *Context, crd *apiextensionsv1.CustomResourceDefinition) {
+func addCRDv1(registry *Registry, crd *apiextensionsv1.CustomResourceDefinition) (errors []error) {
 	for _, version := range crd.Spec.Versions {
-		ctx.V(1).Infof("Adding CRD %q", crd.Name)
-		addCRDSchema(ctx, metav1.TypeMeta{
+		err := addCRDSchema(registry, metav1.TypeMeta{
 			APIVersion: crd.Spec.Group + "/" + version.Name,
 			Kind:       crd.Spec.Names.Kind,
 		}, version.Schema.OpenAPIV3Schema)
+		if err != nil {
+			errors = append(errors, err)
+		}
 	}
+	return
 }
 
-func addCRDv1beta1(ctx *Context, crd *apiextensionsv1beta1.CustomResourceDefinition) {
+func addCRDv1beta1(registry *Registry, crd *apiextensionsv1beta1.CustomResourceDefinition) (errors []error) {
 	for _, version := range crd.Spec.Versions {
 		schema := &apiextensionsv1beta1.JSONSchemaProps{}
 		if version.Schema != nil {
@@ -33,35 +36,36 @@ func addCRDv1beta1(ctx *Context, crd *apiextensionsv1beta1.CustomResourceDefinit
 		} else if crd.Spec.Validation != nil {
 			schema = crd.Spec.Validation.OpenAPIV3Schema
 		}
-		ctx.V(1).Infof("Adding CRD %q", crd.Name)
-		addCRDSchema(ctx, metav1.TypeMeta{
+		err := addCRDSchema(registry, metav1.TypeMeta{
 			APIVersion: crd.Spec.Group + "/" + version.Name,
 			Kind:       crd.Spec.Names.Kind,
 		}, schema)
+		if err != nil {
+			errors = append(errors, err)
+		}
 	}
+	return
 }
 
-func addCRDSchema(ctx *Context, typeMeta metav1.TypeMeta, schema interface{}) {
+func addCRDSchema(registry *Registry, typeMeta metav1.TypeMeta, schema interface{}) error {
 	schemaJSON, err := json.Marshal(schema)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return err
 	}
 	specSchema := new(spec.Schema)
 	err = json.Unmarshal(schemaJSON, schema)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return err
 	}
-	ctx.SetCRDSchema(typeMeta, specSchema)
+	registry.SetCRDSchema(typeMeta, specSchema)
+	return nil
 }
 
-func validateResourceAgainstCRDs(ctx *Context, yamlData []byte) {
+func validateResourceAgainstCRDs(ctx *Context, yamlData []byte) error {
 	resource := map[string]interface{}{}
 	err := yaml.Unmarshal(yamlData, &resource)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return err
 	}
 
 	apiVersion := resource["apiVersion"].(string)
@@ -69,23 +73,22 @@ func validateResourceAgainstCRDs(ctx *Context, yamlData []byte) {
 	gvk := fmt.Sprintf("%s/%s", apiVersion, kind)
 	if ctx.Config.SkipTypes[apiVersion] || ctx.Config.SkipTypes[gvk] {
 		ctx.V(2).Infof("Validation of type %q skipped", gvk)
-		return
+		return nil
 	}
 	ctx.V(2).Infof("Validating resource of type %q against CRD schema", gvk)
 	crdSchema := ctx.GetCRDSchema(metav1.TypeMeta{APIVersion: apiVersion, Kind: kind})
 	if crdSchema == nil {
-		ctx.Errorf(nil, "Resource type %q not found", gvk)
-		return
+		return fmt.Errorf("Resource type %q not found", gvk)
 	}
 
 	err = validate.AgainstSchema(crdSchema, resource, strfmt.Default)
 	if err != nil {
-		ctx.Errorf(nil, "Custom resource %q does not match the CRD schema: %v\n%s", gvk, err, yamlData)
-		return
+		return fmt.Errorf("Custom resource %q does not match the CRD schema: %v\n%s", gvk, err, yamlData)
 	}
+	return nil
 }
 
-func loadAdditionalCRDs(ctx *Context) {
+func loadAdditionalCRDs(ctx *Context) []error {
 	kustomization := `
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -96,16 +99,14 @@ resources:
 		kustomization += fmt.Sprintf("  - %s\n", crd)
 	}
 
-	dir := filepath.Join(ctx.TempDir, "additional-crds")
+	dir := filepath.Join(ctx.RootDir, "additional-crds")
 	err := os.MkdirAll(dir, 0755)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return []error{err}
 	}
 	err = os.WriteFile(filepath.Join(dir, "kustomization.yaml"), []byte(kustomization), 0644)
 	if err != nil {
-		ctx.Error(err, "")
-		return
+		return []error{err}
 	}
-	checkKustomization(ctx, dir)
+	return checkKustomization(ctx, dir)
 }

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	fluxhelmv2beta1 "github.com/fluxcd/helm-controller/api/v2beta1"
 	fluxkustomizev1beta2 "github.com/fluxcd/kustomize-controller/api/v1beta2"
 	fluxsourcesv1beta1 "github.com/fluxcd/source-controller/api/v1beta1"
@@ -19,18 +17,13 @@ import (
 type Context struct {
 	*Registry
 	output.Output
+	Runner  *Runner
 	Config  Config
 	Decoder runtime.Decoder
-
-	TempDir            string
-	FluxKustomizations map[string]*fluxkustomizev1beta2.Kustomization
-	HelmReleaseQueue   map[string]HelmReleaseFix
-
-	Failed    bool
-	AnyFailed bool
+	RootDir string
 }
 
-func NewContext(out output.Output) *Context {
+func NewContext(out output.Output, config Config) *Context {
 	scheme := runtime.NewScheme()
 	//nolint:errcheck
 	{
@@ -48,27 +41,10 @@ func NewContext(out output.Output) *Context {
 	decoder := codecs.UniversalDeserializer()
 
 	return &Context{
-		Output:             out,
-		Registry:           NewRegistry(),
-		Config:             DefaultConfig(),
-		FluxKustomizations: make(map[string]*fluxkustomizev1beta2.Kustomization),
-		HelmReleaseQueue:   make(map[string]HelmReleaseFix),
-		Decoder:            decoder,
+		Output:   out,
+		Registry: NewRegistry(),
+		Runner:   &Runner{},
+		Config:   config,
+		Decoder:  decoder,
 	}
-}
-
-func (c *Context) Error(err error, msg string) {
-	c.Failed = true
-	c.AnyFailed = true
-	c.EndOperation(false)
-	c.Output.Error(err, msg)
-}
-
-func (c *Context) Errorf(err error, format string, args ...interface{}) {
-	c.Error(err, fmt.Sprintf(format, args...))
-}
-
-func (c *Context) StartOperation(status string) {
-	c.Failed = false
-	c.Output.StartOperation(status)
 }

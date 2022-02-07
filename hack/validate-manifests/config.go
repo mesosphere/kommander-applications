@@ -15,8 +15,8 @@ func DefaultConfig() Config {
 			"kaptain": true,
 		},
 		ReplacementVars: map[string]string{
-			"releaseNamespace":       "release",
-			"workspaceNamespace":     "workspace",
+			"releaseNamespace":       "namespace",
+			"workspaceNamespace":     "namespace",
 			"certificatesIssuerName": "issuer",
 		},
 		SkipTypes: map[string]bool{
