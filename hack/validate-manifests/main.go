@@ -18,11 +18,14 @@ import (
 func main() {
 	cmd, opts := root.NewCommand(os.Stdout, os.Stderr)
 	cmd.SilenceErrors = true
+
+	config := DefaultConfig()
 	cmd.RunE = func(cmd *cobra.Command, args []string) error {
 		_, thisFile, _, _ := goruntime.Caller(0)
 		rootPath, _ := filepath.Abs(filepath.Join(filepath.Dir(thisFile), "..", ".."))
-		return check(rootPath, opts.Output, DefaultConfig())
+		return check(rootPath, opts.Output, config)
 	}
+	cmd.Flags().BoolVar(&config.Strict, "strict", false, "Use strict parsing for Kubernetes resources")
 
 	err := cmd.Execute()
 	if err != nil {

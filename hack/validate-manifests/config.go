@@ -1,6 +1,7 @@
 package main
 
 type Config struct {
+	Strict           bool
 	SkipApplications map[string]bool
 	ReplacementVars  map[string]string
 	SkipTypes        map[string]bool
@@ -11,6 +12,7 @@ type Config struct {
 
 func DefaultConfig() Config {
 	return Config{
+		Strict: false,
 		SkipApplications: map[string]bool{
 			"kaptain": true,
 		},

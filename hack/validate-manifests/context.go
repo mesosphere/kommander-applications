@@ -37,7 +37,11 @@ func NewContext(out output.Output, config Config) *Context {
 		fluxsourcesv1beta1.AddToScheme(scheme)
 	}
 
-	codecs := serializer.NewCodecFactory(scheme, serializer.EnableStrict)
+	mutators := []serializer.CodecFactoryOptionsMutator{}
+	if config.Strict {
+		mutators = append(mutators, serializer.EnableStrict)
+	}
+	codecs := serializer.NewCodecFactory(scheme, mutators...)
 	decoder := codecs.UniversalDeserializer()
 
 	return &Context{
