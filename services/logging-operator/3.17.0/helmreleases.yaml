@@ -1,18 +1,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: project-grafana-loki-minio
+  name: logging-operator
   namespace: ${releaseNamespace}
 spec:
   prune: true
   interval: 60s
-  path: ./services/project-grafana-loki/0.33.1/minio
-  dependsOn:
-    - name: project-grafana-loki
+  path: ./services/logging-operator/3.17.0/helmreleases
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
+  wait: true
+  timeout: 60s
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
