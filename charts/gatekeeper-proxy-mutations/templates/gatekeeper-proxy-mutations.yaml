@@ -1,0 +1,87 @@
+{{- if and (and .Values.mutations.podProxySettings.noProxy .Values.mutations.enablePodProxy) (not .Values.disableMutation) }}
+# versions: ["*"] doesn't work and is not expected to work, as stated in the docs, "Globs are not allowed.":
+# https://github.com/open-policy-agent/gatekeeper/blob/001f4c3f3155e19e26955356e7be24207c5d5ac4/apis/mutations/v1alpha1/assign_types.go#L40
+# also see usage of this []string here: https://github.com/open-policy-agent/gatekeeper/blob/6ceb3f486a0a4b4887526e982762e6857829843a/pkg/mutation/schema/schema.go#L39-L48
+---
+apiVersion: mutations.gatekeeper.sh/v1beta1
+kind: Assign
+metadata:
+  name: "pod-mutation-no-proxy"
+spec:
+  applyTo:
+    - groups: [""]
+      kinds: ["Pod"]
+      versions: ["v1"] # we want to mutate all versions of Pod, but this will do for now. see top of file for details.
+  match:
+    scope: "*"
+    {{- if .Values.mutations.namespaceSelectorForProxy }}
+    namespaceSelector:
+      matchLabels:
+      {{- toYaml .Values.mutations.namespaceSelectorForProxy | nindent 8 }}
+    {{- end }}
+    {{- if .Values.mutations.excludeNamespacesFromProxy }}
+    excludedNamespaces: {{ .Values.mutations.excludeNamespacesFromProxy }}
+    {{- end }}
+  location: "spec.containers[name:*].env[name:NO_PROXY]"
+  parameters:
+    assign:
+      value:
+        name: NO_PROXY
+        value: {{ .Values.mutations.podProxySettings.noProxy }}
+{{- end }}
+{{- if and (and .Values.mutations.podProxySettings.httpProxy .Values.mutations.enablePodProxy) (not .Values.disableMutation) }}
+---
+apiVersion: mutations.gatekeeper.sh/v1beta1
+kind: Assign
+metadata:
+  name: "pod-mutation-http-proxy"
+spec:
+  applyTo:
+    - groups: [""]
+      kinds: ["Pod"]
+      versions: ["v1"] # we want to mutate all versions of Pod, but this will do for now. see top of file for details.
+  match:
+    scope: "*"
+    {{- if .Values.mutations.namespaceSelectorForProxy }}
+    namespaceSelector:
+      matchLabels:
+      {{- toYaml .Values.mutations.namespaceSelectorForProxy | nindent 8 }}
+    {{- end }}
+    {{- if .Values.mutations.excludeNamespacesFromProxy }}
+    excludedNamespaces: {{ .Values.mutations.excludeNamespacesFromProxy }}
+    {{- end }}
+  location: "spec.containers[name:*].env[name:HTTP_PROXY]"
+  parameters:
+    assign:
+      value:
+        name: HTTP_PROXY
+        value: {{ .Values.mutations.podProxySettings.httpProxy }}
+{{- end }}
+{{- if and (and .Values.mutations.podProxySettings.httpsProxy .Values.mutations.enablePodProxy) (not .Values.disableMutation) }}
+---
+apiVersion: mutations.gatekeeper.sh/v1beta1
+kind: Assign
+metadata:
+  name: "pod-mutation-https-proxy"
+spec:
+  applyTo:
+    - groups: [""]
+      kinds: ["Pod"]
+      versions: ["v1"] # we want to mutate all versions of Pod, but this will do for now. see top of file for details.
+  match:
+    scope: "*"
+    {{- if .Values.mutations.namespaceSelectorForProxy }}
+    namespaceSelector:
+      matchLabels:
+      {{- toYaml .Values.mutations.namespaceSelectorForProxy | nindent 8 }}
+    {{- end }}
+    {{- if .Values.mutations.excludeNamespacesFromProxy }}
+    excludedNamespaces: {{ .Values.mutations.excludeNamespacesFromProxy }}
+    {{- end }}
+  location: "spec.containers[name:*].env[name:HTTPS_PROXY]"
+  parameters:
+    assign:
+      value:
+        name: HTTPS_PROXY
+        value: {{ .Values.mutations.podProxySettings.httpsProxy }}
+{{- end }}

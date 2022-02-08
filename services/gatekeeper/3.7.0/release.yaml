@@ -7,7 +7,7 @@ spec:
   force: false
   prune: true
   interval: 1m0s
-  path: ./services/gatekeeper/0.6.9/release
+  path: ./services/gatekeeper/3.7.0/release
   sourceRef:
     kind: GitRepository
     name: management

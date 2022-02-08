@@ -1,0 +1,14 @@
+servingCACertificate: gatekeeper-webhook-tls
+mutations:
+  # proxy settings
+  podProxySettings:
+    noProxy:
+    httpProxy:
+    httpsProxy:
+  # apply mutations on objects whose labels match namespace labels
+  namespaceSelectorForProxy: {}
+  # disable the following namespaces
+  excludeNamespacesFromProxy: []
+
+# Copied from gatekeeper values
+disableMutation: false
