@@ -7,7 +7,7 @@ spec:
   force: false
   prune: true
   interval: 1m0s
-  path: ./services/centralized-kubecost/0.21.1/post-install-jobs
+  path: ./services/centralized-kubecost/0.22.0/post-install-jobs
   dependsOn:
     - name: centralized-kubecost-release
   sourceRef:
