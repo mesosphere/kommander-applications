@@ -13,7 +13,7 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 480s
   # passing releaseNamespace to 2nd level configuration files for able to configure namespace correctly in attached clusters
   # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
   postBuild:
