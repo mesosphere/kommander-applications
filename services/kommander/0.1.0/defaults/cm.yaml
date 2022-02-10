@@ -42,6 +42,9 @@ data:
         gitCredentialsSecret:
           namespace: kommander-flux
           name: kommander-git-credentials
+        ingressCertificateSecret:
+          namespace: kommander
+          name: kommander-traefik-certificate
         branch: main
         service:
           namespace: ${releaseNamespace}
