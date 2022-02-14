@@ -40,10 +40,10 @@ spec:
       name: gatekeeper
   chart:
     spec:
-      chart: charts/gatekeeper-proxy-mutations
+      chart: gatekeeper-proxy-mutations
       sourceRef:
-        kind: GitRepository
-        name: management
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       version: "v0.0.1"
   interval: 15s
