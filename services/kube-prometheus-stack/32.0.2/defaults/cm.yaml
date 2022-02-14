@@ -335,10 +335,6 @@ data:
             memory: 50Mi
     grafana:
       enabled: true
-      image:
-        # Overriding version to pull in a fix for a CVE.
-        # See <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-43798>.
-        tag: 8.2.7
       defaultDashboardsEnabled: true
       ingress:
         enabled: true
@@ -352,8 +348,11 @@ data:
         pathType: ImplementationSpecific
       sidecar:
         dashboards:
+          enabled: true
           label: grafana_dashboard
           searchNamespace: ALL
+        datasources:
+          enabled: true
       grafana.ini:
         server:
           protocol: http
