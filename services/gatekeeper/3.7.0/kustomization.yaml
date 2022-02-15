@@ -4,3 +4,4 @@ resources:
   - release.yaml
   - constraints.yaml
   - constrainttemplates.yaml
+  - cleanup.yaml
