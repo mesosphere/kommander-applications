@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cert-manager-crds
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: charts/cert-manager-crds
+      sourceRef:
+        kind: GitRepository
+        name: management
+        namespace: kommander-flux
+      version: "v0.0.1"
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+    createNamespace: true
+    crds: CreateReplace
+  upgrade:
+    remediation:
+      retries: 30
+    crds: CreateReplace
+  releaseName: cert-manager-crds
+  targetNamespace: cert-manager
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: cert-manager
+      sourceRef:
+        kind: HelmRepository
+        name: charts.jetstack.io
+        namespace: kommander-flux
+      version: "v1.7.1"
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: cert-manager
+  targetNamespace: cert-manager
