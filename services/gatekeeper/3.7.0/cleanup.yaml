@@ -1,15 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: gatekeeper-release
+  name: gatekeeper-cleanup
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: gatekeeper-cleanup
   force: false
   prune: true
   interval: 1m0s
-  path: ./services/gatekeeper/3.7.0/release
+  path: ./services/gatekeeper/3.7.0/cleanup
   sourceRef:
     kind: GitRepository
     name: management
@@ -19,11 +17,8 @@ spec:
     # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
     substitute:
       releaseNamespace: ${releaseNamespace}
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: gatekeeper
+    - apiVersion: batch/v1
+      kind: Job
+      name: cleanup-old-certificate
       namespace: ${releaseNamespace}
