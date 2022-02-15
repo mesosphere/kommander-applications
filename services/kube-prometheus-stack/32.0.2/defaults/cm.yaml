@@ -353,6 +353,7 @@ data:
           searchNamespace: ALL
         datasources:
           enabled: true
+          skipReload: true
       grafana.ini:
         server:
           protocol: http
