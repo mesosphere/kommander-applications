@@ -7,19 +7,21 @@ metadata:
 spec:
   chart:
     spec:
-      chart: cert-manager-setup
+      chart: charts/cert-manager-release
       sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        kind: GitRepository
+        name: management
         namespace: kommander-flux
-      version: "0.2.7"
+      version: "v1.7.1"
   interval: 15s
   install:
     remediation:
       retries: 30
     createNamespace: true
+    crds: CreateReplace
   upgrade:
     remediation:
       retries: 30
+    crds: CreateReplace
   releaseName: cert-manager
   targetNamespace: cert-manager

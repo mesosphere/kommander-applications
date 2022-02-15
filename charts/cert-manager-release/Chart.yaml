@@ -1,0 +1,11 @@
+apiVersion: v2
+name: cert-manager-release
+description: A chart that bundles cert-manager CRDs with cert-manager helm chart
+type: application
+version: v1.7.1
+appVersion: v1.7.1
+
+dependencies:
+  - name: cert-manager
+    version: v1.7.1
+    repository: https://charts.jetstack.io
