@@ -353,6 +353,8 @@ data:
           searchNamespace: ALL
         datasources:
           enabled: true
+          skipReload: true
+          searchNamespace: ALL
       grafana.ini:
         server:
           protocol: http
@@ -409,6 +411,27 @@ data:
           volumeMounts:
           - name: plugins
             mountPath: /var/lib/grafana/shared-plugins/
+        # Manual workaround since initcontainer was replaced by container with reloads.
+        # Admin API only works with basic auth which we disable.
+        # See: https://jira.d2iq.com/browse/D2IQ-84982
+        - name: init-grafana-sc-datasources
+          image: "quay.io/kiwigrid/k8s-sidecar:1.15.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: METHOD
+              value: "LIST"
+            - name: LABEL
+              value: "grafana_datasource"
+            - name: FOLDER
+              value: "/etc/grafana/provisioning/datasources"
+            - name: RESOURCE
+              value: "both"
+            - name: NAMESPACE
+              value: "ALL"
+          resources: {}
+          volumeMounts:
+            - name: sc-datasources-volume
+              mountPath: "/etc/grafana/provisioning/datasources"
     kubeEtcd:
       # Updated to false due to EKS not allowing the retrieval of data from etcd.
       enabled: false
