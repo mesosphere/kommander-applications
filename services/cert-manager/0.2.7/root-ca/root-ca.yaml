@@ -4,6 +4,44 @@
 ## follow-up ticket for mirroring: https://jira.d2iq.com/browse/D2IQ-78135
 ---
 apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kommander-bootstrap-ca-issuer
+  namespace: ${releaseNamespace}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kommander-bootstrap-root-certificate
+  namespace: ${releaseNamespace}
+spec:
+  commonName: ca.kommander-bootstrap
+  dnsNames:
+    - ca.kommander-bootstrap
+  duration: 8760h
+  isCA: true
+  issuerRef:
+    name: kommander-bootstrap-ca-issuer
+  secretName: kommander-bootstrap-root-ca
+  subject:
+    organizations:
+      - cert-manager
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kommander-bootstrap-issuer
+  namespace: ${releaseNamespace}
+spec:
+  ca:
+    secretName: kommander-bootstrap-root-ca
+---
+# a quick solution to fix kommander-traefik and kube-oidc-proxy certificate in attached clusters (with and without cert-manager pre-installed)
+# https://jira.d2iq.com/browse/D2IQ-84510
+---
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: selfsigned-issuer
