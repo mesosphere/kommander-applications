@@ -1,20 +1,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: istio-ca
+  name: istio-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: false
-  prune: false
+  prune: true
   interval: 10s
-  path: ./services/istio/1.9.2/istio-ca
+  path: ./services/istio/1.11.5/helmrelease
   dependsOn:
-  - name: istio-system-namespace
+    - name: istio-ca
+    - name: istio-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+    substitute:
+      releaseNamespace: ${releaseNamespace}
