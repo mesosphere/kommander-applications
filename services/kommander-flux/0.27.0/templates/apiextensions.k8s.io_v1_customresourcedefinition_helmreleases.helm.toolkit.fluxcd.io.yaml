@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.26.0
+    app.kubernetes.io/version: v0.27.0
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -498,6 +498,10 @@ spec:
                   disableHooks:
                     description: DisableHooks prevents hooks from running during the
                       Helm rollback action.
+                    type: boolean
+                  disableWait:
+                    description: DisableWait disables waiting for all the resources
+                      to be deleted after a Helm uninstall is performed.
                     type: boolean
                   keepHistory:
                     description: KeepHistory tells Helm to remove all associated resources

@@ -7,18 +7,21 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.26.0
-  name: receivers.notification.toolkit.fluxcd.io
+    app.kubernetes.io/version: v0.27.0
+  name: buckets.source.toolkit.fluxcd.io
 spec:
-  group: notification.toolkit.fluxcd.io
+  group: source.toolkit.fluxcd.io
   names:
-    kind: Receiver
-    listKind: ReceiverList
-    plural: receivers
-    singular: receiver
+    kind: Bucket
+    listKind: BucketList
+    plural: buckets
+    singular: bucket
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .spec.endpoint
+      name: Endpoint
+      type: string
     - jsonPath: .status.conditions[?(@.type=="Ready")].status
       name: Ready
       type: string
@@ -31,7 +34,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Receiver is the Schema for the receivers API
+        description: Bucket is the Schema for the buckets API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -46,53 +49,68 @@ spec:
           metadata:
             type: object
           spec:
-            description: ReceiverSpec defines the desired state of Receiver
+            description: BucketSpec defines the desired state of an S3 compatible
+              bucket
             properties:
-              events:
-                description: A list of events to handle, e.g. 'push' for GitHub or
-                  'Push Hook' for GitLab.
-                items:
-                  type: string
-                type: array
-              resources:
-                description: A list of resources to be notified about changes.
-                items:
-                  description: CrossNamespaceObjectReference contains enough information
-                    to let you locate the typed referenced object at cluster level
-                  properties:
-                    apiVersion:
-                      description: API version of the referent
-                      type: string
-                    kind:
-                      description: Kind of the referent
-                      enum:
-                      - Bucket
-                      - GitRepository
-                      - Kustomization
-                      - HelmRelease
-                      - HelmChart
-                      - HelmRepository
-                      - ImageRepository
-                      - ImagePolicy
-                      - ImageUpdateAutomation
-                      type: string
-                    name:
-                      description: Name of the referent
-                      maxLength: 53
-                      minLength: 1
-                      type: string
-                    namespace:
-                      description: Namespace of the referent
-                      maxLength: 53
-                      minLength: 1
-                      type: string
-                  required:
-                  - name
-                  type: object
-                type: array
+              accessFrom:
+                description: AccessFrom defines an Access Control List for allowing
+                  cross-namespace references to this object.
+                properties:
+                  namespaceSelectors:
+                    description: NamespaceSelectors is the list of namespace selectors
+                      to which this ACL applies. Items in this list are evaluated
+                      using a logical OR operation.
+                    items:
+                      description: NamespaceSelector selects the namespaces to which
+                        this ACL applies. An empty map of MatchLabels matches all
+                        namespaces in a cluster.
+                      properties:
+                        matchLabels:
+                          additionalProperties:
+                            type: string
+                          description: MatchLabels is a map of {key,value} pairs.
+                            A single {key,value} in the matchLabels map is equivalent
+                            to an element of matchExpressions, whose key field is
+                            "key", the operator is "In", and the values array contains
+                            only "value". The requirements are ANDed.
+                          type: object
+                      type: object
+                    type: array
+                required:
+                - namespaceSelectors
+                type: object
+              bucketName:
+                description: The bucket name.
+                type: string
+              endpoint:
+                description: The bucket endpoint address.
+                type: string
+              ignore:
+                description: Ignore overrides the set of excluded patterns in the
+                  .sourceignore format (which is the same as .gitignore). If not provided,
+                  a default will be used, consult the documentation for your version
+                  to find out what those are.
+                type: string
+              insecure:
+                description: Insecure allows connecting to a non-TLS S3 HTTP endpoint.
+                type: boolean
+              interval:
+                description: The interval at which to check for bucket updates.
+                type: string
+              provider:
+                default: generic
+                description: The S3 compatible storage provider name, default ('generic').
+                enum:
+                - generic
+                - aws
+                - gcp
+                type: string
+              region:
+                description: The bucket region.
+                type: string
               secretRef:
-                description: Secret reference containing the token used to validate
-                  the payload authenticity
+                description: The name of the secret containing authentication credentials
+                  for the Bucket.
                 properties:
                   name:
                     description: Name of the referent
@@ -101,35 +119,52 @@ spec:
                 - name
                 type: object
               suspend:
-                description: This flag tells the controller to suspend subsequent
-                  events handling. Defaults to false.
+                description: This flag tells the controller to suspend the reconciliation
+                  of this source.
                 type: boolean
-              type:
-                description: Type of webhook sender, used to determine the validation
-                  procedure and payload deserialization.
-                enum:
-                - generic
-                - generic-hmac
-                - github
-                - gitlab
-                - bitbucket
-                - harbor
-                - dockerhub
-                - quay
-                - gcr
-                - nexus
-                - acr
+              timeout:
+                default: 60s
+                description: The timeout for download operations, defaults to 60s.
                 type: string
             required:
-            - resources
-            - type
+            - bucketName
+            - endpoint
+            - interval
             type: object
           status:
             default:
               observedGeneration: -1
-            description: ReceiverStatus defines the observed state of Receiver
+            description: BucketStatus defines the observed state of a bucket
             properties:
+              artifact:
+                description: Artifact represents the output of the last successful
+                  Bucket sync.
+                properties:
+                  checksum:
+                    description: Checksum is the SHA256 checksum of the artifact.
+                    type: string
+                  lastUpdateTime:
+                    description: LastUpdateTime is the timestamp corresponding to
+                      the last update of this artifact.
+                    format: date-time
+                    type: string
+                  path:
+                    description: Path is the relative file path of this artifact.
+                    type: string
+                  revision:
+                    description: Revision is a human readable identifier traceable
+                      in the origin source system. It can be a Git commit SHA, Git
+                      tag, a Helm index timestamp, a Helm chart version, etc.
+                    type: string
+                  url:
+                    description: URL is the HTTP address of this artifact.
+                    type: string
+                required:
+                - path
+                - url
+                type: object
               conditions:
+                description: Conditions holds the conditions for the Bucket.
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
@@ -198,12 +233,17 @@ spec:
                   - type
                   type: object
                 type: array
+              lastHandledReconcileAt:
+                description: LastHandledReconcileAt holds the value of the most recent
+                  reconcile request value, so a change can be detected.
+                type: string
               observedGeneration:
                 description: ObservedGeneration is the last observed generation.
                 format: int64
                 type: integer
               url:
-                description: Generated webhook URL in the format of '/hook/sha256sum(token+name+namespace)'.
+                description: URL is the download link for the artifact output of the
+                  last Bucket sync.
                 type: string
             type: object
         type: object
