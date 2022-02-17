@@ -9,7 +9,6 @@ spec:
   interval: 10s
   path: ./services/istio/1.11.5/helmrelease
   dependsOn:
-    - name: istio-ca
     - name: istio-system-namespace
   sourceRef:
     kind: GitRepository

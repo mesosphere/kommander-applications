@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    security:
+      issuerName: ${caIssuerName}
     istioOperator:
       components:
         ingressGateways:
