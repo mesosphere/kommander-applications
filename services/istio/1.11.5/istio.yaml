@@ -15,11 +15,12 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: "1.9.1"
+      version: "1.11.5"
   interval: 15s
   install:
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     remediation:
       retries: 30
@@ -27,4 +28,4 @@ spec:
   targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
-      name: istio-1.9.2-d2iq-defaults
+      name: istio-1.11.5-d2iq-defaults

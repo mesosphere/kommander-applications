@@ -1,7 +1,0 @@
-# After the HelmRelease becomes the only object created by Kustomizations
-# in the `istio-system` Namespace, creating this Namespace should be made
-# a responsibility of the HelmRelease (see D2IQ-80630).
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: istio-system
