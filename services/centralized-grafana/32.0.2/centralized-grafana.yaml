@@ -79,4 +79,4 @@ data:
   name: "Grafana"
   dashboardLink: "/dkp/kommander/monitoring/grafana"
   docsLink: "https://grafana.com/docs/"
-  version: "8.2.1"
+  version: "8.3.4"
