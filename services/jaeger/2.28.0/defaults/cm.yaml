@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jaeger-2.21.0-d2iq-defaults
+  name: jaeger-2.28.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
