@@ -27,22 +27,25 @@ data:
           tracing:
             in_cluster_url: http://jaeger-kubeaddons-jaeger-operator-jaeger-query:16686
         deployment:
-          image_version: v1.46.0
-          version_label: v1.46.0
           accessible_namespaces:
           - '**'
-          ingress_enabled: true
-          override_ingress_yaml:
-            metadata:
-              annotations:
-                kubernetes.io/ingress.class: kommander-traefik
-                traefik.ingress.kubernetes.io/router.tls: "true"
-                traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
-            spec:
-              rules:
-              - http:
-                  paths:
-                  - path: /dkp/kiali
-                    backend:
-                      serviceName: kiali
-                      servicePort: 20001
+          ingress:
+            enabled: true
+            class_name: ""
+            override_yaml:
+              metadata:
+                annotations:
+                  kubernetes.io/ingress.class: kommander-traefik
+                  traefik.ingress.kubernetes.io/router.tls: "true"
+                  traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
+              spec:
+                rules:
+                - http:
+                    paths:
+                    - path: /dkp/kiali
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: kiali
+                          port:
+                            number: 20001
