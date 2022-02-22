@@ -40,6 +40,8 @@ data:
   name: "Prometheus"
   dashboardLink: "/dkp/prometheus"
   docsLink: "https://prometheus.io/docs/"
+  # Prometheus app version can be found at prometheus.prometheusSpec.image.tag:
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/values.yaml#L2106
   version: "2.33.1"
 ---
 apiVersion: v1
@@ -53,6 +55,8 @@ data:
   name: "Prometheus Alert Manager"
   dashboardLink: "/dkp/alertmanager"
   docsLink: "https://prometheus.io/docs/alerting/alertmanager/"
+  # Alertmanager app version can be found at alertmanager.alertmanagerSpec.image,tag:
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/values.yaml#L407
   version: "0.23.0"
 ---
 apiVersion: v1
@@ -66,4 +70,8 @@ data:
   name: "Grafana"
   dashboardLink: "/dkp/grafana"
   docsLink: "https://grafana.com/docs/"
+  # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart running at:
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/Chart.yaml#L52
+  # Then, find the Grafana app version in the Grafana chart:
+  # https://github.com/grafana/helm-charts/blob/grafana-6.21.2/charts/grafana/values.yaml#L76
   version: "8.3.4"
