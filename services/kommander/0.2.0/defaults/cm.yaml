@@ -77,17 +77,15 @@ data:
         graphqlPath: /dkp/kommander/dashboard/graphql
     attached:
       prerequisites:
-        gatekeeper:
-          enabled: true
-    defaultAppsVersions:
-      reloader: "0.0.104"
-      traefik: "10.9.1"
-      kubernetesDashboard: "5.1.1"
-      kubecost: "0.22.0"
-      kubePrometheusStack: "32.0.2"
-      prometheusAdapter: "2.17.1"
-      prometheusThanosTraefik: "0.0.1"
-      kubecostThanosTraefik: "0.0.1"
-      certManager: "0.2.7"
-      karmaTraefik: "0.0.1"
-      gatekeeper: "3.7.0"
+        defaultApps:
+          reloader: "0.0.104"
+          traefik: "10.9.1"
+          kubernetes-dashboard: "5.1.1"
+          kubecost: "0.22.0"
+          kube-prometheus-stack: "32.0.2"
+          prometheus-adapter: "2.17.1"
+          prometheus-thanos-traefik: "0.0.1"
+          kubecost-thanos-traefik: "0.0.1"
+          cert-manager: "0.2.7"
+          karma-traefik: "0.0.1"
+          gatekeeper: "3.7.0"
