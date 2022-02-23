@@ -62,6 +62,13 @@ data:
         image:
           tag: ${licensingControllerWebhookImageTag}
           repository: ${licensingControllerWebhookImageRepository}
+      defaultEnterpriseApps:
+        centralized-kubecost: "0.22.1"
+        centralized-grafana: "32.0.2"
+        karma: "2.0.0"
+        karma-traefik: "0.0.1"
+        prometheus-thanos-traefik: "0.0.1"
+        thanos: "0.4.6"
     kubetools:
       image:
         repository: ${kubetoolsImageRepository}
