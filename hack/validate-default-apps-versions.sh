@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-latestKommanderVersion=$(find services/kommander -maxdepth 1 -type d | sort | tail -1)
+latestKommanderVersion=$(find services/kommander -maxdepth 1 -type d | sort --version-sort | tail -1)
 
 readarray apps < <(yq -e '.data["values.yaml"]' "$latestKommanderVersion/defaults/cm.yaml" | yq -e '.attached.prerequisites.defaultApps')
 
