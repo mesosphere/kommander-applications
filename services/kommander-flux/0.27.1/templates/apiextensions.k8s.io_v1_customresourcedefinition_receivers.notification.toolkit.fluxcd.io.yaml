@@ -7,15 +7,15 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.27.0
-  name: providers.notification.toolkit.fluxcd.io
+    app.kubernetes.io/version: v0.27.1
+  name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
   names:
-    kind: Provider
-    listKind: ProviderList
-    plural: providers
-    singular: provider
+    kind: Receiver
+    listKind: ReceiverList
+    plural: receivers
+    singular: receiver
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -31,7 +31,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: Provider is the Schema for the providers API
+        description: Receiver is the Schema for the receivers API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -46,32 +46,62 @@ spec:
           metadata:
             type: object
           spec:
-            description: ProviderSpec defines the desired state of Provider
+            description: ReceiverSpec defines the desired state of Receiver
             properties:
-              address:
-                description: HTTP/S webhook address of this provider
-                pattern: ^(http|https)://
-                type: string
-              certSecretRef:
-                description: CertSecretRef can be given the name of a secret containing
-                  a PEM-encoded CA certificate (`caFile`)
-                properties:
-                  name:
-                    description: Name of the referent
-                    type: string
-                required:
-                - name
-                type: object
-              channel:
-                description: Alert channel for this provider
-                type: string
-              proxy:
-                description: HTTP/S address of the proxy
-                pattern: ^(http|https)://
-                type: string
+              events:
+                description: A list of events to handle, e.g. 'push' for GitHub or
+                  'Push Hook' for GitLab.
+                items:
+                  type: string
+                type: array
+              resources:
+                description: A list of resources to be notified about changes.
+                items:
+                  description: CrossNamespaceObjectReference contains enough information
+                    to let you locate the typed referenced object at cluster level
+                  properties:
+                    apiVersion:
+                      description: API version of the referent
+                      type: string
+                    kind:
+                      description: Kind of the referent
+                      enum:
+                      - Bucket
+                      - GitRepository
+                      - Kustomization
+                      - HelmRelease
+                      - HelmChart
+                      - HelmRepository
+                      - ImageRepository
+                      - ImagePolicy
+                      - ImageUpdateAutomation
+                      type: string
+                    matchLabels:
+                      additionalProperties:
+                        type: string
+                      description: MatchLabels is a map of {key,value} pairs. A single
+                        {key,value} in the matchLabels map is equivalent to an element
+                        of matchExpressions, whose key field is "key", the operator
+                        is "In", and the values array contains only "value". The requirements
+                        are ANDed.
+                      type: object
+                    name:
+                      description: Name of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
+                    namespace:
+                      description: Namespace of the referent
+                      maxLength: 53
+                      minLength: 1
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
               secretRef:
-                description: Secret reference containing the provider webhook URL
-                  using "address" as data key
+                description: Secret reference containing the token used to validate
+                  the payload authenticity
                 properties:
                   name:
                     description: Name of the referent
@@ -84,38 +114,29 @@ spec:
                   events handling. Defaults to false.
                 type: boolean
               type:
-                description: Type of provider
+                description: Type of webhook sender, used to determine the validation
+                  procedure and payload deserialization.
                 enum:
-                - slack
-                - discord
-                - msteams
-                - rocket
                 - generic
+                - generic-hmac
                 - github
                 - gitlab
                 - bitbucket
-                - azuredevops
-                - googlechat
-                - webex
-                - sentry
-                - azureeventhub
-                - telegram
-                - lark
-                - matrix
-                - opsgenie
-                - alertmanager
-                - grafana
-                type: string
-              username:
-                description: Bot username for this provider
+                - harbor
+                - dockerhub
+                - quay
+                - gcr
+                - nexus
+                - acr
                 type: string
             required:
+            - resources
             - type
             type: object
           status:
             default:
               observedGeneration: -1
-            description: ProviderStatus defines the observed state of Provider
+            description: ReceiverStatus defines the observed state of Receiver
             properties:
               conditions:
                 items:
@@ -187,9 +208,12 @@ spec:
                   type: object
                 type: array
               observedGeneration:
-                description: ObservedGeneration is the last reconciled generation.
+                description: ObservedGeneration is the last observed generation.
                 format: int64
                 type: integer
+              url:
+                description: Generated webhook URL in the format of '/hook/sha256sum(token+name+namespace)'.
+                type: string
             type: object
         type: object
     served: true
