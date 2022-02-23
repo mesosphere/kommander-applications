@@ -81,7 +81,7 @@ data:
           reloader: "0.0.104"
           traefik: "10.9.1"
           kubernetes-dashboard: "5.1.1"
-          kubecost: "0.22.0"
+          kubecost: "0.22.1"
           kube-prometheus-stack: "32.0.2"
           prometheus-adapter: "2.17.1"
           prometheus-thanos-traefik: "0.0.1"
