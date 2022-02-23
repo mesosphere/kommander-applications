@@ -7,12 +7,12 @@ metadata:
 spec:
   chart:
     spec:
-      chart: charts/cert-manager-crds
+      chart: cert-manager-crds
       sourceRef:
-        kind: GitRepository
-        name: management
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: "v0.0.1"
+      version: "v1.7.1"
   interval: 15s
   install:
     remediation:
