@@ -1,9 +1,0 @@
-apiVersion: v2
-description: A chart that bundles cert-manager CRDs with cert-manager helm chart
-home: https://github.com/mesosphere/kommander
-name: cert-manager-crds
-version: v0.0.1
-appVersion: "0.0.1"
-maintainers:
-  - nama: mhrabovcin.c
-  - name: mikolajb
