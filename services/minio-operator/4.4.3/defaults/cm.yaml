@@ -9,6 +9,11 @@ data:
     ---
     operator:
       replicaCount: 1
+        resources:
+          requests:
+            cpu: 500m
+          limits:
+            cpu: 2000m
       # TODO: use defaults after resolving KIND cluster resource limitations
       #resources:
       #  requests:
