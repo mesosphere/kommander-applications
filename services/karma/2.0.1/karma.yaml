@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 2.0.0
+      version: 2.0.1
   interval: 15s
   install:
     remediation:
@@ -26,7 +26,7 @@ spec:
   releaseName: karma
   valuesFrom:
     - kind: ConfigMap
-      name: karma-2.0.0-d2iq-defaults
+      name: karma-2.0.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
