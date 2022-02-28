@@ -6,6 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    kommanderVarsConfigMapName: "${kommanderVarsConfigMapName}"
     controllerManager:
       containers:
         manager:
