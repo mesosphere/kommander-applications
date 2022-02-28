@@ -10,10 +10,8 @@ data:
     mesosphereResources:
       create: false
       homeDashboard:
-        name: "Global Overview"
-        serviceNameOverride: "centralized-grafana"
         cronJob:
-          enabled: true
+          enabled: false
       ingressRBAC:
         enabled: false
     grafana:
@@ -65,6 +63,8 @@ data:
           auto_assign_org_role: Admin
         plugins:
           allow_loading_unsigned_plugins: "grafana-piechart-panel"
+        dashboards:
+          default_home_dashboard_path: "/tmp/dashboards/global-overview.json"
 
       datasources:
         datasources.yaml:
