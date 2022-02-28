@@ -7,4 +7,4 @@ configMapGenerator:
       - global-overview.json
 generatorOptions:
   labels:
-    grafana_dashboard_kommander: "centralized"
+    grafana_dashboard_kommander: "1"

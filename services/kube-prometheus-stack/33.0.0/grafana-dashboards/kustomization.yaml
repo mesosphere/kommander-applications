@@ -10,4 +10,4 @@ configMapGenerator:
       - grafana.json
 generatorOptions:
   labels:
-    grafana_dashboard: "kube-prometheus-stack"
+    grafana_dashboard: "1"

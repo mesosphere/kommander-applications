@@ -8,4 +8,4 @@ configMapGenerator:
       - traefik.json
 generatorOptions:
   labels:
-    grafana_dashboard: "traefik"
+    grafana_dashboard: "1"

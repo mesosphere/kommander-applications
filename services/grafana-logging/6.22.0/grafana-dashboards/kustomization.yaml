@@ -8,4 +8,4 @@ configMapGenerator:
       - audit.json
 generatorOptions:
   labels:
-    grafana_logging_dashboard: "audit"
+    grafana_logging_dashboard: "1"

@@ -7,4 +7,4 @@ configMapGenerator:
       - velero.json
 generatorOptions:
   labels:
-    grafana_dashboard: "velero"
+    grafana_dashboard: "1"
