@@ -11,6 +11,6 @@ data:
         manager:
           replicas: "${kommanderAppManagementReplicas}"
           image:
-            tag: "${appManagementImageTag}"
+            tag: "${appManagementImageTagWithDefault:=v2.2.0-dev}"
             repository: "${appManagementImageRepository}"
             pullPolicy: IfNotPresent
