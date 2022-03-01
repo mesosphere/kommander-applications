@@ -4,16 +4,15 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.27.2
-  name: allow-scraping
+    app.kubernetes.io/version: v0.27.3
+  name: allow-webhooks
   namespace: kommander-flux
 spec:
   ingress:
   - from:
     - namespaceSelector: {}
-    ports:
-    - port: 8080
-      protocol: TCP
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app: notification-controller
   policyTypes:
   - Ingress
