@@ -64,7 +64,7 @@ data:
           repository: ${licensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
         centralized-kubecost: "0.22.1"
-        centralized-grafana: "33.0.0"
+        centralized-grafana: "33.0.1"
         karma: "2.0.1"
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
@@ -89,7 +89,7 @@ data:
           traefik: "10.9.1"
           kubernetes-dashboard: "5.1.1"
           kubecost: "0.22.1"
-          kube-prometheus-stack: "33.0.0"
+          kube-prometheus-stack: "33.0.1"
           prometheus-adapter: "2.17.1"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"

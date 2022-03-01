@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-33.0.0-d2iq-defaults
+  name: kube-prometheus-stack-33.0.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -19,9 +19,6 @@ data:
         # addon alert rules are defaulted to false to prevent potential misfires if addons
         # are disabled.
         velero: false
-      homeDashboard:
-        cronJob:
-          enabled: false
     prometheus:
       ingress:
         enabled: true
