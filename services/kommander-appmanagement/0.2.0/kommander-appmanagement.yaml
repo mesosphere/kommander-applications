@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
-      version: "${chartVersion}"
+      version: "${chartVersion:=v2.2.0-dev}"
   interval: 15s
   install:
     remediation:
