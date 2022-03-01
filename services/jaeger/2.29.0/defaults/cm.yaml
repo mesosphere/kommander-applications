@@ -3,20 +3,16 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jaeger-2.28.0-d2iq-defaults
+  name: jaeger-2.29.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    image:
-      repository: jaegertracing/jaeger-operator
-      tag: 1.21.2
-
     jaeger:
       create: true
       spec:
         strategy: allInOne
         allInOne:
-          image: jaegertracing/all-in-one:1.21.0
+          image: jaegertracing/all-in-one:1.30.0
           options:
             query:
               base-path: /dkp/jaeger
