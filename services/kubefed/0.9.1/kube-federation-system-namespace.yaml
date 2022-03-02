@@ -6,6 +6,7 @@ metadata:
 spec:
   force: false
   prune: false
+  wait: true
   interval: 1m0s
   path: ./services/kubefed/0.9.1/kube-federation-system-namespace
   sourceRef:
