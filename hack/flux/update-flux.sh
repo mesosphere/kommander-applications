@@ -46,7 +46,7 @@ function update_flux() {
     git push --set-upstream origin "${BRANCH_NAME}"
 
     git fetch origin main
-    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review
+    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l slack-notify
 }
 
 if [ "${CURRENT_FLUX_VERSION}" == "${LATEST_FLUX_VERSION}" ]; then
