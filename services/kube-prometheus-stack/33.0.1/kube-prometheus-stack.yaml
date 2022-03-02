@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 32.0.2
+      version: 33.0.1
   interval: 15s
   install:
     remediation:
@@ -26,7 +26,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: kube-prometheus-stack-32.0.2-d2iq-defaults
+      name: kube-prometheus-stack-33.0.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
@@ -41,8 +41,8 @@ data:
   dashboardLink: "/dkp/prometheus"
   docsLink: "https://prometheus.io/docs/"
   # Prometheus app version can be found at prometheus.prometheusSpec.image.tag:
-  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/values.yaml#L2106
-  version: "2.33.1"
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-33.0.0/charts/kube-prometheus-stack/values.yaml#L2140
+  version: "2.33.4"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -56,7 +56,7 @@ data:
   dashboardLink: "/dkp/alertmanager"
   docsLink: "https://prometheus.io/docs/alerting/alertmanager/"
   # Alertmanager app version can be found at alertmanager.alertmanagerSpec.image,tag:
-  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/values.yaml#L407
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-33.0.0/charts/kube-prometheus-stack/values.yaml#L417
   version: "0.23.0"
 ---
 apiVersion: v1
@@ -71,7 +71,7 @@ data:
   dashboardLink: "/dkp/grafana"
   docsLink: "https://grafana.com/docs/"
   # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart running at:
-  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-32.0.2/charts/kube-prometheus-stack/Chart.yaml#L52
+  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-33.0.0/charts/kube-prometheus-stack/Chart.yaml#L52
   # Then, find the Grafana app version in the Grafana chart:
   # https://github.com/grafana/helm-charts/blob/grafana-6.21.2/charts/grafana/values.yaml#L76
-  version: "8.3.4"
+  version: "8.3.6"

@@ -2,18 +2,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-grafana-32.0.2-d2iq-defaults
+  name: centralized-grafana-33.0.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
     mesosphereResources:
       create: false
-      homeDashboard:
-        name: "Global Overview"
-        serviceNameOverride: "centralized-grafana"
-        cronJob:
-          enabled: true
       ingressRBAC:
         enabled: false
     grafana:
@@ -35,6 +30,7 @@ data:
           label: grafana_datasource_kommander
           searchNamespace: ALL
           skipReload: true
+          initDatasources: true
       annotations:
         configmap.reloader.stakater.com/reload: "centralized-kubecost-grafana-datasource"
       ingress:
@@ -64,6 +60,8 @@ data:
           auto_assign_org_role: Admin
         plugins:
           allow_loading_unsigned_plugins: "grafana-piechart-panel"
+        dashboards:
+          default_home_dashboard_path: "/tmp/dashboards/global-overview.json"
 
       datasources:
         datasources.yaml:
@@ -110,27 +108,6 @@ data:
           volumeMounts:
           - name: plugins
             mountPath: /var/lib/grafana/shared-plugins/
-        # Manual workaround since initcontainer was replaced by container with reloads.
-        # Admin API only works with basic auth which we disable.
-        # See: https://jira.d2iq.com/browse/D2IQ-84982
-        - name: init-grafana-sc-datasources
-          image: "quay.io/kiwigrid/k8s-sidecar:1.15.1"
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: METHOD
-              value: "LIST"
-            - name: LABEL
-              value: "grafana_datasource_kommander"
-            - name: FOLDER
-              value: "/etc/grafana/provisioning/datasources"
-            - name: RESOURCE
-              value: "both"
-            - name: NAMESPACE
-              value: "ALL"
-          resources: {}
-          volumeMounts:
-            - name: sc-datasources-volume
-              mountPath: "/etc/grafana/provisioning/datasources"
 
     # Disable everything else
     defaultRules:

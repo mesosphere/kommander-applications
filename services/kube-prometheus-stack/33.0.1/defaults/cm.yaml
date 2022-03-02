@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-32.0.2-d2iq-defaults
+  name: kube-prometheus-stack-33.0.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -19,9 +19,6 @@ data:
         # addon alert rules are defaulted to false to prevent potential misfires if addons
         # are disabled.
         velero: false
-      homeDashboard:
-        cronJob:
-          enabled: false
     prometheus:
       ingress:
         enabled: true
@@ -354,6 +351,7 @@ data:
         datasources:
           enabled: true
           skipReload: true
+          initDatasources: true
           searchNamespace: ALL
       grafana.ini:
         server:
@@ -371,6 +369,8 @@ data:
           auto_assign_org_role: Admin
         plugins:
           allow_loading_unsigned_plugins: "grafana-piechart-panel"
+        dashboards:
+          default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
       service:
         type: ClusterIP
         port: 3000
@@ -411,27 +411,6 @@ data:
           volumeMounts:
           - name: plugins
             mountPath: /var/lib/grafana/shared-plugins/
-        # Manual workaround since initcontainer was replaced by container with reloads.
-        # Admin API only works with basic auth which we disable.
-        # See: https://jira.d2iq.com/browse/D2IQ-84982
-        - name: init-grafana-sc-datasources
-          image: "quay.io/kiwigrid/k8s-sidecar:1.15.1"
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: METHOD
-              value: "LIST"
-            - name: LABEL
-              value: "grafana_datasource"
-            - name: FOLDER
-              value: "/etc/grafana/provisioning/datasources"
-            - name: RESOURCE
-              value: "both"
-            - name: NAMESPACE
-              value: "ALL"
-          resources: {}
-          volumeMounts:
-            - name: sc-datasources-volume
-              mountPath: "/etc/grafana/provisioning/datasources"
     kubeEtcd:
       # Updated to false due to EKS not allowing the retrieval of data from etcd.
       enabled: false

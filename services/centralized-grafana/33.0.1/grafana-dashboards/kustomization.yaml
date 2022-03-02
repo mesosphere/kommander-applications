@@ -1,11 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ${releaseNamespace}
 configMapGenerator:
-  - name: grafana-logging-dashboards-audit
+  - name: grafana-dashboards-centralized
     namespace: ${releaseNamespace}
     files:
-      - audit.json
+      - global-overview.json
 generatorOptions:
   labels:
-    grafana_logging_dashboard: "audit"
+    grafana_dashboard_kommander: "1"
