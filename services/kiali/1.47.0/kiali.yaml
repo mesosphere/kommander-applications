@@ -2,21 +2,22 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: jaeger
+  name: kiali
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    # Istio is a hard dependency for Kiali
+    # https://kiali.io/documentation/latest/architecture/
+    - name: istio
+      namespace: ${releaseNamespace}
   chart:
     spec:
-      chart: jaeger-operator
+      chart: kiali-operator
       sourceRef:
         kind: HelmRepository
-        name: jaegertracing-github-io
+        name: kiali-org
         namespace: kommander-flux
-      version: "2.28.0"
-  # The main reason behind this dependency is to wait until
-  # the istio-system namespace is actually created
-  dependsOn:
-    - name: istio
+      version: "1.47.0"
   interval: 15s
   install:
     remediation:
@@ -24,33 +25,33 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: jaeger
-  targetNamespace: istio-system
+  releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
-      name: jaeger-2.28.0-d2iq-defaults
+      name: kiali-1.47.0-d2iq-defaults
+  targetNamespace: istio-system
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jaeger-app-dashboard-info
+  name: kiali-app-dashboard-info
   namespace: ${releaseNamespace}
   labels:
-    "kommander.d2iq.io/application": "jaeger"
+    "kommander.d2iq.io/application": "kiali"
 data:
-  name: "Jaeger"
-  dashboardLink: "/dkp/jaeger"
-  docsLink: "https://istio.io/docs/tasks/telemetry/distributed-tracing/jaeger/"
-  version: "1.30.0"
+  name: "Kiali"
+  dashboardLink: "/dkp/kiali"
+  docsLink: "https://istio.io/docs/tasks/telemetry/kiali/"
+  version: "1.47.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-jaeger-view
+  name: dkp-kiali-view
 rules:
 - nonResourceURLs:
-  - /dkp/jaeger
-  - /dkp/jaeger/*
+  - /dkp/kiali
+  - /dkp/kiali/*
   verbs:
   - get
   - head
@@ -58,11 +59,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-jaeger-edit
+  name: dkp-kiali-edit
 rules:
 - nonResourceURLs:
-  - /dkp/jaeger
-  - /dkp/jaeger/*
+  - /dkp/kiali
+  - /dkp/kiali/*
   verbs:
   - get
   - head
@@ -72,11 +73,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-jaeger-admin
+  name: dkp-kiali-admin
 rules:
 - nonResourceURLs:
-  - /dkp/jaeger
-  - /dkp/jaeger/*
+  - /dkp/kiali
+  - /dkp/kiali/*
   verbs:
   - get
   - head
