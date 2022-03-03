@@ -1,0 +1,54 @@
+# For upgrades from <2.21.4
+# The job will also be run pre-install but the kubectl --ignore-not-found flag should
+# protect against failing on nonexistent deployments (if jaeger is not installed yet)
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jaeger-pre-upgrade
+  namespace: istio-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: jaeger-pre-upgrade
+  namespace: istio-system
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployment"]
+    verbs: ["get", "watch", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jaeger-pre-upgrade
+  namespace: istio-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: jaeger-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: jaeger-pre-upgrade
+    namespace: istio-system
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: delete-jaeger-deployment
+  namespace: istio-system
+spec:
+  template:
+    metadata:
+      name: delete-jaeger-deployment
+    spec:
+      serviceAccountName: jaeger-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.21.3}"
+          command:
+            - sh
+            - -c
+            - |
+              kubectl delete deployment jaeger-jaeger-operator -n istio-system --ignore-not-found

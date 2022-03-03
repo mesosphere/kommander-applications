@@ -1,0 +1,22 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  # jaeger-pre-upgrade kustomization depends on this istio-helmrelease kustomization.
+  # if this name is updated, the dependsOn must be bumped in ./services/jaeger/2.28.0/pre-upgrade.yaml
+  name: istio-helmrelease
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  wait: true
+  interval: 1m0s
+  path: ./services/istio/1.11.5/helmrelease
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 60s
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
