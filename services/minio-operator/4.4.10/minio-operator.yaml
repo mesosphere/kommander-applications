@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: operator.min.io
         namespace: kommander-flux
-      version: 4.4.3
+      version: 4.4.10
   interval: 15s
   install:
     remediation:
@@ -23,7 +23,7 @@ spec:
   releaseName: minio-operator
   valuesFrom:
     - kind: ConfigMap
-      name: minio-operator-4.4.3-d2iq-defaults
+      name: minio-operator-4.4.10-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -38,4 +38,4 @@ data:
   # See https://github.com/minio/console/issues/853.
   #dashboardLink: "/dkp/logging/minio-operator"
   docsLink: "https://docs.min.io/minio/k8s/"
-  version: "4.4.3"
+  version: "4.4.10"
