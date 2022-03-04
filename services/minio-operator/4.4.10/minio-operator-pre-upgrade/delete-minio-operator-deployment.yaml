@@ -1,0 +1,54 @@
+# For upgrades from <4.3.7
+# The job will also be run pre-install but the kubectl --ignore-not-found flag should
+# protect against failing on nonexistent deployments (if minio is not installed yet)
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: minio-operator-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: minio-operator-pre-upgrade
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "watch", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: minio-operator-pre-upgrade
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: minio-operator-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: minio-operator-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: delete-minio-operator-deployment
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: delete-minio-operator-deployment
+    spec:
+      serviceAccountName: minio-operator-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.21.3}"
+          command:
+            - sh
+            - -c
+            - |
+              kubectl delete deployments.apps -l app.kubernetes.io/instance=minio-operator,app.kubernetes.io/name=minio-operator --cascade=orphan -n ${releaseNamespace} --ignore-not-found
