@@ -51,4 +51,4 @@ spec:
             - sh
             - -c
             - |
-              kubectl delete deployment jaeger-jaeger-operator -n istio-system --ignore-not-found
+              kubectl delete deployments.apps -l app.kubernetes.io/name=jaeger-operator,app.kubernetes.io/instance!=jaeger-operator --cascade=orphan -n istio-system --ignore-not-found
