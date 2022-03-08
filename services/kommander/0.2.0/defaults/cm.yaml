@@ -10,8 +10,8 @@ data:
       enabled: ${airgappedEnabled}
     authorizedlister:
       image:
-        tag: ${authorizedlisterImageTag}
-        repository: ${authorizedlisterImageRepository}
+        tag: ${kommanderAuthorizedlisterImageTag}
+        repository: ${kommanderAuthorizedlisterImageRepository}
     certificates:
       ca:
         issuer:
@@ -26,18 +26,18 @@ data:
           rootCertSecretName: ${caSecretName}
           rootCertSecretNamespace: ${caSecretNamespace}
           image:
-            tag: ${controllerManagerImageTag}
-            repository: ${controllerManagerImageRepository}
+            tag: ${kommanderControllerManagerImageTag}
+            repository: ${kommanderControllerManagerImageRepository}
     webhook:
       image:
-        tag: ${controllerWebhookImageTag}
-        repository: ${controllerWebhookImageRepository}
+        tag: ${kommanderControllerWebhookImageTag}
+        repository: ${kommanderControllerWebhookImageRepository}
     fluxOperator:
       containers:
         manager:
           image:
-            tag: ${fluxOperatorManagerImageTag}
-            repository: ${fluxOperatorManagerImageRepository}
+            tag: ${kommanderFluxOperatorManagerImageTag}
+            repository: ${kommanderFluxOperatorManagerImageRepository}
       gitRepo:
         gitCredentialsSecret:
           namespace: kommander-flux
@@ -56,12 +56,12 @@ data:
           manager:
             rootCertSecretName: ${caSecretName}
             image:
-              tag: ${licensingControllerManagerImageTag}
-              repository: ${licensingControllerManagerImageRepository}
+              tag: ${kommanderLicensingControllerManagerImageTag:=v2.2.0-dev}
+              repository: ${kommanderLicensingControllerManagerImageRepository}
       webhook:
         image:
-          tag: ${licensingControllerWebhookImageTag}
-          repository: ${licensingControllerWebhookImageRepository}
+          tag: ${kommanderLicensingControllerWebhookImageTag:=v2.2.0-dev}
+          repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
         centralized-kubecost: "0.22.1"
         centralized-grafana: "33.1.1"
@@ -71,8 +71,8 @@ data:
         thanos: "0.4.6"
     kubetools:
       image:
-        repository: ${kubetoolsImageRepository}
-        tag: ${kubetoolsImageTag}
+        repository: ${kommanderKubetoolsImageRepository}
+        tag: ${kommanderKubetoolsImageTag}
     kommander-ui:
       ingress:
         enabled: true
