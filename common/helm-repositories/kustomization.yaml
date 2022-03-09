@@ -19,3 +19,4 @@ resources:
   - traefik.yaml
   - gatekeeper.yaml
   - cert-manager.yaml
+  - bitnami.yaml
