@@ -1,6 +1,7 @@
 # For upgrades from <4.3.7
-# The job will also be run pre-install but the kubectl --ignore-not-found flag should
-# protect against failing on nonexistent deployments (if minio is not installed yet)
+# https://github.com/minio/operator/pull/918/files#diff-bd5c6c9ae089d94d6ca2bec730b2f1e92357842567d49c4dd44123ef65986244R3
+# The job will also be run pre-install but will be a noop if
+# minio is not installed yet.
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -51,4 +52,4 @@ spec:
             - sh
             - -c
             - |
-              kubectl delete deployments.apps -l app.kubernetes.io/instance=minio-operator,app.kubernetes.io/name=minio-operator --cascade=orphan -n ${releaseNamespace} --ignore-not-found
+              kubectl delete deployments.apps -l app.kubernetes.io/instance=minio-operator,app.kubernetes.io/name=minio-operator --cascade=orphan -n ${releaseNamespace}
