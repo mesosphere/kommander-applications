@@ -22,7 +22,6 @@ data:
             kubernetes.io/ingress.class: kommander-traefik
             traefik.ingress.kubernetes.io/router.tls: "true"
             traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
-          basePath: /dkp/jaeger
 
     rbac:
       create: true
