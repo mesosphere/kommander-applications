@@ -10,9 +10,9 @@ spec:
       chart: external-dns
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: charts.github.io-bitnami
         namespace: kommander-flux
-      version: 2.20.5
+      version: 6.1.8
   interval: 15s
   install:
     remediation:
@@ -23,5 +23,5 @@ spec:
   releaseName: external-dns
   valuesFrom:
     - kind: ConfigMap
-      name: external-dns-2.20.5-d2iq-defaults
+      name: external-dns-6.1.8-d2iq-defaults
   targetNamespace: ${releaseNamespace}
