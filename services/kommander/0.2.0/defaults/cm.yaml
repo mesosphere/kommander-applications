@@ -56,11 +56,11 @@ data:
           manager:
             rootCertSecretName: ${caSecretName}
             image:
-              tag: ${kommanderLicensingControllerManagerImageTag:=v2.2.0-dev}
+              tag: ${kommanderLicensingControllerManagerImageTag}
               repository: ${kommanderLicensingControllerManagerImageRepository}
       webhook:
         image:
-          tag: ${kommanderLicensingControllerWebhookImageTag:=v2.2.0-dev}
+          tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
         centralized-kubecost: "0.22.1"
