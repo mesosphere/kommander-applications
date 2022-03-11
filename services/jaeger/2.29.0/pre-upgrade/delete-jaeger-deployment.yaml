@@ -1,6 +1,10 @@
 # For upgrades from <2.21.4
-# The job will also be run pre-install but the kubectl --ignore-not-found flag should
-# protect against failing on nonexistent deployments (if jaeger is not installed yet)
+# https://github.com/jaegertracing/helm-charts/pull/257/files#diff-d9ac456c418c74b7ba25a05ec2cc077cd8dd45ddb7a3008c2dee25e4d347a23eR48
+# New "app.kubernetes.io/instance" label selector was added to the jaeger
+# deployment; here we select for deployments with the "app.kubernetes.io/name"
+# label but without the newly added "app.kubernetes.io/instance" label, to
+# delete. This ensures a newly-created jaeger deployment does not get deleted.
+# The job will also be run pre-install but will be a noop.
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -51,4 +55,4 @@ spec:
             - sh
             - -c
             - |
-              kubectl delete deployment jaeger-jaeger-operator -n istio-system --ignore-not-found
+              kubectl delete deployments.apps -l app.kubernetes.io/name=jaeger-operator,'!app.kubernetes.io/instance' --cascade=orphan -n istio-system
