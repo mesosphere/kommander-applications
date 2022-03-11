@@ -333,6 +333,13 @@ data:
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
+      serviceMonitor:
+        labels:
+          # By default, kube-prometheus-stack configures prometheus-operator with a ServiceMonitor selector that
+          # matches the label "release: <helm-release-name>". This label is applied to all ServiceMonitors declared in
+          # the kube-prometheus-stack chart, however grafana's ServiceMonitor is declared in the grafana subchart.
+          # Without this label, and with the default ServiceMonitor selector, grafana's metrics won't be scraped.
+          release: kube-prometheus-stack
       ingress:
         enabled: true
         annotations:
