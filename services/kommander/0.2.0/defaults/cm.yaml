@@ -64,6 +64,8 @@ data:
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
         centralized-kubecost: "0.22.1"
+        kubecost: "0.22.1"
+        kubecost-thanos-traefik: "0.0.1"
         centralized-grafana: "33.1.1"
         karma: "2.0.1"
         karma-traefik: "0.0.1"
