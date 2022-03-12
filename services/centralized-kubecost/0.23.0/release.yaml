@@ -8,7 +8,7 @@ spec:
   prune: true
   wait: true
   interval: 1m0s
-  path: ./services/centralized-kubecost/0.22.1/release
+  path: ./services/centralized-kubecost/0.23.0/release
   sourceRef:
     kind: GitRepository
     name: management
