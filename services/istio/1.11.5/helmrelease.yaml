@@ -16,7 +16,8 @@ spec:
     name: management
     namespace: kommander-flux
   timeout: 60s
+  # passing releaseNamespace to 2nd level configuration files for ability to configure namespace correctly in attached clusters
+  # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+    substitute:
+      releaseNamespace: ${releaseNamespace}
