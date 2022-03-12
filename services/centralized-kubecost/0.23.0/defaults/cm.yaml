@@ -38,21 +38,17 @@ data:
         maxSourceResolution: 5m
 
       ingress:
-        enabled: false
-        # TODO(mh): Enable once `kubecost` chart supports Ingress for k8s 1.22+
-        # enabled: true
-        # # We can remove this once https://github.com/kubecost/cost-analyzer-helm-chart/pull/1132 is released.
-        # className: ""
-        # annotations:
-        #   kubernetes.io/ingress.class: kommander-traefik
-        #   ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
-        #   traefik.ingress.kubernetes.io/router.tls: "true"
-        #   traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
-        # paths:
-        #   - "/dkp/kommander/kubecost/frontend/"
-        # hosts:
-        #   - ""
-        # tls: []
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+        paths:
+          - "/dkp/kommander/kubecost/frontend/"
+        hosts:
+          - ""
+        tls: []
 
       kubecostDeployment:
         labels:
