@@ -40,7 +40,7 @@ data:
         # This is because arrays in values are replaced, not appended.
         - name: dkp-service-monitor-metrics
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -56,7 +56,7 @@ data:
               interval: 30s
         - name: dkp-service-monitor-metrics-http
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -69,7 +69,7 @@ data:
               interval: 30s
         - name: dkp-service-monitor-api-v1-metrics-prometheus
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
@@ -81,7 +81,7 @@ data:
               interval: 30s
         - name: dkp-service-monitor-api-v1-metrics-prometheus-http-10s
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
@@ -95,7 +95,7 @@ data:
               interval: 10s
         - name: dkp-service-monitor-prometheus-metrics
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "prometheus__metrics"
@@ -125,7 +125,7 @@ data:
       additionalPodMonitors:
         - name: flux-system
           additionalLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
           podMetricsEndpoints:
             - port: http-prom
           namespaceSelector:
@@ -146,11 +146,11 @@ data:
         serviceMonitorNamespaceSelector: {}  # all namespaces
         serviceMonitorSelector:
           matchLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
         podMonitorNamespaceSelector: {}  # all namespaces
         podMonitorSelector:
           matchLabels:
-            prometheus.kommander.d2iq.io/select: true
+            prometheus.kommander.d2iq.io/select: "true"
         thanos:
           version: v0.17.1
         externalLabels:
@@ -355,7 +355,7 @@ data:
       defaultDashboardsEnabled: true
       serviceMonitor:
         labels:
-          prometheus.kommander.d2iq.io/select: true
+          prometheus.kommander.d2iq.io/select: "true"
       ingress:
         enabled: true
         annotations:
