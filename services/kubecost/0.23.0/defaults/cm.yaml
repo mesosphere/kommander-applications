@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-0.22.1-d2iq-defaults
+  name: kubecost-0.23.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -15,21 +15,17 @@ data:
           enabled: true
 
       ingress:
-        enabled: false
-        # TODO(mh): Enable once `kubecost` chart supports Ingress for k8s 1.22+
-        # enabled: true
-        # # We can remove this once https://github.com/kubecost/cost-analyzer-helm-chart/pull/1132 is released.
-        # className: ""
-        # annotations:
-        #   kubernetes.io/ingress.class: kommander-traefik
-        #   ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
-        #   traefik.ingress.kubernetes.io/router.tls: "true"
-        #   traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
-        # paths:
-        #   - "/dkp/kubecost/frontend/"
-        # hosts:
-        #   - ""
-        # tls: []
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        paths:
+          - "/dkp/kubecost/frontend/"
+        hosts:
+          - ""
+        tls: []
 
       podSecurityPolicy:
         enabled: false
