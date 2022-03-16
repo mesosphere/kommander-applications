@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.27.3
+    app.kubernetes.io/version: v0.27.4
     control-plane: controller
   name: helm-controller
   namespace: kommander-flux
@@ -33,7 +33,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/helm-controller:v0.17.1
+        image: ghcr.io/fluxcd/helm-controller:v0.17.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -72,6 +72,8 @@ spec:
           name: temp
       nodeSelector:
         kubernetes.io/os: linux
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:

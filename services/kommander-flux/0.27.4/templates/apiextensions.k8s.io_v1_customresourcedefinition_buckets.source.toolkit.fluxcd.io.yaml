@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.27.3
+    app.kubernetes.io/version: v0.27.4
   name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
