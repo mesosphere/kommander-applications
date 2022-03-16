@@ -27,53 +27,6 @@ spec:
       name: centralized-grafana-33.1.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-centralized-grafana-view
-rules:
-  - nonResourceURLs:
-      - /dkp/kommander/monitoring/grafana
-      - /dkp/kommander/monitoring/grafana/*
-    verbs:
-      - get
-      - head
-  - nonResourceURLs:
-      - /dkp/kommander/monitoring/grafana/api/datasources/proxy/1/api/v1/series
-      - /dkp/kommander/monitoring/grafana/api/ds/query
-      - /dkp/kommander/monitoring/grafana/api/frontend-metrics
-    verbs:
-      - post
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-centralized-grafana-edit
-rules:
-  - nonResourceURLs:
-      - /dkp/kommander/monitoring/grafana
-      - /dkp/kommander/monitoring/grafana/*
-    verbs:
-      - get
-      - head
-      - post
-      - put
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-centralized-grafana-admin
-rules:
-  - nonResourceURLs:
-      - /dkp/kommander/monitoring/grafana
-      - /dkp/kommander/monitoring/grafana/*
-    verbs:
-      - get
-      - head
-      - post
-      - put
-      - delete
----
 apiVersion: v1
 kind: ConfigMap
 metadata:

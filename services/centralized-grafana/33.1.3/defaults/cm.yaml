@@ -7,10 +7,11 @@ metadata:
 data:
   values.yaml: |
     ---
+    fullnameOverride: "centralized-grafana"
     mesosphereResources:
       create: false
       ingressRBAC:
-        enabled: false
+        enabled: true
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
