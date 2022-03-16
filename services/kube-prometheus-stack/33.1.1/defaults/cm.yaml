@@ -449,3 +449,4 @@ data:
     kube-state-metrics:
       metricLabelsAllowlist:
         - pods=[*]
+        - namespaces=[*]
