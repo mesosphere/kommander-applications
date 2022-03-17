@@ -20,3 +20,7 @@ data:
           k8s:
             hpaSpec:
               minReplicas: 2
+    prometheus-operator:
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
