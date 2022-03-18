@@ -32,7 +32,7 @@ data:
       web:
         create: false
         secret:
-          tlsName: dex
+          tlsName: dex-tls
     config:
       issuer: https://dex.${releaseNamespace}.svc.cluster.local:8080/dex
       frontend:
