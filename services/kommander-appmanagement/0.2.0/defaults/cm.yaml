@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    airgapped:
+      enabled: ${airgappedEnabled}
     controllerManager:
       containers:
         manager:
