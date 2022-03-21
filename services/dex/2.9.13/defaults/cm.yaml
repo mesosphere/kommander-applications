@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.9.12-d2iq-defaults
+  name: dex-2.9.13-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -32,7 +32,7 @@ data:
       web:
         create: false
         secret:
-          tlsName: dex
+          tlsName: dex-tls
     config:
       issuer: https://dex.${releaseNamespace}.svc.cluster.local:8080/dex
       frontend:
