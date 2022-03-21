@@ -10,7 +10,7 @@ spec:
   prune: true
   wait: true
   interval: 1m0s
-  path: ./services/istio/1.11.5/helmrelease
+  path: ./services/istio/1.11.6/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
