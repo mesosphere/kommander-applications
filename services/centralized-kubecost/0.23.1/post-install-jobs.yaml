@@ -1,14 +1,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: centralized-kubecost-release
+  name: centralized-kubecost-post-install-jobs
   namespace: ${releaseNamespace}
 spec:
   force: false
   prune: true
   wait: true
   interval: 1m0s
-  path: ./services/centralized-kubecost/0.23.0/release
+  path: ./services/centralized-kubecost/0.23.1/post-install-jobs
+  dependsOn:
+    - name: centralized-kubecost-release
   sourceRef:
     kind: GitRepository
     name: management
