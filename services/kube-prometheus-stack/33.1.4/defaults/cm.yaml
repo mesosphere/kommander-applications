@@ -7,6 +7,8 @@ metadata:
 data:
   values.yaml: |
     ---
+    commonLabels:
+      prometheus.kommander.d2iq.io/select: "true"
     prometheusOperator:
       admissionWebhooks:
         patch:
@@ -37,10 +39,9 @@ data:
             targetPort: grpc
       additionalServiceMonitors:
         # **NOTE** Any changes here need to be copied to kube-prometheus-stack-overrides.yaml
+        # https://github.com/mesosphere/kommander-cli/blob/main/pkg/installer/config/manifests/kube-prometheus-stack/overrides.yaml
         # This is because arrays in values are replaced, not appended.
         - name: dkp-service-monitor-metrics
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -55,8 +56,6 @@ data:
             - targetPort: 7979
               interval: 30s
         - name: dkp-service-monitor-metrics-http
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -68,8 +67,6 @@ data:
             - targetPort: http
               interval: 30s
         - name: dkp-service-monitor-api-v1-metrics-prometheus
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
@@ -80,8 +77,6 @@ data:
               port: metrics
               interval: 30s
         - name: dkp-service-monitor-api-v1-metrics-prometheus-http-10s
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
@@ -94,8 +89,6 @@ data:
               port: http
               interval: 10s
         - name: dkp-service-monitor-prometheus-metrics
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           selector:
             matchLabels:
               servicemonitor.kommander.mesosphere.io/path: "prometheus__metrics"
@@ -124,8 +117,6 @@ data:
         #         insecureSkipVerify: true
       additionalPodMonitors:
         - name: flux-system
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
           podMetricsEndpoints:
             - port: http-prom
           namespaceSelector:
