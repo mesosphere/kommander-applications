@@ -39,6 +39,7 @@ data:
             targetPort: grpc
       additionalServiceMonitors:
         # **NOTE** Any changes here need to be copied to kube-prometheus-stack-overrides.yaml
+        # https://github.com/mesosphere/kommander-cli/blob/main/pkg/installer/config/manifests/kube-prometheus-stack/overrides.yaml
         # This is because arrays in values are replaced, not appended.
         - name: dkp-service-monitor-metrics
           selector:
