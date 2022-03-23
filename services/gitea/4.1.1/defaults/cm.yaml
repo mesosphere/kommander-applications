@@ -32,6 +32,13 @@ data:
         service:
           REQUIRE_SIGNIN_VIEW: false
           DISABLE_REGISTRATION: true
+      startupProbe:
+        enabled: true
+        initialDelaySeconds: 60
+        timeoutSeconds: 1
+        periodSeconds: 10
+        successThreshold: 1
+        failureThreshold: 10
     service:
       http:
         port: 443
