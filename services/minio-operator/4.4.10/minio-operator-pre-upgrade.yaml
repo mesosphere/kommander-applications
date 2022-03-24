@@ -7,13 +7,13 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
   path: ./services/minio-operator/4.4.10/minio-operator-pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 1m
   # passing releaseNamespace to 2nd level configuration files for ability to configure namespace correctly in attached clusters
   # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
   postBuild:

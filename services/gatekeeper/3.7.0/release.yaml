@@ -9,13 +9,13 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
   path: ./services/gatekeeper/3.7.0/release
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 1m
   postBuild:
     # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
     substitute:
