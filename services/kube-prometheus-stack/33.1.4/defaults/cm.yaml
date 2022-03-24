@@ -445,3 +445,8 @@ data:
         monitor:
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
+    prometheus-node-exporter:
+      prometheus:
+        monitor:
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"
