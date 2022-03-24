@@ -15,6 +15,9 @@ data:
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
       sidecar:
         dashboards:
           enabled: true
