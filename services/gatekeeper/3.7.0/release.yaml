@@ -15,7 +15,7 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 1m
   postBuild:
     # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
     substitute:
