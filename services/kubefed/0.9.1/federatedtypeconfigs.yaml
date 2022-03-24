@@ -16,7 +16,7 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 1m
   postBuild:
     substituteFrom:
       - kind: ConfigMap

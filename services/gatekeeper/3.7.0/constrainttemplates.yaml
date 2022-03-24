@@ -15,7 +15,7 @@ spec:
     namespace: kommander-flux
   dependsOn:
     - name: gatekeeper-release
-  timeout: 60s
+  timeout: 1m
   healthChecks:
     - apiVersion: templates.gatekeeper.sh/v1beta1
       kind: ConstraintTemplate
