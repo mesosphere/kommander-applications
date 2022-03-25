@@ -4,7 +4,7 @@ metadata:
   name: dkp-insights-management
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:                                                                    
+  dependsOn:
     - namespace: ${releaseNamespace}
       name: kubefed
     - namespace: ${releaseNamespace}
