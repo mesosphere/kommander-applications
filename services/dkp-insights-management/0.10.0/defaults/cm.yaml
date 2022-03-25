@@ -11,6 +11,5 @@ data:
       repository: "mesosphere/insights"
       tag: "v0.10.0-rc1"
       imagePullPolicy: "IfNotPresent"
-      values.yaml: |
     managementCM:
       insightsTTL: 72h
