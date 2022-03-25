@@ -9,7 +9,8 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
+  retryInterval: 1m
   path: ./services/istio/1.11.6/helmrelease
   sourceRef:
     kind: GitRepository

@@ -7,7 +7,8 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
+  retryInterval: 1m
   path: ./services/gatekeeper/3.7.0/constrainttemplates
   sourceRef:
     kind: GitRepository

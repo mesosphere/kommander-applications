@@ -8,7 +8,8 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
+  retryInterval: 1m
   path: ./services/cert-manager/1.7.1/release
   sourceRef:
     kind: GitRepository
