@@ -7,7 +7,7 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 6h
+  interval: 1m0s
   path: ./services/gatekeeper/3.7.0/constrainttemplates
   sourceRef:
     kind: GitRepository
@@ -15,7 +15,7 @@ spec:
     namespace: kommander-flux
   dependsOn:
     - name: gatekeeper-release
-  timeout: 1m
+  timeout: 60s
   healthChecks:
     - apiVersion: templates.gatekeeper.sh/v1beta1
       kind: ConstraintTemplate
