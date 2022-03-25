@@ -7,7 +7,8 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
+  retryInterval: 1m
   path: ./services/centralized-kubecost/0.23.1/post-install-jobs
   dependsOn:
     - name: centralized-kubecost-release
