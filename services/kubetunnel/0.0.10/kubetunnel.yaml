@@ -15,6 +15,7 @@ spec:
       version: "v0.0.10"
   interval: 15s
   install:
+    crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
