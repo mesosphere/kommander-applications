@@ -7,8 +7,7 @@ spec:
   force: false
   prune: false
   wait: true
-  interval: 6h
-  timeout: 1m
+  interval: 1m0s
   path: ./services/kubefed/0.9.1/kube-federation-system-namespace
   sourceRef:
     kind: GitRepository
