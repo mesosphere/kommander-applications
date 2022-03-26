@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-dkp-insights-charts-management
         namespace: kommander-flux
-      version: v0.1.0-rc.2
+      version: v0.1.2
   interval: 15s
   install:
     remediation:
