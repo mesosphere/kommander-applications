@@ -57,7 +57,7 @@ data:
       enabled: true
     fluentd:
       configReloaderImage:
-        tag: v0.5.0
+        tag: v0.7.1
       image:
         # Explicitly use the default image. This should be updated when logging-operator is upgraded.
         repository: ghcr.io/banzaicloud/fluentd
