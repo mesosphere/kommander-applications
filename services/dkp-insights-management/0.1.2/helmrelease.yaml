@@ -8,6 +8,7 @@ spec:
   prune: true
   wait: true
   interval: 6h
+  retryInterval: 1m
   path: ./services/dkp-insights-management/0.1.2/helmrelease
   sourceRef:
     kind: GitRepository
