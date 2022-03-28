@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: "0.23.1"
+      version: "0.23.2"
   interval: 15s
   install:
     remediation:
@@ -27,7 +27,7 @@ spec:
   releaseName: centralized-kubecost
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-kubecost-0.23.1-d2iq-defaults
+      name: centralized-kubecost-0.23.2-d2iq-defaults
   targetNamespace: kubecost
 ---
 apiVersion: v1
