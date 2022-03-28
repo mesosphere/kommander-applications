@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dkp-insights-management-0.1.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    image:
+      registry: "docker.io"
+      repository: "mesosphere/insights"
+      tag: "v0.1.2"
+      imagePullPolicy: "IfNotPresent"
+    managementCM:
+      insightsTTL: 72h
