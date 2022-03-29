@@ -7,7 +7,8 @@ spec:
   force: false
   prune: true
   wait: true
-  interval: 1m0s
+  interval: 6h
+  retryInterval: 1m
   path: ./services/jaeger/2.29.0/pre-upgrade
   dependsOn:
     - name: istio-helmrelease
@@ -15,7 +16,7 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 60s
+  timeout: 1m
   # passing releaseNamespace to 2nd level configuration files for ability to configure namespace correctly in attached clusters
   # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
   postBuild:
