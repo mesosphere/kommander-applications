@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-0.23.2-d2iq-defaults
+  name: kubecost-0.23.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
