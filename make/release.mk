@@ -1,5 +1,5 @@
 S3_BUCKET ?= "downloads.mesosphere.io"
-S3_PATH ?= "dkp"
+S3_PATH ?= "dkp/$(GIT_TAG)"
 S3_ACL ?= "bucket-owner-full-control"
 
 .PHONY: release
