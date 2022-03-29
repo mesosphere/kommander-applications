@@ -139,3 +139,8 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+
+    gateway:
+      image:
+        # This defaults to 1.19-alpine but overridden here to patch CVEs
+        tag: 1.21.6-alpine
