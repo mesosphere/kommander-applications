@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gitea-4.1.1-d2iq-defaults
+  name: gitea-5.0.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -20,6 +20,11 @@ data:
           - path: /dkp/kommander/git
             pathType: ImplementationSpecific
     gitea:
+      additionalConfigFromEnvs:
+        - name: ENV_TO_INI__SERVER__SSL_MIN_VERSION
+          value: tlsv1.3
+        - name: ENV_TO_INI__SERVER__SSL_MAX_VERSION
+          value: tlsv1.3
       admin:
         existingSecret: ${adminCredentialsSecret}
       config:
@@ -33,7 +38,8 @@ data:
           REQUIRE_SIGNIN_VIEW: false
           DISABLE_REGISTRATION: true
       startupProbe:
-        enabled: true
+        tcpSocket:
+          port: http
         initialDelaySeconds: 60
         timeoutSeconds: 1
         periodSeconds: 10
@@ -52,3 +58,9 @@ data:
       readOnly: true
       mountPath: "/git-tls"
     clusterDomain: cluster.local.
+    memcached:
+      image:
+        tag: 1.6.15-debian-10-r0
+    postgresql:
+      image:
+        tag: 11.15.0-debian-10-r48
