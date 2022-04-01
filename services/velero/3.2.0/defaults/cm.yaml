@@ -9,6 +9,7 @@ data:
   values.yaml: |
     ---
     enableHelmHooks: false # handle helm install --atomic through kubeaddons
+    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
     configuration:
       provider: "aws"
       backupStorageLocation:
