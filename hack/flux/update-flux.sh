@@ -32,6 +32,9 @@ function update_flux() {
     kustomize create --autodetect
     popd && popd
 
+    # Update flux version in defaultApps whenever flux version is upgraded.
+    sed -i "s/kommander-flux: \".*\"/kommander-flux: \"$LATEST_FLUX_VERSION\"/g" services/kommander/*/defaults/cm.yaml
+
     git add .
 
     if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
