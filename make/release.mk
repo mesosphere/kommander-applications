@@ -3,7 +3,7 @@ S3_PATH ?= "dkp/$(GIT_TAG)"
 S3_ACL ?= "bucket-owner-full-control"
 
 .PHONY: release
-release: ARCHIVE_NAME = kommander-applications_$(GIT_TAG).tar.gz
+release: ARCHIVE_NAME = kommander-applications-$(GIT_TAG).tar.gz
 release: install-tool.awscli
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 	                              --prefix kommander-applications/ \
