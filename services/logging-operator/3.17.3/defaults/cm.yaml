@@ -53,6 +53,9 @@ data:
               retry_max_times: 5
             extra_labels:
               log_source: kubernetes_container
+    # This can be removed after this commit is released https://github.com/banzaicloud/logging-operator/commit/d0e86821c2debddf632f5572241918733a2f56b4
+    eventTailer:
+    hostTailer:
     tls:
       enabled: true
     fluentd:
