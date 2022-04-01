@@ -96,6 +96,7 @@ data:
     fluentbit:
       image:
         # Explicitly use the default image. This should be updated when logging-operator is upgraded.
+        # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: fluent/fluent-bit
         tag: 1.8.13
       resources:
