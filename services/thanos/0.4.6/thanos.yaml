@@ -87,7 +87,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: kubectl
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
+          image: bitnami/kubectl:1.19.7
           command:
           - sh
           - "-c"
