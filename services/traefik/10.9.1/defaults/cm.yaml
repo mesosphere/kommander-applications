@@ -65,7 +65,7 @@ data:
           - name: "TRAEFIK_CLUSTER_HOSTNAME_KEY"
             value: "clusterHostname"
         - name: initialize-default-tlsstore
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.21.3}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
           command:
             - bash
           args:

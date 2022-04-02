@@ -21,7 +21,7 @@ spec:
                 name: cleanup-old-certificate
       containers:
         - name: kubectl
-          image: bitnami/kubectl:1.21.3
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
           imagePullPolicy: IfNotPresent
           command: ["sh", "/script/cleanup_old_certificate.sh"]
           volumeMounts:
