@@ -21,6 +21,8 @@ data:
         # addon alert rules are defaulted to false to prevent potential misfires if addons
         # are disabled.
         velero: false
+      hooks:
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
     prometheus:
       ingress:
         enabled: true

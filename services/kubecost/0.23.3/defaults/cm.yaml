@@ -60,3 +60,7 @@ data:
         grafanaURL: "/dkp/kubecost/grafana"
         # used for display in Kubecost UI
         clusterName: "Kommander Managed Cluster"
+
+    hooks:
+      clusterID:
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.5}"
