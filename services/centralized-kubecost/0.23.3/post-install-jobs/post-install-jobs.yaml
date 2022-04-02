@@ -34,6 +34,7 @@ metadata:
   name: copy-kubecost-grafana-datasource-cm
   namespace: kubecost
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: copy-kubecost-grafana-datasource-cm

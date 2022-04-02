@@ -39,6 +39,7 @@ metadata:
   name: delete-minio-operator-deployment
   namespace: ${releaseNamespace}
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: delete-minio-operator-deployment
