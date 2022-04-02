@@ -71,6 +71,7 @@ metadata:
   name: grafana-loki-minio-make-bucket
   namespace: ${releaseNamespace}
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     spec:
       restartPolicy: OnFailure

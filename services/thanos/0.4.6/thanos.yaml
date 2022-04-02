@@ -83,6 +83,7 @@ spec:
     metadata:
       name: create-kommander-thanos-query-stores-configmap
     spec:
+      ttlSecondsAfterFinished: 100
       serviceAccountName: kommander-thanos-configmap-edit
       restartPolicy: OnFailure
       containers:

@@ -42,6 +42,7 @@ metadata:
   name: delete-jaeger-deployment
   namespace: istio-system
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: delete-jaeger-deployment
