@@ -9,6 +9,7 @@ metadata:
   name: cleanup-old-certificate
   namespace: ${releaseNamespace}
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     spec:
       serviceAccountName: cleanup-old-certificate
