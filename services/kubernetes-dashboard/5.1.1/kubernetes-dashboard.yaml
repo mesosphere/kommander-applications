@@ -77,4 +77,4 @@ data:
   name: "Kubernetes"
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/home/"
-  version: "5.1.1"
+  version: "2.4.0"
