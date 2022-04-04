@@ -38,8 +38,8 @@ data:
   name: "Grafana"
   dashboardLink: "/dkp/kommander/monitoring/grafana"
   docsLink: "https://grafana.com/docs/"
-  # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart running at:
-  # https://github.com/prometheus-community/helm-charts/blob/kube-prometheus-stack-33.0.0/charts/kube-prometheus-stack/Chart.yaml#L52
-  # Then, find the Grafana app version in the Grafana chart:
-  # https://github.com/grafana/helm-charts/blob/grafana-6.21.2/charts/grafana/values.yaml#L76
+  # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart dependency at:
+  # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
+  # Then, find the Grafana app version:
+  # https://artifacthub.io/packages/helm/grafana/grafana/6.22.0
   version: "8.3.6"

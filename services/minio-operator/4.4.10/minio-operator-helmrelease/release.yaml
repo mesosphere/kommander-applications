@@ -38,4 +38,5 @@ data:
   # See https://github.com/minio/console/issues/853.
   #dashboardLink: "/dkp/logging/minio-operator"
   docsLink: "https://docs.min.io/minio/k8s/"
+  # App version should match chart version
   version: "4.4.10"

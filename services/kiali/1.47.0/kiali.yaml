@@ -42,6 +42,7 @@ data:
   name: "Kiali"
   dashboardLink: "/dkp/kiali"
   docsLink: "https://istio.io/docs/tasks/telemetry/kiali/"
+  # Chart version matches app version
   version: "1.47.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
