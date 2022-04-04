@@ -79,6 +79,7 @@ metadata:
   name: create-kommander-thanos-query-stores-configmap
   namespace: ${releaseNamespace}
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: create-kommander-thanos-query-stores-configmap

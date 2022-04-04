@@ -66,6 +66,7 @@ metadata:
   name: create-kubecost-thanos-query-stores-configmap
   namespace: kubecost
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: create-kubecost-thanos-query-stores-configmap
