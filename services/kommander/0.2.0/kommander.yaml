@@ -24,6 +24,7 @@ spec:
   # the chance of the installation not timing out.
   timeout: 10m
   install:
+    crds: CreateReplace
     remediation:
       # The Kommander chart cannot be uninstalled in its current form. That's
       # a known issue and trying to remediate an installation failure by
@@ -31,6 +32,7 @@ spec:
       # begin with.
       retries: 0
   upgrade:
+    crds: CreateReplace
     remediation:
       # Rolling back an upgrade will very like not work and is untested so
       # let's disable any remediation.
