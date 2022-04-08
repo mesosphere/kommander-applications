@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: stakater-github-io-stakater-charts
         namespace: kommander-flux
-      version: v0.0.104
+      version: v0.0.110
   interval: 15s
   install:
     remediation:
@@ -21,5 +21,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: reloader-0.0.104-d2iq-defaults
+      name: reloader-0.0.110-d2iq-defaults
   targetNamespace: ${releaseNamespace}
