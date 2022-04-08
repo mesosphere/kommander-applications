@@ -11,7 +11,7 @@ metadata:
     prometheus.io/port: "9000"
     prometheus.io/scrape: "true"
 spec:
-  image: minio/minio:RELEASE.2022-02-24T22-12-01Z
+  image: minio/minio:RELEASE.2022-04-01T03-41-39Z
   pools:
     - servers: 4
       volumesPerServer: 1
@@ -84,7 +84,7 @@ spec:
                 name: grafana-loki-minio
       containers:
       - name: minio-mc
-        image: minio/mc:RELEASE.2020-11-25T23-04-07Z
+        image: minio/mc:RELEASE.2022-04-07T21-43-27Z
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "/config/create_bucket.sh"]
         env:
