@@ -60,7 +60,7 @@ data:
             value: ${certificateIssuerKind:=Issuer}
           - name: "TRAEFIK_INGRESS_CERTIFICATE_SECRET_NAME"
             value: "kommander-traefik-certificate"
-          - name: "TRAEFIK_KOMMANDER_CONFIG_MAP"
+          - name: "TRAEFIK_KONVOY_ADDONS_CONFIG_MAP"
             value: "konvoyconfig-kubeaddons"
           - name: "TRAEFIK_CLUSTER_HOSTNAME_KEY"
             value: "clusterHostname"
