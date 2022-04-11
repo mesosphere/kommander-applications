@@ -19,7 +19,7 @@ endif
 repo.dev.tag: ## Returns development tag
 repo.dev.tag: install-tool.go.svu
 ifeq ($(GIT_CURRENT_BRANCH),main)
-	svu minor --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],}' --suffix dev
+	svu minor --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],[0-9]-rc.*,-rc.*,}' --suffix dev --tag-mode=all-branches --no-metadata
 else
-	svu patch --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],}' --suffix dev
+	svu patch --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],[0-9]-rc.*,-rc.*,}' --suffix dev --no-metadata
 endif
