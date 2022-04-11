@@ -87,7 +87,7 @@ data:
     attached:
       prerequisites:
         defaultApps:
-          reloader: "0.0.104"
+          reloader: "0.0.110"
           traefik: "10.9.1"
           kubernetes-dashboard: "5.1.1"
           kubecost: "0.23.3"
