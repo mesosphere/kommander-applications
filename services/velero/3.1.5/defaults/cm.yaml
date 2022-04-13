@@ -56,6 +56,12 @@ data:
             name: plugins
     minioBackend: true
     minio:
+      image:
+        repository: minio/minio
+        tag: RELEASE.2022-04-01T03-41-39Z
+      mcImage:
+        repository: minio/mc
+        tag: RELEASE.2022-04-07T21-43-27Z
       mode: distributed
       defaultBucket:
         enabled: true
