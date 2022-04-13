@@ -30,3 +30,7 @@ data:
       service:
         labels:
           servicemonitor.kommander.mesosphere.io/path: metrics
+      postInstallJob:
+        repository: bitnami
+        image: kubectl
+        tag: 1.23.5
