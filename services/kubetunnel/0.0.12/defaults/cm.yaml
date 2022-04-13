@@ -12,3 +12,7 @@ data:
     issuer:
       name: tunnel
       selfSigned: true
+    hooks:
+      kubectlImage:
+        repository: "${kubetoolsImageRepository:=bitnami/kubectl}"
+        tag: "${kubetoolsImageTag:=1.23.5}"
