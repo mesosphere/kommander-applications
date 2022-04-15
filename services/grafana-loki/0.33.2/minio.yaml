@@ -27,10 +27,10 @@ spec:
       resources:
         limits:
           cpu: 750m
-          memory: 512Mi
+          memory: 768Mi
         requests:
           cpu: 250m
-          memory: 256Mi
+          memory: 384Mi
 
   credsSecret:
     name: grafana-loki-minio
