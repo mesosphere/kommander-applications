@@ -27,10 +27,10 @@ spec:
       resources:
         limits:
           cpu: 750m
-          memory: 512Mi
+          memory: 768Mi
         requests:
           cpu: 250m
-          memory: 256Mi
+          memory: 384Mi
 
   credsSecret:
     name: grafana-loki-minio
@@ -64,77 +64,3 @@ data:
   accesskey: bWluaW8=
   ## Secret Key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
   secretkey: bWluaW8xMjM=
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: grafana-loki-minio-make-bucket
-  namespace: ${releaseNamespace}
-spec:
-  template:
-    spec:
-      restartPolicy: OnFailure
-      volumes:
-        - name: config
-          projected:
-            sources:
-            - configMap:
-                name: grafana-loki-minio
-            - secret:
-                name: grafana-loki-minio
-      containers:
-      - name: minio-mc
-        image: minio/mc:RELEASE.2022-04-07T21-43-27Z
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "/config/create_bucket.sh"]
-        env:
-          - name: MINIO_URL
-            value: http://grafana-loki-minio-hl.${releaseNamespace}.svc.cluster.local:9000
-          - name: BUCKET
-            value: loki
-        volumeMounts:
-          - name: config
-            mountPath: /config
-        resources:
-          requests:
-            memory: 128Mi
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: grafana-loki-minio
-  namespace: ${releaseNamespace}
-data:
-  create_bucket.sh: |-
-    #!/bin/sh
-
-    set -o errexit
-    set -o nounset
-    set -o pipefail
-
-    MC="/usr/bin/mc --insecure"
-
-    ACCESS_KEY=$(cat /config/accesskey)
-    SECRET_KEY=$(cat /config/secretkey)
-
-    # Add minio server to mc config
-    status=1
-    max_tries=60
-    tries=0
-    echo "Trying up to $max_tries times to connect to $MINIO_URL."
-    while [ "$status" != "0" ] ; do
-      tries=$(expr $tries + 1)
-      if [ "$tries" -gt "$max_tries" ] ; then
-        echo "Failed to connect. Giving up and exiting."
-        exit 1
-      fi
-      sleep 1
-
-      echo "$tries"
-      set +o errexit  # Don't exit script if try fails.
-      $MC config host add minio $MINIO_URL $ACCESS_KEY $SECRET_KEY
-      status=$?
-      set -o errexit  # Resume exiting script on error.
-    done
-
-    $MC mb --ignore-existing minio/$BUCKET

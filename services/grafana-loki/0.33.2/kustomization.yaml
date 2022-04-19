@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - grafana-loki.yaml
   - minio.yaml
+  - jobs.yaml
