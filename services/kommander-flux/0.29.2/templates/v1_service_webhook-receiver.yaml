@@ -4,16 +4,16 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.28.5
+    app.kubernetes.io/version: v0.29.2
     control-plane: controller
-  name: source-controller
+  name: webhook-receiver
   namespace: kommander-flux
 spec:
   ports:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: http
+    targetPort: http-webhook
   selector:
-    app: source-controller
+    app: notification-controller
   type: ClusterIP
