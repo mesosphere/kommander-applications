@@ -9,3 +9,4 @@ release: install-tool.awscli
 	                              $(GIT_TAG) -- \
 	                              common services
 	aws s3 cp --acl $(S3_ACL) $(ARCHIVE_NAME) s3://$(S3_BUCKET)/$(S3_PATH)/
+	echo "Published to https://downloads.d2iq.com/$(S3_PATH)/$(ARCHIVE_NAME)"
