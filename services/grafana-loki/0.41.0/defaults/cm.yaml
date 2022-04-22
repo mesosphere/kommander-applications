@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-loki-0.33.1-d2iq-defaults
+  name: grafana-loki-0.41.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
