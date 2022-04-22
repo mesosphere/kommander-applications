@@ -3,13 +3,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiali-1.47.0-d2iq-defaults
+  name: kiali-1.49.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     image:
       repo: quay.io/kiali/kiali-operator
-      tag: v1.47.0
+      tag: v1.49.0
 
     cr:
       create: true
