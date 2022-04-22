@@ -31,6 +31,8 @@ data:
         - name: tls
           secret:
             secretName: chartmuseum-tls
+      annotations:
+        secret.reloader.stakater.com/reload: chartmuseum-tls
     extraArgs:
       - --tls-cert=/tls/tls.crt
       - --tls-key=/tls/tls.key
