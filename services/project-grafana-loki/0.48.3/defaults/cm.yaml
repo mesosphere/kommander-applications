@@ -133,3 +133,9 @@ data:
 
     ruler:
       enabled: false
+
+    gateway:
+      image:
+        # Check to see if this image is bumped when we upgrade the chart.
+        # This image override fixes the following critical CVEs: CVE-2021-22945, CVE-2021-36159, and CVE-2021-3711
+        tag: 1.21.6-alpine
