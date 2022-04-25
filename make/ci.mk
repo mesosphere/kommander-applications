@@ -36,6 +36,7 @@ ci.docker.run: ci.docker.ensure ; $(info $(M) Runs the build in the CI Docker im
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v /etc/docker/certs.d:/etc/docker/certs.d \
 		$(if $(GORELEASER_DEBUG),-e GORELEASER_DEBUG=$(GORELEASER_DEBUG)) \
+		$(if $(SLACK_WEBHOOK),-e SLACK_WEBHOOK=$(SLACK_WEBHOOK)) \
 		$(if $(DOCKER_USERNAME),-e DOCKER_USERNAME=$(DOCKER_USERNAME)) \
 		$(if $(DOCKER_PASSWORD),-e DOCKER_PASSWORD=$(DOCKER_PASSWORD)) \
 		$(if $(AWS_ACCESS_KEY_ID),-e AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)) \
