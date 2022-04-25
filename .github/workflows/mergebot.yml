@@ -31,6 +31,7 @@ jobs:
         with:
           repository: mesosphere/mergebot
           path: mergebot_code/mergebot
+          ref: sn/kommander-cli-test
           persist-credentials: false
           token: ${{ secrets.MERGEBOT_TOKEN }}
       - uses: actions/setup-python@v2
