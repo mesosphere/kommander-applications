@@ -30,6 +30,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: mesosphere/mergebot
+          ref: sn/kommander-cli-test
           path: mergebot_code/mergebot
           persist-credentials: false
           token: ${{ secrets.MERGEBOT_TOKEN }}
