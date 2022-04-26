@@ -4,7 +4,7 @@ S3_ACL ?= "bucket-owner-full-control"
 
 .PHONY: release
 release: ARCHIVE_NAME = kommander-applications-$(GIT_TAG).tar.gz
-release: PUBLISHED_URL = https://downloads.d2iq.com/dkp/$(GIT_TAG)/kommander-applications-$(GIT_TAG).tar.gz
+release: PUBLISHED_URL = https://downloads.d2iq.com/dkp/$(GIT_TAG)/$(ARCHIVE_NAME)
 release: install-tool.awscli
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 	                              $(GIT_TAG) -- \
