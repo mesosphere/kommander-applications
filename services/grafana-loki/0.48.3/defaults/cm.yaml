@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-loki-0.33.1-d2iq-defaults
+  name: grafana-loki-0.48.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -47,6 +47,7 @@ data:
           reject_old_samples: true
           reject_old_samples_max_age: 168h
           max_cache_freshness_per_query: 10m
+          split_queries_by_interval: 15m
         schema_config:
           configs:
             - from: 2020-09-07
@@ -74,7 +75,6 @@ data:
         query_range:
           align_queries_with_step: true
           max_retries: 5
-          split_queries_by_interval: 15m
           cache_results: true
           results_cache:
             cache:
@@ -142,6 +142,6 @@ data:
 
     gateway:
       image:
-        # Check to see if this image is bumped when we upgrade from 0.33.2 to a later version
+        # Check to see if this image is bumped when we upgrade the chart.
         # This image override fixes the following critical CVEs: CVE-2021-22945, CVE-2021-36159, and CVE-2021-3711
         tag: 1.21.6-alpine

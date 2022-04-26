@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: "0.33.1"
+      version: "0.48.3"
   interval: 15s
   install:
     remediation:
@@ -23,4 +23,4 @@ spec:
   releaseName: grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-loki-0.33.1-d2iq-defaults
+      name: grafana-loki-0.48.3-d2iq-defaults
