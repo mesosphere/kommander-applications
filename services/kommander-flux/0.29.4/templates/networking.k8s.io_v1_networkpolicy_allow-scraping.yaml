@@ -4,16 +4,16 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.29.3
-  name: allow-egress
+    app.kubernetes.io/version: v0.29.4
+  name: allow-scraping
   namespace: kommander-flux
 spec:
-  egress:
-  - {}
   ingress:
   - from:
-    - podSelector: {}
+    - namespaceSelector: {}
+    ports:
+    - port: 8080
+      protocol: TCP
   podSelector: {}
   policyTypes:
   - Ingress
-  - Egress
