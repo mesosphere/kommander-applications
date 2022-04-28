@@ -4,9 +4,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.29.4
+    app.kubernetes.io/version: v0.29.5
     control-plane: controller
-  name: source-controller
+  name: notification-controller
   namespace: kommander-flux
 spec:
   ports:
@@ -15,5 +15,5 @@ spec:
     protocol: TCP
     targetPort: http
   selector:
-    app: source-controller
+    app: notification-controller
   type: ClusterIP
