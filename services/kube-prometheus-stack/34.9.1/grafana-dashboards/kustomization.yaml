@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+configMapGenerator:
+  - name: grafana-dashboards-core-components
+    namespace: ${releaseNamespace}
+    files:
+      - calico.json
+      - flux-control-plane.json
+      - flux-cluster-stats.json
+      - grafana.json
+generatorOptions:
+  labels:
+    grafana_dashboard: "1"
