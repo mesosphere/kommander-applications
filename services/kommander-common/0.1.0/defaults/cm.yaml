@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-common-0.1.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: ~

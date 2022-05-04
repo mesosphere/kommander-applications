@@ -10,6 +10,8 @@ spec:
       # NOTE: The `kubefed` app is not installing the HelmRelease directly.
       # That's how its HelmRelease name is simply `kubefed`
       name: kubefed
+    - namespace: ${releaseNamespace}
+      name: kommander-common
   chart:
     spec:
       chart: kommander
