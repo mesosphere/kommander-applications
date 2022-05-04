@@ -51,3 +51,4 @@ jobs:
           JIRA_USERNAME: ${{secrets.JIRA_USERNAME}}
           JIRA_PASSWORD: ${{secrets.JIRA_PASSWORD}}
         run: export EVENT=$(cat ${{github.event_path}}); export MERGEBOT_CONFIG=$(cat mergebot-config.json); cd mergebot_code; cd mergebot; python __main__.py
+
