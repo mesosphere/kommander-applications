@@ -33,7 +33,7 @@ spec:
           memory: 384Mi
 
   credsSecret:
-    name: project-grafana-loki-minio-root
+    name: project-grafana-loki-minio
 
   users:
     - name: project-grafana-loki-minio-user
@@ -59,7 +59,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: project-grafana-loki-minio-root
+  name: project-grafana-loki-minio
   namespace: ${releaseNamespace}
 type: Opaque
 data:
