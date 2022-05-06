@@ -28,6 +28,11 @@ data:
           image:
             tag: ${kommanderControllerManagerImageTag}
             repository: ${kommanderControllerManagerImageRepository}
+          extraArgs:
+            git-credentials-secret-namespace: ${kommanderFluxNamespace}
+            git-credentials-secret-name: ${kommanderGitCredentialsSecretName}
+            age-encryption-secret-name: ${ageEncryptionSecretName}
+            age-encryption-secret-key: ${ageEncryptionSecretKey}
     webhook:
       image:
         tag: ${kommanderControllerWebhookImageTag}
