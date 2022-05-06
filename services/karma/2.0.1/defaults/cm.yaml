@@ -20,6 +20,7 @@ data:
     deployment:
       annotations:
         configmap.reloader.stakater.com/reload: karma-config
+        secret.reloader.stakater.com/reload: kommander-karma-client-tls
 
     ingress:
       enabled: true
