@@ -66,11 +66,7 @@ data:
         centralized-kubecost: "0.23.3"
         kubecost: "0.23.3"
         kubecost-thanos-traefik: "0.0.1"
-<<<<<<< HEAD:services/kommander/0.2.1/defaults/cm.yaml
-        centralized-grafana: "33.1.5"
-=======
         centralized-grafana: "34.9.1"
->>>>>>> 20e3e9c... fix: bump KPS chart based Apps:services/kommander/0.3.0/defaults/cm.yaml
         karma: "2.0.1"
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
@@ -95,11 +91,7 @@ data:
           traefik: "10.9.1"
           kubernetes-dashboard: "5.1.1"
           kubecost: "0.23.3"
-<<<<<<< HEAD:services/kommander/0.2.1/defaults/cm.yaml
-          kube-prometheus-stack: "33.1.5"
-=======
           kube-prometheus-stack: "34.9.1"
->>>>>>> 20e3e9c... fix: bump KPS chart based Apps:services/kommander/0.3.0/defaults/cm.yaml
           prometheus-adapter: "2.17.1"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
