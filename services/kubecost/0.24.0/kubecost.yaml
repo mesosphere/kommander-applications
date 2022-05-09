@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: "0.23.3"
+      version: "0.24.0"
   interval: 15s
   install:
     remediation:
@@ -27,7 +27,7 @@ spec:
   releaseName: kubecost
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-0.23.3-d2iq-defaults
+      name: kubecost-0.24.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
@@ -42,7 +42,7 @@ data:
   dashboardLink: "/dkp/kubecost/frontend/overview.html"
   docsLink: "http://docs.kubecost.com/"
   # From: https://github.com/mesosphere/charts/blob/master/stable/kubecost/Chart.yaml#L2
-  version: "1.91.2"
+  version: "1.92.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
