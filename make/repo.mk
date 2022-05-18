@@ -17,9 +17,10 @@ endif
 
 .PHONY: repo.dev.tag
 repo.dev.tag: ## Returns development tag
-repo.dev.tag:
-ifneq (,$(findstring -next,$(GIT_TAG)))
-	echo "$(GIT_TAG)"
+repo.dev.tag: install-tool.go.svu
+ifeq ($(GIT_CURRENT_BRANCH),main)
+	git fetch --tags
+	svu minor --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],}' --suffix dev --tag-mode=all-branches --no-metadata
 else
-	echo "$(addsuffix "-next",$(GIT_TAG))"
+	svu patch --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],}' --suffix dev --no-metadata
 endif
