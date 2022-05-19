@@ -11,11 +11,7 @@ metadata:
     prometheus.io/port: "9000"
     prometheus.io/scrape: "true"
 spec:
-<<<<<<< HEAD:services/grafana-loki/0.33.2/minio.yaml
-  image: minio/minio:RELEASE.2022-02-24T22-12-01Z
-=======
   image: quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z
->>>>>>> 32abca9... fix: Update Loki tenant to support minio-operator upgrade:services/grafana-loki/0.48.3/minio.yaml
   pools:
     - servers: 4
       volumesPerServer: 1
