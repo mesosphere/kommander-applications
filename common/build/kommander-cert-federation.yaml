@@ -1,0 +1,16 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ${notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle}
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kommander-cert-federation
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: "0.0.2"
+  interval: 15s
