@@ -1,3 +1,13 @@
+# This HelmRelease is added here to so that Kommander CLI will have something to reference when building
+# a chart bundle to be uploaded to chart musuem.
+# When a user runs `dkp create chart-bundle` and points to `kommander-applications` repository, CLI looks at all
+# yaml files with `HelmRelease` in them to check which charts needs to be downloaded for the repository.
+#
+# After moving the chart from kommander repository to mesosphere/charts repository, we needed a way to be able to download
+# a chart without having to create a new ClusterApp in `services` directory. Hence, this file is populated here
+# solely for the purposes of
+#  1) CI tooling to build a complete airgapped bundle and 2)
+#  2) Ensure cert federation chart is downloaded when a user runs `dkp create chart-bundle`.
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
