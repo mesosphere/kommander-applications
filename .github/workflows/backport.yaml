@@ -16,6 +16,10 @@ jobs:
         || (github.event.action == 'closed')
       )
     steps:
+      - name: Set a username
+        run: git config --global user.name d2iq-mergebot
+      - name: Set an email
+        run: git config --global user.email ci-mergebot@d2iq.com
       - name: Backport Action
         uses: sqren/backport-github-action@v8.4.2
         with:
