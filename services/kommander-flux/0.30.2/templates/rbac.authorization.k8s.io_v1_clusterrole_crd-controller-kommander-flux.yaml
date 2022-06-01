@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.29.5
+    app.kubernetes.io/version: v0.30.2
   name: crd-controller-kommander-flux
 rules:
 - apiGroups:
@@ -42,6 +42,8 @@ rules:
   resources:
   - namespaces
   - secrets
+  - configmaps
+  - serviceaccounts
   verbs:
   - get
   - list
@@ -57,7 +59,6 @@ rules:
   - ""
   resources:
   - configmaps
-  - configmaps/status
   verbs:
   - get
   - list
@@ -66,6 +67,14 @@ rules:
   - update
   - patch
   - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps/status
+  verbs:
+  - get
+  - update
+  - patch
 - apiGroups:
   - coordination.k8s.io
   resources:
