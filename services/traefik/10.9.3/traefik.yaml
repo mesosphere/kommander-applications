@@ -24,7 +24,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-10.9.1-d2iq-defaults
+      name: traefik-10.9.3-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
