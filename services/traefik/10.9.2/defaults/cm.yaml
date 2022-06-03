@@ -38,33 +38,8 @@ data:
         podLabels:
           kommander.mesosphere.io/name: traefik
           app: traefik
-        annotations:
-          # Watching this CM will trigger traefik init container that updates certificate
-          # object with new DNS names. That will cascade secret update which will trigger
-          # another reload.
-          secret.reloader.stakater.com/reload: kommander-traefik-certificate
         initContainers:
-        - name: initialize-traefik-certificate
-          image: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.5.5}"
-          args: ["traefik"]
-          env:
-          - name: "TRAEFIK_INGRESS_NAMESPACE"
-            value: "${releaseNamespace}"
-          - name: "TRAEFIK_INGRESS_SERVICE_NAME"
-            value: "kommander-traefik"
-          - name: "TRAEFIK_INGRESS_CERTIFICATE_NAME"
-            value: "kommander-traefik"
-          - name: "TRAEFIK_INGRESS_CERTIFICATE_ISSUER"
-            value: ${certificateIssuerName}
-          - name: "TRAEFIK_INGRESS_CERTIFICATE_ISSUER_TYPE"
-            value: ${certificateIssuerKind:=Issuer}
-          - name: "TRAEFIK_INGRESS_CERTIFICATE_SECRET_NAME"
-            value: "kommander-traefik-certificate"
-          - name: "TRAEFIK_KONVOY_ADDONS_CONFIG_MAP"
-            value: "konvoyconfig-kubeaddons"
-          - name: "TRAEFIK_CLUSTER_HOSTNAME_KEY"
-            value: "clusterHostname"
-        - name: initialize-default-tlsstore
+        - name: initialize-middleware
           image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.23.6}"
           command:
             - bash
@@ -72,21 +47,6 @@ data:
             - -c
             - |
               cat << EOF | kubectl -n ${releaseNamespace} apply -f -
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: TLSStore
-              metadata:
-                name: default
-                namespace: ${releaseNamespace}
-              spec:
-                defaultCertificate:
-                  secretName: kommander-traefik-certificate
-              ####
-              #
-              # TODO: Need a better strategy for creating this for charts that can't create them natively
-              #       Will address in https://jira.d2iq.com/browse/D2IQ-75671
-              #
-              ####
-              ---
               apiVersion: traefik.containo.us/v1alpha1
               kind: Middleware
               metadata:
