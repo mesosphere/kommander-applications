@@ -8,6 +8,8 @@ metadata:
 data:
   values.yaml: |
     ---
+    image:
+      tag: v0.26.0
     store:
       enabled: false
     compact:
