@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-k8s-authenticator-1.2.9-d2iq-defaults
+  name: dex-k8s-authenticator-1.2.10-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -13,7 +13,7 @@ data:
       caSecretName: kommander-traefik-certificate
     image:
       repository: mesosphere/dex-k8s-authenticator
-      tag: v1.2.3-d2iq
+      tag: v1.2.4-d2iq
     ingress:
       enabled: true
       annotations:
