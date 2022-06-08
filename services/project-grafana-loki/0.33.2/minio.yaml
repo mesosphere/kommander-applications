@@ -11,11 +11,7 @@ metadata:
     prometheus.io/port: "9000"
     prometheus.io/scrape: "true"
 spec:
-<<<<<<< HEAD:services/project-grafana-loki/0.33.2/minio.yaml
-  image: minio/minio:RELEASE.2022-02-24T22-12-01Z
-=======
   image: quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z
->>>>>>> 787fc56... fix: Sync project loki's minio with workspace loki's minio:services/project-grafana-loki/0.48.3/minio.yaml
   pools:
     # We define multiple pools in order to add storage while supporting existing clusters. Server pools can't
     # be expanded, so cluster storage can only be expanded by adding new pools.
