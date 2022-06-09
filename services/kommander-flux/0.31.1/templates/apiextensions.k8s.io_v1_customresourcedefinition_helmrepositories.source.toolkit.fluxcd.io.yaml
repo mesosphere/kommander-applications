@@ -7,17 +7,17 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.30.2
-  name: gitrepositories.source.toolkit.fluxcd.io
+    app.kubernetes.io/version: v0.31.1
+  name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
   names:
-    kind: GitRepository
-    listKind: GitRepositoryList
-    plural: gitrepositories
+    kind: HelmRepository
+    listKind: HelmRepositoryList
+    plural: helmrepositories
     shortNames:
-    - gitrepo
-    singular: gitrepository
+    - helmrepo
+    singular: helmrepository
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -36,7 +36,7 @@ spec:
     name: v1beta1
     schema:
       openAPIV3Schema:
-        description: GitRepository is the Schema for the gitrepositories API
+        description: HelmRepository is the Schema for the helmrepositories API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: GitRepositorySpec defines the desired state of a Git repository.
+            description: HelmRepositorySpec defines the reference to a Helm repository.
             properties:
               accessFrom:
                 description: AccessFrom defines an Access Control List for allowing
@@ -80,79 +80,22 @@ spec:
                 required:
                 - namespaceSelectors
                 type: object
-              gitImplementation:
-                default: go-git
-                description: Determines which git client library to use. Defaults
-                  to go-git, valid values are ('go-git', 'libgit2').
-                enum:
-                - go-git
-                - libgit2
-                type: string
-              ignore:
-                description: Ignore overrides the set of excluded patterns in the
-                  .sourceignore format (which is the same as .gitignore). If not provided,
-                  a default will be used, consult the documentation for your version
-                  to find out what those are.
-                type: string
-              include:
-                description: Extra git repositories to map into the repository
-                items:
-                  description: GitRepositoryInclude defines a source with a from and
-                    to path.
-                  properties:
-                    fromPath:
-                      description: The path to copy contents from, defaults to the
-                        root directory.
-                      type: string
-                    repository:
-                      description: Reference to a GitRepository to include.
-                      properties:
-                        name:
-                          description: Name of the referent.
-                          type: string
-                      required:
-                      - name
-                      type: object
-                    toPath:
-                      description: The path to copy contents to, defaults to the name
-                        of the source ref.
-                      type: string
-                  required:
-                  - repository
-                  type: object
-                type: array
               interval:
-                description: The interval at which to check for repository updates.
+                description: The interval at which to check the upstream for updates.
                 type: string
-              recurseSubmodules:
-                description: When enabled, after the clone is created, initializes
-                  all submodules within, using their default settings. This option
-                  is available only when using the 'go-git' GitImplementation.
+              passCredentials:
+                description: PassCredentials allows the credentials from the SecretRef
+                  to be passed on to a host that does not match the host as defined
+                  in URL. This may be required if the host of the advertised chart
+                  URLs in the index differ from the defined URL. Enabling this should
+                  be done with caution, as it can potentially result in credentials
+                  getting stolen in a MITM-attack.
                 type: boolean
-              ref:
-                description: The Git reference to checkout and monitor for changes,
-                  defaults to master branch.
-                properties:
-                  branch:
-                    description: The Git branch to checkout, defaults to master.
-                    type: string
-                  commit:
-                    description: The Git commit SHA to checkout, if specified Tag
-                      filters will be ignored.
-                    type: string
-                  semver:
-                    description: The Git tag semver expression, takes precedence over
-                      Tag.
-                    type: string
-                  tag:
-                    description: The Git tag to checkout, takes precedence over Branch.
-                    type: string
-                type: object
               secretRef:
-                description: The secret name containing the Git credentials. For HTTPS
-                  repositories the secret must contain username and password fields.
-                  For SSH repositories the secret must contain identity and known_hosts
-                  fields.
+                description: The name of the secret containing authentication credentials
+                  for the Helm repository. For HTTP/S basic auth the secret must contain
+                  username and password fields. For TLS the secret must contain a
+                  certFile and keyFile, and/or caCert fields.
                 properties:
                   name:
                     description: Name of the referent.
@@ -166,36 +109,12 @@ spec:
                 type: boolean
               timeout:
                 default: 60s
-                description: The timeout for remote Git operations like cloning, defaults
-                  to 60s.
+                description: The timeout of index downloading, defaults to 60s.
                 type: string
               url:
-                description: The repository URL, can be a HTTP/S or SSH address.
-                pattern: ^(http|https|ssh)://
+                description: The Helm repository URL, a valid URL contains at least
+                  a protocol and host.
                 type: string
-              verify:
-                description: Verify OpenPGP signature for the Git commit HEAD points
-                  to.
-                properties:
-                  mode:
-                    description: Mode describes what git object should be verified,
-                      currently ('head').
-                    enum:
-                    - head
-                    type: string
-                  secretRef:
-                    description: The secret name containing the public keys of all
-                      trusted Git authors.
-                    properties:
-                      name:
-                        description: Name of the referent.
-                        type: string
-                    required:
-                    - name
-                    type: object
-                required:
-                - mode
-                type: object
             required:
             - interval
             - url
@@ -203,7 +122,7 @@ spec:
           status:
             default:
               observedGeneration: -1
-            description: GitRepositoryStatus defines the observed state of a Git repository.
+            description: HelmRepositoryStatus defines the observed state of the HelmRepository.
             properties:
               artifact:
                 description: Artifact represents the output of the last successful
@@ -233,7 +152,7 @@ spec:
                 - url
                 type: object
               conditions:
-                description: Conditions holds the conditions for the GitRepository.
+                description: Conditions holds the conditions for the HelmRepository.
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
@@ -302,36 +221,6 @@ spec:
                   - type
                   type: object
                 type: array
-              includedArtifacts:
-                description: IncludedArtifacts represents the included artifacts from
-                  the last successful repository sync.
-                items:
-                  description: Artifact represents the output of a source synchronisation.
-                  properties:
-                    checksum:
-                      description: Checksum is the SHA256 checksum of the artifact.
-                      type: string
-                    lastUpdateTime:
-                      description: LastUpdateTime is the timestamp corresponding to
-                        the last update of this artifact.
-                      format: date-time
-                      type: string
-                    path:
-                      description: Path is the relative file path of this artifact.
-                      type: string
-                    revision:
-                      description: Revision is a human readable identifier traceable
-                        in the origin source system. It can be a Git commit SHA, Git
-                        tag, a Helm index timestamp, a Helm chart version, etc.
-                      type: string
-                    url:
-                      description: URL is the HTTP address of this artifact.
-                      type: string
-                  required:
-                  - path
-                  - url
-                  type: object
-                type: array
               lastHandledReconcileAt:
                 description: LastHandledReconcileAt holds the value of the most recent
                   reconcile request value, so a change of the annotation value can
@@ -342,8 +231,7 @@ spec:
                 format: int64
                 type: integer
               url:
-                description: URL is the download link for the artifact output of the
-                  last repository sync.
+                description: URL is the download link for the last index fetched.
                 type: string
             type: object
         type: object
@@ -367,7 +255,7 @@ spec:
     name: v1beta2
     schema:
       openAPIV3Schema:
-        description: GitRepository is the Schema for the gitrepositories API.
+        description: HelmRepository is the Schema for the helmrepositories API.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -382,8 +270,8 @@ spec:
           metadata:
             type: object
           spec:
-            description: GitRepositorySpec specifies the required configuration to
-              produce an Artifact for a Git repository.
+            description: HelmRepositorySpec specifies the required configuration to
+              produce an Artifact for a Helm repository index YAML.
             properties:
               accessFrom:
                 description: 'AccessFrom specifies an Access Control List for allowing
@@ -413,89 +301,22 @@ spec:
                 required:
                 - namespaceSelectors
                 type: object
-              gitImplementation:
-                default: go-git
-                description: GitImplementation specifies which Git client library
-                  implementation to use. Defaults to 'go-git', valid values are ('go-git',
-                  'libgit2').
-                enum:
-                - go-git
-                - libgit2
-                type: string
-              ignore:
-                description: Ignore overrides the set of excluded patterns in the
-                  .sourceignore format (which is the same as .gitignore). If not provided,
-                  a default will be used, consult the documentation for your version
-                  to find out what those are.
-                type: string
-              include:
-                description: Include specifies a list of GitRepository resources which
-                  Artifacts should be included in the Artifact produced for this GitRepository.
-                items:
-                  description: GitRepositoryInclude specifies a local reference to
-                    a GitRepository which Artifact (sub-)contents must be included,
-                    and where they should be placed.
-                  properties:
-                    fromPath:
-                      description: FromPath specifies the path to copy contents from,
-                        defaults to the root of the Artifact.
-                      type: string
-                    repository:
-                      description: GitRepositoryRef specifies the GitRepository which
-                        Artifact contents must be included.
-                      properties:
-                        name:
-                          description: Name of the referent.
-                          type: string
-                      required:
-                      - name
-                      type: object
-                    toPath:
-                      description: ToPath specifies the path to copy contents to,
-                        defaults to the name of the GitRepositoryRef.
-                      type: string
-                  required:
-                  - repository
-                  type: object
-                type: array
               interval:
-                description: Interval at which to check the GitRepository for updates.
+                description: Interval at which to check the URL for updates.
                 type: string
-              recurseSubmodules:
-                description: RecurseSubmodules enables the initialization of all submodules
-                  within the GitRepository as cloned from the URL, using their default
-                  settings. This option is available only when using the 'go-git'
-                  GitImplementation.
+              passCredentials:
+                description: PassCredentials allows the credentials from the SecretRef
+                  to be passed on to a host that does not match the host as defined
+                  in URL. This may be required if the host of the advertised chart
+                  URLs in the index differ from the defined URL. Enabling this should
+                  be done with caution, as it can potentially result in credentials
+                  getting stolen in a MITM-attack.
                 type: boolean
-              ref:
-                description: Reference specifies the Git reference to resolve and
-                  monitor for changes, defaults to the 'master' branch.
-                properties:
-                  branch:
-                    description: "Branch to check out, defaults to 'master' if no
-                      other field is defined. \n When GitRepositorySpec.GitImplementation
-                      is set to 'go-git', a shallow clone of the specified branch
-                      is performed."
-                    type: string
-                  commit:
-                    description: "Commit SHA to check out, takes precedence over all
-                      reference fields. \n When GitRepositorySpec.GitImplementation
-                      is set to 'go-git', this can be combined with Branch to shallow
-                      clone the branch, in which the commit is expected to exist."
-                    type: string
-                  semver:
-                    description: SemVer tag expression to check out, takes precedence
-                      over Tag.
-                    type: string
-                  tag:
-                    description: Tag to check out, takes precedence over Branch.
-                    type: string
-                type: object
               secretRef:
                 description: SecretRef specifies the Secret containing authentication
-                  credentials for the GitRepository. For HTTPS repositories the Secret
-                  must contain 'username' and 'password' fields. For SSH repositories
-                  the Secret must contain 'identity' and 'known_hosts' fields.
+                  credentials for the HelmRepository. For HTTP/S basic auth the secret
+                  must contain 'username' and 'password' fields. For TLS the secret
+                  must contain a 'certFile' and 'keyFile', and/or 'caCert' fields.
                 properties:
                   name:
                     description: Name of the referent.
@@ -505,41 +326,23 @@ spec:
                 type: object
               suspend:
                 description: Suspend tells the controller to suspend the reconciliation
-                  of this GitRepository.
+                  of this HelmRepository.
                 type: boolean
               timeout:
                 default: 60s
-                description: Timeout for Git operations like cloning, defaults to
-                  60s.
+                description: Timeout of the index fetch operation, defaults to 60s.
+                type: string
+              type:
+                description: Type of the HelmRepository. When this field is set to  "oci",
+                  the URL field value must be prefixed with "oci://".
+                enum:
+                - default
+                - oci
                 type: string
               url:
-                description: URL specifies the Git repository URL, it can be an HTTP/S
-                  or SSH address.
-                pattern: ^(http|https|ssh)://
+                description: URL of the Helm repository, a valid URL contains at least
+                  a protocol and host.
                 type: string
-              verify:
-                description: Verification specifies the configuration to verify the
-                  Git commit signature(s).
-                properties:
-                  mode:
-                    description: Mode specifies what Git object should be verified,
-                      currently ('head').
-                    enum:
-                    - head
-                    type: string
-                  secretRef:
-                    description: SecretRef specifies the Secret containing the public
-                      keys of trusted Git authors.
-                    properties:
-                      name:
-                        description: Name of the referent.
-                        type: string
-                    required:
-                    - name
-                    type: object
-                required:
-                - mode
-                type: object
             required:
             - interval
             - url
@@ -547,10 +350,10 @@ spec:
           status:
             default:
               observedGeneration: -1
-            description: GitRepositoryStatus records the observed state of a Git repository.
+            description: HelmRepositoryStatus records the observed state of the HelmRepository.
             properties:
               artifact:
-                description: Artifact represents the last successful GitRepository
+                description: Artifact represents the last successful HelmRepository
                   reconciliation.
                 properties:
                   checksum:
@@ -586,7 +389,7 @@ spec:
                 - url
                 type: object
               conditions:
-                description: Conditions holds the conditions for the GitRepository.
+                description: Conditions holds the conditions for the HelmRepository.
                 items:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
@@ -655,47 +458,6 @@ spec:
                   - type
                   type: object
                 type: array
-              includedArtifacts:
-                description: IncludedArtifacts contains a list of the last successfully
-                  included Artifacts as instructed by GitRepositorySpec.Include.
-                items:
-                  description: Artifact represents the output of a Source reconciliation.
-                  properties:
-                    checksum:
-                      description: Checksum is the SHA256 checksum of the Artifact
-                        file.
-                      type: string
-                    lastUpdateTime:
-                      description: LastUpdateTime is the timestamp corresponding to
-                        the last update of the Artifact.
-                      format: date-time
-                      type: string
-                    path:
-                      description: Path is the relative file path of the Artifact.
-                        It can be used to locate the file in the root of the Artifact
-                        storage on the local file system of the controller managing
-                        the Source.
-                      type: string
-                    revision:
-                      description: Revision is a human-readable identifier traceable
-                        in the origin source system. It can be a Git commit SHA, Git
-                        tag, a Helm chart version, etc.
-                      type: string
-                    size:
-                      description: Size is the number of bytes in the file.
-                      format: int64
-                      type: integer
-                    url:
-                      description: URL is the HTTP address of the Artifact as exposed
-                        by the controller managing the Source. It can be used to retrieve
-                        the Artifact for consumption, e.g. by another controller applying
-                        the Artifact contents.
-                      type: string
-                  required:
-                  - path
-                  - url
-                  type: object
-                type: array
               lastHandledReconcileAt:
                 description: LastHandledReconcileAt holds the value of the most recent
                   reconcile request value, so a change of the annotation value can
@@ -703,12 +465,12 @@ spec:
                 type: string
               observedGeneration:
                 description: ObservedGeneration is the last observed generation of
-                  the GitRepository object.
+                  the HelmRepository object.
                 format: int64
                 type: integer
               url:
                 description: URL is the dynamic fetch link for the latest Artifact.
-                  It is provided on a "best effort" basis, and using the precise GitRepositoryStatus.Artifact
+                  It is provided on a "best effort" basis, and using the precise HelmRepositoryStatus.Artifact
                   data is recommended.
                 type: string
             type: object
