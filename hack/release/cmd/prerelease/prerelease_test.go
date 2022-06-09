@@ -59,11 +59,11 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 		assert.Nil(t, err)
 		for _, change := range changes {
 			// Validate that each change is an "update"
-			assert.Equal(t, diff.UPDATE, change.Type)
+			assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
 			// Validate that .spec.chart.spec.version is the only field that changes
-			assert.Equal(t, []string{"Spec", "Chart", "Spec", "Version"}, change.Path)
+			assert.Equal(t, []string{"Spec", "Chart", "Spec", "Version"}, change.Path, "expected .spec.chart.spec.version to be the only field that changed in the Kommander HelmRelease")
 			// Validate that the updated version is what we expect
-			assert.Equal(t, updateToVersion, change.To)
+			assert.Equal(t, updateToVersion, change.To, "expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
 		}
 	}
 }
