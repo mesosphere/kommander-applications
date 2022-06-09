@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.30.2
+    app.kubernetes.io/version: v0.31.0
   name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -331,6 +331,13 @@ spec:
               timeout:
                 default: 60s
                 description: Timeout of the index fetch operation, defaults to 60s.
+                type: string
+              type:
+                description: Type of the HelmRepository. When this field is set to  "oci",
+                  the URL field value must be prefixed with "oci://".
+                enum:
+                - default
+                - oci
                 type: string
               url:
                 description: URL of the Helm repository, a valid URL contains at least
