@@ -1,13 +1,13 @@
 # kommander-applications Release CLI helper tool
 
-This CLI tool is leveraged by `gh-dkp` to manage the release of `kommander-applications`. 
+This CLI tool is leveraged by `gh-dkp` to manage the release of `kommander-applications`.
 
 There are a few tasks that need to happen in this repository both pre and post release.
 
 ## Pre-release
 
-Before releasing a new `kommander-applications` version, the kommander and kommander-appmanagement `HelmReleases` 
-need to be updated with the new Kommander chart version. 
+Before releasing a new `kommander-applications` version, the kommander and kommander-appmanagement `HelmReleases`
+need to be updated with the new Kommander chart version.
 
 This tool is intended to be run using the git ref of each release branch to ensure we are using the correct version of the tool for each release.
 
