@@ -74,6 +74,9 @@ func updateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 
 		// Update the kommanderChartVersion value
 		parsedFile, err := envsubst.ParseFile(helmReleaseFilePath)
+		if err != nil {
+			return err
+		}
 		subVars := map[string]string{
 			"kommanderChartVersion": chartVersion,
 			"releaseNamespace":      "${releaseNamespace}",
@@ -81,6 +84,9 @@ func updateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		updatedFile, err := parsedFile.Execute(func(s string) string {
 			return subVars[s]
 		})
+		if err != nil {
+			return err
+		}
 
 		if !strings.Contains(updatedFile, chartVersion) {
 			return fmt.Errorf("failed to update Kommander HelmRelease chart version")

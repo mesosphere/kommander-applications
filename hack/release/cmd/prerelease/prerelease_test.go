@@ -41,7 +41,10 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 		assert.Nil(t, err)
 
 		beforeFile, err := os.ReadFile(beforeUpdateFiles[0])
+		assert.Nil(t, err)
+
 		afterFile, err := os.ReadFile(afterUpdateFiles[0])
+		assert.Nil(t, err)
 
 		branchHr := v2beta1.HelmRelease{}
 		err = yaml.Unmarshal(beforeFile, &branchHr)
@@ -53,6 +56,7 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 
 		// Get the diff between the HRs
 		changes, err := diff.Diff(branchHr, testHr)
+		assert.Nil(t, err)
 		for _, change := range changes {
 			// Validate that each change is an "update"
 			assert.Equal(t, diff.UPDATE, change.Type)
@@ -79,7 +83,8 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	assert.Equal(t, len(matches), 1)
 
 	// change the Kommander HelmRelease filename
-	os.Rename(matches[0], filepath.Join(filepath.Dir(matches[0]), "test.yaml"))
+	err = os.Rename(matches[0], filepath.Join(filepath.Dir(matches[0]), "test.yaml"))
+	assert.Nil(t, err)
 
 	err = updateChartVersions(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the filename changed")
@@ -101,6 +106,7 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 
 	// Change the chart version to something unexpected that would break the release automation
 	parsedFile, err := envsubst.ParseFile(matches[0])
+	assert.Nil(t, err)
 	subVars := map[string]string{
 		"kommanderChartVersion": "foo",
 		"releaseNamespace":      "${releaseNamespace}",
@@ -108,6 +114,7 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	updatedFile, err := parsedFile.Execute(func(s string) string {
 		return subVars[s]
 	})
+	assert.Nil(t, err)
 
 	err = os.WriteFile(matches[0], []byte(updatedFile), 0644)
 	assert.Nil(t, err)
