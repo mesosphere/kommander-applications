@@ -4,26 +4,25 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v0.31.0
+    app.kubernetes.io/version: v0.31.1
     control-plane: controller
-  name: helm-controller
+  name: notification-controller
   namespace: kommander-flux
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: helm-controller
+      app: notification-controller
   template:
     metadata:
       annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
-        app: helm-controller
+        app: notification-controller
     spec:
       containers:
       - args:
-        - --events-addr=http://notification-controller.kommander-flux.svc.cluster.local./
         - --watch-all-namespaces=true
         - --log-level=info
         - --log-encoding=json
@@ -33,7 +32,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/helm-controller:v0.22.0
+        image: ghcr.io/fluxcd/notification-controller:v0.24.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -41,6 +40,12 @@ spec:
             port: healthz
         name: manager
         ports:
+        - containerPort: 9090
+          name: http
+          protocol: TCP
+        - containerPort: 9292
+          name: http-webhook
+          protocol: TCP
         - containerPort: 8080
           name: http-prom
           protocol: TCP
@@ -74,8 +79,8 @@ spec:
         kubernetes.io/os: linux
       securityContext:
         fsGroup: 1337
-      serviceAccountName: helm-controller
-      terminationGracePeriodSeconds: 600
+      serviceAccountName: notification-controller
+      terminationGracePeriodSeconds: 10
       volumes:
       - emptyDir: {}
         name: temp
