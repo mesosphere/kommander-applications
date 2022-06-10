@@ -1,6 +1,6 @@
 module github.com/mesosphere/kommander-applications/hack/release
 
-go 1.17
+go 1.18
 
 require (
 	github.com/drone/envsubst v1.0.3
