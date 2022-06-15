@@ -32,5 +32,5 @@ spec:
   releaseName: kube-oidc-proxy
   valuesFrom:
     - kind: ConfigMap
-      name: kube-oidc-proxy-0.3.1-d2iq-defaults
+      name: kube-oidc-proxy-0.3.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
