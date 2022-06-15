@@ -15,6 +15,7 @@ data:
       create: true
       namespace: ${releaseNamespace}
       spec:
+        istio_namespace: istio-system
         auth:
           strategy: header
         server:
