@@ -1,7 +1,8 @@
 awscli 2.4.24
-flux2 0.31.0
+flux2 0.31.1
 github-cli 2.5.2
-golang 1.17.7
+golang 1.18.1
 kustomize 4.5.2
 pre-commit 2.17.0
 yq 4.22.1
+golangci-lint 1.46.2

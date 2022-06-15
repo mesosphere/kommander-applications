@@ -1,0 +1,36 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-oidc-proxy
+  namespace: ${releaseNamespace}
+spec:
+  # TODO(mh): The `kube-oidc-proxy` depends on `cert-manager` which is installed
+  # on attached clusters with default AppDeployemnts.
+  # Right now the controller that is creating the `kube-oidc-proxy` AppDeployment
+  # for attached cluster is depending on Traefik being deployed, so this is used
+  # as a sync mechanism. It should be updated in future and add an explicit
+  # dependency.
+  # The dependency is not added yet because it would break default installation
+  # into management cluster ns.
+  # JIRA: https://jira.d2iq.com/browse/D2IQ-78147
+  chart:
+    spec:
+      chart: kube-oidc-proxy
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-staging
+        namespace: kommander-flux
+      version: 0.3.1
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: kube-oidc-proxy
+  valuesFrom:
+    - kind: ConfigMap
+      name: kube-oidc-proxy-0.3.2-d2iq-defaults
+  targetNamespace: ${releaseNamespace}
