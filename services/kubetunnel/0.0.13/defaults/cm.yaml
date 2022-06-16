@@ -15,4 +15,4 @@ data:
     hooks:
       kubectlImage:
         repository: "${kubetoolsImageRepository:=bitnami/kubectl}"
-        tag: "${kubetoolsImageTag:=1.23.7}"
+        tag: "${kubetoolsImageTag:=1.24.1}"
