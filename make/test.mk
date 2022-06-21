@@ -21,20 +21,6 @@ kommander-e2e:
 			git checkout main ; \
 	fi
 
-.PHONY: kommander-e2e
-kommander-e2e: ## Clones the kommander-e2e repo locally or updates the clone
-kommander-e2e:
-	@if [ -d $(KOMMANDER_E2E_DIR) ] ; then \
-		cd $(KOMMANDER_E2E_DIR) && \
-			git fetch origin && \
-			git reset --hard origin/main ; \
-	else \
-		mkdir -p $(KOMMANDER_E2E_DIR) && \
-			git clone -q https://github.com/mesosphere/kommander-e2e.git $(KOMMANDER_E2E_DIR) && \
-			cd $(KOMMANDER_E2E_DIR) && \
-			git checkout main ; \
-	fi
-
 .PHONY: test.e2e.install
 test.e2e.install: kommander-e2e ; $(info $(M) running end-to-end kommander install test from kommander-e2e)
 	cd $(KOMMANDER_E2E_DIR) && \
