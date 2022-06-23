@@ -27,6 +27,18 @@
       "required": "true",
       "priority": 2,
       "id": "ClosedSource_Kommander2_KommanderApplications_ManifestValidation"
+    },
+    "kommander-applications/upgrade-e2e-tests": {
+      "type": "teamcity",
+      "required": "true",
+      "priority": 2,
+      "id": "ClosedSource_Kommander2_KommanderApplications_UpgradeE2eTests"
+    },
+    "kommander-applications/install-e2e-tests": {
+      "type": "teamcity",
+      "required": "true",
+      "priority": 2,
+      "id": "ClosedSource_Kommander2_KommanderApplications_InstallE2eTests"
     }
   },
   "autotest-on-backports-and-trains": true,
