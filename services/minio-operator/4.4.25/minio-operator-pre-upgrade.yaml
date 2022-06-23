@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/minio-operator/4.4.16/minio-operator-pre-upgrade
+  path: ./services/minio-operator/4.4.25/minio-operator-pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
