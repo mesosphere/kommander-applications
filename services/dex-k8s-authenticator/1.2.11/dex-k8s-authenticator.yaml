@@ -10,6 +10,11 @@ spec:
       name: dex
     - namespace: ${releaseNamespace}
       name: traefik
+    # Depends on kommander because the `DKAClustersHandler` controller configures
+    # the `hmac_secret` that is required to run `dex-k8s-authenticator`. Otherwise
+    # the main container would crashloops.
+    - namespace: ${releaseNamespace}
+      name: kommander
   chart:
     spec:
       chart: dex-k8s-authenticator
@@ -30,5 +35,5 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: dex-k8s-authenticator-1.2.10-d2iq-defaults
+      name: dex-k8s-authenticator-1.2.11-d2iq-defaults
   targetNamespace: ${releaseNamespace}
