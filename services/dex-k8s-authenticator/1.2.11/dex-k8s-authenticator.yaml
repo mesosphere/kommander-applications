@@ -30,5 +30,5 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: dex-k8s-authenticator-1.2.10-d2iq-defaults
+      name: dex-k8s-authenticator-1.2.11-d2iq-defaults
   targetNamespace: ${releaseNamespace}
