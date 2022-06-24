@@ -23,4 +23,4 @@ data:
         enabled: false
 
     # Do not create any static tenants
-    tenants: []
+    tenant: null
