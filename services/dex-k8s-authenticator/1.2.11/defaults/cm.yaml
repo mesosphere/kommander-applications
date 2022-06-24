@@ -24,12 +24,25 @@ data:
       useClusterHostnameForClusterName: true
       listen: http://0.0.0.0:5555
       web_path_prefix: /token
-      clusters: {}
       # The hmac secret must be set to the specific value that will be replaced
       # by the dex-k8s-authenticator controller. The default placed here is not
       # secure. Without the default value the dex-k8s-authenticator container is
       # not starting which would block the Kommander bootstrap process.
       hmac_secret: INVALID_HMAC
+      # The placeholder for management cluster to get dex-k8s-authenticator
+      # installed. This will be replaced by dex-k8s-authenticator controller.
+      # Without the default cluster the application crashloops and prevents
+      # kommander to complete the installation.
+      clusters:
+      - name: kubernetes-cluster
+        short_description: "Kubernetes cluster"
+        description: "Kubernetes cluster authenticator"
+        # client_secret: value is generated automatically via initContainers
+        client_id: kube-apiserver
+        issuer: https://dex.${releaseNamespace}.svc.cluster.local:8080/dex
+        # This URI is just a placeholder and it will be replaced during initContainers
+        # with a URL pointing to the traefik ingress public load balancer.
+        redirect_uri: https://dex-k8s-authenticator.${releaseNamespace}.svc.cluster.local:5555/token/callback/kubernetes-cluster
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "dex-k8s-authenticator"
     resources:
