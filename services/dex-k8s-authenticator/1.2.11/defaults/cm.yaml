@@ -25,6 +25,11 @@ data:
       listen: http://0.0.0.0:5555
       web_path_prefix: /token
       clusters: {}
+      # The hmac secret must be set to the specific value that will be replaced
+      # by the dex-k8s-authenticator controller. The default placed here is not
+      # secure. Without the default value the dex-k8s-authenticator container is
+      # not starting which would block the Kommander bootstrap process.
+      hmac_secret: INVALID_HMAC
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "dex-k8s-authenticator"
     resources:
