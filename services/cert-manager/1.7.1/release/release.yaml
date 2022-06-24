@@ -42,10 +42,12 @@ spec:
       version: "v1.7.1"
   interval: 15s
   install:
+    crds: CreateReplace
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 30
   releaseName: cert-manager
