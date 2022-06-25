@@ -1,5 +1,5 @@
 awscli 2.4.24
-flux2 0.31.1
+flux2 0.31.2
 github-cli 2.5.2
 golang 1.18.1
 kustomize 4.5.2
