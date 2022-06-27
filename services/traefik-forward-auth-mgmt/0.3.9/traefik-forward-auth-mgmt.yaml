@@ -10,6 +10,8 @@ spec:
       name: traefik
     - namespace: ${releaseNamespace}
       name: dex
+    - namespace: ${releaseNamespace}
+      name: kommander
   chart:
     spec:
       chart: traefik-forward-auth
@@ -30,5 +32,5 @@ spec:
   releaseName: traefik-forward-auth-mgmt
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-forward-auth-mgmt-0.3.8-d2iq-defaults
+      name: traefik-forward-auth-mgmt-0.3.9-d2iq-defaults
   targetNamespace: ${releaseNamespace}

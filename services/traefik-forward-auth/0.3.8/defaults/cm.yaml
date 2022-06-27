@@ -19,7 +19,7 @@ data:
       port: 4181
     traefikForwardAuth:
       enabled: false
-      # oidcUri will be overridden by the init-container
+      # oidcUri, clientID, clientSecret will be overridden by the TFAController
       oidcUri: "https://dex.${releaseNamespace}.svc.cluster.local:8080/dex"
       clientId: traefik-forward-auth-kommander
       clientSecret:
