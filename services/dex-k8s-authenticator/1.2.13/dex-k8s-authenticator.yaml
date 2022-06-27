@@ -11,8 +11,8 @@ spec:
     - namespace: ${releaseNamespace}
       name: traefik
     # Depends on kommander because the `DKAClustersHandler` controller configures
-    # the `hmac_secret` that is required to run `dex-k8s-authenticator`. Otherwise
-    # the main container would crashloops.
+    # clusters (including the management cluster). The container won't start without
+    # at least one cluster configuration.
     - namespace: ${releaseNamespace}
       name: kommander
   chart:
@@ -22,7 +22,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 1.2.9
+      version: 1.2.13
   interval: 15s
   install:
     crds: CreateReplace
@@ -35,5 +35,5 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: dex-k8s-authenticator-1.2.11-d2iq-defaults
+      name: dex-k8s-authenticator-1.2.13-d2iq-defaults
   targetNamespace: ${releaseNamespace}
