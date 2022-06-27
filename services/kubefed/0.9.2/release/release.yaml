@@ -15,10 +15,12 @@ spec:
       version: "0.9.2"
   interval: 15s
   install:
+    crds: CreateReplace
     remediation:
       retries: 30
   targetNamespace: kube-federation-system
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 30
   releaseName: kubefed

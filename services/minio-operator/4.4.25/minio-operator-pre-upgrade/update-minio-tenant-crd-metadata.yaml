@@ -1,0 +1,68 @@
+# For upgrades from <4.4.21
+# https://github.com/minio/operator/commit/4a04420efa6131a18faa5f2c72dac6ed898730d3
+# The job will also be run pre-install but will be a noop if
+# minio is not installed yet.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: minio-operator-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: minio-operator-pre-upgrade
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "list", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: minio-operator-pre-upgrade
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: minio-operator-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: minio-operator-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: update-tenant-crd-metadata
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: update-tenant-crd-metadata
+    spec:
+      serviceAccountName: minio-operator-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.24.1}"
+          command:
+            - sh
+            - "-c"
+            - |
+              /bin/bash <<'EOF'
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+
+              RES=$(set -o errexit; kubectl get crd tenants.minio.min.io --ignore-not-found)
+              if [[ $RES == "" ]]; then
+                echo "tenants.minio.min.io crd does not exist - this is an install, not upgrade"
+                exit 0
+              fi
+
+              kubectl label crd tenants.minio.min.io app.kubernetes.io/managed-by=Helm --overwrite
+              kubectl annotate crd tenants.minio.min.io meta.helm.sh/release-name=minio-operator meta.helm.sh/release-namespace=${releaseNamespace} --overwrite
+
+              echo "labeled and annotated tenants.minio.min.io crd"
+              EOF

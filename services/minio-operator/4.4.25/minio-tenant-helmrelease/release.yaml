@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio-tenant
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: tenant
+      sourceRef:
+        kind: HelmRepository
+        name: operator.min.io
+        namespace: kommander-flux
+      version: 4.4.25
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: minio-operator
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: minio-tenant
+  valuesFrom:
+    - kind: ConfigMap
+      name: minio-operator-4.4.25-d2iq-defaults
+    - kind: ConfigMap
+      name: minio-operator-overrides
+      optional: true
