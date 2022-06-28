@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/gatekeeper/3.7.0/cleanup
+  path: ./services/gatekeeper/3.8.1/cleanup
   sourceRef:
     kind: GitRepository
     name: management

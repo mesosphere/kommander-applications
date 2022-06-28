@@ -1,0 +1,12 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: DeleteProtection
+metadata:
+  name: cm-managed-by-appdeployment-reject-delete
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["ConfigMap"]
+    labelSelector:
+      matchLabels:
+        kommander.d2iq.io/managed-by-kind: "AppDeployment"
