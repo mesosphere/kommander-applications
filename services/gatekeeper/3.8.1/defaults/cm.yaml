@@ -10,7 +10,6 @@ data:
     replicas: 2
     disableValidatingWebhook: false
     disableMutation: true
-    enableDeleteOperations: true
     mutations:
       enablePodProxy: false
       podProxySettings:
