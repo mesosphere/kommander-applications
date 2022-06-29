@@ -24,7 +24,7 @@ data:
       listen: http://0.0.0.0:5555
       web_path_prefix: /token
       generateHmacSecret: true
-      # Cluters will be managed in the overrides CM
+      # Clusters will be managed in the overrides CM
       clusters: {}
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "dex-k8s-authenticator"
