@@ -24,3 +24,7 @@ ifeq ($(GIT_CURRENT_BRANCH),main)
 else
 	svu patch --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],[0-9]-rc.*,-rc.*,}' --suffix dev --no-metadata
 endif
+
+.PHONY: repo.gen.versions
+repo.gen.versions: ## Generates a file with all current kommander-apps versions
+	(cd hack/static; go run main.go versions -b main -o versions.yaml)
