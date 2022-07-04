@@ -8,6 +8,8 @@ LATEST_FLUX_VERSION="$(gh api -X GET "repos/fluxcd/flux2/releases" --jq '.[0].ta
 readonly LATEST_FLUX_VERSION
 CURRENT_FLUX_VERSION=$(find "${REPO_ROOT}/services/kommander-flux" -maxdepth 1 -regextype sed -regex '.*/[0-9]\+.[0-9]\+.[0-9]\+' -printf "%f\n" | sort -V | head -1)
 readonly CURRENT_FLUX_VERSION
+KOMMANDER_REPO_PATH="${REPO_ROOT}/../kommander" # Set in CI to kommander repository path.
+KOMMANDER_APPLICATIONS_PR=""
 
 function update_flux() {
     readonly BRANCH_NAME="flux-update/${LATEST_FLUX_VERSION}"
@@ -49,7 +51,23 @@ function update_flux() {
     git push --set-upstream origin "${BRANCH_NAME}"
 
     git fetch origin main
-    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l slack-notify
+    KOMMANDER_APPLICATIONS_PR=$(gh pr create --draft --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l slack-notify)
+    echo "${KOMMANDER_APPLICATIONS_PR} is created"
+}
+
+function bump_kommander_repo_flux() {
+    if [ ! -d "${KOMMANDER_REPO_PATH}" ]; then
+        echo "error: kommander repo path is invalid (set to \"${KOMMANDER_REPO_PATH}\"). skipping flux upgrade in kommander repo"
+        return 0
+    fi
+    echo "kommander repo found at ${KOMMANDER_REPO_PATH} and attempting to create a flux bump PR"
+    pushd "${KOMMANDER_REPO_PATH}"
+    readonly BRANCH_NAME="flux-update/${LATEST_FLUX_VERSION}"
+    git checkout -b "${BRANCH_NAME}"
+    sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF = ${BRANCH_NAME}~g" Makefile
+    git add Makefile
+    gh pr create --draft --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ok-to-test -l copy-flux-manifests -b KOMMANDER_APPLICATIONS_PR
+    popd
 }
 
 if [ "${CURRENT_FLUX_VERSION}" == "${LATEST_FLUX_VERSION}" ]; then
@@ -60,3 +78,4 @@ fi
 echo "Updating flux version from ${CURRENT_FLUX_VERSION} to ${LATEST_FLUX_VERSION}"
 
 update_flux
+bump_kommander_repo_flux
