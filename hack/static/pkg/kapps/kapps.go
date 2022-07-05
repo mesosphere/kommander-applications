@@ -18,6 +18,10 @@ import (
 
 	fluxsourcev1beta2 "github.com/fluxcd/source-controller/api/v1beta2"
 	"helm.sh/helm/v3/cmd/helm/search"
+	"helm.sh/helm/v3/pkg/action"
+	"helm.sh/helm/v3/pkg/chart"
+	"helm.sh/helm/v3/pkg/cli"
+	"helm.sh/helm/v3/pkg/registry"
 	"helm.sh/helm/v3/pkg/repo"
 	syaml "sigs.k8s.io/yaml"
 )
@@ -33,7 +37,15 @@ type KApp struct {
 	Version,
 	AppVersion,
 	LatestVersion string
-	Enabled bool
+	Enabled      bool
+	Metadata     map[string]Meta
+	ValuesYAML   string              `json:"-" yaml:"-"`
+	Dependencies []*chart.Dependency `json:"-" yaml:"-"`
+}
+
+type Meta struct {
+	Location string
+	Data     interface{}
 }
 
 type KApps []*KApp
@@ -90,8 +102,19 @@ func List(cursor parse.Cursor) (KApps, error) {
 		index.AddRepo(re.Name, indexFile, true)
 	}
 
+	registryClient, err := registry.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	actionConfig := &action.Configuration{
+		RegistryClient: registryClient,
+	}
+	valuesClient := action.NewShowWithConfig(action.ShowValues, actionConfig)
+	settings := cli.New()
+
 	for i, ka := range kApps {
-		results, err := index.Search(ka.Repo+"/"+ka.Chart, 25, false)
+		chartID := ka.Repo + "/" + ka.Chart
+		results, err := index.Search(chartID, 25, false)
 		if err != nil {
 			return nil, err
 		}
@@ -101,14 +124,32 @@ func List(cursor parse.Cursor) (KApps, error) {
 		search.SortScore(results)
 		r := results[0]
 		meta := r.Chart.Metadata
-		if meta.Name == ka.Chart {
-			if meta.AppVersion == "" {
-				kApps[i].AppVersion = meta.Version
-			} else {
-				kApps[i].AppVersion = meta.AppVersion
-			}
-			kApps[i].LatestVersion = meta.Version
+
+		if meta.Name != ka.Chart {
+			continue
 		}
+
+		if meta.AppVersion == "" {
+			kApps[i].AppVersion = meta.Version
+		} else {
+			kApps[i].AppVersion = meta.AppVersion
+		}
+		kApps[i].LatestVersion = meta.Version
+
+		if ka.AppID != "kube-prometheus-stack" {
+			continue
+		}
+
+		chartPath, err := valuesClient.ChartPathOptions.LocateChart(chartID, settings)
+		if err != nil {
+			return nil, err
+		}
+		values, err := valuesClient.Run(chartPath)
+		if err != nil {
+			return nil, err
+		}
+		ka.ValuesYAML = values
+		ka.Dependencies = meta.Dependencies
 	}
 
 	return kApps, nil

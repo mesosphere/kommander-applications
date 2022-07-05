@@ -46,6 +46,20 @@ var versionsCmd = &cobra.Command{
 			if _, ok := defaultApps[ka.AppID]; ok {
 				kApps[i].Enabled = true
 			}
+			if ka.AppID == "kube-prometheus-stack" {
+				ka.Metadata, err = parseKPSValues(ka.ValuesYAML)
+				if err != nil {
+					return err
+				}
+				for _, dep := range ka.Dependencies {
+					if dep.Name == "grafana" {
+						ka.Metadata["grafana"] = kapps.Meta{
+							Location: "[chart.metadata].dependencies",
+							Data:     dep.Version,
+						}
+					}
+				}
+			}
 		}
 
 		outYAML, err := syaml.Marshal(kApps)
@@ -99,6 +113,39 @@ func getKommanderDefaultApps(cursor parse.Cursor) (map[string]struct{}, error) {
 		}
 	}
 	return make(map[string]struct{}), nil
+}
+
+func parseKPSValues(yml string) (map[string]kapps.Meta, error) {
+	values := make(map[string]kapps.Meta)
+
+	prometheusVersion, err := traverseYAML(yml, "prometheus", "prometheusSpec", "image", "tag")
+	if err != nil {
+		return nil, err
+	}
+	values["prometheus"] = kapps.Meta{
+		Location: "[chart.values].prometheus.prometheusSpec.image.tag",
+		Data:     prometheusVersion,
+	}
+
+	alertmanagerVersion, err := traverseYAML(yml, "alertmanager", "alertmanagerSpec", "image", "tag")
+	if err != nil {
+		return nil, err
+	}
+	values["prometheus-alertmanager"] = kapps.Meta{
+		Location: "[chart.values].alertmanager.alertmanagerSpec.image.tag",
+		Data:     alertmanagerVersion,
+	}
+
+	operatorVersion, err := traverseYAML(yml, "prometheusOperator", "image", "tag")
+	if err != nil {
+		return nil, err
+	}
+	values["prometheus-operator"] = kapps.Meta{
+		Location: "[chart.values].prometheusOperator.image.tag",
+		Data:     operatorVersion,
+	}
+
+	return values, nil
 }
 
 func traverseYAML(yml string, path ...string) (interface{}, error) {

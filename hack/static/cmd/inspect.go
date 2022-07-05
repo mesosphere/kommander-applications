@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"bufio"
+	"bytes"
 	"fmt"
 
 	"github.com/mesosphere/kommander-applications/hack/static/pkg/bloodhound"
@@ -16,28 +16,19 @@ var inspectCmd = &cobra.Command{
 
 	RunE: func(_ *cobra.Command, _ []string) error {
 		cursor := bloodhound.Run(branch, tag)
-
-		file, err := open(outFile)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		w := bufio.NewWriter(file)
-		descNode(w, cursor, "")
-		w.Flush()
-
-		return nil
+		buf := bytes.NewBuffer([]byte{})
+		descNode(buf, cursor, "")
+		return write(buf.Bytes(), outFile)
 	},
 }
 
-func descNode(w *bufio.Writer, cursor parse.Cursor, prefix string) {
+func descNode(buf *bytes.Buffer, cursor parse.Cursor, prefix string) {
 	node := cursor.Node()
 	if _, isRootNode := node.(parse.RootNode); !isRootNode {
-		w.WriteString(fmt.Sprintf("%s%s\n", prefix, node))
+		buf.WriteString(fmt.Sprintf("%s%s\n", prefix, node))
 		prefix = "  " + prefix
 	}
 	for _, child := range cursor.Children() {
-		descNode(w, child, prefix)
+		descNode(buf, child, prefix)
 	}
 }

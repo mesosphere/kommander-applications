@@ -5,6 +5,7 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 34.9.3
+  Metadata: null
   Path: /services/centralized-grafana
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -16,6 +17,7 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 0.25.3
+  Metadata: null
   Path: /services/centralized-kubecost
   Repo: mesosphere.github.io-charts-stable
   Type: internal
@@ -27,6 +29,7 @@
   DisplayName: cert-manager
   Enabled: true
   LatestVersion: v1.7.1
+  Metadata: null
   Path: /services/cert-manager
   Repo: mesosphere.github.io-charts-stable
   Type: platform
@@ -38,6 +41,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: ""
+  Metadata: null
   Path: /services/chartmuseum
   Repo: management
   Type: internal
@@ -49,6 +53,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 2.9.18
+  Metadata: null
   Path: /services/dex
   Repo: mesosphere.github.io-charts-stable
   Type: internal
@@ -60,6 +65,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 1.2.13
+  Metadata: null
   Path: /services/dex-k8s-authenticator
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -71,6 +77,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: v0.1.7
+  Metadata: null
   Path: /services/dkp-insights-management
   Repo: mesosphere.github.io-dkp-insights-charts-management
   Type: internal
@@ -81,7 +88,8 @@
   Chart: external-dns
   DisplayName: External DNS
   Enabled: false
-  LatestVersion: 6.5.6
+  LatestVersion: 6.6.0
+  Metadata: null
   Path: /services/external-dns
   Repo: charts.github.io-bitnami
   Type: platform
@@ -93,21 +101,23 @@
   DisplayName: Fluent Bit
   Enabled: false
   LatestVersion: 0.20.3
+  Metadata: null
   Path: /services/fluent-bit
   Repo: fluent.github.io
   Type: platform
   Version: 0.19.20
 - AppID: gatekeeper
-  AppName: gatekeeper-3.7.0
+  AppName: gatekeeper-3.8.1
   AppVersion: v3.9.0-beta.2
   Chart: gatekeeper
   DisplayName: Gatekeeper
   Enabled: true
   LatestVersion: 3.9.0-beta.2
+  Metadata: null
   Path: /services/gatekeeper
   Repo: open-policy-agent.github.io-charts
   Type: platform
-  Version: 3.7.0
+  Version: 3.8.1
 - AppID: gitea
   AppName: gitea-5.0.9
   AppVersion: 1.16.8
@@ -115,17 +125,19 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 5.0.9
+  Metadata: null
   Path: /services/gitea
   Repo: dl.gitea.io-charts
   Type: internal
   Version: 5.0.9
 - AppID: grafana-logging
   AppName: grafana-logging-6.28.0
-  AppVersion: 9.0.1
+  AppVersion: 9.0.2
   Chart: grafana
   DisplayName: Grafana Logging
   Enabled: false
-  LatestVersion: 6.31.1
+  LatestVersion: 6.32.1
+  Metadata: null
   Path: /services/grafana-logging
   Repo: grafana.github.io
   Type: platform
@@ -137,32 +149,35 @@
   DisplayName: Grafana Loki
   Enabled: false
   LatestVersion: 0.49.0
+  Metadata: null
   Path: /services/grafana-loki
   Repo: grafana.github.io
   Type: platform
   Version: 0.48.4
 - AppID: istio
-  AppName: istio-1.13.5
+  AppName: istio-1.14.1
   AppVersion: 1.14.1
   Chart: istio
   DisplayName: Istio Service Mesh
   Enabled: false
   LatestVersion: 1.14.1
+  Metadata: null
   Path: /services/istio
   Repo: mesosphere.github.io-charts-staging
   Type: catalog
-  Version: 1.13.5
+  Version: 1.14.1
 - AppID: jaeger
-  AppName: jaeger-2.29.0
-  AppVersion: 1.34.1
+  AppName: jaeger-2.32.2
+  AppVersion: 1.35.0
   Chart: jaeger-operator
   DisplayName: Jaeger
   Enabled: false
-  LatestVersion: 2.32.2
+  LatestVersion: 2.33.0
+  Metadata: null
   Path: /services/jaeger
   Repo: jaegertracing-github-io
   Type: catalog
-  Version: 2.29.0
+  Version: 2.32.2
 - AppID: karma
   AppName: karma-2.0.1
   AppVersion: v0.70
@@ -170,6 +185,7 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 2.0.1
+  Metadata: null
   Path: /services/karma
   Repo: mesosphere.github.io-charts-stable
   Type: internal
@@ -181,21 +197,23 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 0.0.1
+  Metadata: null
   Path: /services/karma-traefik
   Repo: mesosphere.github.io-charts-staging
   Type: internal
   Version: 0.0.1
 - AppID: kiali
-  AppName: kiali-1.49.0
-  AppVersion: v1.52.0
+  AppName: kiali-1.52.0
+  AppVersion: v1.53.0
   Chart: kiali-operator
   DisplayName: Kiali
   Enabled: false
-  LatestVersion: 1.52.0
+  LatestVersion: 1.53.0
+  Metadata: null
   Path: /services/kiali
   Repo: kiali-org
   Type: catalog
-  Version: 1.49.0
+  Version: 1.52.0
 - AppID: knative
   AppName: knative-0.3.10
   AppVersion: v0.22.3
@@ -203,6 +221,7 @@
   DisplayName: Knative
   Enabled: false
   LatestVersion: 0.3.10
+  Metadata: null
   Path: /services/knative
   Repo: mesosphere.github.io-charts-staging
   Type: catalog
@@ -214,6 +233,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: v2.3.0-dev
+  Metadata: null
   Path: /services/kommander
   Repo: mesosphere.github.io-kommander-charts
   Type: internal
@@ -225,6 +245,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: v2.3.0-dev
+  Metadata: null
   Path: /services/kommander-appmanagement
   Repo: mesosphere.github.io-kommander-charts
   Type: internal
@@ -236,6 +257,7 @@
   DisplayName: kube-oidc-proxy
   Enabled: false
   LatestVersion: 0.3.1
+  Metadata: null
   Path: /services/kube-oidc-proxy
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -247,6 +269,19 @@
   DisplayName: Prometheus Monitoring
   Enabled: true
   LatestVersion: 34.9.3
+  Metadata:
+    grafana:
+      Data: 6.26.*
+      Location: '[chart.metadata].dependencies'
+    prometheus:
+      Data: v2.34.0
+      Location: '[chart.values].prometheus.prometheusSpec.image.tag'
+    prometheus-alertmanager:
+      Data: v0.24.0
+      Location: '[chart.values].alertmanager.alertmanagerSpec.image.tag'
+    prometheus-operator:
+      Data: v0.55.0
+      Location: '[chart.values].prometheusOperator.image.tag'
   Path: /services/kube-prometheus-stack
   Repo: mesosphere.github.io-charts-staging
   Type: platform
@@ -258,6 +293,7 @@
   DisplayName: Kubecost
   Enabled: true
   LatestVersion: 0.25.3
+  Metadata: null
   Path: /services/kubecost
   Repo: mesosphere.github.io-charts-stable
   Type: partner
@@ -269,6 +305,7 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 0.0.1
+  Metadata: null
   Path: /services/kubecost-thanos-traefik
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -280,6 +317,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 0.9.2
+  Metadata: null
   Path: /services/kubefed
   Repo: kubefed
   Type: internal
@@ -291,6 +329,7 @@
   DisplayName: Kubernetes Dashboard
   Enabled: true
   LatestVersion: 5.7.0
+  Metadata: null
   Path: /services/kubernetes-dashboard
   Repo: kubernetes-github-io-dashboard
   Type: platform
@@ -302,6 +341,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: v0.0.13
+  Metadata: null
   Path: /services/kubetunnel
   Repo: mesosphere.github.io-kubetunnel-charts
   Type: internal
@@ -313,6 +353,7 @@
   DisplayName: Logging Operator
   Enabled: false
   LatestVersion: 3.17.7
+  Metadata: null
   Path: /services/logging-operator
   Repo: kubernetes-charts.banzaicloud.com
   Type: platform
@@ -324,6 +365,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 0.12.3
+  Metadata: null
   Path: /services/metallb
   Repo: mesosphere.github.io-charts-stable
   Type: internal
@@ -331,10 +373,11 @@
 - AppID: minio-operator
   AppName: minio-operator-4.4.25
   AppVersion: v4.4.25
-  Chart: operator
+  Chart: tenant
   DisplayName: MinIO Operator
   Enabled: false
   LatestVersion: 4.4.25
+  Metadata: null
   Path: /services/minio-operator
   Repo: operator.min.io
   Type: platform
@@ -346,6 +389,7 @@
   DisplayName: NFS Server Provisioner
   Enabled: false
   LatestVersion: 0.6.0
+  Metadata: null
   Path: /services/nfs-server-provisioner
   Repo: mesosphere.github.io-charts-staging
   Type: catalog
@@ -357,17 +401,19 @@
   DisplayName: NVIDIA DCGM
   Enabled: false
   LatestVersion: 0.4.4
+  Metadata: null
   Path: /services/nvidia
   Repo: mesosphere.github.io-charts-staging
   Type: platform
   Version: 0.4.4
 - AppID: project-grafana-logging
   AppName: project-grafana-logging-6.28.0
-  AppVersion: 9.0.1
+  AppVersion: 9.0.2
   Chart: grafana
   DisplayName: Grafana Logging
   Enabled: false
-  LatestVersion: 6.31.1
+  LatestVersion: 6.32.1
+  Metadata: null
   Path: /services/project-grafana-logging
   Repo: grafana.github.io
   Type: catalog
@@ -379,6 +425,7 @@
   DisplayName: Grafana Loki
   Enabled: false
   LatestVersion: 0.49.0
+  Metadata: null
   Path: /services/project-grafana-loki
   Repo: grafana.github.io
   Type: catalog
@@ -390,6 +437,7 @@
   DisplayName: Prometheus Adapter
   Enabled: true
   LatestVersion: 3.3.1
+  Metadata: null
   Path: /services/prometheus-adapter
   Repo: prometheus-community.github.io-helm-charts
   Type: platform
@@ -401,6 +449,7 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 0.0.1
+  Metadata: null
   Path: /services/prometheus-thanos-traefik
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -412,6 +461,7 @@
   DisplayName: Reloader
   Enabled: true
   LatestVersion: v0.0.117
+  Metadata: null
   Path: /services/reloader
   Repo: stakater-github-io-stakater-charts
   Type: platform
@@ -423,17 +473,19 @@
   DisplayName: ""
   Enabled: true
   LatestVersion: 0.4.6
+  Metadata: null
   Path: /services/thanos
   Repo: kubernetes-charts.banzaicloud.com
   Type: internal
   Version: 0.4.6
 - AppID: traefik
   AppName: traefik-10.9.1
-  AppVersion: 2.7.1
+  AppVersion: 2.8.0
   Chart: traefik
   DisplayName: Traefik
   Enabled: true
-  LatestVersion: 10.23.0
+  LatestVersion: 10.24.0
+  Metadata: null
   Path: /services/traefik
   Repo: helm.traefik.io-traefik
   Type: platform
@@ -445,6 +497,7 @@
   DisplayName: Traefik Forward Auth
   Enabled: false
   LatestVersion: 0.3.8
+  Metadata: null
   Path: /services/traefik-forward-auth
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -456,6 +509,7 @@
   DisplayName: ""
   Enabled: false
   LatestVersion: 0.3.8
+  Metadata: null
   Path: /services/traefik-forward-auth-mgmt
   Repo: mesosphere.github.io-charts-staging
   Type: internal
@@ -467,6 +521,7 @@
   DisplayName: Velero
   Enabled: false
   LatestVersion: 3.2.3
+  Metadata: null
   Path: /services/velero
   Repo: mesosphere.github.io-charts-staging
   Type: platform

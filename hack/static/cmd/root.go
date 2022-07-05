@@ -39,28 +39,6 @@ func Execute() {
 	}
 }
 
-func open(path string) (*os.File, error) {
-	file, err := os.OpenFile(path, os.O_WRONLY, 0666)
-	if os.IsNotExist(err) {
-		file, err = os.Create(path)
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		return nil, err
-	}
-	return file, nil
-}
-
 func write(data []byte, path string) error {
-	file, err := open(path)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	if _, err := file.Write(data); err != nil {
-		return err
-	}
-	return nil
+	return os.WriteFile(path, data, 0666)
 }
