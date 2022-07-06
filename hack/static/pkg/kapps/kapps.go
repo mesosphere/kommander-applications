@@ -140,7 +140,8 @@ func List(cursor parse.Cursor) (KApps, error) {
 			continue
 		}
 
-		chartPath, err := valuesClient.ChartPathOptions.LocateChart(chartID, settings)
+		chartURL := r.Chart.URLs[0]
+		chartPath, err := valuesClient.ChartPathOptions.LocateChart(chartURL, settings)
 		if err != nil {
 			return nil, err
 		}
