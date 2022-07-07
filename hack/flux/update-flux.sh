@@ -65,7 +65,7 @@ function bump_kommander_repo_flux() {
     echo "kommander repo found at ${KOMMANDER_REPO_PATH} and attempting to create a flux bump PR"
     pushd "${KOMMANDER_REPO_PATH}"
     git checkout -b "${BRANCH_NAME}"
-    sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF = ${BRANCH_NAME}~g" Makefile
+    sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF ?= ${BRANCH_NAME}~g" Makefile
     git add Makefile
     if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
         git config user.email "ci@mesosphere.com"
