@@ -42,6 +42,9 @@ data:
           #   traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
           # hosts: [""]
           # path: "/dkp/kubecost/grafana"
+        sidecar:
+          datasources:
+            dataSourceFilename: datasources.yaml
         grafana.ini:
           server:
             protocol: http
