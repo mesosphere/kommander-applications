@@ -37,7 +37,6 @@ type KApp struct {
 	Version,
 	AppVersion,
 	LatestVersion string
-	Enabled      bool
 	Metadata     map[string]Meta
 	ValuesYAML   string              `json:"-" yaml:"-"`
 	Dependencies []*chart.Dependency `json:"-" yaml:"-"`

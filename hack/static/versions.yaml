@@ -3,7 +3,6 @@
   AppVersion: 0.55.0
   Chart: kube-prometheus-stack
   DisplayName: ""
-  Enabled: true
   LatestVersion: 34.9.3
   Metadata: null
   Path: /services/centralized-grafana
@@ -15,7 +14,6 @@
   AppVersion: 1.94.3
   Chart: kubecost
   DisplayName: ""
-  Enabled: true
   LatestVersion: 0.25.3
   Metadata: null
   Path: /services/centralized-kubecost
@@ -27,7 +25,6 @@
   AppVersion: v1.7.1
   Chart: cert-manager-crds
   DisplayName: cert-manager
-  Enabled: true
   LatestVersion: v1.7.1
   Metadata: null
   Path: /services/cert-manager
@@ -35,23 +32,21 @@
   Type: platform
   Version: v1.7.1
 - AppID: chartmuseum
-  AppName: chartmuseum-3.6.2
+  AppName: chartmuseum-3.9.0
   AppVersion: ""
-  Chart: services/chartmuseum/3.6.2/chartmuseum-3.6.2.tgz
+  Chart: services/chartmuseum/3.9.0/chartmuseum-3.9.0.tgz
   DisplayName: ""
-  Enabled: false
   LatestVersion: ""
   Metadata: null
   Path: /services/chartmuseum
   Repo: management
   Type: internal
-  Version: 3.6.2
+  Version: 3.9.0
 - AppID: dex
   AppName: dex-2.9.18
   AppVersion: 2.31.0
   Chart: dex
   DisplayName: ""
-  Enabled: false
   LatestVersion: 2.9.18
   Metadata: null
   Path: /services/dex
@@ -63,7 +58,6 @@
   AppVersion: v1.2.4
   Chart: dex-k8s-authenticator
   DisplayName: ""
-  Enabled: false
   LatestVersion: 1.2.13
   Metadata: null
   Path: /services/dex-k8s-authenticator
@@ -75,7 +69,6 @@
   AppVersion: v0.1.7
   Chart: dkp-insights-management
   DisplayName: ""
-  Enabled: false
   LatestVersion: v0.1.7
   Metadata: null
   Path: /services/dkp-insights-management
@@ -87,7 +80,6 @@
   AppVersion: 0.12.0
   Chart: external-dns
   DisplayName: External DNS
-  Enabled: false
   LatestVersion: 6.6.0
   Metadata: null
   Path: /services/external-dns
@@ -99,7 +91,6 @@
   AppVersion: 1.9.5
   Chart: fluent-bit
   DisplayName: Fluent Bit
-  Enabled: false
   LatestVersion: 0.20.3
   Metadata: null
   Path: /services/fluent-bit
@@ -108,11 +99,10 @@
   Version: 0.19.20
 - AppID: gatekeeper
   AppName: gatekeeper-3.8.1
-  AppVersion: v3.9.0-beta.2
+  AppVersion: v3.9.0-rc.1
   Chart: gatekeeper
   DisplayName: Gatekeeper
-  Enabled: true
-  LatestVersion: 3.9.0-beta.2
+  LatestVersion: 3.9.0-rc.1
   Metadata: null
   Path: /services/gatekeeper
   Repo: open-policy-agent.github.io-charts
@@ -123,7 +113,6 @@
   AppVersion: 1.16.8
   Chart: gitea
   DisplayName: ""
-  Enabled: false
   LatestVersion: 5.0.9
   Metadata: null
   Path: /services/gitea
@@ -135,8 +124,7 @@
   AppVersion: 9.0.2
   Chart: grafana
   DisplayName: Grafana Logging
-  Enabled: false
-  LatestVersion: 6.32.1
+  LatestVersion: 6.32.2
   Metadata: null
   Path: /services/grafana-logging
   Repo: grafana.github.io
@@ -144,11 +132,10 @@
   Version: 6.28.0
 - AppID: grafana-loki
   AppName: grafana-loki-0.48.4
-  AppVersion: 2.5.0
+  AppVersion: 2.6.0
   Chart: loki-distributed
   DisplayName: Grafana Loki
-  Enabled: false
-  LatestVersion: 0.51.0
+  LatestVersion: 0.52.0
   Metadata: null
   Path: /services/grafana-loki
   Repo: grafana.github.io
@@ -159,7 +146,6 @@
   AppVersion: 1.14.1
   Chart: istio
   DisplayName: Istio Service Mesh
-  Enabled: false
   LatestVersion: 1.14.1
   Metadata: null
   Path: /services/istio
@@ -171,7 +157,6 @@
   AppVersion: 1.35.0
   Chart: jaeger-operator
   DisplayName: Jaeger
-  Enabled: false
   LatestVersion: 2.33.0
   Metadata: null
   Path: /services/jaeger
@@ -183,7 +168,6 @@
   AppVersion: v0.70
   Chart: karma
   DisplayName: ""
-  Enabled: true
   LatestVersion: 2.0.1
   Metadata: null
   Path: /services/karma
@@ -195,7 +179,6 @@
   AppVersion: 0.0.1
   Chart: thanos-traefik
   DisplayName: ""
-  Enabled: true
   LatestVersion: 0.0.1
   Metadata: null
   Path: /services/karma-traefik
@@ -207,7 +190,6 @@
   AppVersion: v1.53.0
   Chart: kiali-operator
   DisplayName: Kiali
-  Enabled: false
   LatestVersion: 1.53.0
   Metadata: null
   Path: /services/kiali
@@ -219,7 +201,6 @@
   AppVersion: v0.22.3
   Chart: knative
   DisplayName: Knative
-  Enabled: false
   LatestVersion: 0.3.10
   Metadata: null
   Path: /services/knative
@@ -231,7 +212,6 @@
   AppVersion: v2.3.0-dev
   Chart: kommander
   DisplayName: ""
-  Enabled: false
   LatestVersion: v2.3.0-dev
   Metadata: null
   Path: /services/kommander
@@ -243,7 +223,6 @@
   AppVersion: v2.3.0-dev
   Chart: kommander-appmanagement
   DisplayName: ""
-  Enabled: false
   LatestVersion: v2.3.0-dev
   Metadata: null
   Path: /services/kommander-appmanagement
@@ -255,7 +234,6 @@
   AppVersion: v0.3.0
   Chart: kube-oidc-proxy
   DisplayName: kube-oidc-proxy
-  Enabled: false
   LatestVersion: 0.3.1
   Metadata: null
   Path: /services/kube-oidc-proxy
@@ -267,7 +245,6 @@
   AppVersion: 0.55.0
   Chart: kube-prometheus-stack
   DisplayName: Prometheus Monitoring
-  Enabled: true
   LatestVersion: 34.9.3
   Metadata:
     grafana:
@@ -291,7 +268,6 @@
   AppVersion: 1.94.3
   Chart: kubecost
   DisplayName: Kubecost
-  Enabled: true
   LatestVersion: 0.25.3
   Metadata: null
   Path: /services/kubecost
@@ -303,7 +279,6 @@
   AppVersion: 0.0.1
   Chart: thanos-traefik
   DisplayName: ""
-  Enabled: true
   LatestVersion: 0.0.1
   Metadata: null
   Path: /services/kubecost-thanos-traefik
@@ -315,7 +290,6 @@
   AppVersion: 0.9.2
   Chart: kubefed
   DisplayName: ""
-  Enabled: false
   LatestVersion: 0.9.2
   Metadata: null
   Path: /services/kubefed
@@ -327,7 +301,6 @@
   AppVersion: 2.6.0
   Chart: kubernetes-dashboard
   DisplayName: Kubernetes Dashboard
-  Enabled: true
   LatestVersion: 5.7.0
   Metadata: null
   Path: /services/kubernetes-dashboard
@@ -339,7 +312,6 @@
   AppVersion: v0.0.13
   Chart: kubetunnel
   DisplayName: ""
-  Enabled: false
   LatestVersion: v0.0.13
   Metadata: null
   Path: /services/kubetunnel
@@ -351,7 +323,6 @@
   AppVersion: 3.17.7
   Chart: logging-operator
   DisplayName: Logging Operator
-  Enabled: false
   LatestVersion: 3.17.7
   Metadata: null
   Path: /services/logging-operator
@@ -363,7 +334,6 @@
   AppVersion: 0.8.1
   Chart: metallb
   DisplayName: ""
-  Enabled: false
   LatestVersion: 0.12.3
   Metadata: null
   Path: /services/metallb
@@ -375,7 +345,6 @@
   AppVersion: v4.4.25
   Chart: tenant
   DisplayName: MinIO Operator
-  Enabled: false
   LatestVersion: 4.4.25
   Metadata: null
   Path: /services/minio-operator
@@ -387,7 +356,6 @@
   AppVersion: 2.3.0
   Chart: nfs-server-provisioner
   DisplayName: NFS Server Provisioner
-  Enabled: false
   LatestVersion: 0.6.0
   Metadata: null
   Path: /services/nfs-server-provisioner
@@ -399,7 +367,6 @@
   AppVersion: 0.2.0
   Chart: nvidia
   DisplayName: NVIDIA DCGM
-  Enabled: false
   LatestVersion: 0.4.4
   Metadata: null
   Path: /services/nvidia
@@ -411,8 +378,7 @@
   AppVersion: 9.0.2
   Chart: grafana
   DisplayName: Grafana Logging
-  Enabled: false
-  LatestVersion: 6.32.1
+  LatestVersion: 6.32.2
   Metadata: null
   Path: /services/project-grafana-logging
   Repo: grafana.github.io
@@ -420,11 +386,10 @@
   Version: 6.28.0
 - AppID: project-grafana-loki
   AppName: project-grafana-loki-0.48.3
-  AppVersion: 2.5.0
+  AppVersion: 2.6.0
   Chart: loki-distributed
   DisplayName: Grafana Loki
-  Enabled: false
-  LatestVersion: 0.51.0
+  LatestVersion: 0.52.0
   Metadata: null
   Path: /services/project-grafana-loki
   Repo: grafana.github.io
@@ -435,7 +400,6 @@
   AppVersion: v0.9.1
   Chart: prometheus-adapter
   DisplayName: Prometheus Adapter
-  Enabled: true
   LatestVersion: 3.3.1
   Metadata: null
   Path: /services/prometheus-adapter
@@ -447,7 +411,6 @@
   AppVersion: 0.0.1
   Chart: thanos-traefik
   DisplayName: ""
-  Enabled: true
   LatestVersion: 0.0.1
   Metadata: null
   Path: /services/prometheus-thanos-traefik
@@ -459,7 +422,6 @@
   AppVersion: v0.0.117
   Chart: reloader
   DisplayName: Reloader
-  Enabled: true
   LatestVersion: v0.0.117
   Metadata: null
   Path: /services/reloader
@@ -471,7 +433,6 @@
   AppVersion: 0.17.1
   Chart: thanos
   DisplayName: ""
-  Enabled: true
   LatestVersion: 0.4.6
   Metadata: null
   Path: /services/thanos
@@ -483,7 +444,6 @@
   AppVersion: 2.8.0
   Chart: traefik
   DisplayName: Traefik
-  Enabled: true
   LatestVersion: 10.24.0
   Metadata: null
   Path: /services/traefik
@@ -495,7 +455,6 @@
   AppVersion: 3.1.0
   Chart: traefik-forward-auth
   DisplayName: Traefik Forward Auth
-  Enabled: false
   LatestVersion: 0.3.8
   Metadata: null
   Path: /services/traefik-forward-auth
@@ -507,7 +466,6 @@
   AppVersion: 3.1.0
   Chart: traefik-forward-auth
   DisplayName: ""
-  Enabled: false
   LatestVersion: 0.3.8
   Metadata: null
   Path: /services/traefik-forward-auth-mgmt
@@ -519,7 +477,6 @@
   AppVersion: 1.5.2
   Chart: velero
   DisplayName: Velero
-  Enabled: false
   LatestVersion: 3.2.3
   Metadata: null
   Path: /services/velero

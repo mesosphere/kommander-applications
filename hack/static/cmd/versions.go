@@ -7,12 +7,7 @@ import (
 	"github.com/mesosphere/kommander-applications/hack/static/pkg/bloodhound"
 	"github.com/mesosphere/kommander-applications/hack/static/pkg/kapps"
 
-	"github.com/mesosphere/dkp-bloodhound/pkg/parse"
-	"github.com/mesosphere/dkp-bloodhound/pkg/parse/k8sresource"
-	"github.com/mesosphere/dkp-bloodhound/pkg/parse/kommanderapplicationversion"
-
 	"github.com/spf13/cobra"
-	kyaml "sigs.k8s.io/kustomize/kyaml/yaml"
 	syaml "sigs.k8s.io/yaml"
 )
 
@@ -31,21 +26,7 @@ var versionsCmd = &cobra.Command{
 
 		sort.Sort(kApps)
 
-		k, err := cursor.GetByID("kommander-application://kommander")
-		if err != nil {
-			return err
-		}
-
-		fmt.Println("Determining which applications are installed by default...")
-		defaultApps, err := getKommanderDefaultApps(k)
-		if err != nil {
-			return err
-		}
-
-		for i, ka := range kApps {
-			if _, ok := defaultApps[ka.AppID]; ok {
-				kApps[i].Enabled = true
-			}
+		for _, ka := range kApps {
 			if ka.AppID == "kube-prometheus-stack" {
 				ka.Metadata, err = parseKPSValues(ka.ValuesYAML)
 				if err != nil {
@@ -69,50 +50,6 @@ var versionsCmd = &cobra.Command{
 
 		return write(outYAML, outFile)
 	},
-}
-
-func getKommanderDefaultApps(cursor parse.Cursor) (map[string]struct{}, error) {
-	for _, child := range cursor.Children() {
-		childNode := child.Node()
-		switch childNode.(type) {
-		case *kommanderapplicationversion.Node:
-			for _, child2 := range child.Children() {
-				child2Node := child2.Node()
-				switch c2 := child2Node.(type) {
-				case *k8sresource.Node:
-					if c2.ID().(kyaml.ResourceIdentifier).Kind == "ConfigMap" {
-						cmYAML, err := c2.RNode.String()
-						if err != nil {
-							return nil, err
-						}
-						valuesYAML, err := traverseYAML(cmYAML, "data", "values.yaml")
-						if err != nil {
-							return nil, err
-						}
-						defaultApps, err := traverseYAML(valuesYAML.(string), "attached", "prerequisites", "defaultApps")
-						if err != nil {
-							return nil, err
-						}
-						enterpriseApps, err := traverseYAML(valuesYAML.(string), "kommander-licensing", "defaultEnterpriseApps")
-						if err != nil {
-							return nil, err
-						}
-						result := make(map[string]struct{})
-						for name := range defaultApps.(map[string]interface{}) {
-							result[name] = struct{}{}
-						}
-						for name := range enterpriseApps.(map[string]interface{}) {
-							result[name] = struct{}{}
-						}
-						return result, nil
-					}
-				default:
-				}
-			}
-		default:
-		}
-	}
-	return make(map[string]struct{}), nil
 }
 
 func parseKPSValues(yml string) (map[string]kapps.Meta, error) {
