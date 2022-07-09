@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-0.25.2-d2iq-defaults
+  name: kubecost-0.25.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -42,6 +42,9 @@ data:
           #   traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
           # hosts: [""]
           # path: "/dkp/kubecost/grafana"
+        sidecar:
+          datasources:
+            dataSourceFilename: datasources.yaml
         grafana.ini:
           server:
             protocol: http
