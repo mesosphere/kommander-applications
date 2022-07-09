@@ -1,0 +1,26 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: gatekeeper-cleanup
+  namespace: ${releaseNamespace}
+spec:
+  force: true
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/gatekeeper/3.8.1/cleanup
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
+    substitute:
+      releaseNamespace: ${releaseNamespace}
+  healthChecks:
+    - apiVersion: batch/v1
+      kind: Job
+      name: cleanup-old-certificate
+      namespace: ${releaseNamespace}

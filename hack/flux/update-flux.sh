@@ -8,6 +8,7 @@ LATEST_FLUX_VERSION="$(gh api -X GET "repos/fluxcd/flux2/releases" --jq '.[0].ta
 readonly LATEST_FLUX_VERSION
 CURRENT_FLUX_VERSION=$(find "${REPO_ROOT}/services/kommander-flux" -maxdepth 1 -regextype sed -regex '.*/[0-9]\+.[0-9]\+.[0-9]\+' -printf "%f\n" | sort -V | head -1)
 readonly CURRENT_FLUX_VERSION
+KOMMANDER_REPO_PATH="${REPO_ROOT}/kommander" # Override in CI to path of kommander repository.
 
 function update_flux() {
     readonly BRANCH_NAME="flux-update/${LATEST_FLUX_VERSION}"
@@ -35,11 +36,12 @@ function update_flux() {
     # Update flux version in defaultApps whenever flux version is upgraded.
     sed -i "s/kommander-flux: \".*\"/kommander-flux: \"$LATEST_FLUX_VERSION\"/g" services/kommander/*/defaults/cm.yaml
 
-    git add .
+    git add .tool-versions
+    git add services
 
     if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
         git config user.email "ci@mesosphere.com"
-        git config user.name "CI"
+        git config user.name "mesosphere-teamcity"
     fi
 
     readonly COMMIT_MSG="feat: Upgrade flux to ${LATEST_FLUX_VERSION}"
@@ -49,7 +51,31 @@ function update_flux() {
     git push --set-upstream origin "${BRANCH_NAME}"
 
     git fetch origin main
-    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l slack-notify
+    KOMMANDER_APPLICATIONS_PR=$(gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l ok-to-test -l slack-notify)
+    readonly KOMMANDER_APPLICATIONS_PR
+    echo "${KOMMANDER_APPLICATIONS_PR} is created"
+}
+
+function bump_kommander_repo_flux() {
+    ls -latrh "${KOMMANDER_REPO_PATH}"
+    if [ ! -d "${KOMMANDER_REPO_PATH}" ]; then
+        echo "error: kommander repo path is invalid (set to \"${KOMMANDER_REPO_PATH}\"). skipping flux upgrade in kommander repo"
+        return 0
+    fi
+    echo "kommander repo found at ${KOMMANDER_REPO_PATH} and attempting to create a flux bump PR"
+    pushd "${KOMMANDER_REPO_PATH}"
+    git checkout -b "${BRANCH_NAME}"
+    sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF ?= ${BRANCH_NAME}~g" Makefile
+    git add Makefile
+    if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
+        git config user.email "ci@mesosphere.com"
+        git config user.name "mesosphere-teamcity"
+    fi
+    git commit -m "${COMMIT_MSG}"
+    git push --set-upstream origin "${BRANCH_NAME}"
+    git fetch origin main
+    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l copy-flux-manifests -l ok-to-test -l ready-for-review -l stacked -b "Depends on ${KOMMANDER_APPLICATIONS_PR}"
+    popd
 }
 
 if [ "${CURRENT_FLUX_VERSION}" == "${LATEST_FLUX_VERSION}" ]; then
@@ -60,3 +86,4 @@ fi
 echo "Updating flux version from ${CURRENT_FLUX_VERSION} to ${LATEST_FLUX_VERSION}"
 
 update_flux
+bump_kommander_repo_flux
