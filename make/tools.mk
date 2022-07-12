@@ -50,6 +50,11 @@ install-tool.%: ## Install specific tool
 install-tool.%: ; $(info $(M) installing $*)
 	$(call install_tool,$*)
 
+.PHONY: install-tool.gh-dkp
+install-tool.gh-dkp: install-tool.github-cli
+install-tool.gh-dkp: ; $(info $(M) installing $*)
+	(gh extensions list | grep "gh dkp") || gh extensions install mesosphere/gh-dkp
+
 .PHONY: upgrade-tools
 # ASDF plugins use different env vars for GitHub authentication when querying releases. Try to
 # handle this nicely by specifying some of the known env vars to prevent rate limiting.
