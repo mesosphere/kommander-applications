@@ -53,7 +53,7 @@ install-tool.%: ; $(info $(M) installing $*)
 .PHONY: install-tool.gh-dkp
 install-tool.gh-dkp: install-tool.github-cli
 install-tool.gh-dkp: ; $(info $(M) installing $*)
-	(gh extensions list | grep "gh dkp") || gh extensions install mesosphere/gh-dkp
+	gh extensions install mesosphere/gh-dkp || gh dkp -h
 
 .PHONY: upgrade-tools
 # ASDF plugins use different env vars for GitHub authentication when querying releases. Try to
