@@ -16,3 +16,8 @@ data:
             tag: "${kommanderAppManagementImageTag}"
             repository: "${kommanderAppManagementImageRepository}"
             pullPolicy: IfNotPresent
+    webhook:
+      certificate:
+        issuer:
+          name: ${certificatesIssuerName}
+          kind: ${certificatesIssuerKind:-Issuer}
