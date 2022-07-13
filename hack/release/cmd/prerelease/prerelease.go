@@ -9,13 +9,14 @@ import (
 
 	"github.com/drone/envsubst"
 	"github.com/spf13/cobra"
+
+	"github.com/mesosphere/kommander-applications/hack/release/utils"
 )
 
 var Cmd *cobra.Command //nolint:gochecknoglobals // Cobra commands are global.
 
 const (
 	versionFlagName               = "version"
-	repoFlagName                  = "repo"
 	kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 	kommanderHelmReleasePathPattern        = "./services/kommander/*/kommander.yaml"
@@ -29,28 +30,28 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 		Args:  cobra.MaximumNArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			chartVersion := Cmd.Flag(versionFlagName).Value.String()
-			kommanderApplicationsRepo := Cmd.Flag(repoFlagName).Value.String()
-			if _, err := os.Stat(kommanderApplicationsRepo); os.IsNotExist(err) {
-				return err
-			}
 			fullChartVersion := fmt.Sprintf(kommanderChartVersionTemplate, chartVersion)
-			err := updateChartVersions(kommanderApplicationsRepo, fullChartVersion)
+
+			// Get the kommander-applications repo path
+			rootDir, err := utils.GetRootDir()
+			if err != nil {
+				return fmt.Errorf("failed to get root directory: %v", err)
+			}
+
+			// Update the kommanderChartVersion value
+			err = updateChartVersions(rootDir, fullChartVersion)
 			if err != nil {
 				return err
 			}
+
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
+
 			return nil
 		},
 	}
 	Cmd.Flags().String(versionFlagName, "", "the new Kommander chart version")
-	Cmd.Flags().String(repoFlagName, "", "the path to the local kommander-applications repository to modify")
 
 	err := Cmd.MarkFlagRequired(versionFlagName)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = Cmd.MarkFlagRequired(repoFlagName)
 	if err != nil {
 		log.Fatal(err)
 	}
