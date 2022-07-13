@@ -28,7 +28,7 @@ If this PR fixes a COPS ticket, include it after the note like: "CLI: Some bug f
 **If the PR adds a version bump, does it add a breaking change in License**:
 <!--
 For example, If a chart changes license from say Apache License to GNU AFFERO GENERAL PUBLIC LICENSE then
-that would have legal repercussions (as we ship helm charts, image bundles for airgapped etc.,) and multiple 
+that would have legal repercussions (as we ship helm charts, image bundles for airgapped etc.,) and multiple
 parties (Like Product, Legal for example) need to be notified when such a change happens.
 -->
 
