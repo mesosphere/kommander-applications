@@ -1,6 +1,6 @@
 awscli 2.4.24
 flux2 0.31.3
-github-cli 2.5.2
+github-cli 2.13.0
 golang 1.18.1
 kustomize 4.5.2
 pre-commit 2.17.0
