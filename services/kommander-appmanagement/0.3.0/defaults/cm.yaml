@@ -16,8 +16,15 @@ data:
             tag: "${kommanderAppManagementImageTag}"
             repository: "${kommanderAppManagementImageRepository}"
             pullPolicy: IfNotPresent
+    kubetools:
+      image:
+        repository: "${kommanderAppManagementKubetoolsImageRepository}"
+        tag: "${kommanderAppManagementImageTag}"
     webhook:
       certificate:
         issuer:
           name: ${certificatesIssuerName}
           kind: ${certificatesIssuerKind:-Issuer}
+      image:
+        repository: "${kommanderAppManagementWebhookImageRepository}"
+        tag: "${kommanderAppManagementImageTag}"
