@@ -35,6 +35,7 @@ data:
         secret.reloader.stakater.com/reload: chartmuseum-tls
     strategy:
       type: Recreate
+      rollingUpdate: ~
     extraArgs:
       - --tls-cert=/tls/tls.crt
       - --tls-key=/tls/tls.key
