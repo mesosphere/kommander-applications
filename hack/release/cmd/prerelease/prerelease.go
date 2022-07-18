@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/drone/envsubst"
 	"github.com/spf13/cobra"
 
 	"github.com/mesosphere/kommander-applications/hack/release/utils"
@@ -73,26 +72,21 @@ func updateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		}
 		helmReleaseFilePath := matches[0]
 
-		// Update the kommanderChartVersion value
-		parsedFile, err := envsubst.ParseFile(helmReleaseFilePath)
-		if err != nil {
-			return err
-		}
-		subVars := map[string]string{
-			"kommanderChartVersion": chartVersion,
-			"releaseNamespace":      "${releaseNamespace}",
-		}
-		updatedFile, err := parsedFile.Execute(func(s string) string {
-			return subVars[s]
-		})
-		if err != nil {
-			return err
-		}
+		// Updates the HelmRelease file with given chart version
+		updatedFile, err := utils.EvalFile(
+			helmReleaseFilePath,
+			map[string]string{
+				"kommanderChartVersion": chartVersion,
+				"releaseNamespace":      "${releaseNamespace}",
+			},
+		)
 
+		// Verify that the HelmRelease file was updated
 		if !strings.Contains(updatedFile, chartVersion) {
 			return fmt.Errorf("failed to update Kommander HelmRelease chart version")
 		}
 
+		// Write the updated HelmRelease file to the same location
 		err = os.WriteFile(helmReleaseFilePath, []byte(updatedFile), 0644)
 		if err != nil {
 			return err
