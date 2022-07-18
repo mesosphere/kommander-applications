@@ -3,12 +3,10 @@ package prerelease
 import (
 	"fmt"
 	"log"
-	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 
+	"github.com/mesosphere/kommander-applications/hack/release/update"
 	"github.com/mesosphere/kommander-applications/hack/release/utils"
 )
 
@@ -17,9 +15,6 @@ var Cmd *cobra.Command //nolint:gochecknoglobals // Cobra commands are global.
 const (
 	versionFlagName               = "version"
 	kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
-
-	kommanderHelmReleasePathPattern        = "./services/kommander/*/kommander.yaml"
-	kommanderAppMgmtHelmReleasePathPattern = "./services/kommander-appmanagement/*/kommander-appmanagement.yaml"
 )
 
 func init() { //nolint:gochecknoinits // Initializing cobra application.
@@ -38,7 +33,7 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			}
 
 			// Update the kommanderChartVersion value
-			err = updateChartVersions(rootDir, fullChartVersion)
+			err = update.KommanderChartVersion(rootDir, fullChartVersion)
 			if err != nil {
 				return err
 			}
@@ -54,43 +49,4 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func updateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
-	kommanderHelmReleasePaths := []string{kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern}
-	for _, helmReleasePath := range kommanderHelmReleasePaths {
-		// Find the HelmRelease
-		matches, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, helmReleasePath))
-		if err != nil {
-			return err
-		}
-		if len(matches) == 0 {
-			return fmt.Errorf("no matches found for HelmRelease path %s (verify the kommander-applications repo path is correct)", helmReleasePath)
-		}
-		if len(matches) > 1 {
-			return fmt.Errorf("found > 1 match for HelmRelease path %s (there should only be one match)", helmReleasePath)
-		}
-		helmReleaseFilePath := matches[0]
-
-		// Updates the HelmRelease file with given chart version
-		updatedFile, err := utils.EvalFile(
-			helmReleaseFilePath,
-			map[string]string{
-				"kommanderChartVersion": chartVersion,
-				"releaseNamespace":      "${releaseNamespace}",
-			},
-		)
-
-		// Verify that the HelmRelease file was updated
-		if !strings.Contains(updatedFile, chartVersion) {
-			return fmt.Errorf("failed to update Kommander HelmRelease chart version")
-		}
-
-		// Write the updated HelmRelease file to the same location
-		err = os.WriteFile(helmReleaseFilePath, []byte(updatedFile), 0644)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }

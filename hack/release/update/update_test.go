@@ -1,4 +1,4 @@
-package prerelease
+package update_test
 
 import (
 	"fmt"
@@ -12,24 +12,37 @@ import (
 	"github.com/r3labs/diff/v3"
 	"github.com/stretchr/testify/assert"
 	"sigs.k8s.io/yaml"
+
+	"github.com/mesosphere/kommander-applications/hack/release/update"
+	"github.com/mesosphere/kommander-applications/hack/release/utils"
 )
 
-const rootDir = "../../../../"
-
 func TestUpdateChartVersionsSuccessfully(t *testing.T) {
+	// Create a temporary directory to work in
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tmpDir)
+
+	// Get the current repo root dir
+	rootDir, err := utils.GetRootDir()
+	assert.Nil(t, err)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
 	assert.Nil(t, err)
 
-	updateToVersion := fmt.Sprintf(kommanderChartVersionTemplate, "v1.0.0")
-	err = updateChartVersions(tmpDir, updateToVersion)
+	// Expected chart version to update
+	updateToVersion := fmt.Sprintf("${kommanderChartVersion:=%s}", "v1.0.0")
+
+	// Update the chart version
+	err = update.KommanderChartVersion(tmpDir, updateToVersion)
 	assert.Nil(t, err)
 
-	kommanderHelmReleasePaths := []string{kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern}
+	kommanderHelmReleasePaths := []string{
+		update.KommanderHelmReleasePathPattern,
+		update.KommanderAppMgmtHelmReleasePathPattern,
+	}
+
 	for _, helmReleasePath := range kommanderHelmReleasePaths {
 		// Get Kommander HR files from the current repo state to validate that changes to the Kommander HelmReleases
 		// are compatible with what this tool expects
@@ -73,12 +86,18 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	assert.Nil(t, err)
 	defer os.RemoveAll(tmpDir)
 
+	// Get the current repo root dir
+	rootDir, err := utils.GetRootDir()
+	assert.Nil(t, err)
+
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
 	assert.Nil(t, err)
 
-	updateToVersion := fmt.Sprintf(kommanderChartVersionTemplate, "v1.0.0")
-	matches, err := filepath.Glob(filepath.Join(tmpDir, kommanderHelmReleasePathPattern))
+	// Expected chart version to update
+	updateToVersion := fmt.Sprintf("${kommanderChartVersion:=%s}", "v1.0.0")
+
+	matches, err := filepath.Glob(filepath.Join(tmpDir, update.KommanderHelmReleasePathPattern))
 	assert.Nil(t, err)
 	assert.Equal(t, len(matches), 1)
 
@@ -86,21 +105,32 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	err = os.Rename(matches[0], filepath.Join(filepath.Dir(matches[0]), "test.yaml"))
 	assert.Nil(t, err)
 
-	err = updateChartVersions(tmpDir, updateToVersion)
+	err = update.KommanderChartVersion(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the filename changed")
 }
 
 func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
+	// Create a temporary directory to work in
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tmpDir)
+
+	// Get the current repo root dir
+	rootDir, err := utils.GetRootDir()
+	assert.Nil(t, err)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
 	assert.Nil(t, err)
 
-	updateToVersion := fmt.Sprintf(kommanderChartVersionTemplate, "v1.0.0")
-	matches, err := filepath.Glob(filepath.Join(tmpDir, kommanderHelmReleasePathPattern))
+	// Expected chart version to update
+	updateToVersion := fmt.Sprintf("${kommanderChartVersion:=%s}", "v1.0.0")
+
+	// Update the chart version
+	err = update.KommanderChartVersion(tmpDir, updateToVersion)
+	assert.Nil(t, err)
+
+	matches, err := filepath.Glob(filepath.Join(tmpDir, update.KommanderHelmReleasePathPattern))
 	assert.Nil(t, err)
 	assert.Equal(t, len(matches), 1)
 
@@ -119,6 +149,6 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	err = os.WriteFile(matches[0], []byte(updatedFile), 0644)
 	assert.Nil(t, err)
 
-	err = updateChartVersions(tmpDir, updateToVersion)
+	err = update.KommanderChartVersion(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the chart version was changed to something unexpected")
 }
