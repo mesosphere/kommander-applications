@@ -38,7 +38,7 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
 
 			return nil
 		},
