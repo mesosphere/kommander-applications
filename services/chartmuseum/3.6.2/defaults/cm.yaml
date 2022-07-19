@@ -35,6 +35,8 @@ data:
         secret.reloader.stakater.com/reload: chartmuseum-tls
     strategy:
       type: Recreate
+      # In chart version 3.6.2, rollingUpdate is defaulted to a value which is not compatible with the Recreate strategy.
+      # In future chart versions, the rollingUpdate field was removed from the defaults.
       rollingUpdate: ~
     extraArgs:
       - --tls-cert=/tls/tls.crt
