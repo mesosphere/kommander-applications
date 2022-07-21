@@ -18,10 +18,12 @@ spec:
       version: 34.9.3
   interval: 15s
   install:
+    timeout: 5m0s
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
+    timeout: 5m0s
     crds: CreateReplace
     remediation:
       retries: 30
