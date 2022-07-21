@@ -24,6 +24,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
+  timeout: 5m0s
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
