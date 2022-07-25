@@ -2,7 +2,7 @@ displayName: Grafana Loki
 description: Horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus. Requires Logging Operator.
 category:
   - logging
-type: catalog
+type: platform
 scope:
   - project
 certifications:
