@@ -30,7 +30,7 @@ overview: |-
 
   ## More Information
   - [kubecost.com](https://www.kubecost.com/)
-  - [Centralized Cost Monitoring](https://docs.d2iq.com/dkp/kommander/latest/monitoring/centralized-cost-monitoring/)
+  - [Centralized Cost Monitoring](https://docs.d2iq.com/dkp/2.3/centralized-cost-monitoring)
   - [Webinar: D2iQ x Kubecost - Managing Multi-Cloud Infrastructure and Compute Cost](https://info.d2iq.com/kubecost-webinar-registration.html)
   - [Kubecost - GitHub](https://github.com/kubecost)
   - [Release Notes](https://github.com/kubecost/cost-analyzer-helm-chart/releases/tag/v1.83.2)
