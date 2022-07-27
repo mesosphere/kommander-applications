@@ -17,10 +17,5 @@ endif
 
 .PHONY: repo.dev.tag
 repo.dev.tag: ## Returns development tag
-repo.dev.tag: install-tool.go.svu
-ifeq ($(GIT_CURRENT_BRANCH),main)
-	git fetch --tags
-	svu minor --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],[0-9]-rc.*,-rc.*,}' --suffix dev --tag-mode=all-branches --no-metadata
-else
-	svu patch --pattern 'v[0-9].[0-9]{[0-9],}.[0-9]{[0-9],[0-9]-rc.*,-rc.*,}' --suffix dev --no-metadata
-endif
+repo.dev.tag: install-tool.gh-dkp
+	gh dkp generate dev-version --repository-owner $(GITHUB_ORG) --repository-name $(GITHUB_REPOSITORY)
