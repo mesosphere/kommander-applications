@@ -2,7 +2,7 @@ displayName: Grafana Logging
 description: Logging dashboard used to view logs aggregated to Grafana Loki. Requires Grafana Loki.
 category:
   - logging
-type: catalog
+type: platform
 scope:
   - project
 certifications:
