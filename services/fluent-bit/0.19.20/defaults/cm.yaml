@@ -13,7 +13,7 @@ data:
 
     resources:
       limits:
-        memory: 500Mi
+        memory: 750Mi
       requests:
         cpu: 350m
         memory: 250Mi
