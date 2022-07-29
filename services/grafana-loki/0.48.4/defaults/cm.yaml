@@ -48,6 +48,9 @@ data:
           reject_old_samples_max_age: 168h
           max_cache_freshness_per_query: 10m
           split_queries_by_interval: 15m
+          ingestion_rate_mb: 10
+          # ingestion_burst_size_mb should be set at least to the maximum logs size expected in a single push request.
+          ingestion_burst_size_mb: 10
         schema_config:
           configs:
             - from: 2020-09-07
