@@ -17,6 +17,7 @@ data:
           # info is a little too quiet.
           log_level: debug
           grpc_server_max_recv_msg_size: 10485760
+          # grpc_server_max_send_msg_size should be set at least to the maximum logs size expected in a single push request.
           grpc_server_max_send_msg_size: 10485760
         distributor:
           ring:
