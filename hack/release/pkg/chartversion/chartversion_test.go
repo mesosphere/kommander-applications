@@ -1,4 +1,4 @@
-package prerelease
+package chartversion
 
 import (
 	"fmt"
@@ -25,8 +25,8 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 	err = cp.Copy(rootDir, tmpDir)
 	assert.Nil(t, err)
 
-	updateToVersion := fmt.Sprintf(kommanderChartVersionTemplate, "v1.0.0")
-	err = updateChartVersions(tmpDir, updateToVersion)
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Nil(t, err)
 
 	kommanderHelmReleasePaths := []string{kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern}
@@ -63,7 +63,10 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 			// Validate that .spec.chart.spec.version is the only field that changes
 			assert.Equal(t, []string{"Spec", "Chart", "Spec", "Version"}, change.Path, "expected .spec.chart.spec.version to be the only field that changed in the Kommander HelmRelease")
 			// Validate that the updated version is what we expect
-			assert.Equal(t, updateToVersion, change.To, "expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
+			assert.Equal(t,
+				fmt.Sprintf(kommanderChartVersionTemplate, updateToVersion),
+				change.To,
+				"expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
 		}
 	}
 }
@@ -86,7 +89,7 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	err = os.Rename(matches[0], filepath.Join(filepath.Dir(matches[0]), "test.yaml"))
 	assert.Nil(t, err)
 
-	err = updateChartVersions(tmpDir, updateToVersion)
+	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the filename changed")
 }
 
@@ -119,6 +122,6 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	err = os.WriteFile(matches[0], []byte(updatedFile), 0644)
 	assert.Nil(t, err)
 
-	err = updateChartVersions(tmpDir, updateToVersion)
+	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the chart version was changed to something unexpected")
 }
