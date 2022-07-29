@@ -16,6 +16,8 @@ data:
           http_listen_port: 3100
           # info is a little too quiet.
           log_level: debug
+          grpc_server_max_recv_msg_size: 10485760
+          grpc_server_max_send_msg_size: 10485760
         distributor:
           ring:
             kvstore:
