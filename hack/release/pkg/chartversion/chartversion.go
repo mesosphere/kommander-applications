@@ -7,12 +7,14 @@ import (
 	"strings"
 
 	"github.com/drone/envsubst"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
-const (
-	kommanderChartVersionTemplate          = "${kommanderChartVersion:=%s}"
-	kommanderHelmReleasePathPattern        = "./services/kommander/*/kommander.yaml"
-	kommanderAppMgmtHelmReleasePathPattern = "./services/kommander-appmanagement/*/kommander-appmanagement.yaml"
+const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
+
+var (
+	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/kommander-appmanagement.yaml")
 )
 
 func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
