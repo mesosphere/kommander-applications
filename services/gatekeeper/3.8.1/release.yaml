@@ -4,8 +4,6 @@ metadata:
   name: gatekeeper-release
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: gatekeeper-cleanup
   force: false
   prune: true
   wait: true
