@@ -49,6 +49,11 @@ func SetKommanderAppsVersion(ctx context.Context, dir string, version string) er
 		return ErrVersionNotFound
 	}
 
+	if oldVersion == version {
+		// nothing to do
+		return nil
+	}
+
 	for _, componentDir := range []string{constants.KommanderAppPath, constants.KommanderAppMgmtPath} {
 		if err := move(ctx,
 			dir,
