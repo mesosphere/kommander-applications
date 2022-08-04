@@ -135,6 +135,6 @@ data:
 
     gateway:
       image:
-        # Check to see if this image is bumped when we upgrade the chart.
-        # This image override fixes the following critical CVEs: CVE-2021-22945, CVE-2021-36159, and CVE-2021-3711
-        tag: 1.21.6-alpine
+        # Override nginx image to address known CVEs.
+        # As of 0.48.4, chart maintainers are still using 1.19-alpine
+        tag: 1.22.0-alpine
