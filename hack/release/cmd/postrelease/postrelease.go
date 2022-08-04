@@ -45,6 +45,14 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
+			if _, err := appversion.ReplaceContent(
+				cmd.Context(),
+				kommanderApplicationsRepo,
+				chartVersionToAppVersion(chartVersion),
+			); err != nil {
+				return err
+			}
+
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
 			return nil
 		},
