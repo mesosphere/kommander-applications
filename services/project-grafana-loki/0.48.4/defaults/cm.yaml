@@ -40,8 +40,7 @@ data:
             replay_memory_ceiling: 4GB
             dir: /var/loki/wal
         limits_config:
-          # TODO tried to enable retention_period but fails.
-          #retention_period: 336h
+          retention_period: 168h
           enforce_metric_name: false
           reject_old_samples: true
           reject_old_samples_max_age: 168h
@@ -67,10 +66,6 @@ data:
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
-        table_manager:
-          # TODO: switch to compactor retention once its supported (in 2.3.0+)
-          retention_deletes_enabled: true
-          retention_period: 336h
         query_range:
           align_queries_with_step: true
           max_retries: 5
@@ -89,8 +84,9 @@ data:
           tail_proxy_url: http://{{ include "loki.querierFullname" . }}:3100
         compactor:
           shared_store: s3
-          # TODO enable, fails config parsing
-          #retention_enabled: true
+          retention_enabled: true
+          compaction_interval: 10m # Default is 10m
+          retention_delete_delay: 2h # Default is 2h
         ruler:
           storage:
             type: local
