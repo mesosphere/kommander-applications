@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubefed-0.9.2-d2iq-defaults
+  name: kubefed-0.10.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -33,7 +33,7 @@ data:
       postInstallJob:
         repository: bitnami
         image: kubectl
-        tag: 1.23.5
+        tag: 1.24.3
     webhook:
       annotations:
         secret.reloader.stakater.com/reload: "kubefed-root-ca"
