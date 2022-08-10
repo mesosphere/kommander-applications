@@ -2,7 +2,14 @@ KOMMANDER_E2E_DIR  = $(REPO_ROOT)/.tmp/kommander-e2e
 
 # E2E configurations
 E2E_TIMEOUT       ?= 120m
-E2E_KINDEST_IMAGE ?= "kindest/node:v1.23.5"
+# Using a custom build of KinD node docker image allows us to test against any patch version
+# of Kubernetes. The image is built using exactly the same methodology as upstream, namely
+# `kind build node-image`, but upstream only builds a few k8s patch versions, whereas we
+# build image for every patch release of Kubernetes. This allows us to be slightly more
+# flexible with our testing as well as testing against the same patch version as we deliver
+# by default with DKP.
+# See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
+E2E_KINDEST_IMAGE ?= "mesosphere/kind-node:v1.24.3"
 UPGRADE_FROM_VERSION ?= "v2.2.2-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
