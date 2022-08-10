@@ -136,6 +136,7 @@ data:
         size: 10Gi
 
     ruler:
+      enabled: true
       replicas: 1
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
