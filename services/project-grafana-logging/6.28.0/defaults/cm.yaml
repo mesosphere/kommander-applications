@@ -30,7 +30,10 @@ data:
 
     sidecar:
       dashboards:
-        searchNamespace: ALL
+        enabled: true
+        label: project_grafana_logging_dashboard
+        # only search the namespace in which the sidecar is running
+        searchNamespace: null
 
     grafana.ini:
       log:
@@ -48,6 +51,8 @@ data:
         enabled: false
       users:
         auto_assign_org_role: Admin
+      plugins:
+        allow_loading_unsigned_plugins: "grafana-piechart-panel"
 
     service:
       type: ClusterIP
