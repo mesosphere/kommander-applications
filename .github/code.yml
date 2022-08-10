@@ -1,0 +1,17 @@
+name: Code quality
+on:
+  pull_request
+permissions:
+  pull-requests: write
+  contents: read
+jobs:
+  size-label:
+    runs-on: ubuntu-latest
+    name: Label PR size
+    env:
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    steps:
+      - name: size-label
+        uses: pascalgn/size-label-action@1619680c5ac1ef360b944bb56a57587ba4aa2af8 # v0.4.3
+        env:
+          IGNORED: ".*\n**/mocks/*.go\n**/*_gen.go"
