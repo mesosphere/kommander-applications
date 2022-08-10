@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kubefed/0.9.2/federatedtypeconfigs
+  path: ./services/kubefed/0.10.0/federatedtypeconfigs
   dependsOn:
     - name: kube-federation-system-namespace
     - name: kubefed-release
