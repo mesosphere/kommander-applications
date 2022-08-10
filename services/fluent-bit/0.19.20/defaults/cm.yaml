@@ -83,7 +83,7 @@ data:
         [SERVICE]
             Flush 1
             Daemon Off
-            Log_Level info
+            Log_Level warn
             Parsers_File parsers.conf
             Parsers_File custom_parsers.conf
             HTTP_Server On
@@ -138,7 +138,7 @@ data:
             Match audit.*
             Alias kubernetes_audit
             Labels log_source=kubernetes_audit
-            label_keys $verb,$user['username'],$objectRef['namespace'],$objectRef['resource']
+            label_keys $verb,$user['username']
             Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
             Port 80
             Retry_Limit 10
