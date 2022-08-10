@@ -1065,7 +1065,7 @@
   "style": "dark",
   "tags": [
     "velero",
-    "platform services"
+    "platform apps"
   ],
   "templating": {
     "list": [

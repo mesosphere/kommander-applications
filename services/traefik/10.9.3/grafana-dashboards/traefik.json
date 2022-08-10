@@ -1267,7 +1267,7 @@
   "style": "dark",
   "tags": [
     "traefik",
-    "platform services"
+    "platform apps"
   ],
   "templating": {
     "list": [
