@@ -49,6 +49,8 @@ data:
         pathType: ImplementationSpecific
 
       grafana.ini:
+        log:
+          level: warn
         server:
           protocol: http
           enable_gzip: true
