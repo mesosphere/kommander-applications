@@ -13,8 +13,7 @@ data:
         auth_enabled: false
         server:
           http_listen_port: 3100
-          # info is a little too quiet.
-          log_level: debug
+          log_level: warn
         distributor:
           ring:
             kvstore:
