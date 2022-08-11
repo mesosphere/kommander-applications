@@ -153,3 +153,4 @@ data:
           client_max_body_size 10M;
         serverSnippet: |-
           client_max_body_size 10M;
+      verboseLogging: false
