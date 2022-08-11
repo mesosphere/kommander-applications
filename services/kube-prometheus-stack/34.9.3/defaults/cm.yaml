@@ -10,7 +10,6 @@ data:
     commonLabels:
       prometheus.kommander.d2iq.io/select: "true"
     prometheusOperator:
-      logLevel: warn
       admissionWebhooks:
         patch:
           image:
@@ -135,7 +134,6 @@ data:
                   - image-automation-controller
                   - image-reflector-controller
       prometheusSpec:
-        logLevel: warn
         serviceMonitorNamespaceSelector: {}  # all namespaces
         serviceMonitorSelector:
           matchLabels:
@@ -336,7 +334,6 @@ data:
           - /dkp/alertmanager
         pathType: ImplementationSpecific
       alertmanagerSpec:
-        logLevel: warn
         resources:
           limits:
             cpu: 200m
@@ -371,8 +368,6 @@ data:
           initDatasources: true
           searchNamespace: ALL
       grafana.ini:
-        log:
-          level: warn
         server:
           protocol: http
           enable_gzip: true
