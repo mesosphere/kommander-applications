@@ -72,7 +72,7 @@ data:
       scaling:
         replicas: 1
       port: 24240
-      logLevel: info
+      logLevel: warn
       fluentLogDestination: stdout
       bufferStorageVolume:
         pvc:
@@ -114,7 +114,7 @@ data:
           key: CriticalAddonsOnly
       flush: 1
       grace: 5
-      logLevel: info
+      logLevel: warn
       coroStackSize: 24576
       inputTail:
         Path: /var/log/containers/*.log
