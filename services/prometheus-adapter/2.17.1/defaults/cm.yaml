@@ -18,7 +18,6 @@ data:
          cpu: 1000m
          memory: 1000Mi
     metricsRelistInterval: 60s
-    logLevel: 2
     rules:
       resource:
         cpu:

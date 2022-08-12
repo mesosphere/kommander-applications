@@ -25,7 +25,7 @@ spec:
       - args:
         - --events-addr=http://notification-controller.kommander-flux.svc.cluster.local./
         - --watch-all-namespaces=true
-        - --log-level=warn
+        - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
         env:

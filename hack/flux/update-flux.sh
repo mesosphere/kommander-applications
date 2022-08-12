@@ -35,8 +35,6 @@ function update_flux() {
 
     # Update flux version in defaultApps whenever flux version is upgraded.
     sed -i "s/kommander-flux: \".*\"/kommander-flux: \"$LATEST_FLUX_VERSION\"/g" services/kommander/*/defaults/cm.yaml
-    # Set log level to warn for all flux deployments.
-    sed -i "s/--log-level=info/--log-level=warn/g" services/kommander-flux/*/templates/apps_v1_deployment*.yaml
 
     git add .tool-versions
     git add services
