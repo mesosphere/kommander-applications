@@ -141,9 +141,9 @@ data:
         # Override nginx image to address known CVEs.
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
         tag: 1.22.0-alpine
-      verboseLogging: false
       nginxConfig:
         httpSnippet: |-
           client_max_body_size 10M;
         serverSnippet: |-
           client_max_body_size 10M;
+      verboseLogging: false
