@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fluent-bit-0.19.20-d2iq-defaults
+  name: fluent-bit-0.19.21-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -83,7 +83,7 @@ data:
         [SERVICE]
             Flush 1
             Daemon Off
-            Log_Level info
+            Log_Level error
             Parsers_File parsers.conf
             Parsers_File custom_parsers.conf
             HTTP_Server On
