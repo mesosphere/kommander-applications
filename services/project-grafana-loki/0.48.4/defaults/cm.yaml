@@ -32,6 +32,7 @@ data:
           chunk_encoding: snappy
           chunk_retain_period: 1m
           max_transfer_retries: 0
+          flush_op_timeout: 10m
           wal:
             enabled: true
             flush_on_shutdown: false
