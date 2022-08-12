@@ -14,8 +14,7 @@ data:
         auth_enabled: false
         server:
           http_listen_port: 3100
-          # info is a little too quiet.
-          log_level: debug
+          log_level: warn
           grpc_server_max_recv_msg_size: 10485760
           # grpc_server_max_send_msg_size should be set at least to the maximum logs size expected in a single push request.
           grpc_server_max_send_msg_size: 10485760
@@ -154,3 +153,4 @@ data:
           client_max_body_size 10M;
         serverSnippet: |-
           client_max_body_size 10M;
+      verboseLogging: false

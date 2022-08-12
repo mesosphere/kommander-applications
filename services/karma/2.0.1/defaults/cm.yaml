@@ -76,7 +76,7 @@ data:
           prefix: /dkp/kommander/monitoring/karma/
         log:
           config: true
-          level: info
+          level: warn
 
     certSecretNames:
       - kommander-karma-client-tls
