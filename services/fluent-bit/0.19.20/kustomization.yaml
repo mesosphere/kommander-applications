@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - fluent-bit.yaml
   - grafana-dashboards
+  - grafana-dashboards-logging
