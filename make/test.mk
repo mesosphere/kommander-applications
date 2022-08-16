@@ -31,7 +31,7 @@ kommander-e2e:
 		mkdir -p $(KOMMANDER_E2E_DIR) && \
 			git clone -q https://github.com/mesosphere/kommander-e2e.git $(KOMMANDER_E2E_DIR) && \
 			cd $(KOMMANDER_E2E_DIR) && \
-			git checkout main ; \
+			git checkout gracedo/test ; \
 	fi
 
 .PHONY: test.e2e.install
