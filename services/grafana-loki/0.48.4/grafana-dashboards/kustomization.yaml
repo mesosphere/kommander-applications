@@ -6,6 +6,11 @@ configMapGenerator:
     namespace: ${releaseNamespace}
     files:
       - grafana-loki.json
+      - loki-chunks.json
+      - loki-deletion.json
+      - loki-reads-resources.json
+      - loki-retention.json
+      - loki-writes-resources.json
 generatorOptions:
   labels:
     grafana_dashboard: "1"
