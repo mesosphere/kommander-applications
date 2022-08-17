@@ -1095,7 +1095,7 @@
       "maxDataPoints": 3,
       "nullPointMode": "connected",
       "pieType": "pie",
-      "pluginVersion": "7.3.1",
+      "pluginVersion": "8.4.5",
       "strokeWidth": 1,
       "targets": [
         {
