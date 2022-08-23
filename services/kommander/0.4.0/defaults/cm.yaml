@@ -91,7 +91,7 @@ data:
         defaultApps:
           reloader: "0.0.118"
           traefik: "10.9.3"
-          kubernetes-dashboard: "5.1.1"
+          kubernetes-dashboard: "5.9.0"
           kubecost: "0.27.0"
           kube-prometheus-stack: "39.7.0"
           prometheus-adapter: "2.17.1"
