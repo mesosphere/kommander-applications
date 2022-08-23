@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gitea-5.0.9-d2iq-defaults
+  name: gitea-6.0.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-

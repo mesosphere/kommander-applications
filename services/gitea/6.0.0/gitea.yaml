@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: dl.gitea.io-charts
         namespace: kommander-flux
-      version: 5.0.9
+      version: 6.0.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,5 +26,5 @@ spec:
   releaseName: gitea
   valuesFrom:
     - kind: ConfigMap
-      name: gitea-5.0.9-d2iq-defaults
+      name: gitea-6.0.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
