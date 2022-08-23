@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: "10.9.1"
+      version: "10.24.0"
   interval: 15s
   install:
     crds: CreateReplace
