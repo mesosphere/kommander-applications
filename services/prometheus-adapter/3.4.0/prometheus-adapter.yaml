@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community.github.io-helm-charts
         namespace: kommander-flux
-      version: 2.17.1
+      version: 3.4.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,5 +28,5 @@ spec:
   releaseName: prometheus-adapter
   valuesFrom:
     - kind: ConfigMap
-      name: prometheus-adapter-2.17.1-d2iq-defaults
+      name: prometheus-adapter-3.4.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
