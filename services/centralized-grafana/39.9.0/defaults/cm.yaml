@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-grafana-39.7.0-d2iq-defaults
+  name: centralized-grafana-39.9.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
