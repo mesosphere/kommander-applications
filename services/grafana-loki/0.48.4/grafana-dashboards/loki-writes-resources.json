@@ -957,7 +957,7 @@
     ]
   },
   "timezone": "utc",
-  "title": "Loki / Writes Resources",
+  "title": "Platform Apps / Grafana Loki / Writes Resources",
   "uid": "loki-writes-resources",
   "version": 0
 }
