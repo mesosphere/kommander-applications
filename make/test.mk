@@ -16,7 +16,7 @@ E2E_KINDEST_IMAGE ?= "mesosphere/kind-node:v1.24.3"
 # and therefore the whole install process so we need to run the upgrade tests against an older version
 # of Kubernetes. This can be removed once the `UPGRADE_FROM_VERSION` below is Kommander >=v2.4.
 E2E_KINDEST_IMAGE_FOR_UPGRADE_TEST ?= "mesosphere/kind-node:v1.23.9"
-UPGRADE_FROM_VERSION ?= "v2.2.2-dev"
+UPGRADE_FROM_VERSION ?= "v2.3.1-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
 # it means "a temporary workaround" actually means "permanent solution".
