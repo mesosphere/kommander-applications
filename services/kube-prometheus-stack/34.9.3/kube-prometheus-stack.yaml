@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 39.7.0
+      version: 34.9.3
   interval: 15s
   install:
     timeout: 5m0s
@@ -31,7 +31,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: kube-prometheus-stack-39.7.0-d2iq-defaults
+      name: kube-prometheus-stack-34.9.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
