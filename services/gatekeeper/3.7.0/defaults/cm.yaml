@@ -19,3 +19,6 @@ data:
       excludeNamespacesFromProxy: []
       namespaceSelectorForProxy: {}
       sideEffects: "None"
+    postInstall:
+      labelNamespace:
+        enabled: false
