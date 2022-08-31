@@ -92,6 +92,9 @@ spec:
   s3:
     bucketDNS: false
 
+  buckets:
+    - name: loki
+
   podManagementPolicy: Parallel
 ---
 apiVersion: v1
