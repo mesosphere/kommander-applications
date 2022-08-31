@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/fluent-bit/0.19.21/resource-quota
+  path: ./services/fluent-bit/0.19.24/resource-quota
   sourceRef:
     kind: GitRepository
     name: management
