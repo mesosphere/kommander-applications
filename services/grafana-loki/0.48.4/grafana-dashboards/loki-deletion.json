@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "list": [ ]
+    "list": []
   },
   "editable": true,
   "gnetId": null,
@@ -27,7 +27,7 @@
       "height": "100px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -46,13 +46,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -81,7 +81,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -103,7 +103,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -122,13 +122,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -157,7 +157,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -191,7 +191,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -209,13 +209,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -230,7 +230,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Delete Requests Received / Day",
@@ -245,7 +245,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -267,7 +267,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -285,13 +285,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -306,7 +306,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Delete Requests Processed / Day",
@@ -321,7 +321,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -355,7 +355,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -373,13 +373,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
@@ -394,7 +394,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Failures in Loading Delete Requests / Hour",
@@ -409,7 +409,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -443,7 +443,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -461,20 +461,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(loki_compactor_deleted_lines{cluster=~\"$cluster\",job=~\"$namespace/compactor\"}[$__rate_interval])) by (user)",
+              "expr": "sum(rate(loki_compactor_deleted_lines{cluster=~\"$cluster\",container=~\"compactor\"}[$__rate_interval])) by (user)",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{user}}",
@@ -482,7 +482,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Lines Deleted / Sec",
@@ -497,7 +497,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -543,7 +543,7 @@
         "hide": 0,
         "label": "Data Source",
         "name": "datasource",
-        "options": [ ],
+        "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
@@ -561,13 +561,13 @@
         "label": "cluster",
         "multi": false,
         "name": "cluster",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info, cluster)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -584,13 +584,13 @@
         "label": "namespace",
         "multi": false,
         "name": "namespace",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
