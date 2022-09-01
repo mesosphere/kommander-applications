@@ -154,3 +154,8 @@ data:
         serverSnippet: |-
           client_max_body_size 10M;
       verboseLogging: false
+
+    distributor:
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
