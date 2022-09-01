@@ -1,0 +1,57 @@
+# For upgrades from <3.0.0
+# New "app.kubernetes.io/name"/"app.kubernetes.io/instance" label selectors added to the prometheus-adapter
+# deployment; here we select for deployments with the "app" label but without the newly added
+# "app.kubernetes.io/name" label, to delete. This ensures a newly-created prometheus-adapter deployment does
+# not get deleted.
+# The job will also be run pre-install but will be a noop.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-adapter-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-adapter-pre-upgrade
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "watch", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-adapter-pre-upgrade
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: prometheus-adapter-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: prometheus-adapter-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: delete-prometheus-adapter-deployment
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: delete-prometheus-adapter-deployment
+    spec:
+      serviceAccountName: prometheus-adapter-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.24.1}"
+          command:
+            - sh
+            - -c
+            - |
+              kubectl delete deployments.apps -l app=prometheus-adapter,'!app.kubernetes.io/name' --cascade=orphan -n ${releaseNamespace}
