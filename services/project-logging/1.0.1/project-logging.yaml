@@ -26,3 +26,5 @@ spec:
       # temporary loki unavailability with dropping out-of-order logs that can't be delivered.
       retry_forever: false
       retry_max_times: 5
+      flush_mode: interval
+      flush_interval: 10s
