@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-3.17.2-d2iq-defaults
+  name: logging-operator-3.17.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -26,7 +26,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-3.17.2-d2iq-defaults
+  name: logging-operator-logging-3.17.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -93,6 +93,8 @@ data:
         port: 9200
         path: /metrics
         prometheusAnnotations: true
+      statefulsetAnnotations:
+        secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
     fluentbit:
       image:
         # Explicitly use the default image. This should be updated when logging-operator is upgraded.
@@ -153,3 +155,5 @@ data:
         port: 2020
         path: /api/v1/metrics/prometheus
         prometheusAnnotations: true
+      daemonsetAnnotations:
+        secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
