@@ -16,7 +16,7 @@ overview: |-
   ## Dashboards
   By deploying the Prometheus Monitoring Stack, the following platform applications and their respective dashboards will be deployed. After deployment to clusters in a workspace, the dashboards will be available to access from a respective cluster's detail page.
 
-  ### Prometheus (v2.34.0)
+  ### Prometheus (v2.38.0)
 
   A software application for event monitoring and alerting. It records real-time metrics in a time series database built using a HTTP pull model, with flexible and real-time alerting.
 
@@ -27,7 +27,7 @@ overview: |-
 
   - [Prometheus Alertmanager Documentation - Overview](https://prometheus.io/docs/alerting/latest/alertmanager/)
 
-  ### Grafana (v8.5.0)
+  ### Grafana (v9.1.5)
   A monitoring dashboard from Grafana that can be used to visualize metrics collected by Prometheus.
 
   - [Grafana Documentation](https://grafana.com/docs/)
