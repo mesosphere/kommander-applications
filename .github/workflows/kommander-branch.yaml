@@ -45,6 +45,7 @@ jobs:
           path: 'kommander'
           fetch-depth: '0'
       - name: Update kommander-applications ref on new branch
+        id: update-ref
         run: |
           cd kommander
           git config user.name "${GITHUB_ACTOR}"
@@ -58,7 +59,17 @@ jobs:
             sed -i 's/KOMMANDER_APPLICATIONS_REF ?= main/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-              git commit -v -m "build: Point kommander-applications ref to ${{ needs.get-kapps-branch-name.outputs.branch_name }}"
+              git commit -v -m "build: Update kommander-applications ref for testing"
               git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+              echo "::set-output name=created_new_branch::true"
             fi
           }
+      - name: Create comment
+        if: steps.update-ref.outputs.created_new_branch == 'true'
+        uses: peter-evans/create-or-update-comment@v2
+        env:
+          GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ✅ Created Kommander branch to test kommander-applications changes: https://github.com/mesosphere/kommander/tree/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
