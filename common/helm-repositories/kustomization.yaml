@@ -20,3 +20,4 @@ resources:
   - gatekeeper.yaml
   - cert-manager.yaml
   - bitnami.yaml
+  - nvidia.yaml
