@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "list": [ ]
+    "list": []
   },
   "editable": true,
   "gnetId": null,
@@ -27,7 +27,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -45,7 +45,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -80,7 +80,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -93,7 +93,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -115,7 +115,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -133,7 +133,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -168,7 +168,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -181,7 +181,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -203,7 +203,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -221,20 +221,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/query-frontend\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", container=~\"query-frontend\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -242,7 +242,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -255,7 +255,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -289,7 +289,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -307,7 +307,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -342,7 +342,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -355,7 +355,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -377,7 +377,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -395,7 +395,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -430,7 +430,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -443,7 +443,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -465,7 +465,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -483,20 +483,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/query-scheduler\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", container=~\"query-scheduler\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -504,7 +504,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -517,7 +517,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -551,13 +551,13 @@
       "collapsed": false,
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 7,
           "legend": {
             "avg": false,
@@ -570,7 +570,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -605,7 +605,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -618,7 +618,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -640,13 +640,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 8,
           "legend": {
             "avg": false,
@@ -659,7 +659,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -694,7 +694,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -707,7 +707,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -729,13 +729,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 9,
           "legend": {
             "avg": false,
@@ -748,20 +748,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/querier\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", container=~\"querier\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -769,7 +769,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -782,7 +782,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -804,13 +804,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "gridPos": { },
+          "gridPos": {},
           "id": 10,
           "legend": {
             "avg": false,
@@ -823,13 +823,13 @@
           },
           "lines": true,
           "linewidth": 0,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
@@ -844,7 +844,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Writes",
@@ -859,7 +859,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -881,13 +881,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "gridPos": { },
+          "gridPos": {},
           "id": 11,
           "legend": {
             "avg": false,
@@ -900,13 +900,13 @@
           },
           "lines": true,
           "linewidth": 0,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
@@ -921,7 +921,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Reads",
@@ -936,7 +936,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -958,13 +958,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 12,
           "legend": {
             "avg": false,
@@ -977,13 +977,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -998,7 +998,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Space Utilization",
@@ -1013,7 +1013,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1048,13 +1048,13 @@
       "collapsed": false,
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 13,
           "legend": {
             "avg": false,
@@ -1067,7 +1067,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -1102,7 +1102,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -1115,7 +1115,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1137,13 +1137,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 14,
           "legend": {
             "avg": false,
@@ -1156,7 +1156,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -1191,7 +1191,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -1204,7 +1204,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1226,13 +1226,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 15,
           "legend": {
             "avg": false,
@@ -1245,20 +1245,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/index-gateway\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"index-gateway\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -1266,7 +1266,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -1279,7 +1279,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1301,13 +1301,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "gridPos": { },
+          "gridPos": {},
           "id": 16,
           "legend": {
             "avg": false,
@@ -1320,13 +1320,13 @@
           },
           "lines": true,
           "linewidth": 0,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
@@ -1341,7 +1341,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Writes",
@@ -1356,7 +1356,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1378,13 +1378,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "gridPos": { },
+          "gridPos": {},
           "id": 17,
           "legend": {
             "avg": false,
@@ -1397,13 +1397,13 @@
           },
           "lines": true,
           "linewidth": 0,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
@@ -1418,7 +1418,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Reads",
@@ -1433,7 +1433,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1455,13 +1455,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 18,
           "legend": {
             "avg": false,
@@ -1474,13 +1474,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -1495,7 +1495,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk Space Utilization",
@@ -1510,7 +1510,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1532,13 +1532,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 19,
           "legend": {
             "avg": false,
@@ -1551,13 +1551,13 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
@@ -1572,7 +1572,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Query Readiness Duration",
@@ -1587,7 +1587,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1622,7 +1622,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -1640,7 +1640,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -1675,7 +1675,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -1688,7 +1688,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1710,7 +1710,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -1728,7 +1728,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -1763,7 +1763,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -1776,7 +1776,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1798,7 +1798,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -1816,20 +1816,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/ingester\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", container=~\"ingester\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -1837,7 +1837,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -1850,7 +1850,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1884,13 +1884,13 @@
       "collapsed": false,
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 23,
           "legend": {
             "avg": false,
@@ -1903,20 +1903,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (cortex_prometheus_rule_group_rules{cluster=~\"$cluster\", job=~\"($namespace)/ruler\"})",
+              "expr": "sum by(pod) (cortex_prometheus_rule_group_rules{cluster=~\"$cluster\", container=~\"ruler\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -1924,7 +1924,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Rules",
@@ -1939,7 +1939,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1961,13 +1961,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 24,
           "legend": {
             "avg": false,
@@ -1980,7 +1980,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -2015,7 +2015,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
@@ -2028,7 +2028,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -2050,13 +2050,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 25,
           "legend": {
             "avg": false,
@@ -2069,7 +2069,7 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
@@ -2104,7 +2104,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (workingset)",
@@ -2117,7 +2117,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -2139,13 +2139,13 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "gridPos": { },
+          "gridPos": {},
           "id": 26,
           "legend": {
             "avg": false,
@@ -2158,20 +2158,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/ruler\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", container=~\"ruler\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -2179,7 +2179,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory (go heap inuse)",
@@ -2192,7 +2192,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -2239,7 +2239,7 @@
         "hide": 0,
         "label": "Data Source",
         "name": "datasource",
-        "options": [ ],
+        "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
@@ -2257,13 +2257,13 @@
         "label": "cluster",
         "multi": false,
         "name": "cluster",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info, cluster)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -2280,13 +2280,13 @@
         "label": "namespace",
         "multi": false,
         "name": "namespace",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
