@@ -58,7 +58,7 @@ jobs:
             sed -i 's/KOMMANDER_APPLICATIONS_REF ?= main/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-              git commit -v -m "build: Point kommander-applications ref to ${{ needs.get-kapps-branch-name.outputs.branch_name }}"
+              git commit -v -m "build: Update kommander-applications ref for testing"
               git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
             fi
           }
