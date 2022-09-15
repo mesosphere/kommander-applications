@@ -28,6 +28,7 @@ spec:
         - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
+        - --concurrent=8
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
