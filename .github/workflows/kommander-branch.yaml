@@ -56,7 +56,7 @@ jobs:
           git show-ref --quiet --verify -- refs/remotes/origin/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }} || {
             git checkout -b kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
             # Point the kommander-applications ref to the k-apps branch
-            sed -i 's/KOMMANDER_APPLICATIONS_REF ?= main/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
+            sed -i 's/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
               git commit -v -m "build: Update kommander-applications ref for testing"
