@@ -1,0 +1,75 @@
+name: "Create Kommander Branch"
+
+on:
+ pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  get-kapps-branch-name:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
+    outputs:
+      branch_name: ${{ steps.branch-name.outputs.branch_name }}
+      escaped_branch_name: ${{ steps.escaped-branch-name.outputs.escaped_branch_name }}
+      base_branch_name: ${{ steps.base-branch-name.outputs.base_branch_name }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - id: branch-name
+        run: echo "::set-output name=branch_name::${{ github.head_ref }}"
+      - id: escaped-branch-name
+        run: echo "::set-output name=escaped_branch_name::$(echo ${{ github.head_ref }} | sed -e 's/\//\\\//g')"
+      - id: base-branch-name
+        run: echo "::set-output name=base_branch_name::${{ github.base_ref }}"
+      - name: Check output branch-name
+        run: echo ${{ steps.branch-name.outputs.branch_name }}
+      - name: Check output escaped-branch-name
+        run: echo ${{ steps.escaped-branch-name.outputs.escaped_branch_name }}
+      - name: Check output base-branch-name
+        run: echo ${{ steps.base-branch-name.outputs.base_branch_name }}
+
+  create-kommander-branch:
+    runs-on: ubuntu-latest
+    needs: get-kapps-branch-name
+    if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: 'mesosphere/kommander'
+          ssh-key: ${{ secrets.KOMM_PRIVATE_SSH_KEY }}
+          path: 'kommander'
+          fetch-depth: '0'
+      - name: Update kommander-applications ref on new branch
+        id: update-ref
+        run: |
+          cd kommander
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          # Use same base as k-apps (main or release branch)
+          git checkout ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}
+          # If branch already exists, do nothing
+          git show-ref --quiet --verify -- refs/remotes/origin/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }} || {
+            git checkout -b kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+            # Point the kommander-applications ref to the k-apps branch
+            sed -i 's/KOMMANDER_APPLICATIONS_REF ?= main/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
+            git add Makefile
+            if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+              git commit -v -m "build: Update kommander-applications ref for testing"
+              git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+              echo "::set-output name=created_new_branch::true"
+            fi
+          }
+      - name: Create comment
+        if: steps.update-ref.outputs.created_new_branch == 'true'
+        uses: peter-evans/create-or-update-comment@v2
+        env:
+          GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ✅ Created Kommander branch to test kommander-applications changes: https://github.com/mesosphere/kommander/tree/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
