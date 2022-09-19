@@ -13,4 +13,4 @@ data:
     toolkit:
       version: v1.10.0-centos7
     gfd:
-      enabled: false
+      enabled: true
