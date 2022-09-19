@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: project-grafana-loki-0.48.4-d2iq-defaults
+  name: project-grafana-loki-0.48.5-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -147,3 +147,8 @@ data:
         serverSnippet: |-
           client_max_body_size 10M;
       verboseLogging: false
+
+    distributor:
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
