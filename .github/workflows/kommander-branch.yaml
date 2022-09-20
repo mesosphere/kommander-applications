@@ -53,14 +53,14 @@ jobs:
           # Use same base as k-apps (main or release branch)
           git checkout ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}
           # If branch already exists, do nothing
-          git show-ref --quiet --verify -- refs/remotes/origin/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }} || {
-            git checkout -b kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+          git show-ref --quiet --verify -- refs/remotes/origin/kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }} || {
+            git checkout -b kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }}
             # Point the kommander-applications ref to the k-apps branch
             sed -i 's/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
               git commit -v -m "build: Update kommander-applications ref for testing"
-              git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+              git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }}
               echo "::set-output name=created_new_branch::true"
             fi
           }
@@ -72,4 +72,4 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ✅ Created Kommander branch to test kommander-applications changes: https://github.com/mesosphere/kommander/tree/kapps/${{ needs.get-kapps-branch-name.outputs.branch_name }}
+            ✅ Created Kommander branch to test kommander-applications changes: https://github.com/mesosphere/kommander/tree/kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }}
