@@ -1,0 +1,55 @@
+# For upgrades from <40.0.0
+# https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#from-39x-to-40x
+# Starting from prometheus-node-exporter version 4.0.0, the node exporter chart is using the Kubernetes recommended labels.
+# Therefore you have to delete the daemonset before you upgrade.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kps-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kps-pre-upgrade
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["apps"]
+    resources: ["daemonsets"]
+    verbs: ["get", "watch", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kps-pre-upgrade
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kps-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: kps-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: delete-node-exporter-daemonset
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: delete-node-exporter-daemonset
+    spec:
+      serviceAccountName: kps-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.24.1}"
+          command:
+            - sh
+            - -c
+            - |
+              kubectl delete daemonset -l app=prometheus-node-exporter -n ${releaseNamespace}
