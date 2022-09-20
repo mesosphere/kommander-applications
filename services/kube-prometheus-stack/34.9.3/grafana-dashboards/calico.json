@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_CALICO-DEMO-PROMETHEUS",
-      "label": "calico-demo-prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
+  "__inputs": [],
   "__requires": [
     {
       "type": "panel",
@@ -75,7 +66,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -89,7 +80,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "These metrics are part of general information related to your Calico implementation.",
       "gridPos": {
         "h": 4,
@@ -151,7 +142,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -237,7 +228,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -323,7 +314,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -405,7 +396,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "This graph shows you all the errors that Calico encounters, it is important to note occasional errors are acceptable. However, rise in the number of error or constant error counters means Calico is not working properly.",
       "fill": 1,
       "fillGradient": 0,
@@ -513,7 +504,7 @@
       }
     },
     {
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "More policies on Felix means more effort required by Calico to manage packets. ",
       "gridPos": {
         "h": 4,
@@ -574,7 +565,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -660,7 +651,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -746,7 +737,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -828,7 +819,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -914,7 +905,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -931,7 +922,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "Dataplane apply time can indicate how busy your Kubernetes instance is. This can slow down Calico performance",
       "fill": 2,
       "fillGradient": 4,
@@ -1024,7 +1015,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 2,
       "fillGradient": 4,
       "gridPos": {
@@ -1113,7 +1104,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 2,
       "fillGradient": 4,
       "gridPos": {
@@ -1216,7 +1207,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1305,7 +1296,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1394,7 +1385,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_CALICO-DEMO-PROMETHEUS}",
+      "datasource": "$datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1493,7 +1484,26 @@
     "policy monitoring"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -1514,7 +1524,7 @@
     ]
   },
   "timezone": "",
-  "title": "Felix Dashboard (Calico)",
+  "title": "Core Components / Calico",
   "uid": "calico-felix-dashboard",
   "variables": {
     "list": []
