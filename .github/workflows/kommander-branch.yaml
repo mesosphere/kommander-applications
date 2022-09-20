@@ -17,9 +17,6 @@ jobs:
       escaped_branch_name: ${{ steps.escaped-branch-name.outputs.escaped_branch_name }}
       base_branch_name: ${{ steps.base-branch-name.outputs.base_branch_name }}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
       - id: branch-name
         run: echo "::set-output name=branch_name::${{ github.head_ref }}"
       - id: escaped-branch-name
