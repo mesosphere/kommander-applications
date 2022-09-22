@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-ceph-1.10.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    crds:
+      # CRDs are not installed with "crds" directory and If this flag isdisabled post-install, the cluster may be DESTROYED.
+      # If the CRDs are deleted in this case, see the disaster recovery guide to restore them.
+      # https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion
+      enabled: true
+
+    # Whether rook watches its current namespace for CRDs or the entire cluster, defaults to false
+    currentNamespaceOnly: true
+
+    # PSP is Unsupported in 1.25+ k8s
+    pspEnable: false
+
+    logLevel: DEBUG # TODO(takirala): INFO-fy after testing
+
+    csi:
+      enableRbdDriver: false
+      enableCephfsDriver: false
+      enableCSIHostNetwork: false
+      enableCephfsSnapshotter: false
+      enableNFSSnapshotter: false
+      enableRBDSnapshotter: false
+      enableCSIEncryption: false
+      rbdFSGroupPolicy: ReadWriteOnceWithFSType
+
+    monitoring:
+      enabled: true    
