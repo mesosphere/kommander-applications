@@ -19,7 +19,7 @@ data:
     # PSP is Unsupported in 1.25+ k8s
     pspEnable: false
 
-    logLevel: DEBUG # TODO(takirala): INFO-fy after testing
+    logLevel: DEBUG
 
     csi:
       enableRbdDriver: false
@@ -32,4 +32,5 @@ data:
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
 
     monitoring:
-      enabled: true
+      # TODO(takirala): enable monitoring
+      enabled: false

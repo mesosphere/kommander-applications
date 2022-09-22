@@ -1,0 +1,9 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: velero
+  namespace: ${releaseNamespace}
+spec:
+  bucketName: velero
+  # Declared in rook-ceph-cluster : services/rook-ceph-cluster/1.10.1/defaults/cm.yaml#cephObjectStores[0].storageClass.name
+  storageClassName: dkp-object-store

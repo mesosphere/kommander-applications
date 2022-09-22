@@ -40,15 +40,14 @@ data:
         allowMultiplePerNode: false
 
       dashboard:
-        #TODO(takirala): enable ingress
         enabled: true
         urlPrefix: ""
-        port: 8444
+        port: 8443
         ssl: false
 
       storage:
         storageClassDeviceSets:
-          - name: ceph-osd-set1
+          - name: rook-ceph-osd-set1
             count: 3
             portable: false
             encrypted: false
@@ -80,7 +79,7 @@ data:
                 spec:
                   resources:
                     requests:
-                      storage: 10Gi
+                      storage: 20Gi
                   storageClassName:
                   # OSD Requires Block storage.
                   volumeMode: Block
@@ -91,6 +90,8 @@ data:
         useAllNodes: false
 
     ingress:
+      # TODO(takirala): validate ingress is functioning correctly
+      # TODO(takirala): create a docs ticket note on how to access dashboard (fetch secret, base64decode password etc.,) 
       dashboard:
         enabled: true
         annotations:
@@ -103,7 +104,7 @@ data:
           path: "/dkp/kommander/ceph-dashboard"
         tls: []
 
-    logLevel: DEBUG # TODO(takirala): INFO-fy after testing
+    logLevel: DEBUG
 
     cephBlockPools: []
     cephFileSystems: []
@@ -131,5 +132,6 @@ data:
           name: dkp-object-store # Defined once per namespace
 
     monitoring:
-      enabled: false # TODO(takirala): enable monitoring
+      # TODO(takirala): enable monitoring
+      enabled: false
       createPrometheusRules: false
