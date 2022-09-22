@@ -52,6 +52,28 @@ data:
             count: 3
             portable: false
             encrypted: false
+            placement:
+              topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: topology.kubernetes.io/zone # The nodes in the same rack have the same topology.kubernetes.io/zone label.
+                whenUnsatisfiable: ScheduleAnyway
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - rook-ceph-osd
+                        - rook-ceph-osd-prepare
+              - maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: ScheduleAnyway
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - rook-ceph-osd
+                        - rook-ceph-osd-prepare
             volumeClaimTemplates:
               - metadata:
                   name: data
@@ -68,19 +90,18 @@ data:
         useAllDevices: false
         useAllNodes: false
 
-    # TODO(takirala): enable ingress
-    # ingress:
-    #   dashboard:
-    #     enabled: true
-    #     annotations:
-    #       kubernetes.io/ingress.class: kommander-traefik
-    #       ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
-    #       traefik.ingress.kubernetes.io/router.tls: "true"
-    #       traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
-    #     host:
-    #       name: ""
-    #       path: "/dkp/kommander/ceph-dashboard"
-    #     tls: []
+    ingress:
+      dashboard:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+        host:
+          name: ""
+          path: "/dkp/kommander/ceph-dashboard"
+        tls: []
 
     logLevel: DEBUG # TODO(takirala): INFO-fy after testing
 
