@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-3.2.4-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    configuration:
+      backupStorageLocation:
+        config:
+          s3Url: http://rook-ceph-rgw-my-store-test.rook-ceph.svc
+    credentials:
+      #useSecret: false
+      extraSecretRef: "velero"
+    minioBackend: false
+    minio:
+      ingress:
+        enabled: false

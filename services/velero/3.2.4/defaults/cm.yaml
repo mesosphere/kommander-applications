@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: velero-3.2.4-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    enableHelmHooks: false # handle helm install --atomic through kubeaddons
+    configuration:
+      provider: "aws"
+      backupStorageLocation:
+        bucket: "velero"
+        config:
+          region: "fallback" # enables non-production fallback minio backend, detected by kubeaddons-addon-initializer
+          s3Url: http://rook-ceph-rgw-dkp-store.${releaseNamespace}.svc
+          s3ForcePathStyle: true
+          insecureSkipTLSVerify: "true"
+      volumeSnapshotLocation:
+        config:
+          region: "fallback"
+    credentials:
+      name: velero-d2iq-credentials
+      secretContents:
+        cloud: "placeholder"
+    schedules:
+      default:
+        schedule: "0 0 * * *"
+        template:
+          ttl: 720h # 30 day retention, required to create schedule
+    metrics:
+      enabled: true
+      service:
+        labels:
+          servicemonitor.kommander.mesosphere.io/path: "metrics"
+    initContainers:
+      - name: velero-plugin-for-aws
+        image: velero/velero-plugin-for-aws:v1.1.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    minioBackend: false
+    minio:
+      ingress:
+        enabled: false
