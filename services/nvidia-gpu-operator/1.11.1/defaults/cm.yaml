@@ -11,6 +11,28 @@ data:
     driver:
       enabled: false
     toolkit:
-      version: v1.10.0-centos7
+      # toolkit needs to be set on per OS
+      # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
+      # this comment explains the dependency on the hosts
+      # version of libc.so
+      # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
+      version: v1.11.0-ubuntu20.04
     gfd:
       enabled: true
+    dcgm:
+      # using this version because of missing metrics
+      # in https://github.com/NVIDIA/dcgm-exporter/issues/103
+      enabled: true
+      version: 2.3.6-1-ubuntu20.04
+    dcgmExporter:
+      enabled: true
+      version: 2.4.6-2.6.10-ubuntu20.04
+    validator:
+      # we are using our own validator pod that
+      # removes the compat libs from the container
+      # this can cause a mismatch in cuda versions
+      # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
+      # for more details
+      image: mesosphere/gpu-operator-validator
+      repository: docker.io
+      version: v1.11.0
