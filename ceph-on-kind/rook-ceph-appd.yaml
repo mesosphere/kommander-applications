@@ -1,0 +1,10 @@
+apiVersion: apps.kommander.d2iq.io/v1alpha3
+kind: AppDeployment
+metadata:
+  name: rook-ceph
+  namespace: kommander
+spec:
+  appRef:
+    kind: ClusterApp
+    name: rook-ceph-1.10.1
+  clusterSelector: {}
