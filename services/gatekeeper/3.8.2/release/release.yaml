@@ -26,7 +26,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.8.1-d2iq-defaults
+      name: gatekeeper-3.8.2-d2iq-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
@@ -75,7 +75,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.8.1-d2iq-defaults
+      name: gatekeeper-3.8.2-d2iq-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
