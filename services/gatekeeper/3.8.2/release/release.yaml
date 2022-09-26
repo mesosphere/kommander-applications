@@ -33,7 +33,7 @@ spec:
   postRenderers:
     - kustomize:
         # Gatekeeper set the min TLS version to 1.3 in 3.8.0 but FIPS enabled clusters do not support TLS 1.3,
-        # In 3.8.1, the --tls-min-version flag is not configurable so we
+        # In 3.8.1, the --tls-min-version flag is not configurable, so we
         # are applying the fix as a patch to avoid forking the gatekeeper chart.
         patchesJson6902:
           - target:
