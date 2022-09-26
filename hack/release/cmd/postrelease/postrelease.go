@@ -1,10 +1,11 @@
-package prerelease
+package postrelease
 
 import (
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/spf13/cobra"
 )
@@ -18,18 +19,20 @@ const (
 
 func init() { //nolint:gochecknoinits // Initializing cobra application.
 	Cmd = &cobra.Command{
-		Use:   "pre-release",
-		Short: "Handles pre-release tasks for kommander-applications (i.e. updating Kommander chart versions)",
+		Use:   "post-release",
+		Short: "Handles post-release tasks for kommander-applications (i.e. updating Kommander chart versions)",
 		Args:  cobra.MaximumNArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			chartVersion := Cmd.Flag(versionFlagName).Value.String()
+			chartVersion, err := semver.NewVersion(Cmd.Flag(versionFlagName).Value.String())
+			if err != nil {
+				return fmt.Errorf("cannot parse given version: %w", err)
+			}
 			kommanderApplicationsRepo := Cmd.Flag(repoFlagName).Value.String()
 			if _, err := os.Stat(kommanderApplicationsRepo); os.IsNotExist(err) {
 				return err
 			}
 
-			err := chartversion.UpdateChartVersions(kommanderApplicationsRepo, chartVersion)
-			if err != nil {
+			if err := chartversion.UpdateChartVersions(kommanderApplicationsRepo, chartVersion.Original()); err != nil {
 				return err
 			}
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
