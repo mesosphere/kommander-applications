@@ -1,6 +1,5 @@
 # a quick solution to fix kommander-traefik and kube-oidc-proxy certificate in attached clusters (with and without cert-manager pre-installed)
-# https://jira.d2iq.com/browse/D2IQ-84510
----
+# https://jira.d2iq.com/browse/D2IQ-84510---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
