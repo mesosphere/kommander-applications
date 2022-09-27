@@ -93,7 +93,7 @@ data:
           prometheus-adapter: "3.4.0"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
-          cert-manager: "1.7.1"
+          cert-manager: "1.9.1"
           karma-traefik: "0.0.1"
           gatekeeper: "3.9.1"
           kommander-flux: "0.35.0"
