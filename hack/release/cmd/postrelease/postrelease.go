@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/Masterminds/semver/v3"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/spf13/cobra"
 )
@@ -35,6 +36,23 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			if err := chartversion.UpdateChartVersions(kommanderApplicationsRepo, chartVersion.Original()); err != nil {
 				return err
 			}
+
+			if err := appversion.SetKommanderAppsVersion(
+				cmd.Context(),
+				kommanderApplicationsRepo,
+				chartVersionToAppVersion(chartVersion),
+			); err != nil {
+				return err
+			}
+
+			if _, err := appversion.ReplaceContent(
+				cmd.Context(),
+				kommanderApplicationsRepo,
+				chartVersionToAppVersion(chartVersion),
+			); err != nil {
+				return err
+			}
+
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
 			return nil
 		},
@@ -51,4 +69,8 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func chartVersionToAppVersion(ver *semver.Version) string {
+	return fmt.Sprintf("0.%d.%d", ver.Minor(), ver.Patch())
 }
