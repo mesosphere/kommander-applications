@@ -10,7 +10,7 @@ on:
 
 jobs:
   handle:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
     steps:
