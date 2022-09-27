@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -15,7 +14,7 @@ spec:
         kind: HelmRepository
         name: kubernetes-charts.banzaicloud.com
         namespace: kommander-flux
-      version: 3.17.7
+      version: 3.17.9
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,7 +27,7 @@ spec:
   releaseName: logging-operator-logging
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-logging-3.17.8-d2iq-defaults
+      name: logging-operator-logging-3.17.9-d2iq-defaults
     # FIXME: To make logging-operator-logging work properly with federated
     # overrides, the `logging-operator` app should be split into two,
     # after which this enntry should be replaced with `configOverrides`
