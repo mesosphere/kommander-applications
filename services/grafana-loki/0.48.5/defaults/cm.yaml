@@ -128,6 +128,16 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki-s3-bucket
+
+    queryFrontend:
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki-s3-bucket
 
     compactor:
       enabled: true
@@ -147,6 +157,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki-s3-bucket
       # -- Directories containing rules files
       directories:
         grafana-loki-minio: {}
@@ -167,3 +181,7 @@ data:
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki-s3-bucket
