@@ -6,3 +6,4 @@ resources:
   - grafana-dashboards-logging
   - grafana-loki.yaml
   - minio.yaml
+  - ceph.yaml
