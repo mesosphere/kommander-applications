@@ -26,10 +26,24 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.8.1-d2iq-defaults
+      name: gatekeeper-3.8.2-d2iq-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
+  postRenderers:
+    - kustomize:
+        # Gatekeeper set the min TLS version to 1.3 in 3.8.0 but FIPS enabled clusters do not support TLS 1.3,
+        # In 3.8.1, the --tls-min-version flag is not configurable, so we
+        # are applying the fix as a patch to avoid forking the gatekeeper chart.
+        patchesJson6902:
+          - target:
+              version: v1
+              kind: Deployment
+              name: gatekeeper-controller-manager
+            patch:
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --tls-min-version=1.2
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -61,7 +75,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.8.1-d2iq-defaults
+      name: gatekeeper-3.8.2-d2iq-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
