@@ -163,7 +163,7 @@ data:
             name: dkp-loki-s3-bucket
       # -- Directories containing rules files
       directories:
-        grafana-loki-minio: {}
+        grafana-loki-rules: {}
 
     gateway:
       image:
