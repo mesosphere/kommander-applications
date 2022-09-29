@@ -2,8 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - banzaicloud.yaml
+  - bitnami.yaml
+  - cert-manager.yaml
   - dashboard.yaml
   - fluent.yaml
+  - gatekeeper.yaml
   - gitea.yaml
   - grafana.yaml
   - jaegertracing.yaml
@@ -14,10 +17,8 @@ resources:
   - kubetunnel.yaml
   - mesosphere-repos.yaml
   - minio.yaml
+  - nvidia.yaml
   - prometheus-community.yaml
   - reloader.yaml
+  - rook-ceph.yaml
   - traefik.yaml
-  - gatekeeper.yaml
-  - cert-manager.yaml
-  - bitnami.yaml
-  - nvidia.yaml

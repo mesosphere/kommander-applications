@@ -57,6 +57,7 @@ data:
                   prefixes:
                     - /dkp/alertmanager
                     - /dkp/api-server
+                    - /dkp/kommander/ceph-dashboard
                     - /dkp/kommander/dashboard
                     - /dkp/kommander/gitserver
                     - /dkp/kommander/git
