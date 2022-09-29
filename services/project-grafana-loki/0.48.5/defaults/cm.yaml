@@ -70,7 +70,7 @@ data:
             cache_location: /var/loki/cache
             cache_ttl: 168h
           aws:
-            s3: "http://minio:minio123@project-grafana-loki-minio-hl.${releaseNamespace}.svc:9000/loki"
+            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/project-loki-s3-bucket"
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
@@ -115,6 +115,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: project-loki-s3-bucket
 
     querier:
       replicas: 1
@@ -124,6 +128,16 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: project-loki-s3-bucket
+
+    queryFrontend:
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: project-loki-s3-bucket
 
     compactor:
       enabled: true
@@ -133,6 +147,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: project-loki-s3-bucket
 
     ruler:
       enabled: false
@@ -153,3 +171,7 @@ data:
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
+      extraEnvFrom: 
+        - secretRef:
+            # s3 access and secret keys
+            name: project-loki-s3-bucket

@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - grafana-dashboards-logging
   - project-grafana-loki.yaml
-  - minio.yaml
+  - ceph.yaml
