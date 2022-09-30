@@ -30,7 +30,7 @@ data:
         volumeClaimTemplate:
           spec:
             # Use the default storage class configured in cluster.
-            storageClassName: ""
+            storageClassName: null
             volumeMode: FileSystem
             resources:
               requests:
@@ -82,7 +82,7 @@ data:
                     requests:
                       storage: 20Gi
                   # Use the default storage class configured in cluster.
-                  storageClassName: ""
+                  storageClassName: null
                   # OSD Requires Block storage.
                   volumeMode: Block
                   accessModes:
