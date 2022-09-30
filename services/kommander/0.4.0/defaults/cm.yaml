@@ -100,4 +100,4 @@ data:
           cert-manager: "1.7.1"
           karma-traefik: "0.0.1"
           gatekeeper: "3.8.3"
-          kommander-flux: "0.34.0"
+          kommander-flux: "0.35.0"
