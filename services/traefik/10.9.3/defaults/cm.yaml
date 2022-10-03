@@ -1,209 +1,208 @@
-
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-10.9.3-d2iq-defaults
+  name: traefik-10.30.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-      ---
-      podDisruptionBudget:
-        minAvailable: 1
-      # Distribute pods to tolerate node or zone failure.
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: kommander.mesosphere.io/name
-                  operator: In
-                  values:
-                  - traefik
-              topologyKey: kubernetes.io/hostname
-          - weight: 1
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: kommander.mesosphere.io/name
-                  operator: In
-                  values:
-                  - traefik
-              topologyKey: failure-domain.beta.kubernetes.io/zone
-      deployment:
-        # Configure Traefik for HA.
-        replicas: 2
-        podLabels:
-          kommander.mesosphere.io/name: traefik
-          app: traefik
-        initContainers:
-        - name: initialize-middleware
-          image: bitnami/kubectl:1.24.1
-          command:
-            - bash
-          args:
-            - -c
-            - |
-              cat << EOF | kubectl -n ${releaseNamespace} apply -f -
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: Middleware
-              metadata:
-                name: stripprefixes
-                namespace: ${releaseNamespace}
-              spec:
-                stripPrefix:
-                  prefixes:
-                    - /dkp/alertmanager
-                    - /dkp/api-server
-                    - /dkp/kommander/ceph-dashboard
-                    - /dkp/kommander/dashboard
-                    - /dkp/kommander/gitserver
-                    - /dkp/kommander/git
-                    - /dkp/kommander/helm-mirror
-                    - /dkp/kommander/kubecost/frontend
-                    - /dkp/kommander/kubecost/query
-                    - /dkp/kommander/monitoring/query
-                    - /dkp/kubecost/frontend
-                    - /dkp/kubecost/grafana
-                    - /dkp/kubernetes
-                    - /dkp/prometheus
-                    - /dkp/traefik
-              ---
-              # Create stripprefix middleware for kubetunnel exposed services.
-              # This expects that every TunnelGateway will be launched with
-              # `urlPathPrefix: /dkp/tunnel` configuration.
-              # If there is a need for creating TunnelGateway objects with
-              # different `urlPathPrefix` then this middleware needs to be
-              # extended or new must be created.
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: Middleware
-              metadata:
-                name: stripprefixes-kubetunnel
-                namespace: ${releaseNamespace}
-              spec:
-                stripPrefixRegex:
-                  regex:
-                    # <route_prefix>/<namespace>/<connector_name>/kubeconfig
-                    - /dkp/tunnel/[^/]+/[^/]+/kubeconfig
-                    # <route_prefix>/<namespace>/<connector_name>/tunnel-server
-                    - /dkp/tunnel/[^/]+/[^/]+/tunnel-server
-              ---
-              # Used by components such as kube-prometheus-stack's Grafana
-              # that rely on X-Forwarded-User but break when `Authorization:` header
-              # is set as well. See https://jira.d2iq.com/browse/D2IQ-77423.
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: Middleware
-              metadata:
-                name: forwardauth
-                namespace: ${releaseNamespace}
-              spec:
-                forwardAuth:
-                  address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
-                  authResponseHeaders:
-                    - X-Forwarded-User
-                    - Impersonate-User
-                    - Impersonate-Group
-              ---
-              # Used by apps such as Kuberentes-Dashboard and Kiali
-              # that obtain the K8S API Bearer token via
-              # the `Authorization:` header and Impersonate the user.
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: Middleware
-              metadata:
-                name: forwardauth-full
-                namespace: ${releaseNamespace}
-              spec:
-                forwardAuth:
-                  address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
-                  authResponseHeaders:
-                    - X-Forwarded-User
-                    - Impersonate-User
-                    - Impersonate-Group
-                    - Authorization
-              ---
-              # Traefik's dashboard assumes its API is hosted at /api. This rewrites dashboard responses to fix URLs.
-              apiVersion: traefik.containo.us/v1alpha1
-              kind: Middleware
-              metadata:
-                name: rewrite-api
-                namespace: ${releaseNamespace}
-              spec:
-                plugin:
-                  plugin-rewritebody:
-                    rewrites:
-                      - regex: "/api"
-                        replacement: "/dkp/traefik/api"
-              EOF
-      resources:
-        limits:
-          cpu: 1000m
-        requests:
-          cpu: 500m
+    ---
+    podDisruptionBudget:
+      minAvailable: 1
+    # Distribute pods to tolerate node or zone failure.
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: kommander.mesosphere.io/name
+                operator: In
+                values:
+                - traefik
+            topologyKey: kubernetes.io/hostname
+        - weight: 1
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: kommander.mesosphere.io/name
+                operator: In
+                values:
+                - traefik
+            topologyKey: failure-domain.beta.kubernetes.io/zone
+    deployment:
+      # Configure Traefik for HA.
+      replicas: 2
+      podLabels:
+        kommander.mesosphere.io/name: traefik
+        app: traefik
+      initContainers:
+      - name: initialize-middleware
+        image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.24.1}"
+        command:
+          - bash
+        args:
+          - -c
+          - |
+            cat << EOF | kubectl -n ${releaseNamespace} apply -f -
+            apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: stripprefixes
+              namespace: ${releaseNamespace}
+            spec:
+              stripPrefix:
+                prefixes:
+                  - /dkp/alertmanager
+                  - /dkp/api-server
+                  - /dkp/kommander/ceph-dashboard
+                  - /dkp/kommander/dashboard
+                  - /dkp/kommander/gitserver
+                  - /dkp/kommander/git
+                  - /dkp/kommander/helm-mirror
+                  - /dkp/kommander/kubecost/frontend
+                  - /dkp/kommander/kubecost/query
+                  - /dkp/kommander/monitoring/query
+                  - /dkp/kubecost/frontend
+                  - /dkp/kubecost/grafana
+                  - /dkp/kubernetes
+                  - /dkp/prometheus
+                  - /dkp/traefik
+            ---
+            # Create stripprefix middleware for kubetunnel exposed services.
+            # This expects that every TunnelGateway will be launched with
+            # `urlPathPrefix: /dkp/tunnel` configuration.
+            # If there is a need for creating TunnelGateway objects with
+            # different `urlPathPrefix` then this middleware needs to be
+            # extended or new must be created.
+            apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: stripprefixes-kubetunnel
+              namespace: ${releaseNamespace}
+            spec:
+              stripPrefixRegex:
+                regex:
+                  # <route_prefix>/<namespace>/<connector_name>/kubeconfig
+                  - /dkp/tunnel/[^/]+/[^/]+/kubeconfig
+                  # <route_prefix>/<namespace>/<connector_name>/tunnel-server
+                  - /dkp/tunnel/[^/]+/[^/]+/tunnel-server
+            ---
+            # Used by components such as kube-prometheus-stack's Grafana
+            # that rely on X-Forwarded-User but break when `Authorization:` header
+            # is set as well. See https://jira.d2iq.com/browse/D2IQ-77423.
+            apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: forwardauth
+              namespace: ${releaseNamespace}
+            spec:
+              forwardAuth:
+                address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
+                authResponseHeaders:
+                  - X-Forwarded-User
+                  - Impersonate-User
+                  - Impersonate-Group
+            ---
+            # Used by apps such as Kuberentes-Dashboard and Kiali
+            # that obtain the K8S API Bearer token via
+            # the `Authorization:` header and Impersonate the user.
+            apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: forwardauth-full
+              namespace: ${releaseNamespace}
+            spec:
+              forwardAuth:
+                address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
+                authResponseHeaders:
+                  - X-Forwarded-User
+                  - Impersonate-User
+                  - Impersonate-Group
+                  - Authorization
+            ---
+            # Traefik's dashboard assumes its API is hosted at /api. This rewrites dashboard responses to fix URLs.
+            apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: rewrite-api
+              namespace: ${releaseNamespace}
+            spec:
+              plugin:
+                plugin-rewritebody:
+                  rewrites:
+                    - regex: "/api"
+                      replacement: "/dkp/traefik/api"
+            EOF
+    resources:
+      limits:
+        cpu: 1000m
+      requests:
+        cpu: 500m
+    access:
+      enabled: true
+    logs:
+      general:
+        level: WARNING
       access:
         enabled: true
-      logs:
-        general:
-          level: WARNING
-        access:
-          enabled: true
-      # TODO: with Traefik 2 we should be able to validate against the proper CA
-      # https://jira.d2iq.com/browse/D2IQ-75866
-      additionalArguments:
-        - "--serversTransport.insecureSkipVerify=true"
-        - "--metrics.prometheus=true"
-        - "--providers.kubernetesingress.ingressendpoint.publishedservice=${releaseNamespace}/kommander-traefik"
-        - "--providers.kubernetesingress.ingressclass=kommander-traefik"
-        - "--api.insecure=true"
-        - "--experimental.localPlugins.plugin-rewritebody.moduleName=plugin-rewritebody"
-        # cross-namespace routing can be removed once we no longer support
-        # migrating from k1x to k20
-        - "--providers.kubernetescrd.allowcrossnamespace=true"
-        - "--entrypoints.web.http.redirections.entryPoint.to=:443"
-        - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-      volumes:
-        - type: configMap
-          name: traefik-plugin-rewritebody
-          mountPath: /plugins-local/src/plugin-rewritebody
+    # TODO: with Traefik 2 we should be able to validate against the proper CA
+    # https://jira.d2iq.com/browse/D2IQ-75866
+    additionalArguments:
+      - "--serversTransport.insecureSkipVerify=true"
+      - "--metrics.prometheus=true"
+      - "--providers.kubernetesingress.ingressendpoint.publishedservice=${releaseNamespace}/kommander-traefik"
+      - "--providers.kubernetesingress.ingressclass=kommander-traefik"
+      - "--api.insecure=true"
+      - "--experimental.localPlugins.plugin-rewritebody.moduleName=plugin-rewritebody"
+      # cross-namespace routing can be removed once we no longer support
+      # migrating from k1x to k20
+      - "--providers.kubernetescrd.allowcrossnamespace=true"
+      - "--entrypoints.web.http.redirections.entryPoint.to=:443"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    volumes:
+      - type: configMap
+        name: traefik-plugin-rewritebody
+        mountPath: /plugins-local/src/plugin-rewritebody
 
-      # Create an IngressRoute for the dashboard
-      ingressRoute:
-        dashboard:
-          enabled: true
-          # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
-          annotations:
-            kubernetes.io/ingress.class: kommander-traefik
-          # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
-          labels: {}
+    # Create an IngressRoute for the dashboard
+    ingressRoute:
+      dashboard:
+        enabled: true
+        # Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+        # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
+        labels: {}
 
-      #
-      # Configure providers
-      #
-      providers:
-        kubernetesCRD:
-          enabled: true
-          namespaces: []
-            # - "default"
-        kubernetesIngress:
-          enabled: true
-          # labelSelector: environment=production,method=traefik
-          namespaces: []
-            # - "default"
-          # IP used for Kubernetes Ingress endpoints
-          publishedService:
-            enabled: false
-            # Published Kubernetes Service to copy status from. Format: namespace/servicename
-            # By default this Traefik service
-            # pathOverride: "${releaseNamespace}/kommander-traefik"
-      pilot:
-        dashboard: false
-      ports:
-        # Minio must be hosted on a separate port and not on a subpath,
-        # see explaination in https://github.com/minio/minio/issues/10162
-        velero-minio:
-          # port: 9000 is occupied by the "traefik" endpoint which is not exposed
-          port: 9090
-          expose: true
-          exposedPort: 9000 # Velero is configured to use this value
-          protocol: TCP
+    #
+    # Configure providers
+    #
+    providers:
+      kubernetesCRD:
+        enabled: true
+        namespaces: []
+          # - "default"
+      kubernetesIngress:
+        enabled: true
+        # labelSelector: environment=production,method=traefik
+        namespaces: []
+          # - "default"
+        # IP used for Kubernetes Ingress endpoints
+        publishedService:
+          enabled: false
+          # Published Kubernetes Service to copy status from. Format: namespace/servicename
+          # By default this Traefik service
+          # pathOverride: "${releaseNamespace}/kommander-traefik"
+    pilot:
+      dashboard: false
+    ports:
+      # Minio must be hosted on a separate port and not on a subpath,
+      # see explaination in https://github.com/minio/minio/issues/10162
+      velero-minio:
+        # port: 9000 is occupied by the "traefik" endpoint which is not exposed
+        port: 9090
+        expose: true
+        exposedPort: 9000 # Velero is configured to use this value
+        protocol: TCP
