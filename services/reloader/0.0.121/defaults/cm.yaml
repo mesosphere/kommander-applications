@@ -5,4 +5,15 @@ metadata:
   name: reloader-0.0.121-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: "---\nreloader:\n  logFormat: json\n  deployment:\n    resources:\n      limits:\n        cpu: \"100m\"\n        memory: \"512Mi\"\n      requests:\n        cpu: \"100m\"\n        memory: \"128Mi\"\n"
+  values.yaml: |
+    ---
+    reloader:
+      logFormat: json
+      deployment:
+        resources:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
