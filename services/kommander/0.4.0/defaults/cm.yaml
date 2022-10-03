@@ -67,11 +67,11 @@ data:
       defaultEnterpriseApps:
         centralized-kubecost: "0.27.0"
         kubecost: "0.27.0"
-        kubecost-thanos-traefik: "0.0.1"
+        kubecost-thanos-traefik: "10.30.1"
         centralized-grafana: "40.0.0"
         karma: "2.0.1"
-        karma-traefik: "0.0.1"
-        prometheus-thanos-traefik: "0.0.1"
+        karma-traefik: "10.30.1"
+        prometheus-thanos-traefik: "10.30.1"
         thanos: "0.4.7"
     kubetools:
       image:
@@ -90,14 +90,14 @@ data:
       prerequisites:
         defaultApps:
           reloader: "0.0.118"
-          traefik: "10.9.3"
+          traefik: "10.30.1"
           kubernetes-dashboard: "5.1.1"
           kubecost: "0.27.0"
           kube-prometheus-stack: "40.0.0"
           prometheus-adapter: "3.4.0"
-          prometheus-thanos-traefik: "0.0.1"
-          kubecost-thanos-traefik: "0.0.1"
+          prometheus-thanos-traefik: "10.30.1"
+          kubecost-thanos-traefik: "10.30.1"
           cert-manager: "1.7.1"
-          karma-traefik: "0.0.1"
+          karma-traefik: "10.30.1"
           gatekeeper: "3.8.3"
           kommander-flux: "0.34.0"
