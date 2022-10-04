@@ -11,4 +11,6 @@ jobs:
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v1
       - name: Run unit tests
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make go-test
