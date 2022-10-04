@@ -22,3 +22,4 @@ resources:
   - reloader.yaml
   - rook-ceph.yaml
   - traefik.yaml
+  - vmware-tanzu.yaml
