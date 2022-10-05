@@ -1,0 +1,28 @@
+name: "Pull Request Labeler"
+on:
+  pull_request:
+    branches:
+      - main
+      - 'release/*'
+    paths:
+      - 'services/**/*'
+  workflow_dispatch: {}
+
+jobs:
+  label-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Add service identifying label to PRs updating services
+        uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: ".github/service-labeler.yaml"
+      - name: Add labels to automated chart bump PRs
+        if: startsWith(github.head_ref, 'chartbump/')
+        uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: ".github/bump-pr-labeler.yaml"

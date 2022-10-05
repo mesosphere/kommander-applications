@@ -1,0 +1,40 @@
+name: "Automerge"
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+    branches:
+      - main
+      - 'release/*'
+    paths:
+      - 'services/**/*'
+  check_suite:
+    types:
+      - completed
+  workflow_dispatch: {}
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable automerge on automated chart bump PRs
+        id: automerge
+        uses: pascalgn/automerge-action@v0.15.3
+        if: startsWith(github.head_ref, 'chartbump/')
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: "ready-for-review,!do-not-merge,!do-not-merge/testing"
+          MERGE_METHOD: squash
+          MERGE_COMMIT_MESSAGE: pull-request-title
+          MERGE_DELETE_BRANCH: true
+      - name: feedback
+        if: steps.automerge.outputs.mergeResult == 'merged'
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
