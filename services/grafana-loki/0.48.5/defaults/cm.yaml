@@ -70,7 +70,7 @@ data:
             cache_location: /var/loki/cache
             cache_ttl: 168h
           aws:
-            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/dkp-loki-s3-bucket"
+            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/dkp-loki"
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
@@ -118,7 +118,7 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: dkp-loki-s3-bucket
+            name: dkp-loki
 
     querier:
       replicas: 1
@@ -131,13 +131,13 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: dkp-loki-s3-bucket
+            name: dkp-loki
 
     queryFrontend:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: dkp-loki-s3-bucket
+            name: dkp-loki
 
     compactor:
       enabled: true
@@ -160,7 +160,7 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: dkp-loki-s3-bucket
+            name: dkp-loki
       # -- Directories containing rules files
       directories:
         grafana-loki-rules: {}
@@ -184,4 +184,4 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: dkp-loki-s3-bucket
+            name: dkp-loki
