@@ -75,8 +75,8 @@ data:
         thanos: "0.4.7"
     kubetools:
       image:
-        repository: ${kubetoolsImageRepository}
-        tag: ${kubetoolsImageTag}
+        repository: bitnami/kubectl
+        tag: 1.24.1
     kommander-ui:
       ingress:
         enabled: true
