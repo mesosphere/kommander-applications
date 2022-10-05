@@ -30,7 +30,7 @@ jobs:
         if: startsWith(github.head_ref, 'chartbump/')
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "!do-not-merge,!do-not-merge/testing"
+          MERGE_LABELS: "ready-for-review,!do-not-merge,!do-not-merge/testing"
           MERGE_METHOD: squash
           MERGE_COMMIT_MESSAGE: pull-request-title
           MERGE_DELETE_BRANCH: true
