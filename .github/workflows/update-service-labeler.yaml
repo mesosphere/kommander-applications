@@ -45,4 +45,3 @@ jobs:
             git commit -v -m "build: Updated .github/service-labeler.yaml"
             git push --force-with-lease
           fi
-
