@@ -1,0 +1,96 @@
+services/centralized-grafana:
+  - services/centralized-grafana/**
+services/centralized-kubecost:
+  - services/centralized-kubecost/**
+services/cert-manager:
+  - services/cert-manager/**
+services/chartmuseum:
+  - services/chartmuseum/**
+services/dex:
+  - services/dex/**
+services/dex-k8s-authenticator:
+  - services/dex-k8s-authenticator/**
+services/dkp-insights-management:
+  - services/dkp-insights-management/**
+services/external-dns:
+  - services/external-dns/**
+services/fluent-bit:
+  - services/fluent-bit/**
+services/gatekeeper:
+  - services/gatekeeper/**
+services/gitea:
+  - services/gitea/**
+services/grafana-logging:
+  - services/grafana-logging/**
+services/grafana-loki:
+  - services/grafana-loki/**
+services/istio:
+  - services/istio/**
+services/jaeger:
+  - services/jaeger/**
+services/karma:
+  - services/karma/**
+services/karma-traefik:
+  - services/karma-traefik/**
+services/kiali:
+  - services/kiali/**
+services/knative:
+  - services/knative/**
+services/kommander:
+  - services/kommander/**
+services/kommander-appmanagement:
+  - services/kommander-appmanagement/**
+services/kommander-flux:
+  - services/kommander-flux/**
+services/kube-oidc-proxy:
+  - services/kube-oidc-proxy/**
+services/kube-prometheus-stack:
+  - services/kube-prometheus-stack/**
+services/kubecost:
+  - services/kubecost/**
+services/kubecost-thanos-traefik:
+  - services/kubecost-thanos-traefik/**
+services/kubefed:
+  - services/kubefed/**
+services/kubernetes-dashboard:
+  - services/kubernetes-dashboard/**
+services/kubetunnel:
+  - services/kubetunnel/**
+services/logging-operator:
+  - services/logging-operator/**
+services/metallb:
+  - services/metallb/**
+services/minio-operator:
+  - services/minio-operator/**
+services/nfs-server-provisioner:
+  - services/nfs-server-provisioner/**
+services/nvidia:
+  - services/nvidia/**
+services/nvidia-gpu-operator:
+  - services/nvidia-gpu-operator/**
+services/project-grafana-logging:
+  - services/project-grafana-logging/**
+services/project-grafana-loki:
+  - services/project-grafana-loki/**
+services/project-logging:
+  - services/project-logging/**
+services/prometheus-adapter:
+  - services/prometheus-adapter/**
+services/prometheus-thanos-traefik:
+  - services/prometheus-thanos-traefik/**
+services/reloader:
+  - services/reloader/**
+services/rook-ceph:
+  - services/rook-ceph/**
+services/rook-ceph-cluster:
+  - services/rook-ceph-cluster/**
+services/thanos:
+  - services/thanos/**
+services/traefik:
+  - services/traefik/**
+services/traefik-forward-auth:
+  - services/traefik-forward-auth/**
+services/traefik-forward-auth-mgmt:
+  - services/traefik-forward-auth-mgmt/**
+services/velero:
+  - services/velero/**

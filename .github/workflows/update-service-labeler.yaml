@@ -1,0 +1,48 @@
+name: "Update service-labeler.yaml"
+on:
+  pull_request:
+    branches:
+      - main
+      - 'release/*'
+    paths:
+      - 'services/**/*'
+  workflow_dispatch: {}
+
+jobs:
+  update-service-labels-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Git
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v1
+      - name: Update .github/service-labeler.yaml
+        run: make workflow-labeler-yaml-update
+      - name: Commit and push changes
+        run: |
+          git add .github/service-labeler.yaml
+          if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+            git commit -v -m "build: Updated .github/service-labeler.yaml"
+            git push --force-with-lease
+          fi
+
