@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - grafana-dashboards-logging
   - project-grafana-loki.yaml
-  - ceph.yaml
+  - object-bucket-claims.yaml

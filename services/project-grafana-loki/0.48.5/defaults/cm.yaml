@@ -6,6 +6,22 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    ####################################################################
+    ## BEGIN DKP specific config overrides                            ##
+    ## This is added as a workaround to use the same configmap for    ##
+    ## both project-grafana-loki & object-bucket-claims helmreleases. ##
+    ####################################################################
+    dkp:
+      loki:
+        enabled: true
+        bucketName: proj-loki-${releaseNamespace}
+        storageClassName: dkp-object-store
+        additionalConfig:
+          maxSize: "20G"
+    ####################################################################
+    ## END of dkp specific config overrides                           ##
+    ####################################################################
+
     loki:
       ingesterFullname: loki-ingester
 
@@ -70,7 +86,7 @@ data:
             cache_location: /var/loki/cache
             cache_ttl: 168h
           aws:
-            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/project-loki-s3-bucket"
+            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/proj-loki-${releaseNamespace}"
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
@@ -118,7 +134,7 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: project-loki-s3-bucket
+            name: proj-loki-${releaseNamespace}
 
     querier:
       replicas: 1
@@ -131,13 +147,13 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: project-loki-s3-bucket
+            name: proj-loki-${releaseNamespace}
 
     queryFrontend:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: project-loki-s3-bucket
+            name: proj-loki-${releaseNamespace}
 
     compactor:
       enabled: true
@@ -150,7 +166,7 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: project-loki-s3-bucket
+            name: proj-loki-${releaseNamespace}
 
     ruler:
       enabled: false
@@ -174,4 +190,4 @@ data:
       extraEnvFrom: 
         - secretRef:
             # s3 access and secret keys
-            name: project-loki-s3-bucket
+            name: proj-loki-${releaseNamespace}
