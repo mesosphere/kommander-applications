@@ -26,4 +26,4 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
     global:
       image: bitnami/kubectl
-      tag: 1.23.6
+      tag: 1.24.1
