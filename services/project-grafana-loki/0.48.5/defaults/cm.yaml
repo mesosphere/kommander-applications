@@ -12,7 +12,7 @@ data:
     ## both project-grafana-loki & object-bucket-claims helmreleases. ##
     ####################################################################
     dkp:
-      loki:
+      project-grafana-loki:
         enabled: true
         bucketName: proj-loki-${releaseNamespace}
         storageClassName: dkp-object-store
