@@ -25,5 +25,5 @@ data:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
     global:
-      image: "${kubetoolsImageRepository:=bitnami/kubectl}"
-      tag: "${kubetoolsImageTag:=1.23.6}"
+      image: bitnami/kubectl
+      tag: 1.23.6

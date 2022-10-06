@@ -14,5 +14,5 @@ data:
       selfSigned: true
     hooks:
       kubectlImage:
-        repository: "${kubetoolsImageRepository:=bitnami/kubectl}"
-        tag: "${kubetoolsImageTag:=1.24.3}"
+        repository: bitnami/kubectl
+        tag: 1.24.3
