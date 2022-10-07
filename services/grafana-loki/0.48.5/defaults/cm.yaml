@@ -147,6 +147,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki
 
     ruler:
       enabled: false
