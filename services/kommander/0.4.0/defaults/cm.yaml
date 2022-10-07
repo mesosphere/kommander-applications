@@ -73,6 +73,10 @@ data:
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
         thanos: "0.4.7"
+    kubetools:
+      image:
+        repository: bitnami/kubectl
+        tag: 1.24.1
     kommander-ui:
       ingress:
         enabled: true
