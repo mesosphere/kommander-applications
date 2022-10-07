@@ -16,10 +16,22 @@ jobs:
         || (github.event.action == 'closed')
       )
     steps:
-      - name: Set a username
-        run: git config --global user.name d2iq-mergebot
-      - name: Set an email
-        run: git config --global user.email ci-mergebot@d2iq.com
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+      - name: Set up Git
+        run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
       - name: Backport Action
         uses: sqren/backport-github-action@v8.4.2
         with:

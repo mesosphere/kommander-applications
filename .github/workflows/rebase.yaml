@@ -17,6 +17,24 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+
+      - name: Set up Git
+        run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+
       - name: Automatic Rebase
         uses: cirrus-actions/rebase@1.7
         env:

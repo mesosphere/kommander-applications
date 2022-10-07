@@ -18,14 +18,6 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set up Git
-        run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-        env:
-          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
@@ -40,8 +32,14 @@ jobs:
         run: make workflow-labeler-yaml-update
       - name: Commit and push changes
         run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
           git add .github/service-labeler.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -v -m "build: Updated .github/service-labeler.yaml"
             git push --force-with-lease
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
