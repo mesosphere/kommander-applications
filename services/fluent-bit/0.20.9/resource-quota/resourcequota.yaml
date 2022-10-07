@@ -8,7 +8,7 @@ spec:
     pods: "1G"
   scopeSelector:
     matchExpressions:
-    - operator: In
-      scopeName: PriorityClass
-      values:
-      - system-node-critical
+      - operator: In
+        scopeName: PriorityClass
+        values:
+          - system-node-critical
