@@ -1,4 +1,3 @@
----
 # To generate this ConfigMap:
 # 1. Extract https://github.com/traefik/plugin-rewritebody/archive/refs/tags/v0.3.1.tar.gz.
 # 2. `cd` to the extracted directory.
@@ -279,114 +278,11 @@ data:
        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
        See the License for the specific language governing permissions and
        limitations under the License.
-  Makefile: ".PHONY: lint test vendor clean\n\nexport GO111MODULE=on\n\ndefault: lint
-    test\n\nlint:\n\tgolangci-lint run\n\ntest:\n\tgo test -v -cover ./...\n\nvendor:\n\tgo
-    mod vendor\n\nclean:\n\trm -rf ./vendor"
-  README.md: "# Rewrite Body\n\nRewrite body is a middleware plugin for [Traefik](https://github.com/traefik/traefik)
-    which rewrites the HTTP response body\nby replacing a search regex by a replacement
-    string.\n\n## Configuration\n\n### Static\n\n```toml\n[pilot]\n  token = \"xxxx\"\n\n[experimental.plugins.rewritebody]\n
-    \ modulename = \"github.com/traefik/plugin-rewritebody\"\n  version = \"v0.3.1\"\n```\n\n###
-    Dynamic\n\nTo configure the `Rewrite Body` plugin you should create a [middleware](https://docs.traefik.io/middlewares/overview/)
-    in \nyour dynamic configuration as explained [here](https://docs.traefik.io/middlewares/overview/).
-    The following example creates\nand uses the `rewritebody` middleware plugin to
-    replace all foo occurences by bar in the HTTP response body.\n\nIf you want to
-    apply some limits on the response body, you can chain this middleware plugin with
-    the [Buffering middleware](https://docs.traefik.io/middlewares/buffering/) from
-    Traefik.\n\n```toml\n[http.routers]\n  [http.routers.my-router]\n    rule = \"Host(`localhost`)\"\n
-    \   middlewares = [\"rewrite-foo\"]\n    service = \"my-service\"\n\n[http.middlewares]\n
-    \ [http.middlewares.rewrite-foo.plugin.rewritebody]\n    # Keep Last-Modified
-    header returned by the HTTP service.\n    # By default, the Last-Modified header
-    is removed.\n    lastModified = true\n\n    # Rewrites all \"foo\" occurences
-    by \"bar\"\n    [[http.middlewares.rewrite-foo.plugin.rewritebody.rewrites]]\n
-    \     regex = \"foo\"\n      replacement = \"bar\"\n\n[http.services]\n  [http.services.my-service]\n
-    \   [http.services.my-service.loadBalancer]\n      [[http.services.my-service.loadBalancer.servers]]\n
-    \       url = \"http://127.0.0.1\"\n```\n"
+  Makefile: ".PHONY: lint test vendor clean\n\nexport GO111MODULE=on\n\ndefault: lint test\n\nlint:\n\tgolangci-lint run\n\ntest:\n\tgo test -v -cover ./...\n\nvendor:\n\tgo mod vendor\n\nclean:\n\trm -rf ./vendor"
+  README.md: "# Rewrite Body\n\nRewrite body is a middleware plugin for [Traefik](https://github.com/traefik/traefik) which rewrites the HTTP response body\nby replacing a search regex by a replacement string.\n\n## Configuration\n\n### Static\n\n```toml\n[pilot]\n  token = \"xxxx\"\n\n[experimental.plugins.rewritebody]\n  modulename = \"github.com/traefik/plugin-rewritebody\"\n  version = \"v0.3.1\"\n```\n\n### Dynamic\n\nTo configure the `Rewrite Body` plugin you should create a [middleware](https://docs.traefik.io/middlewares/overview/) in \nyour dynamic configuration as explained [here](https://docs.traefik.io/middlewares/overview/). The following example creates\nand uses the `rewritebody` middleware plugin to replace all foo occurences by bar in the HTTP response body.\n\nIf you want to apply some limits on the response body, you can chain this middleware plugin with the [Buffering middleware](https://docs.traefik.io/middlewares/buffering/) from Traefik.\n\n```toml\n[http.routers]\n  [http.routers.my-router]\n    rule = \"Host(`localhost`)\"\n    middlewares = [\"rewrite-foo\"]\n    service = \"my-service\"\n\n[http.middlewares]\n  [http.middlewares.rewrite-foo.plugin.rewritebody]\n    # Keep Last-Modified header returned by the HTTP service.\n    # By default, the Last-Modified header is removed.\n    lastModified = true\n\n    # Rewrites all \"foo\" occurences by \"bar\"\n    [[http.middlewares.rewrite-foo.plugin.rewritebody.rewrites]]\n      regex = \"foo\"\n      replacement = \"bar\"\n\n[http.services]\n  [http.services.my-service]\n    [http.services.my-service.loadBalancer]\n      [[http.services.my-service.loadBalancer.servers]]\n        url = \"http://127.0.0.1\"\n```\n"
   go.mod: |
     module github.com/traefik/plugin-rewritebody
 
     go 1.14
-  rewritebody.go: "// Package plugin_rewritebody a plugin to rewrite response body.\npackage
-    plugin_rewritebody\n\nimport (\n\t\"bufio\"\n\t\"bytes\"\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"net/http\"\n\t\"regexp\"\n)\n\n//
-    Rewrite holds one rewrite body configuration.\ntype Rewrite struct {\n\tRegex
-    \      string `json:\"regex,omitempty\"`\n\tReplacement string `json:\"replacement,omitempty\"`\n}\n\n//
-    Config holds the plugin configuration.\ntype Config struct {\n\tLastModified bool
-    \     `json:\"lastModified,omitempty\"`\n\tRewrites     []Rewrite `json:\"rewrites,omitempty\"`\n}\n\n//
-    CreateConfig creates and initializes the plugin configuration.\nfunc CreateConfig()
-    *Config {\n\treturn &Config{}\n}\n\ntype rewrite struct {\n\tregex       *regexp.Regexp\n\treplacement
-    []byte\n}\n\ntype rewriteBody struct {\n\tname         string\n\tnext         http.Handler\n\trewrites
-    \    []rewrite\n\tlastModified bool\n}\n\n// New creates and returns a new rewrite
-    body plugin instance.\nfunc New(_ context.Context, next http.Handler, config *Config,
-    name string) (http.Handler, error) {\n\trewrites := make([]rewrite, len(config.Rewrites))\n\n\tfor
-    i, rewriteConfig := range config.Rewrites {\n\t\tregex, err := regexp.Compile(rewriteConfig.Regex)\n\t\tif
-    err != nil {\n\t\t\treturn nil, fmt.Errorf(\"error compiling regex %q: %w\", rewriteConfig.Regex,
-    err)\n\t\t}\n\n\t\trewrites[i] = rewrite{\n\t\t\tregex:       regex,\n\t\t\treplacement:
-    []byte(rewriteConfig.Replacement),\n\t\t}\n\t}\n\n\treturn &rewriteBody{\n\t\tname:
-    \        name,\n\t\tnext:         next,\n\t\trewrites:     rewrites,\n\t\tlastModified:
-    config.LastModified,\n\t}, nil\n}\n\nfunc (r *rewriteBody) ServeHTTP(rw http.ResponseWriter,
-    req *http.Request) {\n\twrappedWriter := &responseWriter{\n\t\tlastModified:   r.lastModified,\n\t\tResponseWriter:
-    rw,\n\t}\n\n\tr.next.ServeHTTP(wrappedWriter, req)\n\n\tbodyBytes := wrappedWriter.buffer.Bytes()\n\n\tcontentEncoding
-    := wrappedWriter.Header().Get(\"Content-Encoding\")\n\n\tif contentEncoding !=
-    \"\" && contentEncoding != \"identity\" {\n\t\tif _, err := rw.Write(bodyBytes);
-    err != nil {\n\t\t\tlog.Printf(\"unable to write body: %v\", err)\n\t\t}\n\n\t\treturn\n\t}\n\n\tfor
-    _, rewrite := range r.rewrites {\n\t\tbodyBytes = rewrite.regex.ReplaceAll(bodyBytes,
-    rewrite.replacement)\n\t}\n\n\tif _, err := rw.Write(bodyBytes); err != nil {\n\t\tlog.Printf(\"unable
-    to write rewrited body: %v\", err)\n\t}\n}\n\ntype responseWriter struct {\n\tbuffer
-    \      bytes.Buffer\n\tlastModified bool\n\twroteHeader  bool\n\n\thttp.ResponseWriter\n}\n\nfunc
-    (r *responseWriter) WriteHeader(statusCode int) {\n\tif !r.lastModified {\n\t\tr.ResponseWriter.Header().Del(\"Last-Modified\")\n\t}\n\n\tr.wroteHeader
-    = true\n\n\t// Delegates the Content-Length Header creation to the final body
-    write.\n\tr.ResponseWriter.Header().Del(\"Content-Length\")\n\n\tr.ResponseWriter.WriteHeader(statusCode)\n}\n\nfunc
-    (r *responseWriter) Write(p []byte) (int, error) {\n\tif !r.wroteHeader {\n\t\tr.WriteHeader(http.StatusOK)\n\t}\n\n\treturn
-    r.buffer.Write(p)\n}\n\nfunc (r *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter,
-    error) {\n\thijacker, ok := r.ResponseWriter.(http.Hijacker)\n\tif !ok {\n\t\treturn
-    nil, nil, fmt.Errorf(\"%T is not a http.Hijacker\", r.ResponseWriter)\n\t}\n\n\treturn
-    hijacker.Hijack()\n}\n\nfunc (r *responseWriter) Flush() {\n\tif flusher, ok :=
-    r.ResponseWriter.(http.Flusher); ok {\n\t\tflusher.Flush()\n\t}\n}\n"
-  rewritebody_test.go: "package plugin_rewritebody\n\nimport (\n\t\"bytes\"\n\t\"context\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"strconv\"\n\t\"testing\"\n)\n\nfunc
-    TestServeHTTP(t *testing.T) {\n\ttests := []struct {\n\t\tdesc            string\n\t\tcontentEncoding
-    string\n\t\trewrites        []Rewrite\n\t\tlastModified    bool\n\t\tresBody         string\n\t\texpResBody
-    \     string\n\t\texpLastModified bool\n\t}{\n\t\t{\n\t\t\tdesc: \"should replace
-    foo by bar\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement:
-    \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tresBody:    \"foo is the new bar\",\n\t\t\texpResBody:
-    \"bar is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should replace foo by bar,
-    then by foo\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement:
-    \"bar\",\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"bar\",\n\t\t\t\t\tReplacement:
-    \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tresBody:    \"foo is the new bar\",\n\t\t\texpResBody:
-    \"foo is the new foo\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should not replace anything
-    if content encoding is not identity or empty\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:
-    \      \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding:
-    \"gzip\",\n\t\t\tresBody:         \"foo is the new bar\",\n\t\t\texpResBody:      \"foo
-    is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should replace foo by bar if content
-    encoding is identity\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:
-    \      \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding:
-    \"identity\",\n\t\t\tresBody:         \"foo is the new bar\",\n\t\t\texpResBody:
-    \     \"bar is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should not remove
-    the last modified header\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:
-    \      \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding:
-    \"identity\",\n\t\t\tlastModified:    true,\n\t\t\tresBody:         \"foo is the
-    new bar\",\n\t\t\texpResBody:      \"bar is the new bar\",\n\t\t\texpLastModified:
-    true,\n\t\t},\n\t}\n\n\tfor _, test := range tests {\n\t\tt.Run(test.desc, func(t
-    *testing.T) {\n\t\t\tconfig := &Config{\n\t\t\t\tLastModified: test.lastModified,\n\t\t\t\tRewrites:
-    \    test.rewrites,\n\t\t\t}\n\n\t\t\tnext := func(rw http.ResponseWriter, req
-    *http.Request) {\n\t\t\t\trw.Header().Set(\"Content-Encoding\", test.contentEncoding)\n\t\t\t\trw.Header().Set(\"Last-Modified\",
-    \"Thu, 02 Jun 2016 06:01:08 GMT\")\n\t\t\t\trw.Header().Set(\"Content-Length\",
-    strconv.Itoa(len(test.resBody)))\n\t\t\t\trw.WriteHeader(http.StatusOK)\n\n\t\t\t\t_,
-    _ = fmt.Fprintf(rw, test.resBody)\n\t\t\t}\n\n\t\t\trewriteBody, err := New(context.Background(),
-    http.HandlerFunc(next), config, \"rewriteBody\")\n\t\t\tif err != nil {\n\t\t\t\tt.Fatal(err)\n\t\t\t}\n\n\t\t\trecorder
-    := httptest.NewRecorder()\n\t\t\treq := httptest.NewRequest(http.MethodGet, \"/\",
-    nil)\n\n\t\t\trewriteBody.ServeHTTP(recorder, req)\n\n\t\t\tif _, exists := recorder.Result().Header[\"Last-Modified\"];
-    exists != test.expLastModified {\n\t\t\t\tt.Errorf(\"got last-modified header
-    %v, want %v\", exists, test.expLastModified)\n\t\t\t}\n\n\t\t\tif _, exists :=
-    recorder.Result().Header[\"Content-Length\"]; exists {\n\t\t\t\tt.Error(\"The
-    Content-Length Header must be deleted\")\n\t\t\t}\n\n\t\t\tif !bytes.Equal([]byte(test.expResBody),
-    recorder.Body.Bytes()) {\n\t\t\t\tt.Errorf(\"got body %q, want %q\", recorder.Body.Bytes(),
-    test.expResBody)\n\t\t\t}\n\t\t})\n\t}\n}\n\nfunc TestNew(t *testing.T) {\n\ttests
-    := []struct {\n\t\tdesc     string\n\t\trewrites []Rewrite\n\t\texpErr   bool\n\t}{\n\t\t{\n\t\t\tdesc:
-    \"should return no error\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:
-    \      \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\tRegex:
-    \      \"bar\",\n\t\t\t\t\tReplacement: \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t\texpErr:
-    false,\n\t\t},\n\t\t{\n\t\t\tdesc: \"should return an error\",\n\t\t\trewrites:
-    []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"*\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\texpErr:
-    true,\n\t\t},\n\t}\n\tfor _, test := range tests {\n\t\tt.Run(test.desc, func(t
-    *testing.T) {\n\t\t\tconfig := &Config{\n\t\t\t\tRewrites: test.rewrites,\n\t\t\t}\n\n\t\t\t_,
-    err := New(context.Background(), nil, config, \"rewriteBody\")\n\t\t\tif test.expErr
-    && err == nil {\n\t\t\t\tt.Fatal(\"expected error on bad regexp format\")\n\t\t\t}\n\t\t})\n\t}\n}\n"
+  rewritebody.go: "// Package plugin_rewritebody a plugin to rewrite response body.\npackage plugin_rewritebody\n\nimport (\n\t\"bufio\"\n\t\"bytes\"\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"net\"\n\t\"net/http\"\n\t\"regexp\"\n)\n\n// Rewrite holds one rewrite body configuration.\ntype Rewrite struct {\n\tRegex       string `json:\"regex,omitempty\"`\n\tReplacement string `json:\"replacement,omitempty\"`\n}\n\n// Config holds the plugin configuration.\ntype Config struct {\n\tLastModified bool      `json:\"lastModified,omitempty\"`\n\tRewrites     []Rewrite `json:\"rewrites,omitempty\"`\n}\n\n// CreateConfig creates and initializes the plugin configuration.\nfunc CreateConfig() *Config {\n\treturn &Config{}\n}\n\ntype rewrite struct {\n\tregex       *regexp.Regexp\n\treplacement []byte\n}\n\ntype rewriteBody struct {\n\tname         string\n\tnext         http.Handler\n\trewrites     []rewrite\n\tlastModified bool\n}\n\n// New creates and returns a new rewrite body plugin instance.\nfunc New(_ context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {\n\trewrites := make([]rewrite, len(config.Rewrites))\n\n\tfor i, rewriteConfig := range config.Rewrites {\n\t\tregex, err := regexp.Compile(rewriteConfig.Regex)\n\t\tif err != nil {\n\t\t\treturn nil, fmt.Errorf(\"error compiling regex %q: %w\", rewriteConfig.Regex, err)\n\t\t}\n\n\t\trewrites[i] = rewrite{\n\t\t\tregex:       regex,\n\t\t\treplacement: []byte(rewriteConfig.Replacement),\n\t\t}\n\t}\n\n\treturn &rewriteBody{\n\t\tname:         name,\n\t\tnext:         next,\n\t\trewrites:     rewrites,\n\t\tlastModified: config.LastModified,\n\t}, nil\n}\n\nfunc (r *rewriteBody) ServeHTTP(rw http.ResponseWriter, req *http.Request) {\n\twrappedWriter := &responseWriter{\n\t\tlastModified:   r.lastModified,\n\t\tResponseWriter: rw,\n\t}\n\n\tr.next.ServeHTTP(wrappedWriter, req)\n\n\tbodyBytes := wrappedWriter.buffer.Bytes()\n\n\tcontentEncoding := wrappedWriter.Header().Get(\"Content-Encoding\")\n\n\tif contentEncoding != \"\" && contentEncoding != \"identity\" {\n\t\tif _, err := rw.Write(bodyBytes); err != nil {\n\t\t\tlog.Printf(\"unable to write body: %v\", err)\n\t\t}\n\n\t\treturn\n\t}\n\n\tfor _, rewrite := range r.rewrites {\n\t\tbodyBytes = rewrite.regex.ReplaceAll(bodyBytes, rewrite.replacement)\n\t}\n\n\tif _, err := rw.Write(bodyBytes); err != nil {\n\t\tlog.Printf(\"unable to write rewrited body: %v\", err)\n\t}\n}\n\ntype responseWriter struct {\n\tbuffer       bytes.Buffer\n\tlastModified bool\n\twroteHeader  bool\n\n\thttp.ResponseWriter\n}\n\nfunc (r *responseWriter) WriteHeader(statusCode int) {\n\tif !r.lastModified {\n\t\tr.ResponseWriter.Header().Del(\"Last-Modified\")\n\t}\n\n\tr.wroteHeader = true\n\n\t// Delegates the Content-Length Header creation to the final body write.\n\tr.ResponseWriter.Header().Del(\"Content-Length\")\n\n\tr.ResponseWriter.WriteHeader(statusCode)\n}\n\nfunc (r *responseWriter) Write(p []byte) (int, error) {\n\tif !r.wroteHeader {\n\t\tr.WriteHeader(http.StatusOK)\n\t}\n\n\treturn r.buffer.Write(p)\n}\n\nfunc (r *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {\n\thijacker, ok := r.ResponseWriter.(http.Hijacker)\n\tif !ok {\n\t\treturn nil, nil, fmt.Errorf(\"%T is not a http.Hijacker\", r.ResponseWriter)\n\t}\n\n\treturn hijacker.Hijack()\n}\n\nfunc (r *responseWriter) Flush() {\n\tif flusher, ok := r.ResponseWriter.(http.Flusher); ok {\n\t\tflusher.Flush()\n\t}\n}\n"
+  rewritebody_test.go: "package plugin_rewritebody\n\nimport (\n\t\"bytes\"\n\t\"context\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"strconv\"\n\t\"testing\"\n)\n\nfunc TestServeHTTP(t *testing.T) {\n\ttests := []struct {\n\t\tdesc            string\n\t\tcontentEncoding string\n\t\trewrites        []Rewrite\n\t\tlastModified    bool\n\t\tresBody         string\n\t\texpResBody      string\n\t\texpLastModified bool\n\t}{\n\t\t{\n\t\t\tdesc: \"should replace foo by bar\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tresBody:    \"foo is the new bar\",\n\t\t\texpResBody: \"bar is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should replace foo by bar, then by foo\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"bar\",\n\t\t\t\t\tReplacement: \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tresBody:    \"foo is the new bar\",\n\t\t\texpResBody: \"foo is the new foo\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should not replace anything if content encoding is not identity or empty\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding: \"gzip\",\n\t\t\tresBody:         \"foo is the new bar\",\n\t\t\texpResBody:      \"foo is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should replace foo by bar if content encoding is identity\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding: \"identity\",\n\t\t\tresBody:         \"foo is the new bar\",\n\t\t\texpResBody:      \"bar is the new bar\",\n\t\t},\n\t\t{\n\t\t\tdesc: \"should not remove the last modified header\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\tcontentEncoding: \"identity\",\n\t\t\tlastModified:    true,\n\t\t\tresBody:         \"foo is the new bar\",\n\t\t\texpResBody:      \"bar is the new bar\",\n\t\t\texpLastModified: true,\n\t\t},\n\t}\n\n\tfor _, test := range tests {\n\t\tt.Run(test.desc, func(t *testing.T) {\n\t\t\tconfig := &Config{\n\t\t\t\tLastModified: test.lastModified,\n\t\t\t\tRewrites:     test.rewrites,\n\t\t\t}\n\n\t\t\tnext := func(rw http.ResponseWriter, req *http.Request) {\n\t\t\t\trw.Header().Set(\"Content-Encoding\", test.contentEncoding)\n\t\t\t\trw.Header().Set(\"Last-Modified\", \"Thu, 02 Jun 2016 06:01:08 GMT\")\n\t\t\t\trw.Header().Set(\"Content-Length\", strconv.Itoa(len(test.resBody)))\n\t\t\t\trw.WriteHeader(http.StatusOK)\n\n\t\t\t\t_, _ = fmt.Fprintf(rw, test.resBody)\n\t\t\t}\n\n\t\t\trewriteBody, err := New(context.Background(), http.HandlerFunc(next), config, \"rewriteBody\")\n\t\t\tif err != nil {\n\t\t\t\tt.Fatal(err)\n\t\t\t}\n\n\t\t\trecorder := httptest.NewRecorder()\n\t\t\treq := httptest.NewRequest(http.MethodGet, \"/\", nil)\n\n\t\t\trewriteBody.ServeHTTP(recorder, req)\n\n\t\t\tif _, exists := recorder.Result().Header[\"Last-Modified\"]; exists != test.expLastModified {\n\t\t\t\tt.Errorf(\"got last-modified header %v, want %v\", exists, test.expLastModified)\n\t\t\t}\n\n\t\t\tif _, exists := recorder.Result().Header[\"Content-Length\"]; exists {\n\t\t\t\tt.Error(\"The Content-Length Header must be deleted\")\n\t\t\t}\n\n\t\t\tif !bytes.Equal([]byte(test.expResBody), recorder.Body.Bytes()) {\n\t\t\t\tt.Errorf(\"got body %q, want %q\", recorder.Body.Bytes(), test.expResBody)\n\t\t\t}\n\t\t})\n\t}\n}\n\nfunc TestNew(t *testing.T) {\n\ttests := []struct {\n\t\tdesc     string\n\t\trewrites []Rewrite\n\t\texpErr   bool\n\t}{\n\t\t{\n\t\t\tdesc: \"should return no error\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"foo\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"bar\",\n\t\t\t\t\tReplacement: \"foo\",\n\t\t\t\t},\n\t\t\t},\n\t\t\texpErr: false,\n\t\t},\n\t\t{\n\t\t\tdesc: \"should return an error\",\n\t\t\trewrites: []Rewrite{\n\t\t\t\t{\n\t\t\t\t\tRegex:       \"*\",\n\t\t\t\t\tReplacement: \"bar\",\n\t\t\t\t},\n\t\t\t},\n\t\t\texpErr: true,\n\t\t},\n\t}\n\tfor _, test := range tests {\n\t\tt.Run(test.desc, func(t *testing.T) {\n\t\t\tconfig := &Config{\n\t\t\t\tRewrites: test.rewrites,\n\t\t\t}\n\n\t\t\t_, err := New(context.Background(), nil, config, \"rewriteBody\")\n\t\t\tif test.expErr && err == nil {\n\t\t\t\tt.Fatal(\"expected error on bad regexp format\")\n\t\t\t}\n\t\t})\n\t}\n}\n"

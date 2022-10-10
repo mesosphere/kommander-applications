@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -12,7 +11,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: "10.9.1"
+      version: 12.0.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,7 +25,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-10.9.3-d2iq-defaults
+      name: traefik-12.0.2-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -89,10 +88,10 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   ports:
-  - name: dashboard-http
-    port: 80
-    protocol: TCP
-    targetPort: 9000
+    - name: dashboard-http
+      port: 80
+      protocol: TCP
+      targetPort: 9000
   selector:
     app: traefik
     app.kubernetes.io/instance: kommander-traefik
@@ -107,10 +106,10 @@ metadata:
     servicemonitor.kommander.mesosphere.io/path: metrics
 spec:
   ports:
-  - name: metrics
-    port: 9100
-    protocol: TCP
-    targetPort: metrics
+    - name: metrics
+      port: 9100
+      protocol: TCP
+      targetPort: metrics
   selector:
     app: traefik
     app.kubernetes.io/instance: kommander-traefik
@@ -121,41 +120,41 @@ kind: ClusterRole
 metadata:
   name: dkp-traefik-view
 rules:
-- nonResourceURLs:
-  - /dkp/traefik
-  - /dkp/traefik/*
-  verbs:
-  - get
-  - head
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: dkp-traefik-edit
 rules:
-- nonResourceURLs:
-  - /dkp/traefik
-  - /dkp/traefik/*
-  verbs:
-  - get
-  - head
-  - post
-  - put
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: dkp-traefik-admin
 rules:
-- nonResourceURLs:
-  - /dkp/traefik
-  - /dkp/traefik/*
-  verbs:
-  - get
-  - head
-  - post
-  - put
-  - delete
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
 ---
 # Expose Traefik dashboard in insecure mode according to
 # <https://doc.traefik.io/traefik/v2.0/operations/dashboard/>.
@@ -176,19 +175,19 @@ spec:
   # Requesting `/` from kommander-traefik-dashboard results in an absolute redirect to `/dashboard/`, which then 404s.
   # We provide a path each for `/dashboard/` and `/api/` to prevent requests to `/`.
   rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: kommander-traefik-dashboard
-            port:
-              number: 80
-        path: /dkp/traefik/dashboard/
-        pathType: Prefix
-      - backend:
-          service:
-            name: kommander-traefik-dashboard
-            port:
-              number: 80
-        path: /dkp/traefik/api/
-        pathType: Prefix
+    - http:
+        paths:
+          - backend:
+              service:
+                name: kommander-traefik-dashboard
+                port:
+                  number: 80
+            path: /dkp/traefik/dashboard/
+            pathType: Prefix
+          - backend:
+              service:
+                name: kommander-traefik-dashboard
+                port:
+                  number: 80
+            path: /dkp/traefik/api/
+            pathType: Prefix
