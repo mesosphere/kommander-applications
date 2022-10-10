@@ -1,0 +1,33 @@
+name: Check licenses.d2iq.yaml
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  check-license-yaml:
+    runs-on: ubuntu-latest
+    name: Check licenses.d2iq.yaml
+    env:
+      BLOODHOUND_VERSION: v0.8.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Checkout dkp-infra-tools
+        uses: actions/checkout@v3
+        with:
+          repository: mesosphere/dkp-infra-tools
+          path: dkp-infra-tools
+          token: ${{ secrets.MERGEBOT_TOKEN }}
+          # TODO: remove next line when merged
+          ref: mh/licenses-mapping-validation
+      - name: Download Bloodhound CLI
+        run: |
+          curl -fsSL https://downloads.mesosphere.io/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
+          chmod +x bloodhound
+      - name: Generate image list
+        run: |
+          ./bloodhound --no-validation --list-images > images.txt
+      - name: Run validation
+        uses: ./dkp-infra-tools/licenses
+        with:
+          image-list: images.txt
