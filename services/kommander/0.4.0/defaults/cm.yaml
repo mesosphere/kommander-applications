@@ -95,5 +95,5 @@ data:
           kubecost-thanos-traefik: "0.0.1"
           cert-manager: "1.7.1"
           karma-traefik: "0.0.1"
-          gatekeeper: "3.9.0"
+          gatekeeper: "3.9.1"
           kommander-flux: "0.35.0"
