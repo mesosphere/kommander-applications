@@ -10,7 +10,8 @@ spec:
       chart: object-bucket-claim
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: takirala.github.io-charts-stable # TODO: delete this and uncomment next line
+        # name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       version: 0.1.1
   interval: 15s
