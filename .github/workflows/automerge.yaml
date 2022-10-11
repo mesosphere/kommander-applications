@@ -24,17 +24,14 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable automerge on automated chart bump PRs
-        id: automerge
-        uses: pascalgn/automerge-action@v0.15.3
-        if: startsWith(github.head_ref, 'chartbump/')
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "ready-for-review,!do-not-merge,!do-not-merge/testing"
-          MERGE_METHOD: squash
-          MERGE_COMMIT_MESSAGE: pull-request-title
-          MERGE_DELETE_BRANCH: true
-      - name: feedback
-        if: steps.automerge.outputs.mergeResult == 'merged'
-        run: |
-          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
+    - name: Enable auto-merge for automated chart bump PRs
+      id: automerge
+      if: |
+        startsWith(github.head_ref, 'chartbump/')
+        && contains(github.event.pull_request.labels.*.name, 'ready-for-review')
+        && !contains(github.event.pull_request.labels.*.name, 'do-not-merge')
+        && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/testing')
+      run: gh pr merge --auto --squash "$PR_URL"
+      env:
+        PR_URL: ${{ github.event.pull_request.html_url }}
+        GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
