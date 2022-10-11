@@ -12,6 +12,12 @@ data:
     ## both project-grafana-loki & object-bucket-claims helmreleases. ##
     ####################################################################
     dkp:
+      # these 2 OBC chart default values are irrelavent for project loki
+      velero:
+        enabled: false
+      grafana-loki:
+        enabled: false
+
       project-grafana-loki:
         enabled: true
         bucketName: proj-loki-${releaseNamespace}
