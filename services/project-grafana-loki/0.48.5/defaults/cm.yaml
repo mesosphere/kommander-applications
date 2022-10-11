@@ -20,6 +20,7 @@ data:
 
       project-grafana-loki:
         enabled: true
+        enableOBCHealthCheck: false
         bucketName: proj-loki-${releaseNamespace}
         storageClassName: dkp-object-store
         additionalConfig:
