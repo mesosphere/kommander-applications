@@ -5,12 +5,6 @@ metadata:
   name: velero-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    # TODO(takirala): TBD:
-    #   IF we add this here, how do users that does not want ceph override this?
-    #   IF we DO NOT add this here, how does velero depend on rook-ceph-cluster HR.
-    - name: object-bucket-claims-helmrelease
-      namespace: ${workspaceNamespace}
   force: false
   prune: true
   wait: true
