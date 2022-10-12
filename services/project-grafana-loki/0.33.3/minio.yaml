@@ -76,6 +76,9 @@ spec:
   credsSecret:
     name: project-grafana-loki-minio
 
+  users:
+    - name: project-grafana-loki-minio-user
+
   # Disable TLS.
   requestAutoCert: false
 
@@ -104,7 +107,19 @@ metadata:
   namespace: ${releaseNamespace}
 type: Opaque
 data:
-  ## Access Key for MinIO Tenant, base64 encoded (echo -n 'minio' | base64)
+  # Root access key for MinIO Tenant, base64 encoded (echo -n 'minio' | base64)
   accesskey: bWluaW8=
-  ## Secret Key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
+  # Root secret key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
   secretkey: bWluaW8xMjM=
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: project-grafana-loki-minio-user
+  namespace: ${releaseNamespace}
+type: Opaque
+data:
+  # User access key for MinIO Tenant, base64 encoded (echo -n 'minio-user' | base64)
+  CONSOLE_ACCESS_KEY: bWluaW8tdXNlcg==
+  # User secret key for MinIO Tenant, base64 encoded (echo -n 'minio123' | base64)
+  CONSOLE_SECRET_KEY: bWluaW8xMjM=
