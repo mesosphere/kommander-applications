@@ -30,4 +30,7 @@ spec:
     - kind: ConfigMap
       name: rook-ceph-cluster-overrides
       optional: true
+    - kind: ConfigMap
+      name: rook-ceph-cluster-cluster-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
