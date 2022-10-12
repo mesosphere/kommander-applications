@@ -53,3 +53,4 @@ spec:
             - -c
             - |
               kubectl delete deployments.apps -l app.kubernetes.io/instance=minio-operator,app.kubernetes.io/name=minio-operator --cascade=orphan -n ${releaseNamespace}
+              kubectl delete deployments.apps grafana-loki-minio-console -n ${releaseNamespace} --ignore-not-found
