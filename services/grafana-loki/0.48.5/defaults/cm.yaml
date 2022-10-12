@@ -115,7 +115,7 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki
@@ -128,13 +128,13 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki
 
     queryFrontend:
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki
@@ -161,7 +161,7 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki
@@ -185,7 +185,7 @@ data:
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki

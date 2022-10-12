@@ -138,7 +138,7 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: proj-loki-${releaseNamespace}
@@ -151,13 +151,13 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: proj-loki-${releaseNamespace}
 
     queryFrontend:
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: proj-loki-${releaseNamespace}
@@ -170,7 +170,7 @@ data:
       persistence:
         enabled: true
         size: 10Gi
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: proj-loki-${releaseNamespace}
@@ -194,7 +194,7 @@ data:
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
-      extraEnvFrom: 
+      extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: proj-loki-${releaseNamespace}
