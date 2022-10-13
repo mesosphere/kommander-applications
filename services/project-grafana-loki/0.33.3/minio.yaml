@@ -11,6 +11,8 @@ metadata:
     prometheus.io/port: "9000"
     prometheus.io/scrape: "true"
 spec:
+  # This image tag is also referenced in ./grafana-loki-upgrade-job/upgrade-job.yaml
+  # if updated here, make sure to also update that job.
   image: quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z
   pools:
     # We define multiple pools in order to add storage while supporting existing clusters. Server pools can't
