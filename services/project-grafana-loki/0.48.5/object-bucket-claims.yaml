@@ -26,4 +26,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: project-grafana-loki-0.48.5-d2iq-defaults
+    - kind: ConfigMap
+      name: project-grafana-loki-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
