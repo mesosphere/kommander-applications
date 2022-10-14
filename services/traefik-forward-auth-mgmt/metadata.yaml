@@ -1,3 +1,7 @@
 type: internal
 scope:
   - workspace
+dependencies:
+  - dex
+  - kommander
+  - traefik

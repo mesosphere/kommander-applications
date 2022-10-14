@@ -2,6 +2,8 @@ displayName: Kiali
 description: Management console for an Istio-based service mesh. Requires Prometheus, Istio, and Jaeger.
 category:
   - service-mesh
+dependencies:
+  - istio
 type: catalog
 scope:
   - workspace
