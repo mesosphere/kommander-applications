@@ -143,6 +143,10 @@ data:
     ## both rook-ceph-cluster & object-bucket-claims helmreleases. ##
     #################################################################
     dkp:
+      # The name of the bucket is important here as rook creates
+      # a ConfigMap and Secret with same name as bucket.
+      # velero/Loki refers to the secret by name and changing the bucket name
+      # here would affect velero/loki configuration.
       velero:
         enabled: true
         bucketName: dkp-velero
