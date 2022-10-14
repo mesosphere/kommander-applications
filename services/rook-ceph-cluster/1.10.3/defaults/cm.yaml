@@ -136,3 +136,26 @@ data:
       # TODO(takirala): enable monitoring
       enabled: false
       createPrometheusRules: false
+
+    #################################################################
+    ## BEGIN DKP specific config overrides                         ##
+    ## This is added as a workaround to use the same configmap for ##
+    ## both rook-ceph-cluster & object-bucket-claims helmreleases. ##
+    #################################################################
+    dkp:
+      velero:
+        enabled: true
+        bucketName: dkp-velero
+        storageClassName: dkp-object-store
+        additionalConfig:
+          maxSize: "10G"
+      grafana-loki:
+        enabled: true
+        bucketName: dkp-loki
+        storageClassName: dkp-object-store
+        additionalConfig:
+          # maxObjects: "1000"
+          maxSize: "50G"
+    #################################################################
+    ## END of dkp specific config overrides                        ##
+    #################################################################
