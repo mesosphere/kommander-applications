@@ -116,7 +116,7 @@
             },
             "editorMode": "code",
             "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentbit.*\",container=\"fluent-bit\"}[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -208,7 +208,7 @@
             },
             "editorMode": "code",
             "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentbit.*\",reason=\"OOMKilled\"}",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           },
@@ -220,7 +220,7 @@
             "editorMode": "code",
             "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentbit.*\",reason=\"Error\"}",
             "hide": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "B"
           }
@@ -325,7 +325,7 @@
             },
             "editorMode": "code",
             "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentd-.*\", container=\"fluentd\"}[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -417,7 +417,7 @@
             },
             "editorMode": "code",
             "expr": "kube_pod_container_status_terminated_reason{pod=~\"logging-operator-logging-fluentd-[0-9]*\",reason=\"OOMKilled\"}",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           },
@@ -429,7 +429,7 @@
             "editorMode": "code",
             "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentd-[0-9]*\",reason=\"Error\"}",
             "hide": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "B"
           }
@@ -521,7 +521,7 @@
             },
             "editorMode": "code",
             "expr": "max_over_time(fluentd_output_status_buffer_total_bytes[1m])/1000000",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -613,7 +613,7 @@
             },
             "editorMode": "code",
             "expr": "max_over_time(fluentd_output_status_retry_wait[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -705,7 +705,7 @@
             "editorMode": "code",
             "expr": "max_over_time(fluentd_output_status_buffer_queue_length[1m])",
             "hide": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -796,7 +796,7 @@
             },
             "editorMode": "code",
             "expr": "rate(fluentd_output_status_retry_count[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -900,7 +900,7 @@
             },
             "editorMode": "code",
             "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"grafana-loki-loki-distributed-.*\"}[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -991,7 +991,7 @@
             },
             "editorMode": "code",
             "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-loki-distributed-.*\",reason=\"OOMKilled\"}",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           },
@@ -1003,7 +1003,7 @@
             "editorMode": "code",
             "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-loki-distributed-.*\",reason=\"Error\"}",
             "hide": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "B"
           }
@@ -1095,7 +1095,7 @@
             "editorMode": "code",
             "expr": "rate(loki_distributor_ingester_append_failures_total[1m])",
             "hide": false,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           },
@@ -1107,7 +1107,7 @@
             "editorMode": "code",
             "expr": "rate(loki_distributor_ingester_appends_total[1m])",
             "hide": true,
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "B"
           },
@@ -1209,7 +1209,7 @@
             },
             "editorMode": "code",
             "expr": "rate(loki_distributor_bytes_received_total[1m])",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
@@ -1300,7 +1300,7 @@
             },
             "editorMode": "builder",
             "expr": "cortex_ingester_flush_queue_length",
-            "legendFormat": "__auto",
+            "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
           }
