@@ -40,3 +40,13 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/dkp-insights-charts-management}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: takirala.github.io-charts-stable
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://takirala.github.io/charts/stable}"
