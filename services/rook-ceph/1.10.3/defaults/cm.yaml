@@ -7,10 +7,18 @@ data:
   values.yaml: |
     ---
     crds:
-      # CRDs are not installed with "crds" directory and If this flag isdisabled post-install, the cluster may be DESTROYED.
+      # CRDs are not installed with "crds" directory and If this flag is disabled post-install, the cluster may be DESTROYED.
       # If the CRDs are deleted in this case, see the disaster recovery guide to restore them.
       # https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion
       enabled: true
+
+    resources:
+      limits:
+        cpu: 750m
+        memory: 768Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
 
     # Whether rook watches its current namespace for CRDs or the entire cluster, defaults to false
     currentNamespaceOnly: true
