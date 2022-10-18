@@ -15,10 +15,11 @@ resources:
       - url: https://github.com/fluent/fluent-bit
         ref: v1.9.9
         license_path: LICENSE
-  - container_image: docker.io/bitnami/external-dns:0.12.0-debian-11-r3
+  - container_image: docker.io/bitnami/external-dns:0.12.2-debian-11-r22
     sources:
-      - url: https://github.com/bitnami/bitnami-docker-external-dns
-        ref: 0.12.0-debian-11-r13
+      - url: https://github.com/bitnami/containers
+        ref: 965b3fe741b7b5ef38164902a6d78ebc4c260b75
+        directory: bitnami/external-dns
         license_path: LICENSE.md
   - container_image: docker.io/bitnami/kubectl:1.23.6
     sources:
@@ -100,10 +101,10 @@ resources:
         ref: v1.30.0
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.34.1
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.38.0
     sources:
       - url: https://github.com/jaegertracing/jaeger-operator
-        ref: v1.34.1
+        ref: v1.38.0
         license_path: LICENSE
   - container_image: docker.io/jimmidyson/configmap-reload:v0.7.1
     sources:
@@ -125,10 +126,10 @@ resources:
       - url: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
         ref: v1.0.8
         license_path: LICENSE
-  - container_image: docker.io/library/traefik:2.5.6
+  - container_image: docker.io/library/traefik:2.8.7
     sources:
       - url: https://github.com/traefik/traefik-library-image
-        ref: v2.5.6
+        ref: v2.8.7
         license_path: LICENSE
   - container_image: docker.io/mesosphere/capimate:v2.3.0
     sources:
@@ -154,55 +155,19 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dkp-diagnostics
         ref: v0.5.0
-  - container_image: docker.io/mesosphere/insights-management:v0.3.0-dev
+  - container_image: docker.io/mesosphere/insights-management:v0.3.0-beta.1
     sources:
       - url: https://github.com/mesosphere/dkp-insights
-        ref: v0.3.0-dev
+        ref: v0.3.0-beta.1
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name
     sources:
       - url: https://github.com/prymitive/karma
         ref: v0.88
         license_path: LICENSE
-  - container_image: docker.io/mesosphere/kommander2-appmanagement-webhook:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-appmanagement:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-federation-authorizedlister:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-federation-controller-manager:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-federation-webhook:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-flux-operator:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-kubetools:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-licensing-controller-manager:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander2-licensing-webhook:v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: v0.0.0-dev-20220927040016-5a93c95a-SNAPSHOT-5426d2a5
-  - container_image: docker.io/mesosphere/kommander:8.181.0
+  - container_image: docker.io/mesosphere/kommander:8.184.1
     sources:
       - url: https://github.com/mesosphere/kommander-ui
-        ref: 8.181.0
+        ref: v8.184.1
   - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.5.5
     sources:
       - url: https://github.com/mesosphere/kubeaddons-extrasteps
@@ -277,12 +242,17 @@ resources:
         ref: v3.9.0
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.9.0
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.9.1
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
-        ref: v3.9.0
+        ref: v3.9.1
         license_path: LICENSE
         notice_path: NOTICE
+  - container_image: docker.io/rook/ceph:v1.10.3
+    sources:
+      - url: https://github.com/ceph/ceph-container
+        ref: 3ba0f095be759493a04a571a28c5ba53112cd5d3
+        license_path: LICENSE
   - container_image: docker.io/stakater/reloader:v0.0.121
     sources:
       - url: https://github.com/stakater/Reloader
@@ -303,10 +273,10 @@ resources:
       - url: https://github.com/vmware-tanzu/velero-plugin-for-aws
         ref: v1.1.0
         license_path: LICENSE
-  - container_image: docker.io/velero/velero:v1.5.2
+  - container_image: docker.io/velero/velero:v1.9.2
     sources:
       - url: https://github.com/vmware-tanzu/velero
-        ref: v1.5.2
+        ref: v1.9.2
         license_path: LICENSE
   - container_image: gcr.io/google_containers/kubernetes-dashboard-init-amd64:v1.0.0
     sources:
@@ -424,20 +394,20 @@ resources:
       - url: https://github.com/NVIDIA/gpu-operator
         ref: v1.11.1
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.7.1
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.9.1
     sources:
       - url: https://github.com/cert-manager/cert-manager
-        ref: v1.7.1
+        ref: v1.9.1
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.7.1
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.9.1
     sources:
       - url: https://github.com/cert-manager/cert-manager
-        ref: v1.7.1
+        ref: v1.9.1
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.7.1
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.9.1
     sources:
       - url: https://github.com/cert-manager/cert-manager
-        ref: v1.7.1
+        ref: v1.9.1
         license_path: LICENSE
   - container_image: quay.io/jetstack/kube-oidc-proxy:v0.3.0
     sources:
