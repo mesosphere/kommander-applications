@@ -22,6 +22,15 @@ data:
         image: quay.io/ceph/ceph:v17.2.3
       dataDirHostPath: /var/lib/rook
 
+      resources:
+        mgr-sidecar:
+          limits:
+            cpu: "1"
+            memory: 500Mi
+          requests:
+            cpu: "100m"
+            memory: "40Mi"
+
       mon:
         count: 3
         # Mons should only be allowed on the same node for test environments where data loss is acceptable.
@@ -125,12 +134,20 @@ data:
             # securePort: 443
             instances: 1
             priorityClassName: system-cluster-critical
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "2Gi"
+              requests:
+                cpu: "1000m"
+                memory: "1Gi"
           healthCheck:
             bucket:
               interval: 60s
         storageClass:
           enabled: true
           name: dkp-object-store # Defined once per namespace
+          reclaimPolicy: Delete
 
     monitoring:
       # TODO(takirala): enable monitoring
