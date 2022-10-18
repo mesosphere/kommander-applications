@@ -19,7 +19,7 @@ jobs:
           path: dkp-infra-tools
           token: ${{ secrets.MERGEBOT_TOKEN }}
           # TODO: remove next line when merged
-          ref: mh/licenses-mapping-validation
+          ref: florian/license_github_annotations
       - name: Download Bloodhound CLI
         run: |
           curl -fsSL https://downloads.mesosphere.io/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
