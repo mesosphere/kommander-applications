@@ -1,5 +1,5 @@
 displayName: NVIDIA GPU Operator
-description: NVIDIA Data Center GPU Manager (DCGM) manages and monitors NVIDIA datacentre GPUs in cluster environments.
+description: NVIDIA Data Center GPU Manager (DCGM) manages and monitors NVIDIA datacenter GPUs in cluster environments.
 category:
   - monitoring
 type: platform
@@ -12,8 +12,7 @@ certifications:
 overview: |-
   # Overview
   NVIDIA Data Center GPU Manager (DCGM) is a suite of tools for managing and monitoring NVIDIA datacenter GPUs in cluster environments. It includes active health monitoring, comprehensive diagnostics, system alerts and governance policies including power and clock management.
-
-  ## Key Features
+  ## Benefits
   ### GPU Diagnostics and System Validation
   Effectively identify failures, performance degradations, power inefficiencies and their root causes.
 
@@ -24,7 +23,7 @@ overview: |-
   Use low-overhead, non-invasive health monitoring while jobs are running without impact to application behavior and performance.
 
   ### Integration with Management Ecosystem
-  Easily deploy a DCGM based monitoring solution in a Kubernetes cluster environment. Out of the box integration with various ISV solutions such as Bright Cluster Manager, IBM Spectrum LSF and open-source tools such as Prometheus, collected.
+ Easily deploy a DCGM based monitoring solution in a Kubernetes cluster environment. Out of the box integration with various ISV solutions such as Bright Cluster Manager, IBM Spectrum LSF and open-source tools such as Prometheus, collectd.
 
   ## More Information
   - [developer.nvidia.com/dcgm](https://developer.nvidia.com/dcgm)
