@@ -8,10 +8,7 @@ data:
   values.yaml: |
     loki:
       ingesterFullname: loki-ingester
-      # upstream chart doesn't apply loki.annotations to all loki deployment/statefulsets
-      # TODO: consider change to use annotations when upstream is fixed.
-      # annotations:
-      podAnnotations:
+      annotations:
         secret.reloader.stakater.com/reload: dkp-loki
 
       config: |

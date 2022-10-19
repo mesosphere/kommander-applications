@@ -26,3 +26,24 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: grafana-loki-0.48.6-d2iq-defaults
+  # upstream chart doesn't apply loki.annotations to all loki deployment/statefulsets
+  # TODO: remove this after https://github.com/grafana/helm-charts/issues/1905 is fixed
+  postRenders:
+    - kustomize:
+      patchesJson6902:
+        - target:
+          version: v1
+          kind: Deployment
+          name: grafana-loki-loki-distributed-distributor
+        patch:
+          - op: add
+            path: /metadata/annotations/secret.reloader.stakater.com~1reload
+            value: dkp-loki
+        - target:
+          version: apps/v1
+          kind: StatefulSet
+          name: grafana-loki-loki-distributed-ingester
+        patch:
+          - op: add
+            path: /metadata/annotations/secret.reloader.stakater.com~1reload
+            value: dkp-loki
