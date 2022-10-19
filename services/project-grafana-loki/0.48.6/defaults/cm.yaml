@@ -25,6 +25,8 @@ data:
 
     loki:
       ingesterFullname: loki-ingester
+      annotations:
+        secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
 
       config: |
         auth_enabled: false
