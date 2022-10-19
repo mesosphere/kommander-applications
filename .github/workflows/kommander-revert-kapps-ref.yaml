@@ -19,11 +19,11 @@ jobs:
       base_branch_name: ${{ steps.base-branch-name.outputs.base_branch_name }}
     steps:
       - id: branch-name
-        run: echo "::set-output name=branch_name::${{ github.head_ref }}"
+        run: echo "branch_name=${{ github.head_ref }}" >> $GITHUB_OUTPUT
       - id: escaped-branch-name
-        run: echo "::set-output name=escaped_branch_name::$(echo ${{ github.head_ref }} | sed -e 's/\//\\\//g')"
+        run: echo "escaped_branch_name=$(echo ${{ github.head_ref }} | sed -e 's/\//\\\//g')" >> $GITHUB_OUTPUT
       - id: base-branch-name
-        run: echo "::set-output name=base_branch_name::${{ github.base_ref }}"
+        run: echo "base_branch_name=${{ github.base_ref }}" >> $GITHUB_OUTPUT
       - name: Check output branch-name
         run: echo ${{ steps.branch-name.outputs.branch_name }}
       - name: Check output escaped-branch-name
