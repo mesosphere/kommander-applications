@@ -6,6 +6,23 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    ####################################################################
+    ## BEGIN DKP specific config overrides                            ##
+    ## This is added as a workaround to use the same configmap for    ##
+    ## both project-grafana-loki & object-bucket-claims helmreleases. ##
+    ####################################################################
+    dkp:
+      project-grafana-loki:
+        enabled: true
+        enableOBCHealthCheck: false
+        bucketName: proj-loki-${releaseNamespace}
+        storageClassName: dkp-object-store
+        additionalConfig:
+          maxSize: "20G"
+    ####################################################################
+    ## END of dkp specific config overrides                           ##
+    ####################################################################
+
     loki:
       ingesterFullname: loki-ingester
 
@@ -70,7 +87,7 @@ data:
             cache_location: /var/loki/cache
             cache_ttl: 168h
           aws:
-            s3: "http://minio:minio123@project-grafana-loki-minio-hl.${releaseNamespace}.svc:9000/loki"
+            s3: "http://rook-ceph-rgw-dkp-object-store.${workspaceNamespace}.svc:80/proj-loki-${releaseNamespace}"
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
@@ -115,6 +132,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: proj-loki-${releaseNamespace}
 
     querier:
       replicas: 1
@@ -124,6 +145,16 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: proj-loki-${releaseNamespace}
+
+    queryFrontend:
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: proj-loki-${releaseNamespace}
 
     compactor:
       enabled: true
@@ -133,6 +164,10 @@ data:
       persistence:
         enabled: true
         size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: proj-loki-${releaseNamespace}
 
     ruler:
       enabled: false
@@ -153,3 +188,7 @@ data:
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: proj-loki-${releaseNamespace}
