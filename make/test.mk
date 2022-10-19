@@ -2,7 +2,7 @@ KOMMANDER_E2E_DIR  = $(REPO_ROOT)/.tmp/kommander-e2e
 
 # E2E configurations
 E2E_TIMEOUT       ?= 120m
-E2E_KINDEST_IMAGE ?= "kindest/node:v1.23.5"
+E2E_KINDEST_IMAGE ?= "mesosphere/kind-node-ci:v1.23.13"
 UPGRADE_FROM_VERSION ?= "v2.2.2-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
