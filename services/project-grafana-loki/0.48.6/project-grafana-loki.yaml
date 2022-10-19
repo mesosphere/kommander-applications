@@ -34,7 +34,7 @@ spec:
           - target:
               version: v1
               kind: Deployment
-              name: project-grafana-loki-loki-distributed-distributor
+              name: project-grafana-loki-loki-distributed-compactor
             patch:
               - op: add
                 path: /metadata/annotations/secret.reloader.stakater.com~1reload
