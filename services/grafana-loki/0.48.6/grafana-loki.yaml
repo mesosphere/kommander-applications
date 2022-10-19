@@ -32,18 +32,18 @@ spec:
     - kustomize:
       patchesJson6902:
         - target:
-          version: v1
-          kind: Deployment
-          name: grafana-loki-loki-distributed-distributor
-        patch:
-          - op: add
-            path: /metadata/annotations/secret.reloader.stakater.com~1reload
-            value: dkp-loki
+            version: v1
+            kind: Deployment
+            name: grafana-loki-loki-distributed-distributor
+          patch:
+            - op: add
+              path: /metadata/annotations/secret.reloader.stakater.com~1reload
+              value: dkp-loki
         - target:
-          version: apps/v1
-          kind: StatefulSet
-          name: grafana-loki-loki-distributed-ingester
-        patch:
-          - op: add
-            path: /metadata/annotations/secret.reloader.stakater.com~1reload
-            value: dkp-loki
+            version: apps/v1
+            kind: StatefulSet
+            name: grafana-loki-loki-distributed-ingester
+          patch:
+            - op: add
+              path: /metadata/annotations/secret.reloader.stakater.com~1reload
+              value: dkp-loki
