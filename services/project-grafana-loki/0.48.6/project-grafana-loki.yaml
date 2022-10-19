@@ -28,7 +28,7 @@ spec:
       name: project-grafana-loki-0.48.6-d2iq-defaults
   # upstream chart doesn't apply loki.annotations to all loki deployment/statefulsets
   # TODO: remove this after https://github.com/grafana/helm-charts/issues/1905 is fixed
-  postRenders:
+  postRenderers:
     - kustomize:
       patchesJson6902:
         - target:
