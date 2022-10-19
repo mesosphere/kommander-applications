@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: grafana-loki
+  name: project-grafana-loki
   namespace: ${releaseNamespace}
 spec:
   chart:
@@ -22,7 +22,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: grafana-loki
+  releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-loki-0.48.5-d2iq-defaults
+      name: project-grafana-loki-0.48.6-d2iq-defaults
