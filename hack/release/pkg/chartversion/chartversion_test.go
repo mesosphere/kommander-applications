@@ -57,6 +57,8 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 		// Get the diff between the HRs
 		changes, err := diff.Diff(branchHr, testHr)
 		assert.Nil(t, err)
+		assert.NotEmpty(t, changes)
+
 		for _, change := range changes {
 			// Validate that each change is an "update"
 			assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
@@ -124,4 +126,22 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the chart version was changed to something unexpected")
+}
+
+
+func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
+	// Make a new temp dir to copy the repo state into
+	tmpDir, err := os.MkdirTemp("", "prerelease")
+	assert.Nil(t, err)
+	err = cp.Copy(rootDir, tmpDir)
+	assert.Nil(t, err)
+	// Make a new temp dir to put a redundant file in
+	anotherDir, err := os.MkdirTemp(fmt.Sprintf("%s/services/kommander/", tmpDir), "stuff")
+	assert.Nil(t, err)
+	f, err := os.Create(fmt.Sprintf("%s/kommander.yaml", anotherDir))
+	assert.Nil(t, err)
+	defer f.Close()
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
+	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
 }

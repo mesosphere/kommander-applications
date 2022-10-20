@@ -9,6 +9,7 @@ ignore:
   - docker.io/mesosphere/kommander2-licensing-controller-manager
   - docker.io/mesosphere/kommander2-licensing-webhook
   - docker.io/mesosphere/grafana-plugins:v0.0.1
+  - docker.io/mesosphere/capimate
 resources:
   - container_image: cr.fluentbit.io/fluent/fluent-bit:1.9.9
     sources:
