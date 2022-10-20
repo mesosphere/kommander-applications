@@ -60,8 +60,6 @@ services/logging-operator:
   - services/logging-operator/**
 services/metallb:
   - services/metallb/**
-services/minio-operator:
-  - services/minio-operator/**
 services/nfs-server-provisioner:
   - services/nfs-server-provisioner/**
 services/nvidia:
