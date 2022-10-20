@@ -30,20 +30,16 @@ spec:
   # TODO: remove this after https://github.com/grafana/helm-charts/issues/1905 is fixed
   postRenderers:
     - kustomize:
-        patchesJson6902:
-          - target:
-              version: apps/v1
-              kind: Deployment
-              name: project-grafana-loki-loki-distributed-compactor
-            patch:
-              - op: add
-                path: /metadata/annotations/secret.reloader.stakater.com~1reload
-                value: proj-loki-${releaseNamespace}
-          - target:
-              version: apps/v1
-              kind: StatefulSet
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: StatefulSet
+            metadata:
               name: project-grafana-loki-loki-distributed-ingester
-            patch:
-              - op: add
-                path: /metadata/annotations/secret.reloader.stakater.com~1reload
-                value: proj-loki-${releaseNamespace}
+              annotations:
+                secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
+          - apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: project-grafana-loki-loki-distributed-compactor
+              annotations:
+                secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
