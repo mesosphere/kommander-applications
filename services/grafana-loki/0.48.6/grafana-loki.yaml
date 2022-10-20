@@ -32,7 +32,7 @@ spec:
     - kustomize:
         patchesJson6902:
           - target:
-              version: v1
+              version: apps/v1
               kind: Deployment
               name: grafana-loki-loki-distributed-compactor
             patch:
