@@ -23,6 +23,8 @@ data:
       useSecret: false
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
+    annotations:
+      secret.reloader.stakater.com/reload: dkp-velero
     schedules:
       default:
         schedule: "0 0 * * *"

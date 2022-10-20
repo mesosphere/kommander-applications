@@ -8,6 +8,8 @@ data:
   values.yaml: |
     loki:
       ingesterFullname: loki-ingester
+      annotations:
+        secret.reloader.stakater.com/reload: dkp-loki
 
       config: |
         auth_enabled: false
