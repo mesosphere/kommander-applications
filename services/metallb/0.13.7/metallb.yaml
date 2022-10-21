@@ -10,7 +10,7 @@ spec:
       chart: metallb
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: metallb
         namespace: kommander-flux
       version: 0.13.7
   interval: 15s
