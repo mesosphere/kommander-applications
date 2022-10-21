@@ -6,7 +6,6 @@ open-kommander-pr:
   - services/kiali/**
   - services/kube-oidc-proxy/**
   - services/logging-operator/**
-  - services/minio-operator/**
   - services/project-grafana-logging/**
   - services/project-grafana-loki/**
   - services/project-logging/**
