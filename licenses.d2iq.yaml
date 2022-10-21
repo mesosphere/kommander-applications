@@ -21,21 +21,11 @@ resources:
         ref: 965b3fe741b7b5ef38164902a6d78ebc4c260b75
         directory: bitnami/external-dns
         license_path: LICENSE.md
-  - container_image: docker.io/bitnami/kubectl:1.23.6
-    sources:
-      - url: https://github.com/bitnami/bitnami-docker-kubectl
-        ref: 1.23.6-debian-10-r33
-        license_path: LICENSE.md
   - container_image: docker.io/bitnami/kubectl:1.24.1
     sources:
       - url: https://github.com/bitnami/bitnami-docker-kubectl
         ref: 1.24.1-debian-11-r7
         license_path: README.md
-  - container_image: docker.io/bitnami/kubectl:1.24.3
-    sources:
-      - url: https://github.com/bitnami/bitnami-docker-kubectl
-        ref: 1.24.3-debian-11-r4
-        license_path: LICENSE.md
   - container_image: docker.io/bitnami/memcached:1.6.15-debian-11-r8
     sources:
       - url: https://github.com/bitnami/bitnami-docker-memcached
@@ -46,11 +36,6 @@ resources:
       - url: https://github.com/bitnami/bitnami-docker-postgresql
         ref: 11.16.0-debian-11-r9
         license_path: LICENSE.md
-  - container_image: docker.io/fluent/fluent-bit:1.9.7
-    sources:
-      - url: https://github.com/fluent/fluent-bit
-        ref: v1.9.7
-        license_path: LICENSE
   - container_image: docker.io/gitea/gitea:1.17.2-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
@@ -73,34 +58,12 @@ resources:
       - url: https://github.com/grafana/loki
         ref: v2.5.0
         license_path: LICENSE
-  - container_image: docker.io/istio/install-cni:1.14.1
-    sources:
-      - url: https://github.com/istio/istio
-        ref: 1.14.1
-        license_path: LICENSE
   - container_image: docker.io/istio/operator:1.14.1
     sources:
       - url: https://github.com/istio/istio
         ref: 1.14.1
         directory: operator
         license_path: LICENSE
-  - container_image: docker.io/istio/pilot:1.14.1
-    sources:
-      - url: https://github.com/istio/istio
-        ref: 1.14.1
-        directory: pilot
-        license_path: LICENSE
-  - container_image: docker.io/istio/proxyv2:1.14.1
-    sources:
-      - url: https://github.com/istio/proxy
-        ref: 1.14.1
-        license_path: LICENSE
-  - container_image: docker.io/jaegertracing/all-in-one:1.30.0
-    sources:
-      - url: https://github.com/jaegertracing/jaeger
-        ref: v1.30.0
-        license_path: LICENSE
-        notice_path: NOTICE
   - container_image: docker.io/jaegertracing/jaeger-operator:1.38.0
     sources:
       - url: https://github.com/jaegertracing/jaeger-operator
@@ -135,10 +98,6 @@ resources:
     sources:
       - url: https://github.com/mesosphere/konvoy2
         ref: v2.3.0
-  - container_image: docker.io/mesosphere/cluster-observer:1.0.3
-    sources:
-      - url: https://github.com/mesosphere/kommander-auditing-pipeline
-        ref: 1.0.3
   - container_image: docker.io/mesosphere/dex-controller:v0.7.0
     sources:
       - url: https://github.com/mesosphere/dex-controller
@@ -151,10 +110,6 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex
         ref: v2.31.0-d2iq
-  - container_image: docker.io/mesosphere/dkp-diagnostics-node-collector:v0.5.0
-    sources:
-      - url: https://github.com/mesosphere/dkp-diagnostics
-        ref: v0.5.0
   - container_image: docker.io/mesosphere/insights-management:v0.3.0-dev
     sources:
       - url: https://github.com/mesosphere/dkp-insights
@@ -168,10 +123,6 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander-ui
         ref: v8.184.1
-  - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.5.5
-    sources:
-      - url: https://github.com/mesosphere/kubeaddons-extrasteps
-        ref: v0.5.5
   - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.14
     sources:
       - url: https://github.com/mesosphere/kubetunnel
@@ -180,10 +131,6 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: v0.0.14
-  - container_image: docker.io/mesosphere/pause-busybox:3.2
-    sources:
-      - url: https://github.com/mesosphere/dkp-diagnostics
-        ref: "3.2"
   - container_image: docker.io/mesosphere/traefik-forward-auth:3.1.0
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
@@ -197,29 +144,6 @@ resources:
     sources:
       - url: https://github.com/metallb/metallb
         ref: v0.9.3
-        license_path: LICENSE
-  - container_image: docker.io/minio/console:v0.19.0
-    sources:
-      - url: https://github.com/minio/console
-        ref: v0.19.0
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: docker.io/minio/mc:RELEASE.2022-04-07T21-43-27Z
-    sources:
-      - url: https://github.com/minio/mc
-        ref: RELEASE.2022-04-07T21-43-27Z
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: docker.io/minio/minio:RELEASE.2022-04-01T03-41-39Z
-    sources:
-      - url: https://github.com/minio/minio
-        ref: RELEASE.2022-04-01T03-41-39Z
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: docker.io/minio/operator:v4.4.25
-    sources:
-      - url: https://github.com/minio/operator
-        ref: v4.4.25
         license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
     sources:
@@ -236,18 +160,6 @@ resources:
       - url: https://github.com/NVIDIA/k8s-device-plugin
         ref: v0.9.0
         license_path: LICENSE
-  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.9.0
-    sources:
-      - url: https://github.com/open-policy-agent/gatekeeper
-        ref: v3.9.0
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.9.1
-    sources:
-      - url: https://github.com/open-policy-agent/gatekeeper
-        ref: v3.9.1
-        license_path: LICENSE
-        notice_path: NOTICE
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.10.0
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
@@ -339,15 +251,6 @@ resources:
       - url: https://github.com/opencost/opencost
         ref: v1.96.0
         license_path: LICENSE
-  - container_image: ghcr.io/banzaicloud/custom-runner:0.1.0
-    sources:
-      - url: https://github.com/banzaicloud/custom-runner
-        ref: 0.1.0
-  - container_image: ghcr.io/banzaicloud/fluentd:v1.14.6-alpine-5
-    sources:
-      - url: https://github.com/fluent/fluentd
-        ref: v1.14.6
-        license_path: LICENSE
   - container_image: ghcr.io/banzaicloud/logging-operator:3.17.9
     sources:
       - url: https://github.com/banzaicloud/logging-operator
@@ -378,11 +281,6 @@ resources:
     sources:
       - url: https://github.com/helm/chartmuseum
         ref: v0.15.0
-        license_path: LICENSE
-  - container_image: k8s.gcr.io/ingress-nginx/kube-webhook-certgen:v1.3.0
-    sources:
-      - url: https://github.com/kubernetes/ingress-nginx
-        ref: v1.3.0
         license_path: LICENSE
   - container_image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8
     sources:
@@ -425,11 +323,6 @@ resources:
       - url: https://github.com/kiali/kiali-operator
         ref: v1.52.0
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali:v1.52.0
-    sources:
-      - url: https://github.com/kiali/kiali
-        ref: v1.52.0
-        license_path: LICENSE
   - container_image: quay.io/kiwigrid/k8s-sidecar:1.19.2
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
@@ -440,29 +333,11 @@ resources:
       - url: https://github.com/kubernetes-sigs/kubefed
         ref: v0.10.0
         license_path: LICENSE
-  - container_image: quay.io/kubernetes-multicluster/kubefed:v0.9.1
-    sources:
-      - url: https://github.com/kubernetes-sigs/kubefed
-        ref: v0.9.1
-        license_path: LICENSE
   - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
     sources:
       - url: https://github.com/kubernetes-retired/nfs-provisioner
         ref: v2.3.0
         license_path: LICENSE
-  - container_image: quay.io/minio/minio:RELEASE.2022-01-08T03-11-54Z
-    sources:
-      - url: https://github.com/minio/minio
-        ref: RELEASE.2022-01-08T03-11-54Z
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.59.1
-    sources:
-      - url: https://github.com/prometheus-operator/prometheus-operator
-        ref: v0.59.1
-        directory: cmd/prometheus-config-reloader
-        license_path: LICENSE
-        notice_path: NOTICE
   - container_image: quay.io/prometheus-operator/prometheus-operator:v0.59.1
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
@@ -473,12 +348,6 @@ resources:
     sources:
       - url: https://github.com/prometheus/alertmanager
         ref: v0.21.0
-        license_path: LICENSE
-        notice_path: NOTICE
-  - container_image: quay.io/prometheus/alertmanager:v0.24.0
-    sources:
-      - url: https://github.com/prometheus/alertmanager
-        ref: v0.24.0
         license_path: LICENSE
         notice_path: NOTICE
   - container_image: quay.io/prometheus/node-exporter:v1.3.1
@@ -493,21 +362,10 @@ resources:
         ref: v2.19.2
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/prometheus:v2.38.0
-    sources:
-      - url: https://github.com/prometheus/prometheus
-        ref: v2.38.0
-        license_path: LICENSE
-        notice_path: NOTICE
   - container_image: quay.io/thanos/thanos:v0.17.1
     sources:
       - url: https://github.com/thanos-io/thanos
         ref: v0.17.1
-        license_path: LICENSE
-  - container_image: quay.io/thanos/thanos:v0.28.0
-    sources:
-      - url: https://github.com/thanos-io/thanos
-        ref: v0.28.0
         license_path: LICENSE
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.6.0
     sources:
