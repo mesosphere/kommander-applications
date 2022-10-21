@@ -3,21 +3,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: metallb-0.12.3-d2iq-defaults
+  name: metallb-0.13.7-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
     controller:
-      image:
-        repository: metallb/controller
-        tag: v0.9.3
       requests:
         cpu: 100m
         memory: 100Mi
     speaker:
-      image:
-        repository: metallb/speaker
-        tag: v0.9.3
       requests:
         cpu: 100m
         memory: 100Mi

@@ -195,6 +195,16 @@ resources:
       - url: https://github.com/metallb/metallb
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: quay.io/metallb/controller:v0.13.7
+    sources:
+      - url: https://github.com/metallb/metallb
+        ref: v0.13.7
+        license_path: LICENSE
+  - container_image: quay.io/metallb/speaker:v0.13.7
+    sources:
+      - url: https://github.com/metallb/metallb
+        ref: v0.13.7
+        license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
     sources:
       - url: https://github.com/nginxinc/docker-nginx-unprivileged
