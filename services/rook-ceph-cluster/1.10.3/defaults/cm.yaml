@@ -150,9 +150,8 @@ data:
           reclaimPolicy: Delete
 
     monitoring:
-      # TODO(takirala): enable monitoring
-      enabled: false
-      createPrometheusRules: false
+      enabled: true
+      createPrometheusRules: true
 
     #################################################################
     ## BEGIN DKP specific config overrides                         ##
