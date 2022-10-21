@@ -21,7 +21,7 @@ resources:
         ref: 965b3fe741b7b5ef38164902a6d78ebc4c260b75
         directory: bitnami/external-dns
         license_path: LICENSE.md
-  - container_image: docker.io/bitnami/kubectl:1.24.1
+  - container_image: docker.io/bitnami/kubectl:1.24.6
     sources:
       - url: https://github.com/bitnami/bitnami-docker-kubectl
         ref: 1.24.1-debian-11-r7
