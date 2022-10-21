@@ -51,6 +51,7 @@ data:
               retry_max_times: 5
               flush_mode: interval
               flush_interval: 10s
+              flush_thread_count: 8
             extra_labels:
               log_source: kubernetes_container
     tls:
