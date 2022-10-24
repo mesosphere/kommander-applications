@@ -257,25 +257,25 @@ resources:
         ref: 3.17.9
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: ghcr.io/fluxcd/helm-controller:v0.25.0
+  - container_image: ghcr.io/fluxcd/helm-controller:v0.26.0
     sources:
       - url: https://github.com/fluxcd/helm-controller
-        ref: v0.25.0
+        ref: v0.26.0
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v0.29.0
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v0.30.0
     sources:
       - url: https://github.com/fluxcd/kustomize-controller
-        ref: v0.29.0
+        ref: v0.30.0
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/notification-controller:v0.27.0
+  - container_image: ghcr.io/fluxcd/notification-controller:v0.28.0
     sources:
       - url: https://github.com/fluxcd/notification-controller
-        ref: v0.27.0
+        ref: v0.28.0
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/source-controller:v0.30.0
+  - container_image: ghcr.io/fluxcd/source-controller:v0.31.0
     sources:
       - url: https://github.com/fluxcd/source-controller
-        ref: v0.30.0
+        ref: v0.31.0
         license_path: LICENSE
   - container_image: ghcr.io/helm/chartmuseum:v0.15.0
     sources:
