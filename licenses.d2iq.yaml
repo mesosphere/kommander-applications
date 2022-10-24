@@ -23,19 +23,28 @@ resources:
         license_path: LICENSE.md
   - container_image: docker.io/bitnami/kubectl:1.24.6
     sources:
-      - url: https://github.com/bitnami/bitnami-docker-kubectl
-        ref: 1.24.1-debian-11-r7
+      - url: https://github.com/bitnami/containers
+        ref: 0a5cc0dc005706566f1f6b23eb663c29cf656149
+        directory: bitnami/kubectl
+        license_path: README.md
+  - container_image: docker.io/bitnami/kubectl:1.24.1
+    sources:
+      - url: https://github.com/bitnami/containers
+        ref: cf570be0144e590b69cd252cf19c33a620900d9c
+        directory: bitnami/kubectl
         license_path: README.md
   - container_image: docker.io/bitnami/memcached:1.6.15-debian-11-r8
     sources:
-      - url: https://github.com/bitnami/bitnami-docker-memcached
-        ref: 1.6.15-debian-11-r8
-        license_path: LICENSE.md
+      - url: https://github.com/bitnami/containers
+        ref: d2f68e987d67993e45b09b532130493c90fe5acb
+        directory: bitnami/memcached
+        license_path: README.md
   - container_image: docker.io/bitnami/postgresql:11.16.0-debian-11-r9
     sources:
-      - url: https://github.com/bitnami/bitnami-docker-postgresql
-        ref: 11.16.0-debian-11-r9
-        license_path: LICENSE.md
+      - url: https://github.com/bitnami/containers
+        ref: 23ad24668cdb20c90efb3f7adb4cda89ae87cebd
+        directory: bitnami/postgresql
+        license_path: README.md
   - container_image: docker.io/gitea/gitea:1.17.2-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
