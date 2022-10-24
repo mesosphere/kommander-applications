@@ -24,6 +24,11 @@ resources:
   - container_image: docker.io/bitnami/kubectl:1.24.6
     sources:
       - url: https://github.com/bitnami/bitnami-docker-kubectl
+        ref: 1.24.3-debian-11-r74
+        license_path: README.md
+  - container_image: docker.io/bitnami/kubectl:1.24.1
+    sources:
+      - url: https://github.com/bitnami/bitnami-docker-kubectl
         ref: 1.24.1-debian-11-r7
         license_path: README.md
   - container_image: docker.io/bitnami/memcached:1.6.15-debian-11-r8
