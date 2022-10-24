@@ -21,3 +21,9 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/memory
         value: 250Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 2Gi
