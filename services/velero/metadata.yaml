@@ -15,9 +15,9 @@ overview: |-
 
   Velero offers key data protection features, such as scheduled backups, retention schedules, and pre- or post-backup hooks for custom actions. The tool can help protect data stored in persistent volumes and makes your entire Kubernetes cluster more resilient.
   
-  ## Attention Grabbing Title Here
-  In previous versions of DKP, Velero was configured to deploy a standalone MinIO upon demand. In current release (and going forward), MinIO is replaced with Rook Ceph Cluster as the default Backend.
-  If you plan to use Velero with Ceph, then you need to explicitly install Rook Ceph Cluster to make Velero healthy. 
+  ## Dependency on Rook Ceph Cluster
+  In previous versions of DKP (2.3.x), Velero was configured to deploy a standalone MinIO upon demand. In DKP 2.4.x and above, MinIO is replaced with Rook Ceph Cluster as the default Backend.
+  If you plan to use Velero with Ceph, then you need to explicitly install Rook Ceph Cluster to use velero (E.g.: on-prem clusters). It is recommended to use a storage backend that is outside your DKP cluster for production environments. 
   If you plan to use Velero with any other S3 provider (E.g.: Amazon S3, Azure Storage Service, or Google Cloud Storage etc.,) then you don't need to install Rook Ceph Cluster.
 
   ## Key Features
