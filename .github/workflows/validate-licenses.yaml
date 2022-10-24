@@ -2,7 +2,11 @@ name: Check licenses.d2iq.yaml
 on:
   pull_request: {}
   workflow_dispatch: {}
-
+  push:
+    tags:
+      - v*
+    branches:
+      - main
 jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
