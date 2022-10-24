@@ -12,9 +12,11 @@ KOMMANDER_REPO_PATH="${REPO_ROOT}/kommander" # Override in CI to path of kommand
 
 function update_flux() {
     readonly BRANCH_NAME="flux-update/${LATEST_FLUX_VERSION}"
-    if [[ -z "$(git checkout "${BRANCH_NAME}")" ]]; then
-        git checkout -b "${BRANCH_NAME}"
+    if [[ -n "$(git ls-remote --exit-code --heads git@github.com:mesosphere/kommander-applications.git "${BRANCH_NAME}")" ]]; then
+        echo "Flux update PR is already up!"
+        exit 0
     fi
+    git checkout -b "${BRANCH_NAME}"
 
     asdf install flux2 "${LATEST_FLUX_VERSION}"
     asdf local flux2 "${LATEST_FLUX_VERSION}"
@@ -66,9 +68,11 @@ function bump_kommander_repo_flux() {
     fi
     echo "kommander repo found at ${KOMMANDER_REPO_PATH} and attempting to create a flux bump PR"
     pushd "${KOMMANDER_REPO_PATH}"
-    if [[ -z "$(git checkout "${BRANCH_NAME}")" ]]; then
-        git checkout -b "${BRANCH_NAME}"
+    if [[ -n "$(git ls-remote --exit-code --heads git@github.com:mesosphere/kommander.git "${BRANCH_NAME}")" ]]; then
+        echo "Flux update PR is already up!"
+        exit 0
     fi
+    git checkout -b "${BRANCH_NAME}"
     sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF ?= ${BRANCH_NAME}~g" Makefile
     git add Makefile
     if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
