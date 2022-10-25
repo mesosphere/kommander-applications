@@ -1,4 +1,22 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
-resources:
-  - ../helm-repositories/
+metadata:
+  name: kommander-helm-repositories
+  namespace: kommander-flux
+spec:
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ../helm-repositories
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: helm-repository-vars
+        optional: false
