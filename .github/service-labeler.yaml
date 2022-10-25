@@ -62,8 +62,6 @@ services/metallb:
   - services/metallb/**
 services/nfs-server-provisioner:
   - services/nfs-server-provisioner/**
-services/nvidia:
-  - services/nvidia/**
 services/nvidia-gpu-operator:
   - services/nvidia-gpu-operator/**
 services/project-grafana-logging:
