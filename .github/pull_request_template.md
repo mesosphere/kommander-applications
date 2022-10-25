@@ -33,4 +33,4 @@ parties (Like Product, Legal for example) need to be notified when such a change
 -->
 
 - [ ] If the PR adds a version bump, ensure there is no breaking change in Licensing model (or NA).
-- [ ] If a chart is changed or app configuration is signficantly changed, the chart version is correctly incremented (so that apps are not automatically upgraded from a previous version of DKP).
+- [ ] If a chart is changed or app configuration is significantly changed, the chart version is correctly incremented (so that apps are not automatically upgraded from a previous version of DKP).
