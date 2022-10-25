@@ -18,7 +18,11 @@ data:
         bucketName: proj-loki-${releaseNamespace}
         storageClassName: dkp-object-store
         additionalConfig:
-          maxSize: "20G"
+          # We emit 200MB per workspace per day with audit logs disabled.
+          # We also have a default retention period 7days.
+          # This is NOT definitive but this translates to 200 x 7 ~ at most 1.5G per week per project (since workspace log data is a superset of project log data).
+          # This value can be configured by user during project deployment according to their project needs (e.g.: if a project has lot of noisy user created workloads).
+          maxSize: "5G"
     ####################################################################
     ## END of dkp specific config overrides                           ##
     ####################################################################
