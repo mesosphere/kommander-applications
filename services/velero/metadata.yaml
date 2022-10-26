@@ -14,7 +14,7 @@ overview: |-
   Velero is an open source tool for safely backing up and restoring resources in a Kubernetes cluster, performing disaster recovery, and migrating resources and persistent volumes to another Kubernetes cluster.
 
   Velero offers key data protection features, such as scheduled backups, retention schedules, and pre- or post-backup hooks for custom actions. The tool can help protect data stored in persistent volumes and makes your entire Kubernetes cluster more resilient.
-  
+
   ## Dependency on Rook Ceph Cluster
   In previous versions of DKP (2.3.x), Velero was configured to deploy a standalone MinIO upon demand. In DKP 2.4.x and above, MinIO is replaced with Rook Ceph Cluster as the default Backend.
   If you plan to use Velero with Ceph, you must explicitly install Rook Ceph Cluster to use Velero (E.g.: on-prem clusters). It is recommended to use a storage backend that is outside your DKP cluster for production environments (so that the availability of backups is detached from cluster availability).
