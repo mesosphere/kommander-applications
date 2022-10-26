@@ -58,7 +58,8 @@ data:
         storageClassDeviceSets:
           - name: rook-ceph-osd-set1
             count: 4
-            portable: false
+            # This should be set to false if your StorageClass does not support porting PVs from one node to another (E.g.: ebs-sc does support this, but local provisioner does not).
+            portable: true
             encrypted: false
             placement:
               topologySpreadConstraints:
