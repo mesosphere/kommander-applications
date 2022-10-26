@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    airgapped:
+      enabled: ${airgappedEnabled}
     image:
       registry: "docker.io"
       repository: "mesosphere/insights-management"
