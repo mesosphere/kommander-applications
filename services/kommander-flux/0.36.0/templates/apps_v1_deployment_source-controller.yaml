@@ -63,11 +63,11 @@ spec:
             port: http
         resources:
           limits:
-            cpu: 1000m
+            cpu: 2000m
             memory: 1Gi
           requests:
-            cpu: 50m
-            memory: 64Mi
+            cpu: 250m
+            memory: 100Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
