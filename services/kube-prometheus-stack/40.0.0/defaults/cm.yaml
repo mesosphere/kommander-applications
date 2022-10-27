@@ -11,6 +11,8 @@ data:
       prometheus.kommander.d2iq.io/select: "true"
     prometheusOperator:
       logLevel: warn
+      tls:
+        tlsMinVersion: VersionTLS12
       admissionWebhooks:
         patch:
           image:
