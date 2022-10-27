@@ -12,18 +12,3 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --no-remote-bases=true
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: helm-controller
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/requests/memory
-        value: 250Mi
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 2000m
-      - op: replace
-        path: /spec/template/spec/containers/0/resources/limits/memory
-        value: 2Gi
