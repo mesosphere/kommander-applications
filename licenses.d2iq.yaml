@@ -169,7 +169,7 @@ resources:
       - url: https://github.com/prymitive/karma
         ref: ${image_tag%-d2iq-server-name}
         license_path: LICENSE
-  - container_image: docker.io/mesosphere/kommander:8.189.0
+  - container_image: docker.io/mesosphere/kommander:8.191.1
     sources:
       - url: https://github.com/mesosphere/kommander-ui
         ref: v${image_tag}
