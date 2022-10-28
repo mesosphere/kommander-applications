@@ -20,7 +20,6 @@ data:
         config:
           region: "fallback"
     credentials:
-      useSecret: false
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
     annotations:
