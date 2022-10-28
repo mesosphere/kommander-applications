@@ -28,7 +28,7 @@ data:
       enabled: true
       version: 2.4.6-2.6.10-ubuntu20.04
     validator:
-      # we are newer version of the validator pod that
+      # we are using a newer version of the validator pod that
       # removes the compat libs from the container
       # this can cause a mismatch in cuda versions
       # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
