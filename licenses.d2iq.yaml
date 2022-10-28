@@ -1,91 +1,80 @@
 ignore:
   - docker.io/mesosphere/grafana-plugins:v0.0.1
+
+  # The image is set of tools that is not built from source code.
+  # See: https://github.com/mesosphere/kommander (dir: docker)
+  - docker.io/mesosphere/kommander2-kubetools
+
+  # Fossa cannot scan nginx source code (C/C++)
+  # Original mapping:
+  # - container_image: docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
+  #   sources:
+  #     - url: https://github.com/nginxinc/docker-nginx-unprivileged
+  #       ref: 82a186f7a71ca66269dba0a3eef1fb16f9121946
+  #       license_path: LICENSE
+  - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
+
+  # List of bitnami containers that were mapped to build repository source code
+  # but not to the actual bundled software source code
+  - docker.io/bitnami/external-dns:0.12.2-debian-11-r22
+  - docker.io/bitnami/kubectl:1.24.6
+  - docker.io/bitnami/kubectl:1.24.1
+  - docker.io/bitnami/memcached:1.6.15-debian-11-r8
+  - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
+
 resources:
   - container_image: docker.io/mesosphere/kommander2-appmanagement-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/webhook-appmanagement
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-appmanagement:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/appmanagement
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-authorizedlister:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/authorizedlister
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-controller-manager:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/controller
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/webhook
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-flux-operator:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation/cmd/flux-operator
-  - container_image: docker.io/mesosphere/kommander2-kubetools:${kommander}
-    sources:
-      - url: https://github.com/mesosphere/kommander
-        ref: ${image_tag}
-        directory: docker
+        directory: federation
   - container_image: docker.io/mesosphere/kommander2-licensing-controller-manager:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: licensing/cmd/controller
+        directory: licensing
   - container_image: docker.io/mesosphere/kommander2-licensing-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: licensing/cmd/webhook
+        directory: licensing
   - container_image: docker.io/mesosphere/capimate:${kommander}
     sources:
       - url: https://github.com/mesosphere/konvoy2
         ref: ${image_tag}
-        directory: capimate
+        # The `capimate` source code is in `capimate` subdirectory but it shares
+        # go.mod with main konvoy2 source code.
+        # directory: capimate
   - container_image: cr.fluentbit.io/fluent/fluent-bit:1.9.9
     sources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/external-dns:0.12.2-debian-11-r22
-    sources:
-      - url: https://github.com/bitnami/containers
-        ref: 965b3fe741b7b5ef38164902a6d78ebc4c260b75
-        directory: bitnami/external-dns
-        license_path: LICENSE.md
-  - container_image: docker.io/bitnami/kubectl:1.24.6
-    sources:
-      - url: https://github.com/bitnami/containers
-        ref: 0a5cc0dc005706566f1f6b23eb663c29cf656149
-        directory: bitnami/kubectl
-        license_path: README.md
-  - container_image: docker.io/bitnami/kubectl:1.24.1
-    sources:
-      - url: https://github.com/bitnami/containers
-        ref: cf570be0144e590b69cd252cf19c33a620900d9c
-        directory: bitnami/kubectl
-        license_path: README.md
-  - container_image: docker.io/bitnami/memcached:1.6.15-debian-11-r8
-    sources:
-      - url: https://github.com/bitnami/containers
-        ref: d2f68e987d67993e45b09b532130493c90fe5acb
-        directory: bitnami/memcached
-        license_path: README.md
-  - container_image: docker.io/bitnami/postgresql:11.16.0-debian-11-r9
-    sources:
-      - url: https://github.com/bitnami/containers
-        ref: 23ad24668cdb20c90efb3f7adb4cda89ae87cebd
-        directory: bitnami/postgresql
-        license_path: README.md
   - container_image: docker.io/gitea/gitea:1.17.2-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
@@ -112,7 +101,6 @@ resources:
     sources:
       - url: https://github.com/istio/istio
         ref: ${image_tag}
-        directory: operator
         license_path: LICENSE
   - container_image: docker.io/jaegertracing/jaeger-operator:1.38.0
     sources:
@@ -194,11 +182,6 @@ resources:
     sources:
       - url: https://github.com/metallb/metallb
         ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
-    sources:
-      - url: https://github.com/nginxinc/docker-nginx-unprivileged
-        ref: 82a186f7a71ca66269dba0a3eef1fb16f9121946
         license_path: LICENSE
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.10.0
     sources:
