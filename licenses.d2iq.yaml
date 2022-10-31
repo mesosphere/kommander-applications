@@ -172,17 +172,7 @@ resources:
   - container_image: docker.io/mesosphere/traefik-forward-auth:3.1.0
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
-        ref: v${image_tag}
-  - container_image: docker.io/metallb/controller:v0.9.3
-    sources:
-      - url: https://github.com/metallb/metallb
         ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: docker.io/metallb/speaker:v0.9.3
-    sources:
-      - url: https://github.com/metallb/metallb
-        ref: ${image_tag}
-        license_path: LICENSE
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.10.0
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
