@@ -13,15 +13,26 @@ ignore:
   #       ref: 82a186f7a71ca66269dba0a3eef1fb16f9121946
   #       license_path: LICENSE
   - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
+  - docker.io/nginxinc/nginx-unprivileged:1.19-alpine
+  - docker.io/nginxinc/nginx-unprivileged:1.21.6-alpine
+  - docker.io/library/nginx:1.21.6-alpine
 
   # List of bitnami containers that were mapped to build repository source code
   # but not to the actual bundled software source code
   - docker.io/bitnami/external-dns:0.12.2-debian-11-r22
   - docker.io/bitnami/kubectl:1.24.6
+  - docker.io/bitnami/kubectl:1.22.8
   - docker.io/bitnami/kubectl:1.24.1
+  - docker.io/bitnami/kubectl:1.19.7
+  - docker.io/bitnami/kubectl:1.21.3
+  - docker.io/bitnami/kubectl:1.21.3
+  - docker.io/bitnami/kubectl:1.22.6
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
+  - docker.io/bitnami/memcached:1.6.15-debian-10-r0
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
   - docker.io/bitnami/external-dns:0.12.0-debian-11-r3
+  - docker.io/bitnami/postgresql:11.15.0-debian-10-r48
+  - docker.io/bitnami/external-dns:0.11.0-debian-10-r27
 
 resources:
   - container_image: docker.io/mesosphere/kommander2-appmanagement-webhook:${kommander}
@@ -71,39 +82,28 @@ resources:
         # The `capimate` source code is in `capimate` subdirectory but it shares
         # go.mod with main konvoy2 source code.
         # directory: capimate
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:1.9.3
-    sources:
-      - url: https://github.com/fluent/fluent-bit
-        ref: v${image_tag}
-        license_path: LICENSE
-  - container_image: docker.io/gitea/gitea:1.16.8-rootless
+  - container_image: docker.io/gitea/gitea:1.16.6-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
         ref: v${image_tag%-rootless}
         license_path: LICENSE
-  - container_image: docker.io/grafana/grafana:9.0.2
+  - container_image: docker.io/grafana/grafana:8.3.6
     sources:
       - url: https://github.com/grafana/grafana
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
-  - container_image: docker.io/grafana/grafana:8.5.0
-    sources:
-      - url: https://github.com/grafana/grafana
-        ref: v${image_tag}
-        license_path: LICENSE
-        notice_path: NOTICE.md
-  - container_image: docker.io/grafana/loki:2.5.0
+  - container_image: docker.io/grafana/loki:2.2.1
     sources:
       - url: https://github.com/grafana/loki
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/istio/operator:1.14.1
+  - container_image: docker.io/istio/operator:1.11.5
     sources:
       - url: https://github.com/istio/istio
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.34.1
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.30.0
     sources:
       - url: https://github.com/jaegertracing/jaeger-operator
         ref: v${image_tag}
@@ -158,11 +158,11 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander-ui
         ref: v${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.13
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.11
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.13
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.11
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
@@ -170,13 +170,13 @@ resources:
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
         ref: v${image_tag}
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.8.1
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.7.0
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/stakater/reloader:v0.0.110
+  - container_image: docker.io/stakater/reloader:v0.0.104
     sources:
       - url: https://github.com/stakater/Reloader
         ref: ${image_tag}
@@ -246,43 +246,43 @@ resources:
       - url: https://github.com/brancz/kube-rbac-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-1.96.0
+  - container_image: gcr.io/kubecost1/cost-model:prod-1.91.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/frontend:prod-1.96.0
+  - container_image: gcr.io/kubecost1/frontend:prod-1.91.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
-  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.7
+  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.2
     sources:
       - url: https://github.com/banzaicloud/logging-operator
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: ghcr.io/fluxcd/helm-controller:v0.22.2
+  - container_image: ghcr.io/fluxcd/helm-controller:v0.22.1
     sources:
       - url: https://github.com/fluxcd/helm-controller
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v0.26.3
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v0.26.2
     sources:
       - url: https://github.com/fluxcd/kustomize-controller
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/notification-controller:v0.24.1
+  - container_image: ghcr.io/fluxcd/notification-controller:v0.24.0
     sources:
       - url: https://github.com/fluxcd/notification-controller
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/fluxcd/source-controller:v0.25.10
+  - container_image: ghcr.io/fluxcd/source-controller:v0.25.9
     sources:
       - url: https://github.com/fluxcd/source-controller
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/helm/chartmuseum:v0.15.0
+  - container_image: ghcr.io/helm/chartmuseum:v0.14.0
     sources:
       - url: https://github.com/helm/chartmuseum
         ref: ${image_tag}
@@ -312,7 +312,7 @@ resources:
       - url: https://github.com/jetstack/kube-oidc-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali-operator:v1.52.0
+  - container_image: quay.io/kiali/kiali-operator:v1.49.0
     sources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}
@@ -332,7 +332,7 @@ resources:
       - url: https://github.com/kubernetes-retired/external-storage
         ref: nfs-provisioner-${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.55.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.54.1
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
         ref: ${image_tag}
@@ -361,7 +361,7 @@ resources:
       - url: https://github.com/thanos-io/thanos
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/minio/console:v0.19.0
+  - container_image: docker.io/minio/console:v0.14.8
     sources:
       - url: https://github.com/minio/console
         ref: ${image_tag}
@@ -376,7 +376,7 @@ resources:
       - url: https://github.com/mesosphere/kubeaddons-extrasteps
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/mesosphere/insights:v0.2.3
+  - container_image: docker.io/mesosphere/insights:v0.1.6
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: ${image_tag}
@@ -391,18 +391,12 @@ resources:
       - url: https://github.com/metallb/metallb
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/grafana/grafana:8.4.5
-    sources:
-      - url: https://github.com/grafana/grafana
-        ref: ${image_tag}
-        license_path: LICENSE
-        notice_path: NOTICE.md
   - container_image: docker.io/nvidia/k8s-device-plugin:v0.9.0
     sources:
       - url: https://github.com/NVIDIA/k8s-device-plugin
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/minio/minio:RELEASE.2022-04-01T03-41-39Z
+  - container_image: docker.io/minio/minio:RELEASE.2021-02-14T04-01-33Z
     sources:
       - url: https://github.com/minio/minio
         ref: ${image_tag}
@@ -413,7 +407,7 @@ resources:
       - url: https://github.com/NVIDIA/dcgm-exporter
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/minio/operator:v4.4.25
+  - container_image: docker.io/minio/operator:v4.4.10
     sources:
       - url: https://github.com/minio/operator
         ref: ${image_tag}
@@ -424,4 +418,19 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-
+  - container_image: docker.io/fluent/fluent-bit:1.8.13
+    sources:
+      - url: https://github.com/fluent/fluent-bit
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: docker.io/grafana/grafana:8.3.2
+    sources:
+      - url: https://github.com/grafana/grafana
+        ref: ${image_tag}
+        license_path: LICENSE
+        notice_path: NOTICE.md
+  - container_image: gcr.io/kubecost1/server:prod-1.91.2
+    sources:
+      - url: https://github.com/opencost/opencost
+        ref: v${image_tag#prod-}
+        license_path: LICENSE
