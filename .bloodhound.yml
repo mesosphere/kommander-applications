@@ -1,12 +1,17 @@
 # Kubernetes versions
 # (e.g. 1.23.0 - has to match versions in https://github.com/yannh/kubernetes-json-schema)
 k8s_versions:
+  - 1.20
   - 1.21.0
   - 1.22.0
+  - 1.23.0
+  - 1.17
+  - 1.18
+  - 1.19
 
 # paths to load (in that order)
 paths:
-  - common/base
+  - common/helm-repositories
   - services
 
 # use strict validation (reject unknown fields in resources)
