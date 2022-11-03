@@ -163,11 +163,11 @@ data:
             priorityClassName: system-cluster-critical
             resources:
               limits:
-                cpu: "2000m"
-                memory: "2Gi"
-              requests:
-                cpu: "1000m"
+                cpu: "750m"
                 memory: "1Gi"
+              requests:
+                cpu: "250m"
+                memory: "500Mi"
           healthCheck:
             bucket:
               interval: 60s
@@ -179,6 +179,63 @@ data:
     monitoring:
       enabled: true
       createPrometheusRules: true
+
+    resources:
+      mgr:
+        limits:
+          cpu: "250m"
+          memory: "1Gi"
+        requests:
+          cpu: "100m"
+          memory: "512Mi"
+      mon:
+        limits:
+          cpu: "250m"
+          memory: "1Gi"
+        requests:
+          cpu: "100m"
+          memory: "512Mi"
+      osd:
+        limits:
+          cpu: "750m"
+          memory: "2Gi"
+        requests:
+          cpu: "250m"
+          memory: "1Gi"
+      prepareosd:
+        # limits: It is not recommended to set limits on the OSD prepare job since it's a one-time burst for memory
+        # that must be allowed to complete without an OOM kill
+        requests:
+          cpu: "500m"
+          memory: "50Mi"
+      mgr-sidecar:
+        limits:
+          cpu: "500m"
+          memory: "100Mi"
+        requests:
+          cpu: "100m"
+          memory: "40Mi"
+      crashcollector:
+        limits:
+          cpu: "250m"
+          memory: "60Mi"
+        requests:
+          cpu: "100m"
+          memory: "60Mi"
+      logcollector:
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
+        requests:
+          cpu: "100m"
+          memory: "100Mi"
+      cleanup:
+        limits:
+          cpu: "500m"
+          memory: "1Gi"
+        requests:
+          cpu: "500m"
+          memory: "100Mi"
 
     #################################################################
     ## BEGIN DKP specific config overrides                         ##
@@ -196,14 +253,14 @@ data:
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
         additionalConfig:
-          maxSize: "10G"
+          maxSize: "40G"
       grafana-loki:
         enabled: true
         bucketName: dkp-loki
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
         additionalConfig:
-          # maxObjects: "1000"
+          # maxObjects:
           maxSize: "50G"
     #################################################################
     ## END of dkp specific config overrides                        ##
