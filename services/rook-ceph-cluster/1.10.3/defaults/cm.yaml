@@ -18,6 +18,9 @@ data:
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
+      labels:
+        monitoring:
+          prometheus.kommander.d2iq.io/select: "true"
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.3
       dataDirHostPath: /var/lib/rook
