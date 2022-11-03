@@ -107,8 +107,6 @@ data:
         useAllNodes: false
 
     ingress:
-      # TODO(takirala): validate ingress is functioning correctly
-      # TODO(takirala): create a docs ticket note on how to access dashboard (fetch secret, base64decode password etc.,)
       dashboard:
         enabled: true
         annotations:
