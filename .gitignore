@@ -5,3 +5,6 @@
 # IDE
 .idea/
 /hack/release/coverage.out
+
+# mesosphere/daggers default output directory
+.daggers/
