@@ -86,6 +86,12 @@ resources:
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
+    - container_image: docker.io/grafana/grafana:8.5.14
+    sources:
+      - url: https://github.com/grafana/grafana
+        ref: v${image_tag}
+        license_path: LICENSE
+        notice_path: NOTICE.md
   - container_image: docker.io/grafana/grafana:9.1.5
     sources:
       - url: https://github.com/grafana/grafana
