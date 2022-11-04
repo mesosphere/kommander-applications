@@ -23,6 +23,8 @@ jobs:
 
       - name: Install gh-dkp extension
         run: gh extension install mesosphere/gh-dkp
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
