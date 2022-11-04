@@ -1540,7 +1540,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Platform Apps / Ceph - OSD (Single)",
+  "title": "Platform Apps / Rook Ceph - OSD",
   "uid": "Fj5fAfzik123",
   "version": 1,
   "weekStart": ""

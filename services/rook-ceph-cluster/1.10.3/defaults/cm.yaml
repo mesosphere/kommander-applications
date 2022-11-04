@@ -254,7 +254,7 @@ data:
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
         additionalConfig:
-          maxSize: "40G"
+          maxSize: "20G"
       grafana-loki:
         enabled: true
         bucketName: dkp-loki
@@ -262,7 +262,7 @@ data:
         enableOBCHealthCheck: true
         additionalConfig:
           # maxObjects:
-          maxSize: "50G"
+          maxSize: "80G"
     #################################################################
     ## END of dkp specific config overrides                        ##
     #################################################################
