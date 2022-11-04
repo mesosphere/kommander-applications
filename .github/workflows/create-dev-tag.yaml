@@ -1,0 +1,49 @@
+name: Create dev tag
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'The branch to create the tag on'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch to create the tag on'
+        required: true
+        type: string
+        default: 'main'
+
+jobs:
+  create-dev-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ inputs.branch }}
+        fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
+
+      - name: Install gh-dkp extension
+        run: gh extension install mesosphere/gh-dkp
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+        git_user_signingkey: true
+        git_commit_gpgsign: true
+        git_tag_gpgsign: true
+        git_config_global: true
+
+      - id: create-dev-tag
+        name: Create dev tag
+        run: |
+          echo "tag=$(gh dkp generate dev-version --repository-owner $(GITHUB_ORG) --repository-name $(GITHUB_REPOSITORY))" >> $GIT_OUTPUT
+
+      - name: Push tag
+        run: |
+          echo "Pushing tag ${{ steps.create-dev-tag.outputs.tag }}"
