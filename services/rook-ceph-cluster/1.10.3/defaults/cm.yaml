@@ -178,7 +178,10 @@ data:
 
     monitoring:
       enabled: false
-      createPrometheusRules: true
+      # Set this to true to deploy PrometheusRules if Prometheus is already installed.
+      # If you do not have an existing installation of Prometheus, attempting to deploy
+      # PrometheusRules may result in a failed installation of this chart.
+      createPrometheusRules: false
 
     #################################################################
     ## BEGIN DKP specific config overrides                         ##
