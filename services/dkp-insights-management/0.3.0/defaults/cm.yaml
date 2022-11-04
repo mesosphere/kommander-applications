@@ -11,7 +11,7 @@ data:
     image:
       registry: "docker.io"
       repository: "mesosphere/insights-management"
-      tag: "v0.3.0-dev"
+      tag: "v0.3.0"
       imagePullPolicy: "IfNotPresent"
     managementCM:
       insightsTTL: 72h
