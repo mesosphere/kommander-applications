@@ -154,7 +154,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/insights-management:v0.3.0-dev
+  - container_image: docker.io/mesosphere/insights-management:v0.3.0
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: main
