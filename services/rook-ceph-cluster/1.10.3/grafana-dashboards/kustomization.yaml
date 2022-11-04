@@ -6,6 +6,8 @@ configMapGenerator:
     namespace: ${releaseNamespace}
     files:
       - rook-ceph-cluster.json
+      - rook-ceph-osd.json
+      - rook-ceph-pools.json
 generatorOptions:
   labels:
     grafana_dashboard: "1"
