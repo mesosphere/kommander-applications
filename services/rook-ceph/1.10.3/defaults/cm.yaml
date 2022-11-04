@@ -39,4 +39,4 @@ data:
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
 
     monitoring:
-      enabled: true
+      enabled: false

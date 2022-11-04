@@ -177,7 +177,7 @@ data:
           reclaimPolicy: Delete
 
     monitoring:
-      enabled: true
+      enabled: false
       createPrometheusRules: true
 
     #################################################################
