@@ -5428,12 +5428,12 @@
         "definition": "",
         "hide": 0,
         "includeAll": false,
-        "label": "cluster",
+        "label": "rook_cluster",
         "multi": false,
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(cluster)",
+          "query": "label_values(ceph_health_status, rook_cluster)",
           "refId": "Prometheus-cluster-Variable-Query"
         },
         "refresh": 1,

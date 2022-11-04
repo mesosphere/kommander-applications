@@ -175,8 +175,11 @@ data:
           reclaimPolicy: Delete
 
     monitoring:
-      enabled: true
-      createPrometheusRules: true
+      enabled: false
+      # Set this to true to deploy PrometheusRules if Prometheus is already installed.
+      # If you do not have an existing installation of Prometheus, attempting to deploy
+      # PrometheusRules may result in a failed installation of this chart.
+      createPrometheusRules: false
 
     resources:
       mgr:
