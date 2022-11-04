@@ -7,6 +7,7 @@ on:
         description: 'The branch to create the tag on'
         required: true
         type: string
+        default: 'main'
   push: {}
 
 jobs:
@@ -17,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ inputs.branch | default('main') }}
+          branch: ${{ inputs.branch }}
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
       - name: Install gh-dkp extension
