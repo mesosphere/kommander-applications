@@ -137,7 +137,7 @@ resources:
     sources:
       - url: https://github.com/traefik/traefik
         ref: v${image_tag}
-        license_path: LICENSE
+        license_path: LICENSE.md
   - container_image: docker.io/mesosphere/capimate:v2.3.0
     sources:
       - url: https://github.com/mesosphere/konvoy2
