@@ -56,6 +56,8 @@ data:
           ingestion_burst_size_mb: 10
           per_stream_rate_limit: 10MB
           per_stream_rate_limit_burst: 15MB
+          # defaults to 30, but ceph components populates 30+ labels that need us to bump this limit.
+          max_label_names_per_series: 40
         schema_config:
           configs:
             - from: 2020-09-07
