@@ -424,4 +424,3 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-
