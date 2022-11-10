@@ -9,10 +9,11 @@
     "enabled": true,
     "interactive": false,
     "fix_version_map": {
-      "main": "Kommander 2.4.0",
-      "release-2.1": "Kommander 2.1.4",
-      "release-2.2": "Kommander 2.2.3",
-      "release-2.3": "Kommander 2.3.1"
+      "main": "Kommander 2.5.0",
+      "release-2.1": "Kommander 2.1.5",
+      "release-2.2": "Kommander 2.2.4",
+      "release-2.3": "Kommander 2.3.2",
+      "release-2.4": "Kommander 2.4.0"
     },
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },
