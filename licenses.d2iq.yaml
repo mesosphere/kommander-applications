@@ -132,7 +132,7 @@ resources:
     sources:
       - url: https://github.com/traefik/traefik
         ref: v${image_tag}
-        license_path: LICENSE
+        license_path: LICENSE.md
   - container_image: docker.io/mesosphere/capimate:v2.3.0
     sources:
       - url: https://github.com/mesosphere/konvoy2
@@ -375,12 +375,10 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kubeaddons-extrasteps
         ref: ${image_tag}
-        license_path: LICENSE
   - container_image: docker.io/mesosphere/insights:v0.1.6
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: ${image_tag}
-        license_path: LICENSE
   - container_image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.4.1
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
@@ -405,7 +403,7 @@ resources:
   - container_image: docker.io/nvidia/dcgm-exporter:2.2.9-2.4.1-ubuntu20.04
     sources:
       - url: https://github.com/NVIDIA/dcgm-exporter
-        ref: ${image_tag}
+        ref: ${image_tag%-ubuntu20.04}
         license_path: LICENSE
   - container_image: docker.io/minio/operator:v4.4.10
     sources:
@@ -421,12 +419,12 @@ resources:
   - container_image: docker.io/fluent/fluent-bit:1.8.13
     sources:
       - url: https://github.com/fluent/fluent-bit
-        ref: ${image_tag}
+        ref: v${image_tag}
         license_path: LICENSE
   - container_image: docker.io/grafana/grafana:8.3.2
     sources:
       - url: https://github.com/grafana/grafana
-        ref: ${image_tag}
+        ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
   - container_image: gcr.io/kubecost1/server:prod-1.91.2
