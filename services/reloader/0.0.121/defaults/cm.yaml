@@ -8,6 +8,7 @@ data:
   values.yaml: |
     ---
     reloader:
+      reloadOnCreate: true
       logFormat: json
       deployment:
         resources:
