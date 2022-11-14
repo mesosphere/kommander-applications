@@ -190,7 +190,7 @@ resources:
       - url: https://github.com/ceph/ceph-container
         ref: 3ba0f095be759493a04a571a28c5ba53112cd5d3
         license_path: LICENSE
-  - container_image: docker.io/stakater/reloader:v0.0.121
+  - container_image: docker.io/stakater/reloader:v0.0.124
     sources:
       - url: https://github.com/stakater/Reloader
         ref: ${image_tag}
