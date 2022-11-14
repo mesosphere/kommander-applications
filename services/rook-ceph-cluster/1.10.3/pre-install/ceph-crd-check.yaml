@@ -1,0 +1,55 @@
+# Ceph operator could be in a different namespace and in order to reuse an operator in different namespace, we simply wait for CRDs.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ceph-crd-check
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ceph-crd-check
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ceph-crd-check
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ceph-crd-check
+subjects:
+  - kind: ServiceAccount
+    name: ceph-crd-check
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ceph-crd-check
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: ceph-crd-check
+    spec:
+      serviceAccountName: ceph-crd-check
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl:1.24.6
+          command:
+            - sh
+            - -c
+            - |
+              while ! kubectl wait --for condition=established --timeout=30s crd/cephclusters.ceph.rook.io ;
+              do
+                sleep 30
+              done
