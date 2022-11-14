@@ -205,7 +205,7 @@ resources:
       - url: https://github.com/thanos-io/thanos
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/velero/velero-plugin-for-aws:v1.1.0
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.5.2
     sources:
       - url: https://github.com/vmware-tanzu/velero-plugin-for-aws
         ref: ${image_tag}
