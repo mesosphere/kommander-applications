@@ -5,10 +5,6 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    image:
-      repo: quay.io/kiali/kiali-operator
-      tag: v1.52.0
-
     cr:
       create: true
       namespace: ${releaseNamespace}
