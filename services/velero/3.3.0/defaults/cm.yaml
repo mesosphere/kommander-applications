@@ -20,7 +20,6 @@ data:
         config:
           region: "fallback"
     credentials:
-      useSecret: false
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
     annotations:
@@ -37,7 +36,7 @@ data:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.1.0
+        image: velero/velero-plugin-for-aws:v1.5.2
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
@@ -46,4 +45,4 @@ data:
       image:
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
         # which makes it harder to build airgapped tar bundles. So to make bundle collection predictable, we override the tag here.
-        tag: 1.24.1
+        tag: 1.24.6

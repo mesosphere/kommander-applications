@@ -490,7 +490,8 @@
                   "value": 80
                 }
               ]
-            }
+            },
+          "unit": "bytes"
           },
           "overrides": []
         },
@@ -520,7 +521,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "max_over_time(fluentd_output_status_buffer_total_bytes[1m])/1000000",
+            "expr": "max_over_time(fluentd_output_status_buffer_total_bytes[1m])",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -1178,7 +1179,8 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unit": "binBps"
           },
           "overrides": []
         },

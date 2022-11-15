@@ -39,5 +39,4 @@ data:
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
 
     monitoring:
-      # TODO(takirala): enable monitoring
       enabled: false
