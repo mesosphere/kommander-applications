@@ -5,9 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    # There can only be one operator per cluster.
-    # There can only be one CephCluster per namespace.
-    - name: rook-ceph
+    # There can only be one operator per cluster, just ensure CRDs are present, no need to wait for actual operator Deployment.
+    - name: rook-ceph-cluster-pre-install
       namespace: ${workspaceNamespace}
   force: false
   prune: true
