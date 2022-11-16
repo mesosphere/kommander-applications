@@ -3,8 +3,7 @@
 # deployment; here we select for deployments with the "app" label but without the newly added
 # "app.kubernetes.io/name" label, to delete. This ensures a newly-created prometheus-adapter deployment does
 # not get deleted.
-# The job will also be run pre-install but will be a noop.
----
+# The job will also be run pre-install but will be a noop.---
 apiVersion: v1
 kind: ServiceAccount
 metadata:

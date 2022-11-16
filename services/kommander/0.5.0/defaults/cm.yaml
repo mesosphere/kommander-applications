@@ -93,7 +93,7 @@ data:
           kubernetes-dashboard: "5.11.0"
           kubecost: "0.28.0"
           kube-prometheus-stack: "40.0.0"
-          prometheus-adapter: "3.4.0"
+          prometheus-adapter: "3.4.2"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
           cert-manager: "1.9.1"
