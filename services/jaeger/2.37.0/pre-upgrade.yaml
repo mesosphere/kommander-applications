@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/jaeger/2.36.0/pre-upgrade
+  path: ./services/jaeger/2.37.0/pre-upgrade
   dependsOn:
     - name: istio-helmrelease
   sourceRef:
