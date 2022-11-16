@@ -96,10 +96,10 @@ data:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
     fluentbit:
       image:
-        # Explicitly use the default image. This should be updated when logging-operator is upgraded.
+        # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: fluent/fluent-bit
-        tag: 1.9.9
+        tag: 2.0.5
       resources:
        limits:
          memory: 750Mi
