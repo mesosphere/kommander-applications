@@ -70,7 +70,7 @@ resources:
         # The `capimate` source code is in `capimate` subdirectory but it shares
         # go.mod with main konvoy2 source code.
         # directory: capimate
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:1.9.9
+  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.0.5
     sources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
