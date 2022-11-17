@@ -196,12 +196,3 @@ data:
           # pathOverride: "${releaseNamespace}/kommander-traefik"
     pilot:
       dashboard: false
-    ports:
-      # Minio must be hosted on a separate port and not on a subpath,
-      # see explaination in https://github.com/minio/minio/issues/10162
-      velero-minio:
-        # port: 9000 is occupied by the "traefik" endpoint which is not exposed
-        port: 9090
-        expose: true
-        exposedPort: 9000 # Velero is configured to use this value
-        protocol: TCP
