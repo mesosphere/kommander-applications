@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: 20.2.0
+      version: 20.3.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -19,16 +19,13 @@ spec:
       retries: 30
   upgrade:
     crds: CreateReplace
-    # Revert the "force" flag in a future bump of traefik.
-    # This is needed here for now because of https://github.com/traefik/traefik-helm-chart/issues/685 that was introduced in v17.0.1.
-    force: true
     remediation:
       retries: 30
   timeout: 5m0s
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-20.2.0-d2iq-defaults
+      name: traefik-20.3.0-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
