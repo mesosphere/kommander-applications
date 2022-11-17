@@ -455,9 +455,8 @@ data:
       enabled: true
       serviceMonitor:
         scheme: "https"
-        caFile: "/etc/prometheus/secrets/etcd-certs/ca.crt"
-        certFile: "/etc/prometheus/secrets/etcd-certs/server.crt"
-        keyFile: "/etc/prometheus/secrets/etcd-certs/server.key"
+        caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+        insecureSkipVerify: false
     nodeExporter:
       enabled: true
     kube-state-metrics:
