@@ -1,8 +1,7 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-10.30.1-d2iq-defaults
+  name: traefik-20.3.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -197,12 +196,8 @@ data:
           # pathOverride: "${releaseNamespace}/kommander-traefik"
     pilot:
       dashboard: false
-    ports:
-      # Minio must be hosted on a separate port and not on a subpath,
-      # see explaination in https://github.com/minio/minio/issues/10162
-      velero-minio:
-        # port: 9000 is occupied by the "traefik" endpoint which is not exposed
-        port: 9090
-        expose: true
-        exposedPort: 9000 # Velero is configured to use this value
-        protocol: TCP
+    # This value should be equal to release name. Justification with timeline of changes:
+    # 1. This was set to `kommander-treafik` in an old chart version - https://github.com/traefik/traefik-helm-chart/blob/v10.30.1/traefik/templates/deployment.yaml#L42 (Shipped in DKP 2.4)
+    # 2. A breaking change was made in traefik 17.0.1 https://github.com/traefik/traefik-helm-chart/blob/v17.0.1/traefik/templates/deployment.yaml#L38 which caused it to be renamed to `kommander-treafik-${releaseNamespace}`
+    # 3. Another change was made in 20.3.0 for backwards compatibility thats lets a user override the label value - https://github.com/traefik/traefik-helm-chart/blob/v20.3.0/traefik/templates/_helpers.tpl#L42-L47
+    instanceLabelOverride: "kommander-traefik"
