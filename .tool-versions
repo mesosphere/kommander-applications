@@ -1,7 +1,7 @@
 awscli 2.9.0
 flux2 0.36.0 # FREEZE flux upgrade is handled by this script hack/flux/update-flux.sh
 github-cli 2.20.2
-golang 1.18.1
+golang 1.19.3
 kustomize 4.5.7
 pre-commit 2.20.0
 yq 4.30.4
