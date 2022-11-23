@@ -1,5 +1,5 @@
 awscli 2.9.0
-flux2 0.36.0
+flux2 0.36.0 # FREEZE flux upgrade is handled by this script hack/flux/update-flux.sh
 github-cli 2.20.2
 golang 1.18.1
 kustomize 4.5.7
