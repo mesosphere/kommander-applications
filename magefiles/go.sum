@@ -1,0 +1,4 @@
+github.com/magefile/mage v1.14.0 h1:6QDX3g6z1YvJ4olPhT1wksUcSa/V0a1B+pJb73fBjyo=
+github.com/magefile/mage v1.14.0/go.mod h1:z5UZb/iS3GoOSn0JgWuiw7dxlurVYTu+/jHXqQg881A=
+github.com/mesosphere/daggers v0.4.0 h1:ghFOtzvC5HYH50WJF+ruZlKPqYhvqb48ljyHna7dGbM=
+github.com/mesosphere/daggers v0.4.0/go.mod h1:vj3jZK2fT8an+kUpwj5nWj90q/8rvAbUwZGPzJADcKg=
