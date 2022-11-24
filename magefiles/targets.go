@@ -8,4 +8,7 @@ import (
 
 	// mage:import lint
 	_ "github.com/mesosphere/daggers/mage/precommit"
+
+	// mage:import manifests
+	_ "github.com/mesosphere/kommander-applications/magefiles/targets/bloodhound"
 )
