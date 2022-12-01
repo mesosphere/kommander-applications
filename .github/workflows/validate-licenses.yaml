@@ -24,7 +24,7 @@ jobs:
         run: |
           ./bloodhound --no-validation --list-images > images.txt
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.7
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
