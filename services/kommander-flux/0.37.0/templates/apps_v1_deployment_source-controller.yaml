@@ -33,7 +33,6 @@ spec:
         - --enable-leader-election
         - --storage-path=/data
         - --storage-adv-addr=source-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
-        - --no-remote-bases=true
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
