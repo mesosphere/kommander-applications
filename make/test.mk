@@ -41,6 +41,8 @@ test.e2e.install: kommander-e2e ; $(info $(M) running end-to-end kommander insta
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
 		E2E_TEST_PATH="feature/install/suites/kindcluster" \
 		E2E_KOMMANDER_APPLICATIONS_REPOSITORY="github.com/mesosphere/kommander-applications.git?ref=$(GIT_COMMIT)" \
+		E2E_DKP_ESSENTIAL_LICENSE=$(E2E_DKP_ESSENTIAL_LICENSE) \
+		E2E_DKP_ENTERPRISE_LICENSE=$(E2E_DKP_ENTERPRISE_LICENSE) \
 		VERBOSE=$(VERBOSE) \
 		make test.e2e
 
