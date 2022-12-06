@@ -10,7 +10,6 @@ on:
 
 jobs:
   label-pr:
-    name: "Label Pull Requests"
     runs-on: ubuntu-latest
     permissions:
       contents: read
