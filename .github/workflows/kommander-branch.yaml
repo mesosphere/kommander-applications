@@ -10,9 +10,21 @@ permissions:
   contents: write
 
 jobs:
+  wait-for-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for labeler to run
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'Label Pull Requests'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
   get-kapps-branch-name:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
+    needs: wait-for-checks
+    if: always() && contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     outputs:
       branch_name: ${{ steps.branch-name.outputs.branch_name }}
       escaped_branch_name: ${{ steps.escaped-branch-name.outputs.escaped_branch_name }}
@@ -34,7 +46,7 @@ jobs:
   create-kommander-branch:
     runs-on: ubuntu-latest
     needs: get-kapps-branch-name
-    if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
+    if: always() && contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     steps:
       - uses: actions/checkout@v3
         with:
