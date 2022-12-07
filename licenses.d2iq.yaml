@@ -220,47 +220,47 @@ resources:
       - url: https://github.com/kubernetes/dashboard
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:2b484d982ef1a5d6ff93c46d3e45f51c2605c2e3ed766e20247d1727eb5ce918
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.8.0
     sources:
       - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:59b6a46d3b55a03507c76a3afe8a4ee5f1a38f1130fd3d65c9fe57fff583fa8d
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.8.0
     sources:
       - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:c3bbf3a96920048869dcab8e133e00f59855670b8a0bbca3d72ced2f512eb5e1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:7003443f0faabbaca12249aa16b73fa171bddf350abd826dd93b06f5080a146d
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:a4ba0076df2efaca2eed561339e21b3a4ca9d90167befd31de882bff69639470
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:763d648bf1edee2b4471b0e211dbc53ba2d28f92e4dae28ccd39af7185ef2c96
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:caae5e34b4cb311ed8551f2778cfca566a77a924a59b775bd516fa8b5e3c1d7f
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:38f9557f4d61ec79cc2cdbe76da8df6c6ae5f978a50a2847c22cc61aa240da95
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:bc13765ba4895c0fa318a065392d05d0adc0e20415c739e0aacb3f56140bf9ae
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.8.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
