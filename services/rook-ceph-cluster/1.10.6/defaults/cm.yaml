@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-cluster-1.10.3-d2iq-defaults
+  name: rook-ceph-cluster-1.10.6-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -21,8 +21,6 @@ data:
       labels:
         monitoring:
           prometheus.kommander.d2iq.io/select: "true"
-      cephVersion:
-        image: quay.io/ceph/ceph:v17.2.3
       dataDirHostPath: /var/lib/rook
 
       resources:
