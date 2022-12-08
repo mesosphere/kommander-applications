@@ -26,7 +26,7 @@ data:
           rootCertSecretName: ${caSecretName}
           rootCertSecretNamespace: ${caSecretNamespace}
           image:
-            tag: ${kommanderControllerManagerImageTag}
+            tag: v0.0.3-dev-jabar
             repository: ${kommanderControllerManagerImageRepository}
           extraArgs:
             git-credentials-secret-namespace: ${kommanderFluxNamespace}
@@ -96,7 +96,6 @@ data:
           prometheus-adapter: "3.4.2"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
-          cert-manager: "1.9.1"
           karma-traefik: "0.0.1"
           gatekeeper: "3.10.0"
           kommander-flux: "0.37.0"
