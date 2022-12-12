@@ -1,5 +1,4 @@
-# Ceph operator could be in a different namespace and in order to reuse an operator in different namespace, we simply wait for CRDs.
----
+# Ceph operator could be in a different namespace and in order to reuse an operator in different namespace, we simply wait for CRDs.---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
