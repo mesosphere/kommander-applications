@@ -347,7 +347,7 @@ resources:
       - url: https://github.com/jetstack/kube-oidc-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali-operator:v1.59.1
+  - container_image: quay.io/kiali/kiali-operator:v1.60.0
     sources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}
