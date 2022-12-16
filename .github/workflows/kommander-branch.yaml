@@ -73,7 +73,7 @@ jobs:
             appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
             semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?"
             for file in $(find ./tests -type f -print); do
-              sed -i "s/$appname-$semver/$appversion/g" $file
+              sed -r -i "s/$appname-$semver/$appversion/g" $file
             done
             git add ./tests
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
