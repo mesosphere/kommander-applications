@@ -68,6 +68,14 @@ jobs:
             # Point the kommander-applications ref to the k-apps branch
             sed -i 's/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
+            # Update kuttl tests that reference the app being bumped
+            appversion=$(echo ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} | sed -r 's/(chartbump\/)(.*)/\2/')
+            appname=$(echo $appversion | sed -r '(.*)(-.*)/\1/')
+            semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?"
+            for file in $(find ./tests -type f -print); do
+              sed -i "s/$appname-$semver/$appversion/g" $file
+            done
+            git add ./tests
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
               git commit -v -m "build: Update kommander-applications ref for testing"
               git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }}
