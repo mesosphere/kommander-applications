@@ -3,7 +3,7 @@
 k8s_versions:
   - 1.23.6
   - 1.24.6
-  # - 1.25.4  # enable when apps are compatible
+  - 1.25.4
 
 # paths to load (in that order)
 paths:
