@@ -12,7 +12,7 @@ spec:
         name: kubernetes-charts.banzaicloud.com
         namespace: kommander-flux
       # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
-      version: 3.17.9
+      version: 3.17.10
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,4 +25,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-3.17.9-d2iq-defaults
+      name: logging-operator-3.17.10-d2iq-defaults

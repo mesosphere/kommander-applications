@@ -280,7 +280,7 @@ resources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
-  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.9
+  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.10
     sources:
       - url: https://github.com/banzaicloud/logging-operator
         ref: ${image_tag}
