@@ -74,7 +74,7 @@ jobs:
             semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?"
             for file in $(find ./tests ./docs -type f -print); do
               case $file in
-                *".yaml" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
+                *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
               esac
             done
             git add ./tests
