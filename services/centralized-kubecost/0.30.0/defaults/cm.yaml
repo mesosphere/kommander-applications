@@ -107,7 +107,15 @@ data:
               labels:
                 servicemonitor.kommander.mesosphere.io/path: "metrics"
             ingress:
-              enabled: false
+              enabled: true
+              annotations:
+                kubernetes.io/ingress.class: kommander-traefik
+                traefik.ingress.kubernetes.io/router.tls: "true"
+                traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+              path: "/dkp/kommander/kubecost/query"
+              hosts:
+                - ""
+              tls: []
           # Enable DNS discovery for stores
           storeDNSDiscovery: false
           # Enable DNS discovery for sidecars (this is for the chart built-in sidecar service)
