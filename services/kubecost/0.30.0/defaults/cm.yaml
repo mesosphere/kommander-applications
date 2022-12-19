@@ -32,16 +32,14 @@ data:
 
       grafana:
         ingress:
-          enabled: false
-          # TODO(mh): Enable once `kubecost` chart supports Ingress for k8s 1.22+
-          # enabled: true
-          # annotations:
-          #   kubernetes.io/ingress.class: kommander-traefik
-          #   ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
-          #   traefik.ingress.kubernetes.io/router.tls: "true"
-          #   traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
-          # hosts: [""]
-          # path: "/dkp/kubecost/grafana"
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: kommander-traefik
+            ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+          hosts: [""]
+          path: "/dkp/kubecost/grafana"
         grafana.ini:
           log:
             level: warn
