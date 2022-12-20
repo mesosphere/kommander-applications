@@ -53,8 +53,8 @@ jobs:
           git_tag_gpgsign: true
           workdir: 'kommander'
 
-      - name: Update kommander-applications ref on new branch
-        id: update-ref
+      - name: Make test branch pointing to kommander-applications ref
+        id: make-test-branch
         run: |
           cd kommander
           git config user.name d2iq-mergebot
@@ -68,6 +68,16 @@ jobs:
             # Point the kommander-applications ref to the k-apps branch
             sed -i 's/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}/' Makefile
             git add Makefile
+            # Update kuttl tests that reference the app being bumped
+            appversion=$(echo ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} | sed -r 's/(chartbump\/)(.*)/\2/')
+            appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
+            semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(\.[0-9A-Za-z-]+)*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?"
+            for file in $(find ./tests ./docs -type f -print); do
+              case $file in
+                *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
+              esac
+            done
+            git add ./tests
             if output=$(git status --porcelain) && [ ! -z "$output" ]; then
               git commit -v -m "build: Update kommander-applications ref for testing"
               git push --force-with-lease --set-upstream origin kapps/${{ needs.get-kapps-branch-name.outputs.base_branch_name }}/${{ needs.get-kapps-branch-name.outputs.branch_name }}
@@ -76,7 +86,7 @@ jobs:
           }
 
       - name: Create comment
-        if: steps.update-ref.outputs.created_new_branch == 'true'
+        if: steps.make-test-branch.outputs.created_new_branch == 'true'
         uses: peter-evans/create-or-update-comment@v2
         env:
           GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
