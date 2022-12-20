@@ -21,8 +21,7 @@ jobs:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: ".github/service-labeler.yaml"
       - name: Add labels to automated chart bump PRs
-        if: startsWith(github.head_ref, 'chartbump/')
         uses: actions/labeler@v4
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: ".github/bump-pr-labeler.yaml"
+          configuration-path: ".github/services-pr-labeler.yaml"
