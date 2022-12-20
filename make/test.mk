@@ -3,7 +3,7 @@ KOMMANDER_E2E_DIR  = $(REPO_ROOT)/.tmp/kommander-e2e
 # E2E configurations
 E2E_TIMEOUT       ?= 120m
 E2E_KINDEST_IMAGE ?= "kindest/node:v1.23.5"
-UPGRADE_FROM_VERSION ?= "v2.2.2-dev"
+UPGRADE_FROM_VERSION ?= "v2.2.4-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
 # it means "a temporary workaround" actually means "permanent solution".
