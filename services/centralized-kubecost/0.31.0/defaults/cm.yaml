@@ -9,6 +9,10 @@ data:
     ---
     opencost:
       enabled: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsUser: 1001
+        runAsNonRoot: true
       resources:
         limits:
           cpu: 999m
