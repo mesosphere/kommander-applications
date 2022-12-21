@@ -2,11 +2,46 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-kubecost-0.30.0-d2iq-defaults
+  name: centralized-kubecost-0.31.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
+    opencost:
+      enabled: true
+      securityContext:
+        allowPrivilegeEscalation: false
+        runAsUser: 1001
+        runAsNonRoot: true
+      resources:
+        limits:
+          cpu: 999m
+          memory: 1G
+        requests:
+          cpu: 10m
+          memory: 55M
+      env:
+        - name: PROMETHEUS_SERVER_ENDPOINT
+          valueFrom:
+           configMapKeyRef:
+             key: prometheus-server-endpoint
+             name: kommander-kubecost-cost-analyzer
+        - name: THANOS_ENABLED
+          value: "true"
+        - name: THANOS_QUERY_URL
+          value: http://kommander-kubecost-thanos-query-http.kubecost.svc.cluster.local:10902
+        - name: THANOS_QUERY_OFFSET
+          value: 5m
+        - name: THANOS_MAX_SOURCE_RESOLUTION
+          value: 5m
+        - name: CLOUD_PROVIDER_API_KEY
+          value: "AIzaSyD29bGxmHAVEOBYtgd8sYM2gM2ekfxQX4U" # The GCP Pricing API requires a key. This is supplied just for evaluation.
+        - name: CLUSTER_ID
+          valueFrom:
+           configMapKeyRef:
+             key: CLUSTER_ID
+             name: kubecost-cluster-info-configmap
+
     cost-analyzer:
       fullnameOverride: "kommander-kubecost-cost-analyzer"
       global:
