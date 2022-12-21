@@ -18,9 +18,9 @@ skip_types:
   - constraints.gatekeeper.sh/v1beta1
 
 # load additional CRDs (URLs of CRD yaml files)
-additional_crds: []
+additional_crds:
   # because the istio-chart is just referencing the istio-controller, so it doesn't contain the CRDs
-  # - https://raw.githubusercontent.com/istio/istio/1.9.1/manifests/charts/base/crds/crd-all.gen.yaml
+  - https://raw.githubusercontent.com/istio/istio/1.11.5/manifests/charts/base/crds/crd-all.gen.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
