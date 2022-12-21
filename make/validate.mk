@@ -1,4 +1,4 @@
-DKP_BLOODHOUND_VERSION ?= 0.2.1
+DKP_BLOODHOUND_VERSION ?= 0.8.1
 DKP_BLOODHOUND_BIN := $(LOCAL_DIR)/bin/dkp-bloodhound_v$(DKP_BLOODHOUND_VERSION)
 
 $(DKP_BLOODHOUND_BIN):
@@ -8,4 +8,4 @@ $(DKP_BLOODHOUND_BIN):
 
 .PHONY: validate-manifests
 validate-manifests: $(DKP_BLOODHOUND_BIN)
-	$(DKP_BLOODHOUND_BIN) . --skip-applications=kaptain,grafana-loki,project-grafana-loki,project-logging
+	$(DKP_BLOODHOUND_BIN)
