@@ -1,6 +1,7 @@
 open-kommander-pr:
   - services/cert-manager/**
   - services/external-dns/**
+  - services/fluent-bit/**
   - services/istio/**
   - services/jaeger/**
   - services/kiali/**
