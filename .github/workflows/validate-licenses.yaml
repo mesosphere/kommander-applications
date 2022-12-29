@@ -25,7 +25,6 @@ jobs:
       - name: Generate image list
         run: |
           ./bloodhound --no-validation --list-images > images.txt
-          cat images.txt
       - name: Run validation
         id: changed-images
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
@@ -36,7 +35,7 @@ jobs:
       - name: Read changed images
         run: |
           echo "Output"
-          echo "${{ steps.validation.outputs.changed }}"
+          echo "${{ steps.validation.outputs.changed_images }}"
 
       #ToDo get list of changed images from^^^
       #- name: Bump images
