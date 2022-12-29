@@ -70,7 +70,7 @@ resources:
         # The `capimate` source code is in `capimate` subdirectory but it shares
         # go.mod with main konvoy2 source code.
         # directory: capimate
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
+  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.0.3
     sources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
@@ -108,7 +108,7 @@ resources:
       - url: https://github.com/istio/istio
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.39.0
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.37.0
     sources:
       - url: https://github.com/jaegertracing/jaeger-operator
         ref: v${image_tag}
@@ -154,7 +154,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/insights-management:v0.3.1
+  - container_image: docker.io/mesosphere/insights-management:v0.3.0-dev
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: main
@@ -230,7 +230,7 @@ resources:
       - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.8.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.8.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.7.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.8.0
