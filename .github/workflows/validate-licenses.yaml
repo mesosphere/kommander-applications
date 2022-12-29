@@ -33,7 +33,10 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Read changed images
         with:
-          changed-images:"{{ steps.validation.outputs }}""
+          changed-images:"{{ steps.validation.outputs }}"
+        run: |
+          cat changed-images
+
       #ToDo get list of changed images from^^^
       #- name: Bump images
         # TO DO: update licenses.d2iq.yaml from given list
