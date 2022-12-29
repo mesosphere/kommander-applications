@@ -33,6 +33,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Read changed images
         run: |
+          echo "Output"
           echo "{{ steps.validation.outputs }}"
 
       #ToDo get list of changed images from^^^
