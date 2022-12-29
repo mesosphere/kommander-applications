@@ -6,7 +6,6 @@ on:
     tags:
       - v*
     branches:
-      # TODO: revert back to main when merged
       - main
 jobs:
   check-license-yaml:
@@ -28,6 +27,6 @@ jobs:
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
-          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=json
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
