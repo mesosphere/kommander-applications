@@ -25,8 +25,15 @@ jobs:
           ./bloodhound --no-validation --list-images > images.txt
           cat images.txt
       - name: Run validation
+        id: validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Read changed images
+        with:
+          changed-images:"{{ steps.validation.outputs }}""
+      #ToDo get list of changed images from^^^
+      #- name: Bump images
+        # TO DO: update licenses.d2iq.yaml from given list
