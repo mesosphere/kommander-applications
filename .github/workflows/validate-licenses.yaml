@@ -32,10 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Read changed images
-        with:
-          changed-images:"{{ steps.validation.outputs }}"
         run: |
-          cat changed-images
+          echo "{{ steps.validation.outputs }}"
 
       #ToDo get list of changed images from^^^
       #- name: Bump images
