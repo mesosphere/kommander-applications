@@ -30,9 +30,6 @@ jobs:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
-      - name: Read changed images
-        run: |
-          echo "Output"
 
       #ToDo get list of changed images from^^^
       #- name: Bump images
