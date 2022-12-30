@@ -33,6 +33,8 @@ jobs:
       - name: Read changed images
         run: |
           docker run docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8 validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
 
       #ToDo get list of changed images from^^^
       #- name: Bump images
