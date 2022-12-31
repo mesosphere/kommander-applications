@@ -35,6 +35,12 @@ jobs:
       - name: Read changed images
         run: |
           cat changed_images.txt
+      - name: Second run validation
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       # - name: Read changed images
       #   run: |
       #     docker run docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8 validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
