@@ -24,7 +24,7 @@ jobs:
         run: |
           ./bloodhound --no-validation --list-images > images.txt
       - name: Run validation
-        id: changed-images
+        id: validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
@@ -35,7 +35,7 @@ jobs:
       - name: Read changed images
         if: ${{ failure() }}
         run: |
-          cat changed_images.txt
+          cat ${{ steps.validation.outputs.CHANGED_IMAGES }}
       # - name: Read changed images
       #   run: |
       #     docker run docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8 validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
