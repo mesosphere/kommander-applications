@@ -13,6 +13,7 @@ jobs:
     name: Check licenses.d2iq.yaml
     env:
       BLOODHOUND_VERSION: v0.8.0
+    outputs:
       CHANGED_IMAGES: ${{ steps.validation.outputs.CHANGED_IMAGES }}
     steps:
       - name: Checkout
