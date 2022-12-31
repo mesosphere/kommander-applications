@@ -39,7 +39,7 @@ jobs:
       - name: Read changed images
         if: ${{ failure() }}
         run: |
-          echo " ${{ steps.validation.outputs.CHANGED_IMAGES }} ""
+          echo " ${{ steps.validation.outputs.CHANGED_IMAGES }} "
       # - name: Read changed images
       #   run: |
       #     docker run docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8 validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
