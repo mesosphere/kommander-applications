@@ -13,6 +13,7 @@ jobs:
     name: Check licenses.d2iq.yaml
     env:
       BLOODHOUND_VERSION: v0.8.0
+      CHANGED_IMAGES: ${{ steps.validation.outputs.CHANGED_IMAGES }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,14 +29,12 @@ jobs:
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
-          name: CHANGED_IMAGES
-          path: changed_images.txt
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Read changed images
         if: ${{ failure() }}
         run: |
-          cat ${{ steps.validation.CHANGED_IMAGES }}
+          cat ${{ steps.validation.outputs.CHANGED_IMAGES }}
       # - name: Read changed images
       #   run: |
       #     docker run docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8 validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=terminal
