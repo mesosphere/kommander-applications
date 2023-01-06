@@ -26,6 +26,7 @@ test.e2e.install: kommander-e2e ; $(info $(M) running end-to-end kommander insta
 	cd $(KOMMANDER_E2E_DIR) && \
 		E2E_TIMEOUT=$(E2E_TIMEOUT) \
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
+		E2E_KIND_LVM_ENABLED=false \
 		E2E_TEST_PATH="feature/install/suites/kindcluster" \
 		E2E_KOMMANDER_APPLICATIONS_REPOSITORY="github.com/mesosphere/kommander-applications.git?ref=$(GIT_COMMIT)" \
 		VERBOSE=$(VERBOSE) \
@@ -37,6 +38,7 @@ test.e2e.upgrade.singlecluster: kommander-e2e ; $(info $(M) running end-to-end k
 		E2E_TEST_PATH="feature/upgrade/suites/kind/singlecluster" \
 		E2E_TIMEOUT=$(E2E_TIMEOUT) \
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
+		E2E_KIND_LVM_ENABLED=false \
 		E2E_KOMMANDER_APPLICATIONS_REPOSITORY="github.com/mesosphere/kommander-applications.git?ref=$(UPGRADE_FROM_VERSION)" \
 		E2E_KOMMANDER_APPLICATIONS_REPOSITORY_TO_UPGRADE="github.com/mesosphere/kommander-applications.git?ref=$(GIT_COMMIT)" \
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
