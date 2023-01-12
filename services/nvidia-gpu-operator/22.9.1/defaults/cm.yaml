@@ -5,6 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
+    daemonsets:
+      updateStrategy: "OnDelete"
     nfd:
       enabled: false
     driver:
