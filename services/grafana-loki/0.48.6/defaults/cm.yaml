@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    useD2IQCeph: false
+
     loki:
       ingesterFullname: loki-ingester
       annotations:

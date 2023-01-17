@@ -5,3 +5,4 @@ resources:
   - grafana-dashboards
   - grafana-dashboards-logging
   - grafana-loki.yaml
+  - unsuspend-job.yaml

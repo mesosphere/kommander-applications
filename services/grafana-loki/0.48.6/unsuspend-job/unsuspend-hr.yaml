@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-loki-unsuspend-hr
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: grafana-loki-unsuspend-hr
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "list", "patch", "watch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: grafana-loki-unsuspend-hr
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: grafana-loki-unsuspend-hr
+subjects:
+  - kind: ServiceAccount
+    name: grafana-loki-unsuspend-hr
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-loki-unsuspend-hr
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: grafana-loki-unsuspend-hr
+    spec:
+      serviceAccountName: grafana-loki-unsuspend-hr
+      restartPolicy: OnFailure
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl:1.24.6
+          command:
+            - sh
+            - -c
+            - |
+              echo "Checking useD2IQCeph variable"
+              ENABLE_CEPH=$(cat /tmp/config/values.yaml | grep "useD2IQCeph" | awk '{print $2}')
+              echo $ENABLE_CEPH
+              if [ "${ENABLE_CEPH}" == "true" ]
+              the
+                  echo "useD2IQCeph is true, the ObjectBucketClaim job will handle unsuspending the Loki HelmRelease"
+                  kubectl -n ${releaseNamespace} patch helmrelease grafana-loki --type='json' -p='[{"op": "replace", "path": "/spec/suspend", "value": false}]'
+              else
+                  echo "useD2IQCeph is false, unsuspending the Loki HelmRelease"
+                  kubectl -n ${releaseNamespace} patch helmrelease grafana-loki --type='json' -p='[{"op": "replace", "path": "/spec/suspend", "value": false}]'
+              fi
+          volumeMounts:
+          - name: config
+            mountPath: /tmp/config
+      volumes:
+        - name: config
+          configMap:
+            name: grafana-loki-0.48.6-d2iq-defaults
