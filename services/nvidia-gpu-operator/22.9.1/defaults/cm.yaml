@@ -9,7 +9,12 @@ data:
       enabled: false
     driver:
       enabled: false
+    devicePlugin:
+      config:
+        # Create a ConfigMap (default: false)
+        create: false
     toolkit:
+
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
