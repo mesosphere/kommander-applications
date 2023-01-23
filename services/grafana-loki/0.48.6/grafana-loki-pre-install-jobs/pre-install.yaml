@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-loki-pre-install
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: grafana-loki-pre-install
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: pre-install
+          # TODO: use another image that has wget/curl
+          image: busybox:1.36.0
+          command:
+            - sh
+            - -c
+            - |
+              timeout 1h /bin/sh <<'EOF' || true
+              # If D2IQ's Ceph is being used, the endpoint will start with http and we need to wait for the bucket to be ready
+              s3_endpoint=$(cat /tmp/config/values.yaml | grep "s3: \"\?http" | awk '{print $2}' | awk -F/ '{print $3}' | sed 's/\"//g')
+
+              [ -z "$s3_endpoint" ] && echo "S3 endpoint not found, exiting..." && exit 0
+
+              echo "S3 endpoint: $s3_endpoint"
+
+              while true ; do
+                if wget -q "$s3_endpoint"; then
+                  echo "S3 endpoint is ready"
+                  exit 0
+                fi
+                echo "Waiting for S3 endpoint to be available..."
+                sleep 60
+              done
+              EOF
+          volumeMounts:
+          - name: config
+            mountPath: /tmp/config
+      volumes:
+        - name: config
+          configMap:
+            name: grafana-loki-0.48.6-d2iq-defaults
