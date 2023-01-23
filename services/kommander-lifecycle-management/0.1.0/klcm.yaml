@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: kommander-lifecycle-management
+  namespace: ${releaseNamespace}
+spec:
+  interval: 15s
+  waite: true
+  prune: true
+  path: ./services/kommander-lifecycle-management/
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+

@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-lifecycle-management-0.1.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    controllerManager:
+      containers:
+        manager:
+          replicas: 1
+          image:
+            tag: 0.1.0
+            # is this going to be an app in the future or yet another controller? 
+            repository: mesosphere/kommander-lifecycle-management 
+            pullPolicy: IfNotPresent
+            
