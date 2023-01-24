@@ -41,10 +41,10 @@ func TestUpdateCAPIMateVersionsSuccessfully(t *testing.T) {
 	afterFile, err := os.ReadFile(afterUpdateFiles[0])
 	assert.Nil(t, err)
 
-	assert.Contains(t, string(beforeFile), "tag: v0.0.0-dev.0")
+	assert.Contains(t, string(beforeFile), "tag: v2.3.2-dev")
 	assert.NotContains(t, string(beforeFile), "tag: v1.0.0")
 	assert.Contains(t, string(afterFile), "tag: v1.0.0")
-	assert.NotContains(t, string(afterFile), "tag: v0.0.0-dev.0")
+	assert.NotContains(t, string(afterFile), "tag: v2.3.2-dev")
 
 }
 
