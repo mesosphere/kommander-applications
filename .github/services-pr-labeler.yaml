@@ -16,5 +16,24 @@ open-kommander-pr:
   - services/traefik-forward-auth/**
   - services/traefik-forward-auth-mgmt/**
 
+# this should be the same list as above open-kommander-pr
+do-not-merge/testing:
+  - services/cert-manager/**
+  - services/external-dns/**
+  - services/fluent-bit/**
+  - services/istio/**
+  - services/jaeger/**
+  - services/kiali/**
+  - services/kube-oidc-proxy/**
+  - services/logging-operator/**
+  - services/project-grafana-logging/**
+  - services/project-grafana-loki/**
+  - services/project-logging/**
+  - services/reloader/**
+  - services/rook-ceph/**
+  - services/rook-ceph-cluster/**
+  - services/traefik-forward-auth/**
+  - services/traefik-forward-auth-mgmt/**
+
 ok-to-test:
   - services/**/*
