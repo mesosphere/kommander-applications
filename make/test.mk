@@ -23,7 +23,9 @@ kommander-e2e:
 
 .PHONY: test.e2e.install
 test.e2e.install: kommander-e2e ; $(info $(M) running end-to-end kommander install test from kommander-e2e)
+	# If we don't pin the DKP CLI version here, it will default to 0.0.0-dev and version agnostic CLI will do unexpected stuff (e.g.: such as installing ceph in 2.3)
 	cd $(KOMMANDER_E2E_DIR) && \
+        E2E_COMMANDS_DKP="https://downloads.mesosphere.com/dkp/v2.3.1/dkp_v2.3.1_linux_amd64.tar.gz" \
 		E2E_TIMEOUT=$(E2E_TIMEOUT) \
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
 		E2E_KIND_LVM_ENABLED=false \
@@ -34,7 +36,9 @@ test.e2e.install: kommander-e2e ; $(info $(M) running end-to-end kommander insta
 
 .PHONY: test.e2e.upgrade.singlecluster
 test.e2e.upgrade.singlecluster: kommander-e2e ; $(info $(M) running end-to-end kommander upgrade $(UPGRADE_FROM_VERSION) to $(GIT_COMMIT) test from kommander-e2e)
+	# If we don't pin the DKP CLI version here, it will default to 0.0.0-dev and version agnostic CLI will do unexpected stuff (e.g.: such as installing ceph in 2.3)
 	cd $(KOMMANDER_E2E_DIR) && \
+		E2E_COMMANDS_DKP="https://downloads.mesosphere.com/dkp/v2.3.1/dkp_v2.3.1_linux_amd64.tar.gz" \
 		E2E_TEST_PATH="feature/upgrade/suites/kind/singlecluster" \
 		E2E_TIMEOUT=$(E2E_TIMEOUT) \
 		E2E_KINDEST_IMAGE=$(E2E_KINDEST_IMAGE) \
