@@ -22,3 +22,4 @@ resources:
   - rook-ceph.yaml
   - traefik.yaml
   - vmware-tanzu.yaml
+  - kommander-lifecycle.yaml
