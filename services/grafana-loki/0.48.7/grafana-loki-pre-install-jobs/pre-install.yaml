@@ -11,7 +11,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: pre-install
-          # TODO: use another image that has wget/curl
+          # TODO(cbuto): find another image with wget/curl that we already use in other places
           image: busybox:1.36.0
           command:
             - sh
@@ -40,4 +40,4 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: grafana-loki-0.48.6-d2iq-defaults
+            name: grafana-loki-0.48.7-d2iq-defaults
