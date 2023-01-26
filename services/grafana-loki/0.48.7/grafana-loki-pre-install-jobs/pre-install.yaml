@@ -1,3 +1,35 @@
+# Copy grafana-datasource cm after it has been created in the release.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-loki-pre-install
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: grafana-loki-pre-install
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "list", "patch", "watch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: grafana-loki-pre-install
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: grafana-loki-pre-install
+subjects:
+  - kind: ServiceAccount
+    name: grafana-loki-pre-install
+    namespace: ${releaseNamespace}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -8,36 +40,24 @@ spec:
     metadata:
       name: grafana-loki-pre-install
     spec:
+      serviceAccountName: grafana-loki-pre-install
       restartPolicy: OnFailure
       containers:
         - name: pre-install
           # TODO(cbuto): find another image with wget/curl that we already use in other places
-          image: busybox:1.36.0
+          image: bitnami/kubectl:1.24.6
           command:
             - sh
             - -c
             - |
-              timeout 1h /bin/sh <<'EOF' || true
-              # If D2IQ's Ceph is being used, the endpoint will start with http and we need to wait for the bucket to be ready
-              s3_endpoint=$(cat /tmp/config/values.yaml | grep "s3: \"\?http" | awk '{print $2}' | awk -F/ '{print $3}' | sed 's/\"//g')
-
-              [ -z "$s3_endpoint" ] && echo "S3 endpoint not found, exiting..." && exit 0
-
-              echo "S3 endpoint: $s3_endpoint"
-
+              timeout 1h /bin/bash <<'EOF' || true
               while true ; do
-                if wget -q "$s3_endpoint"; then
-                  echo "S3 endpoint is ready"
-                  exit 0
+                kubectl get helmrelease -n ${releaseNamespace} grafana-loki
+                if [[ $? -eq 0 ]]; then
+                    kubectl -n ${releaseNamespace} patch helmrelease grafana-loki --type='json' -p='[{"op": "replace", "path": "/spec/suspend", "value": true}]'
+                    break
                 fi
-                echo "Waiting for S3 endpoint to be available..."
-                sleep 60
+                echo "Waiting for HelmRelease to exist..."
+                sleep 1
               done
               EOF
-          volumeMounts:
-          - name: config
-            mountPath: /tmp/config
-      volumes:
-        - name: config
-          configMap:
-            name: grafana-loki-0.48.7-d2iq-defaults

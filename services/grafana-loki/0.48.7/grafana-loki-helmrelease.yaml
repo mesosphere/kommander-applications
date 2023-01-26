@@ -4,9 +4,6 @@ metadata:
   name: grafana-loki-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: grafana-loki-pre-install
-      namespace: ${releaseNamespace}
   force: false
   prune: true
   wait: true
