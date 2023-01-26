@@ -316,7 +316,7 @@ resources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: k8s.gcr.io/prometheus-adapter/prometheus-adapter:v0.10.0
+  - container_image: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.10.0
     sources:
       - url: https://github.com/kubernetes-sigs/prometheus-adapter
         ref: ${image_tag}
