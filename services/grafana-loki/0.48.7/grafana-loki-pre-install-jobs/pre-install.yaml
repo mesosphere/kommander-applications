@@ -1,4 +1,3 @@
-# Copy grafana-datasource cm after it has been created in the release.
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -12,9 +11,12 @@ metadata:
   name: grafana-loki-pre-install
   namespace: ${releaseNamespace}
 rules:
-  - apiGroups: ["helm.toolkit.fluxcd.io"]
-    resources: ["helmreleases"]
-    verbs: ["get", "list", "patch", "watch", "delete"]
+  - apiGroups: ["kustomize.toolkit.fluxcd.io"]
+    resources: ["kustomizations"]
+    verbs: ["get", "patch"]
+  - apiGroups: ["ceph.rook.io"]
+    resources: ["cephclusters"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -44,20 +46,33 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: pre-install
-          # TODO(cbuto): find another image with wget/curl that we already use in other places
           image: bitnami/kubectl:1.24.6
           command:
             - sh
             - -c
             - |
               timeout 1h /bin/bash <<'EOF' || true
-              while true ; do
-                kubectl get helmrelease -n ${releaseNamespace} grafana-loki
-                if [[ $? -eq 0 ]]; then
-                    kubectl -n ${releaseNamespace} patch helmrelease grafana-loki --type='json' -p='[{"op": "replace", "path": "/spec/suspend", "value": true}]'
-                    break
+              # If the rook-ceph-cluster kustomization doesn't exist, we do no need to wait for the CephCluster.
+              # Otherwise, if the kustomization does exist, we assume we need to wait for the CephCluster
+              # (there's no harm in waiting even if Loki is configured to use another storage backend.
+              kubectl get kustomization -n ${releaseNamespace} rook-ceph-cluster
+              if [[ $? -ne 0 ]]; then
+                  echo "rook-cluster-cluster kustomization does not exist, no need to wait"
+                  exit 0
+              fi
+
+              echo "Waiting for CephCluster to exist..."
+              while true; do
+                ceph_cluster_name=$(kubectl get CephCluster -l helm.toolkit.fluxcd.io/name=rook-ceph-cluster -n ${releaseNamespace} -oname)
+                if [[ $ceph_cluster_name != "" ]]; then
+                  break
                 fi
-                echo "Waiting for HelmRelease to exist..."
-                sleep 1
+                echo "CephCluster doesn't exist yet, retrying after 10s..."
+                sleep 10
               done
+
+              echo "CephCluster found: $ceph_cluster_name"
+
+              echo "Waiting for the $ceph_cluster_name CephCluster to be ready..."
+              kubectl wait --for=condition=Ready $ceph_cluster_name -n ${releaseNamespace} --timeout=1h
               EOF
