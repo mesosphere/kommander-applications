@@ -12,6 +12,9 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --no-remote-bases=true
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=15
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/memory
         value: 150Mi
@@ -20,7 +23,7 @@ patches:
         value: 250m
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/cpu
-        value: 2000m
+        value: 2500m
   - target:
       group: apps
       version: v1
