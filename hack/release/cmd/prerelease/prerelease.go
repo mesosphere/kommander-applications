@@ -33,13 +33,13 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			if err != nil {
 				return err
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersionString)
+			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s\n", chartVersionString)
 
 			err = updatecapimate.UpdateCAPIMateVersion(kommanderApplicationsRepo, chartVersionString)
 			if err != nil {
 				return err
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated CAPIMate version to %s", chartVersionString)
+			fmt.Fprintf(cmd.OutOrStdout(), "Updated CAPIMate version to %s\n", chartVersionString)
 			return nil
 		},
 	}
