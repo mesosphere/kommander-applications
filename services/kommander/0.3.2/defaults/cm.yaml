@@ -86,6 +86,9 @@ data:
           traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
         path: /dkp/kommander/dashboard
         graphqlPath: /dkp/kommander/dashboard/graphql
+    capimate:
+      image:
+        tag: v2.3.2-dev
     attached:
       prerequisites:
         defaultApps:

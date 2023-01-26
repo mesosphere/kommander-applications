@@ -1,5 +1,6 @@
 ignore:
   - docker.io/mesosphere/grafana-plugins:v0.0.1
+  - docker.io/mesosphere/capimate
 
   # The image is set of tools that is not built from source code.
   # See: https://github.com/mesosphere/kommander (dir: docker)
