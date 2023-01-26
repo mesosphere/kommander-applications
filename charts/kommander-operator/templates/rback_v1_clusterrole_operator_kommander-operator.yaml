@@ -1,0 +1,110 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        - rbac.authorization.k8s.io/aggregate-to-view: "true"
+        - rbac.authorization.k8s.io/aggregate-to-update: "true"
+        - rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+        - apps.kommander.d2iq.io
+        - kommander.mesosphere.io
+        - workspaces.kommander.mesosphere.io
+        - kommander.d2iq.io
+        - dkp.d2iq.io
+        - ""
+        - types.kubefed.io
+    resources:
+      - appdeployments
+      - apps
+      - clusterapps
+      - helmreleasestatuses
+      - kommanderclusters
+      - virtualgroups
+      - projects
+      - workspaces
+      - namespaces
+      - secrets
+      - services
+      - configmaps
+      - federatedconfigmaps # this may be revisited when we removed kubefed
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-update
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-update: "true"
+rules:
+  - apiGroups:
+      - apps.kommander.d2iq.io
+      - kommander.mesosphere.io
+      - workspaces.kommander.mesosphere.io
+      - kommander.d2iq.io
+      - dkp.d2iq.io
+      - ""
+    resources:
+      - appdeployments
+      - apps
+      - clusterapps
+      - helmreleasestatuses
+      - kommanderclusters
+      - virtualgroups
+      - projects
+      - workspaces
+      - events
+      - secrets
+      - configmaps
+    verbs:
+      - create
+      - patch
+      - update
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+  - apiGroups:
+      - apps.kommander.d2iq.io
+      - kommander.mesosphere.io
+      - workspaces.kommander.mesosphere.io
+      - kommander.d2iq.io
+      - dkp.d2iq.io
+      - ""
+      - types.kubefed.io
+    resources:
+      - appdeployments
+      - apps
+      - clusterapps
+      - helmreleasestatuses
+      - kommanderclusters
+      - virtualgroups
+      - projects
+      - workspaces
+      - secrets
+      - configmaps
+      - federatedconfigmaps
+    verbs:
+      - deletecollection
+      - delete
+---
