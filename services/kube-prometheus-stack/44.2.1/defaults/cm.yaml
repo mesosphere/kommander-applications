@@ -146,7 +146,7 @@ data:
           matchLabels:
             prometheus.kommander.d2iq.io/select: "true"
         thanos:
-          version: v0.17.1
+          version: v0.30.1
         externalLabels:
           cluster: $(CLUSTER_ID)
         containers:
