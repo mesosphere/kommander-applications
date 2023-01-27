@@ -11,6 +11,7 @@ import (
 	cp "github.com/otiai10/copy"
 	"github.com/r3labs/diff/v3"
 	"github.com/stretchr/testify/assert"
+	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/yaml"
 )
 
@@ -29,15 +30,16 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Nil(t, err)
 
-	kommanderHelmReleasePaths := []string{kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern}
-	for _, helmReleasePath := range kommanderHelmReleasePaths {
+	kommanderPaths := []string{
+		kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern, kommanderCMPathPattern}
+	for _, path := range kommanderPaths {
 		// Get Kommander HR files from the current repo state to validate that changes to the Kommander HelmReleases
 		// are compatible with what this tool expects
-		beforeUpdateFiles, err := filepath.Glob(filepath.Join(rootDir, helmReleasePath))
+		beforeUpdateFiles, err := filepath.Glob(filepath.Join(rootDir, path))
 		assert.Nil(t, err)
 
 		// Get the tmp Kommander HR files after the chart version has been updated
-		afterUpdateFiles, err := filepath.Glob(filepath.Join(tmpDir, helmReleasePath))
+		afterUpdateFiles, err := filepath.Glob(filepath.Join(tmpDir, path))
 		assert.Nil(t, err)
 
 		beforeFile, err := os.ReadFile(beforeUpdateFiles[0])
@@ -46,29 +48,72 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 		afterFile, err := os.ReadFile(afterUpdateFiles[0])
 		assert.Nil(t, err)
 
-		branchHr := v2beta1.HelmRelease{}
-		err = yaml.Unmarshal(beforeFile, &branchHr)
-		assert.Nil(t, err)
+		// Check HRs
+		if path == kommanderHelmReleasePathPattern || path == kommanderAppMgmtHelmReleasePathPattern {
+			branchHr := v2beta1.HelmRelease{}
+			err = yaml.Unmarshal(beforeFile, &branchHr)
+			assert.Nil(t, err)
 
-		testHr := v2beta1.HelmRelease{}
-		err = yaml.Unmarshal(afterFile, &testHr)
-		assert.Nil(t, err)
+			testHr := v2beta1.HelmRelease{}
+			err = yaml.Unmarshal(afterFile, &testHr)
+			assert.Nil(t, err)
 
-		// Get the diff between the HRs
-		changes, err := diff.Diff(branchHr, testHr)
-		assert.Nil(t, err)
-		assert.NotEmpty(t, changes)
+			// Get the diff between the HRs
+			changes, err := diff.Diff(branchHr, testHr)
+			assert.Nil(t, err)
+			assert.NotEmpty(t, changes)
 
-		for _, change := range changes {
-			// Validate that each change is an "update"
-			assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
-			// Validate that .spec.chart.spec.version is the only field that changes
-			assert.Equal(t, []string{"Spec", "Chart", "Spec", "Version"}, change.Path, "expected .spec.chart.spec.version to be the only field that changed in the Kommander HelmRelease")
-			// Validate that the updated version is what we expect
-			assert.Equal(t,
-				fmt.Sprintf(kommanderChartVersionTemplate, updateToVersion),
-				change.To,
-				"expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
+			for _, change := range changes {
+				// Validate that each change is an "update"
+				assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
+				// Validate that .spec.chart.spec.version is the only field that changes
+				assert.Equal(t,
+					[]string{"Spec", "Chart", "Spec", "Version"},
+					change.Path,
+					"expected .spec.chart.spec.version to be the only field that changed in the Kommander HelmRelease")
+				// Validate that the updated version is what we expect
+				assert.Equal(t,
+					fmt.Sprintf(kommanderChartVersionTemplate, updateToVersion),
+					change.To,
+					"expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
+			}
+		}
+
+		// Check CMs
+		if path == kommanderCMPathPattern {
+			branchCM := corev1.ConfigMap{}
+			err = yaml.Unmarshal(beforeFile, &branchCM)
+			assert.Nil(t, err)
+			branchData := map[string]interface{}{}
+			err = yaml.Unmarshal([]byte(branchCM.Data["values.yaml"]), &branchData)
+			assert.Nil(t, err)
+
+			testCM := corev1.ConfigMap{}
+			err = yaml.Unmarshal(afterFile, &testCM)
+			assert.Nil(t, err)
+			testData := map[string]interface{}{}
+			err = yaml.Unmarshal([]byte(testCM.Data["values.yaml"]), &testData)
+			assert.Nil(t, err)
+
+			// Get the diff between the HRs
+			changes, err := diff.Diff(branchData, testData)
+			assert.Nil(t, err)
+			assert.NotEmpty(t, changes)
+
+			for _, change := range changes {
+				// Validate that each change is an "update"
+				assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
+				// Validate that .capimate.image.tag is the only field that changes
+				assert.Equal(t,
+					[]string{"capimate", "image", "tag"},
+					change.Path,
+					"expected .capimate.image.tag to be the only field that changed in the Kommander CM")
+				// Validate that the updated version is what we expect
+				assert.Equal(t,
+					fmt.Sprintf(kommanderChartVersionTemplate, updateToVersion),
+					change.To,
+					"expected the chart version to be updated to %s, but got %s", updateToVersion, change.To)
+			}
 		}
 	}
 }
@@ -128,7 +173,6 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	assert.Error(t, err, "expected chart version update to fail as the chart version was changed to something unexpected")
 }
 
-
 func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	// Make a new temp dir to copy the repo state into
 	tmpDir, err := os.MkdirTemp("", "prerelease")
@@ -143,5 +187,5 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	defer f.Close()
 	updateToVersion := "v1.0.0"
 	err = UpdateChartVersions(tmpDir, updateToVersion)
-	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
+	assert.ErrorContains(t, err, "found > 1 match for path")
 }
