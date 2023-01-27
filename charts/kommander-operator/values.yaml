@@ -2,7 +2,13 @@
 # this is using a nginx image at the moment that will be replaced by proper image
 
 replicaCount: 1
-image:
-  repository: nginx
-  tag: 0.1.0
-  pullPolicy: IfNotPresent
+kommanderoperator:
+  image:
+    repository: nginx
+    tag: 1.22
+    pullPolicy: IfNotPresent
+
+kubetools:
+  image:
+    repository: mesosphere/kommander2-kubetools
+    tag: v2.5.0-dev

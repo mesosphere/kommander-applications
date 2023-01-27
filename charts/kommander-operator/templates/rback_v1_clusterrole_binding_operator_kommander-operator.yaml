@@ -4,7 +4,7 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ .Chart.Name }}
 roleRef:
-  apiGroup: rbac.authorizations.kubernetes.io
+  apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: {{ .Chart.Name }}
 subjects:
