@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
-	"github.com/mesosphere/kommander-applications/hack/release/pkg/updatecapimate"
 	"github.com/spf13/cobra"
 )
 
@@ -35,11 +34,6 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			}
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s\n", chartVersionString)
 
-			err = updatecapimate.UpdateCAPIMateVersion(kommanderApplicationsRepo, chartVersionString)
-			if err != nil {
-				return err
-			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated CAPIMate version to %s\n", chartVersionString)
 			return nil
 		},
 	}
