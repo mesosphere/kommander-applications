@@ -250,7 +250,7 @@ data:
         enabled: true
         bucketName: dkp-velero
         storageClassName: dkp-object-store
-        enableOBCHealthCheck: true
+        enableOBCHealthCheck: false
         additionalConfig:
           maxSize: "20G"
       grafana-loki:
