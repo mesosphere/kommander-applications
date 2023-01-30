@@ -52,8 +52,8 @@ spec:
             - -c
             - |
               timeout 1h /bin/bash <<'EOF' || true
-              # If the rook-ceph-cluster kustomization doesn't exist, we do no need to wait for the CephCluster.
-              # Otherwise, if the kustomization does exist, we assume we need to wait for the CephCluster
+              # If the rook-ceph-cluster kustomization doesn't exist, we do not need to wait for the CephCluster.
+              # Otherwise, if the kustomization does exist, we can assume we need to wait for the CephCluster
               # (there's no harm in waiting even if Loki is configured to use another storage backend.
               kubectl get kustomization -n ${releaseNamespace} rook-ceph-cluster
               if [[ $? -ne 0 ]]; then
@@ -75,4 +75,14 @@ spec:
 
               echo "Waiting for the $ceph_cluster_name CephCluster to be ready..."
               kubectl wait --for=condition=Ready $ceph_cluster_name -n ${releaseNamespace} --timeout=1h
+
+              echo "Waiting for the $ceph_cluster_name capacity to be updated..."
+              while true; do
+                ceph_cluster_capacity=$(kubectl get -ojsonpath='{.status.ceph.capacity.lastUpdated}' $ceph_cluster_name -n ${releaseNamespace})
+                if [[ $ceph_cluster_capacity != "" ]]; then
+                  break
+                fi
+                echo "The CephCluster '.status.ceph.capacity.lastUpdated' field is not populated yet, retrying after 10s..."
+                sleep 10
+              done
               EOF
