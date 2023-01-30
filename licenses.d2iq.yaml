@@ -155,7 +155,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex-k8s-authenticator
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/dex:v2.31.0-d2iq
+  - container_image: docker.io/mesosphere/dex:v2.35.1-d2iq.1
     sources:
       - url: https://github.com/mesosphere/dex
         ref: ${image_tag}
