@@ -56,6 +56,7 @@ data:
       oauth2:
         skipApprovalScreen: true
       staticClients: []
+      lazyInitConnectors: true
     certIssuerRef:
       kind: ${certificateIssuerKind:=Issuer}
       name: ${certificateIssuerName}
