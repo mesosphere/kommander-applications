@@ -55,10 +55,21 @@ spec:
               # If the rook-ceph-cluster kustomization doesn't exist, we do not need to wait for the CephCluster.
               # Otherwise, if the kustomization does exist, we can assume we need to wait for the CephCluster
               # (there's no harm in waiting even if Loki is configured to use another storage backend.
-              kubectl get kustomization -n ${releaseNamespace} rook-ceph-cluster
+              echo "Waiting up to 5 mins for the rook-ceph-cluster kustomization to exist..."
+              timeout 5m /bin/bash <<'END'
+                while true; do
+                  kubectl get kustomization -n ${releaseNamespace} rook-ceph-cluster
+                  if [[ $? -eq 0 ]]; then
+                     break
+                  fi
+                  echo "rook-ceph-cluster Kustomization does not exist yet, retrying after 10s..."
+                  sleep 10
+                done
+              END
+
               if [[ $? -ne 0 ]]; then
-                  echo "rook-cluster-cluster kustomization does not exist, no need to wait"
-                  exit 0
+                echo "rook-ceph-cluster Kustomization does not exist, exiting"
+                exit 0
               fi
 
               echo "Waiting for CephCluster to exist..."
