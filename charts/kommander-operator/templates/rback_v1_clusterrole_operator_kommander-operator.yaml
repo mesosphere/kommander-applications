@@ -1,0 +1,79 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-to-view: "true"
+        rbac.authorization.k8s.io/aggregate-to-update: "true"
+        rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - apiGroups:
+      - apps.kommander.d2iq.io
+      - kommander.mesosphere.io
+      - types.kubefed.io
+      - helm.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
+    resources:
+      - appdeployments
+      - kustomizations
+      - federatednamespaces
+      - helmreleases
+      - kommanderclusters
+    verbs:
+      - get
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-update
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-update: "true"
+rules:
+  - apiGroups:
+      - apps.kommander.d2iq.io
+      - kustomize.toolkit.fluxcd.io
+      - types.kubefed.io
+    resources:
+      - appdeployments
+      - kustomizations
+      - federatednamespaces
+    verbs:
+      - patch
+      - update
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+  - apiGroups:
+      - apps.kommander.d2iq.io
+      - batch
+      - core.kubefed.io
+      - helm.toolkit.fluxcd.io
+      - types.kubefed.io
+    resources:
+      - appdeployments
+      - kubefedclusters
+      - jobs
+      - federatednamespaces
+      - helmreleases
+    verbs:
+      - deletecollection
+      - delete
+---
