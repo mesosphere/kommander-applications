@@ -47,7 +47,6 @@ data:
     kind: KommanderCore
     metadata:
       name: kommander-core
-      namespace: kommander
     EOF
 ---
 apiVersion: batch/v1
