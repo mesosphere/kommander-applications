@@ -19,11 +19,11 @@ metadata:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
-        - apps.kommander.d2iq.io
-        - kommander.mesosphere.io
-        - types.kubefed.io
-        - helm.toolkit.fluxcd.io
-        - kustomize.toolkit.fluxcd.io
+      - apps.kommander.d2iq.io
+      - kommander.mesosphere.io
+      - types.kubefed.io
+      - helm.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
     resources:
       - appdeployments
       - kustomizations
