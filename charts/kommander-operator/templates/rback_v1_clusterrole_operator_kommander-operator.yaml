@@ -21,29 +21,18 @@ rules:
   - apiGroups:
         - apps.kommander.d2iq.io
         - kommander.mesosphere.io
-        - workspaces.kommander.mesosphere.io
-        - kommander.d2iq.io
-        - dkp.d2iq.io
-        - ""
         - types.kubefed.io
+        - helm.toolkit.fluxcd.io
+        - kustomize.toolkit.fluxcd.io
     resources:
       - appdeployments
-      - apps
-      - clusterapps
-      - helmreleasestatuses
+      - kustomizations
+      - federatednamespaces
+      - helmreleases
       - kommanderclusters
-      - virtualgroups
-      - projects
-      - workspaces
-      - namespaces
-      - secrets
-      - services
-      - configmaps
-      - federatedconfigmaps # this may be revisited when we removed kubefed
     verbs:
       - get
       - list
-      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -54,25 +43,13 @@ metadata:
 rules:
   - apiGroups:
       - apps.kommander.d2iq.io
-      - kommander.mesosphere.io
-      - workspaces.kommander.mesosphere.io
-      - kommander.d2iq.io
-      - dkp.d2iq.io
-      - ""
+      - kustomize.toolkit.fluxcd.io
+      - types.kubefed.io
     resources:
       - appdeployments
-      - apps
-      - clusterapps
-      - helmreleasestatuses
-      - kommanderclusters
-      - virtualgroups
-      - projects
-      - workspaces
-      - events
-      - secrets
-      - configmaps
+      - kustomizations
+      - federatednamespaces
     verbs:
-      - create
       - patch
       - update
 
@@ -86,19 +63,16 @@ metadata:
 rules:
   - apiGroups:
       - apps.kommander.d2iq.io
-      - kommander.mesosphere.io
-      - workspaces.kommander.mesosphere.io
-      - kommander.d2iq.io
-      - dkp.d2iq.io
-      - ""
+      - batch
+      - core.kubefed.io
+      - helm.toolkit.fluxcd.io
       - types.kubefed.io
     resources:
       - appdeployments
-      - apps
-      - clusterapps
-      - secrets
-      - configmaps
-      - federatedconfigmaps
+      - kubefedclusters
+      - jobs
+      - federatednamespaces
+      - helmreleases
     verbs:
       - deletecollection
       - delete
