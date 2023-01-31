@@ -11,4 +11,4 @@ kommanderoperator:
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
-    tag: v2.5.0-dev # we should bump this version when kommander released or new kubernetes version is supported
+    tag: v2.5.0-dev # TODO(jira ticket 🙏🏻 ): align version with the kommander release (either by using release automation or releasing the chart with kommander)
