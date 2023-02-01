@@ -257,7 +257,7 @@ data:
         enabled: true
         bucketName: dkp-loki
         storageClassName: dkp-object-store
-        enableOBCHealthCheck: false
+        enableOBCHealthCheck: true
         additionalConfig:
           # maxObjects:
           maxSize: "80G"
