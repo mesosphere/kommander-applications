@@ -1,4 +1,4 @@
-S3_BUCKET ?= "downloads.mesosphere.io"
+S3_BUCKET ?= "downloads.d2iq.com"
 S3_PATH ?= "dkp"
 S3_ACL ?= "bucket-owner-full-control"
 
