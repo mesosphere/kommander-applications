@@ -12,6 +12,7 @@ spec:
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       version: 0.1.4
+  timeout: 20m
   interval: 15s
   install:
     crds: CreateReplace
