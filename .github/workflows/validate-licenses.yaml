@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Download Bloodhound CLI
         run: |
-          curl -fsSL https://downloads.mesosphere.io/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
+          curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
           chmod +x bloodhound
       - name: Generate image list
         run: |
