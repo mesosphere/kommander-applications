@@ -1,15 +1,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: kube-prometheus-stack-pre-upgrade
+  name: kube-prometheus-stack-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: true
+  force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kube-prometheus-stack/40.0.0/pre-upgrade
+  path: ./services/kube-prometheus-stack/44.2.1/helmrelease
+  dependsOn:
+    - name: kube-prometheus-stack-pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management

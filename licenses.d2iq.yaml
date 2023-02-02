@@ -92,7 +92,7 @@ resources:
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
-  - container_image: docker.io/grafana/grafana:9.1.5
+  - container_image: docker.io/grafana/grafana:9.3.1
     sources:
       - url: https://github.com/grafana/grafana
         ref: v${image_tag}
@@ -311,11 +311,6 @@ resources:
       - url: https://github.com/helm/chartmuseum
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8
-    sources:
-      - url: https://github.com/kubernetes/kube-state-metrics
-        ref: ${image_tag}
-        license_path: LICENSE
   - container_image: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.10.0
     sources:
       - url: https://github.com/kubernetes-sigs/prometheus-adapter
@@ -357,6 +352,11 @@ resources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.21.0
+    sources:
+      - url: https://github.com/kiwigrid/k8s-sidecar
+        ref: ${image_tag}
+        license_path: LICENSE
   - container_image: quay.io/kubernetes-multicluster/kubefed:v0.10.0
     sources:
       - url: https://github.com/kubernetes-sigs/kubefed
@@ -367,7 +367,7 @@ resources:
       - url: https://github.com/kubernetes-retired/external-storage
         ref: nfs-provisioner-${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.59.1
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.62.0
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
         ref: ${image_tag}
@@ -379,7 +379,7 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/node-exporter:v1.3.1
+  - container_image: quay.io/prometheus/node-exporter:v1.5.0
     sources:
       - url: https://github.com/prometheus/node_exporter
         ref: ${image_tag}
@@ -396,7 +396,12 @@ resources:
       - url: https://github.com/thanos-io/thanos
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.6.0
+  - container_image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v1.9.8
+    sources:
+      - url: https://github.com/kubernetes/kube-state-metrics
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.7.0
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
