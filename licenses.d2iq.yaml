@@ -23,6 +23,11 @@ ignore:
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
 
 resources:
+  - container_image: docker.io/mesosphere/kommander2-core-installer:${kommander}
+    sources:
+      - url: https://github.com/mesosphere/kommander
+        ref: ${image_tag}
+        directory: installer
   - container_image: docker.io/mesosphere/kommander2-appmanagement-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
