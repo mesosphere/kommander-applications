@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../helm-repositories/
   - ../values/
-  - ../operator/
+  - ../kommander-operator/
