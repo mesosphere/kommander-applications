@@ -155,9 +155,6 @@ data:
       - "--providers.kubernetesingress.ingressclass=kommander-traefik"
       - "--api.insecure=true"
       - "--experimental.localPlugins.plugin-rewritebody.moduleName=plugin-rewritebody"
-      # cross-namespace routing can be removed once we no longer support
-      # migrating from k1x to k20
-      - "--providers.kubernetescrd.allowcrossnamespace=true"
       - "--entrypoints.web.http.redirections.entryPoint.to=:443"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     volumes:
