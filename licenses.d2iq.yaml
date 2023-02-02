@@ -13,6 +13,7 @@ ignore:
   #       ref: 82a186f7a71ca66269dba0a3eef1fb16f9121946
   #       license_path: LICENSE
   - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
+  - docker.io/library/nginx:1.22
 
   # List of bitnami containers that were mapped to build repository source code
   # but not to the actual bundled software source code
