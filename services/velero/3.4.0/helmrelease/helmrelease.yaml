@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: vmware-tanzu.github.io
         namespace: kommander-flux
-      version: 2.31.8
+      version: 3.1.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,5 +25,5 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-3.3.1-d2iq-defaults
+      name: velero-3.4.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
