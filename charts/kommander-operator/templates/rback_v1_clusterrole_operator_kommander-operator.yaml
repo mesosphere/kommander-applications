@@ -7,7 +7,9 @@ aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
         rbac.kommandercore.d2iq.com/aggregate-to-view: "true"
+    - matchLabels:
         rbac.kommandercore.d2iq.com/aggregate-to-update: "true"
+    - matchLabels:
         rbac.kommandercore.d2iq.com/aggregate-to-admin: "true"
 rules: []
 ---
@@ -81,6 +83,7 @@ rules:
       - ""
       - kustomize.toolkit.fluxcd.io
       - apps
+      - kommander.mesosphere.io
     resources:
       - kommandercores
       - appdeployments
@@ -91,6 +94,7 @@ rules:
       - pods
       - deployments
       - kustomizations
+      - kommanderclusters
     verbs:
       - deletecollection
       - delete
