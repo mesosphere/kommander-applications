@@ -18,3 +18,5 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+      # Update the following version whenever ceph-cluster service is bumped.
+      desiredCephOperatorVersion: v1.10.10
