@@ -27,3 +27,16 @@ spec:
     - kind: ConfigMap
       name: rook-ceph-1.10.10-d2iq-defaults
   targetNamespace: ${releaseNamespace}
+  # upstream chart doesn't allow to configure annotations
+  # TODO(takirala): remove this after the change that has been reintroduced https://github.com/rook/rook/pull/11532 in a future release.
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              # This name is hardcoded in upstream chart https://github.com/rook/rook/blob/v1.10.10/deploy/charts/rook-ceph/templates/deployment.yaml#L4.
+              name: rook-ceph-operator
+              annotations:
+                # This name is hardcoded in upstream chart https://github.com/rook/rook/blob/v1.10.10/pkg/operator/ceph/webhook-config.go#L36.
+                secret.reloader.stakater.com/reload: rook-admission-controller-cert

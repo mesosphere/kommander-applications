@@ -43,6 +43,6 @@ data:
 
     # This allows DKP installations with static local static provisioner with loopback block devices (E.g.: preprovisioned with LVMs) work out of the box.
     allowLoopDevices: true
-    
+
     # Do not disable admission controller.
     disableAdmissionController: false
