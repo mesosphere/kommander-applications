@@ -8,7 +8,7 @@ data:
   values.yaml: |-
     ---
     image: mesosphere/dex
-    imageTag: v2.31.0-d2iq
+    imageTag: v2.35.1-d2iq.1
     resources:
       requests:
         cpu: 100m
@@ -56,6 +56,7 @@ data:
       oauth2:
         skipApprovalScreen: true
       staticClients: []
+      lazyInitConnectors: true
     certIssuerRef:
       kind: ${certificateIssuerKind:=Issuer}
       name: ${certificateIssuerName}
