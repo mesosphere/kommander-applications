@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/drone/envsubst"
@@ -11,6 +12,7 @@ import (
 	cp "github.com/otiai10/copy"
 	"github.com/r3labs/diff/v3"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"sigs.k8s.io/yaml"
 )
 
@@ -73,6 +75,28 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 	}
 }
 
+func TestUpdateKommanderOperatorVersion(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "prerelease")
+	assert.Nil(t, err)
+	defer os.RemoveAll(tmpDir)
+
+	// Make a copy of the current repo state to modify
+	err = cp.Copy(rootDir, tmpDir)
+	assert.Nil(t, err)
+
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
+	assert.Nil(t, err)
+
+	content, err := os.ReadFile(filepath.Join(tmpDir, kommanderOperatorPath))
+	require.NoError(t, err)
+
+	assert.Equal(t,
+		2,
+		strings.Count(string(content), updateToVersion),
+	)
+}
+
 func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
@@ -121,13 +145,12 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	})
 	assert.Nil(t, err)
 
-	err = os.WriteFile(matches[0], []byte(updatedFile), 0644)
+	err = os.WriteFile(matches[0], []byte(updatedFile), 0o644)
 	assert.Nil(t, err)
 
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Error(t, err, "expected chart version update to fail as the chart version was changed to something unexpected")
 }
-
 
 func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	// Make a new temp dir to copy the repo state into

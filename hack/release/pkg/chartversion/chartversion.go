@@ -15,13 +15,18 @@ const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 var (
 	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/kommander.yaml")
 	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/kommander-appmanagement.yaml")
+	kommanderOperatorPath                  = "./common/kommander-operator/helmrelease.yaml"
+	filesContainingKommanderVersion        = []string{
+		kommanderHelmReleasePathPattern,
+		kommanderAppMgmtHelmReleasePathPattern,
+		kommanderOperatorPath,
+	}
 )
 
 func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 	chartVersion = fmt.Sprintf(kommanderChartVersionTemplate, chartVersion)
 
-	kommanderHelmReleasePaths := []string{kommanderHelmReleasePathPattern, kommanderAppMgmtHelmReleasePathPattern}
-	for _, helmReleasePath := range kommanderHelmReleasePaths {
+	for _, helmReleasePath := range filesContainingKommanderVersion {
 		// Find the HelmRelease
 		matches, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, helmReleasePath))
 		if err != nil {
@@ -55,7 +60,7 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 			return fmt.Errorf("failed to update Kommander HelmRelease chart version")
 		}
 
-		err = os.WriteFile(helmReleaseFilePath, []byte(updatedFile), 0644)
+		err = os.WriteFile(helmReleaseFilePath, []byte(updatedFile), 0o644)
 		if err != nil {
 			return err
 		}
