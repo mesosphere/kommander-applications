@@ -22,3 +22,20 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: kommander-operator-values
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-operator-values
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    kommanderoperator:
+      image:
+        tag: "${kommanderChartVersion:=v2.5.0-dev}"
+    kubetools:
+      image:
+        tag: "${kommanderChartVersion:=v2.5.0-dev}"

@@ -5,12 +5,10 @@ replicaCount: 1
 kommanderoperator:
   image:
     repository: mesosphere/kommander2-core-installer
-    # TODO(https://d2iq.atlassian.net/browse/D2IQ-95673 ): align version with the kommander release (either by using release automation or releasing the chart with kommander)
-    tag: v2.5.0-dev
+    tag:
     pullPolicy: IfNotPresent
 
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
-    # TODO(https://d2iq.atlassian.net/browse/D2IQ-95673 ): align version with the kommander release (either by using release automation or releasing the chart with kommander)
-    tag: v2.5.0-dev
+    tag:
