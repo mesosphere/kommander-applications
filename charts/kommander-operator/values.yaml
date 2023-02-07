@@ -5,10 +5,10 @@ replicaCount: 1
 kommanderoperator:
   image:
     repository: mesosphere/kommander2-core-installer
-    tag: "${kommanderChartVersion:=v2.5.0-dev}"
+    tag:
     pullPolicy: IfNotPresent
 
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
-    tag: "${kommanderChartVersion:=v2.5.0-dev}"
+    tag:

@@ -15,7 +15,7 @@ const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 var (
 	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/kommander.yaml")
 	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/kommander-appmanagement.yaml")
-	kommanderOperatorPath                  = "./charts/kommander-operator/values.yaml"
+	kommanderOperatorPath                  = "./common/kommander-operator/helmrelease.yaml"
 	filesContainingKommanderVersion        = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
