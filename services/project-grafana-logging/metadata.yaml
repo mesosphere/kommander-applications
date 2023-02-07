@@ -5,6 +5,8 @@ category:
 type: platform
 scope:
   - project
+dependencies:
+  - project-grafana-loki
 certifications:
   - certified
   - supported

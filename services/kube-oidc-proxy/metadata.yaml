@@ -5,6 +5,9 @@ category:
 type: internal
 scope:
   - workspace
+dependencies:
+  - cert-manager
+  - traefik
 certifications:
   - certified
   - supported

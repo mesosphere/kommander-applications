@@ -5,6 +5,9 @@ category:
 type: platform
 scope:
   - workspace
+dependencies:
+  - cert-manager
+  - reloader
 certifications:
   - certified
   - supported

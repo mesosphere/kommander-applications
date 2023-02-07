@@ -5,6 +5,10 @@ category:
 type: platform
 scope:
   - project
+dependencies:
+  - project-logging
+  - grafana-loki
+  - logging-operator
 certifications:
   - certified
   - supported

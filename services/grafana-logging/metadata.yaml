@@ -5,6 +5,8 @@ category:
 type: platform
 scope:
   - workspace
+dependencies:
+  - grafana-loki
 certifications:
   - certified
   - supported

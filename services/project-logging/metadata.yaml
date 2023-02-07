@@ -5,6 +5,8 @@ category:
 type: platform
 scope:
   - project
+dependencies:
+  - logging-operator
 certifications:
   - certified
   - supported

@@ -6,6 +6,8 @@ category:
 type: platform
 scope:
   - workspace
+dependencies:
+  - rook-ceph
 certifications:
   - certified
   - supported

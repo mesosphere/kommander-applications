@@ -5,6 +5,8 @@ category:
 type: platform
 scope:
   - workspace
+dependencies:
+  - traefik
 certifications:
   - certified
   - supported
