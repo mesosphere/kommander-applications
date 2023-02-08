@@ -4,9 +4,12 @@ category:
   - service-mesh
 dependencies:
   - kube-prometheus-stack
-type: catalog
+type: platform
 scope:
   - workspace
+certifications:
+  - certified
+  - supported
 overview: |-
   # Overview
   Istio is an open platform for providing a uniform way to integrate microservices, manage traffic flow across microservices, enforce policies and aggregate telemetry data. Istio's control plane provides an abstraction layer over the underlying cluster management platform, such as Kubernetes, Mesos, etc. A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. To use Istio, Prometheus needs to be deployed.
