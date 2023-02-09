@@ -26,8 +26,17 @@ jobs:
           echo "printing contents of images.txt"
           cat images.txt
       - name: Run validation
+        id: runValidation
+        continue-on-error: true
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Update licenses
+        if: steps.runValidation.outcome == 'failure'
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
