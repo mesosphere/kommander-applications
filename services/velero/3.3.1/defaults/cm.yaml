@@ -36,24 +36,6 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     initContainers:
-      - name: initialize-velero
-        image: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.6.1}"
-        args: ["velero"]
-        env:
-          - name: "CEPH_NAMESPACE"
-            value: ${releaseNamespace}
-          - name: "CEPH_OBJECT_STORE_PORT"
-            value: "8085"
-          - name: "VELERO_NAMESPACE"
-            value: ${releaseNamespace}
-          - name: "VELERO_CEPH_OBJECT_STORE_REGION"
-            value: "dkp-object-store"
-          - name: "VELERO_BUCKET"
-            value: "dkp-velero"
-          - name: "TRAEFIK_INGRESS_SERVICE_NAME"
-            value: kommander-traefik
-          - name: "TRAEFIK_INGRESS_NAMESPACE"
-            value: ${releaseNamespace}
       - name: velero-plugin-for-aws
         image: velero/velero-plugin-for-aws:v1.5.2
         imagePullPolicy: IfNotPresent
