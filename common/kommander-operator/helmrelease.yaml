@@ -25,6 +25,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kommander-operator-values
+    - kind: ConfigMap
+      name: kommander-operator-overrides
+      optional: true
 ---
 apiVersion: v1
 kind: ConfigMap
