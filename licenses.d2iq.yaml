@@ -325,17 +325,17 @@ resources:
       - url: https://github.com/NVIDIA/gpu-operator
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.9.1
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.11.0
     sources:
       - url: https://github.com/cert-manager/cert-manager
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.9.1
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.11.0
     sources:
       - url: https://github.com/cert-manager/cert-manager
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.9.1
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.11.0
     sources:
       - url: https://github.com/cert-manager/cert-manager
         ref: ${image_tag}
