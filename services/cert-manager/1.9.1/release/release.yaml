@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: charts.jetstack.io
         namespace: kommander-flux
-      version: v1.9.1
+      version: v1.11.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -38,7 +38,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: v1.9.1
+      version: v1.11.0
   interval: 15s
   install:
     remediation:
