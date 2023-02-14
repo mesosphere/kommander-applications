@@ -31,6 +31,10 @@ spec:
       optional: true
   postRenderers:
     - kustomize:
+        # Remove the hardcoded namespaceSelectors until https://d2iq.atlassian.net/browse/D2IQ-92439 is resolved.
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-mutating-webhook-configuration-mutatingwebhookconfiguration.yaml#L29-L32
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-validating-webhook-configuration-validatingwebhookconfiguration.yaml#L29-L32
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-validating-webhook-configuration-validatingwebhookconfiguration.yaml#L93-L96
         patchesJson6902:
           - target:
               version: v1
