@@ -68,6 +68,10 @@ resources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
         directory: licensing
+  - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.6.1
+    sources:
+      - url: https://github.com/mesosphere/kubeaddons-extrasteps
+        ref: ${image_tag}
   - container_image: docker.io/mesosphere/capimate:${kommander}
     sources:
       - url: https://github.com/mesosphere/konvoy2
