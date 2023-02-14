@@ -29,6 +29,30 @@ spec:
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
+  postRenderers:
+    - kustomize:
+        patchesJson6902:
+          - target:
+              version: v1
+              kind: MutatingWebhookConfiguration
+              name: gatekeeper-mutating-webhook-configuration
+            patch:
+              - op: remove
+                path: /webhooks/0/namespaceSelector/matchExpressions/1
+          - target:
+              version: v1
+              kind: ValidatingWebhookConfiguration
+              name: gatekeeper-validating-webhook-configuration
+            patch:
+              - op: remove
+                path: /webhooks/0/namespaceSelector/matchExpressions/1
+          - target:
+              version: v1
+              kind: ValidatingWebhookConfiguration
+              name: gatekeeper-validating-webhook-configuration
+            patch:
+              - op: remove
+                path: /webhooks/1/namespaceSelector/matchExpressions/0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
