@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 0.33.0
+      version: 0.33.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,7 +28,7 @@ spec:
   releaseName: kubecost
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-0.33.0-d2iq-defaults
+      name: kubecost-0.33.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
