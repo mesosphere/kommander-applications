@@ -105,10 +105,9 @@ data:
           cache_results: true
           results_cache:
             cache:
-              enable_fifocache: true
-              fifocache:
-                max_size_items: 1024
-                validity: 24h
+              embedded_cache:
+                enabled: true
+                ttl: 24h
         frontend_worker:
           frontend_address: {{ include "loki.queryFrontendFullname" . }}:9095
         frontend:
