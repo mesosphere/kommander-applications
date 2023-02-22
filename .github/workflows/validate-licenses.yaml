@@ -47,6 +47,7 @@ jobs:
           git_commit_gpgsign: true
           git_tag_gpgsign: true
       - name: Update licenses
+        continue-on-error: true
         if: steps.runValidation.outcome == 'failure'
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
         with:
