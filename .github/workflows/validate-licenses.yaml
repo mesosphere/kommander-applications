@@ -26,7 +26,7 @@ jobs:
           echo "printing contents of images.txt"
           cat images.txt
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
