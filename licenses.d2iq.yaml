@@ -388,13 +388,13 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/prometheus:v2.35.0
+  - container_image: quay.io/prometheus/prometheus:v2.36.0
     sources:
       - url: https://github.com/prometheus/prometheus
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/thanos/thanos:v0.17.1
+  - container_image: quay.io/thanos/thanos:v0.18.1
     sources:
       - url: https://github.com/thanos-io/thanos
         ref: ${image_tag}
