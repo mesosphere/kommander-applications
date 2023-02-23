@@ -3,10 +3,7 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": {
-          "type": "datasource",
-          "uid": "grafana"
-        },
+        "datasource": "-- Grafana --",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -41,7 +38,7 @@
       "type": "row"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "Total number of reconciliations per controller",
       "fieldConfig": {
         "defaults": {
@@ -114,7 +111,7 @@
       },
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "editorMode": "code",
           "exemplar": true,
           "expr": "sum(rate(controller_runtime_reconcile_total{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, pod)",
@@ -128,7 +125,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "Total number of reconciliation errors per controller",
       "fieldConfig": {
         "defaults": {
@@ -201,7 +198,7 @@
       },
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "editorMode": "code",
           "exemplar": true,
           "expr": "sum(rate(controller_runtime_reconcile_errors_total{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, pod)",
@@ -228,7 +225,7 @@
       "type": "row"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "How long in seconds an item stays in workqueue before being requested",
       "fieldConfig": {
         "defaults": {
@@ -304,7 +301,7 @@
       },
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.50, sum(rate(workqueue_queue_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "interval": "",
@@ -312,7 +309,7 @@
           "refId": "A"
         },
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.90, sum(rate(workqueue_queue_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "hide": false,
@@ -321,7 +318,7 @@
           "refId": "B"
         },
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.99, sum(rate(workqueue_queue_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "hide": false,
@@ -334,7 +331,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -407,7 +404,7 @@
       "pluginVersion": "8.4.3",
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "sum(rate(workqueue_adds_total{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name)",
           "interval": "",
@@ -419,7 +416,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "How long in seconds processing an item from workqueue takes.",
       "fieldConfig": {
         "defaults": {
@@ -495,7 +492,7 @@
       },
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.50, sum(rate(workqueue_work_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "interval": "",
@@ -503,7 +500,7 @@
           "refId": "A"
         },
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.90, sum(rate(workqueue_work_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "hide": false,
@@ -512,7 +509,7 @@
           "refId": "B"
         },
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "histogram_quantile(0.99, sum(rate(workqueue_work_duration_seconds_bucket{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name, le))",
           "hide": false,
@@ -525,7 +522,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "$datasource",
       "description": "Total number of retries handled by workqueue",
       "fieldConfig": {
         "defaults": {
@@ -598,7 +595,7 @@
       },
       "targets": [
         {
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "$datasource",
           "exemplar": true,
           "expr": "sum(rate(workqueue_retries_total{job=\"$job\", namespace=\"$namespace\"}[5m])) by (instance, name)",
           "interval": "",
@@ -616,7 +613,25 @@
   "templating": {
     "list": [
       {
-        "datasource": "${DS_PROMETHEUS}",
+        "current": {
+          "selected": false,
+          "text": "prometheus",
+          "value": "prometheus"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "datasource": "$datasource",
         "definition": "label_values(controller_runtime_reconcile_total{namespace=~\"$namespace\"}, job)",
         "hide": 0,
         "includeAll": false,
@@ -634,7 +649,7 @@
         "type": "query"
       },
       {
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "$datasource",
         "definition": "label_values(controller_runtime_reconcile_total, namespace)",
         "hide": 0,
         "includeAll": false,
@@ -661,7 +676,7 @@
             "$__all"
           ]
         },
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "$datasource",
         "definition": "label_values(controller_runtime_reconcile_total{namespace=~\"$namespace\", job=~\"$job\"}, pod)",
         "hide": 2,
         "includeAll": true,
