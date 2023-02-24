@@ -14,8 +14,12 @@ jobs:
     env:
       BLOODHOUND_VERSION: v0.8.0
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Download Bloodhound CLI
         run: |
           curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
@@ -26,8 +30,41 @@ jobs:
           echo "printing contents of images.txt"
           cat images.txt
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.8
+        id: runValidation
+        continue-on-error: true
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Import GPG key
+        if: steps.runValidation.outcome == 'failure'
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+      - name: Update licenses
+        continue-on-error: true
+        if: steps.runValidation.outcome == 'failure'
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Commit and push changes
+        if: steps.runValidation.outcome == 'failure'
+        run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git add licenses.d2iq.yaml
+          if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+            git commit -v -m "build: Updated licenses.d2iq.yaml"
+            git push --force-with-lease
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
