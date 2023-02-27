@@ -139,23 +139,19 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/insights-management:v0.4.0-beta.1
-    sources:
-      - url: https://github.com/mesosphere/dkp-insights
-        ref: main
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name
     sources:
       - url: https://github.com/prymitive/karma
-        ref: ${image_tag%-d2iq-server-name}
+        ref: main
         license_path: LICENSE
   - container_image: docker.io/mesosphere/kommander:${kommander_ui}
     sources:
       - url: https://github.com/mesosphere/kommander-ui
-        ref: v${image_tag}
+        ref: ${image_tag%-d2iq-server-name}
   - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.15
     sources:
       - url: https://github.com/mesosphere/kubetunnel
-        ref: ${image_tag}
+        ref: v${image_tag}
   - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.15
     sources:
       - url: https://github.com/mesosphere/kubetunnel
@@ -163,11 +159,11 @@ resources:
   - container_image: docker.io/mesosphere/traefik-forward-auth:3.1.0
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
-        ref: v${image_tag}
+        ref: ${image_tag}
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.11.0
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
-        ref: ${image_tag}
+        ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
   - container_image: docker.io/rook/ceph:v1.10.11
@@ -208,7 +204,7 @@ resources:
   - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.8.0
     sources:
       - url: https://github.com/knative-sandbox/net-istio
-        ref: knative-v1.8.0
+        ref: ${image_tag}
         license_path: LICENSE
   - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.8.0
     sources:
@@ -253,12 +249,12 @@ resources:
   - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
     sources:
       - url: https://github.com/brancz/kube-rbac-proxy
-        ref: ${image_tag}
+        ref: knative-v1.8.0
         license_path: LICENSE
   - container_image: gcr.io/kubecost1/cost-model:prod-1.100.2
     sources:
       - url: https://github.com/opencost/opencost
-        ref: v${image_tag#prod-}
+        ref: ${image_tag}
         license_path: LICENSE
   - container_image: gcr.io/kubecost1/frontend:prod-1.100.2
     sources:
@@ -268,7 +264,7 @@ resources:
   - container_image: ghcr.io/banzaicloud/logging-operator:3.17.10
     sources:
       - url: https://github.com/banzaicloud/logging-operator
-        ref: ${image_tag}
+        ref: v${image_tag#prod-}
         license_path: LICENSE
         notice_path: NOTICE
   - container_image: ghcr.io/fluxcd/helm-controller:v0.30.0
@@ -350,12 +346,12 @@ resources:
   - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
     sources:
       - url: https://github.com/kubernetes-retired/external-storage
-        ref: nfs-provisioner-${image_tag}
+        ref: ${image_tag}
         license_path: LICENSE
   - container_image: quay.io/prometheus-operator/prometheus-operator:v0.62.0
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
-        ref: ${image_tag}
+        ref: nfs-provisioner-${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
   - container_image: quay.io/prometheus/alertmanager:v0.21.0
