@@ -85,6 +85,21 @@ data:
     capimate:
       image:
         tag: v0.0.0-dev.0
+    managementApps:
+    - "centralized-grafana"
+    - "centralized-kubecost"
+    - "chartmuseum"
+    - "dex"
+    - "dex-k8s-authenticator"
+    - "dkp-insights-management"
+    - "gitea"
+    - "karma"
+    - "karma-traefik"
+    - "kommander"
+    - "kommander-appmanagement"
+    - "kubefed"
+    - "thanos"
+    - "traefik-forward-auth-mgmt"
     attached:
       prerequisites:
         defaultApps:
