@@ -2,26 +2,26 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-management-0.4.0-beta.1-d2iq-defaults
+  name: dkp-insights-management-0.4.0-beta.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     airgapped:
       enabled: ${airgappedEnabled}
     image:
-      registry: "docker.io"
-      repository: "mesosphere/insights-management"
-      tag: "v0.4.0-beta.1"
-      imagePullPolicy: "IfNotPresent"
+      imagePullPolicy: IfNotPresent
+      registry: docker.io
+      repository: mesosphere/insights-management
+      tag: v0.4.0-beta.2
+    insightsCRIngress:
+      globalRateLimitAverageQPS: 100
+      globalRateLimitBurst: 100
     managementCM:
       insightsTTL: 72h
       resources:
         limits:
-          cpu: "500m"
-          memory: "1024Mi"
+          cpu: 500m
+          memory: 1024Mi
         requests:
-          cpu: "100m"
-          memory: "128Mi"
-    insightsCRIngress:
-      globalRateLimitAverageQPS: 100
-      globalRateLimitBurst: 100
+          cpu: 100m
+          memory: 128Mi
