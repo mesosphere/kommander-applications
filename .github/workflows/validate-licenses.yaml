@@ -1,7 +1,9 @@
 name: Check licenses.d2iq.yaml
 on:
-  pull_request: 
-    types: [ labeled ]
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
   workflow_dispatch: {}
   push:
     tags:
@@ -40,7 +42,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Import GPG key
         if: |
-          steps.runValidation.outcome == 'failure' 
+          steps.runValidation.outcome == 'failure'
           && contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: crazy-max/ghaction-import-gpg@v4
         with:
@@ -52,7 +54,7 @@ jobs:
       - name: Update licenses
         continue-on-error: true
         if: |
-          steps.runValidation.outcome == 'failure' 
+          steps.runValidation.outcome == 'failure'
           && contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
         with:
@@ -61,7 +63,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Commit and push changes
         if: |
-          steps.runValidation.outcome == 'failure' 
+          steps.runValidation.outcome == 'failure'
           && contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
           git config user.email ci-mergebot@d2iq.com
