@@ -94,7 +94,6 @@ data:
     - "dkp-insights-management"
     - "gitea"
     - "karma"
-    - "karma-traefik"
     - "kommander"
     - "kommander-appmanagement"
     - "kubefed"
