@@ -361,8 +361,8 @@ data:
             cpu: 200m
             memory: 250Mi
           requests:
-            cpu: 10m
-            memory: 50Mi
+            cpu: 100m
+            memory: 200Mi
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
