@@ -20,7 +20,8 @@ data:
           prometheus:
             url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090
           tracing:
-            in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16686
+            in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16685
+            use_grpc: true
         deployment:
           accessible_namespaces:
           - '**'
