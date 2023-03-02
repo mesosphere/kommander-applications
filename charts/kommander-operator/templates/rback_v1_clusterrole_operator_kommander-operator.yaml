@@ -28,6 +28,8 @@ rules:
       - types.kubefed.io
       - helm.toolkit.fluxcd.io
       - kustomize.toolkit.fluxcd.io
+      - source.toolkit.fluxcd.io
+      - ""
     resources:
       - kommandercores
       - appdeployments
@@ -35,6 +37,8 @@ rules:
       - federatednamespaces
       - helmreleases
       - kommanderclusters
+      - gitrepositories
+      - secrets
     verbs:
       - get
       - list

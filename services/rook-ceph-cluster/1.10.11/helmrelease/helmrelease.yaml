@@ -1,28 +1,29 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: kubecost-thanos-traefik
+  name: rook-ceph-cluster
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: thanos-traefik
+      chart: rook-ceph-cluster
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: charts.rook.io-release
         namespace: kommander-flux
-      version: 0.0.1
+      version: v1.10.11
   interval: 15s
   install:
     crds: CreateReplace
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: kubecost-thanos-traefik
+  releaseName: rook-ceph-cluster
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-thanos-traefik-0.0.1-d2iq-defaults
+      name: rook-ceph-cluster-1.10.11-d2iq-defaults
+  targetNamespace: ${releaseNamespace}

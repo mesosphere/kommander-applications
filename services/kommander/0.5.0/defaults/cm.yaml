@@ -85,18 +85,33 @@ data:
     capimate:
       image:
         tag: v0.0.0-dev.0
+    managementApps:
+    - "centralized-grafana"
+    - "centralized-kubecost"
+    - "chartmuseum"
+    - "dex"
+    - "dex-k8s-authenticator"
+    - "dkp-insights-management"
+    - "gitea"
+    - "karma"
+    - "kommander"
+    - "kommander-appmanagement"
+    - "kubefed"
+    - "thanos"
+    - "traefik-forward-auth-mgmt"
+    - "kubetunnel"
     attached:
       prerequisites:
         defaultApps:
-          reloader: "1.0.2"
-          traefik: "21.1.0"
+          reloader: "1.0.5"
+          traefik: "21.1.0"     
           kubernetes-dashboard: "6.0.0"
           kubecost: "0.33.1"
           kube-prometheus-stack: "44.2.1"
           prometheus-adapter: "4.0.2"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
-          cert-manager: "1.9.1"
+          cert-manager: "1.11.0"
           karma-traefik: "0.0.1"
           gatekeeper: "3.11.0"
-          kommander-flux: "0.39.0"
+          kommander-flux: "0.40.1"
