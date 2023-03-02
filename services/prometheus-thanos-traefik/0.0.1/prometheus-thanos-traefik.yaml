@@ -5,9 +5,6 @@ metadata:
   name: prometheus-thanos-traefik
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - namespace: ${releaseNamespace}
-      name: kube-prometheus-stack
   chart:
     spec:
       chart: thanos-traefik
