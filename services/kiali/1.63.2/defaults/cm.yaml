@@ -27,7 +27,7 @@ data:
           grafana:
             in_cluster_url: http://kube-prometheus-stack-grafana.${workspaceNamespace}.svc.cluster.local:3000
           prometheus:
-            health_check_url: http://kube-prometheus-stack-prometheus.kommander.svc.cluster.local:9090/-/healthy
+            health_check_url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090/-/healthy
             url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090
           tracing:
             in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16685
