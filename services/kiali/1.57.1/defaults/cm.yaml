@@ -25,7 +25,7 @@ data:
                 is_core: true
                 is_proxy: true
           grafana:
-            in_cluster_url: http://kube-prometheus-stack-grafana.${workspaceNamespace}.svc.cluster.local:3000
+            enabled: false
           prometheus:
             health_check_url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090/-/healthy
             url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090
