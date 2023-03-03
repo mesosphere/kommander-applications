@@ -15,12 +15,23 @@ data:
         server:
           web_root: /dkp/kiali
         external_services:
+          istio:
+            component_status:
+              components:
+              - app_label: "istiod"
+                is_core: true
+                is_proxy: false
+              - app_label: "istio-ingressgateway"
+                is_core: true
+                is_proxy: true
           grafana:
             in_cluster_url: http://kube-prometheus-stack-grafana.${workspaceNamespace}.svc.cluster.local:3000
           prometheus:
+            health_check_url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090/-/healthy
             url: http://kube-prometheus-stack-prometheus.${workspaceNamespace}.svc.cluster.local:9090
           tracing:
-            in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16686
+            in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16685
+            use_grpc: true
         deployment:
           accessible_namespaces:
           - '**'
