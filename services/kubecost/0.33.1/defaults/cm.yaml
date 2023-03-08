@@ -7,6 +7,11 @@ data:
   values.yaml: |
     ---
     cost-analyzer:
+      prometheus:
+        kube-state-metrics:
+          image:
+            # Remove this override after https://github.com/kubecost/cost-analyzer-helm-chart/pull/2018 is released in v1.101.0
+            repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
       global:
         prometheus:
           enabled: true
