@@ -35,24 +35,24 @@ subjects:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: velero-backup-storage-location-informer
+  name: velero-backup-storage-location-updater
   namespace: ${releaseNamespace}
   labels:
     app: velero
-    name: velero-backup-storage-location-informer
+    name: velero-backup-storage-location-updater
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: velero
-      name: velero-backup-storage-location-informer
+      name: velero-backup-storage-location-updater
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: velero
-        name: velero-backup-storage-location-informer
+        name: velero-backup-storage-location-updater
     spec:
       serviceAccountName: velero-post-install
       containers:
