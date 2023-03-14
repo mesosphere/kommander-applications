@@ -32,21 +32,32 @@ subjects:
     name: velero-post-install
     namespace: ${releaseNamespace}
 ---
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: velero-post-install
+  name: velero-backup-storage-location-updater
   namespace: ${releaseNamespace}
+  labels:
+    app: velero
+    name: velero-backup-storage-location-updater
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: velero
+      name: velero-backup-storage-location-updater
+  strategy:
+    type: Recreate
   template:
     metadata:
-      name: velero-post-install
+      labels:
+        app: velero
+        name: velero-backup-storage-location-updater
     spec:
       serviceAccountName: velero-post-install
-      restartPolicy: OnFailure
       containers:
         - name: velero-update-s3url
-          image: mesosphere/kubeaddons-addon-initializer:v0.6.1
+          image: mesosphere/kubeaddons-addon-initializer:v0.7.0
           args:
             - velero
           env:
@@ -60,6 +71,8 @@ spec:
               value: "dkp-object-store"
             - name: "VELERO_BUCKET"
               value: "dkp-velero"
+            - name: "VELERO_BACKUP_STORAGE_LOCATION"
+              value: "default"
             - name: "TRAEFIK_INGRESS_SERVICE_NAME"
               value: kommander-traefik
             - name: "TRAEFIK_INGRESS_NAMESPACE"
