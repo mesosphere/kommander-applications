@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -25,7 +24,7 @@ spec:
   releaseName: project-loki-object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.69.4-d2iq-defaults
+      name: project-grafana-loki-0.69.8-d2iq-defaults
     - kind: ConfigMap
       name: project-grafana-loki-overrides
       optional: true
