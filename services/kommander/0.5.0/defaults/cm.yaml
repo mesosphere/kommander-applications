@@ -92,6 +92,7 @@ data:
     - "dex"
     - "dex-k8s-authenticator"
     - "dkp-insights-management"
+    - "gitea"
     - "karma"
     - "kommander"
     - "kommander-appmanagement"
