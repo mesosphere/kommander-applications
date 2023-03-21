@@ -31,6 +31,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kube-prometheus-stack-44.2.1-d2iq-defaults
+    - kind: ConfigMap
+      name: kube-prometheus-stack-mgmt-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
