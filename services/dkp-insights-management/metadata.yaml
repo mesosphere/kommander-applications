@@ -1,6 +1,6 @@
 type: internal
 scope:
   - workspace
-dependencies:
+requiredDependencies:
   - kubefed
   - traefik

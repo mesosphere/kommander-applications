@@ -2,7 +2,7 @@ displayName: Prometheus Monitoring
 description: Stack of applications that collect metrics and provides visualization and alerting capabilities. Includes Prometheus, Prometheus Alertmanager and Grafana.
 category:
   - monitoring
-dependencies:
+requiredDependencies:
   - traefik
 type: platform
 scope:
