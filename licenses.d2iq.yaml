@@ -12,47 +12,38 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: installer
   - container_image: docker.io/mesosphere/kommander2-appmanagement-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-appmanagement:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-authorizedlister:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-controller-manager:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-federation-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-flux-operator:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: federation
   - container_image: docker.io/mesosphere/kommander2-licensing-controller-manager:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: licensing
   - container_image: docker.io/mesosphere/kommander2-licensing-webhook:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
-        directory: licensing
   - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.7.0
     sources:
       - url: https://github.com/mesosphere/kubeaddons-extrasteps
