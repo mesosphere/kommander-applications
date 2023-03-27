@@ -2,7 +2,7 @@ displayName: Jaeger
 description: Distributed tracing system used for monitoring and troubleshooting microservices-based distributed systems.
 category:
   - service-mesh
-dependencies:
+requiredDependencies:
   - istio
 type: platform
 scope:

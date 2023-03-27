@@ -2,7 +2,7 @@ displayName: Traefik Forward Auth
 description: Installs a forward authentication service - from D2iQ - that provides OAuth based authentication for Traefik. Requires Traefik.
 category:
   - sso
-dependencies:
+requiredDependencies:
   - traefik
 type: internal
 scope:

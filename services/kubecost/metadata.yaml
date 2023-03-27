@@ -2,7 +2,7 @@ displayName: Kubecost
 description: Provides real-time cost visibility and insights for teams using Kubernetes, helping organizations continuously reduce cloud costs.
 category:
   - monitoring
-dependencies:
+requiredDependencies:
   - traefik
 type: partner
 scope:

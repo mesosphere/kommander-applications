@@ -1,5 +1,5 @@
 type: internal
 scope:
   - workspace
-dependencies:
+requiredDependencies:
   - karma-traefik

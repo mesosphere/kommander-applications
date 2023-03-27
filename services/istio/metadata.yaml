@@ -2,7 +2,7 @@ displayName: Istio Service Mesh
 description: Open source service mesh that layers transparently onto existing distributed applications. Requires Prometheus.
 category:
   - service-mesh
-dependencies:
+requiredDependencies:
   - kube-prometheus-stack
 type: platform
 scope:

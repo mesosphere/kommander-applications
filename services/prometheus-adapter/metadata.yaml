@@ -2,7 +2,7 @@ displayName: Prometheus Adapter
 description: Provides cluster metrics from Prometheus. Requires Prometheus.
 category:
   - monitoring
-dependencies:
+requiredDependencies:
   - kube-prometheus-stack
 type: platform
 scope:
