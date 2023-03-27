@@ -58,6 +58,7 @@ data:
       enabled: true
     fluentd:
       configReloaderImage:
+        repository: jimmidyson/configmap-reload
         tag: v0.7.1
       image:
         # Explicitly use the default image. This should be updated when logging-operator is upgraded.
