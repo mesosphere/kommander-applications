@@ -1,0 +1,5 @@
+type: internal
+scope:
+  - workspace
+dependencies:
+  - kommander
