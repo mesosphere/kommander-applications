@@ -1,15 +1,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: rook-ceph-cluster-pre-install
+  name: object-bucket-claims-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: true
+  dependsOn:
+    # CephCluster needs to be active to activate ObjectBucketClaims
+    - name: rook-ceph-cluster-helmrelease
+      namespace: ${releaseNamespace}
+  force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.10.11/pre-install
+  path: ./services/rook-ceph-cluster/1.10.10/objectbucketclaims
   sourceRef:
     kind: GitRepository
     name: management
@@ -18,5 +22,3 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
-      # Update the following version whenever ceph-cluster service is bumped.
-      desiredCephOperatorVersion: v1.10.11
