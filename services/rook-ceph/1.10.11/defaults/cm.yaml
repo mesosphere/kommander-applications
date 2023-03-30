@@ -12,6 +12,10 @@ data:
       # https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion
       enabled: true
 
+    image:
+      repository: takirala/ceph
+      tag: latest
+
     resources:
       limits:
         cpu: 750m
