@@ -10,7 +10,7 @@ data:
     clusterName: dkp-ceph-cluster
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
-      enabled: false
+      enabled: true
 
     # PSP is Unsupported in 1.25+ k8s
     # Set this to the same value as the rook-ceph chart.
