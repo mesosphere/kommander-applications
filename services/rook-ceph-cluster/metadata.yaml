@@ -3,6 +3,8 @@ description: Managed by Rook Ceph Operator, Ceph Cluster provides storage servic
 category:
   - logging
   - backup
+dependencies:
+  - rook-ceph
 type: platform
 scope:
   - workspace

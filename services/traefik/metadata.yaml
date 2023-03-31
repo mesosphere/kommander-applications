@@ -2,6 +2,9 @@ displayName: Traefik
 description: Provides an HTTP reverse proxy and load balancer. Requires cert-manager and Reloader.
 category:
   - foundation
+dependencies:
+  - cert-manager
+  - reloader
 type: platform
 scope:
   - workspace
