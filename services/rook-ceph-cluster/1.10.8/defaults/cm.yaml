@@ -10,7 +10,9 @@ data:
     clusterName: dkp-ceph-cluster
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
-      enabled: false
+      # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
+      # This is enabled by default to workaround D2IQ-96634
+      enabled: true
 
     # PSP is Unsupported in 1.25+ k8s
     # Set this to the same value as the rook-ceph chart.
