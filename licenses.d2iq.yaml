@@ -168,6 +168,11 @@ resources:
       - url: https://github.com/rook/rook
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: quay.io/ceph/ceph:v17.2.5
+    sources:
+      - url: https://github.com/ceph/ceph
+        ref: ${image_tag}
+        license_path: COPYING
   - container_image: docker.io/stakater/reloader:v1.0.5
     sources:
       - url: https://github.com/stakater/Reloader
