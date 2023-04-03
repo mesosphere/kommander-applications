@@ -42,6 +42,8 @@ services/kommander-appmanagement:
   - services/kommander-appmanagement/**
 services/kommander-flux:
   - services/kommander-flux/**
+services/kommander-ui:
+  - services/kommander-ui/**
 services/kube-oidc-proxy:
   - services/kube-oidc-proxy/**
 services/kube-prometheus-stack:
