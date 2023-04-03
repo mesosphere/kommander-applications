@@ -106,7 +106,7 @@ data:
       prerequisites:
         defaultApps:
           reloader: "1.0.24"
-          traefik: "20.8.0"
+          traefik: "22.0.0"
           kubernetes-dashboard: "6.0.7"
           kubecost: "0.34.0"
           kube-prometheus-stack: "44.2.1"
