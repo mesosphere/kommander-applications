@@ -34,11 +34,13 @@ spec:
             kind: StatefulSet
             metadata:
               name: project-grafana-loki-loki-distributed-ingester
+              namespace: ${releaseNamespace}
               annotations:
                 secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
           - apiVersion: apps/v1
             kind: Deployment
             metadata:
               name: project-grafana-loki-loki-distributed-compactor
+              namespace: ${releaseNamespace}
               annotations:
                 secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
