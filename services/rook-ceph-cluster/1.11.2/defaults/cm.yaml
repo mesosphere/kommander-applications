@@ -166,9 +166,6 @@ data:
               requests:
                 cpu: "250m"
                 memory: "500Mi"
-          healthCheck:
-            bucket:
-              interval: 60s
         storageClass:
           enabled: true
           name: dkp-object-store # Defined once per namespace
