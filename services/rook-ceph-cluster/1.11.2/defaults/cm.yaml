@@ -14,10 +14,6 @@ data:
       # This is enabled by default to workaround D2IQ-96634
       enabled: true
 
-    # PSP is Unsupported in 1.25+ k8s
-    # Set this to the same value as the rook-ceph chart.
-    pspEnable: false
-
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
       labels:

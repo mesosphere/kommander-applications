@@ -23,9 +23,6 @@ data:
     # Whether rook watches its current namespace for CRDs or the entire cluster, defaults to false
     currentNamespaceOnly: true
 
-    # PSP is Unsupported in 1.25+ k8s
-    pspEnable: false
-
     logLevel: DEBUG
 
     csi:
