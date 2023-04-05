@@ -66,4 +66,4 @@ data:
         tag: 1.6.15-debian-11-r8
     postgresql:
       image:
-        tag: 11.16.0-debian-11-r9
+        tag: 11.18.0-debian-11-r34
