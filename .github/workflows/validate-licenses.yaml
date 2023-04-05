@@ -7,7 +7,39 @@ on:
   workflow_dispatch: {}
   push:
     tags:
+    tags:
+      - v*
+    branches:
+      - main
+jobs:
+  check-license-yaml:
+    runs-on: ubuntu-latest
+    name: Check licenses.d2iq.yaml
+    env:
+      BLOODHOUND_VERSION: v0.8.0
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download Bloodhound CLI
+        run: |
+          curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
+          chmod +x bloodhound
+      - name: Generate image list
+        run: |
+          ./bloodhound --no-validation --list-images > images.txt
+          echo "printing contents of images.txt"
+          cat images.txt
+      - name: Run validation
+        id: runValidation
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Import GPG key
         if: |
