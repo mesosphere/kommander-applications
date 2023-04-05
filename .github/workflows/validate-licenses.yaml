@@ -7,7 +7,6 @@ on:
   workflow_dispatch: {}
   push:
     tags:
-    tags:
       - v*
     branches:
       - main
@@ -39,7 +38,6 @@ jobs:
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
-          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Import GPG key
         if: |
