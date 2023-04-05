@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-cluster-1.10.11-d2iq-defaults
+  name: rook-ceph-cluster-1.11.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -13,10 +13,6 @@ data:
       # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
       # This is enabled by default to workaround D2IQ-96634
       enabled: true
-
-    # PSP is Unsupported in 1.25+ k8s
-    # Set this to the same value as the rook-ceph chart.
-    pspEnable: false
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
@@ -166,9 +162,6 @@ data:
               requests:
                 cpu: "250m"
                 memory: "500Mi"
-          healthCheck:
-            bucket:
-              interval: 60s
         storageClass:
           enabled: true
           name: dkp-object-store # Defined once per namespace

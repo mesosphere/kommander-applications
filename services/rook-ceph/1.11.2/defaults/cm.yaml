@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-1.10.11-d2iq-defaults
+  name: rook-ceph-1.11.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -22,9 +22,6 @@ data:
 
     # Whether rook watches its current namespace for CRDs or the entire cluster, defaults to false
     currentNamespaceOnly: true
-
-    # PSP is Unsupported in 1.25+ k8s
-    pspEnable: false
 
     logLevel: DEBUG
 
