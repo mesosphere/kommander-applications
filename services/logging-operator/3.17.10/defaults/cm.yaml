@@ -59,8 +59,8 @@ data:
     fluentd:
       image:
         # Explicitly use the default image. This should be updated when logging-operator is upgraded.
-        repository: ghcr.io/banzaicloud/fluentd
-        tag: v1.14.6-alpine-5
+        repository: ghcr.io/kube-logging/fluentd
+        tag: v1.15.3-build.57
       resources:
        limits:
          memory: 400Mi
