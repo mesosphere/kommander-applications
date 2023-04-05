@@ -99,7 +99,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: fluent/fluent-bit
-        tag: 2.0.6
+        tag: 2.0.11
       resources:
        limits:
          memory: 750Mi
