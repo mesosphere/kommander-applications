@@ -1,8 +1,7 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: grafana-loki
+  name: project-grafana-loki
   namespace: ${releaseNamespace}
 spec:
   chart:
@@ -12,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: "0.69.4"
+      version: 0.69.10
   interval: 15s
   install:
     crds: CreateReplace
@@ -22,10 +21,10 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: grafana-loki
+  releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-loki-0.69.4-d2iq-defaults
+      name: project-grafana-loki-0.69.10-d2iq-defaults
   # upstream chart doesn't apply loki.annotations to all loki deployment/statefulsets
   # TODO: remove this after https://github.com/grafana/helm-charts/issues/1905 is fixed
   postRenderers:
@@ -34,12 +33,14 @@ spec:
           - apiVersion: apps/v1
             kind: StatefulSet
             metadata:
-              name: grafana-loki-loki-distributed-ingester
+              name: project-grafana-loki-loki-distributed-ingester
+              namespace: ${releaseNamespace}
               annotations:
-                secret.reloader.stakater.com/reload: dkp-loki
+                secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
           - apiVersion: apps/v1
             kind: Deployment
             metadata:
-              name: grafana-loki-loki-distributed-compactor
+              name: project-grafana-loki-loki-distributed-compactor
+              namespace: ${releaseNamespace}
               annotations:
-                secret.reloader.stakater.com/reload: dkp-loki
+                secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
