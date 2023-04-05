@@ -13,7 +13,7 @@ spec:
       chart: knative
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: aditya
         namespace: kommander-flux
       version: 1.9.3
   interval: 15s
