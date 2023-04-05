@@ -75,3 +75,4 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+          
