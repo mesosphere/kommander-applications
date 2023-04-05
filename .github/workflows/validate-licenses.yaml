@@ -32,34 +32,27 @@ jobs:
           ./bloodhound --no-validation --list-images > images.txt
           echo "printing contents of images.txt"
           cat images.txt
-      - name: Run validation
-        id: runValidation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
-        with:
-          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
-        env:
-          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
-      - name: Import GPG key
-        if: |
-          steps.runValidation.outcome == 'failure'
-          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: crazy-max/ghaction-import-gpg@v4
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          git_tag_gpgsign: true
       - name: Update licenses
+        id: updateLicenses
         continue-on-error: true
         if: |
-          steps.runValidation.outcome == 'failure'
-          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
         env:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Import GPG key
+        if: |
+          steps.updateLicenses.outcome == 'success'
+          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_tag_gpgsign: true
       - name: Commit and push changes
         if: |
-          steps.runValidation.outcome == 'failure'
+          steps.updateLicenses.outcome == 'success'
           && contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
           git config user.email ci-mergebot@d2iq.com
@@ -73,3 +66,9 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+      - name: Run validation
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
