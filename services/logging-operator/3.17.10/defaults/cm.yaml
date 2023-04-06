@@ -84,10 +84,7 @@ data:
               requests:
                 storage: 10Gi
             volumeMode: Filesystem
-      metrics:
-        port: 24231
-        path: /metrics
-        prometheusAnnotations: true
+      metrics: null
       bufferVolumeMetrics:
         port: 9200
         path: /metrics
