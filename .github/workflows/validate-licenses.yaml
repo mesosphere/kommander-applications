@@ -1,9 +1,7 @@
 name: Check licenses.d2iq.yaml
 on:
   pull_request:
-    types:
-      - labeled
-      - unlabeled
+    types: [opened, reopened, synchronize, labeled, unlabeled]
   workflow_dispatch: {}
   push:
     tags:
