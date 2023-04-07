@@ -1,9 +1,7 @@
 name: Check licenses.d2iq.yaml
 on:
   pull_request:
-    types:
-      - labeled
-      - unlabeled
+    types: [opened, reopened, synchronize, labeled, unlabeled]
   workflow_dispatch: {}
   push:
     tags:
@@ -32,8 +30,40 @@ jobs:
           ./bloodhound --no-validation --list-images > images.txt
           echo "printing contents of images.txt"
           cat images.txt
+      - name: Update licenses
+        id: updateLicenses
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
+        with:
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
+        env:
+          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+      - name: Import GPG key
+        if: |
+          steps.updateLicenses.outcome == 'success'
+          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          git_tag_gpgsign: true
+      - name: Commit and push changes
+        if: |
+          steps.updateLicenses.outcome == 'success'
+          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git add licenses.d2iq.yaml
+          if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+            git commit -v -m "build: Updated licenses.d2iq.yaml"
+            git push --force-with-lease
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
       - name: Run validation
-        id: runValidation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
           args: >-
