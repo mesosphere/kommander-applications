@@ -32,7 +32,6 @@ jobs:
           cat images.txt
       - name: Update licenses
         id: updateLicenses
-        continue-on-error: true
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
