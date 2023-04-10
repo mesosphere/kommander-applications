@@ -1,0 +1,15 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: dkp-critical-priority
+value: 100002000
+globalDefault: false
+description: "This is the highest priority class that is used for critical priority DKP workloads."
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: dkp-high-priority
+value: 100001000
+globalDefault: false
+description: "This is the priority class that is used for high priority DKP workloads."
