@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: etcd-metrics-proxy
+    prometheus.kommander.d2iq.io/select: "true"
+    release: kube-prometheus-stack
+  name: etcd-metrics-proxy
+  namespace: ${releaseNamespace}
+spec:
+  endpoints:
+    - port: https
+      scheme: https
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tlsConfig:
+        insecureSkipVerify: true
+      relabelings:
+        - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+          targetLabel: instance
+        - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+          targetLabel: pod
+          replacement: etcd-$1
+  namespaceSelector:
+    matchNames:
+      - ${releaseNamespace}
+  selector:
+    matchLabels:
+      app: etcd-metrics-proxy
