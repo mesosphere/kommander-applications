@@ -2,6 +2,9 @@ displayName: kube-oidc-proxy
 description: Proxy to consistently authenticate to managed Kubernetes clusters, on multi-cloud, using OIDC. Requires cert-manager and Traefik.
 category:
   - sso
+dependencies:
+  - cert-manager
+  - traefik
 type: internal
 scope:
   - workspace
