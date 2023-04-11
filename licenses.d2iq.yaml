@@ -330,9 +330,9 @@ resources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kubernetes-multicluster/kubefed:v0.10.0
+  - container_image: ghcr.io/mesosphere/kubefed:v0.10.2
     sources:
-      - url: https://github.com/kubernetes-sigs/kubefed
+      - url: https://github.com/mesosphere/kubefed
         ref: ${image_tag}
         license_path: LICENSE
   - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
