@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    global:
+      priorityClassName: dkp-critical-priority
     controllermanager:
       # override value is necessary due to a "featureGates":interface {}(nil)... spec.featureGates in body must be of type array: "null"
       # bug found
