@@ -16,3 +16,17 @@ data:
       kubectlImage:
         repository: bitnami/kubectl
         tag: 1.24.6
+    deploymentAnnotations:
+      secret.reloader.stakater.com/reload: "kubetunnel-reverseproxy-tls"
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      path: /dkp/kubetunnel-proxy
+      pathType: Prefix
+      backend:
+        service:
+          name: kubetunnel-reverseproxy
+          port:
+            number: 9001

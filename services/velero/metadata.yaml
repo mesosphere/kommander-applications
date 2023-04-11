@@ -2,6 +2,8 @@ displayName: Velero
 description: Open source tool to safely backup and restore, perform disaster recovery, and migrate Kubernetes cluster resources and persistent volumes.
 category:
   - backup
+dependencies:
+  - rook-ceph-cluster
 type: platform
 scope:
   - workspace

@@ -2,7 +2,7 @@ ignore:
   - docker.io/mesosphere/grafana-plugins:v0.0.1
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
-  - docker.io/bitnami/external-dns:0.13.2-debian-11-r0
+  - docker.io/bitnami/external-dns:0.13.4-debian-11-r2
   - docker.io/bitnami/kubectl:1.24.6
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
@@ -76,17 +76,17 @@ resources:
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
-  - container_image: docker.io/grafana/loki:2.7.3
+  - container_image: docker.io/grafana/loki:2.7.5
     sources:
       - url: https://github.com/grafana/loki
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/istio/operator:1.16.2
+  - container_image: docker.io/istio/operator:1.17.1
     sources:
       - url: https://github.com/istio/istio
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.39.0
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.42.0
     sources:
       - url: https://github.com/jaegertracing/jaeger-operator
         ref: v${image_tag}
@@ -106,7 +106,7 @@ resources:
       - url: https://github.com/kubernetes/dashboard
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/kubernetesui/metrics-scraper:v1.0.8
+  - container_image: docker.io/kubernetesui/metrics-scraper:v1.0.9
     sources:
       - url: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
         ref: ${image_tag}
@@ -163,12 +163,17 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/rook/ceph:v1.10.11
+  - container_image: docker.io/rook/ceph:v1.11.2
     sources:
       - url: https://github.com/rook/rook
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/stakater/reloader:v1.0.5
+  - container_image: quay.io/ceph/ceph:v17.2.5
+    sources:
+      - url: https://github.com/ceph/ceph
+        ref: ${image_tag}
+        license_path: COPYING
+  - container_image: docker.io/stakater/reloader:v1.0.18
     sources:
       - url: https://github.com/stakater/Reloader
         ref: ${image_tag}
@@ -310,7 +315,7 @@ resources:
       - url: https://github.com/jetstack/kube-oidc-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali-operator:v1.63.2
+  - container_image: quay.io/kiali/kiali-operator:v1.65.0
     sources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}
@@ -325,9 +330,9 @@ resources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kubernetes-multicluster/kubefed:v0.10.0
+  - container_image: ghcr.io/mesosphere/kubefed:v0.10.2
     sources:
-      - url: https://github.com/kubernetes-sigs/kubefed
+      - url: https://github.com/mesosphere/kubefed
         ref: ${image_tag}
         license_path: LICENSE
   - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0

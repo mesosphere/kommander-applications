@@ -68,6 +68,7 @@ data:
                   - /dkp/kubernetes
                   - /dkp/prometheus
                   - /dkp/traefik
+                  - /dkp/kubetunnel-proxy
             ---
             # Create stripprefix middleware for kubetunnel exposed services.
             # This expects that every TunnelGateway will be launched with

@@ -7,4 +7,4 @@ metadata:
 spec:
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=https://raw.githubusercontent.com/kubernetes-sigs/kubefed/master/charts}"
+  url: "${helmMirrorURL:=https://raw.githubusercontent.com/mesosphere/kubefed/master/charts}"
