@@ -1,4 +1,4 @@
-displayName: Knative
+displayName: Knative operator
 description: Kubernetes-based platform to build, deploy, and manage modern serverless workloads
 requiredDependencies:
   - istio

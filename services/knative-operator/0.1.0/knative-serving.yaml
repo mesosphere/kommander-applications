@@ -10,12 +10,12 @@ spec:
       namespace: ${releaseNamespace}
   chart:
     spec:
-      chart: knative
+      chart: knative-operator
       sourceRef:
         kind: HelmRepository
         name: aditya
         namespace: kommander-flux
-      version: 0.5.2
+      version: 0.1.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,4 +29,4 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-0.5.2-d2iq-defaults
+      name: knative-operator-0.1.0-d2iq-defaults
