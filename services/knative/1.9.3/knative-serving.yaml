@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: aditya
         namespace: kommander-flux
-      version: 1.9.3
+      version: 0.5.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,4 +29,4 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.9.3-d2iq-defaults
+      name: knative-0.5.2-d2iq-defaults
