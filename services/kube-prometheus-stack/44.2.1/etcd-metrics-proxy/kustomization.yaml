@@ -4,4 +4,3 @@ resources:
   - cert.yaml
   - kube-rbac-proxy.yaml
   - client-rbac.yaml
-  - service-monitor.yaml
