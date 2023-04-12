@@ -83,7 +83,7 @@ spec:
               mountPath: /etc/certs/etcd
       containers:
         - name: kube-rbac-proxy
-          image: quay.io/brancz/kube-rbac-proxy:v0.14.0
+          image: quay.io/brancz/kube-rbac-proxy:v0.14.1
           args:
             - "--secure-listen-address=0.0.0.0:8443"
             - "--tls-cert-file=/etc/certs/tls.crt"
