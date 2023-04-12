@@ -36,6 +36,8 @@ services/kiali:
   - services/kiali/**
 services/knative:
   - services/knative/**
+services/knative-serving:
+  - services/knative-serving/**
 services/kommander:
   - services/kommander/**
 services/kommander-appmanagement:
