@@ -450,15 +450,13 @@ data:
           - name: plugins
             mountPath: /var/lib/grafana/shared-plugins/
     kubeEtcd:
-      # Updated to false due to EKS not allowing the retrieval of data from etcd.
-      enabled: false
-    # kubeEtcd:
-    #   enabled: true
-    #   serviceMonitor:
-    #     scheme: "https"
-    #     caFile: "/etc/prometheus/secrets/etcd-certs/ca.crt"
-    #     certFile: "/etc/prometheus/secrets/etcd-certs/server.crt"
-    #     keyFile: "/etc/prometheus/secrets/etcd-certs/server.key"
+      # enable grafana dashboard for etcd
+      enabled: true
+      # kubeEtcd Service and ServiceMonitor are disabled, etcd metrics are handled by 'etcd-metrics-proxy' component
+      service:
+        enabled: false
+      serviceMonitor:
+        enabled: false
     nodeExporter:
       enabled: true
     kube-state-metrics:
