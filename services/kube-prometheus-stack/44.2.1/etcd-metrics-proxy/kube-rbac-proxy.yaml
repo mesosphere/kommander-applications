@@ -73,7 +73,7 @@ spec:
         runAsGroup: 65532
       initContainers:
         - name: init
-          image: busybox
+          image: docker.io/library/busybox:1
           command: [ "/bin/chown","-R","65532:65532", "/etc/certs/etcd" ]
           securityContext:
             runAsUser: 0
