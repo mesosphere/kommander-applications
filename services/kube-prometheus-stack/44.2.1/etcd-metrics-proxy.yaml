@@ -10,8 +10,6 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./services/kube-prometheus-stack/44.2.1/etcd-metrics-proxy
-  dependsOn:
-    - name: kube-prometheus-stack-helmrelease
   sourceRef:
     kind: GitRepository
     name: management
@@ -22,3 +20,6 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+      certificateIssuerKind: ${certificateIssuerKind}
+      certificateIssuerName: ${certificateIssuerName}
+
