@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 0.69.10
+      version: 0.69.11
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-loki-0.69.10-d2iq-defaults
+      name: grafana-loki-0.69.11-d2iq-defaults
   # upstream chart doesn't apply loki.annotations to all loki deployment/statefulsets
   # TODO: remove this after https://github.com/grafana/helm-charts/issues/1905 is fixed
 #  postRenderers:
