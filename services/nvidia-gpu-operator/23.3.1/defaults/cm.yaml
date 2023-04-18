@@ -35,4 +35,4 @@ data:
       # this can cause a mismatch in cuda versions
       # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
       # for more details
-      version: v22.9.1
+      version: v23.3.1
