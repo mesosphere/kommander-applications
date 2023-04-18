@@ -25,5 +25,5 @@ spec:
   releaseName: metallb
   valuesFrom:
     - kind: ConfigMap
-      name: metallb-0.12.3-d2iq-defaults
+      name: metallb-0.12.4-d2iq-defaults
   targetNamespace: ${releaseNamespace}
