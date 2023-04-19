@@ -59,7 +59,7 @@ resources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/gitea/gitea:1.18.5-rootless
+  - container_image: docker.io/gitea/gitea:1.19.1-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
         ref: v${image_tag%-rootless}
