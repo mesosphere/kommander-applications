@@ -96,7 +96,7 @@ resources:
       - url: https://github.com/jimmidyson/configmap-reload
         ref: ${image_tag}
         license_path: LICENSE.txt
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.22.0
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.15.9
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
@@ -326,6 +326,11 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
   - container_image: quay.io/kiwigrid/k8s-sidecar:1.21.0
+    sources:
+      - url: https://github.com/kiwigrid/k8s-sidecar
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.22.0
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
