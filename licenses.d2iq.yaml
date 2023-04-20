@@ -7,6 +7,7 @@ ignore:
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
+  - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.100.2
   - gcr.io/kubecost1/frontend:prod-1.100.2
 resources:
@@ -377,5 +378,10 @@ resources:
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.7.0
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.14.1
+    sources:
+      - url: https://github.com/brancz/kube-rbac-proxy
         ref: ${image_tag}
         license_path: LICENSE
