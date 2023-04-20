@@ -36,6 +36,12 @@ data:
       - "--store.sd-interval=5m"
       # Name of HTTP request header used for dynamic prefixing of UI links and redirects.
       - "--web.prefix-header=X-Forwarded-Prefix"
+      service:
+        ports:
+          http: 10902
+      serviceGrpc:
+        ports:
+          grpc: 10901
       grpc:
         client:
           tls:
