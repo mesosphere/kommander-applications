@@ -4,9 +4,6 @@ metadata:
   name: kube-prometheus-stack
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - namespace: ${releaseNamespace}
-      name: traefik
   chart:
     spec:
       chart: kube-prometheus-stack
