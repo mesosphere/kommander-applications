@@ -3,14 +3,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: knative-0.6.0-d2iq-defaults
+  name: knative-serving-1.9.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    eventing:
-      enabled: false
-    eventing-sources:
-      enabled: false
     serving:
       enabled: true
       namespaceKnativeServing:
