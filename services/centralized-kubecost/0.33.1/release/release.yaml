@@ -4,9 +4,6 @@ metadata:
   name: centralized-kubecost
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - namespace: ${releaseNamespace}
-      name: traefik
   chart:
     spec:
       chart: kubecost
