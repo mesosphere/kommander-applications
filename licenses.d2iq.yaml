@@ -204,14 +204,14 @@ resources:
       - url: https://github.com/kubernetes/dashboard
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.9.3
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.9.3
     sources:
-      - url: https://github.com/knative/serving
+      - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.9.3
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.9.3
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.9.3
     sources:
-      - url: https://github.com/knative/serving
+      - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.9.3
         license_path: LICENSE
   - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.9.3
