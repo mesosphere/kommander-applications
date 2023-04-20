@@ -34,8 +34,8 @@ services/karma-traefik:
   - services/karma-traefik/**
 services/kiali:
   - services/kiali/**
-services/knative-serving:
-  - services/knative-serving/**
+services/knative:
+  - services/knative/**
 services/kommander:
   - services/kommander/**
 services/kommander-appmanagement:
