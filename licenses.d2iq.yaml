@@ -86,7 +86,7 @@ resources:
       - url: https://github.com/grafana/loki
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/istio/operator:1.17.1
+  - container_image: docker.io/istio/operator:1.17.2
     sources:
       - url: https://github.com/istio/istio
         ref: ${image_tag}
@@ -125,7 +125,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/konvoy2
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/dex-controller:v0.8.0
+  - container_image: docker.io/mesosphere/dex-controller:v0.8.3
     sources:
       - url: https://github.com/mesosphere/dex-controller
         ref: ${image_tag}
@@ -168,12 +168,12 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/rook/ceph:v1.11.2
+  - container_image: docker.io/rook/ceph:v1.11.4
     sources:
       - url: https://github.com/rook/rook
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/ceph/ceph:v17.2.5
+  - container_image: quay.io/ceph/ceph:v17.2.6
     sources:
       - url: https://github.com/ceph/ceph
         ref: ${image_tag}
