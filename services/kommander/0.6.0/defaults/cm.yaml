@@ -72,7 +72,7 @@ data:
         karma: "2.0.2"
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
-        thanos: "0.4.8"
+        thanos: "12.4.3"
     kommander-ui:
       ingress:
         enabled: true
