@@ -20,6 +20,8 @@ data:
       enabled: false
     receiveDistributor:
       enabled: false
+    queryFrontend:
+      enabled: false
     query:
       # Enable DNS discovery for stores
       dnsDiscovery:
