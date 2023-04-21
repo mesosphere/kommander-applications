@@ -36,31 +36,53 @@ data:
       - "--store.sd-interval=5m"
       # Name of HTTP request header used for dynamic prefixing of UI links and redirects.
       - "--web.prefix-header=X-Forwarded-Prefix"
+      # configuring client tls secret using .grpc.client.tls.existingSecret has assumption on the keys within secret
+      # that is not compatible with cert-manager cert secret
+      ## start grpc client tls config ##
+      - "--grpc-client-tls-secure"
+      - "--grpc-client-tls-cert=/etc/certs/tls.crt"
+      - "--grpc-client-tls-key=/etc/certs/tls.key"
+      - "--grpc-client-tls-ca=/etc/certs/ca.crt"
+      - "--grpc-client-server-name=server.thanos.localhost.localdomain"
+      extraVolumes:
+      - name: kommander-thanos-client-tls
+        secret:
+          defaultMode: 420
+          secretName: kommander-thanos-client-tls
+      extraVolumeMounts:
+        - mountPath: /etc/certs
+          name: kommander-thanos-client-tls
+          readOnly: true
+      ## end grpc client tls config ##
+
       service:
         ports:
           http: 10902
       serviceGrpc:
         ports:
           grpc: 10901
-      grpc:
-        client:
-          tls:
-            enabled: true
-            serverName: server.thanos.localhost.localdomain
-            existingSecret:
-              name: kommander-thanos-client-tls
       commonAnnotations:
         secret.reloader.stakater.com/reload: kommander-thanos-client-tls
       # TODO: make an upstream change to add a change to so that this label will only be applied to service
       commonLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
       ingress:
+        hostname: ""
         enabled: true
         annotations:
           kubernetes.io/ingress.class: kommander-traefik
           traefik.ingress.kubernetes.io/router.tls: "true"
           traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
-        path: "/dkp/kommander/monitoring/query"
-        hostname: ""
+        # the way upstream chart defined doesn't support ingress rule without hostname
+        extraRules:
+          - http:
+              paths:
+              - backend:
+                  service:
+                    name: thanos-query
+                    port:
+                      number: 10902
+                path: /dkp/kommander/monitoring/query
+                pathType: ImplementationSpecific
         extraHosts: []
         tls: []
