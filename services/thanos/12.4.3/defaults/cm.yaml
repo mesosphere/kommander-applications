@@ -33,9 +33,10 @@ data:
       # Names of configmap that contain addresses of store API servers, used for file service discovery.
       existingSDConfigmap: kommander-thanos-query-stores
       # Add extra arguments to the compact service
-      extraArgs:
+      extraFlags:
       # Refresh interval to re-read file SD files. It is used as a resync fallback.
       - "--store.sd-interval=5m"
+      - "--store.sd-files=/conf/sd/stores.yaml"
       # Name of HTTP request header used for dynamic prefixing of UI links and redirects.
       - "--web.prefix-header=X-Forwarded-Prefix"
       # configuring client tls secret using .grpc.client.tls.existingSecret has assumption on the keys within secret
