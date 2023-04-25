@@ -407,6 +407,13 @@ data:
           skipReload: true
           initDatasources: true
           searchNamespace: ALL
+        resources:
+          limits:
+            cpu: 150m
+            memory: 100Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
       grafana.ini:
         log:
           level: warn
@@ -434,10 +441,10 @@ data:
         # keep request = limit to keep this container in guaranteed class
         limits:
           cpu: 300m
-          memory: 100Mi
+          memory: 250Mi
         requests:
-          cpu: 200m
-          memory: 100Mi
+          cpu: 300m
+          memory: 250Mi
       readinessProbe:
         httpGet:
           path: /api/health
