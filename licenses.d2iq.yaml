@@ -55,7 +55,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/konvoy2
         ref: ${image_tag}
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.0.6
+  - container_image: docker.io/fluent/fluent-bit:2.0.6
     sources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
