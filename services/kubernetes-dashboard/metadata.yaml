@@ -2,6 +2,8 @@ displayName: Kubernetes Dashboard
 description: General purpose, web-based UI for Kubernetes clusters. It allows users to manage applications running in a cluster and troubleshoot them, as well as manage the cluster itself.
 category:
   - monitoring
+dependencies:
+  - traefik
 type: platform
 scope:
   - workspace

@@ -15,8 +15,6 @@ spec:
   dependsOn:
     - name: kubefed
       namespace: ${releaseNamespace}
-    - name: traefik
-      namespace: ${releaseNamespace}
   install:
     crds: CreateReplace
     remediation:
