@@ -72,7 +72,7 @@ data:
         karma: "2.0.2"
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
-        thanos: "0.4.8"
+        thanos: "12.4.3"
     kommander-ui:
       ingress:
         enabled: true
@@ -103,7 +103,7 @@ data:
     attached:
       prerequisites:
         defaultApps:
-          reloader: "1.0.18"
+          reloader: "1.0.22"
           traefik: "20.8.0"
           kubernetes-dashboard: "6.0.7"
           kubecost: "0.33.1"
@@ -113,5 +113,5 @@ data:
           kubecost-thanos-traefik: "0.0.1"
           cert-manager: "1.11.0"
           karma-traefik: "0.0.1"
-          gatekeeper: "3.11.0"
+          gatekeeper: "3.12.0"
           kommander-flux: "0.41.2"
