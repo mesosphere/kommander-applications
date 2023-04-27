@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatekeeper-3.12.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    replicas: 2
+    disableValidatingWebhook: false
+    disableMutation: true
+    mutations:
+      enablePodProxy: false
+      podProxySettings:
+        noProxy:
+        httpProxy:
+        httpsProxy:
+      excludeNamespacesFromProxy: []
+      namespaceSelectorForProxy: {}
+      sideEffects: "None"
+    postInstall:
+      labelNamespace:
+        enabled: false
+    controllerManager:
+      tlsMinVersion: 1.2
