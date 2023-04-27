@@ -358,7 +358,7 @@ resources:
   - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r1
     sources:
       - url: https://github.com/thanos-io/thanos
-        ref: v0.31.0
+        ref: v${image_tag%-scratch-r1}
         license_path: LICENSE
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v1.9.8
     sources:
