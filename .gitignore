@@ -6,6 +6,7 @@
 .idea/
 /hack/release/coverage.out
 
+.envrc
 # mesosphere/daggers default output directory
 .daggers/
 
