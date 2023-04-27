@@ -100,6 +100,24 @@ data:
             - path: /_prometheus/metrics
               targetPort: 5601
               interval: 30s
+        - name: dkp-service-monitor-etcd-metrics
+          selector:
+            matchLabels:
+              app: etcd-metrics-proxy
+          namespaceSelector:
+            any: true
+          endpoints:
+            - port: https
+              scheme: https
+              bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              tlsConfig:
+                insecureSkipVerify: true
+              relabelings:
+                - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+                  targetLabel: instance
+                - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+                  targetLabel: pod
+                  replacement: etcd-$1
         # - name: dkp-service-monitor-metrics-defaultstorageclass
         #   selector:
         #     matchLabels:
@@ -389,6 +407,13 @@ data:
           skipReload: true
           initDatasources: true
           searchNamespace: ALL
+        resources:
+          limits:
+            cpu: 150m
+            memory: 100Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
       grafana.ini:
         log:
           level: warn
@@ -416,10 +441,10 @@ data:
         # keep request = limit to keep this container in guaranteed class
         limits:
           cpu: 300m
-          memory: 100Mi
+          memory: 250Mi
         requests:
-          cpu: 200m
-          memory: 100Mi
+          cpu: 300m
+          memory: 250Mi
       readinessProbe:
         httpGet:
           path: /api/health
@@ -450,15 +475,13 @@ data:
           - name: plugins
             mountPath: /var/lib/grafana/shared-plugins/
     kubeEtcd:
-      # Updated to false due to EKS not allowing the retrieval of data from etcd.
-      enabled: false
-    # kubeEtcd:
-    #   enabled: true
-    #   serviceMonitor:
-    #     scheme: "https"
-    #     caFile: "/etc/prometheus/secrets/etcd-certs/ca.crt"
-    #     certFile: "/etc/prometheus/secrets/etcd-certs/server.crt"
-    #     keyFile: "/etc/prometheus/secrets/etcd-certs/server.key"
+      # enable grafana dashboard for etcd
+      enabled: true
+      # kubeEtcd Service and ServiceMonitor are disabled, etcd metrics are handled by 'etcd-metrics-proxy' component
+      service:
+        enabled: false
+      serviceMonitor:
+        enabled: false
     nodeExporter:
       enabled: true
     kube-state-metrics:
