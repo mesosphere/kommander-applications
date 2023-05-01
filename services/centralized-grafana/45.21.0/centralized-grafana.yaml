@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -12,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 44.2.1
+      version: 45.21.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,7 +25,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-44.2.1-d2iq-defaults
+      name: centralized-grafana-45.21.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1

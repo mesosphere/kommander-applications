@@ -68,7 +68,7 @@ data:
         centralized-kubecost: "0.33.1"
         kubecost: "0.33.1"
         kubecost-thanos-traefik: "0.0.1"
-        centralized-grafana: "44.2.1"
+        centralized-grafana: "45.21.0"
         karma: "2.0.2"
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
