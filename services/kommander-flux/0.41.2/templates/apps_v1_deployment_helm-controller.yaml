@@ -22,6 +22,7 @@ spec:
       labels:
         app: helm-controller
     spec:
+      priorityClassName: "dkp-critical-priority"
       containers:
       - args:
         - --events-addr=http://notification-controller.kommander-flux.svc.cluster.local./
