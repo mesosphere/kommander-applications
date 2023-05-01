@@ -32,6 +32,7 @@ jobs:
           cat images.txt
       - name: Update licenses
         id: updateLicenses
+        continue-on-error: true
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
@@ -41,16 +42,14 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
       - name: Import GPG key
         if: |
-          steps.updateLicenses.outcome == 'success'
-          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: crazy-max/ghaction-import-gpg@v4
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           git_tag_gpgsign: true
       - name: Commit and push changes
         if: |
-          steps.updateLicenses.outcome == 'success'
-          && contains(github.event.pull_request.labels.*.name, 'update-licenses')
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
           git config user.email ci-mergebot@d2iq.com
           git config user.name d2iq-mergebot

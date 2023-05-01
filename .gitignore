@@ -8,3 +8,10 @@
 
 # mesosphere/daggers default output directory
 .daggers/
+
+# micellaneous
+.envrc
+
+# for updating image licenses
+bloodhound
+images.txt
