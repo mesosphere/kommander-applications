@@ -200,7 +200,7 @@ resources:
       - url: https://github.com/vmware-tanzu/velero-plugin-for-aws
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/velero/velero:v1.10.0
+  - container_image: docker.io/velero/velero:v1.11.0
     sources:
       - url: https://github.com/vmware-tanzu/velero
         ref: ${image_tag}
