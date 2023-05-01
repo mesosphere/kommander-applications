@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-44.2.1-d2iq-defaults
+  name: kube-prometheus-stack-45.21.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
