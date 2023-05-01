@@ -337,7 +337,7 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/alertmanager:v0.20.0
+  - container_image: quay.io/prometheus/alertmanager:v0.21.0
     sources:
       - url: https://github.com/prometheus/alertmanager
         ref: ${image_tag}
@@ -349,7 +349,7 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/prometheus:v2.34.0
+  - container_image: quay.io/prometheus/prometheus:v2.35.0
     sources:
       - url: https://github.com/prometheus/prometheus
         ref: ${image_tag}
