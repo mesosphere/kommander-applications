@@ -296,7 +296,7 @@ resources:
       - url: https://github.com/cert-manager/cert-manager
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.11.0
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.9.0
     sources:
       - url: https://github.com/cert-manager/cert-manager
         ref: ${image_tag}
@@ -349,7 +349,7 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: quay.io/prometheus/prometheus:v2.35.0
+  - container_image: quay.io/prometheus/prometheus:v2.32.0
     sources:
       - url: https://github.com/prometheus/prometheus
         ref: ${image_tag}
@@ -365,7 +365,7 @@ resources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.7.0
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.6.0
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
