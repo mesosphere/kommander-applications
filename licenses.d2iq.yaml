@@ -180,7 +180,7 @@ resources:
       - url: https://github.com/ceph/ceph
         ref: ${image_tag}
         license_path: COPYING
-  - container_image: ghcr.io/stakater/reloader:v1.0.22
+  - container_image: ghcr.io/stakater/reloader:v1.0.24
     sources:
       - url: https://github.com/stakater/Reloader
         ref: ${image_tag}
