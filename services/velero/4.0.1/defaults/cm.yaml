@@ -8,9 +8,9 @@ data:
     ---
     priorityClassName: "dkp-critical-priority"
     configuration:
-      provider: "aws"
       backupStorageLocation:
         - bucket: dkp-velero
+          provider: "aws"
           config:
             region: dkp-object-store
             # this s3Url default value is overwritten by kubeaddons-addon-initializer unless set to something different
@@ -20,6 +20,7 @@ data:
       volumeSnapshotLocation:
         - config:
             region: "fallback"
+          provider: "aws"
     credentials:
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
