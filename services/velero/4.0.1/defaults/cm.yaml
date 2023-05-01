@@ -10,16 +10,16 @@ data:
     configuration:
       provider: "aws"
       backupStorageLocation:
-        bucket: dkp-velero
-        config:
-          region: dkp-object-store
-          # this s3Url default value is overwritten by kubeaddons-addon-initializer unless set to something different
-          s3Url: http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/
-          s3ForcePathStyle: true
-          insecureSkipTLSVerify: "true"
+        - bucket: dkp-velero
+          config:
+            region: dkp-object-store
+            # this s3Url default value is overwritten by kubeaddons-addon-initializer unless set to something different
+            s3Url: http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/
+            s3ForcePathStyle: true
+            insecureSkipTLSVerify: "true"
       volumeSnapshotLocation:
-        config:
-          region: "fallback"
+        - config:
+            region: "fallback"
     credentials:
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
