@@ -67,7 +67,7 @@ data:
           tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
-        centralized-kubecost: "0.33.1"
+        centralized-kubecost: "0.34.0"
         kubecost: "0.34.0"
         kubecost-thanos-traefik: "0.0.1"
         centralized-grafana: "45.21.0"
