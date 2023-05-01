@@ -6,6 +6,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    global:
+      priorityClassName: "dkp-critical-priority"
     airgapped:
       enabled: ${airgappedEnabled}
     authorizedlister:

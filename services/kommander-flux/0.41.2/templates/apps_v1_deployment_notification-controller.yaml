@@ -22,6 +22,7 @@ spec:
       labels:
         app: notification-controller
     spec:
+      priorityClassName: "dkp-critical-priority"
       containers:
       - args:
         - --watch-all-namespaces=true
