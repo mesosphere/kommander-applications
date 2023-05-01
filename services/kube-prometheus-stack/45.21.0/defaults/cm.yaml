@@ -14,6 +14,7 @@ data:
         tlsMinVersion: VersionTLS12
       admissionWebhooks:
         patch:
+          priorityClassName: "dkp-critical-priority"
           image:
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
@@ -154,6 +155,7 @@ data:
                   - image-automation-controller
                   - image-reflector-controller
       prometheusSpec:
+        priorityClassName: "dkp-critical-priority"
         logLevel: warn
         serviceMonitorNamespaceSelector: {}  # all namespaces
         serviceMonitorSelector:
@@ -373,6 +375,7 @@ data:
           - /dkp/alertmanager
         pathType: ImplementationSpecific
       alertmanagerSpec:
+        priorityClassName: "dkp-critical-priority"
         logLevel: warn
         resources:
           limits:
