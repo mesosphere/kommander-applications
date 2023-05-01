@@ -337,7 +337,7 @@ resources:
       - url: https://github.com/kubernetes-retired/external-storage
         ref: nfs-provisioner-${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.62.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.63.0
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
         ref: ${image_tag}
@@ -371,7 +371,7 @@ resources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.7.0
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.8.2
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
