@@ -52,7 +52,6 @@ jobs:
         run: |
           git config user.email ci-mergebot@d2iq.com
           git config user.name d2iq-mergebot
-          git rm -r --cached .
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
           git add .
