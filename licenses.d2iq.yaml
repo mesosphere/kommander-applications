@@ -8,8 +8,8 @@ ignore:
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.100.2
-  - gcr.io/kubecost1/frontend:prod-1.100.2
+  - gcr.io/kubecost1/cost-model:prod-1.102.2
+  - gcr.io/kubecost1/frontend:prod-1.102.2
 resources:
   - container_image: docker.io/mesosphere/kommander2-core-installer:${kommander}
     sources:
@@ -72,6 +72,12 @@ resources:
         license_path: LICENSE
         notice_path: NOTICE.md
   - container_image: docker.io/grafana/grafana:9.3.1
+    sources:
+      - url: https://github.com/grafana/grafana
+        ref: v${image_tag}
+        license_path: LICENSE
+        notice_path: NOTICE.md
+  - container_image: docker.io/grafana/grafana:9.4.3
     sources:
       - url: https://github.com/grafana/grafana
         ref: v${image_tag}
@@ -312,7 +318,7 @@ resources:
       - url: https://github.com/jetstack/kube-oidc-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali-operator:v1.66.0
+  - container_image: quay.io/kiali/kiali-operator:v1.67.0
     sources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}

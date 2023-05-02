@@ -6,6 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    priorityClassName: "dkp-critical-priority"
     airgapped:
       enabled: ${airgappedEnabled}
     controllerManager:

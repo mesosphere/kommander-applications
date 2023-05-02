@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: centralized-kubecost-post-install-jobs
+  name: fluent-bit-resource-quota
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,15 +9,12 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/centralized-kubecost/0.33.1/post-install-jobs
-  dependsOn:
-    - name: centralized-kubecost-release
+  path: ./services/fluent-bit/0.28.0/resource-quota
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
   timeout: 1m
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+    substitute:
+      releaseNamespace: ${releaseNamespace}
