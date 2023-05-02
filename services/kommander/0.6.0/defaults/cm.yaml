@@ -67,8 +67,8 @@ data:
           tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
-        centralized-kubecost: "0.33.1"
-        kubecost: "0.33.1"
+        centralized-kubecost: "0.34.0"
+        kubecost: "0.34.0"
         kubecost-thanos-traefik: "0.0.1"
         centralized-grafana: "45.21.0"
         karma: "2.0.2"
@@ -108,7 +108,7 @@ data:
           reloader: "1.0.24"
           traefik: "20.8.0"
           kubernetes-dashboard: "6.0.7"
-          kubecost: "0.33.1"
+          kubecost: "0.34.0"
           kube-prometheus-stack: "44.2.1"
           prometheus-adapter: "4.2.0"
           prometheus-thanos-traefik: "0.0.1"

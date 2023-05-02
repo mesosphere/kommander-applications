@@ -1,5 +1,4 @@
 # Copy grafana-datasource cm after it has been created in the release.
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
