@@ -1,15 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: etcd-metrics-proxy
+  name: kube-prometheus-stack-pre-upgrade
   namespace: ${releaseNamespace}
 spec:
-  force: false
+  force: true
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kube-prometheus-stack/44.2.1/etcd-metrics-proxy
+  path: ./services/kube-prometheus-stack/45.21.0/pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
@@ -20,5 +20,3 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
-      certificateIssuerKind: ${certificateIssuerKind}
-      certificateIssuerName: ${certificateIssuerName}
