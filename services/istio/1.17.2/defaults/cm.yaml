@@ -26,3 +26,4 @@ data:
     global:
       image: bitnami/kubectl
       tag: 1.24.6
+      priorityClassName: "dkp-critical-priority"
