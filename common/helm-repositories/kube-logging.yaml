@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
-  name: kubernetes-charts.banzaicloud.com
+  name: kube-logging.github.io-charts
   namespace: kommander-flux
 spec:
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=https://kubernetes-charts.banzaicloud.com/}"
+  url: "${helmMirrorURL:=https://kube-logging.github.io/helm-charts}"

@@ -250,9 +250,9 @@ resources:
       - url: https://github.com/brancz/kube-rbac-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.10
+  - container_image: ghcr.io/kube-logging/logging-operator:4.1.0
     sources:
-      - url: https://github.com/banzaicloud/logging-operator
+      - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
