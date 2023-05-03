@@ -6,6 +6,7 @@ metadata:
 data:
   values.yaml: |
     ---
+    priorityClassName: "dkp-critical-priority"
     podDisruptionBudget:
       minAvailable: 1
     # Distribute pods to tolerate node or zone failure.
