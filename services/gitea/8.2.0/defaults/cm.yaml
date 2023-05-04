@@ -6,6 +6,7 @@ metadata:
 data:
   values.yaml: |-
     ---
+    priorityClassName: "dkp-critical-priority"
     image:
       rootless: true
     ingress:
