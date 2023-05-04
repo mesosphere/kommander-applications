@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-20.8.0-d2iq-defaults
+  name: traefik-23.0.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -45,7 +45,7 @@ data:
           - -c
           - |
             cat << EOF | kubectl -n ${releaseNamespace} apply -f -
-            apiVersion: traefik.containo.us/v1alpha1
+            apiVersion: traefik.io/v1alpha1
             kind: Middleware
             metadata:
               name: stripprefixes
@@ -76,7 +76,7 @@ data:
             # If there is a need for creating TunnelGateway objects with
             # different `urlPathPrefix` then this middleware needs to be
             # extended or new must be created.
-            apiVersion: traefik.containo.us/v1alpha1
+            apiVersion: traefik.io/v1alpha1
             kind: Middleware
             metadata:
               name: stripprefixes-kubetunnel
@@ -92,7 +92,7 @@ data:
             # Used by components such as kube-prometheus-stack's Grafana
             # that rely on X-Forwarded-User but break when `Authorization:` header
             # is set as well. See https://jira.d2iq.com/browse/D2IQ-77423.
-            apiVersion: traefik.containo.us/v1alpha1
+            apiVersion: traefik.io/v1alpha1
             kind: Middleware
             metadata:
               name: forwardauth
@@ -108,7 +108,7 @@ data:
             # Used by apps such as Kuberentes-Dashboard and Kiali
             # that obtain the K8S API Bearer token via
             # the `Authorization:` header and Impersonate the user.
-            apiVersion: traefik.containo.us/v1alpha1
+            apiVersion: traefik.io/v1alpha1
             kind: Middleware
             metadata:
               name: forwardauth-full
@@ -123,7 +123,7 @@ data:
                   - Authorization
             ---
             # Traefik's dashboard assumes its API is hosted at /api. This rewrites dashboard responses to fix URLs.
-            apiVersion: traefik.containo.us/v1alpha1
+            apiVersion: traefik.io/v1alpha1
             kind: Middleware
             metadata:
               name: rewrite-api
