@@ -8,8 +8,8 @@ ignore:
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.100.2
-  - gcr.io/kubecost1/frontend:prod-1.100.2
+  - gcr.io/kubecost1/cost-model:prod-1.102.2
+  - gcr.io/kubecost1/frontend:prod-1.102.2
 resources:
   - container_image: docker.io/mesosphere/kommander2-core-installer:${kommander}
     sources:
@@ -60,7 +60,7 @@ resources:
       - url: https://github.com/fluent/fluent-bit
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/gitea/gitea:1.18.5-rootless
+  - container_image: docker.io/gitea/gitea:1.19.2-rootless
     sources:
       - url: https://github.com/go-gitea/gitea
         ref: v${image_tag%-rootless}
@@ -71,7 +71,13 @@ resources:
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
-  - container_image: docker.io/grafana/grafana:9.3.1
+  - container_image: docker.io/grafana/grafana:9.4.3
+    sources:
+      - url: https://github.com/grafana/grafana
+        ref: v${image_tag}
+        license_path: LICENSE
+        notice_path: NOTICE.md
+  - container_image: docker.io/grafana/grafana:9.4.7
     sources:
       - url: https://github.com/grafana/grafana
         ref: v${image_tag}
@@ -174,7 +180,7 @@ resources:
       - url: https://github.com/ceph/ceph
         ref: ${image_tag}
         license_path: COPYING
-  - container_image: ghcr.io/stakater/reloader:v1.0.22
+  - container_image: ghcr.io/stakater/reloader:v1.0.24
     sources:
       - url: https://github.com/stakater/Reloader
         ref: ${image_tag}
@@ -189,12 +195,12 @@ resources:
       - url: https://github.com/thanos-io/thanos
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/velero/velero-plugin-for-aws:v1.5.2
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.7.0
     sources:
       - url: https://github.com/vmware-tanzu/velero-plugin-for-aws
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/velero/velero:v1.10.0
+  - container_image: docker.io/velero/velero:v1.11.0
     sources:
       - url: https://github.com/vmware-tanzu/velero
         ref: ${image_tag}
@@ -244,9 +250,9 @@ resources:
       - url: https://github.com/brancz/kube-rbac-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/banzaicloud/logging-operator:3.17.10
+  - container_image: ghcr.io/kube-logging/logging-operator:4.1.0
     sources:
-      - url: https://github.com/banzaicloud/logging-operator
+      - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
@@ -306,17 +312,12 @@ resources:
       - url: https://github.com/jetstack/kube-oidc-proxy
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiali/kiali-operator:v1.66.0
+  - container_image: quay.io/kiali/kiali-operator:v1.67.0
     sources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.19.2
-    sources:
-      - url: https://github.com/kiwigrid/k8s-sidecar
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.21.0
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.22.0
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
@@ -331,7 +332,7 @@ resources:
       - url: https://github.com/kubernetes-retired/external-storage
         ref: nfs-provisioner-${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.62.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.63.0
     sources:
       - url: https://github.com/prometheus-operator/prometheus-operator
         ref: ${image_tag}
@@ -365,7 +366,7 @@ resources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.7.0
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.8.2
     sources:
       - url: https://github.com/kubernetes/kube-state-metrics
         ref: ${image_tag}

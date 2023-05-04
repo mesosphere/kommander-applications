@@ -23,6 +23,7 @@ data:
     queryFrontend:
       enabled: false
     query:
+      priorityClassName: "dkp-critical-priority"
       # Enable DNS discovery for stores
       dnsDiscovery:
         enabled: false

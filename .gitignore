@@ -12,3 +12,7 @@
 
 # micellaneous
 .envrc
+
+# for updating image licenses
+bloodhound
+images.txt
