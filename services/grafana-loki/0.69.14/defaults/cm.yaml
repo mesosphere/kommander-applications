@@ -112,6 +112,7 @@ data:
           external_url: http://kube-prometheus-stack-alertmanager.${releaseNamespace}.svc.cluster.local:9093
 
     ingester:
+      priorityClassName: "dkp-critical-priority"
       replicas: 1
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -125,6 +126,7 @@ data:
             name: dkp-loki
 
     querier:
+      priorityClassName: "dkp-critical-priority"
       replicas: 1
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -138,12 +140,14 @@ data:
             name: dkp-loki
 
     queryFrontend:
+      priorityClassName: "dkp-critical-priority"
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
             name: dkp-loki
 
     compactor:
+      priorityClassName: "dkp-critical-priority"
       enabled: true
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -157,6 +161,7 @@ data:
             name: dkp-loki
 
     ruler:
+      priorityClassName: "dkp-critical-priority"
       enabled: false
       replicas: 1
       serviceLabels:
@@ -174,6 +179,7 @@ data:
         grafana-loki-rules: {}
 
     gateway:
+      priorityClassName: "dkp-critical-priority"
       image:
         # Override nginx image to address known CVEs.
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
@@ -186,6 +192,7 @@ data:
       verboseLogging: false
 
     distributor:
+      priorityClassName: "dkp-critical-priority"
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"

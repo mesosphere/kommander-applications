@@ -12,6 +12,7 @@ data:
       # https://rook.io/docs/rook/latest/Troubleshooting/disaster-recovery/#restoring-crds-after-deletion
       enabled: true
 
+    priorityClassName: "dkp-critical-priority"
     resources:
       limits:
         cpu: 750m

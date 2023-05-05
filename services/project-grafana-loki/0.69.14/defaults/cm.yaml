@@ -131,6 +131,7 @@ data:
           external_url: ""
 
     ingester:
+      priorityClassName: "dkp-critical-priority"
       replicas: 1
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -144,6 +145,7 @@ data:
             name: proj-loki-${releaseNamespace}
 
     querier:
+      priorityClassName: "dkp-critical-priority"
       replicas: 1
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -163,6 +165,7 @@ data:
             name: proj-loki-${releaseNamespace}
 
     compactor:
+      priorityClassName: "dkp-critical-priority"
       enabled: true
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
@@ -176,9 +179,11 @@ data:
             name: proj-loki-${releaseNamespace}
 
     ruler:
+      priorityClassName: "dkp-critical-priority"
       enabled: false
 
     gateway:
+      priorityClassName: "dkp-critical-priority"
       image:
         # Override nginx image to address known CVEs.
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
@@ -191,6 +196,7 @@ data:
           client_max_body_size 10M;
 
     distributor:
+      priorityClassName: "dkp-critical-priority"
       serviceLabels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
         servicemonitor.kommander.mesosphere.io/port: "http"
