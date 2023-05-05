@@ -84,7 +84,7 @@ data:
         graphqlPath: /dkp/kommander/dashboard/graphql
     capimate:
       image:
-        tag: v2.4.0
+        tag: v2.4.1-rc.4
     attached:
       prerequisites:
         defaultApps:
