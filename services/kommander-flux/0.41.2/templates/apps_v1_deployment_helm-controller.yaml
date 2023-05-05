@@ -74,6 +74,7 @@ spec:
           name: temp
       nodeSelector:
         kubernetes.io/os: linux
+      priorityClassName: dkp-critical-priority
       securityContext:
         fsGroup: 1337
       serviceAccountName: helm-controller
