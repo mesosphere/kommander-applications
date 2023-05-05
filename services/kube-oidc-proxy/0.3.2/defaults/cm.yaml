@@ -7,6 +7,7 @@ metadata:
 data:
   values.yaml: |-
     ---
+    priorityClassName: "dkp-critical-priority"
     deploymentAnnotations:
       # Config changes and certificate rotation by cert-manager need a reload
       secret.reloader.stakater.com/reload: "kube-oidc-proxy-config,kube-oidc-proxy-server-tls" # If a fullNameOverride has been set, change the value of "kube-oidc-proxy" accordingly.
