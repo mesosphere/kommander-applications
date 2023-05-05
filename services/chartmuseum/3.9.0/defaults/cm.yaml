@@ -6,6 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    priorityClassName: "dkp-critical-priority"
     env:
       existingSecret: ${chartmuseumAdminCredentialsSecret}
       existingSecretMappings:
