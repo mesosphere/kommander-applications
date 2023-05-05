@@ -5,6 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
+    priorityClassName: "dkp-high"
     nfd:
       enabled: false
     driver:
