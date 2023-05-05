@@ -24,6 +24,9 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/cpu
         value: 2500m
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
   - target:
       group: apps
       version: v1
@@ -45,6 +48,9 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/memory
         value: 2Gi
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
   - target:
       group: apps
       version: v1
@@ -60,3 +66,15 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/resources/limits/cpu
         value: 2000m
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: notification-controller
+    patch: |-
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: dkp-critical-priority
