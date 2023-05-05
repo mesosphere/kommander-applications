@@ -17,7 +17,7 @@ data:
           enabled: true
         grafana:
           enabled: true
-        priorityClassName: "dkp-high"
+        priorityClassName: "dkp-high-priority"
 
       ingress:
         enabled: true

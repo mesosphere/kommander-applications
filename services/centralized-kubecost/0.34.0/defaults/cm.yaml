@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     ---
-    priorityClassName: "dkp-high"
+    priorityClassName: "dkp-high-priority"
     cost-analyzer:
       fullnameOverride: "kommander-kubecost-cost-analyzer"
       global:
