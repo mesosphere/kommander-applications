@@ -152,15 +152,15 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander-ui
         ref: v${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.18
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.19
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.18
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.19
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.18
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.19
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
