@@ -14,7 +14,6 @@ data:
         # Create a ConfigMap (default: false)
         create: false
     toolkit:
-
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
@@ -29,10 +28,3 @@ data:
     dcgmExporter:
       enabled: true
       version: 3.1.3-3.1.2-ubuntu20.04
-    validator:
-      # we are using a newer version of the validator pod that
-      # removes the compat libs from the container
-      # this can cause a mismatch in cuda versions
-      # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
-      # for more details
-      version: v23.3.1
