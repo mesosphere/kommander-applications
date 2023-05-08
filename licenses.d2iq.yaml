@@ -160,10 +160,6 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.19
-    sources:
-      - url: https://github.com/mesosphere/kubetunnel
-        ref: ${image_tag}
   - container_image: docker.io/mesosphere/traefik-forward-auth:3.1.0
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
