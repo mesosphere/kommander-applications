@@ -4,7 +4,7 @@ metadata:
   name: nvidia-gpu-operator-23.3.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: |
+  values.yaml: |-
     nfd:
       enabled: false
     driver:
