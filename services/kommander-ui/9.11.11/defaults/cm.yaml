@@ -14,3 +14,8 @@ data:
         traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
       path: /dkp/kommander/dashboard
       graphqlPath: /dkp/kommander/dashboard/graphql
+    impersonateUser: true
+    mountUtilityServiceCert: false
+    showCost: true
+    showCD: true
+    fedNamespace: kube-federation-system
