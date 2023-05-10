@@ -10,6 +10,7 @@ data:
       reloadOnCreate: true
       logFormat: json
       deployment:
+        priorityClassName: "dkp-high-priority"
         resources:
           limits:
             cpu: 100m
