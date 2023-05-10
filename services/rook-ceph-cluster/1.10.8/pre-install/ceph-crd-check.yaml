@@ -89,4 +89,6 @@ spec:
                 echo "Ceph operator is at $cephOperatorVersion version and desired version is ${desiredCephOperatorVersion}. Continuing to wait..."
                 sleep 10
               done
+
+              kubectl wait helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph --for=condition=Ready --timeout 30m
               EOF
