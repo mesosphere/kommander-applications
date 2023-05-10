@@ -67,14 +67,16 @@ data:
           tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
-        centralized-kubecost: "0.34.0"
-        kubecost: "0.34.0"
-        kubecost-thanos-traefik: "0.0.1"
-        centralized-grafana: "45.21.0"
-        karma: "2.0.2"
-        karma-traefik: "0.0.1"
-        prometheus-thanos-traefik: "0.0.1"
-        thanos: "12.4.3"
+      - "centralized-kubecost"
+      - "kubecost"
+      - "kubecost-thanos-traefik"
+      - "centralized-grafana"
+      - "karma"
+      - "karma-traefik"
+      - "prometheus-thanos-traefik"
+      - "thanos"
+    kommander-ui:
+      enabled: false
     capimate:
       image:
         tag: v0.0.0-dev.0
@@ -96,15 +98,15 @@ data:
     attached:
       prerequisites:
         defaultApps:
-          reloader: "1.0.24"
-          traefik: "23.0.1"
-          kubernetes-dashboard: "6.0.7"
-          kubecost: "0.34.0"
-          kube-prometheus-stack: "45.21.0"
-          prometheus-adapter: "4.2.0"
-          prometheus-thanos-traefik: "0.0.1"
-          kubecost-thanos-traefik: "0.0.1"
-          cert-manager: "1.11.0"
-          karma-traefik: "0.0.1"
-          gatekeeper: "3.12.0"
-          kommander-flux: "0.41.2"
+        - "reloader"
+        - "traefik"
+        - "kubernetes-dashboard"
+        - "kubecost"
+        - "kube-prometheus-stack"
+        - "prometheus-adapter"
+        - "prometheus-thanos-traefik"
+        - "kubecost-thanos-traefik"
+        - "cert-manager"
+        - "karma-traefik"
+        - "gatekeeper"
+        - "kommander-flux"
