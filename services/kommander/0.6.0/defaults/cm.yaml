@@ -76,14 +76,7 @@ data:
         prometheus-thanos-traefik: "0.0.1"
         thanos: "12.4.3"
     kommander-ui:
-      ingress:
-        enabled: true
-        extraAnnotations:
-          kubernetes.io/ingress.class: kommander-traefik
-          traefik.ingress.kubernetes.io/router.tls: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
-        path: /dkp/kommander/dashboard
-        graphqlPath: /dkp/kommander/dashboard/graphql
+      enabled: false
     capimate:
       image:
         tag: v0.0.0-dev.0
