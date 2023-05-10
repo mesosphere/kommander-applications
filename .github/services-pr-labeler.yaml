@@ -27,6 +27,7 @@ do-not-merge/testing:
   - services/istio/**
   - services/jaeger/**
   - services/kiali/**
+  - services/nvidia-gpu-operator/**
   - services/kube-oidc-proxy/**
   - services/logging-operator/**
   - services/project-grafana-logging/**
