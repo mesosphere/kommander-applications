@@ -43,3 +43,7 @@ data:
 
     # This allows DKP installations with static local static provisioner with loopback block devices (E.g.: preprovisioned with LVMs) work out of the box.
     allowLoopDevices: true
+
+    # The admission controller was disabled by default in https://github.com/rook/rook/releases/tag/v1.10.9 to fix https://github.com/rook/rook/issues/10719.
+    # This also solves upgrade issues related to the admission webhook that can occur due to a race between the `rook-ceph` and `rook-ceph-cluster` app
+    disableAdmissionController: true
