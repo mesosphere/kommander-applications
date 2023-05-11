@@ -5,6 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
+    priorityClassName: dkp-high-priority
     service:
       labels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
