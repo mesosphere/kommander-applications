@@ -6,7 +6,6 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
-    priorityClassName: "dkp-high-priority"
     persistence:
       enabled: true
       size: 100Gi
