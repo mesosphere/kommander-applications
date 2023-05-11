@@ -20,7 +20,7 @@ for image in "${images[@]}"; do
         new_version=$(tail --lines=+8 "${2}"| gojq --yaml-input '.dcgm.version'| xargs)
         new_image="${new_image//"${version}"/"${new_version}"}"
       ;;
-      dcgmExporter)
+      dcgm-exporter)
         new_version=$(tail --lines=+8 "${2}"| gojq --yaml-input '.dcgmExporter.version'| xargs)
         new_image="${new_image//"${version}"/"${new_version}"}"
       ;;
