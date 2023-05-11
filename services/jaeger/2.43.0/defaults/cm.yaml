@@ -6,6 +6,7 @@ metadata:
 data:
   values.yaml: |
     jaeger:
+      priorityClassName: dkp-high-priority
       create: true
       spec:
         strategy: allInOne
