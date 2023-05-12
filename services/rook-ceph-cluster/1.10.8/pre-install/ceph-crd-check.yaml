@@ -18,6 +18,9 @@ rules:
   - apiGroups: ["helm.toolkit.fluxcd.io"]
     resources: ["helmreleases"]
     verbs: ["get", "watch", "list"]
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations"]
+    verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -91,4 +94,5 @@ spec:
               done
 
               kubectl wait helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph --for=condition=Ready --timeout 30m
+              kubectl wait validatingwebhookconfiguration.admissionregistration.k8s.io -n ${releaseNamespace} rook-ceph-webhook --for=delete --timeout 30m
               EOF
