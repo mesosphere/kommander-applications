@@ -20,7 +20,7 @@ rules:
     verbs: ["get", "watch", "list"]
   - apiGroups: ["admissionregistration.k8s.io"]
     resources: ["validatingwebhookconfigurations"]
-    verbs: ["get", "watch", "list"]
+    verbs: ["get", "watch", "list", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -95,6 +95,8 @@ spec:
 
               kubectl wait helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph --for=condition=Ready --timeout 30m
 
-              echo "waiting for webhook to be deleted "
-              kubectl wait validatingwebhookconfiguration.admissionregistration.k8s.io -n ${releaseNamespace} rook-ceph-webhook --for=delete --timeout 30m -v6
+              kubectl delete validatingwebhookconfiguration.admissionregistration.k8s.io rook-ceph-webhook --ignore-not-found
+
+              echo "verifying webhook was deleted"
+              kubectl wait validatingwebhookconfiguration.admissionregistration.k8s.io rook-ceph-webhook --for=delete --timeout 30m -v6
               EOF
