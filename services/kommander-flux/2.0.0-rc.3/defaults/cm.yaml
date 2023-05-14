@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  values.yaml: |
+    ---
+kind: ConfigMap
+metadata:
+  name: kommander-flux-2.0.0-rc.3-d2iq-defaults
+  namespace: ${releaseNamespace}
