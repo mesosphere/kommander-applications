@@ -19,3 +19,4 @@ data:
     showCost: true
     showCD: true
     fedNamespace: kube-federation-system
+    priorityClassName: "dkp-critical-priority"

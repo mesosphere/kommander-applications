@@ -387,6 +387,7 @@ data:
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
+      priorityClassName: "dkp-critical-priority"
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
