@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nfs-server-provisioner-0.6.0-d2iq-defaults
+  name: nfs-server-provisioner-0.6.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -11,3 +11,4 @@ data:
       size: 100Gi
     storageClass:
       name: nfsserverprovisioner
+    priorityClassName: dkp-high-priority
