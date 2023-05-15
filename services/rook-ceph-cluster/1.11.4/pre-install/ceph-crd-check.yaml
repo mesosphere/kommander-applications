@@ -67,7 +67,9 @@ spec:
               #
               # This is done here to avoid having an explicit dependency against DKP shipped ceph operator while still
               # being able to allow us to wait for DKP shipped ceph operator if there is one.
-              timeout 30m /bin/bash <<'EOF' || true
+              timeout 30m /bin/bash <<'EOF'
+
+              sleep 3000
               kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph
               if [[ $? -ne 0 ]]; then
                 echo "Since rook-ceph HelmRelease does not exist, this might not be an upgrade scenario. Exiting..."
