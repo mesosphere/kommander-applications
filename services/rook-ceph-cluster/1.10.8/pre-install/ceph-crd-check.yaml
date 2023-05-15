@@ -18,6 +18,9 @@ rules:
   - apiGroups: ["helm.toolkit.fluxcd.io"]
     resources: ["helmreleases"]
     verbs: ["get", "watch", "list"]
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations"]
+    verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -36,12 +39,12 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: check-dkp-ceph-crd
+  name: dkp-ceph-pre-install
   namespace: ${releaseNamespace}
 spec:
   template:
     metadata:
-      name: check-dkp-ceph-crd
+      name: dkp-ceph-pre-install
     spec:
       serviceAccountName: check-dkp-ceph-crd
       restartPolicy: OnFailure
@@ -90,5 +93,6 @@ spec:
                 sleep 10
               done
 
-              kubectl wait helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph --for=condition=Ready --timeout 30m
+              echo "verifying webhook was deleted"
+              kubectl wait validatingwebhookconfiguration.admissionregistration.k8s.io rook-ceph-webhook --for=delete --timeout 30m -v6
               EOF
