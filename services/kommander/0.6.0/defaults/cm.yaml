@@ -75,8 +75,6 @@ data:
         karma-traefik: "0.0.1"
         prometheus-thanos-traefik: "0.0.1"
         thanos: "12.4.3"
-    kommander-ui:
-      enabled: false
     capimate:
       image:
         tag: v0.0.0-dev.0
