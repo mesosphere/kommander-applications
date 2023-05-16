@@ -4,4 +4,3 @@ resources:
   - helmrelease.yaml
   - etcd-metrics-proxy.yaml
   - grafana-dashboards
-  - pre-upgrade.yaml
