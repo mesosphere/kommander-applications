@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 0.6.0
+      version: 0.6.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,5 +25,5 @@ spec:
   releaseName: nfs-server-provisioner
   valuesFrom:
     - kind: ConfigMap
-      name: nfs-server-provisioner-0.6.0-d2iq-defaults
+      name: nfs-server-provisioner-0.6.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
