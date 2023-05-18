@@ -10,8 +10,6 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./services/prometheus-adapter/4.2.0/helmrelease
-  dependsOn:
-    - name: prometheus-adapter-pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
