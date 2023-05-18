@@ -33,7 +33,7 @@ data:
             in_cluster_url: http://jaeger-jaeger-operator-jaeger-query.istio-system.svc.cluster.local:16685
             use_grpc: true
         deployment:
-          priorityClassName: dkp-high-priority
+          priority_class_name: dkp-high-priority
           accessible_namespaces:
           - '**'
           ingress:
