@@ -4,5 +4,7 @@ metadata:
   name: cert-manager-1.11.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: ""
+  values.yaml: |-
+    global:
+      priorityClassName: system-cluster-critical
   # Just a workaround for empty kubernetes kustomizations
