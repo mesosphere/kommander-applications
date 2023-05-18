@@ -35,12 +35,12 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: dkp-ceph-pre-install
+  name: dkp-ceph-prereq-job
   namespace: ${releaseNamespace}
 spec:
   template:
     metadata:
-      name: dkp-ceph-pre-install
+      name: dkp-ceph-prereq-job
     spec:
       serviceAccountName: check-dkp-ceph-crd
       restartPolicy: OnFailure
