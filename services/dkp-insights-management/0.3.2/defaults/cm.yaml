@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-management-0.4.1-d2iq-defaults
+  name: dkp-insights-management-0.3.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,7 +12,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: v0.4.1
+      tag: v0.3.2
     insightsCRIngress:
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
@@ -25,4 +25,3 @@ data:
         requests:
           cpu: 100m
           memory: 128Mi
-    priorityClassName: dkp-critical-priority
