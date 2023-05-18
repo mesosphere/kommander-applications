@@ -66,6 +66,7 @@ data:
           fieldRef:
             fieldPath: metadata.namespace
     dex-controller:
+      priorityClassName: "dkp-critical-priority"
       controller:
         manager:
           dexConfigSecretName: dex
