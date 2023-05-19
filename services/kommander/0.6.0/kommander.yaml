@@ -26,17 +26,11 @@ spec:
   install:
     crds: CreateReplace
     remediation:
-      # The Kommander chart cannot be uninstalled in its current form. That's
-      # a known issue and trying to remediate an installation failure by
-      # deleting and retrying won't work so we can just as well not retry to
-      # begin with.
-      retries: 0
+      retries: 30
   upgrade:
     crds: CreateReplace
     remediation:
-      # Rolling back an upgrade will very like not work and is untested so
-      # let's disable any remediation.
-      retries: 0
+      retries: 30
   releaseName: kommander
   valuesFrom:
     - kind: ConfigMap

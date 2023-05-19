@@ -9,6 +9,7 @@ data:
     commonLabels:
       prometheus.kommander.d2iq.io/select: "true"
     prometheusOperator:
+      priorityClassName: "dkp-critical-priority"
       logLevel: warn
       tls:
         tlsMinVersion: VersionTLS12
@@ -347,6 +348,7 @@ data:
     kubeScheduler:
       enabled: false
     alertmanager:
+      enabled: true
       config:
         global:
           resolve_timeout: 5m
@@ -387,6 +389,7 @@ data:
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
+      priorityClassName: "dkp-critical-priority"
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
@@ -488,6 +491,7 @@ data:
     nodeExporter:
       enabled: true
     kube-state-metrics:
+      priorityClassName: "dkp-critical-priority"
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]

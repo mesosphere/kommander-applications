@@ -62,6 +62,9 @@ spec:
   template:
     spec:
       serviceAccountName: {{ .Chart.Name }}-installation
+      {{- if .Values.priorityClassName }}
+      priorityClassName: "{{ .Values.priorityClassName }}"
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-installation
           image: "{{ .Values.kubetools.image.repository | default "mesosphere/kommander2-kubetools" }}:{{ .Values.kubetools.image.tag }}"

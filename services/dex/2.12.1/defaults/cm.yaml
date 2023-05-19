@@ -6,6 +6,7 @@ metadata:
 data:
   values.yaml: |-
     ---
+    priorityClassName: "dkp-critical-priority"
     image: mesosphere/dex
     imageTag: v2.35.1-d2iq.1
     resources:
@@ -65,6 +66,7 @@ data:
           fieldRef:
             fieldPath: metadata.namespace
     dex-controller:
+      priorityClassName: "dkp-critical-priority"
       controller:
         manager:
           dexConfigSecretName: dex

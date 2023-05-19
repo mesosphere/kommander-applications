@@ -1,17 +1,21 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: nvidia-gpu-operator
+  name: kommander-ui
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: kommander
   chart:
     spec:
-      chart: gpu-operator
+      chart: kommander-ui
       sourceRef:
         kind: HelmRepository
-        name: helm.ngc.nvidia.com-nvidia
+        name: kommander-ui
         namespace: kommander-flux
-      version: v22.9.1
+      version: 9.30.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -21,8 +25,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: nvidia-gpu-operator
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-gpu-operator-22.9.1-d2iq-defaults
+      name: kommander-ui-9.30.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}

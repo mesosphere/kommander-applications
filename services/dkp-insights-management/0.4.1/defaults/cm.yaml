@@ -25,3 +25,4 @@ data:
         requests:
           cpu: 100m
           memory: 128Mi
+    priorityClassName: dkp-critical-priority
