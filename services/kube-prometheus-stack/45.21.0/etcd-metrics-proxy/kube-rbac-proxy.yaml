@@ -61,6 +61,7 @@ spec:
         app: etcd-metrics-proxy
     spec:
       serviceAccountName: etcd-metrics-proxy
+      priorityClassName: dkp-critical-priority
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           operator: Exists
