@@ -9,14 +9,14 @@ data:
   values.yaml: |-
     controller:
       image:
-        repository: metallb/controller
+        repository: quay.io/metallb/controller
         tag: v0.9.3
       requests:
         cpu: 100m
         memory: 100Mi
     speaker:
       image:
-        repository: metallb/speaker
+        repository: quay.io/metallb/speaker
         tag: v0.9.3
       requests:
         cpu: 100m
