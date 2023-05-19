@@ -21,6 +21,9 @@ spec:
         release: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ .Chart.Name }}-sa
+      {{- if .Values.priorityClassName }}
+      priorityClassName: "{{ .Values.priorityClassName }}"
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.kommanderoperator.image.repository }}:{{ .Values.kommanderoperator.image.tag }}"
