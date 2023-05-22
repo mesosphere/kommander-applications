@@ -500,6 +500,7 @@ data:
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
     prometheus-node-exporter:
+      priorityClassName: "dkp-critical-priority"
       prometheus:
         monitor:
           additionalLabels:
