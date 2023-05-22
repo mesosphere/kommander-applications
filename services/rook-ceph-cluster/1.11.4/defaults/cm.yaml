@@ -13,6 +13,7 @@ data:
       # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
       # This is enabled by default to workaround D2IQ-96634
       enabled: true
+      priorityClassName: dkp-high-priority
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
@@ -52,6 +53,10 @@ data:
         urlPrefix: ""
         port: 8443
         ssl: false
+
+      # priority classes to apply to ceph resources
+      priorityClassNames:
+        crashcollector: system-cluster-critical
 
       storage:
         storageClassDeviceSets:
