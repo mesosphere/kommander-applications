@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - ../helm-repositories/
   - ../priority-classes/
-  - ../values/
