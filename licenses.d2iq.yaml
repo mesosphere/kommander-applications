@@ -210,37 +210,37 @@ resources:
       - url: https://github.com/kubernetes/dashboard
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.10.0
     sources:
       - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.0
     sources:
       - url: https://github.com/knative-sandbox/net-istio
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.10.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.10.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.10.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.10.0
         license_path: LICENSE
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.10.1
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.10.0
     sources:
       - url: https://github.com/knative/serving
         ref: knative-v1.10.0
