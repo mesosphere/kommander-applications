@@ -12,11 +12,16 @@ data:
           k8s:
             hpaSpec:
               minReplicas: 2
+            priorityClassName: "dkp-critical-priority"
           name: istio-ingressgateway
         pilot:
           k8s:
             hpaSpec:
               minReplicas: 2
+            priorityClassName: "dkp-critical-priority"
+        cni:
+          k8s:
+            priorityClassName: "dkp-critical-priority"
     security:
       issuerName: ${caIssuerName}
     prometheus-operator:
