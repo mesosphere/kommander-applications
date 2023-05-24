@@ -7,6 +7,8 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    attached:
+      priorityClassName: "system-cluster-critical"
     serviceMonitor:
       enabled: false
     issuer:
