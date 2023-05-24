@@ -43,6 +43,7 @@ spec:
     spec:
       serviceAccountName: grafana-loki-pre-install
       restartPolicy: OnFailure
+      priorityClassName: dkp-critical-priority
       containers:
         - name: pre-install
           image: bitnami/kubectl:1.24.6
@@ -95,4 +96,6 @@ spec:
                 echo "The CephCluster '.status.ceph.capacity.lastUpdated' field is not populated yet, retrying after 10s..."
                 sleep 10
               done
+
+              echo "CephCluster capacity updated at: $ceph_cluster_capacity"
               EOF

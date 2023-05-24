@@ -43,6 +43,7 @@ spec:
     spec:
       serviceAccountName: velero-pre-install
       restartPolicy: OnFailure
+      priorityClassName: dkp-critical-priority
       containers:
         - name: pre-install
           image: bitnami/kubectl:1.24.6

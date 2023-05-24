@@ -43,6 +43,7 @@ spec:
       name: dkp-ceph-prereq-job
     spec:
       serviceAccountName: check-dkp-ceph-crd
+      priorityClassName: system-cluster-critical
       restartPolicy: OnFailure
       containers:
         - name: pre-install
