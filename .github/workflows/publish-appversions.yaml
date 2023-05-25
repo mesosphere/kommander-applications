@@ -1,0 +1,37 @@
+name: Publish appversions in Confluence
+on:
+  workflow_dispatch: {}
+  release:
+    types:
+      - published
+
+jobs:
+  publish-test:
+    name: Publish docs test
+    if: ${{ github.event.name == 'workflow_dispatch' }}
+    runs-on:
+    - self-hosted
+    - small
+    steps:
+      - name: Repository dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: mesosphere/dkp-infra-tools
+          event-type: confluence-docs
+          client-payload: '{"docs_type":"appversions","branch":"main"}'
+
+  publish-tag:
+    name: Publish docs with tag
+    if: ${{ startsWith(github.ref_name, 'v') }}
+    runs-on:
+    - self-hosted
+    - small
+    steps:
+      - name: Repository dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: mesosphere/dkp-infra-tools
+          event-type: confluence-docs
+          client-payload: '{"docs_type":"appversions","tag":"${{ github.ref_name }}"}'
