@@ -251,6 +251,8 @@ data:
         bucketName: dkp-velero
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
         additionalConfig:
           maxSize: "20G"
       grafana-loki:
@@ -258,6 +260,8 @@ data:
         bucketName: dkp-loki
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
         additionalConfig:
           # maxObjects:
           maxSize: "80G"

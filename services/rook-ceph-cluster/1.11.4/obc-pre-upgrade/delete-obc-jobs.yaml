@@ -43,6 +43,7 @@ metadata:
   name: delete-obc-jobs
   namespace: ${releaseNamespace}
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       name: delete-obc-jobs
@@ -50,7 +51,6 @@ spec:
       serviceAccountName: obc-pre-upgrade
       restartPolicy: OnFailure
       priorityClassName: system-cluster-critical
-      ttlSecondsAfterFinished: 100
       containers:
         - name: kubectl
           image: bitnami/kubectl:1.24.6
