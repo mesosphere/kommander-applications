@@ -4,7 +4,7 @@ metadata:
   name: grafana-loki-pre-install
   namespace: ${releaseNamespace}
 spec:
-  force: false
+  force: true
   prune: true
   wait: true
   interval: 6h

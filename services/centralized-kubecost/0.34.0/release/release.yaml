@@ -70,6 +70,7 @@ spec:
     spec:
       serviceAccountName: kubecost-thanos-configmap-edit
       restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
       containers:
         - name: kubectl
           image: bitnami/kubectl:1.24.6
