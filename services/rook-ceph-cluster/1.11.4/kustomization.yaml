@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - object-bucket-claims.yaml
   - pre-install.yaml
+  - obc-pre-upgrade.yaml
   - rook-ceph-cluster.yaml
   - grafana-dashboards
