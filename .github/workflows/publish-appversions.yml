@@ -18,7 +18,7 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.MESOSPHERECI_USER_TOKEN }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/mesosphere/dkp-infra-tools/dispatches \
-            -d '{"event_type":"confluence-docs","client_payload":{"docs_type":"appversions","branch":"main"}}'
+            -d '{"event_type":"confluence-docs","client_payload":{"docs_type":"appversions","ref":"main"}}'
 
   publish-tag:
     name: Publish docs with tag
@@ -32,4 +32,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.MESOSPHERECI_USER_TOKEN }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/mesosphere/dkp-infra-tools/dispatches \
-            -d '{"event_type":"confluence-docs","client_payload":{"docs_type":"appversions","branch":"${{ github.ref_name }}"}}'
+            -d '{"event_type":"confluence-docs","client_payload":{"docs_type":"appversions","ref":"${{ github.ref_name }}"}}'
