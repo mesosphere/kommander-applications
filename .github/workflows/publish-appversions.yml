@@ -9,7 +9,9 @@ jobs:
   publish-test:
     name: Publish docs test
     if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
+    runs-on:
+    - self-hosted
+    - small
     steps:
       - name: Repository dispatch
         run: |
@@ -23,7 +25,9 @@ jobs:
   publish-tag:
     name: Publish docs with tag
     if: ${{ startsWith(github.ref_name, 'v') }}
-    runs-on: ubuntu-latest
+    runs-on:
+    - self-hosted
+    - small
     steps:
       - name: Repository dispatch
         run: |
