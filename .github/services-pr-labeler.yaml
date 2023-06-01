@@ -40,3 +40,6 @@ do-not-merge/testing:
 
 ok-to-test:
   - services/**/*
+
+update-licenses:
+  - services/**/*
