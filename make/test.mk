@@ -9,7 +9,7 @@ E2E_TIMEOUT       ?= 120m
 # flexible with our testing as well as testing against the same patch version as we deliver
 # by default with DKP.
 # See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
-E2E_KINDEST_IMAGE ?= "mesosphere/kind-node-ci:v1.24.6"
+E2E_KINDEST_IMAGE ?= "mesosphere/kind-node-ci:v1.26.3"
 
 # Kommander <=v2.3 does not install on Kubernetes >=v1.24 due to the introduction of
 # `LegacyServiceAccountTokenNoAutoGeneration` feature (enabled by default). This breaks self-attachment
