@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community.github.io-helm-charts
         namespace: kommander-flux
-      version: 4.2.1
+      version: 4.2.0
   interval: 15s
   install:
     crds: CreateReplace
