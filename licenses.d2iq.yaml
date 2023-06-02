@@ -3,7 +3,7 @@ ignore:
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
   - docker.io/bitnami/external-dns:0.13.4-debian-11-r19
-  - docker.io/bitnami/kubectl:1.24.6
+  - docker.io/bitnami/kubectl:1.26.4
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9

@@ -53,7 +53,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: kubectl
-          image: bitnami/kubectl:1.24.6
+          image: bitnami/kubectl:1.26.4
           command:
             - sh
             - -c
