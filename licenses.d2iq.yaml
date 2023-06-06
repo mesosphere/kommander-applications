@@ -287,7 +287,7 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: nvcr.io/nvidia/gpu-operator:v23.3.1
+  - container_image: nvcr.io/nvidia/gpu-operator:v23.3.2
     sources:
       - url: https://github.com/NVIDIA/gpu-operator
         ref: ${image_tag}
