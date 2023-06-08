@@ -9,5 +9,5 @@ data:
   name: "Rook Ceph Cluster"
   dashboardLink: "/dkp/kommander/ceph-dashboard/"
   docsLink: "https://docs.ceph.com/en/latest/mgr/dashboard/"
-  # Rook Ceph Version can be found at https://github.com/rook/rook/blob/v1.11.4/deploy/charts/rook-ceph-cluster/values.yaml#L89
+  # Rook Ceph Version can be found at https://github.com/rook/rook/blob/v1.11.7/deploy/charts/rook-ceph-cluster/values.yaml#L89
   version: "17.2.6"
