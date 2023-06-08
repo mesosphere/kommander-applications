@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 0.69.14
+      version: 0.69.16
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,4 +24,4 @@ spec:
   releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.69.14-d2iq-defaults
+      name: project-grafana-loki-0.69.16-d2iq-defaults
