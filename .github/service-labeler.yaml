@@ -10,6 +10,8 @@ services/dex:
   - services/dex/**
 services/dex-k8s-authenticator:
   - services/dex-k8s-authenticator/**
+services/dkp-insights:
+  - services/dkp-insights/**
 services/dkp-insights-management:
   - services/dkp-insights-management/**
 services/external-dns:
