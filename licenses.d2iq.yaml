@@ -143,6 +143,10 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: main
+  - container_image: docker.io/mesosphere/insights:v0.4.1
+    sources:
+      - url: https://github.com/mesosphere/dkp-insights
+        ref: main
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name
     sources:
       - url: https://github.com/prymitive/karma
