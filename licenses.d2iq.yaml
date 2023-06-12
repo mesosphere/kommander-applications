@@ -317,11 +317,6 @@ resources:
       - url: https://github.com/kiali/kiali-operator
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.22.0
-    sources:
-      - url: https://github.com/kiwigrid/k8s-sidecar
-        ref: ${image_tag}
-        license_path: LICENSE
   - container_image: quay.io/kiwigrid/k8s-sidecar:1.24.3
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
