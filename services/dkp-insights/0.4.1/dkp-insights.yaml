@@ -10,7 +10,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mesosphere.github.io-dkp-insights-charts-attached
-        namespace: ${workspaceNamespace}
+        namespace: kommander-flux
       version: v0.4.1
   install:
     remediation:
