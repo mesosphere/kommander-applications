@@ -1,15 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: rook-ceph-cluster-obc-pre-upgrade
+  name: rook-ceph-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: true
+  force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.11.4/obc-pre-upgrade
+  path: ./services/rook-ceph/1.11.7/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
@@ -18,3 +18,6 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
