@@ -42,5 +42,5 @@ data:
   # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart dependency at:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, find the Grafana app version:
-  # https://artifacthub.io/packages/helm/grafana/grafana/6.22.0
-  version: "9.1.6"
+  # https://artifacthub.io/packages/helm/grafana/grafana/6.57.2
+  version: "9.5.3"
