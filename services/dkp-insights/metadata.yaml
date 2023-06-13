@@ -5,7 +5,7 @@ category:
   - monitoring
 certifications:
   - airgapped
-type: catalog
+type: platform
 allowMultipleInstances: false
 scope:
   - workspace

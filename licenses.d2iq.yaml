@@ -6,12 +6,13 @@ ignore:
   - docker.io/bitnami/kubectl:1.26.4
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
-  - docker.io/bitnami/postgresql:11.14.0-debian-10-r28
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
+  - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
   - docker.io/library/busybox:1
   - docker.io/chrislusf/seaweedfs:3.20
   - gcr.io/kubecost1/cost-model:prod-1.102.2
   - gcr.io/kubecost1/frontend:prod-1.102.2
+  - quay.io/fairwinds/nova:3.4.0
   - quay.io/fairwinds/pluto:v5.10.6
   - quay.io/fairwinds/polaris:5.1
 resources:
@@ -147,14 +148,10 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dkp-insights
         ref: main
-  - container_image: docker.io/mesosphere/insights:v0.2.3
+  - container_image: docker.io/mesosphere/insights:v0.5.0-beta.1
     sources:
       - url: https://github.com/mesosphere/dkp-insights
-        ref: v0.2.3
-  - container_image: docker.io/mesosphere/insights:v0.4.1
-    sources:
-      - url: https://github.com/mesosphere/dkp-insights
-        ref: v0.4.1
+        ref: main
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name
     sources:
       - url: https://github.com/prymitive/karma

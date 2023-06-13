@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-0.4.1-d2iq-defaults
+  name: dkp-insights-0.5.0-beta.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -129,8 +129,23 @@ data:
                 group: templates.gatekeeper.sh
                 kind: ConstraintTemplate
               nameRegexp: requiredserviceaccountname
+        mode: daytwo
+        replay:
+          apiServerService: dkp-insights-replay-troubleshoot-live
       eventExpirationTime: 1h
+      livenessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
       log_level: INFO
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
       resources:
         limits:
           cpu: 1000m
@@ -138,6 +153,13 @@ data:
         requests:
           cpu: 250m
           memory: 128Mi
+      s3:
+        bucketSize: 1G
+        enableObjectBucketClaim: true
+        endpoint: rook-ceph-rgw-dkp-object-store
+        port: 80
+        region: us-east-1
+        storageClassName: dkp-object-store
       synchronous_view_details: false
       thresholds:
         storage:
@@ -170,7 +192,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v0.4.1
+      tag: v0.5.0-beta.1
     initdb:
       resources:
         limits:
@@ -358,20 +380,6 @@ data:
       schedule: '@every 35m'
       upload:
         logLevel: INFO
-        resources:
-          limits:
-            cpu: 250m
-            memory: 128Mi
-          requests:
-            cpu: 100m
-            memory: 64Mi
-    objectstore:
-      initTTL:
-        image:
-          imagePullPolicy: IfNotPresent
-          registry: docker.io
-          repository: chrislusf/seaweedfs
-          tag: "3.20"
         resources:
           limits:
             cpu: 250m
@@ -1162,13 +1170,6 @@ data:
             rules:
               - livenessProbeMissing
               - readinessProbeMissing
-          - controllerNames:
-              - dkp-insights-seaweedfs
-            rules:
-              - insecureCapabilities
-              - notReadOnlyRootFilesystem
-              - privilegeEscalationAllowed
-              - runAsRootAllowed
       enabled: true
       image:
         pullPolicy: IfNotPresent
@@ -1192,31 +1193,36 @@ data:
             cpu: 100m
             memory: 64Mi
     postgresql:
-      containerSecurityContext:
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
-        privileged: false
-        runAsNonRoot: true
       global:
         connectionPool:
           connectionMaxLifetime: 1h
           maxIdleConnections: 30
           maxOpenConnections: 50
         postgresql:
-          postgresqlDatabase: dkp-insights
-          postgresqlPassword: dkp-insights
+          auth:
+            database: dkp-insights
+            postgresPassword: dkp-insights
           servicePort: 5432
-      persistence:
-        size: 8Gi
+      primary:
+        persistence:
+          size: 8Gi
+        priorityClassName: dkp-critical-priority
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 1Gi
+    preUpgrade:
       resources:
         limits:
           cpu: 250m
-          memory: 1Gi
+          memory: 128Mi
         requests:
-          cpu: 250m
-          memory: 1Gi
+          cpu: 100m
+          memory: 64Mi
+    priorityClassName: dkp-critical-priority
     reforwarder:
       resources:
         limits:
@@ -1233,218 +1239,6 @@ data:
         requests:
           cpu: 100m
           memory: 64Mi
-    seaweedfs:
-      filer:
-        affinity: |
-          podAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 50
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - seaweedfs
-                  - key: component
-                    operator: In
-                    values:
-                    - master
-                topologyKey: topology.kubernetes.io/hostname
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 50
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - seaweedfs
-                  - key: component
-                    operator: In
-                    values:
-                    - volume
-                  - key: component
-                    operator: In
-                    values:
-                    - filer
-                topologyKey: topology.kubernetes.io/hostname
-        data:
-          size: 1Gi
-          type: persistentVolumeClaim
-        enablePVC: false
-        enabled: true
-        extraEnvironmentVars:
-          WEED_LEVELDB2_ENABLED: "false"
-          WEED_MYSQL_ENABLED: "false"
-        extraVolumeMounts: |
-          - name: seaweedfs-filer-config
-            mountPath: "/etc/seaweedfs/filer.toml"
-            subPath: "filer.toml"
-        extraVolumes: |
-          - name: seaweedfs-filer-config
-            configMap:
-              name: {{ include "chart.insightsSeaweedFSCMName" . }}
-              items:
-                - key: filer.toml
-                  path: filer.toml
-        grpcPort: 18888
-        initContainers: |
-          - name: init-db
-            image: docker.io/mesosphere/insights:v0.2.3
-            imagePullPolicy: IfNotPresent
-            resources:
-              limits:
-                cpu: 250m
-                memory: 128Mi
-              requests:
-                cpu: 100m
-                memory: 64Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                - ALL
-              privileged: false
-              readOnlyRootFilesystem: true
-              runAsNonRoot: true
-              runAsUser: 65532
-            args:
-            - insights-backend-db-init
-            - --sleep-duration
-            - 15s
-            env:
-            - name: POSTGRES_HOSTNAME
-              value: dkp-insights-postgresql.{{ .Release.Namespace }}.svc.cluster.local
-            - name: POSTGRES_PORT
-              value: "5432"
-            - name: POSTGRES_DATABASE
-              value: dkp-insights
-            - name: POSTGRES_PASSWORD
-              value: dkp-insights
-        logs:
-          size: 2Gi
-          type: persistentVolumeClaim
-        metricsPort: 9327
-        nodeSelector: ""
-        port: 8888
-        resources: |
-          limits:
-            cpu: "250m"
-            memory: "512Mi"
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-        s3:
-          enabled: true
-          port: 8333
-      global:
-        enableReplication: true
-        replicationPlacment: "002"
-      image:
-        registry: docker.io/
-      master:
-        affinity: |
-          podAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 50
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - seaweedfs
-                  - key: component
-                    operator: In
-                    values:
-                    - filer
-                topologyKey: topology.kubernetes.io/hostname
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 50
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - seaweedfs
-                  - key: component
-                    operator: In
-                    values:
-                    - volume
-                  - key: component
-                    operator: In
-                    values:
-                    - master
-                topologyKey: topology.kubernetes.io/hostname
-        data:
-          size: 2Gi
-          type: persistentVolumeClaim
-        grpcPort: 19333
-        logs:
-          size: 1Gi
-          type: persistentVolumeClaim
-        nodeSelector: ""
-        port: 9333
-        resources: |
-          limits:
-            cpu: "250m"
-            memory: "128Mi"
-          requests:
-            cpu: "100m"
-            memory: "64Mi"
-        volumeSizeLimitMB: "512"
-      nameOverride: dkp-insights-seaweedfs
-      volume:
-        affinity: |
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                    - seaweedfs
-                  - key: component
-                    operator: In
-                    values:
-                    - volume
-                  - key: component
-                    operator: In
-                    values:
-                    - filer
-                  - key: component
-                    operator: In
-                    values:
-                    - master
-                topologyKey: topology.kubernetes.io/hostname
-        data:
-          size: 8Gi
-          type: persistentVolumeClaim
-        grpcPort: 18080
-        idx:
-          size: 1Gi
-          type: persistentVolumeClaim
-        index: leveldbMedium
-        logs:
-          size: 1Gi
-          type: persistentVolumeClaim
-        metricsPort: 9327
-        nodeSelector: ""
-        port: 8080
-        replicas: 3
-        resources: |
-          limits:
-            cpu: "250m"
-            memory: "512Mi"
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
     selfAlerting:
       postgres:
         enabled: true
@@ -1456,7 +1250,7 @@ data:
         enabled: false
         name: dkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.35.0-20230301T060350Z
+        imageFull: mesosphere/trivy-bundles:0.35.0-20230524T060234Z
         pullPolicy: IfNotPresent
       resources:
         limits:
