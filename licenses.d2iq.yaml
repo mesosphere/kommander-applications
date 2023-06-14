@@ -71,7 +71,7 @@ resources:
         ref: v${image_tag}
         license_path: LICENSE
         notice_path: NOTICE.md
-  - container_image: docker.io/grafana/grafana:9.4.3
+  - container_image: docker.io/grafana/grafana:9.4.7
     sources:
       - url: https://github.com/grafana/grafana
         ref: v${image_tag}
@@ -103,7 +103,7 @@ resources:
       - url: https://github.com/jimmidyson/configmap-reload
         ref: ${image_tag}
         license_path: LICENSE.txt
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.15.9
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.23.1
     sources:
       - url: https://github.com/kiwigrid/k8s-sidecar
         ref: ${image_tag}
