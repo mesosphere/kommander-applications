@@ -16,6 +16,7 @@ spec:
     remediation:
       retries: 30
   interval: 15s
+  path: ./services/dkp-insights/0.5.0/helmrelease
   releaseName: dkp-insights
   targetNamespace: ${releaseNamespace}
   upgrade:
