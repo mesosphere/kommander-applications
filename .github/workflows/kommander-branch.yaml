@@ -95,24 +95,24 @@ jobs:
           }
 
       - name: checkout local directory for script
-        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'chartbump/nvidia-gpu-operator')
+        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'gpu-operator')
         uses: actions/checkout@v3
         with:
           path: 'main'
 
       - name: get go
-        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'chartbump/nvidia-gpu-operator')
+        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'gpu-operator')
         uses: actions/setup-go@v4
         with:
           go-version-file: 'kommander/go.mod'
           cache: true
 
       - name: run nvidia script
-        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'chartbump/nvidia-gpu-operator')
+        if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'gpu-operator')
         run: |
           go install github.com/itchyny/gojq/cmd/gojq@latest
           cd main
-          version=$(echo ${{ needs.get-kapps-branch-name.outputs.branch_name }} | rev | cut -d'-' -f 1 | rev)
+          version=$(echo ${{ needs.get-kapps-branch-name.outputs.branch_name }} | rev | cut -d'-' -f 1 | rev | sed s/v//g )
           ./hack/update-nvidia.sh ../kommander/hack/airgapped/missing-images.json services/nvidia-gpu-operator/${version}/defaults/cm.yaml
           cd -
           cd kommander

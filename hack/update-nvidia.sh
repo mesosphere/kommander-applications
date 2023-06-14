@@ -28,8 +28,8 @@ for image in "${images[@]}"; do
         new_version=$(tail --lines=+8 "${2}"| gojq --yaml-input '.validator.version'| xargs)
         new_image="${new_image//"${version}"/"${new_version}"}"
       ;;
-      devicePlugin)
-        new_version=$(tail --lines=+8 "${2}"| gojq --yaml-input '.devicePlugin.config.version'| xargs)
+      k8s-device-plugin)
+        new_version=$(tail --lines=+8 "${2}"| gojq --yaml-input '.devicePlugin.version'| xargs)
         new_image="${new_image//"${version}"/"${new_version}"}"
       ;;
       *)
