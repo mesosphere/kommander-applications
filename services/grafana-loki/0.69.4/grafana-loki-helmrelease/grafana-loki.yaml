@@ -14,6 +14,7 @@ spec:
         namespace: kommander-flux
       version: "0.69.4"
   interval: 15s
+  timeout: 15m
   install:
     crds: CreateReplace
     remediation:
