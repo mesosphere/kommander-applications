@@ -1,13 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-kubecost-0.34.0-d2iq-defaults
+  name: centralized-kubecost-0.35.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
+    hooks:
+      clusterID:
+        priorityClassName: dkp-high-priority
+
     cost-analyzer:
       fullnameOverride: "kommander-kubecost-cost-analyzer"
+
+      priority:
+        enabled: true
+        name: dkp-high-priority
+
       global:
         prometheus:
           fqdn: http://kubecost-prometheus-server.kommander.svc.cluster.local
@@ -72,10 +81,13 @@ data:
         fullnameOverride: "kommander-kubecost-prometheus"
         server:
           fullnameOverride: "kommander-kubecost-prometheus-server"
+          priorityClassName: dkp-high-priority
         alertmanager:
           fullnameOverride: "kommander-kubecost-prometheus-alertmanager"
+          priorityClassName: dkp-high-priority
         kube-state-metrics:
           fullnameOverride: "kommander-kubecost-prometheus-kube-state-metrics"
+          priorityClassName: dkp-high-priority
 
         configmapReload:
           prometheus:
@@ -88,6 +100,7 @@ data:
       thanos:
         fullnameOverride: "kommander-kubecost-thanos"
         nameOverride: "kubecost-thanos"
+        priorityClassName: dkp-high-priority
         query:
           enabled: true
           timeout: 3m

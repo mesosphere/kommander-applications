@@ -1,17 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-0.34.0-d2iq-defaults
+  name: kubecost-0.35.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
+    hooks:
+      clusterID:
+        priorityClassName: dkp-high-priority
+
     cost-analyzer:
-      prometheus:
-        kube-state-metrics:
-          image:
-            # Remove this override after https://github.com/kubecost/cost-analyzer-helm-chart/pull/2018 is released in v1.101.0
-            repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
+      priority:
+        enabled: true
+        name: dkp-high-priority
+
       global:
         prometheus:
           enabled: true
@@ -34,7 +37,16 @@ data:
       podSecurityPolicy:
         enabled: false
 
+      prometheus:
+        kube-state-metrics:
+          priorityClassName: dkp-high-priority
+        server:
+          priorityClassName: dkp-high-priority
+        alertmanager:
+          priorityClassName: dkp-high-priority
+
       grafana:
+        priorityClassName: dkp-high-priority
         ingress:
           enabled: true
           annotations:
