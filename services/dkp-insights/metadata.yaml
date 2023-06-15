@@ -3,6 +3,10 @@ description: DKP Insights is D2iQ’s analytics tool used to ensure clusters are
 category:
   - observability
   - monitoring
+requiredDependencies:
+  - kube-prometheus-stack
+  - rook-ceph
+  - rook-ceph-cluster
 certifications:
   - airgapped
 type: platform
