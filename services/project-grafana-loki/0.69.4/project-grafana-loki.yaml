@@ -13,6 +13,7 @@ spec:
         name: grafana.github.io
         namespace: kommander-flux
       version: "0.69.4"
+  timeout: 15m
   interval: 15s
   install:
     crds: CreateReplace
