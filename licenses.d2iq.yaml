@@ -8,8 +8,8 @@ ignore:
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.102.2
-  - gcr.io/kubecost1/frontend:prod-1.102.2
+  - gcr.io/kubecost1/cost-model:prod-1.104.0
+  - gcr.io/kubecost1/frontend:prod-1.104.0
 resources:
   - container_image: docker.io/mesosphere/kommander2-core-installer:${kommander}
     sources:
