@@ -12,6 +12,7 @@ spec:
         name: charts.rook.io-release
         namespace: kommander-flux
       version: v1.11.7
+  timeout: 15m
   interval: 15s
   install:
     crds: CreateReplace
