@@ -46,9 +46,7 @@ kind: HelmRepository
 metadata:
   name: mesosphere.github.io-dkp-insights-charts-attached
   namespace: kommander-flux
-  labels:
-    kommander.d2iq.io/dkp-airgapped: supported
 spec:
-  url: "${helmMirrorURL:=http://mesosphere.github.io/dkp-insights-charts-attached}"
-  timeout: 1m
   interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=http://mesosphere.github.io/dkp-insights-charts-attached}"
