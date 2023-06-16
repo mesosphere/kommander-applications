@@ -7,6 +7,7 @@ ignore:
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
+  - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
   - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.104.0
   - gcr.io/kubecost1/frontend:prod-1.104.0
@@ -142,7 +143,11 @@ resources:
   - container_image: docker.io/mesosphere/insights-management:v0.5.0-beta.1
     sources:
       - url: https://github.com/mesosphere/dkp-insights
-        ref: main
+        ref: ${image_tag}
+  - container_image: docker.io/mesosphere/insights:v0.5.0-beta.1
+    sources:
+      - url: https://github.com/mesosphere/dkp-insights
+        ref: ${image_tag}
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name
     sources:
       - url: https://github.com/prymitive/karma
@@ -375,4 +380,19 @@ resources:
     sources:
       - url: https://github.com/brancz/kube-rbac-proxy
         ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: quay.io/fairwinds/nova:3.4.0
+    sources:
+      - url: https://github.com/FairwindsOps/nova
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: quay.io/fairwinds/pluto:v5.10.6
+    sources:
+      - url: https://github.com/FairwindsOps/pluto
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: quay.io/fairwinds/polaris:5.1
+    sources:
+      - url: https://github.com/FairwindsOps/polaris
+        ref: ${image_tag}.0
         license_path: LICENSE
