@@ -18,6 +18,8 @@ open-kommander-pr:
   - services/thanos/**
   - services/traefik-forward-auth/**
   - services/traefik-forward-auth-mgmt/**
+  - services/kubecost/**
+  - services/centralized-kubecost/**
 
 # this should be the same list as above open-kommander-pr
 do-not-merge/testing:
