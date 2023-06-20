@@ -4,17 +4,14 @@ metadata:
   name: knative
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: istio
-      namespace: ${releaseNamespace}
   chart:
     spec:
       chart: knative
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: adityajariwala.github.io
         namespace: kommander-flux
-      version: 1.10.4
+      version: 1.10.5
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,4 +25,4 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.10.4-d2iq-defaults
+      name: knative-1.10.5-d2iq-defaults
