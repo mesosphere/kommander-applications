@@ -9,7 +9,7 @@ spec:
       chart: knative
       sourceRef:
         kind: HelmRepository
-        name: adityajariwala.github.io
+        name: aditya
         namespace: kommander-flux
       version: 1.10.5
   interval: 15s
