@@ -217,12 +217,12 @@ resources:
         license_path: LICENSE
   - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.10.2
     sources:
-      - url: https://github.com/knative-sandbox/net-istio
+      - url: https://github.com/knative/serving
         ref: knative-v1.10.2
         license_path: LICENSE
   - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.10.2
     sources:
-      - url: https://github.com/knative-sandbox/net-istio
+      - url: https://github.com/knative/serving
         ref: knative-v1.10.2
         license_path: LICENSE
   - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.2
