@@ -1,5 +1,6 @@
 open-kommander-pr:
   - services/cert-manager/**
+  - services/chartmuseum/**
   - services/external-dns/**
   - services/fluent-bit/**
   - services/gatekeeper/**
