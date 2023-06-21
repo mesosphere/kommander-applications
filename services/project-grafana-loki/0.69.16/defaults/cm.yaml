@@ -159,6 +159,7 @@ data:
             name: proj-loki-${releaseNamespace}
 
     queryFrontend:
+      priorityClassName: "dkp-critical-priority"
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
