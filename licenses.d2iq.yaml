@@ -24,6 +24,10 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander
         ref: ${image_tag}
+  - container_image: docker.io/mesosphere/kommander2-appmanagement-config-api:${kommander}
+    sources:
+      - url: https://github.com/mesosphere/kommander
+        ref: ${image_tag}
   - container_image: docker.io/mesosphere/kommander2-federation-authorizedlister:${kommander}
     sources:
       - url: https://github.com/mesosphere/kommander
