@@ -32,3 +32,8 @@ data:
       image: bitnami/kubectl
       tag: 1.26.4
       priorityClassName: "dkp-critical-priority"
+    operator:
+      # expose metrics for prometheus scraping
+      monitoring:
+        host: 0.0.0.0
+        port: 15014
