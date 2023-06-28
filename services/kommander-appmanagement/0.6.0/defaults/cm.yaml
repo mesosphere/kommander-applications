@@ -31,5 +31,5 @@ data:
         tag: "${kommanderAppManagementImageTag}"
     defaultConfig:
       image:
-        repository: "${appManagementConfigApiImageRepository}"
+        repository: "${kommanderAppManagementConfigAPIImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
