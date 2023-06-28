@@ -29,3 +29,7 @@ data:
       image:
         repository: "${kommanderAppManagementWebhookImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
+    defaultConfig:
+      image:
+        repository: "${appManagementConfigApiImageRepository}"
+        tag: "${kommanderAppManagementImageTag}"
