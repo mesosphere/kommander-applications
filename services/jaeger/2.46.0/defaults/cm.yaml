@@ -22,6 +22,8 @@ data:
             traefik.ingress.kubernetes.io/router.tls: "true"
             traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
 
+    priorityClassName: dkp-high-priority
+
     rbac:
       create: true
       clusterRole: true
