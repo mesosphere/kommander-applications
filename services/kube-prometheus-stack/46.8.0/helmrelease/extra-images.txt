@@ -1,0 +1,1 @@
+{{ .Values.prometheusOperator.prometheusConfigReloader.image.registry }}/{{ .Values.prometheusOperator.prometheusConfigReloader.image.repository }}:{{ .Values.prometheusOperator.prometheusConfigReloader.image.tag | default .Chart.AppVersion }}

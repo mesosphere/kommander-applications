@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 trap_add() {
   local -r sig="${2:?Signal required}"
-  local -r hdls="$(trap -p "${sig}" | cut -f2 -d \')"
+  local -r hdls="$(trap -p "${sig}" | cut --fields=2 --delimiter=\')"
   # shellcheck disable=SC2064 # Quotes are required here to properly expand when adding the new trap.
   trap "${hdls}${hdls:+;}${1:?Handler required}" "${sig}"
 }
@@ -13,11 +13,11 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly REPO_ROOT
 pushd "${REPO_ROOT}" &>/dev/null
 
-while IFS= read -r repofile; do
-  envsubst <"${repofile}" | \
-    gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
-    xargs -l1 --no-run-if-empty -- helm repo add --force-update
-done < <(grep -R -m1 -l '^kind: HelmRepository')
+# while IFS= read -r repofile; do
+#   envsubst -no-unset -no-digit -i "${repofile}" | \
+#     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
+#     xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
+# done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
 
 # Dummy variables
 declare -rx releaseNamespace=unused \
@@ -64,22 +64,29 @@ declare -rx releaseNamespace=unused \
             kommanderAppManagementImageRepository='' \
             kommanderAppManagementKubetoolsImageRepository='' \
             kommanderAppManagementWebhookImageRepository='' \
-            tfaName=unused
+            tfaName=unused \
+            notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle=unused \
+            caIssuerName=unused
 
 readonly IMAGES_FILE="${REPO_ROOT}/images.txt"
-rm -f "${IMAGES_FILE}"
+rm --force "${IMAGES_FILE}"
 
-readonly METADATA_FILENAME='metadata.yaml'
-for dir in $(find . -type f -name "${METADATA_FILENAME}" | grep -o "\(.*\)/" | sort -u); do
+for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
   pushd "${dir}" &>/dev/null
 
   while IFS= read -r hr; do
     pushd "$(dirname "${hr}")" &>/dev/null
     extra_args=()
+    defaults_cm=""
     if [ -f 'defaults/cm.yaml' ]; then
+      defaults_cm='defaults/cm.yaml'
+    elif [ -f '../defaults/cm.yaml' ]; then
+      defaults_cm='../defaults/cm.yaml'
+    fi
+    if [ -n "${defaults_cm}" ]; then
       temp_values="$(mktemp .helm-list-images-XXXXXX)"
-      trap_add "rm -f $(realpath "${temp_values}")" EXIT
-      envsubst -no-unset -i defaults/cm.yaml | gojq --yaml-input -r '.data.["values.yaml"]' >"${temp_values}"
+      trap_add "rm --force $(realpath "${temp_values}")" EXIT
+      envsubst -no-unset -no-digit -i "${defaults_cm}" | gojq --yaml-input --raw-output '.data.["values.yaml"]' >"${temp_values}"
       extra_args+=('--values' "${temp_values}")
     fi
 
@@ -90,14 +97,25 @@ for dir in $(find . -type f -name "${METADATA_FILENAME}" | grep -o "\(.*\)/" | s
       extra_args+=('--extra-images-file' 'extra-images.txt')
     fi
 
-    envsubst -no-unset -i "$(basename "${hr}")" | \
-      gojq --yaml-input --raw-output 'select(.spec.chart.spec.sourceRef.name != null) |
-                                      select(.spec.chart.spec.sourceRef.kind == "HelmRepository") |
-                                      (.spec.chart.spec.sourceRef.name | gsub("\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version' | \
-      xargs -l1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" >>"${IMAGES_FILE}"
+    envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
+      gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" \
+        $'select(.spec.chart.spec.sourceRef.name != null) |
+          if .spec.chart.spec.sourceRef.kind == "HelmRepository" then
+            (.spec.chart.spec.sourceRef.name | gsub("\\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
+          elif .spec.chart.spec.sourceRef.kind == "GitRepository" then
+            $repoRoot+"/"+.spec.chart.spec.chart
+          end' | \
+      xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" >>"${IMAGES_FILE}"
     popd &>/dev/null
-  done < <(grep -R -m1 -l '^kind: HelmRelease')
+  done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRelease')
   popd &>/dev/null
 done
 
-sort -uo "${IMAGES_FILE}"{,}
+sed --expression='s|^docker.io/||' \
+    --expression='s|\(^[^/]\+$\)|library/\1|' \
+    --expression='s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
+    --expression='s|\(^[^:]\+:\?$\)|\1:latest|' \
+    --expression='/^[[:space:]]*$/d' \
+    --in-place "${IMAGES_FILE}"
+
+sort --unique --output="${IMAGES_FILE}" "${IMAGES_FILE}"
