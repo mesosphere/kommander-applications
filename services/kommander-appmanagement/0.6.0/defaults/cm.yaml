@@ -30,6 +30,8 @@ data:
         repository: "${kommanderAppManagementWebhookImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
     defaultConfig:
+      # TODO(takirala): enable config-api by default from DKP 2.7+
+      enabled: false
       image:
         repository: "${kommanderAppManagementConfigAPIImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
