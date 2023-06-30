@@ -75,25 +75,32 @@ spec:
       initContainers:
         - name: init
           image: docker.io/library/busybox:1
-          command: ["/bin/chown", "-R", "65532:65532", "/etc/certs/etcd"]
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              cp /etc/certs/etcd/ca.crt /etc/certs/etcd/healthcheck* /etc/kube-rbac-proxy/etcd/ &&
+              chown -R 65532:65532 /etc/kube-rbac-proxy/etcd
           securityContext:
             runAsUser: 0
             privileged: true
           volumeMounts:
             - name: etcd-certs
               mountPath: /etc/certs/etcd
+              readOnly: true
+            - name: etcd-certs-copy
+              mountPath: /etc/kube-rbac-proxy/etcd
       containers:
         - name: kube-rbac-proxy
           image: quay.io/brancz/kube-rbac-proxy:v0.14.1
           args:
             - "--secure-listen-address=0.0.0.0:8443"
-            - "--tls-cert-file=/etc/certs/tls.crt"
-            - "--tls-private-key-file=/etc/certs/tls.key"
+            - "--tls-cert-file=/etc/kube-rbac-proxy/tls/tls.crt"
+            - "--tls-private-key-file=/etc/kube-rbac-proxy/tls/tls.key"
             - "--upstream=https://$(NODE_IP):$(ETCD_PORT)"
             - "--allow-paths=/metrics"
-            - "--upstream-ca-file=/etc/certs/etcd/ca.crt"
-            - "--upstream-client-cert-file=/etc/certs/etcd/healthcheck-client.crt"
-            - "--upstream-client-key-file=/etc/certs/etcd/healthcheck-client.key"
+            - "--upstream-ca-file=/etc/kube-rbac-proxy/etcd/ca.crt"
+            - "--upstream-client-cert-file=/etc/kube-rbac-proxy/etcd/healthcheck-client.crt"
+            - "--upstream-client-key-file=/etc/kube-rbac-proxy/etcd/healthcheck-client.key"
             - "--v=7"
           ports:
             - containerPort: 8443
@@ -106,17 +113,25 @@ spec:
             - name: ETCD_PORT
               value: "2379"
           volumeMounts:
-            - name: etcd-certs
-              mountPath: /etc/certs/etcd
             - name: tls-certs
-              mountPath: /etc/certs
+              mountPath: /etc/kube-rbac-proxy/tls
+              readOnly: true
+            - name: etcd-certs-copy
+              mountPath: /etc/kube-rbac-proxy/etcd
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
       volumes:
         - name: etcd-certs
           hostPath:
             path: /etc/kubernetes/pki/etcd
+        - name: etcd-certs-copy
+          emptyDir: {}
         - name: tls-certs
           secret:
             secretName: etcd-metrics-proxy-tls
