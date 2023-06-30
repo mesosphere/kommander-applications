@@ -64,6 +64,7 @@ declare -rx releaseNamespace=unused \
             kommanderAppManagementImageRepository='' \
             kommanderAppManagementKubetoolsImageRepository='' \
             kommanderAppManagementWebhookImageRepository='' \
+            kommanderAppManagementConfigAPIImageRepository='' \
             tfaName=unused \
             notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle=unused \
             caIssuerName=unused
