@@ -140,10 +140,12 @@ resources:
     sources:
       - url: https://github.com/mesosphere/dex-k8s-authenticator
         ref: ${image_tag}
+        license_path: LICENSE
   - container_image: docker.io/mesosphere/dex:v2.35.1-d2iq.1
     sources:
       - url: https://github.com/mesosphere/dex
         ref: ${image_tag}
+        license_path: LICENSE
   - container_image: docker.io/mesosphere/insights-management:v0.5.0-beta.1
     sources:
       - url: https://github.com/mesosphere/dkp-insights
@@ -173,6 +175,7 @@ resources:
     sources:
       - url: https://github.com/mesosphere/traefik-forward-auth
         ref: v${image_tag}
+        license_path: LICENSE.thomseddon.md
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.12.0
     sources:
       - url: https://github.com/open-policy-agent/gatekeeper
