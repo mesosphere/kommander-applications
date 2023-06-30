@@ -14,6 +14,7 @@ data:
           options:
             query:
               base-path: /dkp/jaeger
+          priorityClassName: dkp-high-priority
         ingress:
           enabled: true
           annotations:
