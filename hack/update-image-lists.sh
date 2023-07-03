@@ -112,11 +112,6 @@ for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 
   popd &>/dev/null
 done
 
-sed --expression='s|^docker.io/||' \
-    --expression='s|\(^[^/]\+$\)|library/\1|' \
-    --expression='s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
-    --expression='s|\(^[^:]\+:\?$\)|\1:latest|' \
-    --expression='/^[[:space:]]*$/d' \
-    --in-place "${IMAGES_FILE}"
+sed --expression='/^[[:space:]]*$/d' --in-place "${IMAGES_FILE}"
 
 sort --unique --output="${IMAGES_FILE}" "${IMAGES_FILE}"
