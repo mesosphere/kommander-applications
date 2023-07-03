@@ -69,7 +69,8 @@ declare -rx releaseNamespace=unused \
             kommanderAppManagementConfigAPIImageRepository='' \
             tfaName=unused \
             notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle=unused \
-            caIssuerName=unused
+            caIssuerName=unused \
+            kommanderChartVersion="${kommanderChartVersion:-}"
 
 readonly IMAGES_FILE="${REPO_ROOT}/images.txt"
 rm --force "${IMAGES_FILE}"
