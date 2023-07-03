@@ -13,11 +13,13 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly REPO_ROOT
 pushd "${REPO_ROOT}" &>/dev/null
 
-# while IFS= read -r repofile; do
-#   envsubst -no-unset -no-digit -i "${repofile}" | \
-#     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
-#     xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
-# done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
+while IFS= read -r repofile; do
+  envsubst -no-unset -no-digit -i "${repofile}" | \
+    gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
+    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
+done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
+
+helm repo update
 
 # Dummy variables
 declare -rx releaseNamespace=unused \
