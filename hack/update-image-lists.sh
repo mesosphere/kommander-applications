@@ -13,11 +13,11 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly REPO_ROOT
 pushd "${REPO_ROOT}" &>/dev/null
 
-while IFS= read -r repofile; do
-  envsubst -no-unset -no-digit -i "${repofile}" | \
-    gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
-    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
-done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
+# while IFS= read -r repofile; do
+#   envsubst -no-unset -no-digit -i "${repofile}" | \
+#     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
+#     xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
+# done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
 
 helm repo update
 
@@ -113,6 +113,8 @@ for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 
   done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRelease')
   popd &>/dev/null
 done
+
+gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment)$")) | .spec.template.spec.containers[].image' ./services/kommander-flux/0.41.2/templates/*  >>"${IMAGES_FILE}"
 
 sed --expression='/^[[:space:]]*$/d' --in-place "${IMAGES_FILE}"
 
