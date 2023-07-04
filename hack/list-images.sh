@@ -2,16 +2,18 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
+REPO_ROOT="$(realpath "$(dirname "${SCRIPT_DIR}")")"
+readonly REPO_ROOT
+pushd "${REPO_ROOT}" &>/dev/null
+
 trap_add() {
   local -r sig="${2:?Signal required}"
   local -r hdls="$(trap -p "${sig}" | cut --fields=2 --delimiter=\')"
   # shellcheck disable=SC2064 # Quotes are required here to properly expand when adding the new trap.
   trap "${hdls}${hdls:+;}${1:?Handler required}" "${sig}"
 }
-
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-readonly REPO_ROOT
-pushd "${REPO_ROOT}" &>/dev/null
 
 while IFS= read -r repofile; do
   envsubst -no-unset -no-digit -i "${repofile}" | \
@@ -72,8 +74,9 @@ declare -rx releaseNamespace=unused \
             caIssuerName=unused \
             kommanderChartVersion="${kommanderChartVersion:-}"
 
-readonly IMAGES_FILE="${REPO_ROOT}/images.txt"
-rm --force "${IMAGES_FILE}"
+IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
+readonly IMAGES_FILE
+trap_add "rm --force ${IMAGES_FILE}" EXIT
 
 for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
   pushd "${dir}" &>/dev/null
@@ -123,13 +126,10 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|
                                 ./services/velero/*/{pre,post}-install/* \
                                 >>"${IMAGES_FILE}"
 
-sed --expression='/^[[:space:]]*$/d' --in-place "${IMAGES_FILE}"
-
 sed --expression='s|^docker.io/||' \
     --expression='s|\(^[^/]\+$\)|library/\1|' \
     --expression='s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
     --expression='s|\(^[^:]\+:\?$\)|\1:latest|' \
     --expression='/^[[:space:]]*$/d' \
-    --in-place "${IMAGES_FILE}"
-
-sort --unique --output="${IMAGES_FILE}" "${IMAGES_FILE}"
+    "${IMAGES_FILE}" | \
+  sort | uniq -u
