@@ -18,10 +18,10 @@ trap_add() {
 while IFS= read -r repofile; do
   envsubst -no-unset -no-digit -i "${repofile}" | \
     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
-    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update
+    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update >&2
 done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
 
-helm repo update
+helm repo update >&2
 
 # Dummy variables
 declare -rx releaseNamespace=unused \
