@@ -368,10 +368,10 @@ resources:
         ref: ${image_tag}
         license_path: LICENSE
         notice_path: NOTICE
-  - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r5
+  - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r8
     sources:
       - url: https://github.com/thanos-io/thanos
-        ref: v${image_tag%-scratch-r5}
+        ref: v${image_tag%-scratch-r8}
         license_path: LICENSE
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v1.9.8
     sources:
