@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- v1_resource-quota.yaml
 - apiextensions.k8s.io_v1_customresourcedefinition_alerts.notification.toolkit.fluxcd.io.yaml
 - apiextensions.k8s.io_v1_customresourcedefinition_buckets.source.toolkit.fluxcd.io.yaml
 - apiextensions.k8s.io_v1_customresourcedefinition_gitrepositories.source.toolkit.fluxcd.io.yaml
