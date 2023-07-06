@@ -13,5 +13,5 @@ patchesJson6902:
       kind: HelmRelease
       name: cert-manager
 resources:
-  - ../1.11.0/
-  - ../1.11.0/defaults/
+  - ../1.12.2/
+  - ../1.12.2/defaults/
