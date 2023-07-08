@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: cert-manager-critical-pods
+  namespace: cert-manager
+spec:
+  hard:
+    pods: "100"
+  scopeSelector:
+    matchExpressions:
+      - operator: In
+        scopeName: PriorityClass
+        values:
+          - system-node-critical
+          - system-cluster-critical
