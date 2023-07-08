@@ -132,4 +132,4 @@ sed --expression='s|^docker.io/||' \
     --expression='s|\(^[^:]\+:\?$\)|\1:latest|' \
     --expression='/^[[:space:]]*$/d' \
     "${IMAGES_FILE}" | \
-  sort | uniq -u
+  sort --unique
