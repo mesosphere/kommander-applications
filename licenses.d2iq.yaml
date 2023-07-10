@@ -163,11 +163,11 @@ resources:
     sources:
       - url: https://github.com/mesosphere/kommander-ui
         ref: v${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.21
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.23
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.21
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.23
     sources:
       - url: https://github.com/mesosphere/kubetunnel
         ref: ${image_tag}
