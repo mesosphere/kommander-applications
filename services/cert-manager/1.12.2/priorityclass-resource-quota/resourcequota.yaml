@@ -5,7 +5,7 @@ metadata:
   namespace: cert-manager
 spec:
   hard:
-    pods: "100"
+    pods: "1G"
   scopeSelector:
     matchExpressions:
       - operator: In
