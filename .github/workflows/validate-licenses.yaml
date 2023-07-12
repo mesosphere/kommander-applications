@@ -38,7 +38,7 @@ jobs:
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
         env:
-          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
       - name: Import GPG key
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
@@ -60,10 +60,10 @@ jobs:
             git push --force-with-lease
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
         with:
           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
         env:
-          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
