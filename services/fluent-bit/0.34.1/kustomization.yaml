@@ -4,4 +4,3 @@ resources:
   - fluent-bit.yaml
   - grafana-dashboards
   - grafana-dashboards-logging
-  - resource-quota.yaml
