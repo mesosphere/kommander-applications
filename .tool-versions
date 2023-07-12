@@ -7,3 +7,4 @@ pre-commit 2.20.0
 yq 4.30.4
 golangci-lint 1.50.1
 direnv 2.32.1
+helm 3.12.1

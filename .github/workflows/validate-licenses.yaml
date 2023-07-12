@@ -12,8 +12,6 @@ jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
     name: Check licenses.d2iq.yaml
-    env:
-      BLOODHOUND_VERSION: v0.8.0
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,13 +19,14 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download Bloodhound CLI
-        run: |
-          curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_${BLOODHOUND_VERSION}_linux_amd64.tar.gz | tar xz -O > bloodhound
-          chmod +x bloodhound
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
       - name: Generate image list
         run: |
-          ./bloodhound --no-validation --list-images > images.txt
+          export PATH=${PWD}/.local/bin:$PATH
+          make install-tool.helm install-tool.go.envsubst install-tool.go.gojq
+          helm plugin install https://github.com/d2iq-labs/helm-list-images
+          ./hack/list-images.sh > images.txt
           echo "printing contents of images.txt"
           cat images.txt
       - name: Update licenses
