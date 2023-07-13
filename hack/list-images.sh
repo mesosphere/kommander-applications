@@ -23,7 +23,11 @@ done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmReposit
 
 helm repo update >&2
 
-# Dummy variables
+# Dummy variables to satisfy substitution vars used by Flux. Almost all of these do not affect the image being bundled,
+# hence have values such as "unused" or are actually empty.
+# If a substitution var is missed here, this script will fail below because `envsubst -no-unset` flag ensures that all
+# necessary variables are set. In that case, the missing variables should be evaluated and added to this list as
+# approriate.
 declare -rx releaseNamespace=unused \
             RES="" \
             targetNamespace=unused \
