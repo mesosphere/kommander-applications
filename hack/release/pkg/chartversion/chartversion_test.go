@@ -88,7 +88,7 @@ func TestUpdateKommanderOperatorVersion(t *testing.T) {
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Nil(t, err)
 
-	content, err := os.ReadFile(filepath.Join(tmpDir, kommanderOperatorPath))
+	content, err := os.ReadFile(filepath.Join(tmpDir, kommanderOperatorDefaultsCMPath))
 	require.NoError(t, err)
 
 	assert.Equal(t,
