@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mtls-proxy-0.1.8-d2iq-defaults
+  namespace: ${namespace}
+data:
+  values.yaml: |
+    # built from https://github.com/mesosphere/ghostunnel
+    image:
+      repository: mesosphere/ghostunnel
+      tag: v1.7.1-server-backend-proxy
