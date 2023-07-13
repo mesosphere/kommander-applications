@@ -282,6 +282,10 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.24
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/kubetunnel
   - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.24
     sources:
       - ref: ${image_tag}
