@@ -118,6 +118,8 @@ for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 
   popd &>/dev/null
 done
 
+# These services use raw manifests rather than Helm charts so list the images directly from the manifests.
+# If more raw manifest services are added, then they should be added to the list of paths below.
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
                                 .spec.template.spec |
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
@@ -126,6 +128,7 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|
                                 ./services/velero/*/{pre,post}-install/* \
                                 >>"${IMAGES_FILE}"
 
+# Ensure that all images are fully qualified to ensure usniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
     --expression='s|\(^[^/]\+$\)|library/\1|' \
     --expression='s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
