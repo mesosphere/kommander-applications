@@ -27,7 +27,7 @@ spec:
   releaseName: ${releaseName}
   valuesFrom:
     - kind: ConfigMap
-      name: cluster-observer-1.1.1-d2iq-defaults
+      name: ${name}-d2iq-defaults
     - kind: ConfigMap
       name: ${valuesFrom}
   targetNamespace: ${targetNamespace}
