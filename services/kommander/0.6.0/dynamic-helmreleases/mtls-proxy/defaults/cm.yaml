@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mtls-proxy-0.1.8-d2iq-defaults
+  name: ${name}-defaults
   namespace: ${namespace}
 data:
   values.yaml: |
