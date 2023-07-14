@@ -24,10 +24,22 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-    - name: Enable auto-merge for automated chart bump PRs
-      id: automerge
+# disabled for now
+#    - name: Enable auto-merge for automated chart bump PRs
+#      id: automerge
+#      if: |
+#        startsWith(github.head_ref, 'chartbump/')
+#        && contains(github.event.pull_request.labels.*.name, 'ready-for-review')
+#        && !contains(github.event.pull_request.labels.*.name, 'do-not-merge')
+#        && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/testing')
+#      run: gh pr merge --auto --squash "$PR_URL"
+#      env:
+#        PR_URL: ${{ github.event.pull_request.html_url }}
+#        GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+    - name: Enable auto-merge for ui bump PRs
+      id: automerge-ui-bumps
       if: |
-        startsWith(github.head_ref, 'chartbump/')
+        ${{ github.head_ref == 'ci/bump-ui-to-latest-main' }}
         && contains(github.event.pull_request.labels.*.name, 'ready-for-review')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/testing')
