@@ -1,9 +1,10 @@
 ---
+# this is deployed by the kommander kustomization
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${name}-defaults
-  namespace: ${namespace}
+  name: mtls-proxy-0.1.8-d2iq-defaults
+  namespace: ${releaseNamespace}
 data:
   values.yaml: |
     # built from https://github.com/mesosphere/ghostunnel

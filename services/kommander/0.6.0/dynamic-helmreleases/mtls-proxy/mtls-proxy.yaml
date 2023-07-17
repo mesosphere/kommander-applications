@@ -30,7 +30,7 @@ spec:
   releaseName: ${releaseName}
   valuesFrom:
     - kind: ConfigMap
-      name: ${name}-defaults
+      name: mtls-proxy-0.1.8-d2iq-defaults
     - kind: ConfigMap
       name: ${valuesFrom}
   targetNamespace: ${targetNamespace}
