@@ -74,11 +74,6 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/aquasec/kube-bench:v0.6.10
-    sources:
-      - url: https://github.com/aquasecurity/kube-bench
-        ref: ${image_tag}
-        license_path: LICENSE
   - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r8
     sources:
       - license_path: LICENSE
