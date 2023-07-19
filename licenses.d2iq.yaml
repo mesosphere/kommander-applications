@@ -14,7 +14,7 @@ ignore:
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
   - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
-  - docker.io/mesosphere/trivy-bundles:0.42.1-20230628T060352Z
+  - docker.io/mesosphere/trivy-bundles:0.42.1-20230712T060333Z
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
