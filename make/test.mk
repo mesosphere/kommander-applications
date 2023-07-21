@@ -26,12 +26,12 @@ kommander-e2e:
 	@if [ -d $(KOMMANDER_E2E_DIR) ] ; then \
 		cd $(KOMMANDER_E2E_DIR) && \
 			git fetch origin && \
-			git reset --hard origin/main ; \
+			git reset --hard origin/tga/kps-default-configs ; \
 	else \
 		mkdir -p $(KOMMANDER_E2E_DIR) && \
 			git clone -q https://github.com/mesosphere/kommander-e2e.git $(KOMMANDER_E2E_DIR) && \
 			cd $(KOMMANDER_E2E_DIR) && \
-			git checkout main ; \
+			git checkout tga/kps-default-configs ; \
 	fi
 
 .PHONY: test.e2e.install
