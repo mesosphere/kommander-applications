@@ -3,7 +3,7 @@
 # Delete the jaeger helmrelease prior to upgrading.
 # This must be done because upgrading does not apply the newly added priorityClassName field on the
 # Jaeger spec, perhaps because the CRD has not been upgraded yet. Recreating the HelmRelease applies the
-# Jaeger spec properly. This job will only delete the v2.40.0 helmrelease (from 2.5), so rerunning this job
+# Jaeger spec properly. This job will only delete helmreleases from 2.5, so rerunning this job
 # during upgrades within 2.6 will not result in the recreation of the helmrelease.
 apiVersion: v1
 kind: ServiceAccount
@@ -61,11 +61,11 @@ spec:
               set -o errexit
               set -o pipefail
 
-              echo "checking jaeger helmrelease and deleting it pre-upgrade if v2.40.0"
+              echo "checking jaeger helmrelease and deleting it pre-upgrade if older than v2.46.2"
 
               VERSION=$(set -o errexit; kubectl get helmrelease -n ${releaseNamespace} jaeger --ignore-not-found -o=jsonpath='{.spec.chart.spec.version}')
-              echo "version $VERSION"
-              if [[ $VERSION == "2.40.0" ]]; then
+              echo "pre-upgrade jaeger version $VERSION"
+              if [[ $VERSION < "2.46.2" ]]; then
                 echo "deleting jaeger helmrelease"
                 kubectl delete helmrelease jaeger -n ${releaseNamespace} --ignore-not-found
                 exit 0
