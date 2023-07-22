@@ -1,17 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: jaeger-helmrelease
+  name: jaeger-pre-upgrade
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: jaeger-pre-upgrade
   force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/jaeger/2.46.2/helmrelease
+  path: ./services/jaeger/2.46.2/pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
