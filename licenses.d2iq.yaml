@@ -4,7 +4,7 @@ ignore:
   - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
   - docker.io/bitnami/external-dns:0.13.4-debian-11-r19
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
-  - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
+  - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
   - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
   - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.104.0
@@ -14,7 +14,7 @@ ignore:
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
   - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
-  - docker.io/mesosphere/trivy-bundles:0.42.1-20230628T060352Z
+  - docker.io/mesosphere/trivy-bundles:0.42.1-20230712T060333Z
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
@@ -213,7 +213,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v0.5.0-beta.2
+  - container_image: docker.io/mesosphere/insights:v0.5.0-dev.2
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
