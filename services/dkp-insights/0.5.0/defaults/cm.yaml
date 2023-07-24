@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-0.5.0-beta.2-d2iq-defaults
+  name: dkp-insights-0.5.0-dev.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -36,7 +36,7 @@ data:
             - groupKind:
                 group: ""
                 kind: Namespace
-              nameRegexp: kommander-flux|kube-federation-system
+              nameRegexp: kommander-flux|kube-federation-system|cert-manager
             - groupKind:
                 group: ""
                 kind: PersistentVolumeClaim
@@ -44,7 +44,7 @@ data:
             - groupKind:
                 group: ""
                 kind: ResourceQuota
-              nameRegexp: fluent-bit-critical-pods
+              nameRegexp: fluent-bit-critical-pods|cert-manager-critical-pods
             - groupKind:
                 group: ""
                 kind: Secret
@@ -52,11 +52,11 @@ data:
             - groupKind:
                 group: ""
                 kind: Service
-              nameRegexp: kommander-traefik-dashboard|kommander-traefik-prometheus|notification-controller|source-controller|webhook-receiver
+              nameRegexp: kommander-traefik-dashboard|kommander-traefik-prometheus|notification-controller|source-controller|webhook-receiver|etcd-metrics-proxy
             - groupKind:
                 group: ""
                 kind: ServiceAccount
-              nameRegexp: helm-controller|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-configmap-edit|kubecost-thanos-configmap-edit|kustomize-controller|minio-operator-pre-upgrade|notification-controller|prometheus-adapter-pre-upgrade|source-controller
+              nameRegexp: helm-controller|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-configmap-edit|kubecost-thanos-configmap-edit|kustomize-controller|minio-operator-pre-upgrade|notification-controller|prometheus-adapter-pre-upgrade|source-controller|etcd-metrics-proxy|kube-prometheus-stack-prometheus|velero-pre-install|velero-post-install|check-dkp-ceph-crd|obc-pre-upgrade|grafana-loki-pre-install
             - groupKind:
                 group: apiextensions.k8s.io
                 kind: CustomResourceDefinition
@@ -68,11 +68,11 @@ data:
             - groupKind:
                 group: batch
                 kind: Job
-              nameRegexp: copy-kubecost-grafana-datasource-cm|create-kommander-thanos-query-stores-configmap|create-kubecost-thanos-query-stores-configmap|delete-jaeger-deployment|delete-node-exporter-daemonset|delete-prometheus-adapter-deployment|update-tenant-crd-metadata|dkp-ceph-prereq-job|grafana-loki-pre-install|velero-pre-install
+              nameRegexp: copy-kubecost-grafana-datasource-cm|create-kommander-thanos-query-stores-configmap|create-kubecost-thanos-query-stores-configmap|delete-jaeger-deployment|delete-node-exporter-daemonset|delete-prometheus-adapter-deployment|update-tenant-crd-metadata|dkp-ceph-prereq-job|grafana-loki-pre-install|velero-pre-install|delete-obc-jobs
             - groupKind:
                 group: cert-manager.io
                 kind: Certificate
-              nameRegexp: chartmuseum-tls|kommander-ca|kommander-karma-client-cert|kommander-kubecost-thanos-client-cert|kommander-thanos-client-cert
+              nameRegexp: chartmuseum-tls|kommander-ca|kommander-karma-client-cert|kommander-kubecost-thanos-client-cert|kommander-thanos-client-cert|etcd-metrics-proxy-tls-cert
             - groupKind:
                 group: cert-manager.io
                 kind: ClusterIssuer
@@ -88,11 +88,11 @@ data:
             - groupKind:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
-              nameRegexp: centralized-grafana|centralized-kubecost|cert-manager|cert-manager-crds|chartmuseum|dex|dex-k8s-authenticator|dkp-insights-management|dkp-insights|external-dns|fluent-bit|gatekeeper|gatekeeper-proxy-mutations|gitea|grafana-logging|grafana-loki|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|logging-operator-logging|metallb|minio-operator|minio-tenant|nfs-server-provisioner|nvidia|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero
+              nameRegexp: .*?-kubecost-.*?|.*?-prometheus-.*?|centralized-grafana|centralized-kubecost|cert-manager|cert-manager-crds|chartmuseum|cluster-observer-.*?|dex|dex-k8s-authenticator|dkp-insights-management|dkp-insights|external-dns|fluent-bit|gatekeeper|gatekeeper-proxy-mutations|gitea|grafana-logging|grafana-loki|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kube-oidc-proxy|kube-prometheus-stack|kommander-ui|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|logging-operator-logging|metallb|minio-operator|minio-tenant|nfs-server-provisioner|nvidia|nvidia-gpu-operator|object-bucket-claims|project-grafana-logging|project-grafana-loki|project-loki-object-bucket-claims|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero
             - groupKind:
                 group: kustomize.toolkit.fluxcd.io
                 kind: Kustomization
-              nameRegexp: centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-release|cert-manager-root-ca|dkp-insights-management-helmrelease|dkp-insights|fluent-bit-resource-quota|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|istio-helmrelease|jaeger-helmrelease|jaeger-pre-upgrade|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kube-prometheus-stack-pre-upgrade|kubefed-federatedtypeconfigs|kubefed-release|minio-operator-helmrelease|minio-operator-pre-upgrade|minio-tenant-helmrelease|nvidia-gpu-operator-helmrelease|prometheus-adapter-helmrelease|prometheus-adapter-pre-upgrade|rook-ceph-cluster-helmrelease|rook-ceph-helmrelease|thanos-jobs
+              nameRegexp: centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-namespace|cert-manager-priorityclass-resource-quota|cert-manager-release|cert-manager-root-ca|dkp-insights-management-helmrelease|dkp-insights-helmrelease|etcd-metrics-proxy|fluent-bit-resource-quota|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|grafana-dashboards-core-components|grafana-dashboards-logging-operator|grafana-loki-helmrelease|grafana-loki-pre-install|istio-helmrelease|jaeger-helmrelease|jaeger-pre-upgrade|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kube-prometheus-stack-pre-upgrade|kubefed-federatedtypeconfigs|kubefed-release|minio-operator-helmrelease|minio-operator-pre-upgrade|minio-tenant-helmrelease|nvidia-gpu-operator-helmrelease|object-bucket-claims-helmrelease|prometheus-adapter-helmrelease|prometheus-adapter-pre-upgrade|rook-ceph-cluster-helmrelease|rook-ceph-cluster-obc-pre-upgrade|rook-ceph-helmrelease|rook-ceph-cluster-prereq-jobs-v1.11.9|thanos-jobs|velero-helmrelease|velero-post-install|velero-pre-install
             - groupKind:
                 group: logging.banzaicloud.io
                 kind: Flow
@@ -116,19 +116,19 @@ data:
             - groupKind:
                 group: rbac.authorization.k8s.io
                 kind: ClusterRole
-              nameRegexp: crd-controller-kommander-flux|dkp-centralized-kubecost-admin|dkp-centralized-kubecost-edit|dkp-centralized-kubecost-view|dkp-grafana-logging-admin|dkp-grafana-logging-edit|dkp-grafana-logging-view|dkp-jaeger-admin|dkp-jaeger-edit|dkp-jaeger-view|dkp-karma-admin|dkp-karma-edit|dkp-karma-view|dkp-kiali-admin|dkp-kiali-edit|dkp-kiali-view|dkp-kubecost-admin|dkp-kubecost-edit|dkp-kubecost-view|dkp-kubernetes-dashboard-admin|dkp-kubernetes-dashboard-edit|dkp-kubernetes-dashboard-view|dkp-thanos-query-admin|dkp-thanos-query-edit|dkp-thanos-query-view|dkp-traefik-admin|dkp-traefik-edit|dkp-traefik-view|kubecost-configmap-edit|minio-operator-pre-upgrade
+              nameRegexp: check-dkp-ceph-crd|crd-controller-kommander-flux|dkp-centralized-kubecost-admin|dkp-centralized-kubecost-edit|dkp-centralized-kubecost-view|dkp-grafana-logging-admin|dkp-grafana-logging-edit|dkp-grafana-logging-view|dkp-jaeger-admin|dkp-jaeger-edit|dkp-jaeger-view|dkp-karma-admin|dkp-karma-edit|dkp-karma-view|dkp-kiali-admin|dkp-kiali-edit|dkp-kiali-view|dkp-kubecost-admin|dkp-kubecost-edit|dkp-kubecost-view|dkp-kubernetes-dashboard-admin|dkp-kubernetes-dashboard-edit|dkp-kubernetes-dashboard-view|dkp-thanos-query-admin|dkp-thanos-query-edit|dkp-thanos-query-view|dkp-traefik-admin|dkp-traefik-edit|dkp-traefik-view|etcd-metrics|etcd-metrics-proxy|flux-edit-kommander-flux|flux-view-kommander-flux|kubecost-configmap-edit|minio-operator-pre-upgrade
             - groupKind:
                 group: rbac.authorization.k8s.io
                 kind: ClusterRoleBinding
-              nameRegexp: cluster-reconciler-kommander-flux|crd-controller-kommander-flux|kubecost-configmap-edit|minio-operator-pre-upgrade
+              nameRegexp: check-dkp-ceph-crd|cluster-reconciler-kommander-flux|crd-controller-kommander-flux|etcd-metrics-proxy|etcd-metrics-rolebinding|kubecost-configmap-edit|minio-operator-pre-upgrade
             - groupKind:
                 group: rbac.authorization.k8s.io
                 kind: Role
-              nameRegexp: d2iq-traefik-certmanager-init|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-thanos-configmap-edit|prometheus-adapter-pre-upgrade
+              nameRegexp: d2iq-traefik-certmanager-init|grafana-loki-pre-install|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-thanos-configmap-edit|obc-pre-upgrade|prometheus-adapter-pre-upgrade|velero-post-install|velero-pre-install
             - groupKind:
                 group: rbac.authorization.k8s.io
                 kind: RoleBinding
-              nameRegexp: d2iq-traefik-certmanager-init|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-thanos-configmap-edit|prometheus-adapter-pre-upgrade
+              nameRegexp: d2iq-traefik-certmanager-init|grafana-loki-pre-install|jaeger-pre-upgrade|kommander-thanos-configmap-edit|kps-pre-upgrade|kubecost-thanos-configmap-edit|obc-pre-upgrade|prometheus-adapter-pre-upgrade|velero-post-install|velero-pre-install
             - groupKind:
                 group: templates.gatekeeper.sh
                 kind: ConstraintTemplate
@@ -196,7 +196,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v0.5.0-beta.2
+      tag: v0.5.0-dev.3
     initdb:
       resources:
         limits:
@@ -523,7 +523,7 @@ data:
         enabled: false
         name: dkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.42.1-20230628T060352Z
+        imageFull: mesosphere/trivy-bundles:0.42.1-20230719T060337Z
         pullPolicy: IfNotPresent
       resources:
         limits:
