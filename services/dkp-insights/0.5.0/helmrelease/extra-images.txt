@@ -1,2 +1,0 @@
-{{ .Values.kubeBench.config.image.repository }}:{{ .Values.kubeBench.config.image.tag }}
-{{ .Values.kubeBench.config.pause.image.repository }}:{{ .Values.kubeBench.config.pause.image.tag }}
