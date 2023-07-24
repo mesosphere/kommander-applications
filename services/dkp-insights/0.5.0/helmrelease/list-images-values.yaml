@@ -1,0 +1,9 @@
+postgresql:
+  metrics:
+    enabled: true
+  volumePermissions:
+    enabled: true
+nova:
+  helmRepositoryURLs: ["https://mesosphere.github.io/charts/stable"]
+trivy:
+  enabled: true
