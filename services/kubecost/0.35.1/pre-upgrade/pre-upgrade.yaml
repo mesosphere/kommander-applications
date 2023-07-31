@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    # TODO: figure out permissions
+    verbs: ["get", "watch", "list", "update", "patch", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubecost-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      name: kubecost-pre-upgrade
+    spec:
+      serviceAccountName: kubecost-pre-upgrade
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: kubetools
+          image: mesosphere/kommander2-kubetools:${kommanderAppManagementKubetoolsImageRepository}
+          command:
+            - sh
+            - "-c"
+            - |-
+              /bin/bash <<'EOF'
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+              
+              # TODO: wait for HelmRelease to not be in-progress?
+
+              helm mapkubeapis kubecost --namespace ${releaseNamespace}
+              EOF
