@@ -6,6 +6,9 @@ metadata:
 data:
   values.yaml: |-
     ---
+    rbac:
+      psp:
+        enabled: false
     priorityClassName: "dkp-critical-priority"
     resources:
      limits:
