@@ -23,3 +23,5 @@ data:
         enabled: false
     controllerManager:
       tlsMinVersion: 1.2
+    psp:
+      enabled: false
