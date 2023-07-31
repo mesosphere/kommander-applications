@@ -35,6 +35,8 @@ data:
         enabled: false
 
       grafana:
+        rbac:
+          pspEnabled: false
         ingress:
           enabled: true
           annotations:
