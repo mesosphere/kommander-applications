@@ -24,3 +24,5 @@ data:
     controllerManager:
       tlsMinVersion: 1.2
     resourceQuota: false
+    psp:
+      enabled: false
