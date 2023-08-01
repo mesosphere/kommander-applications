@@ -45,7 +45,7 @@ spec:
       priorityClassName: dkp-high-priority
       containers:
         - name: kubetools
-          image: mesosphere/kommander2-kubetools:${kommanderAppManagementKubetoolsImageRepository}
+          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.6.0-dev}"
           command:
             - sh
             - "-c"
@@ -54,7 +54,7 @@ spec:
               set -o nounset
               set -o errexit
               set -o pipefail
-              
+
               # TODO: wait for HelmRelease to not be in-progress?
 
               helm mapkubeapis kubecost --namespace ${releaseNamespace}
