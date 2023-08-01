@@ -168,3 +168,36 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
 }
+
+func TestUpdatePreUpgradeImages(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "prerelease")
+	assert.Nil(t, err)
+	defer os.RemoveAll(tmpDir)
+
+	// Make a copy of the current repo state to modify
+	err = cp.Copy(rootDir, tmpDir)
+	assert.Nil(t, err)
+
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
+	assert.Nil(t, err)
+
+	preUpgradePaths := []string{kubecostPreUpgradePath, gatekeeperPreUpgradePath, loggingOperatorPreUpgradePath}
+
+	for _, path := range preUpgradePaths {
+		t.Run(path, func(t *testing.T) {
+			updatedFile, err := filepath.Glob(filepath.Join(tmpDir, path))
+			assert.Nil(t, err)
+			assert.Len(t, updatedFile, 1)
+
+			content, err := os.ReadFile(updatedFile[0])
+			require.NoError(t, err)
+
+			assert.Equal(t,
+				1,
+				strings.Count(string(content), updateToVersion),
+			)
+		})
+	}
+
+}
