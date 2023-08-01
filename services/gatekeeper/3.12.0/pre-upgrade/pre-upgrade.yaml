@@ -13,6 +13,9 @@ rules:
   - apiGroups: [""]
     resources: ["secrets"]
     verbs: ["get", "watch", "list", "update", "patch", "create"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "watch", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -51,8 +54,13 @@ spec:
             - |-
               /bin/bash <<'EOF'
               set -o nounset
-              set -o errexit
               set -o pipefail
+
+              kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} gatekeeper
+              if [[ $? -ne 0 ]]; then
+                echo "Since the gatekeeper HelmRelease does not exist, this might not be an upgrade scenario. Exiting..."
+                exit 0
+              fi
 
               helm mapkubeapis kommander-gatekeeper --namespace ${releaseNamespace}
               EOF
