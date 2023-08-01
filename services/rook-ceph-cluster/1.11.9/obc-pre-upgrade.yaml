@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.11.9/obc-pre-upgrade
+  path: ./services/rook-ceph-cluster/1.12.0/obc-pre-upgrade
   sourceRef:
     kind: GitRepository
     name: management
