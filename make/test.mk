@@ -9,12 +9,12 @@ E2E_TIMEOUT       ?= 120m
 # flexible with our testing as well as testing against the same patch version as we deliver
 # by default with DKP.
 # See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
-E2E_KINDEST_IMAGE ?= "mesosphere/kind-node-ci:v1.26.3"
+E2E_KINDEST_IMAGE ?= "ghcr.io/mesosphere/kind-node-ci:v1.26.6"
 
 # Kommander applications are upgraded on the previous k8s version first, before the cluster
 # is upgraded. Therefore, for the upgrade test, we should use the previous k8s version to
 # more accurately mimic an actual upgrade scenario.
-E2E_KINDEST_IMAGE_FOR_UPGRADE_TEST ?= "mesosphere/kind-node-ci:v1.26.3"
+E2E_KINDEST_IMAGE_FOR_UPGRADE_TEST ?= "ghcr.io/mesosphere/kind-node-ci:v1.26.6"
 UPGRADE_FROM_VERSION ?= "v2.6.0-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
