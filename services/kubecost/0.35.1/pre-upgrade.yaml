@@ -4,7 +4,7 @@ metadata:
   name: kubecost-pre-upgrade
   namespace: ${releaseNamespace}
 spec:
-  force: false
+  force: true
   prune: true
   wait: true
   interval: 6h
