@@ -56,5 +56,5 @@ spec:
 
               # TODO: wait for HelmRelease to not be in-progress?
 
-              helm mapkubeapis gatekeeper --namespace ${releaseNamespace}
+              helm mapkubeapis kommander-gatekeeper --namespace ${releaseNamespace}
               EOF
