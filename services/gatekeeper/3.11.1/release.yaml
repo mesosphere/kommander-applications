@@ -4,7 +4,9 @@ metadata:
   name: gatekeeper-release
   namespace: ${releaseNamespace}
 spec:
-  dependsOn: []
+  dependsOn:
+    - name: gatekeeper-pre-upgrade
+      namespace: ${releaseNamespace}
   force: false
   prune: true
   wait: true

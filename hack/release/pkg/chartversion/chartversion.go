@@ -7,19 +7,30 @@ import (
 	"strings"
 
 	"github.com/drone/envsubst"
+
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
-const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
+const (
+	kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
+	preUpgradePath                = "*/pre-upgrade/pre-upgrade.yaml"
+)
 
 var (
 	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/kommander.yaml")
 	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/kommander-appmanagement.yaml")
 	kommanderOperatorPath                  = "./common/kommander-operator/helmrelease.yaml"
-	filesContainingKommanderVersion        = []string{
+	kubecostPreUpgradePath                 = filepath.Join(constants.KubecostPath, preUpgradePath)
+	gatekeeperPreUpgradePath               = filepath.Join(constants.GatekeeperPath, preUpgradePath)
+	loggingOperatorPreUpgradePath          = filepath.Join(constants.LoggingOperatorPath, preUpgradePath)
+
+	filesContainingKommanderVersion = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
 		kommanderOperatorPath,
+		kubecostPreUpgradePath,
+		gatekeeperPreUpgradePath,
+		loggingOperatorPreUpgradePath,
 	}
 )
 
