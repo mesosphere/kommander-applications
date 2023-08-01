@@ -169,7 +169,7 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
 }
 
-func TestUpdatePreUpgradeImagesq(t *testing.T) {
+func TestUpdatePreUpgradeImages(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tmpDir)
