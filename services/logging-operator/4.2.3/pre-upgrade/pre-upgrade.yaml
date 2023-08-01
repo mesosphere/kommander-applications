@@ -54,7 +54,5 @@ spec:
               set -o errexit
               set -o pipefail
 
-              # TODO: wait for HelmRelease to not be in-progress?
-
               helm mapkubeapis logging-operator --namespace ${releaseNamespace}
               EOF
