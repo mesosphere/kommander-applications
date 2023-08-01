@@ -11,11 +11,10 @@ E2E_TIMEOUT       ?= 120m
 # See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
 E2E_KINDEST_IMAGE ?= "mesosphere/kind-node-ci:v1.26.3"
 
-# Kommander <=v2.3 does not install on Kubernetes >=v1.24 due to the introduction of
-# `LegacyServiceAccountTokenNoAutoGeneration` feature (enabled by default). This breaks self-attachment
-# and therefore the whole install process so we need to run the upgrade tests against an older version
-# of Kubernetes. This can be removed once the `UPGRADE_FROM_VERSION` below is Kommander >=v2.4.
-E2E_KINDEST_IMAGE_FOR_UPGRADE_TEST ?= "mesosphere/kind-node-ci:v1.23.9"
+# Kommander applications are upgraded on the previous k8s version first, before the cluster
+# is upgraded. Therefore, for the upgrade test, we should use the previous k8s version to
+# more accurately mimic an actual upgrade scenario.
+E2E_KINDEST_IMAGE_FOR_UPGRADE_TEST ?= "mesosphere/kind-node-ci:v1.26.3"
 UPGRADE_FROM_VERSION ?= "v2.6.0-dev"
 
 # (aweris): This should be a temporary workaround for v2.3.0 development. If you're still see clone test in v2.4.0
