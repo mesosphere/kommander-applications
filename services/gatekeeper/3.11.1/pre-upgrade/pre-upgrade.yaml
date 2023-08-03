@@ -61,5 +61,6 @@ spec:
                 exit 0
               fi
 
+              # the gatekeeper releaseName is set to kommander-gatekeeper in the HelmRelease
               helm mapkubeapis kommander-gatekeeper --namespace ${releaseNamespace}
               EOF
