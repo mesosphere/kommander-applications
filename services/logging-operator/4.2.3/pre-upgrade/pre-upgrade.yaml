@@ -13,6 +13,9 @@ rules:
   - apiGroups: [""]
     resources: ["secrets"]
     verbs: ["get", "watch", "list", "update", "patch", "create"]
+  - apiGroups: ["apps"]
+    resources: ["daemonsets"]
+    verbs: ["delete", "list"]
   - apiGroups: ["helm.toolkit.fluxcd.io"]
     resources: ["helmreleases"]
     verbs: ["get", "watch", "list"]
@@ -63,4 +66,7 @@ spec:
               fi
 
               helm mapkubeapis logging-operator --namespace ${releaseNamespace}
+
+              # handle spec.selector update in logging-operator 4.2.0
+              kubectl delete daemonset -n${releaseNamespace} -l app.kubernetes.io/managed-by=logging-operator-logging,app.kubernetes.io/name=fluentbit --ignore-not-found
               EOF
