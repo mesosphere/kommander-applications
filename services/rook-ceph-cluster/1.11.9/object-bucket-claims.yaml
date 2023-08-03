@@ -8,8 +8,6 @@ spec:
     # CephCluster needs to be active to activate ObjectBucketClaims
     - name: rook-ceph-cluster-helmrelease
       namespace: ${releaseNamespace}
-    - name: rook-ceph-cluster-obc-pre-upgrade
-      namespace: ${releaseNamespace}
   force: true
   prune: true
   wait: true
