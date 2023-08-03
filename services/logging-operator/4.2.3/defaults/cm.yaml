@@ -32,6 +32,7 @@ metadata:
 data:
   values.yaml: |
     ---
+    enableRecreateWorkloadOnImmutableFieldChange: true
     clusterFlows:
       - name: cluster-containers
         spec:
