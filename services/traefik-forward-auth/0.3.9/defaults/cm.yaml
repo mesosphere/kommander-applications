@@ -33,7 +33,6 @@ data:
       whitelist: []
       enableRBAC: true
       enableImpersonation: true
-      rbacPassThroughPaths: ["/dkp/kubernetes/", "/dkp/kubernetes/*"]
       extraConfig: |
         cookie-name =  _forward_auth_kommander
         csrf-cookie-name = _forward_auth_csrf_kommander
