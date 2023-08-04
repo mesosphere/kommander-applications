@@ -4,8 +4,6 @@ metadata:
   name: jaeger-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: jaeger-pre-upgrade
   force: false
   prune: true
   wait: true
