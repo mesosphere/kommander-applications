@@ -49,4 +49,4 @@ metadata:
 spec:
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=http://mesosphere.github.io/dkp-insights-charts-attached}"
+  url: "${helmMirrorURL:=https://mesosphere.github.io/dkp-insights-charts-attached}"
