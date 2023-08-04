@@ -23,6 +23,7 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+
     steps:
     - name: Enable auto-merge for automated chart bump PRs
       id: automerge
