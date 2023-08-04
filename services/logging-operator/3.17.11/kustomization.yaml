@@ -4,3 +4,4 @@ resources:
   - grafana-dashboards
   - logging-operator.yaml
   - logging-operator-logging.yaml
+  - pre-upgrade.yaml

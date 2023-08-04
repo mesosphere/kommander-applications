@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "watch", "list", "update", "patch", "create"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubecost-pre-upgrade
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-pre-upgrade
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubecost-pre-upgrade
+  namespace: ${releaseNamespace}
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      name: kubecost-pre-upgrade
+    spec:
+      serviceAccountName: kubecost-pre-upgrade
+      restartPolicy: OnFailure
+      containers:
+        - name: kubetools
+          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.5.2-dev}"
+          command:
+            - sh
+            - "-c"
+            - |-
+              /bin/bash <<'EOF'
+              set -o nounset
+              set -o pipefail
+
+              kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} kubecost
+              if [[ $? -ne 0 ]]; then
+                echo "Since the kubecost HelmRelease does not exist, this might not be an upgrade scenario. Exiting..."
+                exit 0
+              fi
+
+              helm mapkubeapis kubecost --namespace ${releaseNamespace}
+              EOF

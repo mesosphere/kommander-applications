@@ -28,7 +28,7 @@ spec:
   releaseName: centralized-kubecost
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-kubecost-0.33.1-d2iq-defaults
+      name: centralized-kubecost-0.33.2-d2iq-defaults
   targetNamespace: kubecost
 ---
 apiVersion: v1
