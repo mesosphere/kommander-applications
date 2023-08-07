@@ -79,10 +79,10 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r8
+  - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r12
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-scratch-r8}
+        ref: v${image_tag%-scratch-r12}
         url: https://github.com/thanos-io/thanos
   - container_image: docker.io/fluent/fluent-bit:2.1.4
     sources:
