@@ -16,7 +16,7 @@ ci.docker.ensure: dockerauth ; $(info $(M) Ensuring CI Docker image is available
 .PHONY: ci.docker.build
 ci.docker.build: ## Builds the CI Docker image
 ci.docker.build: dockerauth ; $(info $(M) Building CI Docker image)
-	DOCKER_BUILDKIT=1 docker build \
+	DOCKER_BUILDKIT=0 docker build \
 		--tag $(CI_DOCKER_IMG) \
 		$(if $(CI_DOCKER_BUILD_ARGS),$(addprefix --build-arg ,$(CI_DOCKER_BUILD_ARGS))) \
 		-f $(CI_DOCKERFILE) .
