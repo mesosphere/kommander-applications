@@ -9,9 +9,32 @@ on:
       - 'v*'
 
 jobs:
+  ensure-ci:
+    name: Ensure CI Image
+    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
+    runs-on:
+      - self-hosted
+      - small
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+
+      - name: Install asdf & tools
+        uses: asdf-vm/actions/install@v2
+
+      - name: make CI image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: make GOOS=linux GOARCH=amd64 ci.docker.push
+
   install-e2e-tests:
     name: Install E2E Tests
-    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'test') }}
+    needs: [ensure-ci]
+    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
     runs-on:
       - self-hosted
       - kind-large
@@ -22,16 +45,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
-      # - name: setup go
-      #   uses: actions/setup-go@v4
-
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v1
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        run: make ci.docker.run GOOS=linux GOARCH=amd64 CI=true RUN_WHAT="make test.e2e.install VERBOSE=true"
+        run: make test.e2e.install VERBOSE=true
 
       - name: Tar files
         run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
@@ -43,3 +63,37 @@ jobs:
         with:
           name: report-e2e
           path: report-e2e.tar
+  
+  upgrade-e2e-tests:
+    name: Upgrade E2E Tests
+    needs: [ensure-ci]
+    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
+    runs-on:
+      - self-hosted
+      - kind-large
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v1
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        run: make test.e2e.upgrade.singlecluster VERBOSE=true 
+
+      - name: Tar files
+        run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
+        if: always()
+
+      - name: Upload report-e2e.json
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: report-e2e
+          path: report-e2e.tar
+
