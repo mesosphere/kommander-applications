@@ -11,7 +11,7 @@ on:
 jobs:
   upgrade-e2e-tests:
     name: Upgrade E2E Tests
-    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
+    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'test') }}
     runs-on:
       - self-hosted
       - kind-large
