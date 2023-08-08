@@ -50,8 +50,8 @@ jobs:
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run tests
-        run: make test.e2e.install VERBOSE=true
+      - name: Install E2E tests
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="make test.e2e.install"
 
       - name: Tar files
         run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
@@ -84,7 +84,7 @@ jobs:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        run: make test.e2e.upgrade.singlecluster VERBOSE=true 
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="make test.e2e.upgrade.singlecluster"
 
       - name: Tar files
         run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
