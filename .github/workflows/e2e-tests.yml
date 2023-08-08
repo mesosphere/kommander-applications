@@ -1,4 +1,4 @@
-name: Install E2E Tests
+name: E2E Tests
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
@@ -8,6 +8,8 @@ on:
       - 'main'
       - 'v*'
 
+env: 
+  GITHUB_USER_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
 jobs:
   ensure-ci:
     name: Ensure CI Image
@@ -45,13 +47,21 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.work'
+
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v1
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install E2E tests
-        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="make test.e2e.install"
+        env:
+          E2E_DKP_ESSENTIAL_LICENSE: ${{ secrets.E2E_DKP_ESSENTIAL_LICENSE }}
+          E2E_DKP_ENTERPRISE_LICENSE: ${{ secrets.E2E_DKP_ENTERPRISE_LICENSE }}
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 CI=true RUN_WHAT="make test.e2e.install"
 
       - name: Tar files
         run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
@@ -83,8 +93,8 @@ jobs:
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run tests
-        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="make test.e2e.upgrade.singlecluster"
+      - name: Upgrade E2E Tests
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 CI=true RUN_WHAT="make test.e2e.upgrade.singlecluster"
 
       - name: Tar files
         run: sudo tar -cvzf report-e2e.tar .tmp/kommander-e2e/.e2e/
