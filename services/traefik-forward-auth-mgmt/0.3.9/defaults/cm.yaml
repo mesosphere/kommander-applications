@@ -34,6 +34,9 @@ data:
       whitelist: []
       enableRBAC: true
       enableImpersonation: true
+      rbacPassThroughPaths:
+        - "/dkp/kiali/"
+        - "/dkp/kiali/*"
     ingress:
       enabled: true
       annotations:
