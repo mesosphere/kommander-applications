@@ -33,4 +33,7 @@ jobs:
           aws-region: us-west-2
 
       - name: make release
+        env:
+          DOCKER_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: make ci.docker.push RUN_WHAT="make release"
