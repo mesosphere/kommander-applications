@@ -32,8 +32,12 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/kommander-applications
           aws-region: us-west-2
 
+      - name: Extract tag name
+        shell: bash
+        run: echo "GIT_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: make release
         env:
           DOCKER_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-        run: make ci.docker.push RUN_WHAT="make release"
+        run: make ci.docker.push RUN_WHAT="GIT_TAG=${{ env.GIT_TAG }} make release" 
