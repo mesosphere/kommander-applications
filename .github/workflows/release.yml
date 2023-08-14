@@ -40,4 +40,5 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: make ci.docker.push RUN_WHAT="GIT_TAG=${{ env.GIT_TAG }} make release" 
