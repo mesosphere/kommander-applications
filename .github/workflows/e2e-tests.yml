@@ -8,7 +8,7 @@ on:
       - 'main'
       - 'v*'
 
-env: 
+env:
   GITHUB_USER_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
 jobs:
   ensure-ci:
@@ -71,7 +71,7 @@ jobs:
         with:
           name: install-e2e-tests
           path: report-e2e.tar
-  
+
   upgrade-e2e-tests:
     name: Upgrade E2E Tests
     needs: [ensure-ci]
