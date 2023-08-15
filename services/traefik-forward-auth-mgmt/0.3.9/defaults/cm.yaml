@@ -34,8 +34,6 @@ data:
       enableRBAC: true
       enableImpersonation: true
       rbacPassThroughPaths:
-        - "/dkp/kubernetes/"
-        - "/dkp/kubernetes/*"
         - "/dkp/kiali/"
         - "/dkp/kiali/*"
     ingress:
