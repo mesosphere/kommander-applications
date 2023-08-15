@@ -78,8 +78,8 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - >
-              cp /etc/certs/etcd/ca.crt /etc/certs/etcd/healthcheck* /etc/kube-rbac-proxy/etcd/ &&
-              chown -R 65532:65532 /etc/kube-rbac-proxy/etcd
+              cp /etc/certs/etcd/ca.crt /etc/certs/etcd/healthcheck* /etc/kube-rbac-proxy/etcd/ && chown -R 65532:65532 /etc/kube-rbac-proxy/etcd
+
           securityContext:
             runAsUser: 0
             privileged: true
