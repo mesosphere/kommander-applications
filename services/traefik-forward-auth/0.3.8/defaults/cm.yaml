@@ -34,7 +34,9 @@ data:
       whitelist: []
       enableRBAC: true
       enableImpersonation: true
-      rbacPassThroughPaths: ["/dkp/kubernetes/", "/dkp/kubernetes/*"]
+      rbacPassThroughPaths:
+        - "/dkp/kiali/"
+        - "/dkp/kiali/*"
       extraConfig: |
         cookie-name =  _forward_auth_kommander
         csrf-cookie-name = _forward_auth_csrf_kommander
