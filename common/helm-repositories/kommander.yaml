@@ -1,10 +1,13 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-kommander-charts
   namespace: kommander-flux
 spec:
+  type: "oci"
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=https://mesosphere.github.io/kommander/charts}"
+  url: "${helmMirrorURL:=oci://999867407951.dkr.ecr.us-west-2.amazonaws.com}"
+  secretRef:
+    name: awsocicred
