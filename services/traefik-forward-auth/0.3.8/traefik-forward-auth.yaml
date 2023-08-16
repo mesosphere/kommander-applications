@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 0.3.8
+      version: 0.3.10
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,5 +28,5 @@ spec:
   releaseName: traefik-forward-auth
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-forward-auth-0.3.8-d2iq-defaults
+      name: traefik-forward-auth-0.3.10-d2iq-defaults
   targetNamespace: ${releaseNamespace}
