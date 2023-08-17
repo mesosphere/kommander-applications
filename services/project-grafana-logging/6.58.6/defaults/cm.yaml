@@ -7,6 +7,10 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    # pinning grafana to 9.5 since it appears that upgrading to v10 is causing issues with prometheus scraping
+    # grafana metrics
+    image:
+      tag: 9.5.7
     datasources:
       datasources.yaml:
         apiVersion: 1
