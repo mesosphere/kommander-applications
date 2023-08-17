@@ -26,7 +26,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-44.2.1-d2iq-defaults
+      name: centralized-grafana-44.2.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
