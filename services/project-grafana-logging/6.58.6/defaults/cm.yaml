@@ -57,6 +57,11 @@ data:
       type: ClusterIP
       port: 3000
 
+    serviceMonitor:
+      enabled: true
+      labels:
+        prometheus.kommander.d2iq.io/select: "true"
+
     resources:
       # keep request = limit to keep this container in guaranteed class
       limits:
