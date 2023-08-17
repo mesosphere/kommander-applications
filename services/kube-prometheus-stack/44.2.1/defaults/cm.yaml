@@ -160,22 +160,6 @@ data:
             - configMapRef:
                 name: cluster-info-configmap
         additionalScrapeConfigs:
-          # Kubernetes API
-          - job_name: 'kubernetes-apiserver'
-            kubernetes_sd_configs:
-            - role: endpoints
-              namespaces:
-                names:
-                - default
-            scheme: https
-            tls_config:
-              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-              insecure_skip_verify: true
-            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-            relabel_configs:
-            - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
-              action: keep
-              regex: kubernetes;https
           # Kubernetes pods
           - job_name: 'kubernetes-pods'
             kubernetes_sd_configs:
@@ -254,38 +238,6 @@ data:
             - source_labels: [__meta_kubernetes_pod_label_k8s_app]
               target_label: name
               action: replace
-            - source_labels: [__meta_kubernetes_pod_container_port_name]
-              target_label: endpoint
-              action: replace
-            - source_labels: [__meta_kubernetes_pod_node_name]
-              target_label: node
-              action: replace
-            - source_labels: [__meta_kubernetes_pod_name]
-              target_label: pod
-              action: replace
-            - source_labels: [__meta_kubernetes_namespace]
-              target_label: namespace
-              action: replace
-          - job_name: 'kubernetes-keepalived'
-            metrics_path: /snmp
-            params:
-              target: ["127.0.0.1:6161"]
-              module: ["keepalived"]
-            tls_config:
-              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-            kubernetes_sd_configs:
-              - role: pod
-                namespaces:
-                  names:
-                  - kube-system
-            relabel_configs:
-            - source_labels: [__meta_kubernetes_pod_container_port_protocol]
-              regex: TCP
-              action: keep
-            - source_labels: [__meta_kubernetes_pod_container_port_number]
-              regex: "6161"
-              action: keep
             - source_labels: [__meta_kubernetes_pod_container_port_name]
               target_label: endpoint
               action: replace
