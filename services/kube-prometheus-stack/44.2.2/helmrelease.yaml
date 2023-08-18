@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kube-prometheus-stack/44.2.1/helmrelease
+  path: ./services/kube-prometheus-stack/44.2.2/helmrelease
   dependsOn:
     - name: kube-prometheus-stack-pre-upgrade
   sourceRef:
