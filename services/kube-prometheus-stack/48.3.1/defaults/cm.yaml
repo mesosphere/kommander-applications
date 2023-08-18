@@ -340,6 +340,10 @@ data:
             memory: 200Mi
     grafana:
       enabled: true
+      # pinning grafana to 9.5 since it appears that upgrading to v10 is causing issues with prometheus scraping
+      # grafana metrics
+      image:
+        tag: 9.5.7
       defaultDashboardsEnabled: true
       priorityClassName: "dkp-critical-priority"
       serviceMonitor:
