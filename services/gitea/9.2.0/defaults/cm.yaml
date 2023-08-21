@@ -21,9 +21,9 @@ data:
             pathType: ImplementationSpecific
     gitea:
       additionalConfigFromEnvs:
-        - name: ENV_TO_INI__SERVER__SSL_MIN_VERSION
+        - name: GITEA__SERVER__SSL_MIN_VERSION
           value: tlsv1.3
-        - name: ENV_TO_INI__SERVER__SSL_MAX_VERSION
+        - name: GITEA__SERVER__SSL_MAX_VERSION
           value: tlsv1.3
       admin:
         existingSecret: ${adminCredentialsSecret}
