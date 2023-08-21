@@ -64,13 +64,9 @@ data:
     clusterDomain: cluster.local.
     memcached:
       priorityClassName: "dkp-critical-priority"
-      image:
-        tag: 1.6.15-debian-11-r8
     postgresql-ha:
       enabled: false
     postgresql:
       enabled: true
       primary:
         priorityClassName: "dkp-critical-priority"
-      image:
-        tag: 11.16.0-debian-11-r9
