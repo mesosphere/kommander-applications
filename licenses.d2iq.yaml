@@ -100,12 +100,6 @@ resources:
         notice_path: NOTICE.md
         ref: v${image_tag}
         url: https://github.com/grafana/grafana
-  - container_image: docker.io/grafana/grafana:9.5.3
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:9.5.7
     sources:
       - license_path: LICENSE
@@ -528,11 +522,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.24.3
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/kiwigrid/k8s-sidecar
   - container_image: quay.io/kiwigrid/k8s-sidecar:1.24.6
     sources:
       - license_path: LICENSE
