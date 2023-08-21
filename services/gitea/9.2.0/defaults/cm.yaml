@@ -62,7 +62,7 @@ data:
       readOnly: true
       mountPath: "/git-tls"
     clusterDomain: cluster.local.
-    memcached:
+    redis-cluster:
       priorityClassName: "dkp-critical-priority"
     postgresql-ha:
       enabled: false
