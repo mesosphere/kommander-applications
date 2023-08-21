@@ -21,8 +21,12 @@ data:
     postInstall:
       labelNamespace:
         enabled: false
+      probeWebhook:
+        priorityClassName: system-cluster-critical
     controllerManager:
       tlsMinVersion: 1.2
+    upgradeCRDs:
+      priorityClassName: system-cluster-critical
     resourceQuota: false
     psp:
       enabled: false
