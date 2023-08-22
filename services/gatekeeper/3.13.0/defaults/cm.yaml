@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-3.12.1-d2iq-defaults
+  name: gatekeeper-3.13.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -21,8 +21,12 @@ data:
     postInstall:
       labelNamespace:
         enabled: false
+      probeWebhook:
+        priorityClassName: system-cluster-critical
     controllerManager:
       tlsMinVersion: 1.2
+    upgradeCRDs:
+      priorityClassName: system-cluster-critical
     resourceQuota: false
     psp:
       enabled: false
