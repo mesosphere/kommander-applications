@@ -56,6 +56,9 @@ data:
               interval: 30s
             - port: monitoring
               interval: 30s
+            # Service port for grafana-logging
+            - port: service
+              interval: 30s
             # Service port for external-dns
             - targetPort: 7979
               interval: 30s
