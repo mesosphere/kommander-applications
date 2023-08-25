@@ -14,9 +14,9 @@ data:
         manager:
           replicas: "${kommanderAppManagementReplicas}"
           image:
-            tag: "${kommanderAppManagementImageTag}"
+            tag: v2.7.0-dev.fluxbump
             repository: "${kommanderAppManagementImageRepository}"
-            pullPolicy: IfNotPresent
+            pullPolicy: Always
     kubetools:
       image:
         repository: "${kommanderAppManagementKubetoolsImageRepository}"
