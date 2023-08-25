@@ -81,3 +81,5 @@ data:
       enabled: true
       primary:
         priorityClassName: "dkp-critical-priority"
+      image:
+        tag: 11.16.0-debian-11-r9
