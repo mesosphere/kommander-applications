@@ -12,7 +12,6 @@ permissions:
 jobs:
   release:
     name: Release
-    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
     runs-on:
       - self-hosted
       - medium

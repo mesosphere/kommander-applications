@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: '5 20 * * *'
+    - cron: '5 3 * * *'
 
 env:
   GOWORK: off
@@ -22,8 +22,6 @@ jobs:
       matrix:
         branch:
           - main
-          - release-2.1
-          - release-2.2
           - release-2.3
           - release-2.4
           - release-2.5
