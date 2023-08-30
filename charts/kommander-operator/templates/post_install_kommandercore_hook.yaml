@@ -42,11 +42,13 @@ data:
     set -eo pipefail
 
 
-    cat <<EOF | kubectl apply -f -
+    cat <<EOF | kubectl apply --server-side -f -
     apiVersion: dkp.d2iq.io/v1alpha1
     kind: KommanderCore
     metadata:
       name: kommander-core
+    spec:
+      version: {{ .Chart.Version }}
     EOF
 ---
 apiVersion: batch/v1
