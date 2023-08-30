@@ -1,0 +1,52 @@
+# TODO: Should these be separate files?
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-navigator-app-config
+  namespace: kommander
+data:
+  CHATBOT_URL: "https://chatbot.api.d2iq.com/v1/chat"
+  AUTHORIZER_URL: "https://auth.api.d2iq.com"
+  LICENSE_NAMESPACE: "kommander" # TODO: use kommander namspace, is this hardcoded ok?
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-navigator-app
+  namespace: kommander # TODO: use kommander namspace, is this hardcoded ok?
+  labels:
+    app: ai-navigator-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-navigator-app
+  template:
+    metadata:
+      labels:
+        app: ai-navigator-app
+    spec:
+      containers:
+        - name: ai-navigator-app
+          image: mesosphere/ai-navigator-app:development # TODO: Version
+          envFrom:
+            - configMapRef:
+                name: ai-navigator-app-config
+          ports:
+            - containerPort: 8080
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-navigator-app
+  namespace: kommander
+spec:
+  selector:
+    app: ai-navigator-app
+  ports:
+    - name: service-port
+      protocol: TCP
+      port: 80
+      targetPort: http
