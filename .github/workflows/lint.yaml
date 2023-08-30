@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   pre-commit:
-    runs-on: 
+    runs-on:
     - self-hosted
     - small
 
