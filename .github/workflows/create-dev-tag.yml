@@ -15,6 +15,7 @@ env:
 
 jobs:
   create-dev-tag:
+    if: github.ref == 'refs/heads/main'
     runs-on:
     - self-hosted
     - small
