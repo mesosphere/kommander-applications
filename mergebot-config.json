@@ -18,18 +18,6 @@
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },
   "test-binding": {
-    "kommander-applications/pre-commit": {
-      "type": "teamcity",
-      "required": "true",
-      "priority": 2,
-      "id": "ClosedSource_Kommander2_KommanderApplications_PreCommitChecks"
-    },
-    "kommander-applications/manifest-validation": {
-      "type": "teamcity",
-      "required": "true",
-      "priority": 2,
-      "id": "ClosedSource_Kommander2_KommanderApplications_ManifestValidation"
-    },
     "kommander-applications/upgrade-e2e-tests": {
       "type": "teamcity",
       "required": "true",
