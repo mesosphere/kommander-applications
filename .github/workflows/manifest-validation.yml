@@ -1,0 +1,31 @@
+name: Manifest validation
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+  push:
+    branches:
+      - 'main'
+      - 'v*'
+
+jobs:
+  manifest-validation:
+    name: Manifest validation
+    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
+    runs-on:
+      - self-hosted
+      - small
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 CI=true RUN_WHAT="make validate-manifests"
