@@ -36,6 +36,7 @@ ci.docker.run: ci.docker.ensure ; $(info $(M) Runs the build in the CI Docker im
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v /etc/docker/certs.d:/etc/docker/certs.d \
 		$(if $(GORELEASER_DEBUG),-e GORELEASER_DEBUG=$(GORELEASER_DEBUG)) \
+		$(if $(CI),-e CI=$(CI)) \
 		$(if $(E2E_DKP_ESSENTIAL_LICENSE),-e E2E_DKP_ESSENTIAL_LICENSE=$(E2E_DKP_ESSENTIAL_LICENSE)) \
 		$(if $(E2E_DKP_ENTERPRISE_LICENSE),-e E2E_DKP_ENTERPRISE_LICENSE=$(E2E_DKP_ENTERPRISE_LICENSE)) \
 		$(if $(SLACK_WEBHOOK),-e SLACK_WEBHOOK=$(SLACK_WEBHOOK)) \
