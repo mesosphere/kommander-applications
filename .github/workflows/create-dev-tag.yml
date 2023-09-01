@@ -52,7 +52,7 @@ jobs:
           git_push_gpgsign: false
 
       - name: Generate tag
-        run: echo "TAG=$(make ci.docker.run RUN_WHAT="make repo.dev.tag" | tail -1)" >> $GITHUB_ENV
+        run: echo "TAG=$(make repo.dev.tag | tail -1)" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
 
