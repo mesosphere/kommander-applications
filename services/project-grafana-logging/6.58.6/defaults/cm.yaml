@@ -56,6 +56,8 @@ data:
         auto_assign_org_role: Admin
       plugins:
         allow_loading_unsigned_plugins: "grafana-piechart-panel"
+      analytics:
+        reporting_enabled: false
 
     service:
       type: ClusterIP

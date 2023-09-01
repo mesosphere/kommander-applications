@@ -71,6 +71,8 @@ data:
             enabled: false
           users:
             auto_assign_org_role: Admin
+          analytics:
+            reporting_enabled: false
 
       kubecostProductConfigs:
         grafanaURL: "/dkp/kubecost/grafana"
