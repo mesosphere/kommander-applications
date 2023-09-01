@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: helm.ngc.nvidia.com-nvidia
         namespace: kommander-flux
-      version: v23.3.2
+      version: v23.6.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,5 +24,5 @@ spec:
   releaseName: nvidia-gpu-operator
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-gpu-operator-23.3.2-d2iq-defaults
+      name: nvidia-gpu-operator-23.6.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
