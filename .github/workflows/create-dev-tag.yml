@@ -39,9 +39,6 @@ jobs:
       - name: Configure git for private repo access
         run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
 
-      - name: Setup Go
-        uses: actions/setup-go@v4
-
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
