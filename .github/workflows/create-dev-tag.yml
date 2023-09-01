@@ -36,6 +36,9 @@ jobs:
           fetch-depth: "0"
           token: ${{ secrets.MESOSPHERECI_USER_TOKEN }} # Required for pushing to tags to remote
 
+      - name: Install asdf & tools
+        uses: asdf-vm/actions/install@v2
+
       - name: Configure git for private repo access
         run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
 
