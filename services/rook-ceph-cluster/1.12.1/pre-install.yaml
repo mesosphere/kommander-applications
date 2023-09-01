@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.12.1/pre-install
+  path: ./services/rook-ceph-cluster/1.12.3/pre-install
   sourceRef:
     kind: GitRepository
     name: management
