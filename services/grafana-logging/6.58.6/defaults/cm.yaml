@@ -57,6 +57,7 @@ data:
         allow_loading_unsigned_plugins: "grafana-piechart-panel"
       analytics:
         reporting_enabled: false
+        check_for_updates: false
 
     service:
       type: ClusterIP

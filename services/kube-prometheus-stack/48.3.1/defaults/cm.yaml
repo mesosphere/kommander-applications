@@ -401,6 +401,7 @@ data:
           default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
         analytics:
           reporting_enabled: false
+          check_for_updates: false
 
       service:
         type: ClusterIP

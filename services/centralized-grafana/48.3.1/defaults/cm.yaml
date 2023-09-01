@@ -74,6 +74,7 @@ data:
           default_home_dashboard_path: "/tmp/dashboards/global-overview.json"
         analytics:
           reporting_enabled: false
+          check_for_updates: false
 
       datasources:
         datasources.yaml:
