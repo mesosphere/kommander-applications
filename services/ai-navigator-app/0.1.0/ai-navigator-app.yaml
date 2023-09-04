@@ -10,9 +10,12 @@ metadata:
   name: ai-navigator-app
   namespace: ${releaseNamespace}
 rules:
-  - apiGroups: ["kommander.mesosphere.io", ""]
-    resources: ["licenses", "secrets"]
+  - apiGroups: ["kommander.mesosphere.io"]
+    resources: ["licenses"]
     verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
