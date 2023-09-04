@@ -392,6 +392,10 @@ data:
           allow_loading_unsigned_plugins: "grafana-piechart-panel"
         dashboards:
           default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
+        analytics:
+          reporting_enabled: false
+          check_for_updates: false
+
       service:
         type: ClusterIP
         port: 3000
