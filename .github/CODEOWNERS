@@ -1,0 +1,6 @@
+# Reference: https://help.github.com/en/articles/about-code-owners
+# Order is important: later rules override preceding rules
+
+# Components relating to Insights team which do not need to block on regular approvals from Kommander teams.
+/services/dkp-insights-management @mesosphere/d2iq-insights
+/services/dkp-insights @mesosphere/d2iq-insights
