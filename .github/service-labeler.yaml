@@ -1,3 +1,5 @@
+services/ai-navigator-app:
+  - services/ai-navigator-app/**
 services/centralized-grafana:
   - services/centralized-grafana/**
 services/centralized-kubecost:

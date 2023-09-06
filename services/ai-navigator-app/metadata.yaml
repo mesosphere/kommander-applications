@@ -1,0 +1,8 @@
+displayName: DKP AI Navigator
+description: DKP AI Navigator is D2iQ’s cool chatbot tool
+category:
+  - tools
+type: platform
+allowMultipleInstances: false
+scope:
+  - workspace
