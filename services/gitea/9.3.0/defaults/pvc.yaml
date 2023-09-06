@@ -1,0 +1,20 @@
+---
+# In the previous versions (v8.x and prior), PVC was automatically managed by the Statefulset, while in the
+# new versions (v9.x and later), it is automatically handled by the Helm chart.
+# In order to remain backward compatible with previous installations, we manually create a PVC object,
+# filling in its name value with the data-gitea-0 that is the value in gitea v8.x and older versions.
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data-gitea-0
+  namespace: ${releaseNamespace}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+---
