@@ -61,7 +61,7 @@ spec:
       serviceAccountName: ai-navigator-app
       containers:
         - name: ai-navigator-app
-          image: mesosphere/ai-navigator-app:development # TODO: Version
+          image: mesosphere/ai-navigator-app:v0.0.2
           envFrom:
             - configMapRef:
                 name: ai-navigator-app-config
