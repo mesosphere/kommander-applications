@@ -12,4 +12,3 @@ ifeq ($(wildcard $(PRE_COMMIT_CONFIG_FILE)),)
 endif
 	env SKIP=$(SKIP) pre-commit run -a --show-diff-on-failure --config $(PRE_COMMIT_CONFIG_FILE)
 	git fetch origin release-2.4 && gitlint --ignore-stdin --commits origin/release-2.4..HEAD
-
