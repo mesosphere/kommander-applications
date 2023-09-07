@@ -1,5 +1,4 @@
 # Default values for kommander-operator
-# this is using a nginx image at the moment that will be replaced by proper image
 
 replicaCount: 1
 kommanderoperator:
