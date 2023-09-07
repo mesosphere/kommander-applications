@@ -69,7 +69,7 @@ ignore:
   - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
 
 resources:
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.1.4
+  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.1.5
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
@@ -100,7 +100,7 @@ resources:
         notice_path: NOTICE.md
         ref: v${image_tag}
         url: https://github.com/grafana/grafana
-  - container_image: docker.io/grafana/grafana:9.5.7
+  - container_image: docker.io/grafana/grafana:9.5.6
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
