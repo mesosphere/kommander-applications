@@ -25,6 +25,11 @@ skip_types:
 additional_crds:
   # because the istio-chart is just referencing the istio-controller, so it doesn't contain the CRDs
   - https://raw.githubusercontent.com/istio/istio/1.9.1/manifests/charts/base/crds/crd-all.gen.yaml
+  # TODO: fix this in the correct way
+  - https://raw.githubusercontent.com/kubernetes-retired/kubefed/master/charts/kubefed/crds/crds.yaml
+  - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml
+  - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-issuers.yaml
+  - https://raw.githubusercontent.com/rook/rook/master/deploy/olm/assemble/objectbucket.io_objectbucketclaims.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
@@ -32,3 +37,4 @@ substitution_vars:
   workspaceNamespace: workspace
   certificateIssuerName: issuer
   certificatesIssuerName: issuer
+  certificateIssuerKind: ClusterIssuer
