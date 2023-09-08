@@ -1,69 +1,42 @@
-# name: Check licenses.d2iq.yaml
-# on:
-#   pull_request:
-#     types: [opened, reopened, synchronize, labeled, unlabeled]
-#   workflow_dispatch: {}
-#   push:
-#     tags:
-#       - v*
-#     branches:
-#       - main
-# jobs:
-#   check-license-yaml:
-#     runs-on: ubuntu-latest
-#     name: Check licenses.d2iq.yaml
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v3
-#         with:
-#           ref: ${{ github.head_ref }}
-#           fetch-depth: 0
-#           token: ${{ secrets.GITHUB_TOKEN }}
-#       - name: Setup asdf
-#         uses: asdf-vm/actions/setup@v2
-#       - name: Generate image list
-#         run: |
-#           export PATH=${PWD}/.local/bin:$PATH
-#           make install-tool.helm install-tool.go.envsubst install-tool.go.gojq
-#           helm plugin install https://github.com/d2iq-labs/helm-list-images
-#           ./hack/list-images.sh > images.txt
-#           echo "printing contents of images.txt"
-#           cat images.txt
-#       - name: Update licenses
-#         id: updateLicenses
-#         continue-on-error: true
-#         if: |
-#           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-#         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
-#         with:
-#           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=update
-#         env:
-#           GITHUB_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
-#       - name: Import GPG key
-#         if: |
-#           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-#         uses: crazy-max/ghaction-import-gpg@v4
-#         with:
-#           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-#           git_tag_gpgsign: true
-#       - name: Commit and push changes
-#         if: |
-#           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-#         run: |
-#           git config user.email ci-mergebot@d2iq.com
-#           git config user.name d2iq-mergebot
-#           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-#           git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-#           git add licenses.d2iq.yaml
-#           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-#             git commit -v -m "build: Updated licenses.d2iq.yaml"
-#             git push --force-with-lease
-#           fi
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-#       - name: Run validation
-#         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.10
-#         with:
-#           args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
-#         env:
-#           GITHUB_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
+name: Check licenses.d2iq.yaml
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+  workflow_dispatch: {}
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+jobs:
+  - name: Update image tag for container fluent-bit in licenses.yaml
+    uses: loveholidays/gitops-action-yaml-updater@v1.0
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'update-licenses')
+    with:
+      mode: IMAGE_TAG
+      container-name: fluent-bit
+      new-image-tag: 2.1.4
+      files: licenses.d2iq.yaml
+  - name: Import GPG key
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'update-licenses')
+    uses: crazy-max/ghaction-import-gpg@v4
+    with:
+      gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+      git_tag_gpgsign: true
+  - name: Commit and push changes
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'update-licenses')
+    run: |
+      git config user.email ci-mergebot@d2iq.com
+      git config user.name d2iq-mergebot
+      git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+      git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+      git add licenses.d2iq.yaml
+      if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+        git commit -v -m "build: Updated licenses.d2iq.yaml"
+        git push --force-with-lease
+      fi
+    env:
+      GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
