@@ -14,11 +14,13 @@ jobs:
     name: Update licenses.d2iq.yaml
     steps:
       - name: Checkout code
+        id: checkout-code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          run: echo "::set-output name=GITHUB_SHORT_SHA::$(git rev-parse --short "$GITHUB_SHA") "
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v2
       - name: Update image tag for container fluent-bit in licenses.yaml
@@ -27,8 +29,8 @@ jobs:
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         with:
           mode: IMAGE_TAG
-          container-name: cr.fluentbit.io/fluent/fluent-bit:2.1.5
-          new-image-tag: 2.1.4
+          container-name: fluent-bit
+          new-image-tag: prod-${{ steps.checkout-code.outputs.GITHUB_SHORT_SHA }}
           filepath: licenses.d2iq.yaml
       - name: Import GPG key
         if: |
