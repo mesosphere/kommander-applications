@@ -107,7 +107,7 @@ data:
           traefik: "20.8.0"
           kubernetes-dashboard: "6.0.0"
           kubecost: "0.33.2"
-          kube-prometheus-stack: "44.2.2"
+          kube-prometheus-stack: "46.8.1"
           prometheus-adapter: "4.0.2"
           prometheus-thanos-traefik: "0.0.1"
           kubecost-thanos-traefik: "0.0.1"
