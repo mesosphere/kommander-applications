@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kube-prometheus-stack/46.8.0/helmrelease
+  path: ./services/kube-prometheus-stack/46.8.1/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
