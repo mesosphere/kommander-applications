@@ -13,6 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Update licenses.d2iq.yaml
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
       - name: Update image tag for container fluent-bit in licenses.yaml
         uses: loveholidays/gitops-action-yaml-updater@v1.0
         if: |
