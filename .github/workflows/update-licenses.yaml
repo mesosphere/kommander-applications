@@ -1,4 +1,4 @@
-name: Check licenses.d2iq.yaml
+name: Update licenses.d2iq.yaml
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
