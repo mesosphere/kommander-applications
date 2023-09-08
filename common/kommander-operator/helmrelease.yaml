@@ -12,7 +12,7 @@ spec:
         kind: GitRepository
         name: management
         namespace: kommander-flux
-      version: 2.7.0-dev
+      version: 0.2.0
   interval: 15s
   install:
     crds: CreateReplace
