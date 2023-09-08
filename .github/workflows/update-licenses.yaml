@@ -29,7 +29,7 @@ jobs:
           mode: IMAGE_TAG
           container-name: fluent-bit
           new-image-tag: 2.1.4
-          filepath: /home/runner/work/kommander-applications/kommander-applications/licenses.d2iq.yaml
+          filepath: ../licenses.d2iq.yaml
       - name: Import GPG key
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
