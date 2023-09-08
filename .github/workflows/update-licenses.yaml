@@ -27,7 +27,7 @@ jobs:
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         with:
           mode: IMAGE_TAG
-          container-name: fluent-bit
+          container-name: cr.fluentbit.io/fluent/fluent-bit
           new-image-tag: 2.1.4
           filepath: licenses.d2iq.yaml
       - name: Import GPG key
