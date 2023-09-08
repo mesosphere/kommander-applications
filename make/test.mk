@@ -9,7 +9,7 @@ E2E_TIMEOUT       ?= 120m
 # flexible with our testing as well as testing against the same patch version as we deliver
 # by default with DKP.
 # See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
-E2E_KINDEST_IMAGE ?= "ghcr.io/mesosphere/kind-node-ci:v1.26.6"
+E2E_KINDEST_IMAGE ?= "ghcr.io/mesosphere/kind-node-ci:v1.27.5"
 
 # Kommander applications are upgraded on the previous k8s version first, before the cluster
 # is upgraded. Therefore, for the upgrade test, we should use the previous k8s version to
