@@ -75,6 +75,8 @@ data:
     clusterDomain: cluster.local.
     redis-cluster:
       priorityClassName: "dkp-critical-priority"
+      cluster:
+        nodes: 3
     postgresql-ha:
       enabled: false
     postgresql:
