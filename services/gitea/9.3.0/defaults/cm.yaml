@@ -17,8 +17,8 @@ data:
         traefik.ingress.kubernetes.io/router.tls: "true"
       hosts:
         - paths:
-            - path: /dkp/kommander/git
-              pathType: ImplementationSpecific
+          - path: /dkp/kommander/git
+            pathType: ImplementationSpecific
     gitea:
       additionalConfigFromEnvs:
         - name: GITEA__SERVER__SSL_MIN_VERSION
@@ -76,7 +76,7 @@ data:
     redis-cluster:
       priorityClassName: "dkp-critical-priority"
       cluster:
-        nodes: 3
+        nodes: 6
     postgresql-ha:
       enabled: false
     postgresql:
