@@ -25,4 +25,4 @@ spec:
   releaseName: grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-loki-0.69.16-d2iq-defaults
+      name: grafana-loki-0.69.17-d2iq-defaults
