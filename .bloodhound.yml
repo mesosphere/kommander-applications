@@ -25,7 +25,7 @@ skip_types:
 additional_crds:
   # because the istio-chart is just referencing the istio-controller, so it doesn't contain the CRDs
   - https://raw.githubusercontent.com/istio/istio/1.9.1/manifests/charts/base/crds/crd-all.gen.yaml
-  # TODO: fix this in the correct way
+  # TODO: verify this is not masking real problem in https://d2iq.atlassian.net/browse/D2IQ-99126
   - https://raw.githubusercontent.com/kubernetes-retired/kubefed/master/charts/kubefed/crds/crds.yaml
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-issuers.yaml
