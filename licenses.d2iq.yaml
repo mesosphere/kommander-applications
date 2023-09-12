@@ -371,22 +371,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v0.31.2
+  - container_image: ghcr.io/fluxcd/helm-controller:v0.35.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v0.35.1
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.0.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/kustomize-controller
-  - container_image: ghcr.io/fluxcd/notification-controller:v0.33.0
+  - container_image: ghcr.io/fluxcd/notification-controller:v1.0.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v0.36.1
+  - container_image: ghcr.io/fluxcd/source-controller:v1.0.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
