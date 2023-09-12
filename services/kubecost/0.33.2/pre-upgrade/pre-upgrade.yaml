@@ -46,7 +46,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: kubetools
-          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.5.2-dev}"
+          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.5.2}"
           command:
             - sh
             - "-c"
