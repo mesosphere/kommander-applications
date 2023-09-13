@@ -81,6 +81,13 @@ spec:
             initialDelaySeconds: 60
             timeoutSeconds: 30
             failureThreshold: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
