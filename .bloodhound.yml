@@ -6,6 +6,7 @@ k8s_versions:
   - 1.25.4
   - 1.26.6
   - 1.27.0
+  - 1.28.0
 
 # paths to load (in that order)
 paths:
