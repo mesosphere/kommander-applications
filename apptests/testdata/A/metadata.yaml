@@ -1,0 +1,4 @@
+displayName: A
+dependencies:
+  - B
+  - D
