@@ -1,7 +1,6 @@
 package apptests
 
 import (
-	"container/list"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,32 +8,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_findDependencyList(t *testing.T) {
+func Test_findDependencies(t *testing.T) {
 	cwd, err := os.Getwd()
 	assert.NoError(t, err)
 	testdata := filepath.Join(cwd, "testdata")
 
-	dep, err := findDependencyList(filepath.Join(testdata, "A"))
+	dep, err := findDependencies(filepath.Join(testdata, "A"))
 	assert.NoError(t, err)
-	assert.Equal(t, len(dep), 1)
+	assert.Equal(t, len(dep), 2)
 	assert.Equal(t, dep[0], "B")
+	assert.Equal(t, dep[1], "D")
 }
 
-func Test_UpdateDependencyList(t *testing.T) {
+func Test_DependencyList(t *testing.T) {
 	cwd, err := os.Getwd()
 	assert.NoError(t, err)
 	testdata := filepath.Join(cwd, "testdata")
 
-	d := &DeploymentTest{
-		path:         filepath.Join(testdata, "A"),
-		dependencies: list.New(),
-	}
-	err = d.UpdateDependencyList()
+	list, err := DependencyList(filepath.Join(testdata, "A"))
 	assert.NoError(t, err)
 
 	// there are 4 dependencies
-	assert.Equal(t, d.dependencies.Len(), 4)
-	d1 := d.dependencies.Front()
+	assert.Equal(t, list.Len(), 4)
+	d1 := list.Front()
 	assert.Contains(t, d1.Value.(string), "testdata/C")
 	assert.Contains(t, d1.Next().Value.(string), "testdata/D")
 	assert.Contains(t, d1.Next().Next().Value.(string), "testdata/B")
