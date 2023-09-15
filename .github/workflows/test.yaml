@@ -6,6 +6,7 @@ on:
     branches:
       - main
   pull_request:
+
 jobs:
   test:
     name: Go Test
@@ -13,9 +14,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v1
+
       - name: Run unit tests
-        env:
-          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make go-test
+
+      - name: Report Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: hack/release/coverage.out
