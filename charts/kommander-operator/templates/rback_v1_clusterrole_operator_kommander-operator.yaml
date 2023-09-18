@@ -39,6 +39,7 @@ rules:
       - kommanderclusters
       - gitrepositories
       - secrets
+      - events
     verbs:
       - get
       - list
@@ -65,6 +66,7 @@ rules:
       - kustomizations
       - federatednamespaces
       - kommanderclusters
+      - events
     verbs:
       - patch
       - update
@@ -102,4 +104,10 @@ rules:
     verbs:
       - deletecollection
       - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
 ---

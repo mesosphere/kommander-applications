@@ -47,8 +47,6 @@ data:
     kind: KommanderCore
     metadata:
       name: kommander-core
-    spec:
-      version: {{ .Chart.Version }}
     EOF
 ---
 apiVersion: batch/v1
