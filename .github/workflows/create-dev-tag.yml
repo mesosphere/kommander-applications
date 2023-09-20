@@ -34,9 +34,6 @@ jobs:
           ref: ${{ matrix.branch }}
           depth: 0
 
-      - name: Configure git for private repo access
-        run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
-
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v2
 
@@ -51,10 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
 
       - name: Create tag
-        run: |
-          git config --global user.email "ci-mergebot@d2iq.com"
-          git config --global user.name "ci-mergebot"
-          git tag -m "${{ env.TAG }}" ${{ env.TAG }}
+        run: git tag -m "${{ env.TAG }}" ${{ env.TAG }}
 
       - name: Push tag
         run: git push --force --tags origin ${{ env.TAG }}
