@@ -12,6 +12,7 @@ env:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   create-dev-tag:
@@ -48,7 +49,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
 
       - name: Create tag
-        run: git tag -m "${{ env.TAG }}" ${{ env.TAG }}
+        run: |
+          git config --global user.email "ci-mergebot@d2iq.com"
+          git config --global user.name "ci-mergebot"
+          git tag -m "${{ env.TAG }}" ${{ env.TAG }}
 
       - name: Push tag
         run: git push --force --tags origin ${{ env.TAG }}
