@@ -36,7 +36,7 @@ jobs:
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.11
         with:
-          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --update-licenses true
+          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --update-licenses
         env:
           GITHUB_TOKEN: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
       - name: Import GPG key
