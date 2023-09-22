@@ -41,6 +41,12 @@ data:
     #!/bin/bash
     set -eo pipefail
 
+    kcore_status=$(kubectl get kommandercore kommander-core -o jsonpath='{.status}')
+    # do nothing if the .status field is already populated
+    if [ -n "$kcore_status" ]; then
+      exit 0
+    fi
+
     # get the version of kommander before upgrade
     KOMMANDER_VERSION_PREUPGRADE=$(kubectl get helmrelease -n kommander kommander -o jsonpath='{.status.lastAppliedRevision}')
     cat <<EOF > kcore_patch.yaml
