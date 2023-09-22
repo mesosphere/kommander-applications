@@ -2,7 +2,10 @@ name: Flux Update Schedule Check
 on:
   schedule:
     - cron:  '30 9 * * *'
-  workflow_dispatch:
+  
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
 
 jobs:
   flex-schedule-check:
@@ -21,6 +24,9 @@ jobs:
         uses: asdf-vm/actions/setup@v2
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
 
       - name: Run tests
-        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="KOMMANDER_REPO_PATH=%teamcity.agent.work.dir%/kommander make flux-update"
+        env:
+          GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+        run: make KOMMANDER_REPO_PATH=${GITHUB_WORKSPACE}/kommander make flux-update
