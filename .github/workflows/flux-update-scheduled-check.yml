@@ -1,0 +1,26 @@
+name: Flux Update Schedule Check
+on:
+  schedule:
+    - cron:  '30 9 * * *'
+  workflow_dispatch:
+
+jobs:
+  flex-schedule-check:
+    name: Flux Update Schedule Check
+    runs-on:
+      - self-hosted
+      - small
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        run: make ci.docker.run GOOS=linux GOARCH=amd64 RUN_WHAT="KOMMANDER_REPO_PATH=%teamcity.agent.work.dir%/kommander make flux-update"
