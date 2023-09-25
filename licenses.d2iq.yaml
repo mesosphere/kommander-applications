@@ -14,7 +14,7 @@ ignore:
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
   - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
-  - docker.io/mesosphere/trivy-bundles:0.42.1-20230908T171705Z
+  - docker.io/mesosphere/trivy-bundles:0.42.1-20230913T060340Z
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
@@ -203,11 +203,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v0.6.0-dev.6
+  - container_image: docker.io/mesosphere/insights-management:v0.6.0-dev.7
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v0.6.0-dev.6
+  - container_image: docker.io/mesosphere/insights:v0.6.0-dev.7
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -371,22 +371,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v0.35.0
+  - container_image: ghcr.io/fluxcd/helm-controller:v0.36.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.0.1
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.1.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/kustomize-controller
-  - container_image: ghcr.io/fluxcd/notification-controller:v1.0.0
+  - container_image: ghcr.io/fluxcd/notification-controller:v1.1.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v1.0.1
+  - container_image: ghcr.io/fluxcd/source-controller:v1.1.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
