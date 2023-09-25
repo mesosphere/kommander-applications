@@ -2,10 +2,6 @@ name: Flux Update Schedule Check
 on:
   schedule:
     - cron:  '30 9 * * *'
-  
-  pull_request:
-    types: [opened, reopened, synchronize, labeled]
-
 
 jobs:
   flex-schedule-check:
