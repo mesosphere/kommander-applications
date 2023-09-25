@@ -4,7 +4,7 @@ on:
     - cron:  '0 12 * * SUN'
 
 jobs:
-  flex-schedule-check:
+  flux-schedule-check:
     if: github.ref == 'refs/heads/main'
     name: Flux Update Schedule Check
     runs-on:
