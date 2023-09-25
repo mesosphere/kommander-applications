@@ -33,6 +33,7 @@ rules:
       - dkp.d2iq.io
     resources:
       - kommandercores
+      - kommandercores/status
     verbs:
       - patch
       - update
