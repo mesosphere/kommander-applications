@@ -1,7 +1,7 @@
 name: Flux Update Schedule Check
 on:
   schedule:
-    - cron:  '30 9 * * *'
+    - cron:  '0 12 * * 7'
 
 jobs:
   flex-schedule-check:
@@ -20,7 +20,7 @@ jobs:
         uses: asdf-vm/actions/setup@v2
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
 
       - name: Run tests
         env:
