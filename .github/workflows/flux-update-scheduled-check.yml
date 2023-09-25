@@ -1,7 +1,7 @@
 name: Flux Update Schedule Check
 on:
   schedule:
-    - cron:  '0 12 * * 7'
+    - cron:  '0 12 * * SUN'
 
 jobs:
   flex-schedule-check:
