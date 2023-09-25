@@ -1,7 +1,7 @@
 name: Release
 
 on:
-  workflow_dispatch:
+  br
   push:
     tags:
       - 'v*'
@@ -16,6 +16,7 @@ jobs:
     runs-on:
       - self-hosted
       - medium
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

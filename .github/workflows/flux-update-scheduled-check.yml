@@ -5,6 +5,7 @@ on:
 
 jobs:
   flex-schedule-check:
+    if: github.ref == 'refs/heads/main'
     name: Flux Update Schedule Check
     runs-on:
       - self-hosted
