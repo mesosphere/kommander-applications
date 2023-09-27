@@ -24,7 +24,7 @@ spec:
   releaseName: project-loki-object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.74.5-d2iq-defaults
+      name: project-grafana-loki-0.74.6-d2iq-defaults
     - kind: ConfigMap
       name: project-grafana-loki-overrides
       optional: true
