@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-0.5.0-d2iq-defaults
+  name: dkp-insights-0.5.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -196,7 +196,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v0.5.0
+      tag: v0.5.1
     initdb:
       resources:
         limits:
@@ -523,7 +523,7 @@ data:
         enabled: false
         name: dkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.42.1-20230719T060337Z
+        imageFull: mesosphere/trivy-bundles:0.42.1-20230913T060340Z
         pullPolicy: IfNotPresent
       resources:
         limits:
