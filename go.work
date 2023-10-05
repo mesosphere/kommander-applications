@@ -3,4 +3,5 @@ go 1.18
 use (
 	./hack/release
 	./magefiles
+	apptests
 )
