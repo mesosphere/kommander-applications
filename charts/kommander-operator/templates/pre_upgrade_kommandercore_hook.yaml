@@ -11,6 +11,34 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Chart.Name }}-pre-upgrade
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+rules:
+  - apiGroups:
+      - dkp.d2iq.io
+      - helm.toolkit.fluxcd.io
+    resources:
+      - kommandercores
+      - helmreleases
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - dkp.d2iq.io
+    resources:
+      - kommandercores
+      - kommandercores/status
+    verbs:
+      - patch
+      - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ .Chart.Name }}-pre-upgrade
@@ -21,7 +49,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cluster-admin
+  name: {{ .Chart.Name }}-pre-upgrade
 subjects:
   - kind: ServiceAccount
     name: {{ .Chart.Name }}-pre-upgrade
