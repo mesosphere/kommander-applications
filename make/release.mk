@@ -7,7 +7,7 @@ release: ARCHIVE_NAME = kommander-applications-$(GIT_TAG).tar.gz
 release: PUBLISHED_URL = https://downloads.d2iq.com/dkp/$(GIT_TAG)/$(ARCHIVE_NAME)
 release: install-tool.awscli
 	# We don't want to have ai-navigator in airgapped bundle
-	# connected customers download k-apps from github where it's still present
+	# the connected customers download the k-apps from GitHub where it is still present
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 								  $(GIT_TAG) -- \
 								  common services charts ":(exclude)services/ai-navigator-app"
