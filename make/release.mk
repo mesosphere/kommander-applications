@@ -6,9 +6,11 @@ S3_ACL ?= "bucket-owner-full-control"
 release: ARCHIVE_NAME = kommander-applications-$(GIT_TAG).tar.gz
 release: PUBLISHED_URL = https://downloads.d2iq.com/dkp/$(GIT_TAG)/$(ARCHIVE_NAME)
 release: install-tool.awscli
+	# We don't want to have ai-navigator in airgapped bundle
+	# the connected customers download the k-apps from GitHub where it is still present
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 								  $(GIT_TAG) -- \
-								  common services charts
+								  common services charts ":(exclude)services/ai-navigator-app"
 	aws s3 cp --acl $(S3_ACL) $(ARCHIVE_NAME) s3://$(S3_BUCKET)/$(S3_PATH)/
 	echo "Published to $(PUBLISHED_URL)"
 ifeq (,$(findstring dev,$(GIT_TAG)))
