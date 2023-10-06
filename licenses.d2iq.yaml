@@ -32,7 +32,7 @@ ignore:
   #     - url: https://github.com/NVIDIA/DCGM
   #       ref: ${image_tag}
   #       license_path: LICENSE
-  - nvcr.io/nvidia/cloud-native/dcgm:3.1.7-1-ubuntu20.04
+  - nvcr.io/nvidia/cloud-native/dcgm:3.1.8-1-ubuntu20.04
 
   # Incorrect mapping was provided
   # - container_image: docker.io/bitnami/kubectl:1.19.7
