@@ -15,8 +15,8 @@ func TestBuild(t *testing.T) {
 	builder := New(
 		filepath.Join(wd, "testdata"),
 		map[string]string{
-			"name":      "test-name",
-			"namespace": "kommander",
+			"name":      "test",
+			"namespace": "test",
 		},
 	)
 	err = builder.Build()
@@ -26,15 +26,11 @@ func TestBuild(t *testing.T) {
 	assert.NoError(t, err)
 
 	// define the expected output
-	expected := `apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
+	expected := `apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: test-name
-  namespace: kommander
-spec:
-  interval: 10m
-  timeout: 1m
-  url: https://charts.bitnami.com/bitnami/
+  name: test
+  namespace: test
 `
 
 	assert.Equal(t, output, expected)
