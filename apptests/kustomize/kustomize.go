@@ -1,8 +1,6 @@
 package kustomize
 
 import (
-	"os"
-
 	"github.com/drone/envsubst"
 	"sigs.k8s.io/kustomize/api/krusty"
 	"sigs.k8s.io/kustomize/api/resmap"
@@ -28,10 +26,6 @@ func New(dir string, subs map[string]string) *Kustomize {
 // Build runs the kustomization process on the directory and substitutes the
 // environment variables in the resources.
 func (k *Kustomize) Build() error {
-	for k, v := range k.substitutes {
-		os.Setenv(k, v)
-	}
-
 	opts := krusty.MakeDefaultOptions()
 	opts.Reorder = krusty.ReorderOptionLegacy
 
@@ -43,13 +37,16 @@ func (k *Kustomize) Build() error {
 		return err
 	}
 
+	k.resources.Clear()
 	for _, r := range resourceMap.Resources() {
 		yaml, err := r.AsYAML()
 		if err != nil {
 			return err
 		}
 
-		out, err := envsubst.EvalEnv(string(yaml))
+		out, err := envsubst.Eval(string(yaml), func(s string) string {
+			return k.substitutes[s]
+		})
 		if err != nil {
 			return err
 		}
