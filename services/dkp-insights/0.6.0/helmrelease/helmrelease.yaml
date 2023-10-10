@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-dkp-insights-charts-attached
         namespace: kommander-flux
-      version: v0.6.0-dev.9
+      version: v0.6.0-dev.12
   install:
     remediation:
       retries: 30
@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: dkp-insights-0.6.0-dev.9-d2iq-defaults
+      name: dkp-insights-0.6.0-dev.12-d2iq-defaults
