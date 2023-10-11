@@ -54,7 +54,7 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 }
 
 // Delete deletes the cluster and the temporary kubeconfig file.
-func (c *Cluster) Delete(ctx context.Context, name string) error {
+func (c *Cluster) Delete(ctx context.Context) error {
 	select {
 	case <-ctx.Done():
 		return ctx.Err()

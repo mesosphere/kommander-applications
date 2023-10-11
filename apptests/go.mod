@@ -3,6 +3,7 @@ module github.com/mesosphere/kommander-applications/apptests
 go 1.20
 
 require (
+	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/flux2/v2 v2.1.1
 	github.com/fluxcd/helm-controller/api v0.36.1
 	github.com/fluxcd/image-automation-controller/api v0.36.1
@@ -22,6 +23,7 @@ require (
 	sigs.k8s.io/controller-runtime v0.16.2
 	sigs.k8s.io/kind v0.20.0
 	sigs.k8s.io/kustomize/api v0.14.0
+	sigs.k8s.io/kustomize/kyaml v0.14.3
 )
 
 require (
@@ -110,7 +112,6 @@ require (
 	k8s.io/kubectl v0.28.2 // indirect
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
-	sigs.k8s.io/kustomize/kyaml v0.14.3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.3.0 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
