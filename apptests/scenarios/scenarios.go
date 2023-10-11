@@ -42,12 +42,19 @@ func Has(application string) bool {
 
 // AbsolutePathTo returns the absolute path to the given application directory.
 func AbsolutePathTo(application string) (string, error) {
-	wd, err := os.Getwd()
+	dir, err := filepath.Abs(filepath.Join("../../services/", application))
 	if err != nil {
 		return "", err
 	}
 
-	return filepath.Join(wd, "../../services/", application), nil
+	// os.ReadDir sorts the result alphabetically
+	// so first entry in the slice always is application version directory.
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return "", err
+	}
+
+	return entries[0].Name(), nil
 }
 
 // This is the List of all available scenarios.

@@ -29,9 +29,7 @@ You can specify which applications you want to test using the --applications fla
 
 			for _, app := range apps {
 				if !scenarios.Has(app) {
-					// fail quickly
-					// fail quickly
-					// fail quickly
+					return fmt.Errorf("could not find app: %s", app)
 				}
 			}
 
@@ -43,13 +41,7 @@ You can specify which applications you want to test using the --applications fla
 					return err
 				}
 
-				// initialize scenario
-				err = scenarios.Init(ctx, env)
-				if err != nil {
-					// error
-					// error
-					// error
-				}
+				// run the associated scenario with application
 				sc := scenarios.Get(app)
 				err = sc.Execute(ctx, env)
 				if err != nil {
