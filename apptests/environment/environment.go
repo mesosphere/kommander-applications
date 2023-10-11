@@ -113,6 +113,12 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *client.Client, error) {
 		Components:        []string{"source-controller", "kustomize-controller", "helm-controller"},
 	})
 
+	// wait for flux to ge ready
+	// wait for flux to ge ready
+	// wait for flux to ge ready
+	// wait for flux to ge ready
+	// wait for flux to ge ready
+
 	return cluster, c, err
 }
 
