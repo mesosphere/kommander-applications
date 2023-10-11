@@ -34,6 +34,12 @@ func Get(application string) Scenario {
 	return nil
 }
 
+// Has checks if the associated scenario for the given application exist.
+func Has(application string) bool {
+	_, ok := sc[application]
+	return ok
+}
+
 // AbsolutePathTo returns the absolute path to the given application directory.
 func AbsolutePathTo(application string) (string, error) {
 	wd, err := os.Getwd()
@@ -42,16 +48,6 @@ func AbsolutePathTo(application string) (string, error) {
 	}
 
 	return filepath.Join(wd, "../../services/", application), nil
-}
-
-// AbsolutePathToBase returns the absolute path to common/base directory.
-func AbsolutePathToBase() (string, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	return filepath.Join(wd, "../../common/base"), nil
 }
 
 // This is the List of all available scenarios.

@@ -28,11 +28,14 @@ You can specify which applications you want to test using the --applications fla
 			}
 
 			for _, app := range apps {
-				sc := scenarios.Get(app)
-				if sc == nil {
-					// error
+				if !scenarios.Has(app) {
+					// fail quickly
+					// fail quickly
+					// fail quickly
 				}
+			}
 
+			for _, app := range apps {
 				// prepare environment
 				env := &environment.Env{}
 				err := env.Provision(ctx)
@@ -40,7 +43,14 @@ You can specify which applications you want to test using the --applications fla
 					return err
 				}
 
-				// execute the scenario
+				// initialize scenario
+				err = scenarios.Init(ctx, env)
+				if err != nil {
+					// error
+					// error
+					// error
+				}
+				sc := scenarios.Get(app)
 				err = sc.Execute(ctx, env)
 				if err != nil {
 					return err
