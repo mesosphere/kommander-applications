@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/client"
@@ -167,10 +166,5 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 
 // AbsolutePathToBase returns the absolute path to common/base directory.
 func AbsolutePathToBase() (string, error) {
-	wd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	return filepath.Join(wd, "../../common/base"), nil
+	return filepath.Abs("../../common/base")
 }
