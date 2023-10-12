@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-kubecost-0.35.1-d2iq-defaults
+  name: centralized-kubecost-0.37.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
