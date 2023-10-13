@@ -25,6 +25,6 @@ func TestCreateCluster(t *testing.T) {
 	assert.NotEmpty(t, cluster.KubeconfigFilePath())
 
 	// delete the cluster
-	err = cluster.Delete(ctx, name)
+	err = cluster.Delete(ctx)
 	assert.NoError(t, err)
 }

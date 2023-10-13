@@ -63,12 +63,12 @@ func (k *Kustomize) Build() error {
 }
 
 // Output returns the YAML representation of the resources map as a string.
-func (k *Kustomize) Output() (string, error) {
+func (k *Kustomize) Output() ([]byte, error) {
 	yml, err := k.resources.AsYaml()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return string(yml), nil
+	return yml, nil
 }
 
 // newResourceFromString converts a given string to a Kubernetes resource.
