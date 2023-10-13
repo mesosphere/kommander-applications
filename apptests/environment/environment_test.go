@@ -111,3 +111,9 @@ func TestAbsolutePathToBase(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Contains(t, pathToBase, "kommander-applications/common/base")
 }
+
+func TestAbsolutePathToBase(t *testing.T) {
+	s, err := absolutePathToBase()
+	assert.NoError(t, err)
+	assert.Contains(t, s, "kommander-applications/common/base")
+}
