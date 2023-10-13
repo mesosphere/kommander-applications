@@ -43,3 +43,9 @@ func TestProvision(t *testing.T) {
 	}
 
 }
+
+func TestAbsolutePathToBase(t *testing.T) {
+	s, err := absolutePathToBase()
+	assert.NoError(t, err)
+	assert.Contains(t, s, "kommander-applications/common/base")
+}

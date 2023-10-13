@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -49,7 +50,7 @@ type Env struct {
 func (e *Env) Provision(ctx context.Context) error {
 	var err error
 
-	kustomizePath, err := AbsolutePathToBase()
+	kustomizePath, err := absolutePathToBase()
 	if err != nil {
 		return err
 	}
@@ -217,7 +218,21 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 	return nil
 }
 
-// AbsolutePathToBase returns the absolute path to common/base directory.
-func AbsolutePathToBase() (string, error) {
-	return filepath.Abs("../../common/base")
+// absolutePathToBase returns the absolute path to common/base directory from the given working directory.
+func absolutePathToBase() (string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	// determining the execution path.
+	var base string
+	_, err = os.Stat(filepath.Join(wd, "common", "base"))
+	if os.IsNotExist(err) {
+		base = "../.."
+	} else {
+		base = ""
+	}
+
+	return filepath.Join(wd, base, "common", "base"), nil
 }
