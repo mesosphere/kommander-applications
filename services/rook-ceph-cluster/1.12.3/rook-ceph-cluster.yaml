@@ -6,7 +6,7 @@ metadata:
 spec:
   dependsOn:
     # There can only be one operator per cluster, just ensure CRDs are present, no need to wait for actual operator Deployment.
-    - name: rook-ceph-cluster-prereq-jobs-v1.12.1
+    - name: rook-ceph-cluster-prereq-jobs-v1.12.3
       namespace: ${workspaceNamespace}
   force: false
   prune: true
