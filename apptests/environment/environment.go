@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -23,7 +24,9 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"k8s.io/klog/v2"
 	genericCLient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 )
 
 const (
@@ -49,7 +52,7 @@ type Env struct {
 func (e *Env) Provision(ctx context.Context) error {
 	var err error
 
-	kustomizePath, err := AbsolutePathToBase()
+	kustomizePath, err := absolutePathToBase()
 	if err != nil {
 		return err
 	}
@@ -155,11 +158,15 @@ func waitForFluxDeploymentsReady(ctx context.Context, typedClient *typedclient.C
 	isDeploymentReady := func(ctx context.Context, deployment appsv1.Deployment) wait.ConditionWithContextFunc {
 		return func(ctx context.Context) (done bool, err error) {
 			deploymentObj, err := typedClient.Clientset().AppsV1().
-				Deployments(kommanderFluxNamespace).
+				Deployments(deployment.Namespace).
 				Get(ctx, deployment.Name, metav1.GetOptions{})
 			if err != nil {
 				return false, err
 			}
+			if deploymentObj.Generation > deploymentObj.Status.ObservedGeneration {
+				return false, nil
+			}
+
 			return deploymentObj.Status.ReadyReplicas == deploymentObj.Status.Replicas, nil
 		}
 	}
@@ -184,6 +191,8 @@ func (e *Env) SetK8sClient(k8sClient *typedclient.Client) {
 
 // ApplyKustomizations applies the kustomizations located in the given path.
 func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitutions map[string]string) error {
+	log.SetLogger(klog.NewKlogr())
+
 	if path == "" {
 		return fmt.Errorf("requirement argument: path is not specified")
 	}
@@ -199,25 +208,47 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 
 	buf := bytes.NewBuffer(out)
 	dec := yaml.NewYAMLOrJSONDecoder(buf, 1<<20) // default buffer size is 1MB
-	obj := unstructured.Unstructured{}
-	if err = dec.Decode(&obj); err != nil && err != io.EOF {
-		return fmt.Errorf("could not decode kustomization for path: %s :%w", path, err)
-	}
-
-	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{})
+	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
 	if err != nil {
 		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
 	}
 
-	err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
-	if err != nil {
-		return fmt.Errorf("could not patch the kustomization resources for path: %s :%w", path, err)
+	for {
+		var obj unstructured.Unstructured
+		err = dec.Decode(&obj)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return fmt.Errorf("could not decode kustomization for path: %s :%w", path, err)
+		}
+
+		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		if err != nil {
+			return fmt.Errorf("could not patch the kustomization resources for path: %s :%w", path, err)
+		}
 	}
 
 	return nil
 }
 
-// AbsolutePathToBase returns the absolute path to common/base directory.
-func AbsolutePathToBase() (string, error) {
-	return filepath.Abs("../../common/base")
+// absolutePathToBase returns the absolute path to common/base directory from the given working directory.
+func absolutePathToBase() (string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	// determining the execution path.
+	var base string
+	_, err = os.Stat(filepath.Join(wd, "common", "base"))
+	if os.IsNotExist(err) {
+		base = "../.."
+	} else {
+		base = ""
+	}
+
+	return filepath.Join(wd, base, "common", "base"), nil
 }
