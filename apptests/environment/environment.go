@@ -33,7 +33,7 @@ const (
 )
 
 // Env holds the configuration and state for application specific testings.
-// It contains the applications to test, the Kubernetes client, and the kind cluster.
+// It contains the Kubernetes client, and the kind cluster.
 type Env struct {
 	// K8sClient is a reference to the Kubernetes client
 	// This client is used to interact with the cluster built during the execution of the application specific testing.

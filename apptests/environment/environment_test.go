@@ -18,7 +18,6 @@ func TestProvision(t *testing.T) {
 	assert.NoError(t, err)
 	defer env.Destroy(ctx)
 
-	// assert that flux components are ready
 	selector := labels.SelectorFromSet(map[string]string{
 		manifestgen.PartOfLabelKey:   manifestgen.PartOfLabelValue,
 		manifestgen.InstanceLabelKey: kommanderFluxNamespace,
