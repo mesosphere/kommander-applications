@@ -10,27 +10,6 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ .Chart.Name }}-installation
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
-rules:
-  - apiGroups:
-      - dkp.d2iq.io
-    resources:
-      - kommandercores
-    verbs:
-      - get
-      - list
-      - watch
-      - create
-      - patch
-      - update
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ .Chart.Name }}-installation
@@ -41,11 +20,12 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Chart.Name }}-installation
+  name: cluster-admin
 subjects:
   - kind: ServiceAccount
     name: {{ .Chart.Name }}-installation
     namespace: {{ .Release.Namespace }}
+
 ---
 apiVersion: v1
 kind: ConfigMap
