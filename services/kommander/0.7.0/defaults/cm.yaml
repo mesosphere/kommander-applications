@@ -79,7 +79,7 @@ data:
       enabled: false
     capimate:
       image:
-        tag: v0.0.0-dev.0
+        tag: v2.7.0-dev.6
     managementApps:
     - "centralized-grafana"
     - "centralized-kubecost"
