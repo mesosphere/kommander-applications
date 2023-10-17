@@ -9,6 +9,7 @@ data:
     priorityClassName: "dkp-critical-priority"
     image:
       rootless: true
+      pullPolicy: IfNotPresent
     ingress:
       enabled: true
       annotations:
