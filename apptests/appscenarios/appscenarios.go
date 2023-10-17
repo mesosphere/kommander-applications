@@ -10,6 +10,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/environment"
@@ -48,9 +49,23 @@ func Has(application string) bool {
 	return ok
 }
 
-// AbsolutePathTo returns the absolute path to the given application directory.
-func AbsolutePathTo(application string) (string, error) {
-	dir, err := filepath.Abs(filepath.Join("../../services/", application))
+// absolutePathTo returns the absolute path to the given application directory.
+func absolutePathTo(application string) (string, error) {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	// determining the execution path.
+	var base string
+	_, err = os.Stat(filepath.Join(wd, "services"))
+	if os.IsNotExist(err) {
+		base = "../.."
+	} else {
+		base = ""
+	}
+
+	dir, err := filepath.Abs(filepath.Join(wd, base, "services", application))
 	if err != nil {
 		return "", err
 	}
@@ -62,10 +77,13 @@ func AbsolutePathTo(application string) (string, error) {
 	}
 
 	if len(matches) == 0 {
-		return "", fmt.Errorf("no application directory found for %s", application)
+		return "", fmt.Errorf(
+			"no application directory found for %s in the given path:%s",
+			application, dir)
 	}
 
 	return matches[0], nil
+
 }
 
 // This is the ScenarioList of all available scenarios.

@@ -28,7 +28,7 @@ const (
 )
 
 func (r reloader) Execute(ctx context.Context, env *environment.Env) error {
-	appPath, err := AbsolutePathTo(r.Name())
+	appPath, err := absolutePathTo(r.Name())
 	if err != nil {
 		return err
 	}

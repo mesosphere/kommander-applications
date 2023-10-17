@@ -8,7 +8,7 @@ import (
 )
 
 func TestAbsolutePathTo(t *testing.T) {
-	absAppPath, err := AbsolutePathTo("reloader")
+	absAppPath, err := absolutePathTo("reloader")
 	assert.NoError(t, err)
 
 	expected := filepath.Join("kommander-applications", "services", "reloader")

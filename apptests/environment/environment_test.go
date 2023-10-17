@@ -2,6 +2,7 @@ package environment
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
@@ -41,5 +42,11 @@ func TestProvision(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, deploymentObj.Status.Replicas, deploymentObj.Status.ReadyReplicas)
 	}
+}
 
+func TestAbsolutePathToBase(t *testing.T) {
+	s, err := absolutePathToBase()
+	assert.NoError(t, err)
+
+	fmt.Println(s)
 }

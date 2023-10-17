@@ -9,7 +9,7 @@ import (
 )
 
 func TestListExecute(t *testing.T) {
-	env := environment.Env{}
+	env := &environment.Env{}
 	ctx := context.Background()
 
 	err := env.Provision(ctx)
@@ -17,6 +17,6 @@ func TestListExecute(t *testing.T) {
 	defer env.Destroy(ctx)
 
 	r := reloader{}
-	err = r.Execute(ctx, &env)
+	err = r.Execute(ctx, env)
 	assert.NoError(t, err)
 }
