@@ -84,7 +84,7 @@ data:
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
-        tag: 11.16.0-debian-11-r9
+        tag: 15.2.0-debian-11-r21
     persistence:
       enabled: true
       create: false

@@ -56,4 +56,4 @@ data:
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "traefik-forward-auth-configmap"
     initContainers: null
-    addonsInitializer: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.5.5}"
+    addonsInitializer: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.7.0}"
