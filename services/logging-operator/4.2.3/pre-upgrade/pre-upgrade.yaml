@@ -47,7 +47,7 @@ spec:
       priorityClassName: dkp-critical-priority
       containers:
         - name: kubetools
-          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.6.1-dev}"
+          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.6.1}"
           command:
             - sh
             - "-c"
