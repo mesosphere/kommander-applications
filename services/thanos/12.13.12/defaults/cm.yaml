@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: thanos-12.13.7-d2iq-defaults
+  name: thanos-12.13.12-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
