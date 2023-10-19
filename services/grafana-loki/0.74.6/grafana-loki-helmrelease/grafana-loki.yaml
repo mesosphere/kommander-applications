@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: project-grafana-loki
+  name: grafana-loki
   namespace: ${releaseNamespace}
 spec:
   chart:
@@ -11,9 +11,9 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 0.74.5
-  timeout: 15m
+      version: 0.74.6
   interval: 15s
+  timeout: 15m
   install:
     crds: CreateReplace
     remediation:
@@ -22,7 +22,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: project-grafana-loki
+  releaseName: grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.74.5-d2iq-defaults
+      name: grafana-loki-0.74.6-d2iq-defaults
