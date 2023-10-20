@@ -47,7 +47,7 @@ data:
           HOST: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
         queue:
           TYPE: redis
-          CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}v.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+          CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
 
       startupProbe:
         enabled: true
