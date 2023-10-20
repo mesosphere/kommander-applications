@@ -470,6 +470,8 @@ data:
             cpu: 100m
             memory: 64Mi
     postgresql:
+      image:
+        tag: 15.4.0-debian-11-r10
       global:
         connectionPool:
           connectionMaxLifetime: 1h
