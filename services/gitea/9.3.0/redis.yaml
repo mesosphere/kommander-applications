@@ -1,17 +1,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: gitea
+  name: redis
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: gitea
+      chart: redis
       sourceRef:
         kind: HelmRepository
-        name: dl.gitea.io-charts
+        name: charts.github.io-bitnami
         namespace: kommander-flux
-      version: 9.3.0
+      version: 18.1.6
   interval: 15s
   install:
     crds: CreateReplace
@@ -22,11 +22,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: gitea
-  valuesFrom:
-    - kind: ConfigMap
-      name: gitea-9.3.0-d2iq-defaults
+  releaseName: redis
+  values:
+    auth:
+      enabled: false
   targetNamespace: ${releaseNamespace}
-  # dependsOn:
-  #   - name: redis
-  #     namespace: ${releaseNamespace}

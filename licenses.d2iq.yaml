@@ -84,6 +84,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-scratch-r12}
         url: https://github.com/thanos-io/thanos
+  - container_image: docker.io/bitnami/redis:7.2.2-debian-11-r0
+    sources:
+      - license_path: LICENSE
+        ref: v${image_tag%-scratch-r0}
+        url: https://github.com/redis/redis
   - container_image: docker.io/fluent/fluent-bit:2.1.4
     sources:
       - license_path: LICENSE

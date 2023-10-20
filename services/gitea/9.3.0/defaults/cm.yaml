@@ -40,14 +40,14 @@ data:
           DISABLE_REGISTRATION: true
         session:
           PROVIDER: redis
-          PROVIDER_CONFIG: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+          PROVIDER_CONFIG: redis://:gitea@redis-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
         cache:
           ENABLED: true
           ADAPTER: redis
-          HOST: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+          HOST: redis://:gitea@redis-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
         queue:
           TYPE: redis
-          CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
+          CONN_STR: redis://:gitea@redis-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
 
       startupProbe:
         enabled: true
@@ -79,9 +79,7 @@ data:
         mountPath: "/git-tls"
     clusterDomain: cluster.local.
     redis-cluster:
-      priorityClassName: "dkp-critical-priority"
-      cluster:
-        nodes: 6
+      enabled: false
     postgresql-ha:
       enabled: false
     postgresql:
