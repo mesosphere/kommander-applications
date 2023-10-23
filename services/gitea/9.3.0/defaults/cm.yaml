@@ -58,6 +58,10 @@ data:
         periodSeconds: 10
         successThreshold: 1
         failureThreshold: 10
+      # We use startupProbe unlike the default configuration,
+      # to shorten readiness time, set initialDelaySeconds to 5 seconds.
+      livenessProbe:
+        initialDelaySeconds: 5
     deployment:
       annotations:
         secret.reloader.stakater.com/reload: ${tlsCertificateSecret}
