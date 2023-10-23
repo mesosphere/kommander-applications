@@ -27,9 +27,9 @@ data:
       # Clusters will be managed in the overrides CM
       clusters: {}
       livenessProbe:
-        periodSeconds: 10   # Under high load use 'periodSeconds: 30'
-        initialDelaySeconds: 10   # Under high load use 'initialDelaySeconds: 15'
-        timeoutSeconds: 10   # Under high load use 'timeoutSeconds: 30'
+        periodSeconds: 30
+        initialDelaySeconds: 15
+        timeoutSeconds: 30
         failureThreshold: 6
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "dex-k8s-authenticator"
