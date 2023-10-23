@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.12.4-d2iq-defaults
+  name: dex-2.13.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
     ---
     priorityClassName: "dkp-critical-priority"
     image: mesosphere/dex
-    imageTag: v2.35.1-d2iq.1
+    imageTag: v2.37.0-d2iq.1
     resources:
       requests:
         cpu: 100m
@@ -57,6 +57,37 @@ data:
         skipApprovalScreen: true
       staticClients: []
       lazyInitConnectors: true
+      connectorFiltersHooks:
+        filterHooks:
+        - name: "dex-controller"
+          type: "external"
+          requestContext:
+            params:
+              - "state"
+              - "tenant-id"
+          config:
+            url: "https://dex-dex-controller-webhook-service:18443/connectors"
+            tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
+            clientAuthentication:
+              clientKeyFile: "/etc/dex/tls/client/tls.key"
+              clientCertificateFile: "/etc/dex/tls/client/tls.crt"
+              clientCAFile: "/etc/dex/tls/client/ca.crt"
+      tokenClaimsHooks:
+        mutatingHooks:
+        - name: "dex-controller"
+          type: "external"
+          claims:
+            - "groups"
+            - "email"
+            - "username"
+            - "preferred_username"
+          config:
+            url: "https://dex-dex-controller-webhook-service:18443/claims"
+            tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
+            clientAuthentication:
+              clientKeyFile: "/etc/dex/tls/client/tls.key"
+              clientCertificateFile: "/etc/dex/tls/client/tls.crt"
+              clientCAFile: "/etc/dex/tls/client/ca.crt"
     certIssuerRef:
       kind: ${certificateIssuerKind:=Issuer}
       name: ${certificateIssuerName}
