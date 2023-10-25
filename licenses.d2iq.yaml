@@ -268,19 +268,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
