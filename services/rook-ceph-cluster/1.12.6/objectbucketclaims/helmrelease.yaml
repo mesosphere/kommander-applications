@@ -1,18 +1,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: rook-ceph-cluster
+  name: object-bucket-claims
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: rook-ceph-cluster
+      chart: object-bucket-claim
       sourceRef:
         kind: HelmRepository
-        name: charts.rook.io-release
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: v1.12.1
-  timeout: 15m
+      version: 0.1.7
+  timeout: 20m
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,8 +23,14 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: rook-ceph-cluster
+  releaseName: object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.12.1-d2iq-defaults
+      name: rook-ceph-cluster-1.12.6-d2iq-defaults
+    - kind: ConfigMap
+      name: rook-ceph-cluster-overrides
+      optional: true
+    - kind: ConfigMap
+      name: rook-ceph-cluster-cluster-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
