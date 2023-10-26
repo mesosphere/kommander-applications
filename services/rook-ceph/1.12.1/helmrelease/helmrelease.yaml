@@ -1,18 +1,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: rook-ceph-cluster
+  name: rook-ceph
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: rook-ceph-cluster
+      chart: rook-ceph
       sourceRef:
         kind: HelmRepository
         name: charts.rook.io-release
         namespace: kommander-flux
-      version: v1.12.3
-  timeout: 15m
+      version: v1.12.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,8 +22,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: rook-ceph-cluster
+  releaseName: rook-ceph
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.12.3-d2iq-defaults
+      name: rook-ceph-1.12.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
