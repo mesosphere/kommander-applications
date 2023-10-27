@@ -65,6 +65,7 @@ data:
             params:
               - "state"
               - "tenant-id"
+              - "client_id"
           config:
             url: "https://dex-dex-controller-webhook-service:18443/connectors"
             tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
