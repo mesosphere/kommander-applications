@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-0.6.0-dev.13-d2iq-defaults
+  name: dkp-insights-1.0.0-dev.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -37,7 +37,7 @@ data:
             - groupKind:
                 group: ""
                 kind: Namespace
-              nameRegexp: kommander-flux|kube-federation-system|cert-manager
+              nameRegexp: kommander-flux|kube-federation-system|cert-manager|node-feature-discovery|calico-system|cap.*?-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
             - groupKind:
                 group: ""
                 kind: PersistentVolumeClaim
@@ -136,7 +136,7 @@ data:
               nameRegexp: requiredserviceaccountname
           enabled: true
           filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|default|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
-          insightClassNames: Combined.*?|CPUThrottlingHigh|EtcdInsight|ExpiringTLSSecret|Nova|Pluto|PolarisAudit|Trivy
+          insightClassNames: Nova|Pluto|PolarisAudit
         mode: daytwo
         replay:
           apiServerService: dkp-insights-replay-troubleshoot-live
@@ -200,7 +200,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v0.6.0-dev.13
+      tag: v1.0.0-dev.1
     initdb:
       resources:
         limits:
@@ -527,7 +527,7 @@ data:
         enabled: false
         name: dkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.45.1-20230927T071941Z
+        imageFull: mesosphere/trivy-bundles:0.45.1-20231019T024033Z
         pullPolicy: IfNotPresent
       resources:
         limits:
