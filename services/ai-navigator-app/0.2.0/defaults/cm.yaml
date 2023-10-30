@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-navigator-cluster-info-api-0.2.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    # api.enabled enables the collector service as a whole - will not install anything if set to false
+    api:
+      enabled: true
+
+    # Default values for configmap
+    modelSettings:
+      model_name: thenlper/gte-large
+      chunk_size: 2000
+      chunk_overlap: 250
+
+    vector_db:
+      url: http://weaviate
+      index_name: Cluster_Info
+
+    record_manager:
+      driver_name: "postgresql"
+      username: "postgres"
+      host: "ai-navigator-api-postgresql"
+      port: 5432
+      database: indexer
+
+
+    # Default values for subcharts
+    weaviate:
+      enabled: true
+      service:
+        type: ClusterIP
+      image:
+        tag: 1.21.4
+
+    postgresql:
+      enabled: true
+      image:
+        tag: 15.4.0-debian-11-r44
+
+    # Default values for cluster-info-api
+    replicaCount: 1
+
+    image:
+      repository: mesosphere/ai-navigator-cluster-info-api
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "v0.1.0"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: true
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    monitoring:
+      enabled: true
+      interval: 30s
+      path: /metrics
+
+    podAnnotations: {}
+
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: false
+      runAsNonRoot: true
+      runAsUser: 1000
+
+    service:
+      type: ClusterIP
+      port: 8080
+
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+
+    cacheVolume:
+      sizeLimit: 4Gi
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
