@@ -627,5 +627,5 @@ resources:
   - container_image: docker.io/library/alpine:3.18.4
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v3.18
         url: https://github.com/alpinelinux/docker-alpine
