@@ -51,13 +51,6 @@ data:
 
       startupProbe:
         enabled: true
-        tcpSocket:
-          port: http
-        initialDelaySeconds: 60
-        timeoutSeconds: 1
-        periodSeconds: 10
-        successThreshold: 1
-        failureThreshold: 10
       # We use startupProbe unlike the default configuration,
       # to shorten readiness time, set initialDelaySeconds to 5 seconds.
       livenessProbe:
@@ -88,6 +81,8 @@ data:
       enabled: true
       primary:
         priorityClassName: "dkp-critical-priority"
+        startupProbe:
+          enabled: true
       image:
         tag: 11.16.0-debian-11-r9
     persistence:
