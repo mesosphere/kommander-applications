@@ -622,6 +622,5 @@ resources:
   - container_image: docker.io/semitechnologies/weaviate:1.21.4
     sources:
       - license_path: LICENSE
-        notice_path: NOTICE
         ref: v${image_tag}
         url: https://github.com/weaviate/weaviate
