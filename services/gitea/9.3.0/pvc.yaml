@@ -1,4 +1,3 @@
----
 # In the previous versions (v8.x and prior), PVC was automatically managed by the Statefulset, while in the
 # new versions (v9.x and later), it is automatically handled by the Helm chart.
 #
