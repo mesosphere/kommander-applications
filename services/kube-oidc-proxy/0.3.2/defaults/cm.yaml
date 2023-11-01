@@ -1,8 +1,7 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-oidc-proxy-0.3.2-d2iq-defaults
+  name: kube-oidc-proxy-0.3.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
