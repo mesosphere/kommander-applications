@@ -14,6 +14,8 @@ data:
       model_name: thenlper/gte-large
       chunk_size: 2000
       chunk_overlap: 250
+      path: /models
+      volumeSize: 4Gi
 
     vector_db:
       url: http://weaviate
@@ -22,10 +24,8 @@ data:
     record_manager:
       driver_name: "postgresql"
       username: "postgres"
-      host: "ai-navigator-api-postgresql"
       port: 5432
-      database: indexer
-
+      database: record-manager
 
     # Default values for subcharts
     weaviate:
@@ -34,6 +34,15 @@ data:
         type: ClusterIP
       image:
         tag: 1.21.4
+      initContainers:
+        #enabled: false
+        sysctlInitContainer:
+          image:
+            tag: 3.18.4
+      securityContext:
+        runAsUser: 65532
+        fsGroup: 65532
+        runAsGroup: 65532
 
     postgresql:
       enabled: true
@@ -45,9 +54,9 @@ data:
 
     image:
       repository: mesosphere/ai-navigator-cluster-info-api
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "v0.1.0"
+      tag: ""
 
     imagePullSecrets: []
     nameOverride: ""
@@ -62,11 +71,6 @@ data:
       # If not set and create is true, a name is generated using the fullname template
       name: ""
 
-    monitoring:
-      enabled: true
-      interval: 30s
-      path: /metrics
-
     podAnnotations: {}
 
     securityContext:
@@ -74,6 +78,7 @@ data:
         drop:
         - ALL
       readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false
       runAsNonRoot: true
       runAsUser: 1000
 
@@ -89,8 +94,13 @@ data:
         cpu: 1000m
         memory: 1Gi
 
-    cacheVolume:
-      sizeLimit: 4Gi
+    initContainerResources:
+      limits:
+        cpu: 500m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
 
     nodeSelector: {}
 
