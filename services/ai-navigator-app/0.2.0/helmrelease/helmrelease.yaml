@@ -16,7 +16,7 @@ spec:
     remediation:
       retries: 30
   interval: 15s
-  releaseName: ai-navigator-cluster-info-api-charts
+  releaseName: ai-navigator-cluster-info-api
   targetNamespace: ${releaseNamespace}
   upgrade:
     remediation:
