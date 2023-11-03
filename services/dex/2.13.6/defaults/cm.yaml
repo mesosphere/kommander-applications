@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.13.5-d2iq-defaults
+  name: dex-2.13.6-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -66,6 +66,7 @@ data:
               - "state"
               - "tenant-id"
               - "client_id"
+              - "scope"
           config:
             url: "https://dex-dex-controller-webhook-service:18443/connectors"
             tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
