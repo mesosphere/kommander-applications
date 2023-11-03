@@ -184,7 +184,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-auditing-pipeline
-  - container_image: docker.io/mesosphere/dex-controller:v0.12.3
+  - container_image: docker.io/mesosphere/dex-controller:v0.13.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
