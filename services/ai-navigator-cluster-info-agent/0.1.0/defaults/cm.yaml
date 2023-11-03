@@ -11,6 +11,8 @@ data:
 
     watchNamespaces: {}
 
+    watchGlobalResources: true
+
     # Default values for cluster-info-agent
     replicaCount: 1
 
