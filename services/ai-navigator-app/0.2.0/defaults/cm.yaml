@@ -35,7 +35,6 @@ data:
       image:
         tag: 1.21.4
       initContainers:
-        #enabled: false
         sysctlInitContainer:
           image:
             tag: 3.18.4
@@ -56,7 +55,7 @@ data:
       repository: mesosphere/ai-navigator-cluster-info-api
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: ""
+      tag: "v0.1.0"
 
     imagePullSecrets: []
     nameOverride: ""
