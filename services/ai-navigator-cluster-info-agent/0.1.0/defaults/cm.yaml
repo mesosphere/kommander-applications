@@ -7,7 +7,7 @@ data:
   values.yaml: |
     # Default values for configmap
     collector:
-      url: http://cluster-info-api.kommander.svc/api/v1/documents/collect
+      url: http://ai-navigator-cluster-info-api.kommander.svc/api/v1/documents/collect/
 
     watchNamespaces: {}
 
@@ -16,7 +16,7 @@ data:
 
     image:
       repository: mesosphere/ai-navigator-cluster-info-agent
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
       tag: "v0.1.0"
 
@@ -40,6 +40,7 @@ data:
         drop:
         - ALL
       readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false
       runAsNonRoot: true
       runAsUser: 1000
 
