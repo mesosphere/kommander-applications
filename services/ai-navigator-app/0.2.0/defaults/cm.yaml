@@ -46,7 +46,7 @@ data:
     postgresql:
       enabled: true
       image:
-        tag: 15.4.0-debian-11-r44
+        tag: 15.2.0-debian-11-r21
 
     # Default values for cluster-info-api
     replicaCount: 1
