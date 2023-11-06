@@ -5,6 +5,7 @@ ignore:
   - docker.io/bitnami/external-dns:0.13.6-debian-11-r11
   - docker.io/bitnami/postgresql:11.16.0-debian-11-r9
   - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
+  - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
   - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.106.2
@@ -610,3 +611,21 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
+  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-agent:v0.1.0
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/ai-navigator-cluster-info-agent
+  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-api:v0.1.0
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/ai-navigator-cluster-info-api
+  - container_image: docker.io/semitechnologies/weaviate:1.21.4
+    sources:
+      - license_path: LICENSE
+        ref: v${image_tag}
+        url: https://github.com/weaviate/weaviate
+  - container_image: docker.io/library/alpine:3.18.4
+    sources:
+      - license_path: LICENSE
+        ref: master
+        url: https://github.com/alpinelinux/docker-alpine

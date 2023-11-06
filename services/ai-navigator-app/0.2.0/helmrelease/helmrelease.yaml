@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ai-navigator-cluster-info-api
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: ai-navigator-cluster-info-api
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
+        namespace: kommander-flux
+      version: 0.1.0
+  install:
+    remediation:
+      retries: 30
+  interval: 15s
+  releaseName: ai-navigator-cluster-info-api
+  targetNamespace: ${releaseNamespace}
+  upgrade:
+    remediation:
+      retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: ai-navigator-cluster-info-api-0.2.0-d2iq-defaults
