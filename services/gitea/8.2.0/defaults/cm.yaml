@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gitea-9.3.0-d2iq-defaults
+  name: gitea-8.2.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -9,7 +9,6 @@ data:
     priorityClassName: "dkp-critical-priority"
     image:
       rootless: true
-      pullPolicy: IfNotPresent
     ingress:
       enabled: true
       annotations:
@@ -22,9 +21,9 @@ data:
             pathType: ImplementationSpecific
     gitea:
       additionalConfigFromEnvs:
-        - name: GITEA__SERVER__SSL_MIN_VERSION
+        - name: ENV_TO_INI__SERVER__SSL_MIN_VERSION
           value: tlsv1.3
-        - name: GITEA__SERVER__SSL_MAX_VERSION
+        - name: ENV_TO_INI__SERVER__SSL_MAX_VERSION
           value: tlsv1.3
       admin:
         existingSecret: ${adminCredentialsSecret}
@@ -38,17 +37,6 @@ data:
         service:
           REQUIRE_SIGNIN_VIEW: false
           DISABLE_REGISTRATION: true
-        session:
-          PROVIDER: redis
-          PROVIDER_CONFIG: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
-        cache:
-          ENABLED: true
-          ADAPTER: redis
-          HOST: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
-        queue:
-          TYPE: redis
-          CONN_STR: redis+cluster://:gitea@gitea-redis-cluster-headless.${releaseNamespace}.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s&
-
       startupProbe:
         enabled: true
         tcpSocket:
@@ -58,11 +46,7 @@ data:
         periodSeconds: 10
         successThreshold: 1
         failureThreshold: 10
-      # We use startupProbe unlike the default configuration,
-      # to shorten readiness time, set initialDelaySeconds to 5 seconds.
-      livenessProbe:
-        initialDelaySeconds: 5
-    deployment:
+    statefulset:
       annotations:
         secret.reloader.stakater.com/reload: ${tlsCertificateSecret}
     service:
@@ -70,28 +54,20 @@ data:
         port: 443
         clusterIP:
     extraVolumes:
-      - name: git-tls
-        secret:
-          secretName: ${tlsCertificateSecret}
+    - name: git-tls
+      secret:
+        secretName: ${tlsCertificateSecret}
     extraVolumeMounts:
-      - name: git-tls
-        readOnly: true
-        mountPath: "/git-tls"
+    - name: git-tls
+      readOnly: true
+      mountPath: "/git-tls"
     clusterDomain: cluster.local.
-    redis-cluster:
+    memcached:
       priorityClassName: "dkp-critical-priority"
-      cluster:
-        nodes: 6
-    postgresql-ha:
-      enabled: false
+      image:
+        tag: 1.6.15-debian-11-r8
     postgresql:
-      enabled: true
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
         tag: 11.16.0-debian-11-r9
-    persistence:
-      enabled: true
-      create: false
-      mount: true
-      claimName: "data-gitea-0"

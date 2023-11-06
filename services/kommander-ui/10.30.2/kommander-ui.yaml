@@ -1,17 +1,21 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: dex
+  name: kommander-ui
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: kommander
   chart:
     spec:
-      chart: dex
+      chart: kommander-ui
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: kommander-ui
         namespace: kommander-flux
-      version: 2.13.4
+      version: 10.30.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -21,8 +25,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: dex
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.13.4-d2iq-defaults
+      name: kommander-ui-10.30.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
