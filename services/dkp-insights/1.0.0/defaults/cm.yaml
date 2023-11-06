@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-1.0.0-dev.3-d2iq-defaults
+  name: dkp-insights-1.0.0-dev.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -200,7 +200,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.0.0-dev.3
+      tag: v1.0.0-dev.4
     initdb:
       resources:
         limits:
