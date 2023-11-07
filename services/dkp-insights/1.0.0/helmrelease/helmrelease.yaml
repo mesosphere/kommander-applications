@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-dkp-insights-charts-attached
         namespace: kommander-flux
-      version: v1.0.0-dev.3
+      version: v1.0.0-dev.5
   install:
     remediation:
       retries: 30
@@ -21,14 +21,7 @@ spec:
   upgrade:
     remediation:
       retries: 30
-      # After the database migration has happened, the previous version of
-      # Insights will no longer work. Hence, the default `rollback` strategy
-      # can be worse than no remediation at all.
-      # On the other hand, we go to significant lengths to ensure
-      # that Insights work after being uninstalled and reinstalled again
-      # using previously persisted data (note that uninstall does not delete
-      # corresponding persistent volumes).
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: dkp-insights-1.0.0-dev.3-d2iq-defaults
+      name: dkp-insights-1.0.0-dev.5-d2iq-defaults
