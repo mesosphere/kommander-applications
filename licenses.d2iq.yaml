@@ -624,8 +624,3 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/weaviate/weaviate
-  - container_image: docker.io/library/alpine:3.18.4
-    sources:
-      - license_path: LICENSE
-        ref: master
-        url: https://github.com/alpinelinux/docker-alpine
