@@ -10,7 +10,7 @@ spec:
   interval: 6h
   retryInterval: 1m
   timeout: 1m
-  path: ./services/thanos/12.10.1/jobs
+  path: ./services/thanos/12.13.13/jobs
   sourceRef:
     kind: GitRepository
     name: management
