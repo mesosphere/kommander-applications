@@ -42,6 +42,8 @@ data:
         runAsUser: 65532
         fsGroup: 65532
         runAsGroup: 65532
+      storage:
+        size: 5Gi
 
     postgresql:
       enabled: true
