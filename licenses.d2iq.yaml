@@ -204,7 +204,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v1.0.0-dev.3
+  - container_image: docker.io/mesosphere/insights-management:v1.0.0-dev.6
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
