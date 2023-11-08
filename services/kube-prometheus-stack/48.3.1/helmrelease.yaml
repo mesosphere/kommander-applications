@@ -20,3 +20,8 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: kps-kube-prometheus-stack-operator
+      namespace: ${releaseNamespace}

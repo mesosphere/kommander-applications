@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kubetunnel
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kubetunnel
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-kubetunnel-charts
+        namespace: kommander-flux
+      version: v0.0.30
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kubetunnel
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubetunnel-0.0.30-d2iq-defaults

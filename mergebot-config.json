@@ -12,7 +12,7 @@
       "main": "DKP 2.7.0",
       "release-2.4": "DKP 2.4.3",
       "release-2.5": "DKP 2.5.3",
-      "release-2.6": "DKP 2.6.1"
+      "release-2.6": "DKP 2.6.2"
     },
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },

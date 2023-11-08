@@ -1,5 +1,7 @@
 services/ai-navigator-app:
   - services/ai-navigator-app/**
+services/ai-navigator-cluster-info-agent:
+  - services/ai-navigator-cluster-info-agent/**
 services/centralized-grafana:
   - services/centralized-grafana/**
 services/centralized-kubecost:

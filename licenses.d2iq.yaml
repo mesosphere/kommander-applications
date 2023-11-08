@@ -5,15 +5,16 @@ ignore:
   - docker.io/bitnami/external-dns:0.13.6-debian-11-r11
   - docker.io/bitnami/postgresql:15.4.0-debian-11-r10
   - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
+  - docker.io/bitnami/memcached:1.6.15-debian-11-r8
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.104.0
-  - gcr.io/kubecost1/frontend:prod-1.104.0
+  - gcr.io/kubecost1/cost-model:prod-1.106.2
+  - gcr.io/kubecost1/frontend:prod-1.106.2
 
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
   - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
-  - docker.io/mesosphere/trivy-bundles:0.45.1-20230927T071941Z
+  - docker.io/mesosphere/trivy-bundles:0.45.1-20231019T024033Z
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
@@ -78,17 +79,17 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/thanos:0.31.0-scratch-r12
+  - container_image: docker.io/bitnami/thanos:0.32.5-debian-11-r0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-scratch-r12}
+        ref: v${image_tag%-debian-11-r0}
         url: https://github.com/thanos-io/thanos
   - container_image: docker.io/fluent/fluent-bit:2.1.4
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/gitea/gitea:1.20.3-rootless
+  - container_image: docker.io/gitea/gitea:1.19.2-rootless
     sources:
       - license_path: LICENSE
         ref: v${image_tag%-rootless}
@@ -146,7 +147,7 @@ resources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
         url: https://github.com/jimmidyson/configmap-reload
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.23.1
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.25.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -179,20 +180,20 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jpillora/chisel
-  - container_image: docker.io/mesosphere/cluster-observer:1.1.2
+  - container_image: docker.io/mesosphere/cluster-observer:1.2.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-auditing-pipeline
-  - container_image: docker.io/mesosphere/dex-controller:v0.8.3
+  - container_image: docker.io/mesosphere/dex-controller:v0.13.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.2.4-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.3.1-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/mesosphere/dex-k8s-authenticator
-  - container_image: docker.io/mesosphere/dex:v2.35.1-d2iq.1
+  - container_image: docker.io/mesosphere/dex:v2.37.0-d2iq.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -202,11 +203,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v0.6.0-dev.12
+  - container_image: docker.io/mesosphere/insights-management:v1.0.0-dev.6
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v0.6.0-dev.12
+  - container_image: docker.io/mesosphere/insights:v1.0.0-dev.6
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -263,19 +264,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.29
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.30
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
@@ -296,7 +297,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.12.1
+  - container_image: docker.io/rook/ceph:v1.12.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -366,12 +367,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v0.36.0
+  - container_image: ghcr.io/fluxcd/helm-controller:v0.36.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.1.0
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.1.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -381,7 +382,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v1.1.0
+  - container_image: ghcr.io/fluxcd/source-controller:v1.1.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -482,22 +483,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}.0
         url: https://github.com/FairwindsOps/polaris
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.12.3
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.13.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.12.3
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.13.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-ctl:v1.12.3
+  - container_image: quay.io/jetstack/cert-manager-ctl:v1.13.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.12.3
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.13.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -518,6 +519,11 @@ resources:
         ref: ${image_tag}
         url: https://github.com/kiali/kiali
   - container_image: quay.io/kiwigrid/k8s-sidecar:1.24.6
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kiwigrid/k8s-sidecar
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.25.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -600,3 +606,21 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
+  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-agent:v0.1.0
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/ai-navigator-cluster-info-agent
+  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-api:v0.1.0
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/ai-navigator-cluster-info-api
+  - container_image: docker.io/semitechnologies/weaviate:1.21.4
+    sources:
+      - license_path: LICENSE
+        ref: v${image_tag}
+        url: https://github.com/weaviate/weaviate
+  - container_image: docker.io/library/alpine:3.18.4
+    sources:
+      - license_path: LICENSE
+        ref: master
+        url: https://github.com/alpinelinux/docker-alpine
