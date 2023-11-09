@@ -7,7 +7,7 @@ data:
   values.yaml: |
     kommanderoperator:
       image:
-        tag: "${kommanderChartVersion:=v2.7.0-dev}"
+        tag: "${kommanderChartVersion:=v2.7.0-rc.1}"
     kubetools:
       image:
-        tag: "${kommanderChartVersion:=v2.7.0-dev}"
+        tag: "${kommanderChartVersion:=v2.7.0-rc.1}"
