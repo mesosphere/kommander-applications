@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-1.0.0-dev.6-d2iq-defaults
+  name: dkp-insights-1.0.0-dev.7-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -58,7 +58,7 @@ data:
               groupKind:
                 group: apps
                 kind: DaemonSet
-              nameRegexp: ebs-csi-node|calico-system|calico-node|csi-node-driver|capz-nmi|kube-prometheus-stack-prometheus-node-exporter|logging-operator-logging-fluentbit|kube-proxy|node-feature-discovery-worker|etcd-metrics-proxy|aws-cloud-controller-manager|istio-cni-node
+              nameRegexp: ebs-csi-node|calico-system|calico-node|csi-node-driver|capz-nmi|kube-prometheus-stack-prometheus-node-exporter|logging-operator-logging-fluentbit|kube-proxy|node-feature-discovery-worker|etcd-metrics-proxy|aws-cloud-controller-manager|istio-cni-node|dkp-insights-kubebench-.*?
             Deployment-kapps:
               groupKind:
                 group: apps
@@ -200,7 +200,7 @@ data:
                 kind: ServiceAccount
               nameRegexp: ai-navigator-app|check-dkp-ceph-crd|etcd-metrics-proxy|grafana-loki-pre-install|helm-controller|kommander-thanos-configmap-edit|kubecost-configmap-edit|kubecost-thanos-configmap-edit|kustomize-controller|notification-controller|source-controller|velero-post-install|velero-pre-install
           enabled: true
-          filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|default|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
+          filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
           insightClassNames: Nova|Pluto|PolarisAudit
         mode: daytwo
         replay:
@@ -265,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.0.0-dev.6
+      tag: v1.0.0-dev.7
     initdb:
       resources:
         limits:
