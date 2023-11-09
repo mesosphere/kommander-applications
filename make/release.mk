@@ -11,7 +11,7 @@ release: install-tool.awscli
 	# the connected customers download the k-apps from GitHub where it is still present
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 								  $(GIT_TAG) -- \
-								  common services charts ":(exclude)services/ai-navigator-app"
+								  common services charts ":(exclude)services/ai-navigator-app" \
 								  common services charts ":(exclude)services/ai-navigator-cluster-info-agent"
 	aws s3 cp --acl $(S3_ACL) $(ARCHIVE_NAME) s3://$(S3_BUCKET)/$(S3_PATH)/
 	echo "Published to $(PUBLISHED_URL)"
