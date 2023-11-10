@@ -9,10 +9,11 @@
     "enabled": true,
     "interactive": false,
     "fix_version_map": {
-      "main": "DKP 2.7.0",
+      "main": "DKP 2.8.0",
       "release-2.4": "DKP 2.4.3",
       "release-2.5": "DKP 2.5.3",
-      "release-2.6": "DKP 2.6.1"
+      "release-2.6": "DKP 2.6.2",
+      "release-2.7": "DKP 2.7.0"
     },
     "jira_regex": "((?:COPS|D2IQ)-\\d+)"
   },
