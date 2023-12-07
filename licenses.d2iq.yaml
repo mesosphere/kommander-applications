@@ -95,6 +95,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-rootless}
         url: https://github.com/go-gitea/gitea
+  - container_image: docker.io/grafana/grafana:8.5.26
+    sources:
+      - license_path: LICENSE
+        notice_path: NOTICE.md
+        ref: v${image_tag}
+        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:9.4.7
     sources:
       - license_path: LICENSE
