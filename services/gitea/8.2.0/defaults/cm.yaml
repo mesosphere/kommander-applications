@@ -70,4 +70,5 @@ data:
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
-        tag: 12.17.0-debian-11-r16
+        repository: postgres
+        tag: 12.17-alpine3.19
