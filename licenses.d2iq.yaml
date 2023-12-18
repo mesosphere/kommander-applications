@@ -212,7 +212,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mhrabovcin/karma:v0.88-d2iq-server-name.1
+  - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq-server-name.1}
