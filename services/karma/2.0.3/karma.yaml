@@ -27,7 +27,7 @@ spec:
   releaseName: karma
   valuesFrom:
     - kind: ConfigMap
-      name: karma-2.0.2-d2iq-defaults
+      name: karma-2.0.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -83,7 +83,7 @@ data:
   dashboardLink: "/dkp/kommander/monitoring/karma"
   docsLink: "https://github.com/prymitive/karma"
   # We override karma image:
-  # https://github.com/mesosphere/kommander-applications/blob/main/services/karma/2.0.2/defaults/cm.yaml#L14
+  # https://github.com/mesosphere/kommander-applications/blob/main/services/karma/2.0.3/defaults/cm.yaml#L14
   version: "0.88"
 ---
 apiVersion: cert-manager.io/v1
