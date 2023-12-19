@@ -199,10 +199,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/mesosphere/dex
-  - container_image: docker.io/mesosphere/ghostunnel:v1.7.1-server-backend-proxy
+  - container_image: docker.io/mesosphere/ghostunnel:v1.7.1-server-backend-proxy.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-server-backend-proxy}
+        ref: ${image_tag%-server-backend-proxy.1}
         url: https://github.com/ghostunnel/ghostunnel
   - container_image: docker.io/mesosphere/insights-management:v1.0.1
     sources:
