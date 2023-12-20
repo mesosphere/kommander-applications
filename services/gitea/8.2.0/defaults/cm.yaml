@@ -70,4 +70,4 @@ data:
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
-        tag: 12.17.0-debian-11-r16
+        tag: 11.22.0-debian-11-r4
