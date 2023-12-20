@@ -57,8 +57,8 @@ ignore:
 
   # This is added as part of `kubetunnel` project, but we only use cURL from
   # this project.
-  # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.15/pkg/controllers/constants.go
-  - docker.io/library/centos:8
+  # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.31/pkg/controllers/constants.go
+  - docker.io/alpine/curl:8.5.0
 
   # This container is part of nvidia extension but the source code of this
   # repo cannot be scanned by Fossa.
@@ -176,7 +176,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/konvoy2
-  - container_image: docker.io/mesosphere/chisel:1.7.6
+  - container_image: docker.io/jpillora/chisel:1.9.1
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
@@ -265,19 +265,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.30
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.31
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.30
+  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.31
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.30
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.31
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.30
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.31
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
