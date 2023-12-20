@@ -1,5 +1,5 @@
 {{ .Values.tunnel.image.repository }}:{{ .Values.tunnel.image.tag | default $.Chart.AppVersion }}
 {{ .Values.kubeconfigWebhook.image.repository }}:{{ .Values.kubeconfigWebhook.image.tag | default $.Chart.AppVersion }}
 {{ .Values.hooks.kubectlImage.repository }}:{{ .Values.hooks.kubectlImage.tag }}
-docker.io/library/centos:8
+docker.io/alpine/curl:8.5.0
 docker.io/mesosphere/kubetunnel-reverse-proxy:{{ $.Chart.AppVersion  }}
