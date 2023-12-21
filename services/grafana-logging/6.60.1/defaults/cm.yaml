@@ -31,6 +31,10 @@ data:
       pathType: ImplementationSpecific
 
     sidecar:
+      sidecar:
+        image:
+          repository: kiwigrid/k8s-sidecar
+          tag: 1.25.3
       dashboards:
         enabled: true
         label: grafana_logging_dashboard
