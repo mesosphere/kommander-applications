@@ -607,14 +607,6 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-agent:v0.1.0
-    sources:
-      - ref: ${image_tag}
-        url: https://github.com/mesosphere/ai-navigator-cluster-info-agent
-  - container_image: docker.io/mesosphere/ai-navigator-cluster-info-api:v0.1.0
-    sources:
-      - ref: ${image_tag}
-        url: https://github.com/mesosphere/ai-navigator-cluster-info-api
   - container_image: docker.io/semitechnologies/weaviate:1.21.4
     sources:
       - license_path: LICENSE
