@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: kubefed
         namespace: kommander-flux
-      version: "0.10.3"
+      version: "0.10.4"
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,4 +26,4 @@ spec:
   releaseName: kubefed
   valuesFrom:
     - kind: ConfigMap
-      name: kubefed-0.10.3-d2iq-defaults
+      name: kubefed-0.10.4-d2iq-defaults
