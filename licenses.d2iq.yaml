@@ -19,12 +19,12 @@ ignore:
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
-  # - container_image: ghcr.io/banzaicloud/fluentd:v1.14.6-alpine-5
+  # - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
   #   sources:
   #     - url: https://github.com/fluent/fluentd
-  #       ref: ${image_tag%-alpine-5}
+  #       ref: v1.16.2
   #       license_path: LICENSE
-  - ghcr.io/banzaicloud/fluentd:v1.14.6-alpine-5
+  - ghcr.io/kube-logging/fluentd:v1.16-full-build.122
 
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
