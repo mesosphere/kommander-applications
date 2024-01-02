@@ -62,9 +62,9 @@ data:
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
-        # Explicitly use the default image. This should be updated when logging-operator is upgraded.
-        repository: ghcr.io/banzaicloud/fluentd
-        tag: v1.14.6-alpine-5
+        # The image should be updated when logging-operator is upgraded.
+        repository: ghcr.io/kube-logging/fluentd
+        tag: v1.16-full-build.122
       resources:
        limits:
          memory: 400Mi
