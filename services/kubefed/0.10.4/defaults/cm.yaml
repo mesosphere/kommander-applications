@@ -35,7 +35,7 @@ data:
       postInstallJob:
         repository: bitnami
         image: kubectl
-        tag: 1.26.4
+        tag: 1.27.9
     webhook:
       annotations:
         secret.reloader.stakater.com/reload: "kubefed-root-ca"
