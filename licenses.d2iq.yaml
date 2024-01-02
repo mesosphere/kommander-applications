@@ -1,7 +1,7 @@
 ignore:
   - docker.io/mesosphere/grafana-plugins:v0.0.1
   - docker.io/mesosphere/kommander2-kubetools
-  - docker.io/nginxinc/nginx-unprivileged:1.22.0-alpine
+  - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
   - docker.io/bitnami/external-dns:0.13.6-debian-11-r11
   - docker.io/bitnami/postgresql:11.22.0-debian-11-r4
   - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
