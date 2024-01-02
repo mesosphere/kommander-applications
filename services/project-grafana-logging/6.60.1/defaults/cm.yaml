@@ -7,7 +7,6 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
-    # pinning grafana to 8.5 since it appears that v9+ is causing the kubernetes audit dashboard to crash
     image:
       tag: 8.5.26
     datasources:
