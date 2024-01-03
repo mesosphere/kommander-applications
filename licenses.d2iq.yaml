@@ -45,6 +45,7 @@ ignore:
   - docker.io/bitnami/kubectl:1.22.0
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/kubectl:1.26.4
+  - docker.io/bitnami/kubectl:1.27.9
 
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
