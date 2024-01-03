@@ -65,7 +65,8 @@ data:
     memcached:
       priorityClassName: "dkp-critical-priority"
       image:
-        tag: 1.6.15-debian-11-r8
+        repository: memcached
+        tag: 1.6.22-alpine3.19
     postgresql:
       primary:
         priorityClassName: "dkp-critical-priority"
