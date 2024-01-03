@@ -11,7 +11,7 @@ data:
       # TODO(https://jira.d2iq.com/browse/D2IQ-78091)
       # switch back to upstream
       repository: mesosphere/karma
-      tag: v0.88-d2iq-server-name.1
+      tag: v0.88-d2iq-server-name.2
 
     service:
       labels:
