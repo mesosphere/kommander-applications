@@ -47,7 +47,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: pre-install
-          image: bitnami/kubectl:1.26.4
+          image: bitnami/kubectl:1.27.9
           command:
             - sh
             - -c
@@ -57,7 +57,7 @@ spec:
                 sleep 30
               done
         - name: pre-upgrade
-          image: bitnami/kubectl:1.26.4
+          image: bitnami/kubectl:1.27.9
           command:
             - sh
             - -c

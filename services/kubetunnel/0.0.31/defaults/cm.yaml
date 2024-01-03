@@ -17,7 +17,7 @@ data:
     hooks:
       kubectlImage:
         repository: bitnami/kubectl
-        tag: 1.26.4
+        tag: 1.27.9
     controller:
       manager:
         resources:
