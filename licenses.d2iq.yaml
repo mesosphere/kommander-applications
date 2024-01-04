@@ -94,7 +94,7 @@ resources:
   - container_image: ghcr.io/mesosphere/gitea:1.19.2-d2iq-rootless
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-d2iq}
+        ref: v1.19.2-d2iq
         url: https://github.com/mesosphere/gitea
   - container_image: docker.io/grafana/grafana:9.4.7
     sources:
