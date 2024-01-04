@@ -91,11 +91,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/gitea/gitea:1.19.2-rootless
+  - container_image: ghcr.io/mesosphere/gitea:1.19.2-d2iq-rootless
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-rootless}
-        url: https://github.com/go-gitea/gitea
+        ref: v1.19.2-d2iq
+        url: https://github.com/mesosphere/gitea
   - container_image: docker.io/grafana/grafana:9.4.7
     sources:
       - license_path: LICENSE
