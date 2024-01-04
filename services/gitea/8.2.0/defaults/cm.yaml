@@ -10,7 +10,7 @@ data:
     image:
       registry: ghcr.io
       repository: mesosphere/gitea
-      tag: 1.19.2-rootless-d2iq
+      tag: 1.19.2-d2iq
       rootless: true
     ingress:
       enabled: true
