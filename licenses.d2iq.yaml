@@ -395,7 +395,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
-  - container_image: ghcr.io/helm/chartmuseum:v0.16.0
+  - container_image: ghcr.io/helm/chartmuseum:v0.16.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}

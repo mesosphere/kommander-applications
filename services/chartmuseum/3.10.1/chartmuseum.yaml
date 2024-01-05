@@ -7,12 +7,12 @@ metadata:
 spec:
   chart:
     spec:
-      chart: services/chartmuseum/3.10.0/chartmuseum-3.10.0.tgz
+      chart: services/chartmuseum/3.10.1/chartmuseum-3.10.1.tgz
       sourceRef:
         kind: GitRepository
         name: management
         namespace: kommander-flux
-      version: "3.10.0"
+      version: "3.10.1"
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,7 +26,7 @@ spec:
   targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: chartmuseum-3.10.0-d2iq-defaults
+      name: chartmuseum-3.10.1-d2iq-defaults
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
