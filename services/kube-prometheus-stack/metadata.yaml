@@ -16,13 +16,13 @@ overview: |-
   ## Dashboards
   By deploying the Prometheus Monitoring Stack, the following platform applications and their respective dashboards will be deployed. After deployment to clusters in a workspace, the dashboards will be available to access from a respective cluster's detail page.
 
-  ### Prometheus (v2.45.0)
+  ### Prometheus (v2.48.1)
 
   A software application for event monitoring and alerting. It records real-time metrics in a time series database built using a HTTP pull model, with flexible and real-time alerting.
 
   - [Prometheus Documentation - Overview](https://prometheus.io/docs/introduction/overview/)
 
-  ### Prometheus Alertmanager (v0.25.0)
+  ### Prometheus Alertmanager (v0.26.0)
   A Prometheus component that enables you to configure and manage alerts sent by the Prometheus server and to route them to notification, paging, and automation systems.
 
   - [Prometheus Alertmanager Documentation - Overview](https://prometheus.io/docs/alerting/latest/alertmanager/)
