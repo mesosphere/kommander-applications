@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 6.60.1
+      version: 7.1.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: grafana-logging
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-logging-6.60.1-d2iq-defaults
+      name: grafana-logging-7.1.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
