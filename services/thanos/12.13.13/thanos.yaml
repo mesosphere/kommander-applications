@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: charts.github.io-bitnami
         namespace: kommander-flux
-      version: 12.13.13
+      version: 12.20.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: thanos
   valuesFrom:
     - kind: ConfigMap
-      name: thanos-12.13.13-d2iq-defaults
+      name: thanos-12.20.3-d2iq-defaults
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
