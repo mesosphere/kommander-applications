@@ -84,7 +84,7 @@ resources:
   - container_image: docker.io/bitnami/thanos:0.33.0-debian-11-r1
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-debian-11-r0}
+        ref: v${image_tag%-debian-11-r1}
         url: https://github.com/thanos-io/thanos
   - container_image: docker.io/fluent/fluent-bit:2.1.4
     sources:
