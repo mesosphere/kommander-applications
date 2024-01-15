@@ -18,3 +18,5 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+      kubetoolsImageRepository: ${kubetoolsImageRepository:=bitnami/kubectl}
+      kubetoolsImageTag: ${kubetoolsImageTag:=1.27.9}
