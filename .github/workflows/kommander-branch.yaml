@@ -36,7 +36,7 @@ jobs:
     needs: get-kapps-branch-name
     if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'mesosphere/kommander'
           ssh-key: ${{ secrets.KOMM_PRIVATE_SSH_KEY }}
@@ -96,7 +96,7 @@ jobs:
 
       - name: checkout local directory for script
         if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'gpu-operator')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: 'main'
 
