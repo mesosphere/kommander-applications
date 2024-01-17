@@ -42,7 +42,7 @@ jobs:
       - name: Import GPG key
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: crazy-max/ghaction-import-gpg@v4
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           git_tag_gpgsign: true
