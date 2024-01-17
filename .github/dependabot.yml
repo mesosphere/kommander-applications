@@ -1,0 +1,32 @@
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/hack/release"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "mesosphere/kommander"
+    reviewers:
+      - "mesosphere/kommander"
+  - package-ecosystem: "gomod"
+    directory: "/apptests"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "mesosphere/kommander"
+    reviewers:
+      - "mesosphere/kommander"
+  - package-ecosystem: "gomod"
+    directory: "/magefiles"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "mesosphere/kommander"
+    reviewers:
+      - "mesosphere/kommander"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "mesosphere/kommander"
