@@ -9,7 +9,7 @@ require (
 	github.com/fluxcd/image-automation-controller/api v0.36.1
 	github.com/fluxcd/image-reflector-controller/api v0.30.0
 	github.com/fluxcd/kustomize-controller/api v1.1.0
-	github.com/fluxcd/notification-controller/api v1.1.0
+	github.com/fluxcd/notification-controller/api v1.2.3
 	github.com/fluxcd/pkg/runtime v0.42.0
 	github.com/fluxcd/pkg/ssa v0.35.0
 	github.com/fluxcd/source-controller/api v1.1.1
@@ -43,7 +43,7 @@ require (
 	github.com/fluxcd/cli-utils v0.36.0-flux.1 // indirect
 	github.com/fluxcd/pkg/apis/acl v0.1.0 // indirect
 	github.com/fluxcd/pkg/apis/kustomize v1.1.1 // indirect
-	github.com/fluxcd/pkg/apis/meta v1.1.2 // indirect
+	github.com/fluxcd/pkg/apis/meta v1.2.0 // indirect
 	github.com/fluxcd/pkg/kustomize v1.3.4 // indirect
 	github.com/fluxcd/pkg/tar v0.3.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -96,11 +96,11 @@ require (
 	github.com/xlab/treeprint v1.2.0 // indirect
 	go.starlark.net v0.0.0-20230925163745-10651d5192ab // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
-	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/oauth2 v0.14.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/term v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.4.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
@@ -114,7 +114,7 @@ require (
 	k8s.io/klog/v2 v2.110.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231113174909-778a5567bc1e // indirect
 	k8s.io/kubectl v0.28.4 // indirect
-	k8s.io/utils v0.0.0-20230726121419-3b25d923346b // indirect
+	k8s.io/utils v0.0.0-20231127182322-b307cd553661 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
