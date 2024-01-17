@@ -22,8 +22,13 @@ function update_flux() {
     check_remote_branch "kommander-applications" "${BRANCH_NAME}"
     git checkout -b "${BRANCH_NAME}"
 
-    asdf install flux2 "${LATEST_FLUX_VERSION}"
-    asdf local flux2 "${LATEST_FLUX_VERSION}"
+    devbox update
+    local_flux_version=$(devbox info fluxcd | head -n 1 | cut --delimiter=' ' --fields=2)
+    if [[ "$local_flux_version" == "$LATEST_FLUX_VERSION" ]]; then
+      echo "updating flux to ${local_flux_version}"
+    else
+      echo "flux ${LATEST_FLUX_VERSION} not avilable in devbox, the latest avilable is ${local_flux_version}"
+    fi
 
     mkdir -p "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
     pushd "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
@@ -34,11 +39,11 @@ function update_flux() {
     flux install -n kommander-flux --export > templates/flux.yaml
     cp "$REPO_ROOT/hack/flux/flux-update-kustomization.yaml" templates/kustomization.yaml
     cp "$REPO_ROOT"/hack/flux/templates/* templates/
-    kustomize build --output templates templates
+    devbox run kustomize build --output templates templates
     rm templates/flux.yaml templates/kustomization.yaml
-    yq e -i ".metadata.name=\"kommander-flux-$LATEST_FLUX_VERSION-d2iq-defaults\"" defaults/cm.yaml
+    devbox run yq e -i ".metadata.name=\"kommander-flux-$LATEST_FLUX_VERSION-d2iq-defaults\"" defaults/cm.yaml
     pushd "templates"
-    kustomize create --autodetect
+    devbox run kustomize create --autodetect
     popd && popd
 
     # Update flux version in defaultApps whenever flux version is upgraded.

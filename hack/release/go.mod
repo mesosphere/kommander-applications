@@ -1,6 +1,6 @@
 module github.com/mesosphere/kommander-applications/hack/release
 
-go 1.19
+go 1.20
 
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
