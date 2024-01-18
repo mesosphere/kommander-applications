@@ -43,7 +43,7 @@ data:
   dashboardLink: "/dkp/jaeger"
   docsLink: "https://istio.io/docs/tasks/telemetry/distributed-tracing/jaeger/"
   # Check https://artifacthub.io/packages/helm/jaegertracing/jaeger-operator/ for app version
-  version: "1.46.0"
+  version: "1.52.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
