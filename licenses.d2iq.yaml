@@ -541,13 +541,13 @@ resources:
       - license_path: LICENSE
         ref: nfs-provisioner-${image_tag}
         url: https://github.com/kubernetes-retired/external-storage
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.66.0
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.70.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.66.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.70.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -559,13 +559,13 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/alertmanager:v0.25.0
+  - container_image: quay.io/prometheus/alertmanager:v0.26.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/node-exporter:v1.6.0
+  - container_image: quay.io/prometheus/node-exporter:v1.7.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -577,13 +577,13 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/prometheus/prometheus:v2.45.0
+  - container_image: quay.io/prometheus/prometheus:v2.48.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.31.0
+  - container_image: quay.io/thanos/thanos:v0.33.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -598,7 +598,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/kube-state-metrics
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.9.2
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.10.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
