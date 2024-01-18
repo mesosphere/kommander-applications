@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-cluster-1.12.6-d2iq-defaults
+  name: rook-ceph-cluster-1.13.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
