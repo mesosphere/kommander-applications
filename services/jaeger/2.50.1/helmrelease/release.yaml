@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: jaegertracing-github-io
         namespace: kommander-flux
-      version: 2.46.2
+      version: 2.50.1
   # The main reason behind this dependency is to wait until
   # the istio-system namespace is actually created
   dependsOn:
@@ -29,7 +29,7 @@ spec:
   targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
-      name: jaeger-2.46.2-d2iq-defaults
+      name: jaeger-2.50.1-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -43,7 +43,7 @@ data:
   dashboardLink: "/dkp/jaeger"
   docsLink: "https://istio.io/docs/tasks/telemetry/distributed-tracing/jaeger/"
   # Check https://artifacthub.io/packages/helm/jaegertracing/jaeger-operator/ for app version
-  version: "1.46.0"
+  version: "1.52.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
