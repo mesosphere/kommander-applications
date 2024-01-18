@@ -39,4 +39,4 @@ install-tool.%: ; $(info $(M) installing $*)
 
 .PHONY: install-tool.gh-dkp
 install-tool.gh-dkp: ; $(info $(M) installing $*)
-	devbox run gh extensions install mesosphere/gh-dkp || gh dkp -h
+	devbox run -- "gh extensions install mesosphere/gh-dkp || gh dkp -h"
