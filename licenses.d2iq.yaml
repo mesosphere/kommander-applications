@@ -114,7 +114,7 @@ resources:
         notice_path: NOTICE.md
         ref: v${image_tag}
         url: https://github.com/grafana/grafana
-  - container_image: docker.io/grafana/loki:2.9.1
+  - container_image: docker.io/grafana/loki:2.9.2
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
