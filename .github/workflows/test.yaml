@@ -25,7 +25,7 @@ jobs:
           skip-nix-installation: true
 
       - name: Run unit tests
-        run: make go-test
+        run: devbox run -- make go-test
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@v2

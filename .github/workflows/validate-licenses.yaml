@@ -36,9 +36,8 @@ jobs:
       - name: Generate image list
         run: |
           export PATH=${PWD}/.local/bin:$PATH
-          make install-tool.go.envsubst install-tool.go.gojq
-          helm plugin install https://github.com/d2iq-labs/helm-list-images
-          ./hack/list-images.sh > images.txt
+          devbox run -- helm plugin install https://github.com/d2iq-labs/helm-list-images
+          devbox run -- ./hack/list-images.sh > images.txt
           echo "printing contents of images.txt"
           cat images.txt
       - name: Update licenses

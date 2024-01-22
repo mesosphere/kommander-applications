@@ -32,4 +32,4 @@ jobs:
           skip-nix-installation: true
 
       - name: Run tests
-        run: GOOS=linux GOARCH=amd64 make validate-manifests
+        run: devbox run -- "GOOS=linux GOARCH=amd64 make validate-manifests"

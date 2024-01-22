@@ -49,7 +49,7 @@ jobs:
           # Overriding a variable that causes a conflict in legacy
           # versions of gh-dkp
           export GITHUB_REPOSITORY="kommander-applications"
-          OUT=$(make repo.dev.tag)
+          OUT=$(devbox run -- make repo.dev.tag)
           echo "TAG=$(echo ${OUT##* })" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}

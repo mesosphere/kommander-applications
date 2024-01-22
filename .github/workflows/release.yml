@@ -48,4 +48,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           GIT_TAG: ${{ env.GIT_TAG }}
-        run: make release
+        run: devbox run -- make release

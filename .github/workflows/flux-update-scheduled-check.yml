@@ -29,4 +29,4 @@ jobs:
       - name: Check for Flux update
         env:
           GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-        run: make KOMMANDER_REPO_PATH=${GITHUB_WORKSPACE}/kommander make flux-update
+        run: devbox run -- "make KOMMANDER_REPO_PATH=${GITHUB_WORKSPACE}/kommander make flux-update"
