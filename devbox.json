@@ -1,17 +1,19 @@
 {
   "packages": {
-    "fluxcd": "latest",
-    "awscli2": "latest",
-    "github-cli": "latest",
-    "kustomize": "latest",
-    "pre-commit": "latest",
-    "golangci-lint": "latest",
-    "direnv": "latest",
+    "awscli2":         "latest",
+    "direnv":          "latest",
+    "docker":          "latest",
+    "envsubst":        "latest",
+    "fluxcd":          "latest",
+    "github-cli":      "latest",
+    "gitlint":         "latest",
+    "go":              "1.20",
+    "gojq":            "latest",
+    "golangci-lint":   "latest",
     "kubernetes-helm": "latest",
-    "yq-go": "latest",
-    "go": "1.20",
-    "docker": "latest",
-    "gitlint": "latest"
+    "kustomize":       "latest",
+    "pre-commit":      "latest",
+    "yq-go":           "latest"
   },
   "shell": {
     "scripts": {

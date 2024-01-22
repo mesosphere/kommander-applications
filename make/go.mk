@@ -3,7 +3,7 @@ go-test: go-lint
 	cd hack/release && go test -v -race -covermode=atomic -coverprofile=coverage.out ./...
 
 .PHONY: mod-tidy
-mod-tidy: install-tool.golang
+mod-tidy:
 	cd hack/release && go mod tidy
 
 .PHONY: go-lint
