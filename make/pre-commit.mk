@@ -10,5 +10,5 @@ pre-commit: ; $(info $(M) running pre-commit)
 ifeq ($(wildcard $(PRE_COMMIT_CONFIG_FILE)),)
 	$(error Cannot find pre-commit config file $(PRE_COMMIT_CONFIG_FILE). Specify the config file via PRE_COMMIT_CONFIG_FILE variable)
 endif
-	env SKIP=$(SKIP) devbox run pre-commit run -a --show-diff-on-failure --config $(PRE_COMMIT_CONFIG_FILE)
-	git fetch origin main && devbox run gitlint --ignore-stdin --commits origin/main..HEAD
+	env SKIP=$(SKIP) pre-commit run -a --show-diff-on-failure --config $(PRE_COMMIT_CONFIG_FILE)
+	git fetch origin main && gitlint --ignore-stdin --commits origin/main..HEAD
