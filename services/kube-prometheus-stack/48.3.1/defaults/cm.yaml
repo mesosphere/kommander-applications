@@ -308,6 +308,7 @@ data:
           - receiver: 'null'
             matchers:
               - alertname =~ "InfoInhibitor|Watchdog"
+              - resourcequota = "one-kommandercluster-per-kommander-workspace"
         receivers:
         - name: 'null'
         templates:
