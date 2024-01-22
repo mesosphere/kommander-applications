@@ -16,12 +16,12 @@ jobs:
       pull-requests: write
     steps:
       - name: Add service identifying label to PRs updating services
-        uses: actions/labeler@v4
+        uses: actions/labeler@v5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: ".github/service-labeler.yaml"
       - name: Add labels to automated chart bump PRs
-        uses: actions/labeler@v4
+        uses: actions/labeler@v5
         if: startsWith(github.head_ref, 'chartbump/')
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
