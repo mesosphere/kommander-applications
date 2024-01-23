@@ -27,7 +27,7 @@ jobs:
           git_commit_gpgsign: true
           git_tag_gpgsign: true
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v1
+        uses: asdf-vm/actions/setup@v3
       - name: Update .github/service-labeler.yaml
         run: make workflow-labeler-yaml-update
       - name: Commit and push changes

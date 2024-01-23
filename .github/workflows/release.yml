@@ -24,7 +24,7 @@ jobs:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
       - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v2
+        uses: asdf-vm/actions/install@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

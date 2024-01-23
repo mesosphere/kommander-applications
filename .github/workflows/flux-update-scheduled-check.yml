@@ -18,7 +18,7 @@ jobs:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
         env:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
