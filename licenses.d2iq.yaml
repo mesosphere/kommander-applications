@@ -119,22 +119,22 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/grafana/loki
-  - container_image: docker.io/istio/install-cni:1.17.2
+  - container_image: docker.io/istio/install-cni:1.20.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/operator:1.17.2
+  - container_image: docker.io/istio/operator:1.20.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/pilot:1.17.2
+  - container_image: docker.io/istio/pilot:1.20.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/proxyv2:1.17.2
+  - container_image: docker.io/istio/proxyv2:1.20.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
