@@ -34,8 +34,10 @@ jobs:
           cat images.txt
       - name: Run validation
         id: runValidation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.9
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
-          args: validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml --check-sources --output-format=github
+          args: >-
+            validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml
+            --check-sources --check-sources-skip-gh-org mesosphere --output-format=github
         env:
-          GITHUB_TOKEN: "${{ secrets.MERGEBOT_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
