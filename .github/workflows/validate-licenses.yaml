@@ -23,7 +23,7 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
       - name: Generate image list
         run: |
           export PATH=${PWD}/.local/bin:$PATH
