@@ -59,7 +59,7 @@ function update_flux() {
     git push --set-upstream origin "${BRANCH_NAME}"
 
     git fetch origin main
-    KOMMANDER_APPLICATIONS_PR=$(gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l ok-to-test -l slack-notify)
+    KOMMANDER_APPLICATIONS_PR=$(gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l ok-to-test -l slack-notify -l open-kommander-pr -l update-licenses)
     readonly KOMMANDER_APPLICATIONS_PR
     echo "${KOMMANDER_APPLICATIONS_PR} is created"
 }
