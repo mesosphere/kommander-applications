@@ -4,15 +4,15 @@ go 1.20
 
 require (
 	github.com/drone/envsubst v1.0.3
-	github.com/fluxcd/flux2/v2 v2.1.1
-	github.com/fluxcd/helm-controller/api v0.36.1
-	github.com/fluxcd/image-automation-controller/api v0.36.1
-	github.com/fluxcd/image-reflector-controller/api v0.30.0
-	github.com/fluxcd/kustomize-controller/api v1.1.0
+	github.com/fluxcd/flux2/v2 v2.2.2
+	github.com/fluxcd/helm-controller/api v0.37.2
+	github.com/fluxcd/image-automation-controller/api v0.37.0
+	github.com/fluxcd/image-reflector-controller/api v0.31.1
+	github.com/fluxcd/kustomize-controller/api v1.2.1
 	github.com/fluxcd/notification-controller/api v1.2.3
 	github.com/fluxcd/pkg/runtime v0.43.3
 	github.com/fluxcd/pkg/ssa v0.35.0
-	github.com/fluxcd/source-controller/api v1.1.1
+	github.com/fluxcd/source-controller/api v1.2.3
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.29.0
 	k8s.io/apiextensions-apiserver v0.29.0
@@ -42,10 +42,10 @@ require (
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
 	github.com/fluxcd/cli-utils v0.36.0-flux.2 // indirect
 	github.com/fluxcd/pkg/apis/acl v0.1.0 // indirect
-	github.com/fluxcd/pkg/apis/kustomize v1.1.1 // indirect
+	github.com/fluxcd/pkg/apis/kustomize v1.2.0 // indirect
 	github.com/fluxcd/pkg/apis/meta v1.2.0 // indirect
-	github.com/fluxcd/pkg/kustomize v1.3.4 // indirect
-	github.com/fluxcd/pkg/tar v0.3.0 // indirect
+	github.com/fluxcd/pkg/kustomize v1.5.0 // indirect
+	github.com/fluxcd/pkg/tar v0.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/go-errors/errors v1.5.1 // indirect
 	github.com/go-logr/logr v1.3.0 // indirect
