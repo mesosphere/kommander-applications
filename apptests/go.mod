@@ -10,7 +10,7 @@ require (
 	github.com/fluxcd/image-reflector-controller/api v0.30.0
 	github.com/fluxcd/kustomize-controller/api v1.1.0
 	github.com/fluxcd/notification-controller/api v1.2.3
-	github.com/fluxcd/pkg/runtime v0.42.0
+	github.com/fluxcd/pkg/runtime v0.43.3
 	github.com/fluxcd/pkg/ssa v0.35.0
 	github.com/fluxcd/source-controller/api v1.1.1
 	github.com/stretchr/testify v1.8.4
@@ -22,7 +22,7 @@ require (
 	sigs.k8s.io/cli-utils v0.35.0
 	sigs.k8s.io/controller-runtime v0.16.3
 	sigs.k8s.io/kind v0.20.0
-	sigs.k8s.io/kustomize/api v0.15.0
+	sigs.k8s.io/kustomize/api v0.16.0
 	sigs.k8s.io/kustomize/kyaml v0.16.0
 )
 
@@ -40,7 +40,7 @@ require (
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.7.0 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
-	github.com/fluxcd/cli-utils v0.36.0-flux.1 // indirect
+	github.com/fluxcd/cli-utils v0.36.0-flux.2 // indirect
 	github.com/fluxcd/pkg/apis/acl v0.1.0 // indirect
 	github.com/fluxcd/pkg/apis/kustomize v1.1.1 // indirect
 	github.com/fluxcd/pkg/apis/meta v1.2.0 // indirect
@@ -94,25 +94,25 @@ require (
 	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/xlab/treeprint v1.2.0 // indirect
-	go.starlark.net v0.0.0-20230925163745-10651d5192ab // indirect
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
+	go.starlark.net v0.0.0-20231121155337-90ade8b19d09 // indirect
+	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb // indirect
 	golang.org/x/net v0.19.0 // indirect
-	golang.org/x/oauth2 v0.14.0 // indirect
+	golang.org/x/oauth2 v0.15.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/time v0.4.0 // indirect
+	golang.org/x/time v0.5.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
-	gopkg.in/evanphx/json-patch.v5 v5.6.0 // indirect
+	gopkg.in/evanphx/json-patch.v5 v5.7.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/component-base v0.29.0 // indirect
 	k8s.io/klog/v2 v2.110.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20231113174909-778a5567bc1e // indirect
+	k8s.io/kube-openapi v0.0.0-20231206194836-bf4651e18aa8 // indirect
 	k8s.io/kubectl v0.28.4 // indirect
 	k8s.io/utils v0.0.0-20231127182322-b307cd553661 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
