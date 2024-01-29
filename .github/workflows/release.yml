@@ -27,7 +27,7 @@ jobs:
         uses: asdf-vm/actions/install@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/kommander-applications
           aws-region: us-west-2
