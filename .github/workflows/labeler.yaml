@@ -1,6 +1,8 @@
 name: "Pull Request Labeler"
 on:
   pull_request:
+    types:
+      - opened
     branches:
       - main
       - 'release/*'
@@ -22,7 +24,6 @@ jobs:
           configuration-path: ".github/service-labeler.yaml"
       - name: Add labels to automated chart bump PRs
         uses: actions/labeler@v5
-        if: startsWith(github.head_ref, 'chartbump/')
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: ".github/services-pr-labeler.yaml"

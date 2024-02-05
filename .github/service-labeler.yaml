@@ -1,98 +1,196 @@
 services/ai-navigator-app:
-  - services/ai-navigator-app/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/ai-navigator-app/**
 services/ai-navigator-cluster-info-agent:
-  - services/ai-navigator-cluster-info-agent/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/ai-navigator-cluster-info-agent/**
 services/centralized-grafana:
-  - services/centralized-grafana/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/centralized-grafana/**
 services/centralized-kubecost:
-  - services/centralized-kubecost/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/centralized-kubecost/**
 services/cert-manager:
-  - services/cert-manager/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/cert-manager/**
 services/chartmuseum:
-  - services/chartmuseum/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/chartmuseum/**
 services/dex:
-  - services/dex/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/dex/**
 services/dex-k8s-authenticator:
-  - services/dex-k8s-authenticator/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/dex-k8s-authenticator/**
 services/dkp-insights:
-  - services/dkp-insights/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/dkp-insights/**
 services/dkp-insights-management:
-  - services/dkp-insights-management/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/dkp-insights-management/**
 services/external-dns:
-  - services/external-dns/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/external-dns/**
 services/fluent-bit:
-  - services/fluent-bit/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/fluent-bit/**
 services/gatekeeper:
-  - services/gatekeeper/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/gatekeeper/**
 services/gitea:
-  - services/gitea/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/gitea/**
 services/grafana-logging:
-  - services/grafana-logging/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/grafana-logging/**
 services/grafana-loki:
-  - services/grafana-loki/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/grafana-loki/**
 services/istio:
-  - services/istio/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/istio/**
 services/jaeger:
-  - services/jaeger/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/jaeger/**
 services/karma:
-  - services/karma/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/karma/**
 services/karma-traefik:
-  - services/karma-traefik/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/karma-traefik/**
 services/kiali:
-  - services/kiali/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kiali/**
 services/knative:
-  - services/knative/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/knative/**
 services/kommander:
-  - services/kommander/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kommander/**
 services/kommander-appmanagement:
-  - services/kommander-appmanagement/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kommander-appmanagement/**
 services/kommander-flux:
-  - services/kommander-flux/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kommander-flux/**
 services/kommander-ui:
-  - services/kommander-ui/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kommander-ui/**
 services/kube-oidc-proxy:
-  - services/kube-oidc-proxy/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kube-oidc-proxy/**
 services/kube-prometheus-stack:
-  - services/kube-prometheus-stack/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kube-prometheus-stack/**
 services/kubecost:
-  - services/kubecost/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kubecost/**
 services/kubecost-thanos-traefik:
-  - services/kubecost-thanos-traefik/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kubecost-thanos-traefik/**
 services/kubefed:
-  - services/kubefed/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kubefed/**
 services/kubernetes-dashboard:
-  - services/kubernetes-dashboard/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kubernetes-dashboard/**
 services/kubetunnel:
-  - services/kubetunnel/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/kubetunnel/**
 services/logging-operator:
-  - services/logging-operator/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/logging-operator/**
 services/nfs-server-provisioner:
-  - services/nfs-server-provisioner/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nfs-server-provisioner/**
 services/nvidia-gpu-operator:
-  - services/nvidia-gpu-operator/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nvidia-gpu-operator/**
 services/project-grafana-logging:
-  - services/project-grafana-logging/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/project-grafana-logging/**
 services/project-grafana-loki:
-  - services/project-grafana-loki/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/project-grafana-loki/**
 services/project-logging:
-  - services/project-logging/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/project-logging/**
 services/prometheus-adapter:
-  - services/prometheus-adapter/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/prometheus-adapter/**
 services/prometheus-thanos-traefik:
-  - services/prometheus-thanos-traefik/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/prometheus-thanos-traefik/**
 services/reloader:
-  - services/reloader/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/reloader/**
 services/rook-ceph:
-  - services/rook-ceph/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/rook-ceph/**
 services/rook-ceph-cluster:
-  - services/rook-ceph-cluster/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/rook-ceph-cluster/**
 services/thanos:
-  - services/thanos/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/thanos/**
 services/traefik:
-  - services/traefik/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/traefik/**
 services/traefik-forward-auth:
-  - services/traefik-forward-auth/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/traefik-forward-auth/**
 services/traefik-forward-auth-mgmt:
-  - services/traefik-forward-auth-mgmt/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/traefik-forward-auth-mgmt/**
 services/velero:
-  - services/velero/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/velero/**
