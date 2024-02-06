@@ -8,7 +8,7 @@ data:
     ---
     hooks:
       clusterID:
-        kubectlImage: "bitnami/kubectl:1.27.9"
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.27.9}"
         priorityClassName: dkp-high-priority
 
     cost-analyzer:

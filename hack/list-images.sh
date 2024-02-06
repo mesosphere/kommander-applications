@@ -129,7 +129,6 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
                                 ./services/kommander-flux/*/templates/* \
                                 ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
-                                ./services/velero/*/{pre,post}-install/* \
                                 >>"${IMAGES_FILE}"
 
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.

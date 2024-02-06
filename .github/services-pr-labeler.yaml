@@ -1,48 +1,64 @@
 open-kommander-pr:
-  - services/cert-manager/**
-  - services/chartmuseum/**
-  - services/external-dns/**
-  - services/fluent-bit/**
-  - services/gatekeeper/**
-  - services/istio/**
-  - services/jaeger/**
-  - services/kiali/**
-  - services/nvidia-gpu-operator/**
-  - services/kube-oidc-proxy/**
-  - services/logging-operator/**
-  - services/project-grafana-logging/**
-  - services/project-grafana-loki/**
-  - services/project-logging/**
-  - services/reloader/**
-  - services/rook-ceph/**
-  - services/rook-ceph-cluster/**
-  - services/thanos/**
-  - services/traefik-forward-auth/**
-  - services/traefik-forward-auth-mgmt/**
-  - services/kubecost/**
-  - services/centralized-kubecost/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/centralized-kubecost/**
+    - services/cert-manager/**
+    - services/chartmuseum/**
+    - services/external-dns/**
+    - services/fluent-bit/**
+    - services/gatekeeper/**
+    - services/istio/**
+    - services/jaeger/**
+    - services/kiali/**
+    - services/kube-oidc-proxy/**
+    - services/kube-prometheus-stack/**
+    - services/kubecost/**
+    - services/logging-operator/**
+    - services/nvidia-gpu-operator/**
+    - services/project-grafana-logging/**
+    - services/project-grafana-loki/**
+    - services/project-logging/**
+    - services/reloader/**
+    - services/rook-ceph/**
+    - services/rook-ceph-cluster/**
+    - services/thanos/**
+    - services/traefik-forward-auth/**
+    - services/traefik-forward-auth-mgmt/**
 
 # this should be the same list as above open-kommander-pr
 do-not-merge/testing:
-  - services/cert-manager/**
-  - services/external-dns/**
-  - services/fluent-bit/**
-  - services/istio/**
-  - services/jaeger/**
-  - services/kiali/**
-  - services/kube-oidc-proxy/**
-  - services/logging-operator/**
-  - services/project-grafana-logging/**
-  - services/project-grafana-loki/**
-  - services/project-logging/**
-  - services/reloader/**
-  - services/rook-ceph/**
-  - services/rook-ceph-cluster/**
-  - services/traefik-forward-auth/**
-  - services/traefik-forward-auth-mgmt/**
+- changed-files:
+  - any-glob-to-any-file:
+    - services/centralized-kubecost/**
+    - services/cert-manager/**
+    - services/chartmuseum/**
+    - services/external-dns/**
+    - services/fluent-bit/**
+    - services/gatekeeper/**
+    - services/istio/**
+    - services/jaeger/**
+    - services/kiali/**
+    - services/kube-oidc-proxy/**
+    - services/kube-prometheus-stack/**
+    - services/kubecost/**
+    - services/logging-operator/**
+    - services/nvidia-gpu-operator/**
+    - services/project-grafana-logging/**
+    - services/project-grafana-loki/**
+    - services/project-logging/**
+    - services/reloader/**
+    - services/rook-ceph/**
+    - services/rook-ceph-cluster/**
+    - services/thanos/**
+    - services/traefik-forward-auth/**
+    - services/traefik-forward-auth-mgmt/**
 
 ok-to-test:
-  - services/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - services/**/*
 
 update-licenses:
-  - services/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - services/**/*

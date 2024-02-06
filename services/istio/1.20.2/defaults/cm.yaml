@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-1.20.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    istioOperator:
+      components:
+        ingressGateways:
+        - enabled: true
+          k8s:
+            hpaSpec:
+              minReplicas: 2
+            priorityClassName: "dkp-critical-priority"
+          name: istio-ingressgateway
+        pilot:
+          k8s:
+            hpaSpec:
+              minReplicas: 2
+            priorityClassName: "dkp-critical-priority"
+        cni:
+          k8s:
+            priorityClassName: "dkp-critical-priority"
+    security:
+      issuerName: ${caIssuerName}
+    prometheus-operator:
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
+    global:
+      image: ${kubetoolsImageRepository:=bitnami/kubectl}
+      tag: ${kubetoolsImageTag:=1.27.9}
+      priorityClassName: "dkp-critical-priority"
+    operator:
+      # expose metrics for prometheus scraping
+      monitoring:
+        host: 0.0.0.0
+        port: 15014

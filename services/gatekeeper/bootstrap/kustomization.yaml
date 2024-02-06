@@ -1,17 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-patchesJson6902:
   # The name should be made consistent with one generated
   # by the KommanderAppDeployment controller.
   #
   # Also see chart/kommander-bootstrap/templates/flux-resources.yaml
-  - patch: |
-      - op: replace
-        path: /metadata/name
-        value: gatekeeper
-    target:
-      kind: HelmRelease
-      name: gatekeeper
 resources:
-  - ../3.13.0/
-  - ../3.13.0/defaults/
+- ../3.14.0/
+- ../3.14.0/defaults/
+patches:
+- patch: |
+    - op: replace
+      path: /metadata/name
+      value: gatekeeper
+  target:
+    kind: HelmRelease
+    name: gatekeeper

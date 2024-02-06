@@ -24,9 +24,9 @@ jobs:
       matrix:
         branch:
           - main
-          - release-2.4
           - release-2.5
           - release-2.6
+          - release-2.7
 
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
           depth: 0
 
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
 
       - name: Generate tag
         run: |

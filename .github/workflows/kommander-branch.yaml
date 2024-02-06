@@ -36,7 +36,7 @@ jobs:
     needs: get-kapps-branch-name
     if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: 'mesosphere/kommander'
           ssh-key: ${{ secrets.KOMM_PRIVATE_SSH_KEY }}
@@ -44,7 +44,7 @@ jobs:
           fetch-depth: '0'
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v4
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -96,13 +96,13 @@ jobs:
 
       - name: checkout local directory for script
         if: contains(needs.get-kapps-branch-name.outputs.branch_name, 'gpu-operator')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: 'main'
 
       - name: Create comment
         if: steps.make-test-branch.outputs.created_new_branch == 'true'
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v4
         env:
           GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
         with:

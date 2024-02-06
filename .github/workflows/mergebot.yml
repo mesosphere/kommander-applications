@@ -14,7 +14,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set mergebot username
         run: git config --global user.name d2iq-mergebot
       - name: Set mergebot email
@@ -22,20 +22,20 @@ jobs:
       - name: Set gpg key id
         run: git config --global user.signingKey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v4
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
       - name: Fetch Mergebot code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: mesosphere/mergebot
           path: mergebot_code/mergebot
           persist-credentials: false
           token: ${{ secrets.MERGEBOT_TOKEN }}
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip'

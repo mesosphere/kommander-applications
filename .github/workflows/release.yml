@@ -18,16 +18,16 @@ jobs:
       - medium
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: webfactory/ssh-agent@v0.7.0
+        uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
       - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v2
+        uses: asdf-vm/actions/install@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/kommander-applications
           aws-region: us-west-2
