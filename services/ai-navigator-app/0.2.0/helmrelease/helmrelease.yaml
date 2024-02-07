@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ai-navigator-cluster-info-api
+  name: ai-navigator-app
   namespace: ${releaseNamespace}
 spec:
   chart:
@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ai-navigator-cluster-info-api-0.2.0-d2iq-defaults
+      name: ai-navigator-app-0.2.0-d2iq-defaults
