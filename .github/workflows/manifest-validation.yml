@@ -28,4 +28,4 @@ jobs:
           GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
-        run: make ci.docker.run GOOS=linux GOARCH=amd64 CI=true RUN_WHAT="make validate-manifests"
+        run: GOOS=linux GOARCH=amd64 make validate-manifests
