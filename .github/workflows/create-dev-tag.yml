@@ -1,0 +1,70 @@
+name: Create Development Tag
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '5 3 * * *'
+
+env:
+  GOWORK: off
+  GOPRIVATE: github.com/mesosphere
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  GH_ACCESS_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
+jobs:
+  create-dev-tag:
+    if: github.ref == 'refs/heads/main'
+    runs-on:
+    - self-hosted
+    - small
+    strategy:
+      matrix:
+        branch:
+          - main
+          - release-2.3
+          - release-2.4
+          - release-2.5
+          - release-2.6
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
+          fetch-depth: "0"
+          token: ${{ secrets.MESOSPHERECI_USER_TOKEN }} # Required for pushing to tags to remote
+
+      - name: Configure git for private repo access
+        run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_push_gpgsign: false
+
+      - name: Generate tag
+        run: echo "TAG=$(make ci.docker.run RUN_WHAT="make repo.dev.tag" | tail -1)" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
+      - name: Create tag
+        run: git tag -s -f -m "${{ env.TAG }}" ${{ env.TAG }}
+
+      - name: Push tag
+        run: git push --force --tags origin ${{ env.TAG }}
+
+      - name: Upload the dagger logs
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: dagger.log
+          path: .daggers/dagger.log
