@@ -82,7 +82,7 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/thanos:0.33.0-debian-11-r1
+  - container_image: docker.io/bitnami/thanos:0.34.0-debian-11-r2
     sources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-11-r1}
