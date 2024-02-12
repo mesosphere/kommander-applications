@@ -38,7 +38,7 @@ spec:
     - client.thanos.localhost.localdomain
   subject:
     organizations:
-      - D2iQ
+      - Nutanix
   secretName: kommander-thanos-client-tls
   issuerRef:
     name: kommander-ca
