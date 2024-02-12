@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-app-0.2.0-d2iq-defaults
+  name: ai-navigator-app-0.2.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
