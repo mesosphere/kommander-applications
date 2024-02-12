@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
 	github.com/drone/envsubst v1.0.3
-	github.com/fluxcd/helm-controller/api v0.37.3
+	github.com/fluxcd/helm-controller/api v0.37.4
 	github.com/otiai10/copy v1.14.0
 	github.com/r3labs/diff/v3 v3.0.1
 	github.com/spf13/cobra v1.8.0
