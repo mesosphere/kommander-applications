@@ -6,13 +6,13 @@ require (
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/flux2/v2 v2.1.1
 	github.com/fluxcd/helm-controller/api v0.36.1
-	github.com/fluxcd/image-automation-controller/api v0.36.1
+	github.com/fluxcd/image-automation-controller/api v0.37.1
 	github.com/fluxcd/image-reflector-controller/api v0.31.2
 	github.com/fluxcd/kustomize-controller/api v1.2.2
 	github.com/fluxcd/notification-controller/api v1.2.3
 	github.com/fluxcd/pkg/runtime v0.43.3
 	github.com/fluxcd/pkg/ssa v0.35.0
-	github.com/fluxcd/source-controller/api v1.1.1
+	github.com/fluxcd/source-controller/api v1.2.4
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.29.0
 	k8s.io/apiextensions-apiserver v0.29.0

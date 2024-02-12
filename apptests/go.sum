@@ -41,8 +41,8 @@ github.com/fluxcd/flux2/v2 v2.1.1 h1:VwMA8KjDMA7xTR1sQ1ACENuz9dzTeSY+1V7nc5qhSAg
 github.com/fluxcd/flux2/v2 v2.1.1/go.mod h1:W5QA6E387W33Nul+Xe50y56pVOJ/bitAPnmTFQd5bKw=
 github.com/fluxcd/helm-controller/api v0.36.1 h1:v1Y8x7fCyWg5n0hkGJabwOKcBN6yuFKLMCELe7LEgxs=
 github.com/fluxcd/helm-controller/api v0.36.1/go.mod h1:zkcRy3PxG0NoxSY5SjiSA5tWOGa6spIbWsChQY8FXqM=
-github.com/fluxcd/image-automation-controller/api v0.36.1 h1:Knd4SSm/bJ0iqvYcQq87uDaT/mW9poM1jOvHpJ/4tzk=
-github.com/fluxcd/image-automation-controller/api v0.36.1/go.mod h1:IsjdBtgm71KHRGDTZZZiGYdWGoJ5VjenE9F4ueADM/o=
+github.com/fluxcd/image-automation-controller/api v0.37.1 h1:zi1VfPoGuHsNtyTpueKbr4b/c+Ms7HjFocTAmixmYno=
+github.com/fluxcd/image-automation-controller/api v0.37.1/go.mod h1:7p0woxB275YzhdctzbxVMck0/hZt45bm0K12A0ABldo=
 github.com/fluxcd/image-reflector-controller/api v0.31.2 h1:s16ewwfuLBYuh8hENuVgU8SYsSNxRaA4f+AD60/+les=
 github.com/fluxcd/image-reflector-controller/api v0.31.2/go.mod h1:tV7g+KXQL3W8w5+fRJU7ubVGc4QAfx1C7XI5qrQvA3U=
 github.com/fluxcd/kustomize-controller/api v1.2.2 h1:LXRa2181usLsDkAJ86i/CnvCyPwhLcFUw9jBnXxTFJ4=
@@ -63,8 +63,8 @@ github.com/fluxcd/pkg/ssa v0.35.0 h1:8T3WY4P9SQWApa2hq1rU1u2WE8oqP3MMTsAiEWwhmfo
 github.com/fluxcd/pkg/ssa v0.35.0/go.mod h1:rhVh0EtYVUOznKXlz6E7JOSgdc8xWbIwA4L5HVtJRLA=
 github.com/fluxcd/pkg/tar v0.3.0 h1:gIdCIIuvV5aH193c1qYZeC6gpJOmw1p2OzhAvaUHNFI=
 github.com/fluxcd/pkg/tar v0.3.0/go.mod h1:SyJBaQvuv2VA/rv4d1OHhCV6R8+9QKc9np193EzNHBc=
-github.com/fluxcd/source-controller/api v1.1.1 h1:0KQTEnLxBRrovISc5JeovTfyTjhh4vwodNnYyD6XD/Q=
-github.com/fluxcd/source-controller/api v1.1.1/go.mod h1:ZLkaUd1KQIjtLPCvO63Ni5zpnSTVBAkeRgFBzMItbDQ=
+github.com/fluxcd/source-controller/api v1.2.4 h1:XjKTWhSSeLGsogWnTcLl5sUnyMlC5TKDbbBgP9SyJ5c=
+github.com/fluxcd/source-controller/api v1.2.4/go.mod h1:j3QSHpIPBP5sjaGIkVtsgWCx8JcOmcsutRmdJmRMOZg=
 github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nosvA=
 github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/go-errors/errors v1.5.1 h1:ZwEMSLRCapFLflTpT7NKaAc7ukJ8ZPEjzlxt8rPN8bk=
