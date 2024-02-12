@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/flux2/v2 v2.1.1
-	github.com/fluxcd/helm-controller/api v0.36.1
+	github.com/fluxcd/helm-controller/api v0.37.4
 	github.com/fluxcd/image-automation-controller/api v0.37.1
 	github.com/fluxcd/image-reflector-controller/api v0.31.2
 	github.com/fluxcd/kustomize-controller/api v1.2.2
