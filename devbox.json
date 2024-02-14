@@ -1,0 +1,28 @@
+{
+  "packages": {
+    "awscli2":         "latest",
+    "direnv":          "latest",
+    "docker":          "latest",
+    "envsubst":        "latest",
+    "fluxcd":          "latest",
+    "github-cli":      "latest",
+    "gitlint":         "latest",
+    "go":              "1.20",
+    "gojq":            "latest",
+    "golangci-lint":   "latest",
+    "kubernetes-helm": "latest",
+    "kustomize":       "latest",
+    "pre-commit":      "latest",
+    "yq-go":           "latest"
+  },
+  "shell": {
+    "scripts": {
+      "sync-go-version": [
+        "VERSION=$(go mod edit -json hack/release/go.mod | jq -r .Go)",
+        "tmp=$(mktemp)",
+        "jq \".packages.go = \\\"${VERSION}\\\"\" devbox.json > ${tmp}",
+        "mv ${tmp} devbox.json"
+      ]
+    }
+  }
+}

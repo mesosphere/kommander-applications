@@ -1,12 +1,11 @@
 .PHONY: go-test
 go-test: go-lint
-go-test: install-tool.golang
 	cd hack/release && go test -v -race -covermode=atomic -coverprofile=coverage.out ./...
 
 .PHONY: mod-tidy
-mod-tidy: install-tool.golang
+mod-tidy:
 	cd hack/release && go mod tidy
 
 .PHONY: go-lint
-go-lint: install-tool.golang install-tool.golangci-lint
+go-lint:
 	cd hack/release && golangci-lint run ./...
