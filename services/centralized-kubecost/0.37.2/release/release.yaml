@@ -108,7 +108,7 @@ spec:
   duration: 87600h
   subject:
     organizations:
-      - D2iQ
+      - Nutanix
   secretName: kommander-kubecost-thanos-client-tls
   issuerRef:
     name: kommander-ca

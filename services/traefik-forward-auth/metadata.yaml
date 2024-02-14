@@ -1,5 +1,5 @@
 displayName: Traefik Forward Auth
-description: Installs a forward authentication service - from D2iQ - that provides OAuth based authentication for Traefik. Requires Traefik.
+description: Installs a forward authentication service - from Nutanix - that provides OAuth based authentication for Traefik. Requires Traefik.
 category:
   - sso
 requiredDependencies:
@@ -13,7 +13,7 @@ certifications:
   - airgapped
 overview: |-
   # Overview
-  ForwardAuth middleware from  Traefik allows a user to delegate authentication to an external authentication service, provided by the user. Traefik Forward Auth is deployed to serve the role of the external authentication server. This application by D2iQ is based on an upstream version by Thom Sedon. To use Traefik Forward Auth, Traefik needs to be deployed.
+  ForwardAuth middleware from  Traefik allows a user to delegate authentication to an external authentication service, provided by the user. Traefik Forward Auth is deployed to serve the role of the external authentication server. This application by Nutanix is based on an upstream version by Thom Sedon. To use Traefik Forward Auth, Traefik needs to be deployed.
 
   ## Key Features
   ### Seamless Overlay of any HTTP Service

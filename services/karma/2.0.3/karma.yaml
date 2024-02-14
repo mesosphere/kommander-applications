@@ -100,7 +100,7 @@ spec:
     - client.karma.localhost.localdomain
   subject:
     organizations:
-      - D2iQ
+      - Nutanix
   secretName: kommander-karma-client-tls
   issuerRef:
     name: kommander-ca

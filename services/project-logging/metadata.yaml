@@ -1,5 +1,5 @@
 displayName: Project Logging
-description: Application by D2iQ that defines resources for the Logging Operator, which are used for directing project logs to its Loki application.
+description: Application by Nutanix that defines resources for the Logging Operator, which are used for directing project logs to its Loki application.
 category:
   - logging
 dependencies:
@@ -13,4 +13,4 @@ certifications:
   - airgapped
 overview: |-
   # Overview
-  Project logging application by D2iQ is used for defining the resources for the Logging Operator. The Logging Operator uses these resources to direct the project's logs to its respective Loki application.
+  Project logging application by Nutanix is used for defining the resources for the Logging Operator. The Logging Operator uses these resources to direct the project's logs to its respective Loki application.
