@@ -5,7 +5,7 @@ S3_ACL ?= "bucket-owner-full-control"
 .PHONY: release
 release: ARCHIVE_NAME = kommander-applications-$(GIT_TAG).tar.gz
 release: PUBLISHED_URL = https://downloads.d2iq.com/dkp/$(GIT_TAG)/$(ARCHIVE_NAME)
-release: install-tool.awscli
+release:
 	# We don't want to have ai-navigator in airgapped bundle
 	# and we don't want to have ai-navigator-cluster-info-agent in airgapped bundle
 	# the connected customers download the k-apps from GitHub where it is still present
