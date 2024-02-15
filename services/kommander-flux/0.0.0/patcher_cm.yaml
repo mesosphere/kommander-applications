@@ -1,0 +1,98 @@
+apiVersion: v1
+data:
+  patch.sh: |
+    #!/bin/bash
+
+    readonly FLUX_TYPES=(
+      "alerts.notification.toolkit.fluxcd.io"
+      "buckets.source.toolkit.fluxcd.io"
+      "gitrepositories.source.toolkit.fluxcd.io"
+      "helmcharts.source.toolkit.fluxcd.io"
+      "helmreleases.helm.toolkit.fluxcd.io"
+      "helmrepositories.source.toolkit.fluxcd.io"
+      "kustomizations.kustomize.toolkit.fluxcd.io"
+      "ocirepositories.source.toolkit.fluxcd.io"
+      "providers.notification.toolkit.fluxcd.io"
+      "receivers.notification.toolkit.fluxcd.io"
+    )
+    readonly D2IQ_LABEL="kommander.d2iq.io/managed-by-flux-instance=kommander"
+    readonly KOMMANDER_FLUX_NAMESPACE="kommander-flux"
+    readonly BIGBANG_FLUX_NAMESPACE="flux-system"
+
+    # Configure the namespaces here according to the needs of your workload cluster
+    NAMESPACES=("${KOMMANDER_FLUX_NAMESPACE}")
+
+    function label_dkp_flux_resources() {
+      for NAMESPACE in "${NAMESPACES[@]}"; do
+        for TYPE in "${FLUX_TYPES[@]}" ; do
+          for ITEM in $(kubectl get "${TYPE}" -n "${NAMESPACE}" -oname --ignore-not-found); do
+            if [ -z "$ITEM" ]; then
+              continue
+            fi
+            kubectl label "${ITEM}" -n "${NAMESPACE}" "${D2IQ_LABEL}"
+          done
+        done
+      done
+    }
+
+    function limit_dkp_flux_scope() {
+      # Update Kommander flux to watch resources with known labels.
+      for DEPLOYMENT in $(kubectl get deploy -n"${KOMMANDER_FLUX_NAMESPACE}" -l "app.kubernetes.io/instance=${KOMMANDER_FLUX_NAMESPACE}" -oname); do
+        kubectl annotate -n"${KOMMANDER_FLUX_NAMESPACE}" "${DEPLOYMENT}" kustomize.toolkit.fluxcd.io/reconcile=disabled
+        if kubectl get -n"${KOMMANDER_FLUX_NAMESPACE}" "${DEPLOYMENT}" -oyaml | grep -q watch-label-selector; then
+          echo "${KOMMANDER_FLUX_NAMESPACE}/${DEPLOYMENT} deployment is already patched with label selectors"
+        else
+          kubectl patch -n"${KOMMANDER_FLUX_NAMESPACE}" "${DEPLOYMENT}" \
+           --type=json \
+           -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--watch-label-selector=kommander.d2iq.io/managed-by-flux-instance=kommander"}]'
+        fi
+      done
+    }
+
+    function limit_bigbang_flux_scope() {
+      # Update big bang flux to watch resources by excluding known labels.
+      for DEPLOYMENT in $(kubectl get deploy -n"${BIGBANG_FLUX_NAMESPACE}" -l "app.kubernetes.io/instance=${BIGBANG_FLUX_NAMESPACE}" -oname); do
+        if kubectl get -n"${BIGBANG_FLUX_NAMESPACE}" "${DEPLOYMENT}" -oyaml | grep -q watch-label-selector; then
+          echo "${BIGBANG_FLUX_NAMESPACE}/${DEPLOYMENT} deployment is already patched with label selectors"
+        else
+          kubectl patch -n"${BIGBANG_FLUX_NAMESPACE}" "${DEPLOYMENT}" \
+           --type=json \
+           -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--watch-label-selector=kommander.d2iq.io/managed-by-flux-instance notin (kommander)"}]'
+        fi
+      done
+    }
+
+    if [ -z "${DKP_NAMESPACES}" ]; then
+        echo "DKP_NAMESPACES is unset. Mutating just kommander-flux namespace."
+    else
+        echo "DKP_NAMESPACES is set to ${DKP_NAMESPACES}"
+    fi
+
+    IFS=';' read -ra DKP_NAMESPACES <<< "$IN"
+    for NAMESPACE in "${DKP_NAMESPACES[@]}"; do
+      NAMESPACES+=("${NAMESPACE}")
+    done
+
+    # Delegates to subcommands
+    if [[ ${1:-} ]] && declare -F | cut -d' ' -f3 | fgrep -qx -- "${1:-}"
+    then "$@"
+    else printf "
+    Prerequisites:
+
+    - kubectl (with kubeconfig pointing to non management cluster)
+
+    DO NOT RUN THIS SCRIPT AGAINST MANAGEMENT CLUSTER.
+
+    Run the functions (in this exact order)
+     label_dkp_flux_resources
+     limit_bigbang_flux_scope
+     limit_dkp_flux_scope
+
+
+    You can rerun label_dkp_flux_resources anytime there is a mutation in workspaces/projects (it is idempotent).\n"
+    fi
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: limited-scope-flux-patch
+  namespace: kommander-flux
