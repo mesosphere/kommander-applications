@@ -341,6 +341,7 @@ data:
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
+        path: "/dkp/grafana/metrics"
       ingress:
         enabled: true
         annotations:

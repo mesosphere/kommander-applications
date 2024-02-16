@@ -20,6 +20,7 @@ data:
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
+        path: "/dkp/grafana/metrics"
       sidecar:
         image:
           repository: kiwigrid/k8s-sidecar
