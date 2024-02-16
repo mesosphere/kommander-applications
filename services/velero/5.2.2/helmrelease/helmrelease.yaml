@@ -3,6 +3,8 @@ kind: HelmRelease
 metadata:
   name: velero
   namespace: ${releaseNamespace}
+  annotations:
+    velero.kommander.d2iq.io/no-hooks-chart: "true"
 spec:
   chart:
     spec:
