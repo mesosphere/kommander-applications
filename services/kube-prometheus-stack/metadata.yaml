@@ -27,7 +27,7 @@ overview: |-
 
   - [Prometheus Alertmanager Documentation - Overview](https://prometheus.io/docs/alerting/latest/alertmanager/)
 
-  ### Grafana (v9.5.13)
+  ### Grafana (v10.3.3)
   A monitoring dashboard from Grafana that can be used to visualize metrics collected by Prometheus.
 
   - [Grafana Documentation](https://grafana.com/docs/)
