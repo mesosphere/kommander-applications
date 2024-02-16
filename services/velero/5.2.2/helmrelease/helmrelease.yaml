@@ -21,8 +21,6 @@ spec:
       retries: 30
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 30
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
