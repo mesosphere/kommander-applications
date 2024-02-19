@@ -62,7 +62,7 @@ spec:
               #
               # This Job runs concurrently with updating and reconciling of the `velero` HelmRelease, because, on one side,
               # the updated HelmRelease will never become Ready without these annotations/labels, but,
-              # on the other side, reconciling the HelmRelease when it still has a 4.x chart version set 
+              # on the other side, reconciling the HelmRelease when it still has a 4.x chart version set
               # will erase these annotations/labels.
 
               echo "Waiting for the velero HelmRelease to be updated"
