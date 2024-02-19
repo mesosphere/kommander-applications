@@ -13,8 +13,6 @@ data:
         enabled: true
     grafana:
       enabled: true
-      image:
-        tag: 10.3.3
       defaultDashboardsEnabled: true
       priorityClassName: "dkp-critical-priority"
       serviceMonitor:
