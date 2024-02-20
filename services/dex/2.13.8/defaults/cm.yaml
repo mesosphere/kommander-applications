@@ -7,7 +7,7 @@ data:
   values.yaml: |-
     ---
     priorityClassName: "dkp-critical-priority"
-    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.27.9}"
+    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
     image: mesosphere/dex
     imageTag: v2.37.0-d2iq.2
     resources:
