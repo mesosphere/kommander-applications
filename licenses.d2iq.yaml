@@ -8,8 +8,8 @@ ignore:
   - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
   - docker.io/bitnami/memcached:1.6.19-debian-11-r7
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.106.5
-  - gcr.io/kubecost1/frontend:prod-1.106.5
+  - gcr.io/kubecost1/cost-model:prod-1.106.7
+  - gcr.io/kubecost1/frontend:prod-1.106.7
 
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
