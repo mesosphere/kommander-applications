@@ -8,8 +8,8 @@ ignore:
   - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
   - docker.io/bitnami/memcached:1.6.19-debian-11-r7
   - docker.io/library/busybox:1
-  - gcr.io/kubecost1/cost-model:prod-1.106.5
-  - gcr.io/kubecost1/frontend:prod-1.106.5
+  - gcr.io/kubecost1/cost-model:prod-1.106.7
+  - gcr.io/kubecost1/frontend:prod-1.106.7
 
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
@@ -335,40 +335,40 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative-sandbox/net-istio
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative-sandbox/net-istio
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.10.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-v1.10.2
         url: https://github.com/knative/serving
   - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
     sources:
