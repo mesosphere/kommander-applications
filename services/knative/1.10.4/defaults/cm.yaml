@@ -7,7 +7,6 @@ data:
   values.yaml: |
     global:
       priorityClassName: "dkp-high-priority"
-      kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
     eventing:
       enabled: false
     eventing-sources:
