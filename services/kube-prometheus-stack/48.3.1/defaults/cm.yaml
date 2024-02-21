@@ -22,7 +22,7 @@ data:
     mesosphereResources:
       create: true
       hooks:
-        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.27.9}"
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
       rules:
         # addon alert rules are defaulted to false to prevent potential misfires if addons
         # are disabled.
