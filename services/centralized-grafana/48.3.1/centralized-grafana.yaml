@@ -43,4 +43,4 @@ data:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, find the Grafana app version:
   # https://artifacthub.io/packages/helm/grafana/grafana/6.57.2
-  version: "10.0.3"
+  version: "10.3.3"
