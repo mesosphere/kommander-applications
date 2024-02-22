@@ -5,6 +5,4 @@ resources:
 patches:
   - path: patch-add-secret-ref.yaml
     target:
-      group: source.toolkit.fluxcd.io
-      version: v1beta2
       kind: HelmRepository
