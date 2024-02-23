@@ -43,7 +43,6 @@ ignore:
   #       license_path: LICENSE
   - docker.io/bitnami/kubectl:1.24.1
   - docker.io/bitnami/kubectl:1.26.4
-  - docker.io/bitnami/kubectl:1.27.9
   - docker.io/bitnami/kubectl:1.29.2
 
   # Fossa cannot scan C/CPP projects
