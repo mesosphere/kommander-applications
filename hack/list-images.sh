@@ -78,8 +78,7 @@ declare -rx releaseNamespace=unused \
             tfaName=unused \
             notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle=unused \
             caIssuerName=unused \
-            kommanderChartVersion="${kommanderChartVersion:-}" \
-            patch=unused
+            kommanderChartVersion="${kommanderChartVersion:-}"
 
 IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
