@@ -1,12 +1,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: traefik-forward-auth
+  name: traefik-forward-auth-mgmt
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - namespace: ${workspaceNamespace}
+    - namespace: ${releaseNamespace}
       name: traefik
+    - namespace: ${releaseNamespace}
+      name: dex
+    - namespace: ${releaseNamespace}
+      name: kommander
   chart:
     spec:
       chart: traefik-forward-auth
@@ -24,8 +28,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: traefik-forward-auth
+  releaseName: traefik-forward-auth-mgmt
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-forward-auth-0.3.10-d2iq-defaults
+      name: traefik-forward-auth-mgmt-0.3.11-d2iq-defaults
   targetNamespace: ${releaseNamespace}
