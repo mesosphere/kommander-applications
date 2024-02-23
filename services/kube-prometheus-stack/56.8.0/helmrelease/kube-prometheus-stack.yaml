@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 48.3.1
+      version: 56.8.0
   interval: 15s
   install:
     timeout: 5m0s
@@ -27,7 +27,11 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
+<<<<<<<< HEAD:services/kube-prometheus-stack/48.3.2/helmrelease/kube-prometheus-stack.yaml
       name: kube-prometheus-stack-48.3.2-d2iq-defaults
+========
+      name: kube-prometheus-stack-56.8.0-d2iq-defaults
+>>>>>>>> c39be67d (feat(kps): Bump to 56.8.0):services/kube-prometheus-stack/56.8.0/helmrelease/kube-prometheus-stack.yaml
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true
