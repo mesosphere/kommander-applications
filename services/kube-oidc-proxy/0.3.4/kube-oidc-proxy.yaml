@@ -21,7 +21,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 0.3.2
+      version: 0.3.4
   interval: 15s
   install:
     crds: CreateReplace
@@ -34,5 +34,5 @@ spec:
   releaseName: kube-oidc-proxy
   valuesFrom:
     - kind: ConfigMap
-      name: kube-oidc-proxy-0.3.2-d2iq-defaults
+      name: kube-oidc-proxy-0.3.4-d2iq-defaults
   targetNamespace: ${releaseNamespace}
