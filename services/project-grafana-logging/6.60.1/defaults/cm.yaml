@@ -101,7 +101,7 @@ data:
         mountPath: /var/lib/grafana/plugins/
     extraInitContainers:
       - name: grafana-plugins-install
-        image: mesosphere/grafana-plugins:v0.0.1
+        image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
         command: ["/bin/sh", "-c", "cp -a /var/lib/grafana/plugins/. /var/lib/grafana/shared-plugins/"]
         volumeMounts:
         - name: plugins
