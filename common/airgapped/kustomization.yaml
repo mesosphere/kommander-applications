@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../helm-repositories/
 patches:
-  - path: patch-add-cert-secret-ref.yaml
+  - path: patch-add-secret-ref.yaml
     target:
       kind: HelmRepository
   - path: patch-delete-secret-ref.yaml
