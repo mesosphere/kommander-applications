@@ -15,6 +15,8 @@ trap_add() {
   trap "${hdls}${hdls:+;}${1:?Handler required}" "${sig}"
 }
 
+declare -rx patch=unused
+
 while IFS= read -r repofile; do
   envsubst -no-unset -no-digit -i "${repofile}" | \
     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
