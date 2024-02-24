@@ -266,7 +266,7 @@ resources:
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
-  - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.7.0
+  - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.7.2
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
