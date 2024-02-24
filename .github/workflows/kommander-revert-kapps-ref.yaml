@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'mesosphere/kommander'
-          ssh-key: ${{ secrets.KOMM_PRIVATE_SSH_KEY }}
+          token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
           path: 'kommander'
           fetch-depth: '0'
 
