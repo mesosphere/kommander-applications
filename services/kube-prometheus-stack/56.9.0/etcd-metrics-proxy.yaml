@@ -9,11 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-<<<<<<<< HEAD:services/kube-prometheus-stack/48.3.2/etcd-metrics-proxy.yaml
-  path: ./services/kube-prometheus-stack/48.3.2/etcd-metrics-proxy
-========
-  path: ./services/kube-prometheus-stack/56.8.0/etcd-metrics-proxy
->>>>>>>> c39be67d (feat(kps): Bump to 56.8.0):services/kube-prometheus-stack/56.8.0/etcd-metrics-proxy.yaml
+  path: ./services/kube-prometheus-stack/56.9.0/etcd-metrics-proxy
   sourceRef:
     kind: GitRepository
     name: management
