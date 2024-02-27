@@ -499,7 +499,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-ctl:v1.13.1
+  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.14.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
