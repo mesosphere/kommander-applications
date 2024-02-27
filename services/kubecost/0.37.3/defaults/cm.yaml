@@ -48,6 +48,8 @@ data:
 
       grafana:
         priorityClassName: dkp-high-priority
+        image:
+          tag: 10.3.3
         ingress:
           enabled: true
           annotations:
@@ -64,6 +66,7 @@ data:
             protocol: http
             enable_gzip: true
             root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/kubecost/grafana"
+            serve_from_sub_path: false # Set to false on Grafana v10+
           auth.proxy:
             enabled: true
             header_name: X-Forwarded-User
