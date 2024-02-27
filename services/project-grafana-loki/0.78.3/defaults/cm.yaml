@@ -120,6 +120,7 @@ data:
           retention_enabled: true
           compaction_interval: 10m # Default is 10m
           retention_delete_delay: 2h # Default is 2h
+          working_directory: /var/loki/compactor
         ruler:
           storage:
             type: local
