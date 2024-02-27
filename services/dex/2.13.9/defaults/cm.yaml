@@ -29,7 +29,10 @@ data:
     ports:
       web:
         containerPort: 8080
+    grpc: false
     certs:
+      grpc:
+        create: false
       web:
         create: false
         secret:

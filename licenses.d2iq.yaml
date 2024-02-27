@@ -328,11 +328,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero
-  - container_image: gcr.io/google_containers/kubernetes-dashboard-init-amd64:v1.0.0
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/kubernetes/dashboard
   - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.0
     sources:
       - license_path: LICENSE
