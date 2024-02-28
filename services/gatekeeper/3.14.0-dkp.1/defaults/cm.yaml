@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-3.14.0-d2iq-defaults
+  name: gatekeeper-3.14.0-dkp.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -9,6 +9,7 @@ data:
     replicas: 2
     disableValidatingWebhook: false
     disableMutation: true
+
     mutations:
       enablePodProxy: false
       podProxySettings:
@@ -23,6 +24,9 @@ data:
         enabled: false
       probeWebhook:
         priorityClassName: system-cluster-critical
+        image:
+          repository: curlimages/curl
+          tag: 7.88.1
     controllerManager:
       tlsMinVersion: 1.2
     upgradeCRDs:
