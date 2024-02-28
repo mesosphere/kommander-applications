@@ -1,0 +1,53 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-grafana-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+- nonResourceURLs:
+  - /dkp/kommander/monitoring/grafana
+  - /dkp/kommander/monitoring/grafana/*
+  verbs:
+    - get
+    - head
+    - post
+    - put
+    - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-grafana-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+- nonResourceURLs:
+  - /dkp/kommander/monitoring/grafana
+  - /dkp/kommander/monitoring/grafana/*
+  - /dkp/kommander/monitoring/grafana/api/datasources/proxy/*
+  verbs:
+  - get
+  - head
+- nonResourceURLs:
+  - /dkp/kommander/monitoring/grafana/api/datasources/proxy/*
+  - /dkp/kommander/monitoring/grafana/api/ds/query
+  - /dkp/kommander/monitoring/grafana/api/frontend-metrics
+  verbs:
+  - post
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-centralized-grafana-grafana-edit
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+- nonResourceURLs:
+  - /dkp/kommander/monitoring/grafana
+  - /dkp/kommander/monitoring/grafana/*
+  verbs:
+    - get
+    - head
+    - post
+    - put
