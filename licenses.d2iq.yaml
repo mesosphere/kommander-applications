@@ -47,12 +47,12 @@ ignore:
 
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
-  # - container_image: docker.io/curlimages/curl:7.83.1
+  # - container_image: docker.io/curlimages/curl:7.88.1
   #   sources:
   #     - url: https://github.com/curl/curl
   #       ref: curl-${image_tag//./_}
   #       license_path: COPYING
-  - docker.io/curlimages/curl:7.83.1
+  - docker.io/curlimages/curl:7.88.1
 
   # This is added as part of `kubetunnel` project, but we only use cURL from
   # this project.
