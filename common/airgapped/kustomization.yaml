@@ -6,3 +6,6 @@ patches:
   - path: patch-add-secret-ref.yaml
     target:
       kind: HelmRepository
+  - path: patch-delete-secret-ref.yaml
+    target:
+      kind: HelmRepository
