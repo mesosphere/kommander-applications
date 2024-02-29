@@ -1,0 +1,40 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kube-prometheus-stack-prometheus-admin
+rules:
+- nonResourceURLs:
+  - /dkp/prometheus
+  - /dkp/prometheus/*
+  verbs:
+    - get
+    - head
+    - post
+    - put
+    - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kube-prometheus-stack-prometheus-view
+rules:
+- nonResourceURLs:
+  - /dkp/prometheus
+  - /dkp/prometheus/*
+  verbs:
+    - get
+    - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kube-prometheus-stack-prometheus-edit
+rules:
+- nonResourceURLs:
+  - /dkp/prometheus
+  - /dkp/prometheus/*
+  verbs:
+    - get
+    - head
+    - post
+    - put
