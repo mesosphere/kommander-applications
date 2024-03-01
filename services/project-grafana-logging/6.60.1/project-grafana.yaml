@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 6.60.1
+      version: 7.3.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,5 +23,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-logging-6.60.1-d2iq-defaults
+      name: project-grafana-logging-7.3.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}

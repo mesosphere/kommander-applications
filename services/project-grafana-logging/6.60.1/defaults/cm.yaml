@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: project-grafana-logging-6.60.1-d2iq-defaults
+  name: project-grafana-logging-7.3.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
