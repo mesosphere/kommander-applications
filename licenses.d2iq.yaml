@@ -291,7 +291,7 @@ resources:
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
   - container_image: docker.io/openpolicyagent/gatekeeper:v3.14.0
-    sourc docker.io/rook/cephes:
+    sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
