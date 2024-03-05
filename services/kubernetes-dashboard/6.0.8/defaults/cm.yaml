@@ -12,6 +12,9 @@ data:
     protocolHttp: true
     metricsScraper:
       enabled: true
+      image:
+        repository: docker.io/kubernetesui/dashboard-metrics-scraper
+        tag: v1.1.0
     service:
       externalPort: 9090
     resources:
