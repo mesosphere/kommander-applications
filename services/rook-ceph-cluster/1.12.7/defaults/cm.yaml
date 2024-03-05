@@ -22,6 +22,11 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
       dataDirHostPath: /var/lib/rook
 
+      cephVersion:
+        # This image was patched to fix CVEs. To build new version of the image:
+        # See: https://github.com/mesosphere/dkp-container-images
+        image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v17.2.6
+
       resources:
         mgr-sidecar:
           limits:
