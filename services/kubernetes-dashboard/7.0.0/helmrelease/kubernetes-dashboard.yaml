@@ -79,4 +79,4 @@ data:
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/home/"
   # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for app version
-  version: "2.7.0"
+  version: "7.0.0"
