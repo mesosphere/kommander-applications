@@ -79,7 +79,7 @@ data:
       enabled: false
     capimate:
       image:
-        tag: v0.0.0-dev.0
+        tag: v2.6.2-rc.2
     managementApps:
     - "ai-navigator-app"
     - "centralized-grafana"

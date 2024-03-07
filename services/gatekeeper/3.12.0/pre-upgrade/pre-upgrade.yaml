@@ -47,7 +47,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: kubetools
-          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.6.2-dev}"
+          image: "mesosphere/kommander2-kubetools:${kommanderChartVersion:=v2.6.2-rc.2}"
           command:
             - sh
             - "-c"
