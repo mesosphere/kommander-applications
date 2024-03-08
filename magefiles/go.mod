@@ -13,7 +13,6 @@ require (
 	github.com/adrg/xdg v0.4.0 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
-	github.com/magefile/mage v1.15.0 // indirect
 	github.com/vektah/gqlparser/v2 v2.5.6 // indirect
 	golang.org/x/mod v0.13.0 // indirect
 	golang.org/x/sync v0.4.0 // indirect
