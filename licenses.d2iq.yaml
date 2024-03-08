@@ -156,7 +156,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-metrics-scraper:1.1.1
+  - container_image: docker.io/kubernetesui/dashboard-metrics-scraper:1.1.0
     sources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
