@@ -156,11 +156,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/metrics-scraper:v1.0.9
+  - container_image: docker.io/kubernetesui/dashboard-metrics-scraper:1.1.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/kubernetes-sigs/dashboard-metrics-scraper
+        ref: metrics-scraper/v${image_tag}
+        url: https://github.com/kubernetes/dashboard
   - container_image: docker.io/library/traefik:v2.10.6
     sources:
       - license_path: LICENSE.md

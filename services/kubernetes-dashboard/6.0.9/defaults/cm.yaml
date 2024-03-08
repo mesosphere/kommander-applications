@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubernetes-dashboard-6.0.8-d2iq-defaults
+  name: kubernetes-dashboard-6.0.9-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,6 +12,9 @@ data:
     protocolHttp: true
     metricsScraper:
       enabled: true
+      image:
+        repository: docker.io/kubernetesui/dashboard-metrics-scraper
+        tag: 1.1.0
     service:
       externalPort: 9090
     resources:
