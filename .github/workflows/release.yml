@@ -18,16 +18,22 @@ jobs:
       - medium
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: webfactory/ssh-agent@v0.7.0
+        uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
-      - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v2
+      - name: Install NIX
+        uses: cachix/install-nix-action@v24
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.7.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/kommander-applications
           aws-region: us-west-2
@@ -42,4 +48,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           GIT_TAG: ${{ env.GIT_TAG }}
-        run: make release
+        run: devbox run -- make release

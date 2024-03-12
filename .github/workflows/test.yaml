@@ -13,13 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup asdf
-        uses: asdf-vm/actions/setup@v1
+      - name: Install NIX
+        uses: cachix/install-nix-action@v24
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.7.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
 
       - name: Run unit tests
-        run: make go-test
+        run: devbox run -- make go-test
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@v2

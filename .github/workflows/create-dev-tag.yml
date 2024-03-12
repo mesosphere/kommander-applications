@@ -24,9 +24,9 @@ jobs:
       matrix:
         branch:
           - main
-          - release-2.4
           - release-2.5
           - release-2.6
+          - release-2.7
 
     steps:
       - name: Checkout
@@ -35,15 +35,21 @@ jobs:
           ref: ${{ matrix.branch }}
           depth: 0
 
-      - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+      - name: Install NIX
+        uses: cachix/install-nix-action@v24
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.7.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
 
       - name: Generate tag
         run: |
           # Overriding a variable that causes a conflict in legacy
           # versions of gh-dkp
           export GITHUB_REPOSITORY="kommander-applications"
-          OUT=$(make repo.dev.tag)
+          OUT=$(devbox run -- make repo.dev.tag)
           echo "TAG=$(echo ${OUT##* })" >> $GITHUB_ENV
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
