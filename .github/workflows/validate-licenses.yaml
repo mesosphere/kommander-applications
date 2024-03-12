@@ -58,18 +58,20 @@ jobs:
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          git_tag_gpgsign: true
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
       - name: Commit and push changes
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
           git config user.email ci-mergebot@d2iq.com
           git config user.name d2iq-mergebot
+          git config --global user.signingkey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-            git commit -v -m "build: Updated licenses.d2iq.yaml"
+            git commit -S -v -m "build: Updated licenses.d2iq.yaml"
             git push --force-with-lease
           fi
         env:

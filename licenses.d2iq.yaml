@@ -412,7 +412,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v23.6.1
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v23.9.2
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
@@ -422,7 +422,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/gpu-feature-discovery
-  - container_image: nvcr.io/nvidia/gpu-operator:v23.6.1
+  - container_image: nvcr.io/nvidia/gpu-operator:v23.9.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
