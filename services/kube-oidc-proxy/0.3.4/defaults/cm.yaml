@@ -34,7 +34,7 @@ data:
       groupsClaim: groups
       groupsPrefix: "oidc:"
       # This must be set when using custom built image which is based on alpine.
-      caSystemDefaultPath: "/etc/ssl/certs/ca-certificates.crt"
+      caSystemDefaultPath: "/etc/ssl/certs/certs-bundle.crt"
     tokenPassthrough:
       enabled: true
     certIssuerRef:
