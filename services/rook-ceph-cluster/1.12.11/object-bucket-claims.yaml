@@ -1,15 +1,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: rook-ceph-helmrelease
+  name: object-bucket-claims-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: false
+  dependsOn:
+    # CephCluster needs to be active to activate ObjectBucketClaims
+    - name: rook-ceph-cluster-helmrelease
+      namespace: ${releaseNamespace}
+  force: true
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph/1.13.2/helmrelease
+  path: ./services/rook-ceph-cluster/1.12.11/objectbucketclaims
   sourceRef:
     kind: GitRepository
     name: management
@@ -18,6 +22,3 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
