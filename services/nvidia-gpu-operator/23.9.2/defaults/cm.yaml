@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nvidia-gpu-operator-23.6.1-d2iq-defaults
+  name: nvidia-gpu-operator-23.9.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -36,4 +36,4 @@ data:
       # this can cause a mismatch in cuda versions
       # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
       # for more details
-      version: v23.6.1
+      version: v23.9.2
