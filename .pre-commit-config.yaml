@@ -1,45 +1,45 @@
 exclude: common/pkg/gitops/gogit/testdata/repo\.git
 repos:
-- repo: local
-  hooks:
-  - id: check-service-metadata
-    name: Check service metadata exists
-    entry: hack/validate-service-metadata.sh
-    language: system
-    stages: [commit]
-    always_run: true
-    pass_filenames: false
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.0.1
-  hooks:
-  - id: trailing-whitespace
-    stages: [commit]
-  - id: mixed-line-ending
-    args: ["-f", "lf"]
-    exclude: \.bat$
-    stages: [commit]
-  - id: no-commit-to-branch
-    stages: [commit]
-  - id: check-added-large-files
-    stages: [commit]
-  - id: check-case-conflict
-    stages: [commit]
-  - id: check-merge-conflict
-    stages: [commit]
-  - id: check-executables-have-shebangs
-    stages: [commit]
-  - id: check-symlinks
-    stages: [commit]
-  - id: end-of-file-fixer
-    stages: [commit]
-- repo: https://github.com/jumanjihouse/pre-commit-hooks
-  rev: 2.1.5
-  hooks:
-  - id: script-must-have-extension
-    stages: [commit]
-- repo: https://github.com/shellcheck-py/shellcheck-py
-  rev: v0.7.2.1
-  hooks:
-  - id: shellcheck
-    stages: [commit]
-    args: ["-e", "SC2211"]
+  - repo: local
+    hooks:
+    - id: check-service-metadata
+      name: Check service metadata exists
+      entry: hack/validate-service-metadata.sh
+      language: system
+      stages: [commit]
+      always_run: true
+      pass_filenames: false
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+    - id: trailing-whitespace
+      stages: [commit]
+    - id: mixed-line-ending
+      args: ["-f", "lf"]
+      exclude: \.bat$
+      stages: [commit]
+    - id: no-commit-to-branch
+      stages: [commit]
+    - id: check-added-large-files
+      stages: [commit]
+    - id: check-case-conflict
+      stages: [commit]
+    - id: check-merge-conflict
+      stages: [commit]
+    - id: check-executables-have-shebangs
+      stages: [commit]
+    - id: check-symlinks
+      stages: [commit]
+    - id: end-of-file-fixer
+      stages: [commit]
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 2.1.5
+    hooks:
+    - id: script-must-have-extension
+      stages: [commit]
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.7.2.1
+    hooks:
+    - id: shellcheck
+      stages: [commit]
+      args: ["-e", "SC2211"]
