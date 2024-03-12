@@ -22,8 +22,12 @@ function update_flux() {
     check_remote_branch "kommander-applications" "${BRANCH_NAME}"
     git checkout -b "${BRANCH_NAME}"
 
-    asdf install flux2 "${LATEST_FLUX_VERSION}"
-    asdf local flux2 "${LATEST_FLUX_VERSION}"
+    local_flux_version=$(devbox info fluxcd | head -n 1 | cut --delimiter=' ' --fields=2)
+    if [[ "$local_flux_version" == "$LATEST_FLUX_VERSION" ]]; then
+      echo "updating flux to ${local_flux_version}"
+    else
+      echo "flux ${LATEST_FLUX_VERSION} not avilable in devbox, the latest avilable is ${local_flux_version}"
+    fi
 
     mkdir -p "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
     pushd "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"

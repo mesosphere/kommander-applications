@@ -1,17 +1,12 @@
-name: Manifest validation
+name: Flux Update Schedule Check
 on:
-  pull_request:
-    types: [opened, reopened, synchronize, labeled]
-
-  push:
-    branches:
-      - 'main'
-      - 'v*'
+  schedule:
+    - cron:  '0 12 * * SUN'
 
 jobs:
-  manifest-validation:
-    name: Manifest validation
-    if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
+  flux-schedule-check:
+    if: github.ref == 'refs/heads/main'
+    name: Flux Update Schedule Check
     runs-on:
       - self-hosted
       - small
@@ -31,5 +26,7 @@ jobs:
           enable-cache: true
           skip-nix-installation: true
 
-      - name: Run tests
-        run: devbox run -- "GOOS=linux GOARCH=amd64 make validate-manifests"
+      - name: Check for Flux update
+        env:
+          GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+        run: devbox run -- "make KOMMANDER_REPO_PATH=${GITHUB_WORKSPACE}/kommander make flux-update"

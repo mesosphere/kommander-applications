@@ -18,18 +18,26 @@ jobs:
     name: Check licenses.d2iq.yaml
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v24
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.7.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
+
       - name: Generate image list
         run: |
           export PATH=${PWD}/.local/bin:$PATH
-          make install-tool.helm install-tool.go.envsubst install-tool.go.gojq
-          helm plugin install https://github.com/d2iq-labs/helm-list-images
-          ./hack/list-images.sh > images.txt
+          devbox run -- helm plugin install https://github.com/d2iq-labs/helm-list-images
+          devbox run -- ./hack/list-images.sh > images.txt
           echo "printing contents of images.txt"
           cat images.txt
       - name: Update licenses
@@ -47,7 +55,7 @@ jobs:
       - name: Import GPG key
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: crazy-max/ghaction-import-gpg@v4
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           git_tag_gpgsign: true
