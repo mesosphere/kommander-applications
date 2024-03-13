@@ -296,7 +296,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.13.2
+  - container_image: docker.io/rook/ceph:v1.12.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -457,7 +457,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v18.2.1
+  - container_image: quay.io/ceph/ceph:v17.2.6
     sources:
       - license_path: COPYING
         ref: ${image_tag}
