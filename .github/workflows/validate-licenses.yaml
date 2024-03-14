@@ -25,7 +25,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install NIX
-        uses: cachix/install-nix-action@v25
+        uses: cachix/install-nix-action@v26
 
       - name: Install devbox
         uses: jetpack-io/devbox-install-action@v0.8.0
