@@ -10,7 +10,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/gatekeeper/3.14.0-dkp.1/release
+  path: ./services/gatekeeper/3.14.1/release
   sourceRef:
     kind: GitRepository
     name: management
