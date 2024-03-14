@@ -13,27 +13,22 @@ data:
       config:
         # Create a ConfigMap (default: false)
         create: false
-      version: v0.14.1-ubi8
+      version: v0.14.5-ubi8
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.13.1-ubuntu20.04
+      version: v1.14.6-ubuntu20.04
     gfd:
       enabled: true
       version: v0.8.1-ubi8
     dcgm:
       enabled: true
-      version: 3.1.8-1-ubuntu20.04
+      version: 3.3.0-1-ubuntu22.04
     dcgmExporter:
       enabled: true
-      version: 3.1.8-3.1.5-ubuntu20.04
+      version: 3.3.0-3.2.0-ubuntu22.04
     validator:
-      # we are using a newer version of the validator pod that
-      # removes the compat libs from the container
-      # this can cause a mismatch in cuda versions
-      # see: https://github.com/NVIDIA/gpu-operator/issues/389#issuecomment-1215781064
-      # for more details
       version: v23.9.2

@@ -33,7 +33,7 @@ ignore:
   #     - url: https://github.com/NVIDIA/DCGM
   #       ref: ${image_tag}
   #       license_path: LICENSE
-  - nvcr.io/nvidia/cloud-native/dcgm:3.1.8-1-ubuntu20.04
+  - nvcr.io/nvidia/cloud-native/dcgm:3.3.0-1-ubuntu22.04
 
   # Incorrect mapping was provided
   # - container_image: docker.io/bitnami/kubectl:1.19.7
@@ -427,30 +427,30 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.14.1-ubi8
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.14.5-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.13.1-centos7
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubuntu20.04
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-centos7}
+        ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.13.1-ubi8
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.13.1-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-centos7
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu20.04}
+        ref: ${image_tag%-centos7}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.1.8-3.1.5-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.0-3.2.0-ubuntu22.04
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu20.04}
+        ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.14.2
     sources:
