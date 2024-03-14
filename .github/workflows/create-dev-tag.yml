@@ -1,0 +1,70 @@
+name: Create Development Tag
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '5 3 * * *'
+
+env:
+  GOWORK: off
+  GOPRIVATE: github.com/mesosphere
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  create-dev-tag:
+    runs-on:
+    - self-hosted
+    - small
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - main
+          - release-2.5
+          - release-2.6
+          - release-2.7
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+          depth: 0
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v24
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.7.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
+
+      - name: Generate tag
+        run: |
+          # Overriding a variable that causes a conflict in legacy
+          # versions of gh-dkp
+          export GITHUB_REPOSITORY="kommander-applications"
+          OUT=$(devbox run -- make repo.dev.tag)
+          echo "TAG=$(echo ${OUT##* })" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
+      - name: Create tag
+        run: |
+          git config --global user.email "ci-mergebot@d2iq.com"
+          git config --global user.name "ci-mergebot"
+          git tag -m "${{ env.TAG }}" ${{ env.TAG }}
+
+      - name: Push tag
+        run: git push --force --tags origin ${{ env.TAG }}
+
+      - name: Run release workflow
+        uses: benc-uk/workflow-dispatch@v121
+        with:
+          workflow: release.yml
+          ref: ${{ env.TAG }}
