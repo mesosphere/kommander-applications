@@ -28,4 +28,4 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.10.4-d2iq-defaults
+      name: knative-1.10.5-d2iq-defaults
