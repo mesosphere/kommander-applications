@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-1.0.1-d2iq-defaults
+  name: dkp-insights-1.1.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -265,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.0.1
+      tag: v1.1.0
     initdb:
       resources:
         limits:
@@ -279,7 +279,7 @@ data:
         image:
           pullPolicy: IfNotPresent
           repository: aquasec/kube-bench
-          tag: v0.6.10
+          tag: v0.7.2
         nodeSubsets:
           all-nodes:
             defaultSetup: nodes-default
@@ -414,6 +414,7 @@ data:
             cpu: 100m
             memory: 512Mi
       schedule: '@every 35m'
+    kubectlImage: bitnami/kubectl:1.29.2
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
@@ -467,6 +468,7 @@ data:
       baseEvaluationTimeout: 5m
       config:
         checks:
+          automountServiceAccountToken: ignore
           cpuLimitsMissing: warning
           cpuRequestsMissing: warning
           dangerousCapabilities: danger
@@ -476,10 +478,12 @@ data:
           hostPIDSet: danger
           hostPortSet: warning
           insecureCapabilities: warning
+          linuxHardening: ignore
           livenessProbeMissing: warning
           memoryLimitsMissing: warning
           memoryRequestsMissing: warning
           metadataAndNameMismatched: ignore
+          missingNetworkPolicy: ignore
           missingPodDisruptionBudget: ignore
           notReadOnlyRootFilesystem: warning
           pdbDisruptionsIsZero: warning
@@ -489,13 +493,15 @@ data:
           readinessProbeMissing: warning
           runAsPrivileged: danger
           runAsRootAllowed: danger
+          sensitiveConfigmapContent: ignore
+          sensitiveContainerEnvVar: ignore
           tagNotSpecified: danger
           tlsSettingsMissing: warning
       enabled: true
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/polaris
-        tag: "5.1"
+        tag: 7.0.2
       resources:
         limits:
           cpu: 100m
@@ -571,7 +577,7 @@ data:
         enabled: false
         name: dkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.45.1-20231019T024033Z
+        imageFull: mesosphere/trivy-bundles:0.49.1-20240301T193636Z
         pullPolicy: IfNotPresent
       resources:
         limits:
