@@ -15,7 +15,7 @@ ignore:
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
   - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
-  - docker.io/mesosphere/trivy-bundles:0.45.1-20231019T024033Z
+  - docker.io/mesosphere/trivy-bundles:0.49.1-20240301T193636Z
   - gcr.io/google_containers/pause:3.2
 
   # Fossa cannot scan and parse gemfile provided by the fluend project
@@ -73,7 +73,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/aquasec/kube-bench:v0.6.10
+  - container_image: docker.io/aquasec/kube-bench:v0.7.2
     sources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
@@ -202,11 +202,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy.1}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v1.0.1
+  - container_image: docker.io/mesosphere/insights-management:v1.1.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.0.1
+  - container_image: docker.io/mesosphere/insights:v1.1.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -472,10 +472,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/FairwindsOps/pluto
-  - container_image: quay.io/fairwinds/polaris:5.1
+  - container_image: quay.io/fairwinds/polaris:7.0.2
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}.0
+        ref: ${image_tag}
         url: https://github.com/FairwindsOps/polaris
   - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.2
     sources:
