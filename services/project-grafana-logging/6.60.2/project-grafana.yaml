@@ -23,5 +23,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-logging-6.60.1-d2iq-defaults
+      name: project-grafana-logging-6.60.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
