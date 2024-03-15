@@ -475,7 +475,7 @@ resources:
   - container_image: quay.io/fairwinds/polaris:7.0.2
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}.0
+        ref: ${image_tag}
         url: https://github.com/FairwindsOps/polaris
   - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.2
     sources:
