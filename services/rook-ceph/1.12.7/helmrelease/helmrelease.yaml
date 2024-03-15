@@ -25,5 +25,5 @@ spec:
   releaseName: rook-ceph
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-1.12.6-d2iq-defaults
+      name: rook-ceph-1.12.7-d2iq-defaults
   targetNamespace: ${releaseNamespace}
