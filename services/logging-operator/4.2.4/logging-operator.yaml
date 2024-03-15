@@ -25,4 +25,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-4.2.3-d2iq-defaults
+      name: logging-operator-4.2.4-d2iq-defaults

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-4.2.3-d2iq-defaults
+  name: logging-operator-4.2.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -27,7 +27,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-4.2.3-d2iq-defaults
+  name: logging-operator-logging-4.2.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
