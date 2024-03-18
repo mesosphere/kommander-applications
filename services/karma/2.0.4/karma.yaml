@@ -1,0 +1,107 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: karma
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: karma-traefik
+  chart:
+    spec:
+      chart: karma
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: 2.0.2
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: karma
+  valuesFrom:
+    - kind: ConfigMap
+      name: karma-2.0.4-d2iq-defaults
+  targetNamespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-karma-view
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/karma
+      - /dkp/kommander/monitoring/karma/*
+    verbs:
+      - get
+      - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-karma-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/karma
+      - /dkp/kommander/monitoring/karma/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-karma-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/kommander/monitoring/karma
+      - /dkp/kommander/monitoring/karma/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: karma-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "karma"
+data:
+  name: "Karma"
+  dashboardLink: "/dkp/kommander/monitoring/karma"
+  docsLink: "https://github.com/prymitive/karma"
+  # We override karma image:
+  # https://github.com/mesosphere/kommander-applications/blob/main/services/karma/2.0.3/defaults/cm.yaml#L14
+  version: "0.88"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kommander-karma-client-cert
+  namespace: ${releaseNamespace}
+  annotations:
+    "helm.sh/hook": pre-install
+spec:
+  commonName: client.karma.localhost.localdomain
+  duration: 87600h
+  dnsNames:
+    - client.karma.localhost.localdomain
+  subject:
+    organizations:
+      - Nutanix
+  secretName: kommander-karma-client-tls
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer

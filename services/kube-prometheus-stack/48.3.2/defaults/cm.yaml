@@ -1,0 +1,470 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-prometheus-stack-48.3.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    commonLabels:
+      prometheus.kommander.d2iq.io/select: "true"
+    prometheusOperator:
+      priorityClassName: "dkp-critical-priority"
+      logLevel: warn
+      tls:
+        tlsMinVersion: VersionTLS12
+      admissionWebhooks:
+        patch:
+          priorityClassName: "dkp-critical-priority"
+          image:
+            # Set SHA to empty so airgapped deployments work out of box.
+            sha: ""
+    mesosphereResources:
+      create: true
+      hooks:
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
+      rules:
+        # addon alert rules are defaulted to false to prevent potential misfires if addons
+        # are disabled.
+        velero: false
+    prometheus:
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        paths:
+          - /dkp/prometheus
+        pathType: ImplementationSpecific
+      service:
+        additionalPorts:
+          # Service port for Thanos gRPC.
+          - name: grpc
+            port: 10901
+            targetPort: grpc
+      additionalServiceMonitors:
+        # **NOTE** Any changes here need to be copied to kube-prometheus-stack-overrides.yaml
+        # https://github.com/mesosphere/kommander-cli/blob/main/pkg/installer/config/manifests/kube-prometheus-stack/overrides.yaml
+        # This is because arrays in values are replaced, not appended.
+        - name: dkp-service-monitor-metrics
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "metrics"
+          namespaceSelector:
+            any: true
+          endpoints:
+            - port: metrics
+              interval: 30s
+            - port: monitoring
+              interval: 30s
+            # Service port for grafana-logging
+            - port: service
+              interval: 30s
+            # Service port for external-dns
+            - targetPort: 7979
+              interval: 30s
+        - name: dkp-service-monitor-metrics-http
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "metrics"
+              servicemonitor.kommander.mesosphere.io/port: "http"
+          namespaceSelector:
+            any: true
+          endpoints:
+            # Service ports for loki-distributed
+            - targetPort: http
+              interval: 30s
+        - name: dkp-service-monitor-api-v1-metrics-prometheus
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
+          namespaceSelector:
+            any: true
+          endpoints:
+            - path: /api/v1/metrics/prometheus
+              port: metrics
+              interval: 30s
+        - name: dkp-service-monitor-api-v1-metrics-prometheus-http-10s
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "api__v1__metrics__prometheus"
+              servicemonitor.kommander.mesosphere.io/port: "http"
+              servicemonitor.kommander.mesosphere.io/interval: "10s"
+          namespaceSelector:
+            any: true
+          endpoints:
+            - path: /api/v1/metrics/prometheus
+              port: http
+              interval: 10s
+        - name: dkp-service-monitor-prometheus-metrics
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "prometheus__metrics"
+          namespaceSelector:
+            any: true
+          endpoints:
+            - path: /_prometheus/metrics
+              targetPort: 5601
+              interval: 30s
+        - name: dkp-service-monitor-etcd-metrics
+          selector:
+            matchLabels:
+              app: etcd-metrics-proxy
+          namespaceSelector:
+            any: true
+          endpoints:
+            - port: https
+              scheme: https
+              bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              tlsConfig:
+                insecureSkipVerify: true
+              relabelings:
+                - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+                  targetLabel: instance
+                - sourceLabels: [ __meta_kubernetes_pod_node_name ]
+                  targetLabel: pod
+                  replacement: etcd-$1
+        # - name: dkp-service-monitor-metrics-defaultstorageclass
+        #   selector:
+        #     matchLabels:
+        #       servicemonitor.kommander.mesosphere.io/path: "metrics"
+        #       kubeaddons.mesosphere.io/name: "defaultstorageclass"
+        #   namespaceSelector:
+        #     any: true
+        #   endpoints:
+        #     - port: https
+        #       interval: 30s
+        #       scheme: https
+        #       bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        #       tlsConfig:
+        #         caFile: "/etc/prometheus/secrets/dstorageclass-webhook-server-cert/ca.crt"
+        #         certFile: "/etc/prometheus/secrets/dstorageclass-webhook-server-cert/tls.crt"
+        #         keyFile: "/etc/prometheus/secrets/dstorageclass-webhook-server-cert/tls.key"
+        #         insecureSkipVerify: true
+      additionalPodMonitors:
+        - name: flux-system
+          podMetricsEndpoints:
+            - port: http-prom
+          namespaceSelector:
+            matchNames:
+              - ${releaseNamespace}
+          selector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - helm-controller
+                  - source-controller
+                  - kustomize-controller
+                  - notification-controller
+                  - image-automation-controller
+                  - image-reflector-controller
+      prometheusSpec:
+        priorityClassName: "dkp-critical-priority"
+        logLevel: warn
+        serviceMonitorNamespaceSelector: {}  # all namespaces
+        serviceMonitorSelector:
+          matchLabels:
+            prometheus.kommander.d2iq.io/select: "true"
+        podMonitorNamespaceSelector: {}  # all namespaces
+        podMonitorSelector:
+          matchLabels:
+            prometheus.kommander.d2iq.io/select: "true"
+        thanos:
+          version: v0.30.1
+        externalLabels:
+          cluster: $(CLUSTER_ID)
+        containers:
+          - name: config-reloader
+            envFrom:
+            - configMapRef:
+                name: cluster-info-configmap
+        initContainers:
+          - name: init-config-reloader
+            envFrom:
+            - configMapRef:
+                name: cluster-info-configmap
+        additionalScrapeConfigs:
+          # Kubernetes pods
+          - job_name: 'kubernetes-pods'
+            kubernetes_sd_configs:
+            - role: pod
+            relabel_configs:
+            - action: keep
+              regex: true
+              source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+            - action: replace
+              regex: (.+)
+              source_labels:
+              - __meta_kubernetes_pod_annotation_prometheus_io_path
+              target_label: __metrics_path__
+            - action: replace
+              regex: ([^:]+)(?::\d+)?;(\d+)
+              replacement: $${1}:$${2}
+              source_labels:
+              - __address__
+              - __meta_kubernetes_pod_annotation_prometheus_io_port
+              target_label: __address__
+            - action: labelmap
+              regex: __meta_kubernetes_pod_label_(.+)
+            - action: replace
+              source_labels:
+              - __meta_kubernetes_namespace
+              target_label: namespace
+            - action: replace
+              source_labels:
+              - __meta_kubernetes_pod_name
+              target_label: pod
+          - job_name: 'gpu_metrics'
+            metrics_path: /metrics
+            tls_config:
+              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+            kubernetes_sd_configs:
+              - role: node
+            relabel_configs:
+              - source_labels: [__address__]
+                regex: '(.*):10250'
+                replacement: '$${1}:9400'
+                target_label: __address__
+              - source_labels: [__meta_kubernetes_node_labelpresent_nvidia_com_gpu_count]
+                regex: true
+                action: keep
+          - job_name: 'kubernetes-calico-node'
+            metrics_path: /metrics
+            tls_config:
+              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+            kubernetes_sd_configs:
+              - role: pod
+                namespaces:
+                  names:
+                  - kube-system
+            relabel_configs:
+            - source_labels: [__meta_kubernetes_pod_label_k8s_app]
+              regex: calico-node
+              action: keep
+            - source_labels: [__meta_kubernetes_pod_container_port_name]
+              regex: .*metrics
+              action: keep
+            - source_labels: [__meta_kubernetes_pod_label_k8s_app]
+              target_label: name
+              action: replace
+            - source_labels: [__meta_kubernetes_pod_container_port_name]
+              target_label: endpoint
+              action: replace
+            - source_labels: [__meta_kubernetes_pod_node_name]
+              target_label: node
+              action: replace
+            - source_labels: [__meta_kubernetes_pod_name]
+              target_label: pod
+              action: replace
+            - source_labels: [__meta_kubernetes_namespace]
+              target_label: namespace
+              action: replace
+        enableAdminAPI: true
+        walCompression: true
+        # secrets:
+          # - etcd-certs
+          # - dex
+          # - dstorageclass-webhook-server-cert
+        externalUrl: "/dkp/prometheus"
+        storageSpec:
+          volumeClaimTemplate:
+            metadata:
+              name: db
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              # 100Gi is the default size for the chart
+              resources:
+                requests:
+                  storage: 100Gi
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 10922Mi
+          requests:
+            cpu: 1000m
+            memory: 4000Mi
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    alertmanager:
+      enabled: true
+      config:
+        global:
+          resolve_timeout: 5m
+        inhibit_rules: []
+        route:
+          group_by: ['namespace']
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 12h
+          receiver: 'null'
+          routes:
+          - receiver: 'null'
+            matchers:
+              - alertname =~ "InfoInhibitor|Watchdog"
+              - resourcequota = "one-kommandercluster-per-kommander-workspace"
+        receivers:
+        - name: 'null'
+        templates:
+        - '/etc/alertmanager/config/*.tmpl'
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        paths:
+          - /dkp/alertmanager
+        pathType: ImplementationSpecific
+      alertmanagerSpec:
+        priorityClassName: "dkp-critical-priority"
+        logLevel: warn
+        resources:
+          limits:
+            cpu: 200m
+            memory: 250Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+    grafana:
+      enabled: true
+      image:
+        tag: 10.3.3
+      defaultDashboardsEnabled: true
+      priorityClassName: "dkp-critical-priority"
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
+        path: "/dkp/grafana/metrics"
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        hosts: [""]
+        path: /dkp/grafana
+        pathType: ImplementationSpecific
+      sidecar:
+        image:
+          repository: kiwigrid/k8s-sidecar
+          tag: 1.25.3
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          skipReload: true
+          initDatasources: true
+          searchNamespace: ALL
+        resources:
+          limits:
+            cpu: 150m
+            memory: 100Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
+      grafana.ini:
+        log:
+          level: warn
+        server:
+          protocol: http
+          enable_gzip: true
+          root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/grafana"
+          serve_from_sub_path: true
+        auth.proxy:
+          enabled: true
+          header_name: X-Forwarded-User
+          auto-sign-up: true
+        auth.basic:
+          enabled: false
+        users:
+          auto_assign_org_role: Admin
+        plugins:
+          allow_loading_unsigned_plugins: "grafana-piechart-panel"
+        dashboards:
+          default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
+        analytics:
+          reporting_enabled: false
+          check_for_updates: false
+
+      service:
+        type: ClusterIP
+        port: 3000
+      resources:
+        # keep request = limit to keep this container in guaranteed class
+        limits:
+          cpu: 300m
+          memory: 250Mi
+        requests:
+          cpu: 300m
+          memory: 250Mi
+      readinessProbe:
+        httpGet:
+          path: /api/health
+          port: 3000
+          scheme: HTTP
+      livenessProbe:
+        httpGet:
+          path: /api/health
+          port: 3000
+          scheme: HTTP
+        initialDelaySeconds: 60
+        timeoutSeconds: 30
+        failureThreshold: 10
+      rbac:
+        pspUseAppArmor: false
+      # to avoid needing to download any plugins at runtime, use a container and a shared volume
+      # do not enable the plugins here, instead rebuild the mesosphere/grafana-plugins image with the new plugins
+      plugins: []
+      #  - grafana-piechart-panel
+      extraEmptyDirMounts:
+        - name: plugins
+          mountPath: /var/lib/grafana/plugins/
+      extraInitContainers:
+        - name: grafana-plugins-install
+          image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
+          command: ["/bin/sh", "-c", "cp -a /var/lib/grafana/plugins/. /var/lib/grafana/shared-plugins/"]
+          volumeMounts:
+          - name: plugins
+            mountPath: /var/lib/grafana/shared-plugins/
+    kubeEtcd:
+      # enable grafana dashboard for etcd
+      enabled: true
+      # kubeEtcd Service and ServiceMonitor are disabled, etcd metrics are handled by 'etcd-metrics-proxy' component
+      service:
+        enabled: false
+      serviceMonitor:
+        enabled: false
+    nodeExporter:
+      enabled: true
+    kube-state-metrics:
+      priorityClassName: "dkp-critical-priority"
+      metricLabelsAllowlist:
+        - pods=[*]
+        - namespaces=[*]
+      prometheus:
+        monitor:
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"
+    prometheus-node-exporter:
+      priorityClassName: "dkp-critical-priority"
+      prometheus:
+        monitor:
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"
+          relabelings:
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+            - __meta_kubernetes_pod_node_name
+            targetLabel: node

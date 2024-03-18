@@ -1,0 +1,159 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: centralized-grafana-48.3.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    fullnameOverride: "centralized-grafana"
+    mesosphereResources:
+      create: false
+      ingressRBAC:
+        enabled: true
+    grafana:
+      enabled: true
+      image:
+        tag: 10.3.3
+      defaultDashboardsEnabled: true
+      priorityClassName: "dkp-critical-priority"
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
+        path: "/dkp/kommander/monitoring/grafana/metrics"
+      sidecar:
+        image:
+          repository: kiwigrid/k8s-sidecar
+          tag: 1.25.3
+        dashboards:
+          enabled: true
+          # label that the configmaps with dashboards are marked with
+          label: grafana_dashboard_kommander
+          multicluster:
+            global:
+              enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          defaultDatasourceEnabled: false
+          # label that the configmaps with datasources are marked with
+          label: grafana_datasource_kommander
+          searchNamespace: ALL
+          skipReload: true
+          initDatasources: true
+      annotations:
+        configmap.reloader.stakater.com/reload: "centralized-kubecost-grafana-datasource"
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        hosts: [""]
+        path: /dkp/kommander/monitoring/grafana
+        pathType: ImplementationSpecific
+
+      grafana.ini:
+        log:
+          level: warn
+        server:
+          protocol: http
+          enable_gzip: true
+          root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/kommander/monitoring/grafana"
+          serve_from_sub_path: true
+        auth.proxy:
+          enabled: true
+          header_name: X-Forwarded-User
+          auto-sign-up: true
+        auth.basic:
+          enabled: false
+        users:
+          auto_assign_org_role: Admin
+        plugins:
+          allow_loading_unsigned_plugins: "grafana-piechart-panel"
+        dashboards:
+          default_home_dashboard_path: "/tmp/dashboards/global-overview.json"
+        analytics:
+          reporting_enabled: false
+          check_for_updates: false
+
+      datasources:
+        datasources.yaml:
+          apiVersion: 1
+          datasources:
+            - name: ThanosQuery
+              type: prometheus
+              url: http://thanos-query.${releaseNamespace}:10902/
+              access: proxy
+              isDefault: true
+            - name: KommanderPrometheus
+              type: prometheus
+              url: http://kube-prometheus-stack-prometheus.${releaseNamespace}:9090/
+              access: proxy
+              isDefault: false
+
+      service:
+        type: ClusterIP
+        port: 80
+      resources:
+        # keep request = limit to keep this container in guaranteed class
+        limits:
+          cpu: 300m
+          memory: 100Mi
+        requests:
+          cpu: 200m
+          memory: 100Mi
+
+      rbac:
+        pspUseAppArmor: false
+        pspEnabled: false
+
+      # to avoid needing to download any plugins at runtime, use a container and a shared volume
+      # do not enable the plugins here, instead rebuild the mesosphere/grafana-plugins image with the new plugins
+      plugins: []
+      #  - grafana-piechart-panel
+      extraEmptyDirMounts:
+        - name: plugins
+          mountPath: /var/lib/grafana/plugins/
+      extraInitContainers:
+        - name: grafana-plugins-install
+          image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
+          command: ["/bin/sh", "-c", "cp -a /var/lib/grafana/plugins/. /var/lib/grafana/shared-plugins/"]
+          volumeMounts:
+          - name: plugins
+            mountPath: /var/lib/grafana/shared-plugins/
+
+    # Disable everything else
+    defaultRules:
+      create: false
+    global:
+      rbac:
+        create: false
+        pspEnabled: false
+    alertmanager:
+     enabled: false
+    prometheus:
+     enabled: false
+    kubeApiServer:
+      enabled: false
+    kubelet:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    coreDns:
+      enabled: false
+    kubeDns:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    kubeStateMetrics:
+      enabled: false
+    nodeExporter:
+      enabled: false
+    prometheusOperator:
+      enabled: false

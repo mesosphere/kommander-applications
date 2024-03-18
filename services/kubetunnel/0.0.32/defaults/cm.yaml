@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubetunnel-0.0.32-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    priorityClassName: "dkp-critical-priority"
+    attached:
+      priorityClassName: "system-cluster-critical"
+    serviceMonitor:
+      enabled: false
+    issuer:
+      name: tunnel
+      selfSigned: true
+    hooks:
+      kubectlImage:
+        repository: "${kubetoolsImageRepository:=bitnami/kubectl}"
+        tag: "${kubetoolsImageTag:=1.29.2}"
+    controller:
+      manager:
+        resources:
+          limits:
+            cpu: 300m
+            memory: 300Mi
+          requests:
+            cpu: 100m
+            memory: 150Mi
