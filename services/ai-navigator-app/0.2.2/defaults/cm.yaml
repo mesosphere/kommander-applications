@@ -5,6 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    priorityClassName: dkp-high-priority
     # api.enabled enables the collector service as a whole - will not install anything if set to false
     api:
       enabled: true
@@ -30,6 +31,7 @@ data:
     # Default values for subcharts
     weaviate:
       enabled: true
+      globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
       image:
@@ -48,6 +50,10 @@ data:
         size: 5Gi
 
     postgresql:
+      primary:
+        priorityClassName: dkp-high-priority
+      readReplicas:
+        priorityClassName: dkp-high-priority
       enabled: true
       image:
         tag: 15.2.0-debian-11-r21
