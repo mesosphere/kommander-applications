@@ -64,7 +64,7 @@ jobs:
         run: git push --force --tags origin ${{ env.TAG }}
 
       - name: Run release workflow
-        uses: benc-uk/workflow-dispatch@v121
+        uses: benc-uk/workflow-dispatch@v1.2.3
         with:
           workflow: release.yml
           ref: ${{ env.TAG }}
