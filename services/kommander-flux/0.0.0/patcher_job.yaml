@@ -1,0 +1,72 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: limited-scope-flux-patch
+  namespace: kommander-flux
+secrets:
+  - name: limited-scope-flux-patch
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: limited-scope-flux-patch
+  namespace: kommander-flux
+  annotations:
+    kubernetes.io/service-account.name: limited-scope-flux-patch
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: limited-scope-flux-patch
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: limited-scope-flux-patch
+    namespace: kommander-flux
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: limited-scope-flux-patch
+  namespace: kommander-flux
+spec:
+  # Increase or Decrease the frequency as desirable.
+  schedule: "*/10 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: limited-scope-flux-patch
+          containers:
+            - name: limited-scope-flux-patch
+              image: mesosphere/kommander2-kubetools:v2.7.0-amd64
+              command: ["/bin/scripts/patch.sh"]
+              args: ["label_dkp_flux_resources", "limit_bigbang_flux_scope", "limit_dkp_flux_scope"]
+              volumeMounts:
+                - name: limited-scope-flux-patch
+                  mountPath: /bin/scripts
+              env:
+                - name: DKP_NAMESPACES
+                  value: "kommander-flux,TBD_WORKSPACE_NAMESPACE,TBD_PROJECT_NAMESPACE1,TBD_PROJECT_NAMESPACE2"
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+                seccompProfile:
+                  type: RuntimeDefault
+          volumes:
+            - name: limited-scope-flux-patch
+              configMap:
+                defaultMode: 0770
+                name: limited-scope-flux-patch
+          restartPolicy: OnFailure
+---
