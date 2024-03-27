@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-cluster-info-agent-0.1.0-d2iq-defaults
+  name: ai-navigator-cluster-info-agent-0.1.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -26,6 +26,7 @@ data:
     nameOverride: ""
     fullnameOverride: ""
 
+    priorityClassName: dkp-high-priority
     serviceAccount:
       # Specifies whether a service account should be created
       create: true
