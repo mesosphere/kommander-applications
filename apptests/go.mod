@@ -2,8 +2,6 @@ module github.com/mesosphere/kommander-applications/apptests
 
 go 1.21
 
-toolchain go1.21.6
-
 require (
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/flux2/v2 v2.2.3
