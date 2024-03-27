@@ -1,6 +1,8 @@
 module github.com/mesosphere/kommander-applications/apptests
 
-go 1.20
+go 1.21
+
+toolchain go1.21.6
 
 require (
 	github.com/drone/envsubst v1.0.3
@@ -19,6 +21,7 @@ require (
 	k8s.io/apimachinery v0.29.2
 	k8s.io/cli-runtime v0.29.2
 	k8s.io/client-go v0.29.2
+	k8s.io/klog/v2 v2.110.1
 	sigs.k8s.io/cli-utils v0.35.0
 	sigs.k8s.io/controller-runtime v0.17.2
 	sigs.k8s.io/kind v0.22.0
@@ -111,7 +114,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/component-base v0.29.2 // indirect
-	k8s.io/klog/v2 v2.110.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20231206194836-bf4651e18aa8 // indirect
 	k8s.io/kubectl v0.28.6 // indirect
 	k8s.io/utils v0.0.0-20231127182322-b307cd553661 // indirect
