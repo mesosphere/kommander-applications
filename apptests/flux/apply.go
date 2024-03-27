@@ -13,13 +13,15 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/rest"
-	"sigs.k8s.io/cli-utils/pkg/kstatus/polling"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/kustomize/api/konfig"
 
+	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/fluxcd/pkg/ssa"
+	"github.com/fluxcd/pkg/ssa/normalize"
+	ssautils "github.com/fluxcd/pkg/ssa/utils"
 
 	helmv2 "github.com/fluxcd/helm-controller/api/v2beta1"
 	imageautov1 "github.com/fluxcd/image-automation-controller/api/v1beta1"
@@ -49,7 +51,7 @@ func Apply(ctx context.Context, rcg genericclioptions.RESTClientGetter, opts *ru
 		return "", fmt.Errorf("no Kubernetes objects found at: %s", manifestPath)
 	}
 
-	if err := ssa.SetNativeKindsDefaults(objs); err != nil {
+	if err := normalize.UnstructuredList(objs); err != nil {
 		return "", err
 	}
 
@@ -62,7 +64,7 @@ func Apply(ctx context.Context, rcg genericclioptions.RESTClientGetter, opts *ru
 	var stageTwo []*unstructured.Unstructured
 
 	for _, u := range objs {
-		if ssa.IsClusterDefinition(u) {
+		if ssautils.IsClusterDefinition(u) {
 			stageOne = append(stageOne, u)
 		} else {
 			stageTwo = append(stageTwo, u)
@@ -106,7 +108,7 @@ func readObjects(root, manifestPath string) ([]*unstructured.Unstructured, error
 		if err != nil {
 			return nil, err
 		}
-		return ssa.ReadObjects(bytes.NewReader(resources))
+		return ssautils.ReadObjects(bytes.NewReader(resources))
 	}
 
 	ms, err := os.Open(manifestPath)
@@ -115,7 +117,7 @@ func readObjects(root, manifestPath string) ([]*unstructured.Unstructured, error
 	}
 	defer ms.Close()
 
-	return ssa.ReadObjects(bufio.NewReader(ms))
+	return ssautils.ReadObjects(bufio.NewReader(ms))
 }
 
 func newManager(rcg genericclioptions.RESTClientGetter, opts *runclient.Options) (*ssa.ResourceManager, error) {
