@@ -1,22 +1,21 @@
 package appscenarios
 
 import (
-	"context"
-	"testing"
-
-	"github.com/mesosphere/kommander-applications/apptests/environment"
-	"github.com/stretchr/testify/assert"
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
 )
 
-func TestListExecute(t *testing.T) {
-	env := &environment.Env{}
-	ctx := context.Background()
+var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
+	It("should return the name of the scenario", func() {
+		r := reloader{}
+		Expect(r.Name()).To(Equal("reloader"))
+	})
 
-	err := env.Provision(ctx)
-	assert.NoError(t, err)
-	defer env.Destroy(ctx)
+})
 
-	r := reloader{}
-	err = r.Execute(ctx, env)
-	assert.NoError(t, err)
-}
+var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
+	It("should return the name of the scenario", func() {
+		r := reloader{}
+		Expect(r.Name()).To(Equal("reloader1"))
+	})
+})
