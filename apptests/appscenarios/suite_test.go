@@ -2,16 +2,19 @@ package appscenarios
 
 import (
 	"context"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"testing"
 
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 var (
-	env *environment.Env
-	ctx context.Context
+	env       *environment.Env
+	ctx       context.Context
+	k8sClient genericClient.Client
 )
 
 var _ = BeforeSuite(func() {
@@ -20,6 +23,10 @@ var _ = BeforeSuite(func() {
 
 	err := env.Provision(ctx)
 	Expect(err).ToNot(HaveOccurred())
+
+	k8sClient, err = genericClient.New(env.K8sClient.Config(), genericClient.Options{Scheme: flux.NewScheme()})
+	Expect(k8sClient).ToNot(BeNil())
+	Expect(err).To(BeNil())
 })
 
 var _ = AfterSuite(func() {

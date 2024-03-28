@@ -18,16 +18,16 @@ import (
 
 // AppScenario defines the behavior and name of an application test scenario
 type AppScenario interface {
-	Execute(context.Context, *environment.Env) error // logic implemented by a scenario
+	Install(context.Context, *environment.Env) error // logic implemented by a scenario
 	Name() string                                    // scenario name
 }
 
 type List map[string]AppScenario
 
-// Execute runs all the scenarios in the list and returns the first error encountered, if any.
-func (s List) Execute(ctx context.Context, env *environment.Env) error {
+// Install runs all the scenarios in the list and returns the first error encountered, if any.
+func (s List) Install(ctx context.Context, env *environment.Env) error {
 	for _, sc := range s {
-		if err := sc.Execute(ctx, env); err != nil {
+		if err := sc.Install(ctx, env); err != nil {
 			return err
 		}
 	}
