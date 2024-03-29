@@ -1,6 +1,8 @@
 module github.com/mesosphere/kommander-applications/magefiles
 
-go 1.20
+go 1.21
+
+toolchain go1.21.6
 
 replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
 

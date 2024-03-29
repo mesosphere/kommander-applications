@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: test-certificate
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: test-certificate
+  secretName: test-certificate
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
+    group: cert-manager.io

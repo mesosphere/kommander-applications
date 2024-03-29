@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/drone/envsubst"
 	"io"
 	"os"
 	"path/filepath"
@@ -251,4 +252,80 @@ func absolutePathToBase() (string, error) {
 	}
 
 	return filepath.Join(wd, base, "common", "base"), nil
+}
+
+// ApplyYAML applies the YAML manifests located in the given directory.
+func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[string]string) error {
+	log.SetLogger(klog.NewKlogr())
+
+	if path == "" {
+		return fmt.Errorf("requirement argument: path is not specified")
+	}
+
+	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	if err != nil {
+		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
+	}
+
+	// Loop through the files in the specified directory and apply the YAML files to the cluster
+	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+
+		err = applyYAMLFile(ctx, genericClient, path, substitutions)
+		if err != nil {
+			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
+		}
+
+		return nil
+
+	})
+	if err != nil {
+		return fmt.Errorf("could not walk the path: %s :%w", path, err)
+	}
+
+	return nil
+}
+
+// applyYAMLFile applies the YAML file located in the given path.
+func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string) error {
+	// Read and decode the YAML file specified in the path
+	out, err := os.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("could not read the YAML file for path: %s :%w", path, err)
+	}
+
+	// Substitute the environment variables in the YAML file
+	yml, err := envsubst.Eval(string(out), func(s string) string {
+		return substitutions[s]
+	})
+	if err != nil {
+		return err
+	}
+
+	// Decode the YAML file
+	buf := bytes.NewBuffer([]byte(yml))
+	dec := yaml.NewYAMLOrJSONDecoder(buf, 1<<20) // default buffer size is 1MB
+
+	// Loop through the resources in the YAML file and apply them to the cluster
+	for {
+		var obj unstructured.Unstructured
+		err = dec.Decode(&obj)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return fmt.Errorf("could not decode yaml for path: %s :%w", path, err)
+		}
+
+		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		if err != nil {
+			return fmt.Errorf("could not patch the resources for path: %s :%w", path, err)
+		}
+	}
+
+	return nil
 }

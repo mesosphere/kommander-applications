@@ -15,7 +15,7 @@ type Cluster struct {
 	name               string
 }
 
-const defaultClusterName = "kind"
+const defaultClusterName = "kommanderapptest"
 
 // CreateCluster creates a new kind cluster with the given name.
 func CreateCluster(ctx context.Context, name string) (*Cluster, error) {

@@ -2,10 +2,8 @@ package appscenarios
 
 import (
 	"context"
-	"path/filepath"
-	"time"
-
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"path/filepath"
 )
 
 type reloader struct{}
@@ -15,12 +13,6 @@ func (r reloader) Name() string {
 }
 
 var _ AppScenario = (*reloader)(nil)
-
-const (
-	pollInterval           = 2 * time.Second
-	kommanderNamespace     = "kommander"
-	kommanderFluxNamespace = "kommander-flux"
-)
 
 func (r reloader) Install(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo(r.Name())
