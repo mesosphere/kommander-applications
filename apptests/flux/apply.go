@@ -23,7 +23,7 @@ import (
 	"github.com/fluxcd/pkg/ssa/normalize"
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
 
-	helmv2 "github.com/fluxcd/helm-controller/api/v2beta1"
+	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	imageautov1 "github.com/fluxcd/image-automation-controller/api/v1beta1"
 	imagereflectv1 "github.com/fluxcd/image-reflector-controller/api/v1beta2"
 	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
@@ -153,7 +153,7 @@ func NewScheme() *apiruntime.Scheme {
 	_ = sourcev1b2.AddToScheme(scheme)
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
-	_ = helmv2.AddToScheme(scheme)
+	_ = helmv2b2.AddToScheme(scheme)
 	_ = notificationv1.AddToScheme(scheme)
 	_ = notificationv1b2.AddToScheme(scheme)
 	_ = imagereflectv1.AddToScheme(scheme)

@@ -2,12 +2,13 @@ package appscenarios
 
 import (
 	"context"
-	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"testing"
 
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
