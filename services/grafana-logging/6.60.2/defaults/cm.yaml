@@ -72,10 +72,10 @@ data:
       # keep request = limit to keep this container in guaranteed class
       limits:
         cpu: 300m
-        memory: 100Mi
+        memory: 200Mi
       requests:
         cpu: 200m
-        memory: 100Mi
+        memory: 200Mi
 
     readinessProbe:
       httpGet:
