@@ -131,6 +131,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		configMap.Data["nginx.conf"] = string(nginxNewConf)
 		err = k8sClient.Update(ctx, configMap)
 		Expect(err).To(BeNil())
+		time.Sleep(1 * time.Second)
 
 		// check if the deployment is updated and in a broken state
 		Consistently(func() error {
@@ -144,14 +145,13 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 				return nil
 			}
 			return fmt.Errorf("expected the deployment in a broken state")
-		}, "5s").WithOffset(2).WithPolling(pollInterval).Should(Succeed())
+		}, "5s").WithPolling(pollInterval).Should(Succeed())
 	})
 
 })
 
 var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
 	It("should return the name of the scenario", func() {
-		r := reloader{}
-		Expect(r.Name()).To(Equal("reloader"))
+		Fail("not implemented")
 	})
 })
