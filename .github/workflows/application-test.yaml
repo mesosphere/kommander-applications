@@ -1,0 +1,43 @@
+name: Application Specific Test
+on:
+  pull_request:
+    types: [synchronize, labeled]
+
+jobs:
+  setup:
+    name: Run Application Install Tests
+    runs-on:
+      - ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'apptests/go.mod'
+
+      - name: Install Ginkgo
+        working-directory: apptests
+        run: go install github.com/onsi/ginkgo/v2/ginkgo
+
+      - name: Run Ginkgo Install Tests
+        working-directory: apptests
+        run: |
+          # Extract labels from the pull request event payload
+          PR_LABELS=$(echo "${{ toJson(github.event.pull_request.labels) }}" | jq -r '.[].name')
+          KAPP_NAME=""
+          for label in $PR_LABELS; do
+            if [[ "$label" == "services/"* ]]; then
+              KAPP_NAME=$(echo "$label" | cut -d '/' -f 2)
+              break
+            fi
+          done
+
+          if [ -z "$KAPP_NAME" ]; then
+            echo "No service label found in the pull request"
+            exit 1
+          fi
+
+          ginkgo --label-filter="install && $KAPP_NAME" appscenarios
