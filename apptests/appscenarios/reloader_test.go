@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -13,6 +14,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/yaml"
 )
 
 var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
@@ -81,12 +83,68 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		Expect(reloaderContainer.Resources.Limits.Cpu().String()).To(Equal("100m"))
 		Expect(reloaderContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
 	})
-	// Test reloads a simple test application appropriately
+
 	It("should reload the application", func() {
-		// deploy a CM
-		// deploy a deployment that use CM as env var
-		// update the secret
-		// check if the deployment is updated
+		// create a configmap with the old nginx config
+		nginxOldConf, err := os.ReadFile("testdata/nginx-old.conf")
+		Expect(err).To(BeNil())
+		configMap := &corev1.ConfigMap{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "nginx-config",
+				Namespace: kommanderNamespace,
+			},
+			Data: map[string]string{
+				"nginx.conf": string(nginxOldConf),
+			},
+		}
+		err = k8sClient.Create(ctx, configMap)
+		Expect(err).To(BeNil())
+
+		// deploy the nginx deployment
+		deploymentYAML, err := os.ReadFile("testdata/nginx.yaml")
+		nginxDeployment := &appsv1.Deployment{}
+		err = yaml.Unmarshal(deploymentYAML, nginxDeployment)
+		nginxDeployment.SetNamespace(kommanderNamespace)
+		nginxDeployment.SetAnnotations(map[string]string{
+			"configmap.reloader.stakater.com/reload": configMap.GetName(),
+		})
+		err = k8sClient.Create(ctx, nginxDeployment)
+		Expect(err).To(BeNil())
+
+		Eventually(func() error {
+			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(nginxDeployment), nginxDeployment)
+			if err != nil {
+				return err
+			}
+
+			for _, cond := range nginxDeployment.Status.Conditions {
+				if cond.Status == corev1.ConditionTrue &&
+					cond.Type == appsv1.DeploymentAvailable {
+					return nil
+				}
+			}
+			return fmt.Errorf("deployment not ready yet")
+		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+		// update the CM to break the deployment
+		nginxNewConf, err := os.ReadFile("testdata/nginx-new.conf")
+		configMap.Data["nginx.conf"] = string(nginxNewConf)
+		err = k8sClient.Update(ctx, configMap)
+		Expect(err).To(BeNil())
+
+		// check if the deployment is updated and in a broken state
+		Consistently(func() error {
+			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(nginxDeployment), nginxDeployment)
+			if err != nil {
+				return err
+			}
+			// after the nginx config update, the probe will fail thus breaks the deployment
+			if nginxDeployment.Status.UpdatedReplicas == 1 &&
+				nginxDeployment.Status.UnavailableReplicas == 1 {
+				return nil
+			}
+			return fmt.Errorf("expected the deployment in a broken state")
+		}, "5s").WithOffset(2).WithPolling(pollInterval).Should(Succeed())
 	})
 
 })
