@@ -8,6 +8,7 @@ jobs:
     name: Run Application Install Tests
     runs-on:
       - ubuntu-latest
+    if: contains(join(github.event.pull_request.labels.*.name, ' '), 'services/')
 
     steps:
       - name: Checkout code
@@ -26,18 +27,15 @@ jobs:
         working-directory: apptests
         run: |
           # Extract labels from the pull request event payload
-          PR_LABELS=$(echo "${{ toJson(github.event.pull_request.labels) }}" | jq -r '.[].name')
+          PR_LABELS=$(echo "${{ join(github.event.pull_request.labels.*.name, ' ') }}")
+          echo $PR_LABELS
           KAPP_NAME=""
           for label in $PR_LABELS; do
+            echo $label
             if [[ "$label" == "services/"* ]]; then
               KAPP_NAME=$(echo "$label" | cut -d '/' -f 2)
               break
             fi
           done
-
-          if [ -z "$KAPP_NAME" ]; then
-            echo "No service label found in the pull request"
-            exit 1
-          fi
 
           ginkgo --label-filter="install && $KAPP_NAME" appscenarios
