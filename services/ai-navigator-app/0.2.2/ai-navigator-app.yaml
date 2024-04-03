@@ -58,6 +58,7 @@ spec:
       labels:
         app: ai-navigator-app
     spec:
+      priorityClassName: dkp-high-priority
       serviceAccountName: ai-navigator-app
       containers:
         - name: ai-navigator-app
