@@ -50,6 +50,10 @@ services/gatekeeper:
 - changed-files:
   - any-glob-to-any-file:
     - services/gatekeeper/**
+services/git-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/git-operator/**
 services/gitea:
 - changed-files:
   - any-glob-to-any-file:

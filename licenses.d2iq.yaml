@@ -1,4 +1,5 @@
 ignore:
+  - ghcr.io/mesosphere/git-operator:v0.0.0-dev-ec01b70
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
