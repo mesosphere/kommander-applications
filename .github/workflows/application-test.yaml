@@ -30,7 +30,7 @@ jobs:
           for label in $PR_LABELS; do
             echo $label
             if [[ "$label" == "services/"* ]]; then
-              KAPP_NAMES+=$(echo "$label" | cut -d '/' -f 2)
+              KAPP_NAMES+=("$(echo "$label" | cut -d '/' -f 2)")
             fi
           done
           json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
