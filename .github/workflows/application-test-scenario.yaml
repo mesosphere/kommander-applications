@@ -1,0 +1,47 @@
+name: Application Specific Test Scenario
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'The scenario to run, e.g., install or upgrade'
+        required: true
+        default: 'install'
+        type: string
+      app:
+        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      scenario:
+        description: 'The scenario to run, e.g., install or upgrade'
+        required: true
+        type: string
+      app:
+        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+        required: true
+        type: string
+
+jobs:
+  run-test-scenario:
+    runs-on:
+      - ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version-file: 'apptests/go.mod'
+
+    - name: Install Ginkgo
+      working-directory: apptests
+      run: go install github.com/onsi/ginkgo/v2/ginkgo
+
+    - name: Run ${{ github.event.inputs.app }} ${{ github.event.inputs.scenario }} Test
+      working-directory: apptests
+      run: |
+        ginkgo --label-filter="${{ inputs.scenario }} && ${{ inputs.app }}" appscenarios
+
