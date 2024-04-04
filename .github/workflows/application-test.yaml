@@ -52,6 +52,7 @@ jobs:
     needs: setup
     uses: ./.github/workflows/application-test-scenario.yaml
     strategy:
+      fail-fast: false
       matrix:
         scenario: [install, upgrade]
         app: ${{ fromJson(needs.setup.outputs.apps) }}
