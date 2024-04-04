@@ -44,4 +44,3 @@ jobs:
       working-directory: apptests
       run: |
         ginkgo --label-filter="${{ inputs.scenario }} && ${{ inputs.app }}" appscenarios
-
