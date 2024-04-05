@@ -22,6 +22,10 @@ on:
         required: true
         type: string
 
+env:
+  UPGRADE_KAPPS_REPO_PATH: '.work/upgrade/kommander-applications'
+  UPGRADE_FROM_KOMMANDER_VERSION: 'v2.7.0'
+
 jobs:
   run-test-scenario:
     runs-on:
@@ -30,6 +34,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Checkout previous version of k-apps
+      if: ${{ github.event.inputs.scenario }} == 'upgrade'
+      uses: actions/checkout@v4
+      with:
+        path: apptests/${{env.UPGRADE_KAPPS_REPO_PATH}}
+        ref: ${{env.UPGRADE_FROM_KOMMANDER_VERSION}}
 
     - name: Set up Go
       uses: actions/setup-go@v4
