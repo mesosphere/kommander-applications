@@ -86,7 +86,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 
 	It("should reload the application", func() {
 		// create a configmap with the old nginx config
-		nginxOldConf, err := os.ReadFile("testdata/nginx-old.conf")
+		nginxOldConf, err := os.ReadFile("testdata/reloader/nginx-old.conf")
 		Expect(err).To(BeNil())
 		configMap := &corev1.ConfigMap{
 			ObjectMeta: metav1.ObjectMeta{
@@ -101,7 +101,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		Expect(err).To(BeNil())
 
 		// deploy the nginx deployment
-		deploymentYAML, err := os.ReadFile("testdata/nginx.yaml")
+		deploymentYAML, err := os.ReadFile("testdata/reloader/nginx.yaml")
 		nginxDeployment := &appsv1.Deployment{}
 		err = yaml.Unmarshal(deploymentYAML, nginxDeployment)
 		nginxDeployment.SetNamespace(kommanderNamespace)
@@ -127,7 +127,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 		// update the CM to break the deployment
-		nginxNewConf, err := os.ReadFile("testdata/nginx-new.conf")
+		nginxNewConf, err := os.ReadFile("testdata/reloader/nginx-new.conf")
 		configMap.Data["nginx.conf"] = string(nginxNewConf)
 		err = k8sClient.Update(ctx, configMap)
 		Expect(err).To(BeNil())
