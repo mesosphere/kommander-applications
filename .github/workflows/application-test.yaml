@@ -1,0 +1,62 @@
+name: Application Specific Test
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'The scenario to run, e.g., install or upgrade'
+        required: true
+        default: 'install'
+        type: string
+  pull_request:
+    types: [synchronize, labeled]
+
+jobs:
+  setup:
+    name: Extract app names
+    runs-on:
+      - ubuntu-latest
+
+    outputs:
+      apps: ${{ steps.pr-labels.outputs.apps }}
+
+    steps:
+      - name: Collect apps to run tests from PR labels
+        id: pr-labels
+        if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'services/')
+        run: |
+          # Extract labels from the pull request event payload
+          PR_LABELS=$(echo "${{ join(github.event.pull_request.labels.*.name, ' ') }}")
+          KAPP_NAMES=()
+          for label in $PR_LABELS; do
+            echo $label
+            if [[ "$label" == "services/"* ]]; then
+              KAPP_NAMES+=("$(echo "$label" | cut -d '/' -f 2)")
+            fi
+          done
+          json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
+          echo "apps=${json_array}" >> $GITHUB_OUTPUT
+
+      # manually trigger ALL scenarios for ALL apps
+      - name: Checkout code
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/checkout@v4
+      - name: Collect apps from local directory
+        id: local-apps
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: services
+        run: |
+          json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
+          echo "apps=${json_array}" >> $GITHUB_OUTPUT
+
+  trigger-tests:
+    needs: setup
+    uses: ./.github/workflows/application-test-scenario.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario: [install, upgrade]
+        app: ${{ fromJson(needs.setup.outputs.apps) }}
+    with:
+      scenario: ${{ matrix.scenario }}
+      app: ${{ matrix.app }}
+    secrets: inherit
