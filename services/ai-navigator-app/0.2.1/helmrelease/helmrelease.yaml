@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ai-navigator-cluster-info-api-0.2.2-d2iq-defaults
+      name: ai-navigator-cluster-info-api-0.2.1-d2iq-defaults
