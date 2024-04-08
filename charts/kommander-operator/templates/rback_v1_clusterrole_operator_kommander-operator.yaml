@@ -18,7 +18,6 @@ kind: ClusterRole
 metadata:
   name: {{ .Chart.Name }}-view
   labels:
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
     rbac.kommandercore.d2iq.com/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -50,7 +49,6 @@ kind: ClusterRole
 metadata:
   name: {{ .Chart.Name }}-update
   labels:
-    rbac.authorization.k8s.io/aggregate-to-update: "true"
     rbac.kommandercore.d2iq.com/aggregate-to-update: "true"
 rules:
   - apiGroups:
@@ -76,7 +74,6 @@ kind: ClusterRole
 metadata:
   name: {{ .Chart.Name }}-admin
   labels:
-    rbac.authorization.k8s.io/aggregate-to-admin: "true"
     rbac.kommandercore.d2iq.com/aggregate-to-admin: "true"
 rules:
   - apiGroups:
