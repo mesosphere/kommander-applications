@@ -68,8 +68,8 @@ github.com/fluxcd/pkg/ssa v0.38.0 h1:Hn7Ow8dJVHzDz1IvTOvudno/CRDY1kgHqKQ42/iJiRg
 github.com/fluxcd/pkg/ssa v0.38.0/go.mod h1:LcTL2SP4MOdKA9z3/g3cNB30v/j/NiNHEPqMJHwHLJI=
 github.com/fluxcd/pkg/tar v0.4.0 h1:SuXpfXBIcSJ5R/yqQi2CBxBmV/i/LH0agqNAh2PWBZg=
 github.com/fluxcd/pkg/tar v0.4.0/go.mod h1:SyJBaQvuv2VA/rv4d1OHhCV6R8+9QKc9np193EzNHBc=
-github.com/fluxcd/source-controller/api v1.2.4 h1:XjKTWhSSeLGsogWnTcLl5sUnyMlC5TKDbbBgP9SyJ5c=
-github.com/fluxcd/source-controller/api v1.2.4/go.mod h1:j3QSHpIPBP5sjaGIkVtsgWCx8JcOmcsutRmdJmRMOZg=
+github.com/fluxcd/source-controller/api v1.2.5 h1:MgGrOfPh7Grhl40GUM9lEs+lmgTx3hLAwI0MVqaJkQ8=
+github.com/fluxcd/source-controller/api v1.2.5/go.mod h1:j3QSHpIPBP5sjaGIkVtsgWCx8JcOmcsutRmdJmRMOZg=
 github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nosvA=
 github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/go-errors/errors v1.5.1 h1:ZwEMSLRCapFLflTpT7NKaAc7ukJ8ZPEjzlxt8rPN8bk=
