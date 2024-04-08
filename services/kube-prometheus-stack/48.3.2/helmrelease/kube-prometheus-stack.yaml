@@ -27,7 +27,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: kube-prometheus-stack-48.3.1-d2iq-defaults
+      name: kube-prometheus-stack-48.3.2-d2iq-defaults
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true
