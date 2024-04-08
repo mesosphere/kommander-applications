@@ -43,7 +43,7 @@ jobs:
         ref: ${{env.UPGRADE_FROM_KOMMANDER_VERSION}}
 
     - name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version-file: 'apptests/go.mod'
 
