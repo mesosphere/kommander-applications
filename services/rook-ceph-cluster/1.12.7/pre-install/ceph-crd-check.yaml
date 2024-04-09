@@ -62,12 +62,12 @@ spec:
             - sh
             - -c
             - |
-              # If there is a HelmRelease managed by DKP in same namespace when this job is being ran, it *might* be an
+              # If there is a HelmRelease managed by NKP in same namespace when this job is being ran, it *might* be an
               # upgrade scenario. If there is no such helm release, there is no way this is an upgrade scenario.
               # Iff there is such a helmrelease, wait for it to be healthy and be of the same version.
               #
-              # This is done here to avoid having an explicit dependency against DKP shipped ceph operator while still
-              # being able to allow us to wait for DKP shipped ceph operator if there is one.
+              # This is done here to avoid having an explicit dependency against NKP shipped ceph operator while still
+              # being able to allow us to wait for NKP shipped ceph operator if there is one.
               timeout 30m /bin/bash <<'EOF' || true
               kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph
               if [[ $? -ne 0 ]]; then

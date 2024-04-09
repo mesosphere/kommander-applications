@@ -152,9 +152,9 @@ data:
             #   - At least k out of n fragments (could be parity or could be data fragments) are needed for recreation of data. This means we can afford to lose at most m fragments.
             #   - Smallest possible count is k = 2, m = 1 i.e., n = k + m = 3. Works only if there are at least n = 3 storage nodes (hosts or OSDs).
             #   - Storage overhead is m / k percentage.
-            #   - Example configurations: (DKP docs recommend that a cluster has at least a 4 nodes):
+            #   - Example configurations: (NKP docs recommend that a cluster has at least a 4 nodes):
             #     - With 3 data chunks and 1 parity chunks (which is what shipped in 2.3.x with MinIO), we can afford to lose up to 1 chunk. 1/3 = 33% Storage overhead and fault tolerance of 1 out of 4 nodes.
-            #     - With 6 data chunks and 2 parity chunks its same as above but this needs 8 OSDs (DKP Cluster need not have 8 nodes - Each node can have more than 1 OSD).
+            #     - With 6 data chunks and 2 parity chunks its same as above but this needs 8 OSDs (NKP Cluster need not have 8 nodes - Each node can have more than 1 OSD).
             #
             erasureCoded:
               dataChunks: 3
@@ -242,7 +242,7 @@ data:
           memory: "100Mi"
 
     #################################################################
-    ## BEGIN DKP specific config overrides                         ##
+    ## BEGIN NKP specific config overrides                         ##
     ## This is added as a workaround to use the same configmap for ##
     ## both rook-ceph-cluster & object-bucket-claims helmreleases. ##
     #################################################################

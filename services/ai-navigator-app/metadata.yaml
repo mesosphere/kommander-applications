@@ -1,5 +1,5 @@
-displayName: DKP AI Navigator
-description: The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and DKP environment optimization.
+displayName: NKP AI Navigator
+description: The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and NKP environment optimization.
 category:
   - tools
 type: platform
@@ -8,17 +8,17 @@ scope:
   - workspace
 overview: |-
   # Overview
-  The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and DKP environment optimization. Designed with the intricacies of DKP in mind, it offers personalized insights, troubleshooting assistance, and real-time answers to the most pressing user queries. Leveraging its deep knowledge base and tailored response mechanism, the AI Navigator minimizes the knowledge gap, enabling users to focus more on achieving their business goals rather than being bogged down by technical configurations.
+  The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and NKP environment optimization. Designed with the intricacies of NKP in mind, it offers personalized insights, troubleshooting assistance, and real-time answers to the most pressing user queries. Leveraging its deep knowledge base and tailored response mechanism, the AI Navigator minimizes the knowledge gap, enabling users to focus more on achieving their business goals rather than being bogged down by technical configurations.
 
   ## Key Features
   ### Intuitive Query Processing
   Empowered by Natural Language Processing (NLP), the AI Navigator interprets user queries, even if they’re not phrased technically, making it a go-to tool for both novices and experts.
 
   ### Real-time Troubleshooting Assistance
-  With its vast database of common DKP issues and solutions, the AI Navigator can provide instant solutions, dramatically reducing downtime and enhancing productivity.
+  With its vast database of common NKP issues and solutions, the AI Navigator can provide instant solutions, dramatically reducing downtime and enhancing productivity.
 
-  ### Seamless DKP Integration
-  Being native to the DKP platform, the AI Navigator ensures users get the most out of their DKP environments by offering insights, best practices, and performance optimization tips.
+  ### Seamless NKP Integration
+  Being native to the NKP platform, the AI Navigator ensures users get the most out of their NKP environments by offering insights, best practices, and performance optimization tips.
 
   ### Privacy First Approach
   Data privacy and security remain paramount, ensuring user trust and compliance.
