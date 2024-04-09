@@ -1,10 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-cluster-info-api-0.2.0-d2iq-defaults
+  name: ai-navigator-cluster-info-api-0.2.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    # the default kubectl image in chart is 1.29
+    kubectlImage: "bitnami/kubectl:1.27.9"
+    priorityClassName: dkp-high-priority
     # api.enabled enables the collector service as a whole - will not install anything if set to false
     api:
       enabled: true
@@ -30,6 +33,7 @@ data:
     # Default values for subcharts
     weaviate:
       enabled: true
+      globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
       image:
@@ -46,6 +50,10 @@ data:
         size: 5Gi
 
     postgresql:
+      primary:
+        priorityClassName: dkp-high-priority
+      readReplicas:
+        priorityClassName: dkp-high-priority
       enabled: true
       image:
         tag: 15.2.0-debian-11-r21
