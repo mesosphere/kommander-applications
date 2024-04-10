@@ -9,6 +9,11 @@ on:
         type: string
   pull_request:
     types: [synchronize, labeled]
+  push:
+    branches:
+      - main
+      # TODO: remove this
+      - '*'
 
 jobs:
   setup:
@@ -38,7 +43,7 @@ jobs:
 
       # manually trigger ALL scenarios for ALL apps
       - name: Checkout code
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         uses: actions/checkout@v4
       - name: Collect apps from local directory
         id: local-apps
@@ -48,9 +53,10 @@ jobs:
           json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
 
-  trigger-tests:
+  trigger-tests-pr:
     needs: setup
     uses: ./.github/workflows/application-test-scenario.yaml
+    if: github.event_name == 'pull_request' && ${{ needs.setup.outputs.apps != '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -60,3 +66,15 @@ jobs:
       scenario: ${{ matrix.scenario }}
       app: ${{ matrix.app }}
     secrets: inherit
+
+  trigger-tests-all-apps:
+    needs: setup
+    uses: ./.github/workflows/application-test-scenario.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario: [install, upgrade]
+        app: ${{ fromJson(needs.setup.steps.local-apps.outputs.apps) }}
+    with:
+      scenario: ${{ matrix.scenario }}
+      app: ${{ matrix.app }}
