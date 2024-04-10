@@ -24,6 +24,7 @@ on:
 
 env:
   UPGRADE_KAPPS_REPO_PATH: '.work/upgrade/kommander-applications'
+  # TODO: refactor this to an input thats generated
   UPGRADE_FROM_KOMMANDER_VERSION: 'v2.7.0'
 
 jobs:
