@@ -7,6 +7,14 @@ on:
         required: true
         default: 'install'
         type: string
+      from:
+        description: 'For upgrade only. The version to upgrade from. e.g., v2.7.0-dev'
+        default: ''
+        type: string
+      to:
+        description: 'For upgrade only. The version to upgrade to. e.g., v2.8.0-dev'
+        default: ''
+        type: string
   pull_request:
     types: [synchronize, labeled]
   push:
@@ -74,6 +82,7 @@ jobs:
 
   trigger-tests-all-apps-install:
     needs: setup-all-apps
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'install' || github.event_name == 'push' }}
     uses: ./.github/workflows/application-test-scenario.yaml
     strategy:
       fail-fast: false
@@ -86,6 +95,7 @@ jobs:
 
   trigger-tests-all-apps-upgrade:
     needs: setup-all-apps
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'upgrade' || github.event_name == 'push' }}
     uses: ./.github/workflows/application-test-scenario.yaml
     strategy:
       fail-fast: false
