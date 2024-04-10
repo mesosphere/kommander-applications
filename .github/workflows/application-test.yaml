@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Collect apps from local directory
         id: local-apps
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         working-directory: services
         run: |
           json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
