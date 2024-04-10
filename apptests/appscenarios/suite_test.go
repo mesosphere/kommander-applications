@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -13,9 +14,10 @@ import (
 )
 
 var (
-	env       *environment.Env
-	ctx       context.Context
-	k8sClient genericClient.Client
+	env                  *environment.Env
+	ctx                  context.Context
+	k8sClient            genericClient.Client
+	upgradeKAppsRepoPath string
 )
 
 var _ = BeforeSuite(func() {
@@ -28,6 +30,12 @@ var _ = BeforeSuite(func() {
 	k8sClient, err = genericClient.New(env.K8sClient.Config(), genericClient.Options{Scheme: flux.NewScheme()})
 	Expect(k8sClient).ToNot(BeNil())
 	Expect(err).To(BeNil())
+
+	// Get the path to upgrade k-apps repository from the environment variable
+	upgradeKAppsRepoPath = os.Getenv("UPGRADE_KAPPS_REPO_PATH")
+	if upgradeKAppsRepoPath == "" {
+		upgradeKAppsRepoPath = defaultUpgradeKAppsRepoPath
+	}
 })
 
 var _ = AfterSuite(func() {
