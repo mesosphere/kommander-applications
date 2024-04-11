@@ -86,27 +86,16 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 
 	It("should reload the application", func() {
 		// create a configmap with the old nginx config
-		nginxOldConf, err := os.ReadFile("testdata/nginx-old.conf")
-		Expect(err).To(BeNil())
-		configMap := &corev1.ConfigMap{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      "nginx-config",
-				Namespace: kommanderNamespace,
-			},
-			Data: map[string]string{
-				"nginx.conf": string(nginxOldConf),
-			},
-		}
-		err = k8sClient.Create(ctx, configMap)
+		err := r.ApplyNginxConfigmap(ctx, env, "nginx-cm-old.yaml")
 		Expect(err).To(BeNil())
 
 		// deploy the nginx deployment
-		deploymentYAML, err := os.ReadFile("testdata/nginx.yaml")
+		deploymentYAML, err := os.ReadFile("../testdata/reloader/nginx.yaml")
 		nginxDeployment := &appsv1.Deployment{}
 		err = yaml.Unmarshal(deploymentYAML, nginxDeployment)
 		nginxDeployment.SetNamespace(kommanderNamespace)
 		nginxDeployment.SetAnnotations(map[string]string{
-			"configmap.reloader.stakater.com/reload": configMap.GetName(),
+			"configmap.reloader.stakater.com/reload": nginxCMName,
 		})
 		err = k8sClient.Create(ctx, nginxDeployment)
 		Expect(err).To(BeNil())
@@ -127,9 +116,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 		// update the CM to break the deployment
-		nginxNewConf, err := os.ReadFile("testdata/nginx-new.conf")
-		configMap.Data["nginx.conf"] = string(nginxNewConf)
-		err = k8sClient.Update(ctx, configMap)
+		err = r.ApplyNginxConfigmap(ctx, env, "nginx-cm-new.yaml")
 		Expect(err).To(BeNil())
 		time.Sleep(1 * time.Second)
 
