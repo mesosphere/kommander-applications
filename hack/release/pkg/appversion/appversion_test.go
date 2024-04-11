@@ -30,7 +30,7 @@ func TestReplaceContent(t *testing.T) {
 	dir := fetchRepo(t)
 	changes, err := ReplaceContent(context.Background(), dir, "0.99.99")
 	require.NoError(t, err)
-	assert.Equal(t, 5, changes)
+	assert.Equal(t, 4, changes)
 }
 
 func fetchRepo(t *testing.T) string {

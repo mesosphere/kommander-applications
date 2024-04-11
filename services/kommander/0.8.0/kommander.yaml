@@ -36,5 +36,5 @@ spec:
     - kind: ConfigMap
       name: kommander-0.8.0-d2iq-defaults
     - kind: ConfigMap
-      name: kommander-0.8.0-overrides
+      name: kommander-overrides
       optional: true
