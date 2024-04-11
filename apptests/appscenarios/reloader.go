@@ -22,9 +22,15 @@ func (r reloader) Install(ctx context.Context, env *environment.Env) error {
 		return err
 	}
 
+	err = r.install(ctx, env, appPath)
+
+	return err
+}
+
+func (r reloader) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
-	err = env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
+	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -39,6 +45,20 @@ func (r reloader) Install(ctx context.Context, env *environment.Env) error {
 	}
 
 	return err
+}
+
+func (r reloader) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
+	appPath, err := getkAppsUpgradePath(r.Name())
+	if err != nil {
+		return err
+	}
+
+	err = r.install(ctx, env, appPath)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (r reloader) ApplyNginxConfigmap(ctx context.Context, env *environment.Env, nginxCMFilename string) error {
