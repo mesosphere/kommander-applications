@@ -97,6 +97,11 @@ data:
     - "thanos"
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
+    managementSSOApps:
+    - "dex"
+    - "dex-k8s-authenticator"
+    - "traefik"
+    - "traefik-forward-auth-mgmt"
     attached:
       prerequisites:
         defaultApps:
