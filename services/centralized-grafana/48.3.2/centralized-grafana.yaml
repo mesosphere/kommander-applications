@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 48.3.2
+      version: 56.13.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,7 +25,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-48.3.2-d2iq-defaults
+      name: centralized-grafana-56.13.1-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
