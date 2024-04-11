@@ -87,7 +87,10 @@
       "title": "Namespace",
       "transformations": [
         {
-          "id": "labelsToFields"
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
         },
         {
           "id": "groupBy",
@@ -197,8 +200,10 @@
       "title": "Resource",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": {}
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
         },
         {
           "id": "groupBy",
@@ -264,7 +269,7 @@
       "title": "Audit log",
       "transformations": [
         {
-          "id": "labelsToFields",
+          "id": "extractFields",
           "options": {}
         },
         {
@@ -356,8 +361,10 @@
       "title": "Verb",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": {}
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
         },
         {
           "id": "groupBy",
@@ -448,8 +455,10 @@
       "title": "Username",
       "transformations": [
         {
-          "id": "labelsToFields",
-          "options": {}
+          "id": "extractFields",
+          "options": {
+            "source": "labels"
+          }
         },
         {
           "id": "groupBy",
