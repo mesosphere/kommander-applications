@@ -7,9 +7,9 @@ on:
         required: true
         default: 'install'
         type: string
-      version:
+      version_ref:
         description: 'The NKP version(git branch or tag) to run install/upgrade test. Using latest version by default e.g., v2.8.0-dev'
-        default: 'latest'
+        default: 'main'
         type: string
   pull_request:
     types: [synchronize, labeled]
