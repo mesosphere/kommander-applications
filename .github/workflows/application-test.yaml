@@ -81,8 +81,33 @@ jobs:
       matrix:
         app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
     with:
+      version_ref: ${{ github.head_ref }}
       app: ${{ matrix.app }}
     secrets: inherit
+
+  trigger-tests-all-apps-install-ondemand:
+    needs: setup-all-apps
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'install' || github.event_name == 'push' }}
+    uses: ./.github/workflows/application-test-scenario-install.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+    with:
+      version_ref: ${{ github.event.inputs.version_ref }}
+      app: ${{ matrix.app }}
+
+  trigger-tests-all-apps-install-push:
+    needs: setup-all-apps
+    if: ${{ github.event_name == 'push' }}
+    uses: ./.github/workflows/application-test-scenario-install.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+    with:
+      version_ref: "main"
+      app: ${{ matrix.app }}
 
 #  trigger-upgrade-tests-pr:
 #    needs: setup-pr
@@ -95,16 +120,7 @@ jobs:
 #      app: ${{ matrix.app }}
 #    secrets: inherit
 
-  trigger-tests-all-apps-install:
-    needs: setup-all-apps
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'install' || github.event_name == 'push' }}
-    uses: ./.github/workflows/application-test-scenario-install.yaml
-    strategy:
-      fail-fast: false
-      matrix:
-        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
-    with:
-      app: ${{ matrix.app }}
+# ondemand
 
 #  trigger-tests-all-apps-upgrade:
 #    needs: setup-all-apps

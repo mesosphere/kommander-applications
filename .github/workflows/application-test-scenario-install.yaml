@@ -1,4 +1,4 @@
-name: Application Specific Test Scenario
+name: Application Specific Test - Install
 on:
   workflow_dispatch:
     inputs:
@@ -16,6 +16,10 @@ on:
         description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
         required: true
         type: string
+      version_ref:
+        description: 'The NKP version(git branch or tag) to run install/upgrade test. Using latest version by default e.g., v2.8.0-dev'
+        required: true
+        type: string
 
 jobs:
   run-test-scenario:
@@ -23,19 +27,10 @@ jobs:
       - ubuntu-latest
 
     steps:
-    - name: Get the git ref
-      id: get-ref
-      run: |
-        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-          echo "ref=${{ github.event.inputs.version_ref }}" >> $GITHUB_ENV
-        else
-          echo "ref=${{ github.ref_name }}" >> $GITHUB_ENV
-        fi
-
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        ref: ${{ steps.get-ref.outputs.ref }}
+        ref: ${{ inputs.version_ref }}
 
     - name: Set up Go
       uses: actions/setup-go@v5
