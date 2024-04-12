@@ -205,6 +205,7 @@ data:
     ports:
       velero-ceph:
         port: 8080
-        expose: true
+        expose:
+          default: true
         exposedPort: 8085 # Velero is configured to use this value
         protocol: TCP
