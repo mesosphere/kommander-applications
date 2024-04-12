@@ -42,11 +42,11 @@ jobs:
           done
           json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
-      - name: Generate version matrix
-        id: generate-versions-matrix
-        uses: mesosphere/workflow-db/actions/gh-dkp/generate-upgrade-matrix@main
-        with:
-          github-token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+#      - name: Generate version matrix
+#        id: generate-versions-matrix
+#        uses: mesosphere/workflow-db/actions/gh-dkp/generate-upgrade-matrix@main
+#        with:
+#          github-token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
       # TODO
       - name: Set output
         run: |
