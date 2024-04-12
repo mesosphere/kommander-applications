@@ -15,18 +15,41 @@ permissions:
   actions: write
 
 jobs:
+  generate-matrix:
+    runs-on:
+    - self-hosted
+    - small
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v26
+
+      - name: Install devbox
+        uses: jetpack-io/devbox-install-action@v0.8.0
+        with:
+          enable-cache: true
+          skip-nix-installation: true
+
+      - name: Generate tag
+        run: |
+          # Overriding a variable that causes a conflict in legacy
+          # versions of gh-dkp
+          export GITHUB_REPOSITORY="kommander-applications"
+          OUT=$(devbox run -- make repo.supported-branches | sed -E 's/([^\]|^)"/\1\\"/g')
+          echo "::set-output name=matrix::$OUT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
   create-dev-tag:
     runs-on:
     - self-hosted
     - small
     strategy:
       fail-fast: false
-      matrix:
-        branch:
-          - main
-          - release-2.5
-          - release-2.6
-          - release-2.7
+      matrix: fromJson(needs.generate-matrix.outputs.matrix)
 
     steps:
       - name: Checkout
