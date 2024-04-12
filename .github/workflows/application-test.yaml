@@ -1,4 +1,4 @@
-name: Application Specific Test
+name: Application Specific Test Suite
 on:
   workflow_dispatch:
     inputs:
@@ -7,13 +7,9 @@ on:
         required: true
         default: 'install'
         type: string
-      from:
-        description: 'For upgrade only. The version to upgrade from. e.g., v2.7.0-dev'
-        default: ''
-        type: string
-      to:
-        description: 'For upgrade only. The version to upgrade to. e.g., v2.8.0-dev'
-        default: ''
+      version:
+        description: 'The NKP version(git branch or tag) to run install/upgrade test. Using latest version by default e.g., v2.8.0-dev'
+        default: 'latest'
         type: string
   pull_request:
     types: [synchronize, labeled]
@@ -46,12 +42,22 @@ jobs:
           done
           json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
+      - name: Generate version matrix
+        id: generate-versions-matrix
+        uses: mesosphere/workflow-db/actions/gh-dkp/generate-upgrade-matrix@main
+        with:
+          github-token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+      # TODO
+      - name: Set output
+        run: |
+          echo ${{ steps.generate-versions-matrix.outputs.matrix.dkp }} | jq -c ' .upgrades | map(select(.to | startswith("v2.8"))) | map(. | .from)'
+
 
   setup-all-apps:
     name: Extract app names from local repo
     runs-on:
       - ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    if: contains(fromJSON('["workflow_dispatch", "push"]'), github.event_name)
 
     outputs:
       apps: ${{ steps.local-apps.outputs.apps }}
@@ -67,41 +73,48 @@ jobs:
           json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
 
-  trigger-tests-pr:
+  trigger-install-tests-pr:
     needs: setup-pr
-    uses: ./.github/workflows/application-test-scenario.yaml
+    uses: ./.github/workflows/application-test-scenario-install.yaml
     strategy:
       fail-fast: false
       matrix:
-        scenario: [install, upgrade]
         app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
     with:
-      scenario: ${{ matrix.scenario }}
       app: ${{ matrix.app }}
     secrets: inherit
+
+#  trigger-upgrade-tests-pr:
+#    needs: setup-pr
+#    uses: ./.github/workflows/application-test-scenario-upgrade.yaml
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
+#    with:
+#      app: ${{ matrix.app }}
+#    secrets: inherit
 
   trigger-tests-all-apps-install:
     needs: setup-all-apps
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'install' || github.event_name == 'push' }}
-    uses: ./.github/workflows/application-test-scenario.yaml
+    uses: ./.github/workflows/application-test-scenario-install.yaml
     strategy:
       fail-fast: false
       matrix:
-        scenario: [install]
         app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
     with:
-      scenario: ${{ matrix.scenario }}
       app: ${{ matrix.app }}
 
-  trigger-tests-all-apps-upgrade:
-    needs: setup-all-apps
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'upgrade' || github.event_name == 'push' }}
-    uses: ./.github/workflows/application-test-scenario.yaml
-    strategy:
-      fail-fast: false
-      matrix:
-        scenario: [ upgrade ]
-        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
-    with:
-      scenario: ${{ matrix.scenario }}
-      app: ${{ matrix.app }}
+#  trigger-tests-all-apps-upgrade:
+#    needs: setup-all-apps
+#    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'upgrade' || github.event_name == 'push' }}
+#    uses: ./.github/workflows/application-test-scenario-upgrade.yaml
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        scenario: [ upgrade ]
+#        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+#    with:
+#      scenario: ${{ matrix.scenario }}
+#      app: ${{ matrix.app }}

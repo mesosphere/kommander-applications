@@ -1,0 +1,51 @@
+name: Application Specific Test Scenario
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+        required: true
+        type: string
+      version:
+        description: 'The NKP version(git branch or tag) to run install/upgrade test. Using latest version by default e.g., v2.8.0-dev'
+        default: 'latest'
+        type: string
+  workflow_call:
+    inputs:
+      app:
+        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+        required: true
+        type: string
+
+jobs:
+  run-test-scenario:
+    runs-on:
+      - ubuntu-latest
+
+    steps:
+    - name: Get the git ref
+      id: get-ref
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          echo "ref=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+        else
+          echo "ref=${{ github.ref_name }}" >> $GITHUB_ENV
+        fi
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ steps.get-ref.outputs.ref }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: 'apptests/go.mod'
+
+    - name: Install Ginkgo
+      working-directory: apptests
+      run: go install github.com/onsi/ginkgo/v2/ginkgo
+
+    - name: Run ${{ github.event.inputs.app }} install Test
+      working-directory: apptests
+      run: |
+        ginkgo --label-filter="install && ${{ inputs.app }}" appscenarios
