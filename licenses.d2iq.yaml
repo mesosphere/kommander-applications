@@ -506,7 +506,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.25.1
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.26.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
