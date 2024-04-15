@@ -16,7 +16,7 @@ require (
 	github.com/fluxcd/pkg/ssa v0.36.0
 	github.com/fluxcd/source-controller/api v1.2.4
 	github.com/onsi/ginkgo/v2 v2.17.1
-	github.com/onsi/gomega v1.31.1
+	github.com/onsi/gomega v1.32.0
 	github.com/stretchr/testify v1.8.4
 	k8s.io/api v0.29.3
 	k8s.io/apiextensions-apiserver v0.29.3
