@@ -8,6 +8,7 @@ configMapGenerator:
       - flux-control-plane.json
       - flux-cluster-stats.json
       - controller-runtime.json
+      - pv-stats.json
 generatorOptions:
   labels:
     grafana_dashboard: "1"
