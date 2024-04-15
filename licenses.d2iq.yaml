@@ -155,7 +155,7 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/traefik:v2.11.0
+  - container_image: docker.io/library/traefik:v2.11.2
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
