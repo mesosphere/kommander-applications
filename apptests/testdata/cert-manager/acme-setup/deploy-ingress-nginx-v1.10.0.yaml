@@ -1,3 +1,4 @@
+# Yaml is docwnloaded from here: https://github.com/kubernetes/ingress-nginx/blob/main/docs/deploy/index.md#quick-start
 apiVersion: v1
 kind: Namespace
 metadata:
