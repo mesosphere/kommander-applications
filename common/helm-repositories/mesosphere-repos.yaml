@@ -50,23 +50,3 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/dkp-insights-charts-attached}"
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
-  namespace: kommander-flux
-spec:
-  interval: 10m
-  timeout: 1m
-  url: "${helmMirrorURL:=https://mesosphere.github.io/ai-navigator-cluster-info-api}"
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: mesosphere.github.io-ai-navigator-cluster-info-agent-charts
-  namespace: kommander-flux
-spec:
-  interval: 10m
-  timeout: 1m
-  url: "${helmMirrorURL:=https://mesosphere.github.io/ai-navigator-cluster-info-agent}"
