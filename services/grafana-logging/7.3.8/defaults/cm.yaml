@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: project-grafana-logging-6.60.2-d2iq-defaults
+  name: grafana-logging-7.3.8-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
-    # pinning grafana to 8.5 since it appears that v9+ is causing the kubernetes audit dashboard to crash
     image:
       tag: 10.3.3
     datasources:
@@ -16,7 +15,7 @@ data:
         datasources:
         - name: Loki
           type: loki
-          url: "http://project-grafana-loki-loki-distributed-gateway"
+          url: "http://grafana-loki-loki-distributed-gateway"
           access: proxy
           isDefault: false
     ingress:
@@ -27,15 +26,18 @@ data:
         traefik.ingress.kubernetes.io/router.tls: "true"
         traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
       hosts: [""]
-      path: /dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana
+      path: /dkp/logging/grafana
       pathType: ImplementationSpecific
 
     sidecar:
+      sidecar:
+        image:
+          repository: kiwigrid/k8s-sidecar
+          tag: 1.25.3
       dashboards:
         enabled: true
-        label: project_grafana_logging_dashboard
-        # only search the namespace in which the sidecar is running
-        searchNamespace: null
+        label: grafana_logging_dashboard
+        searchNamespace: ALL
 
     grafana.ini:
       log:
@@ -43,7 +45,7 @@ data:
       server:
         protocol: http
         enable_gzip: true
-        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana"
+        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/logging/grafana"
         serve_from_sub_path: true
       auth.proxy:
         enabled: true
@@ -88,8 +90,6 @@ data:
       timeoutSeconds: 30
       failureThreshold: 10
     rbac:
-      enabled: true
-      namespaced: true
       pspUseAppArmor: false
       pspEnabled: false
     # to avoid needing to download any plugins at runtime, use a container and a shared volume
