@@ -78,8 +78,6 @@ jobs:
       - name: checkout upgrade matrix
         uses: actions/checkout@v4
         with:
-          # TODO: decide whether we want to store 1 copy per branch
-#          ref: main
           sparse-checkout: |
             upgrade-matrix.yaml
           sparse-checkout-cone-mode: false

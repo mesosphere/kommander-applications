@@ -1,4 +1,4 @@
-name: Application Specific Test Scenario
+name: Application Specific Test - Upgrade
 on:
   workflow_dispatch:
     inputs:
