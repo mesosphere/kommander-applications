@@ -132,6 +132,8 @@ jobs:
 
           from_versions=$(echo $upgrade_matrix | jq -c --arg to "$to_version_gh_dkp" 'map(select(.to | startswith($to))) | map(. | .from)')
 
+          echo "from_versions=${from_versions}"
+          echo "to_version=${to_version}"
           echo "from_versions=${from_versions}" >> $GITHUB_OUTPUT
           echo "to_version=${to_version}" >> $GITHUB_OUTPUT
 
