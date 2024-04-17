@@ -190,7 +190,7 @@ func (e *Env) SetK8sClient(k8sClient *typedclient.Client) {
 	e.K8sClient = k8sClient
 }
 
-// ApplyKustomizations applies the kustomizations located in the given path.
+// ApplyKustomizations applies the kustomizations located in the given path and does variable substitution.
 func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitutions map[string]string) error {
 	log.SetLogger(klog.NewKlogr())
 
@@ -254,7 +254,7 @@ func absolutePathToBase() (string, error) {
 	return filepath.Join(wd, base, "common", "base"), nil
 }
 
-// ApplyYAML applies the YAML manifests located in the given directory.
+// ApplyYAML applies the YAML manifests located in the given directory and does variable substitution.
 func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[string]string) error {
 	log.SetLogger(klog.NewKlogr())
 

@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: smallstep.github.io-helm-charts
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://smallstep.github.io/helm-charts/}"
