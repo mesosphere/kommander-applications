@@ -35,14 +35,12 @@ data:
               minVersion: 1.2
               maxVersion: 1.3
               renegotiation: false
-    
           defaults.json:
             ca-url: https://step-certificates.kommander.svc.cluster.local
             ca-config: /home/step/config/ca.json
             fingerprint: fe8be7a8e4f1a448ba39c610e742632d1e0524581b974ec95d470985341fe41d
             root: /home/step/certs/root_ca.crt
-    
-      # Certificates contains the root and intermediate certificate and 
+      # Certificates contains the root and intermediate certificate and
       # optionally the SSH host and user public keys
       certificates:
         # intermediate_ca contains the text of the intermediate CA Certificate
@@ -59,8 +57,6 @@ data:
           SM49BAMCA0gAMEUCIQDv+9egshtGqpi8eWq19qRioPD4MxGVbtyZhvzMCt/2kgIg
           ANZFT4Lqt74uGOPEoCHtC1KqCy6iewAn3j9OjvG2g04=
           -----END CERTIFICATE-----
-          
-          
         # root_ca contains the text of the root CA Certificate
         root_ca: |
           -----BEGIN CERTIFICATE-----
@@ -74,8 +70,6 @@ data:
           EYkwCgYIKoZIzj0EAwIDSAAwRQIhANadXiURXz+mCFIMz8psuTGn1vNtj//df3UY
           daz8e1qoAiA00zCzpT2ifQqFIz+zhZOtGn6HSHwFynaOf+/+SNenvA==
           -----END CERTIFICATE-----
-          
-    
       # Secrets contains the root and intermediate keys and optionally the SSH
       # private keys
       secrets:
@@ -83,20 +77,17 @@ data:
         # This value must be base64 encoded.
         ca_password: cGFzc3dvcmQxCg==
         provisioner_password: cGFzc3dvcmQxCg==
-    
         x509:
           # intermediate_ca_key contains the contents of your encrypted intermediate CA key
           intermediate_ca_key: |
             -----BEGIN EC PRIVATE KEY-----
             Proc-Type: 4,ENCRYPTED
             DEK-Info: AES-256-CBC,b2326e0ab0089d5f22b1338ca4533f54
-            
+
             gfGV2izQjnJi9QOpJaiE4RhD+A3shb6YdCovh47gU3O84OSwFVDlOcisonucgzdK
             A52BvUZrPJnxmmLgnx2+2KjmqNC7lvzzn025pA1+QWnvTftSFhrGyHNQlKpesJtj
             Ntl904+VJlfFWar0ybWSl9jOURIe6femiwB3SO+tj7E=
             -----END EC PRIVATE KEY-----
-            
-    
           # root_ca_key contains the contents of your encrypted root CA key
           # Note that this value can be omitted without impacting the functionality of step-certificates
           # If supplied, this should be encrypted using a unique password that is not used for encrypting
@@ -105,7 +96,7 @@ data:
             -----BEGIN EC PRIVATE KEY-----
             Proc-Type: 4,ENCRYPTED
             DEK-Info: AES-256-CBC,896f6bcadcfe533885f9cb76d08effc4
-            
+
             fg3SWRKP5Rl/sOm2uiqSm7nfbfPsaW4BRjOGyosyDMfKSc5+oIVPwjV5wj71Km/l
             0YGhkR/N5fQ+/uG/c4C/bFXzNpM1RhCaWoLHLOohPPDRVVZqah0ZJTipCnLtQA7E
             z4E156BFG8MzHLBLLeGUId6JivPhENyYwSrnS7HTROI=
