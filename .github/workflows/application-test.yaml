@@ -70,55 +70,39 @@ jobs:
       - ubuntu-latest
     if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.scenario == 'install') }}
     outputs:
-      upgrade-versions: ${{ steps.generate-upgrade-versions.outputs.upgrade-versions }}
-      to_version: ${{ steps.generate-upgrade-versions.outputs.to_version }}
-      from_versions: ${{ steps.generate-upgrade-versions.outputs.from_versions }}
+      upgrade-versions: ${{ steps.get-matrix.outputs.result }}
+      to_version: ${{ steps.prepare-upgrade-versions.outputs.to_version }}
+      from_versions: ${{ steps.prepare-upgrade-versions.outputs.from_versions }}
 
     steps:
       - name: checkout upgrade matrix
         uses: actions/checkout@v4
         with:
-          ref: main
+          # TODO: decide whether we want to store 1 copy per branch
+#          ref: main
           sparse-checkout: |
             upgrade-matrix.yaml
           sparse-checkout-cone-mode: false
-      - name: install yq
-        run: |
-          sudo apt-get update
-          sudo apt-get install yq
-      - name: prepare the upgrade matrix
-        id: generate-upgrade-versions
-        run: |
-          matrix=$(cat upgrade-matrix.yaml | yq '.upgrades' -I0 -o json)
-          latest=$(echo $matrix | jq -r 'map(.to) | max'
-          echo "upgrade-versions=${matrix}" >> $GITHUB_OUTPUT
-          echo "latest=${latest}" >> $GITHUB_OUTPUT
+
+      - name: Run yq
+        id: get-matrix
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.upgrades' -I0 -o json upgrade-matrix.yaml
 
       - name: Set output
+        id: prepare-upgrade-versions
         run: |
+          latest=$(echo ${{ steps.get-matrix.outputs.result }} | jq -r 'map(.to) | max')
           from_versions=''
           to_version=''
           to_version_gh_dkp=''
-          if [[ "${{ github.event_name }}" == 'push' ]]; then
-            to_version_gh_dkp=${{ steps.generate-versions-matrix.outputs.latest }}
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            to_version_gh_dkp=$latest
             to_version="main"
-          else if [[ "${{ github.event_name }}" == 'workflow_dispatch' ]]; then
-            if [[ "${{ inputs.version_ref }}" == 'main' ]]; then
-              to_version_gh_dkp=${{ steps.generate-versions-matrix.outputs.latest }}
-              to_version="main"
-            else
-              if [[ ${{ inputs.version_ref }} == release-* ]]; then
-                dkp_ver_majorminor=$(echo ${{ inputs.version_ref }} | cut -d '-' -f 2)
-                to_version_gh_dkp="v$dkp_ver_majorminor"
-              else
-                to_version_gh_dkp=${{ inputs.version_ref }}
-              fi
-              to_version=${{ inputs.version_ref }}
-            fi
-          else
-            # pull_request event
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
             if [[ ${{ github.base_ref }} == 'main' ]]; then
-              to_version_gh_dkp=${{ steps.generate-versions-matrix.outputs.latest }}
+              to_version_gh_dkp=$latest
               to_version="main"
             else
               if [[ ${{ github.base_ref }} == release-* ]]; then
@@ -130,11 +114,24 @@ jobs:
                 exit 1
               fi
             fi
-
             to_version=${{ github.head_ref }}
+          else
+            # workflow_dispatch event
+            if [[ "${{ inputs.version_ref }}" == "main" ]]; then
+              to_version_gh_dkp=$latest
+              to_version="main"
+            else
+              if [[ ${{ inputs.version_ref }} == release-* ]]; then
+                dkp_ver_majorminor=$(echo ${{ inputs.version_ref }} | cut -d '-' -f 2)
+                to_version_gh_dkp="v$dkp_ver_majorminor"
+              else
+                to_version_gh_dkp=${{ inputs.version_ref }}
+              fi
+              to_version=${{ inputs.version_ref }}
+            fi
           fi
 
-          from_versions=${{ steps.generate-versions-matrix.outputs.matrix.dkp }} | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)'
+          from_versions=$(echo ${{ steps.get-matrix.outputs.result }} | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)')
 
           echo "from_versions=${from_versions}" >> $GITHUB_OUTPUT
           echo "to_version=${to_version}" >> $GITHUB_OUTPUT

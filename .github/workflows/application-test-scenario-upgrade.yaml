@@ -33,56 +33,6 @@ env:
 
 jobs:
 
-  validate-upgrade-versions:
-    name: Validate Upgrade Versions
-    if: ${{ github.event_name }} == 'workflow_dispatch'
-    runs-on:
-      - ubuntu-latest
-
-    steps:
-    - name: Install GH CLI
-      uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
-
-    - name: Install GH CLI extension
-      run: gh extension install mesosphere/gh-dkp
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-
-    - name: Validate upgrade versions
-      if: ${{ github.event_name }} == 'workflow_dispatch'
-      run: |
-        if [[ ${{ github.event.inputs.from_version_ref }} != release-* || ${{ github.event.inputs.from_version_ref }} != v* ]]; then
-          echo "from_version_ref is not a release tag or branch: ${{ github.event.inputs.from_version_ref }}"
-          exit 1
-        else if [[ ${{ github.event.inputs.to_version_ref }} != release-* || ${{ github.event.inputs.to_version_ref }} != v* ]]; then
-          echo "to_version_ref is not a release tag or branch: ${{ github.event.inputs.to_version_ref }}"
-          exit 1
-        fi
-
-        from_versions_gh_dkp=""
-        to_versions_gh_dkp=""
-        if [[ ${{ github.event.inputs.from_version_ref }} == release-* ]]; then
-          dkp_ver_majorminor=$(echo ${{ from_version_ref }} | cut -d '-' -f 2)
-          from_versions_gh_dkp="v$dkp_ver_majorminor"
-        else
-          from_versions_gh_dkp=${{ github.event.inputs.from_version_ref }}
-        fi
-
-        if [[ ${{ github.event.inputs.to_version_ref }} == release-* ]]; then
-          dkp_ver_majorminor=$(echo ${{ to_version_ref }} | cut -d '-' -f 2)
-          to_versions_gh_dkp="v$dkp_ver_majorminor"
-        else
-          to_versions_gh_dkp=${{ github.event.inputs.to_version_ref }}
-        fi
-
-        upgrade_path=$(gh dkp generate upgrade-matrix --json | jq -c ' .upgrades | map(select(.to | startswith("v2.8"))) | map(select(.from | startswith("v2.6.1")))  | map(. | .from)')
-        # TODO: test this
-        if [[ -z $upgrade_path ]]; then
-          echo "Upgrade path not found from ${{ github.event.inputs.from_version_ref }} to ${{ github.event.inputs.to_version_ref }}"
-          exit 1
-        fi
-
   run-test-scenario:
     runs-on:
       - ubuntu-latest
@@ -108,7 +58,7 @@ jobs:
       working-directory: apptests
       run: go install github.com/onsi/ginkgo/v2/ginkgo
 
-    - name: Run ${{ github.event.inputs.app }} upgrade Test
+    - name: Run ${{ inputs.app }} upgrade Test
       working-directory: apptests
       run: |
         ginkgo --label-filter="upgrade && ${{ inputs.app }}" appscenarios
