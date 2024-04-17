@@ -84,16 +84,15 @@ jobs:
             upgrade-matrix.yaml
           sparse-checkout-cone-mode: false
 
-      - name: Run yq
-        id: get-matrix
-        uses: mikefarah/yq@master
+      - uses: chrisdickinson/setup-yq@latest
         with:
-          cmd: yq '.upgrades' -I0 -o json upgrade-matrix.yaml
+          yq-version: v4.25.3
 
       - name: Set output
         id: prepare-upgrade-versions
         run: |
-          latest=$(echo ${{ steps.get-matrix.outputs.result }} | jq -r 'map(.to) | max')
+          upgrade_matrix=$(yq '.upgrades' -I0 -o json upgrade-matrix.yaml)
+          latest=$(echo $upgrade_matrix | jq -r 'map(.to) | max')
           from_versions=''
           to_version=''
           to_version_gh_dkp=''
@@ -131,7 +130,7 @@ jobs:
             fi
           fi
 
-          from_versions=$(echo ${{ steps.get-matrix.outputs.result }} | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)')
+          from_versions=$(echo $upgrade_matrix | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)')
 
           echo "from_versions=${from_versions}" >> $GITHUB_OUTPUT
           echo "to_version=${to_version}" >> $GITHUB_OUTPUT
