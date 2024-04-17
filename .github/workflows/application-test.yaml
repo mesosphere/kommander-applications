@@ -84,16 +84,15 @@ jobs:
             upgrade-matrix.yaml
           sparse-checkout-cone-mode: false
 
-      - name: Run yq
-        id: get-matrix
-        uses: mikefarah/yq@master
+      - uses: chrisdickinson/setup-yq@latest
         with:
-          cmd: yq '.upgrades' -I0 -o json upgrade-matrix.yaml
+          yq-version: v4.25.3
 
       - name: Set output
         id: prepare-upgrade-versions
         run: |
-          latest=$(echo ${{ steps.get-matrix.outputs.result }} | jq -r 'map(.to) | max')
+          upgrade_matrix=$(yq '.upgrades' -I0 -o json upgrade-matrix.yaml)
+          latest=$(echo $upgrade_matrix | jq -r 'map(.to) | max')
           from_versions=''
           to_version=''
           to_version_gh_dkp=''
@@ -101,11 +100,11 @@ jobs:
             to_version_gh_dkp=$latest
             to_version="main"
           elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            if [[ ${{ github.base_ref }} == 'main' ]]; then
+            if [[ "${{ github.base_ref }}" == 'main' ]]; then
               to_version_gh_dkp=$latest
               to_version="main"
             else
-              if [[ ${{ github.base_ref }} == release-* ]]; then
+              if [[ "${{ github.base_ref }}" == "release-*" ]]; then
                 dkp_ver_majorminor=$(echo ${{ github.base_ref }} | cut -d '-' -f 2)
                 to_version_gh_dkp="v$dkp_ver_majorminor"
               else
@@ -121,7 +120,7 @@ jobs:
               to_version_gh_dkp=$latest
               to_version="main"
             else
-              if [[ ${{ inputs.version_ref }} == release-* ]]; then
+              if [[ "${{ inputs.version_ref }}" == release-* ]]; then
                 dkp_ver_majorminor=$(echo ${{ inputs.version_ref }} | cut -d '-' -f 2)
                 to_version_gh_dkp="v$dkp_ver_majorminor"
               else
@@ -131,7 +130,7 @@ jobs:
             fi
           fi
 
-          from_versions=$(echo ${{ steps.get-matrix.outputs.result }} | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)')
+          from_versions=$(echo $upgrade_matrix | jq -c --arg to "$to_version_gh_dkp" ' .upgrades | map(select(.to | startswith($to))) | map(. | .from)')
 
           echo "from_versions=${from_versions}" >> $GITHUB_OUTPUT
           echo "to_version=${to_version}" >> $GITHUB_OUTPUT
