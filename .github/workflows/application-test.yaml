@@ -1,4 +1,4 @@
-name: Application Specific Test
+name: Application Specific Test Suite
 on:
   workflow_dispatch:
     inputs:
@@ -7,14 +7,22 @@ on:
         required: true
         default: 'install'
         type: string
+      version_ref:
+        description: 'The NKP version(git branch or tag) to run install/upgrade test. Using latest version by default e.g., v2.8.0-dev'
+        default: 'main'
+        type: string
   pull_request:
     types: [synchronize, labeled]
+  push:
+    branches:
+      - main
 
 jobs:
-  setup:
-    name: Extract app names
+  setup-pr:
+    name: Extract app names from PR Labels
     runs-on:
       - ubuntu-latest
+    if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'services/')
 
     outputs:
       apps: ${{ steps.pr-labels.outputs.apps }}
@@ -22,7 +30,6 @@ jobs:
     steps:
       - name: Collect apps to run tests from PR labels
         id: pr-labels
-        if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'services/')
         run: |
           # Extract labels from the pull request event payload
           PR_LABELS=$(echo "${{ join(github.event.pull_request.labels.*.name, ' ') }}")
@@ -35,28 +42,95 @@ jobs:
           done
           json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
+#      - name: Generate version matrix
+#        id: generate-versions-matrix
+#        uses: mesosphere/workflow-db/actions/gh-dkp/generate-upgrade-matrix@main
+#        with:
+#          github-token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+      # TODO
+      - name: Set output
+        run: |
+          echo ${{ steps.generate-versions-matrix.outputs.matrix.dkp }} | jq -c ' .upgrades | map(select(.to | startswith("v2.8"))) | map(. | .from)'
 
+
+  setup-all-apps:
+    name: Extract app names from local repo
+    runs-on:
+      - ubuntu-latest
+    if: contains(fromJSON('["workflow_dispatch", "push"]'), github.event_name)
+
+    outputs:
+      apps: ${{ steps.local-apps.outputs.apps }}
+
+    steps:
       # manually trigger ALL scenarios for ALL apps
       - name: Checkout code
-        if: github.event_name == 'workflow_dispatch'
         uses: actions/checkout@v4
       - name: Collect apps from local directory
         id: local-apps
-        if: github.event_name == 'workflow_dispatch'
         working-directory: services
         run: |
           json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
 
-  trigger-tests:
-    needs: setup
-    uses: ./.github/workflows/application-test-scenario.yaml
+  trigger-install-tests-pr:
+    needs: setup-pr
+    uses: ./.github/workflows/application-test-scenario-install.yaml
     strategy:
       fail-fast: false
       matrix:
-        scenario: [install, upgrade]
-        app: ${{ fromJson(needs.setup.outputs.apps) }}
+        app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
     with:
-      scenario: ${{ matrix.scenario }}
+      version_ref: ${{ github.head_ref }}
       app: ${{ matrix.app }}
     secrets: inherit
+
+  trigger-tests-all-apps-install-ondemand:
+    needs: setup-all-apps
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'install' || github.event_name == 'push' }}
+    uses: ./.github/workflows/application-test-scenario-install.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+    with:
+      version_ref: ${{ github.event.inputs.version_ref }}
+      app: ${{ matrix.app }}
+
+  trigger-tests-all-apps-install-push:
+    needs: setup-all-apps
+    if: ${{ github.event_name == 'push' }}
+    uses: ./.github/workflows/application-test-scenario-install.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+    with:
+      version_ref: "main"
+      app: ${{ matrix.app }}
+
+#  trigger-upgrade-tests-pr:
+#    needs: setup-pr
+#    uses: ./.github/workflows/application-test-scenario-upgrade.yaml
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
+#    with:
+#      app: ${{ matrix.app }}
+#    secrets: inherit
+
+# ondemand
+
+#  trigger-tests-all-apps-upgrade:
+#    needs: setup-all-apps
+#    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'upgrade' || github.event_name == 'push' }}
+#    uses: ./.github/workflows/application-test-scenario-upgrade.yaml
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        scenario: [ upgrade ]
+#        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+#    with:
+#      scenario: ${{ matrix.scenario }}
+#      app: ${{ matrix.app }}
