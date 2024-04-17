@@ -44,5 +44,5 @@ data:
     monitoring:
       enabled: false
 
-    # This allows DKP installations with static local static provisioner with loopback block devices (E.g.: preprovisioned with LVMs) work out of the box.
+    # This allows NKP installations with static local static provisioner with loopback block devices (E.g.: preprovisioned with LVMs) work out of the box.
     allowLoopDevices: true

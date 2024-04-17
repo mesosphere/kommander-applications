@@ -7,7 +7,7 @@ E2E_TIMEOUT       ?= 120m
 # `kind build node-image`, but upstream only builds a few k8s patch versions, whereas we
 # build image for every patch release of Kubernetes. This allows us to be slightly more
 # flexible with our testing as well as testing against the same patch version as we deliver
-# by default with DKP.
+# by default with NKP.
 # See https://github.com/mesosphere/kind-docker-image-automation/ for the build repo.
 E2E_KINDEST_IMAGE ?= "ghcr.io/mesosphere/kind-node-ci:v1.26.6"
 

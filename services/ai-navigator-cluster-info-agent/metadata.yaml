@@ -1,5 +1,5 @@
-displayName: DKP AI Navigator Cluster Info Agent
-description: The AI Navigator Cluster Info Agent collects information about the DKP cluster and sends it to the AI Navigator service.
+displayName: NKP AI Navigator Cluster Info Agent
+description: The AI Navigator Cluster Info Agent collects information about the NKP cluster and sends it to the AI Navigator service.
 category:
   - tools
 type: platform
@@ -8,7 +8,7 @@ scope:
   - workspace
 overview: |-
   # Overview
-  The AI Navigator Cluster Info Agent collects information about the DKP cluster and sends it to the AI Navigator service.
+  The AI Navigator Cluster Info Agent collects information about the NKP cluster and sends it to the AI Navigator service.
 
   ## Key Features
   ### Intuitive Query Processing
@@ -17,8 +17,8 @@ overview: |-
   ### Real-time Troubleshooting Assistance
   The AI Navigator Cluster Info Agent provides real-time troubleshooting assistance by analyzing the cluster state and providing cluster specific commands.
 
-  ### Seamless DKP Integration
-  Being native to the DKP platform, the AI Navigator ensures users get the most out of their DKP environments by offering insights, best practices, and performance optimization tips.
+  ### Seamless NKP Integration
+  Being native to the NKP platform, the AI Navigator ensures users get the most out of their NKP environments by offering insights, best practices, and performance optimization tips.
 
   ### Privacy First Approach
   Data privacy and security remain paramount, ensuring user trust and compliance.
