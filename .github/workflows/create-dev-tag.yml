@@ -16,6 +16,9 @@ permissions:
 
 jobs:
   generate-matrix:
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
     runs-on:
     - self-hosted
     - small
@@ -34,22 +37,24 @@ jobs:
           skip-nix-installation: true
 
       - name: Generate tag
+        id: set-matrix
         run: |
-          # Overriding a variable that causes a conflict in legacy
-          # versions of gh-dkp
           export GITHUB_REPOSITORY="kommander-applications"
-          OUT=$(devbox run -- make repo.supported-branches | sed -E 's/([^\]|^)"/\1\\"/g')
-          echo "::set-output name=matrix::$OUT"
+          OUT=$(devbox run -- make repo.supported-branches | tail -n 1)
+          echo "matrix=$OUT" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
 
   create-dev-tag:
+    needs: generate-matrix
+
     runs-on:
     - self-hosted
     - small
     strategy:
       fail-fast: false
-      matrix: fromJson(needs.generate-matrix.outputs.matrix)
+      matrix:
+        branch: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
 
     steps:
       - name: Checkout
