@@ -84,7 +84,7 @@ IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
 trap_add "rm --force ${IMAGES_FILE}" EXIT
 
-for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
+for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
   pushd "${dir}" &>/dev/null
 
   while IFS= read -r hr; do
