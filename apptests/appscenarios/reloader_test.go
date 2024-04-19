@@ -18,17 +18,18 @@ import (
 )
 
 var (
-	r                 reloader
+	r                 *reloader
 	hr                *fluxhelmv2beta2.HelmRelease
 	deploymentList    *appsv1.DeploymentList
 	reloaderContainer corev1.Container
+	err               error
 )
 
 var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
 
 	It("should install successfully with default config", func() {
-		r = reloader{}
-		err := r.Install(ctx, env)
+		r = NewReloader()
+		err = r.Install(ctx, env)
 		Expect(err).To(BeNil())
 
 		hr = &fluxhelmv2beta2.HelmRelease{
@@ -92,7 +93,7 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 
 var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
 	It("should install the previous version successfully", func() {
-		r = reloader{}
+		r = NewReloader()
 		err := r.InstallPreviousVersion(ctx, env)
 		Expect(err).To(BeNil())
 
@@ -126,7 +127,7 @@ var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"),
 
 	It("should upgrade reloader successfully", func() {
 		// this is installing the latest version of the reloader
-		err := r.Install(ctx, env)
+		err := r.InstallPreviousVersion(ctx, env)
 		Expect(err).To(BeNil())
 
 		hr = &fluxhelmv2beta2.HelmRelease{
@@ -161,7 +162,7 @@ var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"),
 	})
 })
 
-func reloaderTestReload(r reloader) {
+func reloaderTestReload(r *reloader) {
 	err := r.ApplyNginxConfigmap(ctx, env, "nginx-cm-old.yaml")
 	Expect(err).To(BeNil())
 
