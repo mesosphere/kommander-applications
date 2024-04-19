@@ -22,33 +22,6 @@ type AppScenario interface {
 	Name() string                                    // scenario name
 }
 
-type List map[string]AppScenario
-
-// Install runs all the scenarios in the list and returns the first error encountered, if any.
-func (s List) Install(ctx context.Context, env *environment.Env) error {
-	for _, sc := range s {
-		if err := sc.Install(ctx, env); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-// Get returns the associated scenario for the given application name, or nil if it does not exist.
-func Get(application string) AppScenario {
-	s, ok := scenariosList[application]
-	if !ok {
-		return nil
-	}
-	return s
-}
-
-// Has checks if the associated scenario for the given application exist.
-func Has(application string) bool {
-	_, ok := scenariosList[application]
-	return ok
-}
-
 // absolutePathTo returns the absolute path to the given application directory.
 func absolutePathTo(application string) (string, error) {
 	wd, err := os.Getwd()
@@ -84,11 +57,6 @@ func absolutePathTo(application string) (string, error) {
 
 	return matches[0], nil
 
-}
-
-// This is the ScenarioList of all available scenarios.
-var scenariosList = List{
-	"reloader": reloader{},
 }
 
 // getTestDataDir gets the directory path for test data
