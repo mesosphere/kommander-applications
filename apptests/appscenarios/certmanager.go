@@ -152,31 +152,15 @@ func (r certManager) installRootCA(ctx context.Context, env *environment.Env, ap
 }
 
 func (r certManager) InstallTestCertificate(ctx context.Context, env *environment.Env) error {
-	return r.installYaml(ctx, env, kommanderNamespace, "/cert-manager/test-cert")
-}
-
-func (r certManager) InstallStepCertificates(ctx context.Context, env *environment.Env) error {
-	return r.installYaml(ctx, env, kommanderNamespace, "/cert-manager/acme-setup")
-}
-
-func (r certManager) CreateAcmeIssuer(ctx context.Context, env *environment.Env) error {
-	return r.installYaml(ctx, env, kommanderNamespace, "/cert-manager/acme-clusterissuer")
-}
-
-func (r certManager) CreateAcmeCertificate(ctx context.Context, env *environment.Env) error {
-	return r.installYaml(ctx, env, kommanderNamespace, "/cert-manager/acme-test-cert")
-}
-
-func (r certManager) installYaml(ctx context.Context, env *environment.Env, releaseNamespace string, directoryToInstall string) error {
 	testDataPath, err := getTestDataDir()
 	if err != nil {
 		return err
 	}
 
 	// apply the yaml for the namespace
-	certificatePath := filepath.Join(testDataPath, directoryToInstall)
+	certificatePath := filepath.Join(testDataPath, "/cert-manager")
 	err = env.ApplyYAML(ctx, certificatePath, map[string]string{
-		"releaseNamespace": releaseNamespace,
+		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
 		return err
