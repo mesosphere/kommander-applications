@@ -1,4 +1,4 @@
-name: Application Specific Test Scenario
+name: Application Specific Test - Upgrade
 on:
   workflow_dispatch:
     inputs:
@@ -6,9 +6,13 @@ on:
         description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
         required: true
         type: string
-      previous_version:
-        description: 'For upgrade only. The version to upgrade from. e.g., v2.7.0-dev'
-        default: ''
+      from_version_ref:
+        description: 'The NKP version(git branch or tag) version to upgrade from. e.g., v2.7.0-dev'
+        required: true
+        type: string
+      to_version_ref:
+        description: 'The NKP version(git branch or tag) to run upgrade to. Using latest version by default e.g., v2.8.0-dev'
+        required: true
         type: string
   workflow_call:
     inputs:
@@ -16,16 +20,19 @@ on:
         description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
         required: true
         type: string
-      previous_version:
-        description: 'For upgrade only. The version to upgrade from. e.g., v2.7.0-dev'
-        default: ''
+      from_version_ref:
+        description: 'The NKP version(git branch or tag) version to upgrade from. e.g., v2.7.0-dev'
+        required: true
+        type: string
+      to_version_ref:
+        description: 'The NKP version(git branch or tag) to run upgrade to. Using latest version by default e.g., v2.8.0-dev'
+        required: true
         type: string
 env:
   UPGRADE_KAPPS_REPO_PATH: '.work/upgrade/kommander-applications'
-  # TODO: refactor this to an input thats generated
-  UPGRADE_FROM_KOMMANDER_VERSION: 'v2.7.0'
 
 jobs:
+
   run-test-scenario:
     runs-on:
       - ubuntu-latest
@@ -33,13 +40,14 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.to_version_ref }}
 
     - name: Checkout previous version of k-apps
-      if: ${{ github.event.inputs.scenario }} == 'upgrade'
       uses: actions/checkout@v4
       with:
         path: apptests/${{env.UPGRADE_KAPPS_REPO_PATH}}
-        ref: ${{env.UPGRADE_FROM_KOMMANDER_VERSION}}
+        ref: ${{ inputs.from_version_ref }}
 
     - name: Set up Go
       uses: actions/setup-go@v5
@@ -50,7 +58,7 @@ jobs:
       working-directory: apptests
       run: go install github.com/onsi/ginkgo/v2/ginkgo
 
-    - name: Run ${{ github.event.inputs.app }} upgrade Test
+    - name: Run ${{ inputs.app }} upgrade Test
       working-directory: apptests
       run: |
         ginkgo --label-filter="upgrade && ${{ inputs.app }}" appscenarios
