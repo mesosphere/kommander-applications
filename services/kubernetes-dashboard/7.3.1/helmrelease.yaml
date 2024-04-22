@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kubernetes-dashboard/6.0.9/helmrelease
+  path: ./services/kubernetes-dashboard/7.3.1/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
