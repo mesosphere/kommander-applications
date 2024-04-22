@@ -15,6 +15,7 @@ release:
 								  ":(exclude)common/helm-repositories/ai-navigator-repos.yaml" \
 								  ":(exclude)services/ai-navigator-app" \
 								  ":(exclude)services/ai-navigator-cluster-info-agent"
+	./hack/build-archive.sh $(ARCHIVE_NAME)
 	aws s3 cp --acl $(S3_ACL) $(ARCHIVE_NAME) s3://$(S3_BUCKET)/$(S3_PATH)/
 	echo "Published to $(PUBLISHED_URL)"
 ifeq (,$(findstring dev,$(GIT_TAG)))
