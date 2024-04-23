@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: velero-5.2.2-d2iq-defaults
+  name: velero-6.0.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
