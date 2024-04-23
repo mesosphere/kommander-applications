@@ -168,7 +168,7 @@ resources:
   - container_image: docker.io/library/kong:3.6
     sources:
       - license_path: LICENSE
-        ref: {image_tag}
+        ref: {image_tag}.0
         url: https://github.com/Kong/kong
   - container_image: docker.io/library/traefik:v2.11.2
     sources:
