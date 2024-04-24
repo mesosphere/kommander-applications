@@ -32,13 +32,23 @@ func (k karma) Install(ctx context.Context, env *environment.Env) error {
 	return err
 }
 
-func (r karma) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
-	err := r.install(ctx, env, r.appPathPreviousVersion)
+func (k karma) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
+	err := k.install(ctx, env, k.appPathPreviousVersion)
 
 	return err
 }
 
-func (r karma) install(ctx context.Context, env *environment.Env, appPath string) error {
+func (k karma) InstallDependency(ctx context.Context, env *environment.Env, depAppName string) error {
+	appPath, err := absolutePathTo(depAppName)
+	if err != nil {
+		return err
+	}
+	err = k.install(ctx, env, appPath)
+
+	return err
+}
+
+func (k karma) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
@@ -56,4 +66,22 @@ func (r karma) install(ctx context.Context, env *environment.Env, appPath string
 	}
 
 	return err
+}
+
+func (k karma) ApplyTraefikOverrideCM(ctx context.Context, env *environment.Env, cmName string) error {
+	testDataPath, err := getTestDataDir()
+	if err != nil {
+		return err
+	}
+	cmPath := filepath.Join(testDataPath, "traefik", "override-cm.yaml")
+	err = env.ApplyYAML(ctx, cmPath, map[string]string{
+		"name":      cmName,
+		"namespace": kommanderNamespace,
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }

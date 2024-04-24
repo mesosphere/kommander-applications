@@ -17,24 +17,6 @@ type Cluster struct {
 
 const (
 	defaultClusterName = "kommanderapptest"
-	kindConfig         = `kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-- role: worker
-  kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-`
 )
 
 // CreateCluster creates a new kind cluster with the given name.
@@ -54,7 +36,17 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	if name == "" {
 		name = defaultClusterName
 	}
-	err = provider.Create(name, cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()), cluster.CreateWithRawConfig([]byte(kindConfig)))
+
+	kindConfigFile, err := os.ReadFile("config/kind.yaml")
+	if err != nil {
+		return nil, err
+	}
+
+	err = provider.Create(name,
+		cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()),
+		cluster.CreateWithRawConfig(kindConfigFile),
+	)
+
 	if err != nil {
 		return nil, err
 	}
