@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"path/filepath"
 )
@@ -9,7 +10,7 @@ import (
 type kubeCost struct{}
 
 func (r kubeCost) Name() string {
-	return "kubecost"
+	return constants.Karma
 }
 
 var _ AppScenario = (*reloader)(nil)
