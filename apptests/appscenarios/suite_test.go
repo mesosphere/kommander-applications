@@ -58,8 +58,8 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	//err := env.Destroy(ctx)
-	//Expect(err).ToNot(HaveOccurred())
+	err := env.Destroy(ctx)
+	Expect(err).ToNot(HaveOccurred())
 })
 
 func TestApplications(t *testing.T) {
