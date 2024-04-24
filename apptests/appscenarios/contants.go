@@ -10,4 +10,6 @@ const (
 
 	// Default path to upgrade k-apps repository
 	defaultUpgradeKAppsRepoPath = ".work/upgrade/kommander-applications"
+	// priority class names
+	dkpHighPriority = "dkp-high-priority"
 )

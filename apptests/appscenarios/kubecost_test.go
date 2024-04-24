@@ -73,7 +73,7 @@ var _ = Describe("Installing kubecost", Ordered, Label("kubecost", "install"), f
 		Expect(err).To(BeNil())
 
 		for _, deployment := range deploymentList.Items {
-			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("dkp-high-priority"))
+			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
 		}
 	})
 
