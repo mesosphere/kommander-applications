@@ -74,7 +74,7 @@ func (e *Env) Provision(ctx context.Context) error {
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
 	// install calico CNI
-	err = e.ApplyYAML(ctx, "calico.yaml", nil)
+	err = e.ApplyYAML(ctx, "../environment/calico.yaml", nil)
 	if err != nil {
 		return err
 	}

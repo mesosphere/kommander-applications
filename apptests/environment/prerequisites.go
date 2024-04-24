@@ -33,7 +33,7 @@ func InstallMetallb(ctx context.Context, kubeconfigPath string, subnet *net.Subn
 	addressRange, err := netaddr.ParseIPRange(addresses)
 	Expect(err).ShouldNot(HaveOccurred())
 
-	chartPath := "charts/metallb-0.13.7.tgz"
+	chartPath := "../environment/charts/metallb-0.13.7.tgz"
 
 	kubeconfigBytes, err := os.ReadFile(kubeconfigPath)
 	Expect(err).ShouldNot(HaveOccurred())

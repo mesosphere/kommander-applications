@@ -4,6 +4,7 @@ package kind
 import (
 	"context"
 	"os"
+	"path/filepath"
 
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
@@ -37,7 +38,7 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 		name = defaultClusterName
 	}
 
-	kindConfigFile, err := os.ReadFile("config/kind.yaml")
+	kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml"))
 	if err != nil {
 		return nil, err
 	}

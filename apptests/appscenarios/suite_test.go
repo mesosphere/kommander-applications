@@ -28,23 +28,19 @@ var (
 )
 
 var _ = BeforeSuite(func() {
+	ctx = context.Background()
+	var err error
+	network, err = kind.EnsureDockerNetworkExist(ctx, "", false)
+	Expect(err).ShouldNot(HaveOccurred())
 
-	By("Ensure kind network exist", func() {
-		var err error
-
-		network, err = kind.EnsureDockerNetworkExist(ctx, "", false)
-		Expect(err).ShouldNot(HaveOccurred())
-
-		subnet, err = network.Subnet()
-		Expect(err).ShouldNot(HaveOccurred())
-	})
+	subnet, err = network.Subnet()
+	Expect(err).ShouldNot(HaveOccurred())
 
 	env = &environment.Env{
 		Network: network,
 	}
-	ctx = context.Background()
 
-	err := env.Provision(ctx)
+	err = env.Provision(ctx)
 	Expect(err).ToNot(HaveOccurred())
 
 	k8sClient, err = genericClient.New(env.K8sClient.Config(), genericClient.Options{Scheme: flux.NewScheme()})
