@@ -32,7 +32,7 @@ require (
 	sigs.k8s.io/controller-runtime v0.17.3
 	sigs.k8s.io/kind v0.22.0
 	sigs.k8s.io/kustomize/api v0.16.0
-	sigs.k8s.io/kustomize/kyaml v0.16.0
+	sigs.k8s.io/kustomize/kyaml v0.17.0
 	sigs.k8s.io/yaml v1.4.0
 )
 
@@ -55,7 +55,7 @@ require (
 	github.com/containerd/containerd v1.7.11 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.4 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/distribution/reference v0.5.0 // indirect
 	github.com/docker/docker-credential-helpers v0.8.0 // indirect
 	github.com/docker/go-connections v0.5.0 // indirect
@@ -132,7 +132,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.18.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
@@ -162,7 +162,7 @@ require (
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/oauth2 v0.16.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/term v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
