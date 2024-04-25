@@ -5,6 +5,9 @@ import (
 	"os"
 	"testing"
 
+	. "github.com/onsi/ginkgo/v2"
+	. "github.com/onsi/gomega"
+
 	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"

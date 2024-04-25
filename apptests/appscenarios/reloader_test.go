@@ -17,14 +17,13 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-var (
-	r                      *reloader
-	reloaderHr             *fluxhelmv2beta2.HelmRelease
-	reloaderDeploymentList *appsv1.DeploymentList
-	reloaderContainer      corev1.Container
-)
-
 var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
+	var (
+		r                      *reloader
+		reloaderHr             *fluxhelmv2beta2.HelmRelease
+		reloaderDeploymentList *appsv1.DeploymentList
+		reloaderContainer      corev1.Container
+	)
 
 	It("should install successfully with default config", func() {
 		r = NewReloader()
@@ -89,6 +88,11 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 })
 
 var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
+	var (
+		r          *reloader
+		reloaderHr *fluxhelmv2beta2.HelmRelease
+	)
+
 	It("should install the previous version successfully", func() {
 		r = NewReloader()
 		err := r.InstallPreviousVersion(ctx, env)

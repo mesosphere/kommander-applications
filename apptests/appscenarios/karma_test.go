@@ -21,14 +21,14 @@ const (
 	traefikOverrideCMName  = "traefik-overrides"
 )
 
-var (
-	k                   *karma
-	karmaHr             *fluxhelmv2beta2.HelmRelease
-	karmaDeploymentList *appsv1.DeploymentList
-	karmaContainer      corev1.Container
-)
-
 var _ = Describe("Karma Install Test", Ordered, Label("karma", "install"), func() {
+	var (
+		k                   *karma
+		karmaHr             *fluxhelmv2beta2.HelmRelease
+		karmaDeploymentList *appsv1.DeploymentList
+		karmaContainer      corev1.Container
+	)
+
 	k = NewKarma()
 
 	Context("Karma Dependency", func() {
