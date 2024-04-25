@@ -17,22 +17,20 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-var (
-	r                 *reloader
-	hr                *fluxhelmv2beta2.HelmRelease
-	deploymentList    *appsv1.DeploymentList
-	reloaderContainer corev1.Container
-	err               error
-)
-
 var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
+	var (
+		r                      *reloader
+		reloaderHr             *fluxhelmv2beta2.HelmRelease
+		reloaderDeploymentList *appsv1.DeploymentList
+		reloaderContainer      corev1.Container
+	)
 
 	It("should install successfully with default config", func() {
 		r = NewReloader()
-		err = r.Install(ctx, env)
+		err := r.Install(ctx, env)
 		Expect(err).To(BeNil())
 
-		hr = &fluxhelmv2beta2.HelmRelease{
+		reloaderHr = &fluxhelmv2beta2.HelmRelease{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       fluxhelmv2beta2.HelmReleaseKind,
 				APIVersion: fluxhelmv2beta2.GroupVersion.Version,
@@ -44,12 +42,12 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		}
 
 		Eventually(func() error {
-			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+			err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(reloaderHr), reloaderHr)
 			if err != nil {
 				return err
 			}
 
-			for _, cond := range hr.Status.Conditions {
+			for _, cond := range reloaderHr.Status.Conditions {
 				if cond.Status == metav1.ConditionTrue &&
 					cond.Type == apimeta.ReadyCondition {
 					return nil
@@ -70,15 +68,13 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 		listOptions := &ctrlClient.ListOptions{
 			LabelSelector: selector,
 		}
-		deploymentList = &appsv1.DeploymentList{}
-		err = k8sClient.List(ctx, deploymentList, listOptions)
+		reloaderDeploymentList = &appsv1.DeploymentList{}
+		err = k8sClient.List(ctx, reloaderDeploymentList, listOptions)
 		Expect(err).To(BeNil())
-		Expect(deploymentList.Items).To(HaveLen(1))
-		Expect(err).To(BeNil())
+		Expect(reloaderDeploymentList.Items).To(HaveLen(1))
+		Expect(reloaderDeploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
 
-		Expect(deploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal("dkp-high-priority"))
-
-		reloaderContainer = deploymentList.Items[0].Spec.Template.Spec.Containers[0]
+		reloaderContainer = reloaderDeploymentList.Items[0].Spec.Template.Spec.Containers[0]
 		Expect(reloaderContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
 		Expect(reloaderContainer.Resources.Requests.Memory().String()).To(Equal("128Mi"))
 		Expect(reloaderContainer.Resources.Limits.Cpu().String()).To(Equal("100m"))
@@ -92,6 +88,11 @@ var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"),
 })
 
 var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
+	var (
+		r          *reloader
+		reloaderHr *fluxhelmv2beta2.HelmRelease
+	)
+
 	It("should install the previous version successfully", func() {
 		r = NewReloader()
 		err := r.InstallPreviousVersion(ctx, env)
@@ -130,7 +131,7 @@ var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"),
 		err := r.InstallPreviousVersion(ctx, env)
 		Expect(err).To(BeNil())
 
-		hr = &fluxhelmv2beta2.HelmRelease{
+		reloaderHr = &fluxhelmv2beta2.HelmRelease{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       fluxhelmv2beta2.HelmReleaseKind,
 				APIVersion: fluxhelmv2beta2.GroupVersion.Version,
@@ -142,12 +143,12 @@ var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"),
 		}
 
 		Eventually(func() error {
-			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(reloaderHr), reloaderHr)
 			if err != nil {
 				return err
 			}
 
-			for _, cond := range hr.Status.Conditions {
+			for _, cond := range reloaderHr.Status.Conditions {
 				if cond.Status == metav1.ConditionTrue &&
 					cond.Type == apimeta.ReadyCondition {
 					return nil

@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/drone/envsubst"
+	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"io"
 	"os"
 	"path/filepath"
@@ -45,6 +46,7 @@ type Env struct {
 
 	// Cluster is a dedicated instance of a kind cluster created for running an application specific test.
 	Cluster *kind.Cluster
+	Network *docker.NetworkResource
 }
 
 // Provision creates and configures the environment for application specific testings.
@@ -71,6 +73,17 @@ func (e *Env) Provision(ctx context.Context) error {
 
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
+	// install calico CNI
+	err = e.ApplyYAML(ctx, "../environment/calico.yaml", nil)
+	if err != nil {
+		return err
+	}
+
+	subnet, err := e.Network.Subnet()
+	if err != nil {
+		return err
+	}
+	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet)
 
 	// apply base Kustomizations
 	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
