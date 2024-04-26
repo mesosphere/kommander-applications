@@ -9,19 +9,20 @@ import (
 	"path/filepath"
 	"time"
 
-	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
-	"k8s.io/client-go/rest"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/kustomize/api/konfig"
-
 	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/fluxcd/pkg/ssa"
 	"github.com/fluxcd/pkg/ssa/normalize"
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
+	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"k8s.io/client-go/rest"
+	"k8s.io/klog/v2"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/kustomize/api/konfig"
 
 	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	imageautov1 "github.com/fluxcd/image-automation-controller/api/v1beta1"
@@ -121,6 +122,7 @@ func readObjects(root, manifestPath string) ([]*unstructured.Unstructured, error
 }
 
 func newManager(rcg genericclioptions.RESTClientGetter, opts *runclient.Options) (*ssa.ResourceManager, error) {
+	log.SetLogger(klog.NewKlogr())
 	cfg, err := KubeConfig(rcg, opts)
 	if err != nil {
 		return nil, err
