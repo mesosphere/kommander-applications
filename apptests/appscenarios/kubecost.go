@@ -10,7 +10,7 @@ import (
 type kubeCost struct{}
 
 func (r kubeCost) Name() string {
-	return constants.Karma
+	return constants.KubeCost
 }
 
 var _ AppScenario = (*reloader)(nil)
