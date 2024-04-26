@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"path/filepath"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -12,12 +13,14 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	networking "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 const (
 	karmaTlsCertSecretName = "karma-client-tls-cert"
+	karmaConfigMapName     = "karma-config"
 	traefikOverrideCMName  = "traefik-overrides"
 )
 
@@ -38,7 +41,7 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 		Expect(err).ToNot(HaveOccurred())
 	})
 
-	Describe("Karma Install Test", Ordered, Label("install"), func() {
+	Describe("Karma Install Test", Ordered, Label("karma", "install"), func() {
 		var (
 			k                   *karma
 			karmaHr             *fluxhelmv2beta2.HelmRelease
@@ -107,6 +110,13 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 					}
 					return fmt.Errorf("helm release not ready yet")
 				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+			})
+
+			It("should install kommander-ca", func() {
+				testDataDir, err := getTestDataDir()
+				Expect(err).To(BeNil())
+				err = env.ApplyYAML(ctx, filepath.Join(testDataDir, "cert-manager/kommander-ca"), nil)
+				Expect(err).To(BeNil())
 			})
 
 			It("should install traefik", func() {
@@ -232,7 +242,7 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 				err = k8sClient.List(ctx, karmaDeploymentList, listOptions)
 				Expect(err).To(BeNil())
 				Expect(karmaDeploymentList.Items).To(HaveLen(1))
-				Expect(karmaDeploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
+				Expect(karmaDeploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(dkpCriticalPriority))
 
 				karmaContainer = karmaDeploymentList.Items[0].Spec.Template.Spec.Containers[0]
 				Expect(karmaContainer.Resources.Requests).To(BeEmpty())
@@ -258,25 +268,84 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 			It("should mount configmap based configuration", func() {
 				found := false
 				for _, vm := range karmaContainer.VolumeMounts {
-					if vm.Name == "karma-config" {
+					if vm.Name == karmaConfigMapName {
 						found = true
 					}
 				}
 				Expect(found).To(BeTrue())
 			})
+
+			It("should have reloader annotations about cm and secret", func() {
+				karmaDeployment := karmaDeploymentList.Items[0]
+				Expect(karmaDeployment.Annotations).To(HaveKeyWithValue("configmap.reloader.stakater.com/reload", karmaConfigMapName))
+				Expect(karmaDeployment.Annotations).To(HaveKeyWithValue("secret.reloader.stakater.com/reload", karmaTlsCertSecretName))
+			})
+
 		})
 
 		Context("Karma Service", func() {
-
+			It("should have prometheus label set", func() {
+				karmaSvc := &corev1.Service{}
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(karmaHr), karmaSvc)
+				Expect(err).To(BeNil())
+				Expect(karmaSvc.Labels).To(HaveKeyWithValue("servicemonitor.kommander.mesosphere.io/path", "dkp__kommander__monitoring__karma__metrics"))
+			})
 		})
 
 		Context("Karma Ingress", func() {
+			karmaIngress := &networking.Ingress{}
+			It("should have traefik ingress annotations", func() {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(karmaHr), karmaIngress)
+				karmaTfkMdlwaConfigStr := fmt.Sprintf("%s-stripprefixes@kubernetescrd,%s-forwardauth@kubernetescrd", kommanderNamespace, kommanderNamespace)
+				Expect(err).To(BeNil())
+				Expect(karmaIngress.Annotations).To(HaveKeyWithValue("kubernetes.io/ingress.class", "kommander-traefik"))
+				Expect(karmaIngress.Annotations).To(HaveKeyWithValue("traefik.ingress.kubernetes.io/router.tls", "true"))
+				Expect(karmaIngress.Annotations).To(HaveKeyWithValue("traefik.ingress.kubernetes.io/router.middlewares",
+					karmaTfkMdlwaConfigStr))
+			})
 
+			It("should set the correct path", func() {
+				Expect(karmaIngress.Spec.Rules[0].HTTP.Paths[0].Path).To(Equal("/dkp/kommander/monitoring/karma"))
+			})
 		})
 
 		Context("Karma ConfigMap", func() {
-
+			karmaConfigMap := &corev1.ConfigMap{}
+			It("should have the helm annotations", func() {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKey{Namespace: kommanderNamespace, Name: karmaConfigMapName}, karmaConfigMap)
+				Expect(err).To(BeNil())
+				Expect(karmaConfigMap.Annotations).To(HaveKeyWithValue("helm.sh/hook", "pre-install"))
+				Expect(karmaConfigMap.Annotations).To(HaveKeyWithValue("helm.sh/hook-delete-policy", "before-hook-creation"))
+			})
 		})
 
+		Context("Karma Availability", func() {
+			It("should have access to the karma dashboard", func() {
+				selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+					MatchLabels: map[string]string{
+						"app.kubernetes.io/name": "karma",
+					},
+				})
+				Expect(err).To(BeNil())
+				listOptions := &ctrlClient.ListOptions{
+					LabelSelector: selector,
+				}
+				podList := &corev1.PodList{}
+				err = k8sClient.List(ctx, podList, listOptions)
+				Expect(err).To(BeNil())
+				Expect(podList.Items).To(HaveLen(1))
+
+				res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8080").SubResource("proxy").Suffix("").Do(ctx)
+				Expect(res.Error()).To(BeNil())
+
+				var statusCode int
+				res.StatusCode(&statusCode)
+				Expect(statusCode).To(Equal(200))
+
+				body, err := res.Raw()
+				Expect(err).To(BeNil())
+				Expect(string(body)).To(ContainSubstring("Karma"))
+			})
+		})
 	})
 })
