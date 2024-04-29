@@ -451,7 +451,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v17.2.6
+  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v18.2.2
     sources:
       - license_path: COPYING
         ref: ${image_tag}
