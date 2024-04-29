@@ -141,7 +141,7 @@ var _ = Describe("Installing cert-manager", Ordered, Label("cert-manager", "inst
 		Expect(deploymentList.Items).To(HaveLen(3))
 		Expect(err).To(BeNil())
 
-		Expect(deploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
+		Expect(deploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(systemClusterCriticalPriority))
 	})
 
 	It("should create the root CA successfully", func() {

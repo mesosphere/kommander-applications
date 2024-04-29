@@ -7,4 +7,5 @@ const (
 	Reloader     = "reloader"
 	Traefik      = "traefik"
 	KarmaTraefik = "karma-traefik"
+	Flux         = "kommander-flux"
 )

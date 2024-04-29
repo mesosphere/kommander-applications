@@ -65,7 +65,7 @@ var _ = BeforeSuite(func() {
 	Expect(restClientV1Pods).ToNot(BeNil())
 
 	// Get the path to upgrade k-apps repository from the environment variable
-	upgradeKAppsRepoPath = os.Getenv("UPGRADE_KAPPS_REPO_PATH")
+	upgradeKAppsRepoPath = os.Getenv(upgradeKappsRepoPathEnv)
 	if upgradeKAppsRepoPath == "" {
 		upgradeKAppsRepoPath = defaultUpgradeKAppsRepoPath
 	}
