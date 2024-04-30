@@ -6,14 +6,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/drone/envsubst"
+	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"io"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"os"
 	"path/filepath"
 	"time"
 
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
-	runclient "github.com/fluxcd/pkg/runtime/client"
 	typedclient "github.com/mesosphere/kommander-applications/apptests/client"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
@@ -25,7 +26,6 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apimachinery/pkg/util/yaml"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/klog/v2"
 	genericCLient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
@@ -53,19 +53,6 @@ type Env struct {
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
 // It returns an error if any of the steps fails.
 func (e *Env) Provision(ctx context.Context) error {
-	var err error
-
-	kustomizePath, err := absolutePathToBase()
-	if err != nil {
-		return err
-	}
-	// delete the cluster if any error occurs
-	defer func() {
-		if err != nil {
-			e.Destroy(ctx)
-		}
-	}()
-
 	cluster, k8sClient, err := provisionEnv(ctx)
 	if err != nil {
 		return err
@@ -85,12 +72,6 @@ func (e *Env) Provision(ctx context.Context) error {
 	}
 	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet)
 
-	// apply base Kustomizations
-	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -103,7 +84,7 @@ func (e *Env) Destroy(ctx context.Context) error {
 	return nil
 }
 
-// provisionEnv creates a kind cluster, a Kubernetes client, and installs flux components on the cluster.
+// provisionEnv creates a kind cluster, a Kubernetes client, and installs metallb and calico components on the cluster.
 // It returns the created cluster and client references, or an error if any of the steps fails.
 func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, error) {
 	cluster, err := kind.CreateCluster(ctx, "")
@@ -117,7 +98,7 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 	}
 
 	// creating the necessary namespaces
-	for _, ns := range []string{kommanderNamespace, kommanderFluxNamespace} {
+	for _, ns := range []string{kommanderNamespace} {
 		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
 		if _, err = client.Clientset().
 			CoreV1().
@@ -127,8 +108,25 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 		}
 	}
 
+	return cluster, client, err
+}
+
+// InstallBaseFlux installs the latest version flux components on the cluster. Not the same as installing kommander-flux
+// from the catalog.
+func (e *Env) InstallLatestFlux(ctx context.Context) error {
+	// creating the necessary namespaces
+	for _, ns := range []string{kommanderFluxNamespace} {
+		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
+		if _, err := e.K8sClient.Clientset().
+			CoreV1().
+			Namespaces().
+			Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+			return err
+		}
+	}
+
 	components := []string{"source-controller", "kustomize-controller", "helm-controller"}
-	err = flux.Install(ctx, flux.Options{
+	err := flux.Install(ctx, flux.Options{
 		KubeconfigArgs:    genericclioptions.NewConfigFlags(true),
 		KubeclientOptions: new(runclient.Options),
 		Namespace:         kommanderFluxNamespace,
@@ -138,12 +136,29 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
 	defer cancel()
 
-	err = waitForFluxDeploymentsReady(ctx, client)
+	err = waitForFluxDeploymentsReady(ctx, e.K8sClient)
 	if err != nil {
-		return nil, nil, err
+		return err
 	}
 
-	return cluster, client, err
+	return nil
+}
+
+// ApplyKommanderBaseKustomizations applies the base Kustomizations from the common directory in the catalog. This
+// creates the HelmRepositories and installs the dkp priority classes.
+func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
+	kustomizePath, err := absolutePathToBase()
+	if err != nil {
+		return err
+	}
+
+	// apply base Kustomizations
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // waitForFluxDeploymentsReady discovers all flux deployments in the kommander-flux namespace and waits until they get ready
