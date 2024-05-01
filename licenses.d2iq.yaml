@@ -406,22 +406,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v23.9.2
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.3.0
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-feature-discovery:v0.8.1-ubi8
+  - container_image: nvcr.io/nvidia/gpu-feature-discovery:v0.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/gpu-feature-discovery
-  - container_image: nvcr.io/nvidia/gpu-operator:v23.9.2
+  - container_image: nvcr.io/nvidia/gpu-operator:v24.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.14.5-ubi8
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
@@ -441,7 +441,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-centos7}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.0-3.2.0-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
