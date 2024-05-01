@@ -161,6 +161,25 @@ func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
 	return nil
 }
 
+// ApplyKommanderPriorityClasses applies the priority classes only from the base resources.
+func (e *Env) ApplyKommanderPriorityClasses(ctx context.Context) error {
+	kustomizePath, err := absolutePathToBase()
+	if err != nil {
+		return err
+	}
+
+	// get priority classes path
+	kustomizePath = filepath.Join(kustomizePath, "../priority-classes")
+
+	// apply priority classes
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // waitForFluxDeploymentsReady discovers all flux deployments in the kommander-flux namespace and waits until they get ready
 // it returns an error if the context is cancelled or expired, the deployments are missing, or not ready
 func waitForFluxDeploymentsReady(ctx context.Context, typedClient *typedclient.Client) error {

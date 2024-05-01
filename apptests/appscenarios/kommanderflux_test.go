@@ -16,6 +16,9 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
 		Expect(err).To(BeNil())
+
+		err = env.ApplyKommanderPriorityClasses(ctx)
+		Expect(err).To(BeNil())
 	})
 
 	AfterEach(OncePerOrdered, func() {
