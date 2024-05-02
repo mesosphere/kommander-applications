@@ -2,8 +2,9 @@ package appscenarios
 
 import (
 	"context"
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"path/filepath"
+
+	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
 type certManager struct{}
