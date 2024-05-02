@@ -2,7 +2,9 @@ package appscenarios
 
 import (
 	"context"
+
 	"github.com/mesosphere/kommander-applications/apptests/flux"
+
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/client-go/rest"

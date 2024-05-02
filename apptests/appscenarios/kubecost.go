@@ -2,9 +2,10 @@ package appscenarios
 
 import (
 	"context"
+	"path/filepath"
+
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
-	"path/filepath"
 )
 
 type kubeCost struct{}
