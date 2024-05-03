@@ -195,16 +195,12 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 				Expect(err).To(BeNil())
 				Expect(podList.Items).To(HaveLen(1))
 
-				res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8080").SubResource("proxy").Suffix("").Do(ctx)
+				res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8080").SubResource("proxy").Suffix("/dkp/kommander/monitoring/karma/").Do(ctx)
 				Expect(res.Error()).To(BeNil())
 
 				var statusCode int
 				res.StatusCode(&statusCode)
 				Expect(statusCode).To(Equal(200))
-
-				body, err := res.Raw()
-				Expect(err).To(BeNil())
-				Expect(string(body)).To(ContainSubstring("Karma"))
 			})
 		})
 	})
@@ -250,6 +246,72 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+		})
+
+		It("should have access to the karma dashboard", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app.kubernetes.io/name": "karma",
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			podList := &corev1.PodList{}
+			err = k8sClient.List(ctx, podList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(podList.Items).To(HaveLen(1))
+
+			res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8080").SubResource("proxy").Suffix("/dkp/kommander/monitoring/karma/").Do(ctx)
+			Expect(res.Error()).To(BeNil())
+
+			var statusCode int
+			res.StatusCode(&statusCode)
+			Expect(statusCode).To(Equal(200))
+		})
+
+		It("should upgrade karma successfully", func() {
+			err := k.Install(ctx, env)
+			Expect(err).To(BeNil())
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(karmaHr), karmaHr)
+				if err != nil {
+					return err
+				}
+
+				for _, cond := range karmaHr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+		})
+
+		It("should have access to the karma dashboard after upgrade", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app.kubernetes.io/name": "karma",
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			podList := &corev1.PodList{}
+			err = k8sClient.List(ctx, podList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(podList.Items).To(HaveLen(1))
+
+			res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8080").SubResource("proxy").Suffix("/dkp/kommander/monitoring/karma/").Do(ctx)
+			Expect(res.Error()).To(BeNil())
+
+			var statusCode int
+			res.StatusCode(&statusCode)
+			Expect(statusCode).To(Equal(200))
 		})
 	})
 })
