@@ -54,148 +54,8 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 			karmaContainer      corev1.Container
 		)
 
-		Context("Karma Dependency", func() {
-			It("should install cert-manager", func() {
-				cm := certManager{}
-				err := cm.Install(ctx, env)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.CertManager,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install cert-manager crds successfully", func() {
-				certManagerCrds := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "cert-manager-crds",
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(certManagerCrds), certManagerCrds)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range certManagerCrds.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install kommander-ca", func() {
-				testDataDir, err := getTestDataDir()
-				Expect(err).To(BeNil())
-				err = env.ApplyYAML(ctx, filepath.Join(testDataDir, "cert-manager/kommander-ca"), nil)
-				Expect(err).To(BeNil())
-			})
-
-			It("should install traefik", func() {
-				// TODO: use traefik object to install
-				err := k.ApplyTraefikOverrideCM(ctx, env, traefikOverrideCMName)
-				Expect(err).To(BeNil())
-				err = k.InstallDependency(ctx, env, constants.Traefik)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.Traefik,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				// override traefik values.yaml
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-				Expect(err).To(BeNil())
-				hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-					Kind: "ConfigMap",
-					Name: traefikOverrideCMName,
-				})
-				err = k8sClient.Update(ctx, hr)
-				Expect(err).To(BeNil())
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install karma-traefik", func() {
-				err := k.InstallDependency(ctx, env, constants.KarmaTraefik)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.KarmaTraefik,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
+		It("should install karma dependencies", func() {
+			installKarmaDependencies(k)
 		})
 
 		It("should install successfully with default config", func() {
@@ -353,148 +213,8 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 			karmaHr *fluxhelmv2beta2.HelmRelease
 		)
 
-		Context("Karma Dependency", func() {
-			It("should install cert-manager", func() {
-				cm := certManager{}
-				err := cm.Install(ctx, env)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.CertManager,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install cert-manager crds successfully", func() {
-				certManagerCrds := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "cert-manager-crds",
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(certManagerCrds), certManagerCrds)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range certManagerCrds.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install kommander-ca", func() {
-				testDataDir, err := getTestDataDir()
-				Expect(err).To(BeNil())
-				err = env.ApplyYAML(ctx, filepath.Join(testDataDir, "cert-manager/kommander-ca"), nil)
-				Expect(err).To(BeNil())
-			})
-
-			It("should install traefik", func() {
-				// TODO: use traefik object to install
-				err := k.ApplyTraefikOverrideCM(ctx, env, traefikOverrideCMName)
-				Expect(err).To(BeNil())
-				err = k.InstallDependency(ctx, env, constants.Traefik)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.Traefik,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				// override traefik values.yaml
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-				Expect(err).To(BeNil())
-				hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-					Kind: "ConfigMap",
-					Name: traefikOverrideCMName,
-				})
-				err = k8sClient.Update(ctx, hr)
-				Expect(err).To(BeNil())
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
-
-			It("should install karma-traefik", func() {
-				err := k.InstallDependency(ctx, env, constants.KarmaTraefik)
-				Expect(err).To(BeNil())
-
-				hr := &fluxhelmv2beta2.HelmRelease{
-					TypeMeta: metav1.TypeMeta{
-						Kind:       fluxhelmv2beta2.HelmReleaseKind,
-						APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-					},
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      constants.KarmaTraefik,
-						Namespace: kommanderNamespace,
-					},
-				}
-
-				Eventually(func() error {
-					err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-					if err != nil {
-						return err
-					}
-
-					for _, cond := range hr.Status.Conditions {
-						if cond.Status == metav1.ConditionTrue &&
-							cond.Type == apimeta.ReadyCondition {
-							return nil
-						}
-					}
-					return fmt.Errorf("helm release not ready yet")
-				}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-			})
+		It("should install karma dependencies successfully", func() {
+			installKarmaDependencies(k)
 		})
 
 		It("should install previous version successfully with default config", func() {
@@ -595,3 +315,142 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 		})
 	})
 })
+
+func installKarmaDependencies(k *karma) {
+	By("Installing cert-manager")
+	cm := certManager{}
+	err := cm.Install(ctx, env)
+	Expect(err).To(BeNil())
+
+	hr := &fluxhelmv2beta2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2beta2.HelmReleaseKind,
+			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      constants.CertManager,
+			Namespace: kommanderNamespace,
+		},
+	}
+
+	Eventually(func() error {
+		err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+		if err != nil {
+			return err
+		}
+
+		for _, cond := range hr.Status.Conditions {
+			if cond.Status == metav1.ConditionTrue &&
+				cond.Type == apimeta.ReadyCondition {
+				return nil
+			}
+		}
+		return fmt.Errorf("helm release not ready yet")
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+	By("Installing cert-manager crds successfully")
+	certManagerCrds := &fluxhelmv2beta2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2beta2.HelmReleaseKind,
+			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "cert-manager-crds",
+			Namespace: kommanderNamespace,
+		},
+	}
+
+	Eventually(func() error {
+		err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(certManagerCrds), certManagerCrds)
+		if err != nil {
+			return err
+		}
+
+		for _, cond := range certManagerCrds.Status.Conditions {
+			if cond.Status == metav1.ConditionTrue &&
+				cond.Type == apimeta.ReadyCondition {
+				return nil
+			}
+		}
+		return fmt.Errorf("helm release not ready yet")
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+	By("Installing kommander-ca")
+	testDataDir, err := getTestDataDir()
+	Expect(err).To(BeNil())
+	err = env.ApplyYAML(ctx, filepath.Join(testDataDir, "cert-manager/kommander-ca"), nil)
+	Expect(err).To(BeNil())
+
+	By("should install traefik")
+	// TODO: use traefik object to install
+	err = k.ApplyTraefikOverrideCM(ctx, env, traefikOverrideCMName)
+	Expect(err).To(BeNil())
+	err = k.InstallDependency(ctx, env, constants.Traefik)
+	Expect(err).To(BeNil())
+
+	hr = &fluxhelmv2beta2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2beta2.HelmReleaseKind,
+			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      constants.Traefik,
+			Namespace: kommanderNamespace,
+		},
+	}
+
+	// override traefik values.yaml
+	err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+	Expect(err).To(BeNil())
+	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
+		Kind: "ConfigMap",
+		Name: traefikOverrideCMName,
+	})
+	err = k8sClient.Update(ctx, hr)
+	Expect(err).To(BeNil())
+
+	Eventually(func() error {
+		err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+		if err != nil {
+			return err
+		}
+
+		for _, cond := range hr.Status.Conditions {
+			if cond.Status == metav1.ConditionTrue &&
+				cond.Type == apimeta.ReadyCondition {
+				return nil
+			}
+		}
+		return fmt.Errorf("helm release not ready yet")
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+	By("should install karma-traefik")
+	err = k.InstallDependency(ctx, env, constants.KarmaTraefik)
+	Expect(err).To(BeNil())
+
+	hr = &fluxhelmv2beta2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2beta2.HelmReleaseKind,
+			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      constants.KarmaTraefik,
+			Namespace: kommanderNamespace,
+		},
+	}
+
+	Eventually(func() error {
+		err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+		if err != nil {
+			return err
+		}
+
+		for _, cond := range hr.Status.Conditions {
+			if cond.Status == metav1.ConditionTrue &&
+				cond.Type == apimeta.ReadyCondition {
+				return nil
+			}
+		}
+		return fmt.Errorf("helm release not ready yet")
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+}
