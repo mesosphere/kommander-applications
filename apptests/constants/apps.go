@@ -8,4 +8,5 @@ const (
 	Traefik      = "traefik"
 	KarmaTraefik = "karma-traefik"
 	Flux         = "kommander-flux"
+	ExternalDns  = "external-dns"
 )
