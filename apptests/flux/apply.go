@@ -37,6 +37,7 @@ import (
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
+	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 )
 
 // Apply is the equivalent of 'kubectl apply --server-side -f'.
@@ -159,6 +160,7 @@ func NewScheme() *apiruntime.Scheme {
 	_ = notificationv1b2.AddToScheme(scheme)
 	_ = imagereflectv1.AddToScheme(scheme)
 	_ = imageautov1.AddToScheme(scheme)
+	_ = traefikv1a1.AddToScheme(scheme)
 	return scheme
 }
 

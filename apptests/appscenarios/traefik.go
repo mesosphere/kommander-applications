@@ -51,6 +51,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
 		"releaseNamespace": kommanderNamespace,
+		"tfaName":          "traefik-forward-auth-mgmt",
 	})
 	if err != nil {
 		return err
