@@ -53,14 +53,16 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
-		"releaseNamespace": kommanderNamespace,
+		"releaseNamespace":   kommanderNamespace,
+		"workspaceNamespace": kommanderNamespace,
 	})
 	if err != nil {
 		return err
 	}
 	// apply the rest of kustomizations
 	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseNamespace": kommanderNamespace,
+		"releaseNamespace":   kommanderNamespace,
+		"workspaceNamespace": kommanderNamespace,
 	})
 	if err != nil {
 		return err

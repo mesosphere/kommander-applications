@@ -17,4 +17,5 @@ const (
 	// priority class names
 	dkpHighPriority               = "dkp-high-priority"
 	systemClusterCriticalPriority = "system-cluster-critical"
+	dkpCriticalPriority           = "dkp-critical-priority"
 )
