@@ -2,7 +2,6 @@ package appscenarios
 
 import (
 	"fmt"
-	corev1 "k8s.io/api/core/v1"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -11,6 +10,7 @@ import (
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
