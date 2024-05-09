@@ -43,7 +43,6 @@ type Env struct {
 	// K8sClient is a reference to the Kubernetes client
 	// This client is used to interact with the cluster built during the execution of the application specific testing.
 	K8sClient *typedclient.Client
-
 	// Cluster is a dedicated instance of a kind cluster created for running an application specific test.
 	Cluster *kind.Cluster
 	Network *docker.NetworkResource
