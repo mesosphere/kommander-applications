@@ -1,7 +1,6 @@
 module github.com/mesosphere/kommander-applications/apptests
 
-go 1.22
-toolchain go1.22.2
+go 1.22.0
 
 require (
 	github.com/docker/cli v24.0.9+incompatible
