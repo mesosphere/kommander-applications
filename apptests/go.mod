@@ -1,6 +1,7 @@
 module github.com/mesosphere/kommander-applications/apptests
 
 go 1.22
+toolchain go1.22.2
 
 require (
 	github.com/docker/cli v24.0.9+incompatible
@@ -26,7 +27,7 @@ require (
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
 	k8s.io/api v0.29.3
 	k8s.io/apiextensions-apiserver v0.29.3
-	k8s.io/apimachinery v0.29.3
+	k8s.io/apimachinery v0.30.0
 	k8s.io/cli-runtime v0.29.2
 	k8s.io/client-go v0.29.3
 	k8s.io/klog/v2 v2.120.1
@@ -188,7 +189,7 @@ require (
 	helm.sh/helm/v3 v3.14.2 // indirect
 	k8s.io/apiserver v0.29.3 // indirect
 	k8s.io/component-base v0.29.3 // indirect
-	k8s.io/kube-openapi v0.0.0-20240103195357-a9f8850cb432 // indirect
+	k8s.io/kube-openapi v0.0.0-20240228011516-70dd3763d340 // indirect
 	k8s.io/kubectl v0.29.0 // indirect
 	k8s.io/utils v0.0.0-20240102154912-e7106e64919e // indirect
 	oras.land/oras-go v1.2.4 // indirect
