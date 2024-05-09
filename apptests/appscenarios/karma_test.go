@@ -382,10 +382,8 @@ func installKarmaDependencies(k *karma) {
 	Expect(err).To(BeNil())
 
 	By("should install traefik")
-	// TODO: use traefik object to install
-	err = k.ApplyTraefikOverrideCM(ctx, env, traefikOverrideCMName)
-	Expect(err).To(BeNil())
-	err = k.InstallDependency(ctx, env, constants.Traefik)
+	tfk := NewTraefik()
+	err = tfk.Install(ctx, env)
 	Expect(err).To(BeNil())
 
 	hr = &fluxhelmv2beta2.HelmRelease{
@@ -394,20 +392,10 @@ func installKarmaDependencies(k *karma) {
 			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      constants.Traefik,
+			Name:      tfk.Name(),
 			Namespace: kommanderNamespace,
 		},
 	}
-
-	// override traefik values.yaml
-	err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-	Expect(err).To(BeNil())
-	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-		Kind: "ConfigMap",
-		Name: traefikOverrideCMName,
-	})
-	err = k8sClient.Update(ctx, hr)
-	Expect(err).To(BeNil())
 
 	Eventually(func() error {
 		err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)

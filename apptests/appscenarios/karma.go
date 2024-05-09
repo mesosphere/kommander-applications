@@ -70,21 +70,3 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 
 	return err
 }
-
-func (k karma) ApplyTraefikOverrideCM(ctx context.Context, env *environment.Env, cmName string) error {
-	testDataPath, err := getTestDataDir()
-	if err != nil {
-		return err
-	}
-	cmPath := filepath.Join(testDataPath, "traefik", "override-cm.yaml")
-	err = env.ApplyYAML(ctx, cmPath, map[string]string{
-		"name":      cmName,
-		"namespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-
-	return nil
-
-}
