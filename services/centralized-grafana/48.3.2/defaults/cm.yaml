@@ -97,13 +97,12 @@ data:
         type: ClusterIP
         port: 80
       resources:
-        # keep request = limit to keep this container in guaranteed class
         limits:
-          cpu: 300m
-          memory: 100Mi
+          cpu: 2000m
+          memory: 10922Mi
         requests:
           cpu: 200m
-          memory: 100Mi
+          memory: 200Mi
 
       rbac:
         pspUseAppArmor: false
