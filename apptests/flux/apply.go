@@ -26,11 +26,7 @@ import (
 	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
 	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
-	imageautov1 "github.com/fluxcd/image-automation-controller/api/v1beta1"
-	imagereflectv1 "github.com/fluxcd/image-reflector-controller/api/v1beta2"
 	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
-	notificationv1 "github.com/fluxcd/notification-controller/api/v1"
-	notificationv1b2 "github.com/fluxcd/notification-controller/api/v1beta2"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/fluxcd/pkg/ssa"
 	"github.com/fluxcd/pkg/ssa/normalize"
@@ -156,10 +152,6 @@ func NewScheme() *apiruntime.Scheme {
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
 	_ = helmv2b2.AddToScheme(scheme)
-	_ = notificationv1.AddToScheme(scheme)
-	_ = notificationv1b2.AddToScheme(scheme)
-	_ = imagereflectv1.AddToScheme(scheme)
-	_ = imageautov1.AddToScheme(scheme)
 	_ = traefikv1a1.AddToScheme(scheme)
 	return scheme
 }
