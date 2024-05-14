@@ -9,6 +9,11 @@ certifications:
   - certified
   - supported
   - airgapped
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # Overview
   The Logging operator automates the deployment and configuration of a Kubernetes logging pipeline. The operator deploys and configures a Fluent Bit DaemonSet on every node to collect container and application logs from the node file system. Fluent Bit queries the Kubernetes API and enriches the logs with metadata about the pods, and transfers both the logs and the metadata to Fluentd. Fluentd receives, filters, and transfer logs to multiple outputs. Your logs will always be transferred on authenticated and encrypted channels.

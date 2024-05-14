@@ -9,6 +9,11 @@ certifications:
   - certified
   - supported
   - airgapped
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # External DNS
 

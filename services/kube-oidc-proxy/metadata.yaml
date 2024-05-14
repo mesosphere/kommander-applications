@@ -8,6 +8,11 @@ dependencies:
 type: internal
 scope:
   - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 certifications:
   - certified
   - supported
