@@ -92,6 +92,7 @@ data:
     - "karma"
     - "kommander"
     - "kommander-appmanagement"
+    - "kommander-ui"
     - "kubefed"
     - "thanos"
     - "traefik-forward-auth-mgmt"
