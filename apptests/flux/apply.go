@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
+	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
@@ -153,6 +154,7 @@ func NewScheme() *apiruntime.Scheme {
 	_ = kustomizev1.AddToScheme(scheme)
 	_ = helmv2b2.AddToScheme(scheme)
 	_ = traefikv1a1.AddToScheme(scheme)
+	_ = gatekeeperapi.AddToScheme(scheme)
 	return scheme
 }
 
