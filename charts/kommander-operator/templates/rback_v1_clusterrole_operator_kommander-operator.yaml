@@ -32,6 +32,7 @@ rules:
     resources:
       - kommandercores
       - appdeployments
+      - clusterapps
       - kustomizations
       - federatednamespaces
       - helmreleases
