@@ -4,6 +4,11 @@ networking:
   podSubnet: "172.16.0.0/16"
 nodes:
   - role: control-plane
+    extraMounts:
+      - hostPath: ./testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+      - hostPath: ./testdata/rook-ceph/manifests/
+        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration
@@ -11,6 +16,35 @@ nodes:
           kubeletExtraArgs:
             node-labels: "ingress-ready=true"
   - role: worker
+    extraMounts:
+      - hostPath: ./testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+      - hostPath: ./testdata/rook-ceph/manifests/
+        containerPath: /hack/manifests
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+  - role: worker
+    extraMounts:
+      - hostPath: ./testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+      - hostPath: ./testdata/rook-ceph/manifests/
+        containerPath: /hack/manifests
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+  - role: worker
+    extraMounts:
+      - hostPath: ./testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+      - hostPath: ./testdata/rook-ceph/manifests/
+        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration

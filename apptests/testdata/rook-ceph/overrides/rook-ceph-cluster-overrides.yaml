@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-ceph-cluster-overrides
+  namespace: kommander
+data:
+  values.yaml: |
+    ---
+    cephClusterSpec:
+      mon:
+        # Use a single node for testing in kind
+        count: 1
+        # Mons should only be allowed on the same node for test environments where data loss is acceptable.
+        allowMultiplePerNode: true
+        volumeClaimTemplate:
+          spec:
+            storageClassName:
+            volumeMode: FileSystem
+            resources:
+              requests:
+                # Reduce the size for testing
+                storage: 1Gi
+      mgr:
+        count: 1
+        allowMultiplePerNode: true
+      storage:
+        storageClassDeviceSets:
+          - name: rook-ceph-osd-set1
+            count: 1
+            portable: false
+            encrypted: false
+            volumeClaimTemplates:
+              - metadata:
+                  name: data
+                spec:
+                  resources:
+                    requests:
+                      storage: 1Gi
+                  # Specify the storage class directly to avoid using the default storage class of local-path
+                  storageClassName: manual
+                  # OSD Requires Block storage.
+                  volumeMode: Block
+                  accessModes:
+                    - ReadWriteOnce
