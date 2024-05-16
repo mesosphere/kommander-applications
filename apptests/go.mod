@@ -16,7 +16,7 @@ require (
 	github.com/fluxcd/pkg/ssa v0.39.1
 	github.com/fluxcd/source-controller/api v1.3.0
 	github.com/mittwald/go-helm-client v0.12.9
-	github.com/onsi/ginkgo/v2 v2.17.2
+	github.com/onsi/ginkgo/v2 v2.17.3
 	github.com/onsi/gomega v1.33.1
 	github.com/stretchr/testify v1.9.0
 	github.com/traefik/traefik/v2 v2.11.2
