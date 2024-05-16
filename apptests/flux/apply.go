@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"time"
 
-	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
@@ -34,6 +33,7 @@ import (
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
+	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
 	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 )
 
