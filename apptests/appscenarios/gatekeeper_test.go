@@ -16,7 +16,7 @@ import (
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 )
 
-var _ = Describe("GateKeeper Tests", func() {
+var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 	var (
 		gk *gatekeeper
 	)
@@ -77,37 +77,88 @@ var _ = Describe("GateKeeper Tests", func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		Context("GateKeeper Deployments", func() {
-			It("should have resource limits and priority class set", func() {
-				selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-					MatchLabels: map[string]string{
-						"helm.toolkit.fluxcd.io/name": gk.Name(),
-					},
-				})
-				Expect(err).ToNot(HaveOccurred())
-				listOptions := &ctrlClient.ListOptions{
-					LabelSelector: selector,
-				}
-				gateKeeperDeploymentList = &appsv1.DeploymentList{}
-				err = k8sClient.List(ctx, gateKeeperDeploymentList, listOptions)
-				Expect(err).To(BeNil())
-				Expect(len(gateKeeperDeploymentList.Items)).To(Equal(2))
-				for i, _ := range gateKeeperDeploymentList.Items {
-					Expect(gateKeeperDeploymentList.Items[i].Spec.Template.Spec.PriorityClassName).To(Equal(systemClusterCriticalPriority))
-					gateKeeperContainer = gateKeeperDeploymentList.Items[i].Spec.Template.Spec.Containers[0]
-					Expect(gateKeeperContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
-					Expect(gateKeeperContainer.Resources.Requests.Memory().String()).To(Equal("512Mi"))
-					Expect(gateKeeperContainer.Resources.Limits.Cpu()).To(BeEmpty())
-					Expect(gateKeeperContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
-				}
+		It("should have resource limits and priority class set", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"helm.toolkit.fluxcd.io/name": gk.Name(),
+				},
 			})
+			Expect(err).ToNot(HaveOccurred())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			gateKeeperDeploymentList = &appsv1.DeploymentList{}
+			err = k8sClient.List(ctx, gateKeeperDeploymentList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(len(gateKeeperDeploymentList.Items)).To(Equal(2))
+			for i, _ := range gateKeeperDeploymentList.Items {
+				Expect(gateKeeperDeploymentList.Items[i].Spec.Template.Spec.PriorityClassName).To(Equal(systemClusterCriticalPriority))
+				gateKeeperContainer = gateKeeperDeploymentList.Items[i].Spec.Template.Spec.Containers[0]
+				Expect(gateKeeperContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
+				Expect(gateKeeperContainer.Resources.Requests.Memory().String()).To(Equal("512Mi"))
+				Expect(gateKeeperContainer.Resources.Limits.Cpu().String()).To(Equal("0"))
+				Expect(gateKeeperContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
+			}
+		})
 
+		It("should enforce the default constraints", func() {
+			ensureConstraintEnforced()
 		})
 
 	})
 
 	Describe("GateKeeper Upgrade Test", Ordered, Label("upgrade"), func() {
+		var (
+		//gateKeeperHr *fluxhelmv2beta2.HelmRelease
+		)
 
+		It("should install previous version successfully", func() {
+
+		})
 	})
 
 })
+
+func ensureConstraintEnforced() {
+	By("creating Project NS")
+	projectNS := &corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "project-ns",
+			Labels: map[string]string{
+				"kommander.d2iq.io/managed-by-kind": "Project",
+			},
+		},
+	}
+	err := k8sClient.Create(ctx, projectNS)
+	Expect(err).ToNot(HaveOccurred())
+
+	By("should require service account name defined in HelmRelease in Project")
+	hr1 := &fluxhelmv2beta2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2beta2.HelmReleaseKind,
+			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "hr-to-be-rejected",
+			Namespace: projectNS.Name, // we are treating this as a project NS
+		},
+		Spec: fluxhelmv2beta2.HelmReleaseSpec{
+			Chart: fluxhelmv2beta2.HelmChartTemplate{
+				Spec: fluxhelmv2beta2.HelmChartTemplateSpec{
+					Chart:   "external-dns",
+					Version: "7.2.0",
+					SourceRef: fluxhelmv2beta2.CrossNamespaceObjectReference{
+						Kind:      "HelmRepository",
+						Name:      "charts.github.io-bitnami",
+						Namespace: "kommander-flux",
+					},
+				},
+			},
+			Interval: metav1.Duration{Duration: 3 * time.Second},
+		},
+	}
+	err = k8sClient.Create(ctx, hr1)
+	Expect(err).To(HaveOccurred())
+	Expect(err.Error()).To(ContainSubstring("admission webhook \"validation.gatekeeper.sh\" denied the request: [helmrelease-must-have-sa] must have a serviceAccountName set"))
+	// not asserting kustomization enforcement since that needs a GitRepository
+}
