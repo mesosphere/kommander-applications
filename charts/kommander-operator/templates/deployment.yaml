@@ -19,6 +19,7 @@ spec:
         controller: {{ .Chart.Name }}
         chart: {{ .Chart.Name }}-{{ .Chart.Version }}
         release: {{ .Release.Name }}
+        kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
     spec:
       serviceAccountName: {{ .Chart.Name }}-sa
       {{- if .Values.priorityClassName }}
