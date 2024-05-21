@@ -208,7 +208,7 @@ func ensureConstraintEnforced(projectNS string) {
 			Namespace: projectNS, // we are treating this as a project NS
 		},
 		Spec: fluxhelmv2beta2.HelmReleaseSpec{
-			Chart: fluxhelmv2beta2.HelmChartTemplate{
+			Chart: &fluxhelmv2beta2.HelmChartTemplate{
 				Spec: fluxhelmv2beta2.HelmChartTemplateSpec{
 					Chart:   "external-dns",
 					Version: "7.2.0",
