@@ -6,6 +6,11 @@ type: platform
 allowMultipleInstances: false
 scope:
   - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # Overview
   The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and NKP environment optimization. Designed with the intricacies of NKP in mind, it offers personalized insights, troubleshooting assistance, and real-time answers to the most pressing user queries. Leveraging its deep knowledge base and tailored response mechanism, the AI Navigator minimizes the knowledge gap, enabling users to focus more on achieving their business goals rather than being bogged down by technical configurations.

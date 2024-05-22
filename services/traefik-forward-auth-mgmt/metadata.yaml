@@ -5,3 +5,9 @@ requiredDependencies:
   - dex
   - kommander
   - traefik
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise

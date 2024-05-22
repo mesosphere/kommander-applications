@@ -3,3 +3,9 @@ scope:
   - workspace
 requiredDependencies:
   - kommander
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise

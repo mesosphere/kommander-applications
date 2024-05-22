@@ -9,6 +9,11 @@ certifications:
   - certified
   - supported
   - airgapped
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # Overview
   Gatekeeper is a customizable admission webhook for Kubernetes that enforces policies executed by the Open Policy Agent (OPA), a policy engine for Cloud Native environments hosted by CNCF.

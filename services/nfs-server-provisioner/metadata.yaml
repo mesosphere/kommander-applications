@@ -3,6 +3,11 @@ description: NFS Server Provisioner is an out-of-tree dynamic provisioner for Ku
 type: catalog
 scope:
   - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # Overview
   NFS Server Provisioner is an out-of-tree dynamic provisioner for Kubernetes. You can use it to quickly & easily deploy

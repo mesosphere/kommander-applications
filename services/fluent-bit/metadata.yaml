@@ -9,6 +9,11 @@ certifications:
   - certified
   - supported
   - airgapped
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 overview: |-
   # Overview
   Fluent Bit is an open source Log Processor and Forwarder. It is a CNCF subproject under the umbrella of Fluentd. Fluent Bit is fully designed and built on top of the best ideas of Fluentd architecture and general design. It has been made with a strong focus on performance to allow the collection of events from different sources without complexity. This application has been designed with performance and low resources consumption in mind.

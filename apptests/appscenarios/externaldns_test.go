@@ -69,7 +69,7 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 						return nil
 					}
 				}
-				return fmt.Errorf("helm release not ready yet")
+				return fmt.Errorf("helm release not ready yet. Helm Release: %+v", hr)
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
@@ -158,7 +158,7 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 						return nil
 					}
 				}
-				return fmt.Errorf("helm release not ready yet")
+				return fmt.Errorf("helm release not ready yet. Helm Release: %+v", hr)
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
@@ -217,7 +217,7 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 						return nil
 					}
 				}
-				return fmt.Errorf("helm release not ready yet")
+				return fmt.Errorf("helm release not ready yet. Helm Release: %+v", hr)
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 

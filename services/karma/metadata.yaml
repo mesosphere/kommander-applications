@@ -3,3 +3,8 @@ scope:
   - workspace
 requiredDependencies:
   - karma-traefik
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
