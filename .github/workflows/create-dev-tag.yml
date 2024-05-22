@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install NIX
-        uses: cachix/install-nix-action@v26
+        uses: cachix/install-nix-action@V27
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
@@ -64,7 +64,7 @@ jobs:
           depth: 0
 
       - name: Install NIX
-        uses: cachix/install-nix-action@v26
+        uses: cachix/install-nix-action@V27
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
