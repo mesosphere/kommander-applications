@@ -27,10 +27,10 @@ spec:
   releaseName: logging-operator-logging
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-logging-4.2.4-d2iq-defaults
+      name: logging-operator-logging-4.2.5-d2iq-defaults
     # FIXME: To make logging-operator-logging work properly with federated
     # overrides, the `logging-operator` app should be split into two,
-    # after which this enntry should be replaced with `configOverrides`
+    # after which this entry should be replaced with `configOverrides`
     # in the AppDeployment
     - kind: ConfigMap
       name: logging-operator-logging-overrides
