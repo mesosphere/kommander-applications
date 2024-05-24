@@ -1,19 +1,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: fluent-bit
+  name: logging-operator
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: fluent-bit
+      chart: logging-operator
       sourceRef:
         kind: HelmRepository
-        name: fluent.github.io
+        name: kube-logging.github.io-charts
         namespace: kommander-flux
-      # This chart version should be kept in sync with logging-operator.
-      # Both services should deploy the same version of fluent-bit.
-      version: 0.46.1
+      # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
+      version: 4.2.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,8 +22,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  timeout: 5m0s
-  releaseName: kommander-fluent-bit
+  releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: fluent-bit-0.46.1-d2iq-defaults
+      name: logging-operator-4.2.5-d2iq-defaults
