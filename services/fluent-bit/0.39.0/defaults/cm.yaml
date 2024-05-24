@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fluent-bit-0.38.0-d2iq-defaults
+  name: fluent-bit-0.39.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
     # overriding the default image tag to be consistent with logging-operator
     image:
-      tag: 2.1.4
+      tag: 2.2.3
 
     priorityClassName: "dkp-critical-priority"
     resources:

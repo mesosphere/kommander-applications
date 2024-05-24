@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-4.2.3-d2iq-defaults
+  name: logging-operator-4.2.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -27,7 +27,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-4.2.3-d2iq-defaults
+  name: logging-operator-logging-4.2.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -112,7 +112,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: fluent/fluent-bit
-        tag: 2.1.4
+        tag: 2.2.3
       resources:
        limits:
          memory: 750Mi
