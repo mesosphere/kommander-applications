@@ -3,7 +3,7 @@ module github.com/mesosphere/kommander-applications/apptests
 go 1.22.0
 
 require (
-	github.com/docker/cli v24.0.9+incompatible
+	github.com/docker/cli v26.1.3+incompatible
 	github.com/docker/distribution v2.8.3+incompatible
 	github.com/docker/docker v24.0.9+incompatible
 	github.com/drone/envsubst v1.0.3
