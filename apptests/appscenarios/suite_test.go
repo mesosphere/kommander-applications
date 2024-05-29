@@ -2,11 +2,7 @@ package appscenarios
 
 import (
 	"context"
-	"github.com/mesosphere/kommander-applications/apptests/flux"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"os"
-	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"testing"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -14,9 +10,13 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/client-go/rest"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
 
 var (
