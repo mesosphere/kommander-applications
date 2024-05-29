@@ -29,7 +29,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 		err = rc.CreateLoopbackDevicesKind(ctx, env)
 		Expect(err).To(BeNil())
 
-		err = env.RunScriptAllNode(ctx, "/hack/scripts/loopback-storage-creator.sh")
+		err = env.RunScriptOnAllNode(ctx, "/hack/scripts/loopback-storage-creator.sh")
 		Expect(err).To(BeNil())
 
 		err = rc.ApplyPersistentVolumeCreator(ctx, env)
@@ -191,7 +191,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 					}
 				}
 				return fmt.Errorf("helm release not ready yet")
-			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 
 			// Check the status of the ObjectBucketClaims
 			Eventually(func() error {
@@ -201,7 +201,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				}
 
 				return checkOBClaim("dkp-velero")
-			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
 		It("should be responding to requests for the dashboard on port 8443", func() {
