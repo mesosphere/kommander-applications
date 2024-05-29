@@ -1,0 +1,51 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: replace-kommander-repo
+  namespace: git-operator-system
+spec:
+  replacePath:
+    path: /repositories/kommander/kommander.git
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: git-operator-system-replace-kommander-repo@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: kommander-repo
+  namespace: git-operator-system
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: git-operator-git
+            port:
+              name: http
+        path: /dkp/kommander/git/kommander/kommander
+        pathType: Exact
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: kommander-stripprefixes@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: git-operator-git
+  namespace: git-operator-system
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: git-operator-git
+            port:
+              name: http
+        path: /dkp/kommander/git
+        pathType: Prefix
