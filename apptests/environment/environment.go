@@ -144,7 +144,7 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 }
 
 // RunScriptAllNode runs a script on all nodes in the cluster using Docker
-func (e *Env) RunScriptAllNode(ctx context.Context, script string) error {
+func (e *Env) RunScriptOnAllNode(ctx context.Context, script string) error {
 	nodes, err := e.Cluster.ListNodeNames(ctx)
 	if err != nil {
 		return err
@@ -344,7 +344,6 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 		}
 
 		return nil
-
 	})
 	if err != nil {
 		return fmt.Errorf("could not walk the path: %s :%w", path, err)
