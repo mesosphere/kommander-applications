@@ -89,7 +89,6 @@ func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error
 		return err
 	}
 
-	// apply the kustomization for the helmrelease
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
@@ -98,7 +97,6 @@ func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error
 		return err
 	}
 
-	// apply the kustomization for the helmrelease
 	dashboardsPath := filepath.Join(appPath, "/grafana-dashboards")
 	err = env.ApplyKustomizations(ctx, dashboardsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
@@ -154,7 +152,6 @@ func (r rookCeph) install(ctx context.Context, env *environment.Env, appPath str
 		return err
 	}
 
-	// apply the kustomization for the helmrelease
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
@@ -208,7 +205,6 @@ func (r rookCeph) CreateLoopbackDevicesKind(ctx context.Context, env *environmen
 		return err
 	}
 
-	// apply the yaml for the namespace
 	scriptPath := filepath.Join(testDataPath, "rook-ceph/loop-devs")
 	err = env.ApplyYAMLWithoutSubstitutions(ctx, scriptPath)
 	if err != nil {
@@ -224,7 +220,6 @@ func (r rookCeph) ApplyPersistentVolumeCreator(ctx context.Context, env *environ
 		return err
 	}
 
-	// apply the yaml for the namespace
 	scriptPath := filepath.Join(testDataPath, "rook-ceph/manifests")
 	err = env.ApplyYAMLWithoutSubstitutions(ctx, scriptPath)
 	if err != nil {

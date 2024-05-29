@@ -24,7 +24,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 		err = env.InstallLatestFlux(ctx)
 		Expect(err).To(BeNil())
 
-		// create block storage in kind for rook ceph
+		// Setup the block storage for rook ceph
 		rc := rookCeph{}
 		err = rc.CreateLoopbackDevicesKind(ctx, env)
 		Expect(err).To(BeNil())
@@ -67,7 +67,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				},
 			}
 
-			// Check the status of the HelmReleases
 			Eventually(func() error {
 				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
@@ -151,7 +150,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				},
 			}
 
-			// Check the status of the HelmReleases
 			Eventually(func() error {
 				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
@@ -243,7 +241,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				},
 			}
 
-			// Check the status of the HelmReleases
 			Eventually(func() error {
 				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
@@ -292,11 +289,9 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				return fmt.Errorf("job not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-			// Check the status of the Rook Ceph cluster
 			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
-			// Check the HelmRelease for rook-ceph-cluster
 			hr = &fluxhelmv2beta2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       fluxhelmv2beta2.HelmReleaseKind,
