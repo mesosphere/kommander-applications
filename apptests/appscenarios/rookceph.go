@@ -35,7 +35,7 @@ func (r rookCeph) Install(ctx context.Context, env *environment.Env) error {
 	return err
 }
 
-func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error {
+func (r rookCeph) CreateBucketPreReqs(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo("rook-ceph-cluster")
 	if err != nil {
 		return err
@@ -76,6 +76,15 @@ func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error
 	err = env.ApplyYAML(ctx, preInstallPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error {
+	appPath, err := absolutePathTo("rook-ceph-cluster")
 	if err != nil {
 		return err
 	}
@@ -177,8 +186,8 @@ func (r rookCeph) applyRookCephOverrideCM(ctx context.Context, env *environment.
 	if err != nil {
 		return fmt.Errorf("could not create the generic client: %w", err)
 	}
-	err = genericClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 
+	err = genericClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 	if err != nil {
 		return fmt.Errorf("could not get the HelmRelease: %w", err)
 	}

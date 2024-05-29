@@ -106,11 +106,40 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 		})
 
 		It("should create storage cluster", func() {
-			// Check the status of the Rook Ceph cluster
-			err := rc.CreateBuckets(ctx, env)
+			err := rc.CreateBucketPreReqs(ctx, env)
 			Expect(err).To(BeNil())
 
-			// Check the HelmRelease for rook-ceph-cluster
+			// Wait for the pre-install job to complete
+			job := &unstructured.Unstructured{}
+			job.SetGroupVersionKind(schema.GroupVersionKind{
+				Group:   "batch",
+				Kind:    "Job",
+				Version: "v1",
+			})
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx,
+					ctrlClient.ObjectKey{
+						Namespace: kommanderNamespace,
+						Name:      "dkp-ceph-prereq-job",
+					}, job)
+				if err != nil {
+					return err
+				}
+
+				conditions, _, _ := unstructured.NestedSlice(job.Object, "status", "conditions")
+				for _, c := range conditions {
+					condition := c.(map[string]interface{})
+					if condition["type"] == "Complete" && condition["status"] == "True" {
+						return nil
+					}
+				}
+				return fmt.Errorf("job not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+			err = rc.CreateBuckets(ctx, env)
+			Expect(err).To(BeNil())
+
 			hr = &fluxhelmv2beta2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       fluxhelmv2beta2.HelmReleaseKind,
@@ -168,12 +197,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 
 			// Check the status of the ObjectBucketClaims
 			Eventually(func() error {
-				err := checkOBClaim("dkp-insights")
-				if err != nil {
-					return err
-				}
-
-				err = checkOBClaim("dkp-loki")
+				err := checkOBClaim("dkp-loki")
 				if err != nil {
 					return err
 				}
@@ -237,8 +261,39 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 		})
 
 		It("should create storage buckets", func() {
+			err := rc.CreateBucketPreReqs(ctx, env)
+			Expect(err).To(BeNil())
+
+			// Wait for the pre-install job to complete
+			job := &unstructured.Unstructured{}
+			job.SetGroupVersionKind(schema.GroupVersionKind{
+				Group:   "batch",
+				Kind:    "Job",
+				Version: "v1",
+			})
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx,
+					ctrlClient.ObjectKey{
+						Namespace: kommanderNamespace,
+						Name:      "dkp-ceph-prereq-job",
+					}, job)
+				if err != nil {
+					return err
+				}
+
+				conditions, _, _ := unstructured.NestedSlice(job.Object, "status", "conditions")
+				for _, c := range conditions {
+					condition := c.(map[string]interface{})
+					if condition["type"] == "Complete" && condition["status"] == "True" {
+						return nil
+					}
+				}
+				return fmt.Errorf("job not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
 			// Check the status of the Rook Ceph cluster
-			err := rc.CreateBuckets(ctx, env)
+			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
 			// Check the HelmRelease for rook-ceph-cluster
@@ -271,11 +326,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 
 			// Check the status of the ObjectBucketClaims
 			Eventually(func() error {
-				err := checkOBClaim("dkp-insights")
-				if err != nil {
-					return err
-				}
-
 				err = checkOBClaim("dkp-loki")
 				if err != nil {
 					return err

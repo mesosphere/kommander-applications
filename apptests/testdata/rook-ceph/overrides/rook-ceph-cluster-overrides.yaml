@@ -42,3 +42,55 @@ data:
                   volumeMode: Block
                   accessModes:
                     - ReadWriteOnce
+    cephObjectStores:
+      - name: dkp-object-store
+        spec:
+          metadataPool:
+            replicated:
+              size: 1
+          dataPool:
+            replicated:
+              size: 1
+          preservePoolsOnDelete: false
+          gateway:
+            port: 80
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "2Gi"
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+            instances: 1
+            priorityClassName: system-cluster-critical
+          healthCheck:
+            bucket:
+              interval: 60s
+        storageClass:
+          enabled: true
+          name: dkp-object-store
+          reclaimPolicy: Delete
+    dkp:
+      # The name of the bucket is important here as rook creates
+      # a ConfigMap and Secret with same name as bucket.
+      # velero/Loki refers to the secret by name and changing the bucket name
+      # here would affect velero/loki configuration.
+      velero:
+        enabled: true
+        bucketName: dkp-velero
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          maxSize: ".5G"
+      grafana-loki:
+        enabled: true
+        bucketName: dkp-loki
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          # maxObjects:
+          maxSize: ".5G"
