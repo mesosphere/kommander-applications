@@ -5,10 +5,9 @@ networking:
 nodes:
   - role: control-plane
     extraMounts:
-      - hostPath: ./testdata/rook-ceph/scripts/
+      # This works on ubuntu but not on Mac with colima - on a Mac the path would be ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
         containerPath: /hack/scripts
-      - hostPath: ./testdata/rook-ceph/manifests/
-        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration
@@ -17,10 +16,9 @@ nodes:
             node-labels: "ingress-ready=true"
   - role: worker
     extraMounts:
-      - hostPath: ./testdata/rook-ceph/scripts/
+      # This works on ubuntu but not on Mac with colima - on a Mac the path would be ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
         containerPath: /hack/scripts
-      - hostPath: ./testdata/rook-ceph/manifests/
-        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration
@@ -29,10 +27,8 @@ nodes:
             node-labels: "ingress-ready=true"
   - role: worker
     extraMounts:
-      - hostPath: ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
         containerPath: /hack/scripts
-      - hostPath: ./testdata/rook-ceph/manifests/
-        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration
@@ -41,10 +37,8 @@ nodes:
             node-labels: "ingress-ready=true"
   - role: worker
     extraMounts:
-      - hostPath: ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
         containerPath: /hack/scripts
-      - hostPath: ./testdata/rook-ceph/manifests/
-        containerPath: /hack/manifests
     kubeadmConfigPatches:
       - |
         kind: InitConfiguration
