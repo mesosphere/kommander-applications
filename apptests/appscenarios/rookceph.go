@@ -201,7 +201,7 @@ func (r rookCeph) CreateLoopbackDevicesKind(ctx context.Context, env *environmen
 
 	// apply the yaml for the namespace
 	scriptPath := filepath.Join(testDataPath, "rook-ceph/loop-devs")
-	err = env.ApplyYAMLNoSubstitutions(ctx, scriptPath)
+	err = env.ApplyYAMLWithoutSubstitutions(ctx, scriptPath)
 	if err != nil {
 		return err
 	}
@@ -217,7 +217,7 @@ func (r rookCeph) ApplyPersistentVolumeCreator(ctx context.Context, env *environ
 
 	// apply the yaml for the namespace
 	scriptPath := filepath.Join(testDataPath, "rook-ceph/manifests")
-	err = env.ApplyYAMLNoSubstitutions(ctx, scriptPath)
+	err = env.ApplyYAMLWithoutSubstitutions(ctx, scriptPath)
 	if err != nil {
 		return err
 	}

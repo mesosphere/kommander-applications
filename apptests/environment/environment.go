@@ -353,8 +353,8 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 	return nil
 }
 
-// ApplyYAMLNoSubstitutions applies the YAML manifests located in the given directory as is and does not do variable substitution.
-func (e *Env) ApplyYAMLNoSubstitutions(ctx context.Context, path string) error {
+// ApplyYAMLWithoutSubstitutions applies the YAML manifests located in the given directory as is and does not do variable substitution.
+func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) error {
 	log.SetLogger(klog.NewKlogr())
 
 	if path == "" {
