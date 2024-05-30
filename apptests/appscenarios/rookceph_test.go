@@ -2,8 +2,6 @@ package appscenarios
 
 import (
 	"fmt"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime/schema"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -14,6 +12,9 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/kubernetes"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -380,6 +381,15 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			body, err := res.Raw()
 			Expect(err).To(BeNil())
 			Expect(string(body)).To(ContainSubstring("Ceph"))
+		})
+
+		It("should remove previous job", func() {
+			// Delete the previous job if it exists
+			clientset, err := kubernetes.NewForConfig(env.K8sClient.Config())
+			Expect(err).To(BeNil())
+
+			err = clientset.BatchV1().Jobs(kommanderNamespace).Delete(ctx, "dkp-ceph-prereq-job", metav1.DeleteOptions{})
+			Expect(err).To(BeNil())
 		})
 
 		It("should upgrade rook ceph successfully", func() {

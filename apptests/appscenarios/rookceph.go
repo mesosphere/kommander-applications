@@ -3,12 +3,11 @@ package appscenarios
 import (
 	"context"
 	"fmt"
-	"github.com/mesosphere/kommander-applications/apptests/constants"
-	"github.com/mesosphere/kommander-applications/apptests/environment"
-	"k8s.io/client-go/kubernetes"
 	"path/filepath"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	"github.com/mesosphere/kommander-applications/apptests/constants"
+	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
@@ -49,17 +48,6 @@ func (r rookCeph) CreateBucketPreReqsPreviousVersion(ctx context.Context, env *e
 	appPath, err := getkAppsUpgradePath("rook-ceph-cluster")
 	if err != nil {
 		return err
-	}
-
-	// Delete the previous job if it exists
-	clientset, err := kubernetes.NewForConfig(env.K8sClient.Config())
-	if err != nil {
-		return fmt.Errorf("could not create the generic client: %w", err)
-	}
-
-	err = clientset.BatchV1().Jobs(kommanderNamespace).Delete(ctx, "dkp-ceph-prereq-job", metav1.DeleteOptions{})
-	if err != nil {
-		return fmt.Errorf("could not delete the job: %w", err)
 	}
 
 	return r.createBucketPreReqs(ctx, env, appPath, err)
