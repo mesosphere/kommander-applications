@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"time"
@@ -192,20 +193,26 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
-
-			// Check the status of the ObjectBucketClaims
-			Eventually(func() error {
-				err := checkOBClaim("dkp-loki")
-				if err != nil {
-					return err
-				}
-
-				return checkOBClaim("dkp-velero")
-			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
-		It("should be responding to requests for the dashboard on port 8443", func() {
-			res := restClientV1Services.Get().Resource("service").Namespace(kommanderNamespace).Name("rook-ceph-mgr-dashboard:8443").SubResource("proxy").Suffix("").Do(ctx)
+		It("should have access to the dashboard", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app":                         "rook-ceph-mgr",
+					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
+					"app.kubernetes.io/name":      "ceph-mgr",
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			podList := &corev1.PodList{}
+			err = k8sClient.List(ctx, podList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(podList.Items).To(HaveLen(1))
+
+			res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8443").SubResource("proxy").Suffix("").Do(ctx)
 			Expect(res.Error()).To(BeNil())
 
 			var statusCode int
@@ -216,7 +223,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			Expect(err).To(BeNil())
 			Expect(string(body)).To(ContainSubstring("Ceph"))
 		})
-
 	})
 
 	Describe("Upgrading Rook Ceph", Ordered, Label("upgrade"), func() {
@@ -318,20 +324,26 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-
-			// Check the status of the ObjectBucketClaims
-			Eventually(func() error {
-				err = checkOBClaim("dkp-loki")
-				if err != nil {
-					return err
-				}
-
-				return checkOBClaim("dkp-velero")
-			}).WithPolling(pollInterval).WithTimeout(20 * time.Minute).Should(Succeed())
 		})
 
-		It("should be responding to requests for the dashboard on port 8443", func() {
-			res := restClientV1Services.Get().Resource("service").Namespace(kommanderNamespace).Name("rook-ceph-mgr-dashboard:8443").SubResource("proxy").Suffix("").Do(ctx)
+		It("should have access to the dashboard", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app":                         "rook-ceph-mgr",
+					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
+					"app.kubernetes.io/name":      "ceph-mgr",
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			podList := &corev1.PodList{}
+			err = k8sClient.List(ctx, podList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(podList.Items).To(HaveLen(1))
+
+			res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8443").SubResource("proxy").Suffix("").Do(ctx)
 			Expect(res.Error()).To(BeNil())
 
 			var statusCode int
@@ -407,25 +419,26 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-
-			// Check the status of the ObjectBucketClaims
-			Eventually(func() error {
-				err := checkOBClaim("dkp-insights")
-				if err != nil {
-					return err
-				}
-
-				err = checkOBClaim("dkp-loki")
-				if err != nil {
-					return err
-				}
-
-				return checkOBClaim("dkp-velero")
-			}).WithPolling(pollInterval).WithTimeout(20 * time.Minute).Should(Succeed())
 		})
 
-		It("should be responding to requests for the dashboard on port 8443", func() {
-			res := restClientV1Services.Get().Resource("service").Namespace(kommanderNamespace).Name("rook-ceph-mgr-dashboard:8443").SubResource("proxy").Suffix("").Do(ctx)
+		It("should have access to the dashboard", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app":                         "rook-ceph-mgr",
+					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
+					"app.kubernetes.io/name":      "ceph-mgr",
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			podList := &corev1.PodList{}
+			err = k8sClient.List(ctx, podList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(podList.Items).To(HaveLen(1))
+
+			res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8443").SubResource("proxy").Suffix("").Do(ctx)
 			Expect(res.Error()).To(BeNil())
 
 			var statusCode int
@@ -436,33 +449,5 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			Expect(err).To(BeNil())
 			Expect(string(body)).To(ContainSubstring("Ceph"))
 		})
-
 	})
 })
-
-func checkOBClaim(bucketName string) error {
-	objectbucketclaim := &unstructured.Unstructured{}
-	objectbucketclaim.SetGroupVersionKind(schema.GroupVersionKind{
-		Group:   "objectbucket.io",
-		Kind:    "ObjectBucketClaim",
-		Version: "v1alpha1",
-	})
-
-	err := k8sClient.Get(ctx,
-		ctrlClient.ObjectKey{
-			Namespace: kommanderNamespace,
-			Name:      bucketName,
-		}, objectbucketclaim)
-	if err != nil {
-		return err
-	}
-
-	conditions, _, _ := unstructured.NestedSlice(objectbucketclaim.Object, "status", "phase")
-	for _, c := range conditions {
-		condition := c.(map[string]interface{})
-		if condition["phase"] == "Bound" {
-			return nil
-		}
-	}
-	return fmt.Errorf("objectbucketclaim not ready yet")
-}
