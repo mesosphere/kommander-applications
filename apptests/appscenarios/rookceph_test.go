@@ -42,8 +42,8 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
-		//err := env.Destroy(ctx)
-		//Expect(err).ToNot(HaveOccurred())
+		err := env.Destroy(ctx)
+		Expect(err).ToNot(HaveOccurred())
 	})
 
 	Describe("Installing Rook Ceph", Ordered, Label("install"), func() {

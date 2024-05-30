@@ -25,7 +25,6 @@ var (
 	network              *docker.NetworkResource
 	k8sClient            genericClient.Client
 	restClientV1Pods     rest.Interface
-	restClientV1Services rest.Interface
 	upgradeKAppsRepoPath string
 )
 
@@ -82,18 +81,6 @@ func SetupKindCluster() error {
 	}
 
 	restClientV1Pods, err = apiutil.RESTClientForGVK(gvk, false, env.K8sClient.Config(), serializer.NewCodecFactory(flux.NewScheme()), httpClient)
-	if err != nil {
-		return err
-	}
-
-	gvkService := schema.GroupVersionKind{
-		Group:   "",
-		Version: "v1",
-		Kind:    "service",
-	}
-
-	// Set up rest client for services
-	restClientV1Services, err = apiutil.RESTClientForGVK(gvkService, false, env.K8sClient.Config(), serializer.NewCodecFactory(flux.NewScheme()), httpClient)
 	if err != nil {
 		return err
 	}
