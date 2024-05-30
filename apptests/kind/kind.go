@@ -3,12 +3,12 @@ package kind
 
 import (
 	"context"
-	"github.com/docker/docker/api/types"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 
+	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
