@@ -3,11 +3,12 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"github.com/mesosphere/kommander-applications/apptests/constants"
+	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"k8s.io/client-go/kubernetes"
 	"path/filepath"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
-	"github.com/mesosphere/kommander-applications/apptests/constants"
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
@@ -41,7 +42,31 @@ func (r rookCeph) CreateBucketPreReqs(ctx context.Context, env *environment.Env)
 		return err
 	}
 
-	// apply defaults configmaps first
+	return r.createBucketPreReqs(ctx, env, appPath, err)
+}
+
+func (r rookCeph) CreateBucketPreReqsPreviousVersion(ctx context.Context, env *environment.Env) error {
+	appPath, err := getkAppsUpgradePath("rook-ceph-cluster")
+	if err != nil {
+		return err
+	}
+
+	// Delete the previous job if it exists
+	clientset, err := kubernetes.NewForConfig(env.K8sClient.Config())
+	if err != nil {
+		return fmt.Errorf("could not create the generic client: %w", err)
+	}
+
+	err = clientset.BatchV1().Jobs(kommanderNamespace).Delete(ctx, "dkp-ceph-prereq-job", metav1.DeleteOptions{})
+	if err != nil {
+		return fmt.Errorf("could not delete the job: %w", err)
+	}
+
+	return r.createBucketPreReqs(ctx, env, appPath, err)
+}
+
+func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env, appPath string, err error) error {
+	// Apply defaults configmaps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	err = env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
 		"releaseNamespace": kommanderNamespace,
@@ -62,7 +87,7 @@ func (r rookCeph) CreateBucketPreReqs(ctx context.Context, env *environment.Env)
 		return err
 	}
 
-	// create the buckets
+	// Create the buckets
 	objBucketClaimsPath := filepath.Join(appPath, "/objectbucketclaims")
 	err = env.ApplyKustomizations(ctx, objBucketClaimsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
@@ -89,6 +114,19 @@ func (r rookCeph) CreateBuckets(ctx context.Context, env *environment.Env) error
 		return err
 	}
 
+	return r.createBuckets(ctx, env, appPath, err)
+}
+
+func (r rookCeph) CreateBucketsPreviousVersion(ctx context.Context, env *environment.Env) error {
+	appPath, err := getkAppsUpgradePath("rook-ceph-cluster")
+	if err != nil {
+		return err
+	}
+
+	return r.createBuckets(ctx, env, appPath, err)
+}
+
+func (r rookCeph) createBuckets(ctx context.Context, env *environment.Env, appPath string, err error) error {
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
