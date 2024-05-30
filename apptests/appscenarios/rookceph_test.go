@@ -18,7 +18,7 @@ import (
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
+var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), func() {
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
 		Expect(err).To(BeNil())
