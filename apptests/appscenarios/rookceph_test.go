@@ -2,7 +2,6 @@ package appscenarios
 
 import (
 	"fmt"
-	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"time"
@@ -13,6 +12,7 @@ import (
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -198,9 +198,9 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 		It("should have access to the dashboard", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app":                         "rook-ceph-mgr",
-					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
-					"app.kubernetes.io/name":      "ceph-mgr",
+					"app":          "rook-ceph-mgr",
+					"mgr_role":     "active",
+					"rook_cluster": "kommander",
 				},
 			})
 			Expect(err).To(BeNil())
@@ -263,8 +263,8 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should create storage buckets", func() {
-			err := rc.CreateBucketPreReqs(ctx, env)
+		It("should create storage cluster", func() {
+			err := rc.CreateBucketPreReqsPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
 			// Wait for the pre-install job to complete
@@ -295,7 +295,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				return fmt.Errorf("job not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-			err = rc.CreateBuckets(ctx, env)
+			err = rc.CreateBucketsPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
 			hr = &fluxhelmv2beta2.HelmRelease{
@@ -309,7 +309,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				},
 			}
 
-			// Check the status of the HelmReleases
 			Eventually(func() error {
 				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
@@ -326,12 +325,40 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
+		It("should create storage buckets", func() {
+			hr = &fluxhelmv2beta2.HelmRelease{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       fluxhelmv2beta2.HelmReleaseKind,
+					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "object-bucket-claims",
+					Namespace: kommanderNamespace,
+				},
+			}
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+		})
+
 		It("should have access to the dashboard", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app":                         "rook-ceph-mgr",
-					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
-					"app.kubernetes.io/name":      "ceph-mgr",
+					"app":          "rook-ceph-mgr",
+					"mgr_role":     "active",
+					"rook_cluster": "kommander",
 				},
 			})
 			Expect(err).To(BeNil())
@@ -387,12 +414,41 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should create storage buckets", func() {
-			// Check the status of the Rook Ceph cluster
-			err := rc.CreateBuckets(ctx, env)
+		It("should reconcile storage cluster after upgrade", func() {
+			err := rc.CreateBucketPreReqs(ctx, env)
 			Expect(err).To(BeNil())
 
-			// Check the HelmRelease for rook-ceph-cluster
+			// Wait for the pre-install job to complete
+			job := &unstructured.Unstructured{}
+			job.SetGroupVersionKind(schema.GroupVersionKind{
+				Group:   "batch",
+				Kind:    "Job",
+				Version: "v1",
+			})
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx,
+					ctrlClient.ObjectKey{
+						Namespace: kommanderNamespace,
+						Name:      "dkp-ceph-prereq-job",
+					}, job)
+				if err != nil {
+					return err
+				}
+
+				conditions, _, _ := unstructured.NestedSlice(job.Object, "status", "conditions")
+				for _, c := range conditions {
+					condition := c.(map[string]interface{})
+					if condition["type"] == "Complete" && condition["status"] == "True" {
+						return nil
+					}
+				}
+				return fmt.Errorf("job not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+			err = rc.CreateBuckets(ctx, env)
+			Expect(err).To(BeNil())
+
 			hr = &fluxhelmv2beta2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       fluxhelmv2beta2.HelmReleaseKind,
@@ -404,7 +460,6 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 				},
 			}
 
-			// Check the status of the HelmReleases
 			Eventually(func() error {
 				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
@@ -421,12 +476,40 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should have access to the dashboard", func() {
+		It("should reconcile storage buckets after upgrade", func() {
+			hr = &fluxhelmv2beta2.HelmRelease{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       fluxhelmv2beta2.HelmReleaseKind,
+					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "object-bucket-claims",
+					Namespace: kommanderNamespace,
+				},
+			}
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+		})
+
+		It("should have access to the dashboard after upgrade", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app":                         "rook-ceph-mgr",
-					"app.kubernetes.io/component": "cephclusters.ceph.rook.io",
-					"app.kubernetes.io/name":      "ceph-mgr",
+					"app":          "rook-ceph-mgr",
+					"mgr_role":     "active",
+					"rook_cluster": "kommander",
 				},
 			})
 			Expect(err).To(BeNil())
