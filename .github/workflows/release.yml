@@ -49,3 +49,9 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           GIT_TAG: ${{ env.GIT_TAG }}
         run: devbox run -- make release
+
+      - name: Release OCI artifact
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: devbox run -- just release-oci ${{ env.GIT_TAG }}
