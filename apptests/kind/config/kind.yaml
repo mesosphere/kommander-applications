@@ -25,23 +25,3 @@ nodes:
         nodeRegistration:
           kubeletExtraArgs:
             node-labels: "ingress-ready=true"
-  - role: worker
-    extraMounts:
-      - hostPath: ../testdata/rook-ceph/scripts/
-        containerPath: /hack/scripts
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "ingress-ready=true"
-  - role: worker
-    extraMounts:
-      - hostPath: ../testdata/rook-ceph/scripts/
-        containerPath: /hack/scripts
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          kubeletExtraArgs:
-            node-labels: "ingress-ready=true"
