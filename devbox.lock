@@ -138,23 +138,51 @@
         }
       }
     },
-    "go@1.20": {
-      "last_modified": "2024-01-14T03:55:27Z",
-      "resolved": "github:NixOS/nixpkgs/dd5621df6dcb90122b50da5ec31c411a0de3e538#go_1_20",
+    "go@1.22": {
+      "last_modified": "2024-05-22T06:18:38Z",
+      "resolved": "github:NixOS/nixpkgs/3f316d2a50699a78afe5e77ca486ad553169061e#go",
       "source": "devbox-search",
-      "version": "1.20.13",
+      "version": "1.22.3",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/cbwdrgl7lifkw7mxclnz564gxzffw6bp-go-1.20.13"
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/i04a1a6qgxhjw6c0ld2b3x1v815sbxjc-go-1.22.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/i04a1a6qgxhjw6c0ld2b3x1v815sbxjc-go-1.22.3"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/pgbia16bszpflsqd61qr40b4g9hz3sh7-go-1.20.13"
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/d68f2iblysnl0r4qcfdacmdpmvvy86kf-go-1.22.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/d68f2iblysnl0r4qcfdacmdpmvvy86kf-go-1.22.3"
         },
         "x86_64-darwin": {
-          "store_path": "/nix/store/8svci2j29zcyq6swf6cg7yzf3cvph01h-go-1.20.13"
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/1p6vr83cgyfwm8517jhfmf6lypzhy3q2-go-1.22.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/1p6vr83cgyfwm8517jhfmf6lypzhy3q2-go-1.22.3"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/js7d24li4isab9mnqq0azkw9iwzg0s1m-go-1.20.13"
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/00mg4vlhzmm7gi9bd5v5ydjlgrywpc3n-go-1.22.3",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/00mg4vlhzmm7gi9bd5v5ydjlgrywpc3n-go-1.22.3"
         }
       }
     },
