@@ -11,4 +11,5 @@ const (
 	ExternalDns  = "external-dns"
 	GateKeeper   = "gatekeeper"
 	RookCeph     = "rook-ceph"
+	Velero       = "velero"
 )
