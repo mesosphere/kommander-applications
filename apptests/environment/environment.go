@@ -143,6 +143,23 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 	return nil
 }
 
+// RunScriptAllNode runs a script on all nodes in the cluster using Docker
+func (e *Env) RunScriptOnAllNode(ctx context.Context, script string) error {
+	nodes, err := e.Cluster.ListNodeNames(ctx)
+	if err != nil {
+		return err
+	}
+
+	for _, node := range nodes {
+		err = e.Cluster.RunScript(ctx, node, script)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ApplyKommanderBaseKustomizations applies the base Kustomizations from the common directory in the catalog. This
 // creates the HelmRepositories and installs the dkp priority classes.
 func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
@@ -321,7 +338,42 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, genericClient, path, substitutions)
+		err = applyYAMLFile(ctx, genericClient, path, substitutions, true)
+		if err != nil {
+			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
+		}
+
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("could not walk the path: %s :%w", path, err)
+	}
+
+	return nil
+}
+
+// ApplyYAMLWithoutSubstitutions applies the YAML manifests located in the given directory as is and does not do variable substitution.
+func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) error {
+	log.SetLogger(klog.NewKlogr())
+
+	if path == "" {
+		return fmt.Errorf("requirement argument: path is not specified")
+	}
+
+	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	if err != nil {
+		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
+	}
+
+	// Loop through the files in the specified directory and apply the YAML files to the cluster
+	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+
+		err = applyYAMLFile(ctx, genericClient, path, nil, false)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -337,7 +389,7 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 }
 
 // applyYAMLFile applies the YAML file located in the given path.
-func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string) error {
+func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string, applySubstitutions bool) error {
 	// Read and decode the YAML file specified in the path
 	out, err := os.ReadFile(path)
 	if err != nil {
@@ -345,11 +397,16 @@ func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path
 	}
 
 	// Substitute the environment variables in the YAML file
-	yml, err := envsubst.Eval(string(out), func(s string) string {
-		return substitutions[s]
-	})
-	if err != nil {
-		return err
+	var yml string
+	if applySubstitutions {
+		yml, err = envsubst.Eval(string(out), func(s string) string {
+			return substitutions[s]
+		})
+		if err != nil {
+			return err
+		}
+	} else {
+		yml = string(out)
 	}
 
 	// Decode the YAML file

@@ -10,4 +10,5 @@ const (
 	Flux         = "kommander-flux"
 	ExternalDns  = "external-dns"
 	GateKeeper   = "gatekeeper"
+	RookCeph     = "rook-ceph"
 )

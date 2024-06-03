@@ -1,0 +1,105 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: manual
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: create-pv-from-lvm
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: create-pv-from-lvm
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: create-pv-from-lvm
+    namespace: default
+---
+# A daemonset to create PVs from each kind node acc. to the /dev/VolumeGroup<>/LogicalVolume<> convention
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: create-pv-from-lvm
+  namespace: default
+  labels:
+    app: create-pv-from-lvm
+spec:
+  selector:
+    matchLabels:
+      name: create-pv-from-lvm
+  template:
+    metadata:
+      labels:
+        name: create-pv-from-lvm
+    spec:
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+      serviceAccountName: create-pv-from-lvm
+      containers:
+        - name: pv-from-lvm
+          # Use an image that is not part of https://github.com/mesosphere/kommander-applications/search?q=kubectl
+          # If we use an image that is also used in k-apps then our tooling might exclude this image from tar by assuming
+          # its one of the default images of kind-airgapped tooling (like calico etc.,).
+          # TODO: we can make this better
+          image: bitnami/kubectl:1.28.5
+          command:
+            - /bin/bash
+            - -c
+            - |
+              cat /hack/ceph/loopbackdeviceids
+              for UNIQUEID in $(cat /hack/ceph/loopbackdeviceids); do
+                readonly VG_NAME="cephvg${UNIQUEID}"
+                readonly LV_NAME="cephlv${UNIQUEID}"
+                echo "VG_NAME is ${VG_NAME}, LV_NAME is ${LV_NAME}"
+                cat << EOF | kubectl apply -f -
+                apiVersion: v1
+                kind: PersistentVolume
+                metadata:
+                  # PVs are cluster scoped, so keep the name unique.
+                  # There could be multiple pvs in each node.
+                  name: "pv-manual-${NODE_NAME}-${UNIQUEID}"
+                spec:
+                  storageClassName: manual
+                  capacity:
+                    storage: 1Gi
+                  accessModes:
+                    - ReadWriteOnce
+                  persistentVolumeReclaimPolicy: Retain
+                  volumeMode: Block
+                  local:
+                    path: /dev/${VG_NAME}/${LV_NAME}
+                  nodeAffinity:
+                    required:
+                      nodeSelectorTerms:
+                        - matchExpressions:
+                            - key: kubernetes.io/hostname
+                              operator: In
+                              values:
+                                - "${NODE_NAME}"
+              EOF
+              done
+              sleep 100000000 # This is alternative of feature request https://github.com/kubernetes/kubernetes/issues/36601
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - name: loopback-ids
+              mountPath: /hack/ceph/loopbackdeviceids
+      volumes:
+        - name: loopback-ids
+          hostPath:
+            path: /hack/ceph/loopbackdeviceids
