@@ -28,6 +28,11 @@ spec:
   prune: true
   timeout: 1m
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: git-operator-system
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
