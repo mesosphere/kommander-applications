@@ -402,8 +402,8 @@ github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsT
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/traefik/paerser v0.2.0 h1:zqCLGSXoNlcBd+mzqSCLjon/I6phqIjeJL2xFB2ysgQ=
 github.com/traefik/paerser v0.2.0/go.mod h1:afzaVcgF8A+MpTnPG4wBr4whjanCSYA6vK5RwaYVtRc=
-github.com/traefik/traefik/v2 v2.11.2 h1:BuvZD0uraRgM9pkx1yI/sRO0yB/Ov4OCuqlywvsE5+Q=
-github.com/traefik/traefik/v2 v2.11.2/go.mod h1:xWigO+RC0cQt24GqWCTeBeFiG6XqjCvpIn84v05wLtQ=
+github.com/traefik/traefik/v2 v2.11.3 h1:Eh8AxOWgV/c9ViobOxD8KBJ0IpRs2fX3jTd7jXLQ6rQ=
+github.com/traefik/traefik/v2 v2.11.3/go.mod h1:xWigO+RC0cQt24GqWCTeBeFiG6XqjCvpIn84v05wLtQ=
 github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=
 github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb h1:zGWFAtiMcyryUHoUjUJX0/lt1H2+i2Ka2n+D3DImSNo=
 github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb/go.mod h1:N2zxlSyiKSe5eX1tZViRH5QA0qijqEDrYZiPEAiq3wU=

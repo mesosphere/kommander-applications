@@ -20,7 +20,7 @@ require (
 	github.com/onsi/gomega v1.33.1
 	github.com/open-policy-agent/frameworks/constraint v0.0.0-20240411024313-c2efb00269a8
 	github.com/stretchr/testify v1.9.0
-	github.com/traefik/traefik/v2 v2.11.2
+	github.com/traefik/traefik/v2 v2.11.3
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
 	k8s.io/api v0.30.1
 	k8s.io/apiextensions-apiserver v0.30.1
