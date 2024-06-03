@@ -12,7 +12,7 @@ on:
         default: 'main'
         type: string
   pull_request:
-    types: [synchronize, labeled]
+    types: [synchronize, labeled, opened, reopened]
   push:
     branches:
       - main
