@@ -8,7 +8,7 @@ spec:
   interval: 5m0s
   url: "oci://ghcr.io/mesosphere/git-operator-manifests"
   ref:
-    tag: "v0.2.0"
+    tag: "v0.3.0"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
