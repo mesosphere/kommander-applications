@@ -1,8 +1,6 @@
 apiVersion: velero.io/v1
 kind: Restore
 metadata:
-  finalizers:
-    - restores.velero.io/external-resources-finalizer
   name: ${RESTORE_NAME}
   namespace: kommander
 spec:
@@ -17,8 +15,3 @@ spec:
     - csinodes.storage.k8s.io
     - volumeattachments.storage.k8s.io
     - backuprepositories.velero.io
-  hooks: {}
-  includedNamespaces:
-    - '*'
-  itemOperationTimeout: 4h0m0s
-  uploaderConfig: {}

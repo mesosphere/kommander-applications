@@ -1,25 +1,12 @@
 apiVersion: velero.io/v1
 kind: Backup
 metadata:
-  annotations:
-    velero.io/resource-timeout: 10m0s
-    velero.io/source-cluster-k8s-gitversion: v1.30.0
-    velero.io/source-cluster-k8s-major-version: "1"
-    velero.io/source-cluster-k8s-minor-version: "30"
-  labels:
-    velero.io/storage-location: default
   name: ${BACKUP_NAME}
   namespace: kommander
 spec:
-  csiSnapshotTimeout: 10m0s
   defaultVolumesToFsBackup: false
-  hooks: {}
   includedNamespaces:
     - nginx-app
-  itemOperationTimeout: 4h0m0s
-  metadata: {}
-  snapshotMoveData: false
   storageLocation: default
-  ttl: 720h0m0s
   volumeSnapshotLocations:
     - default
