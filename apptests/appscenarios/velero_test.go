@@ -690,7 +690,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			svc := &corev1.Service{}
 			err = k8sClient.Get(ctx, ctrlClient.ObjectKey{
 				Namespace: deploymentList.Items[0].Namespace,
-				Name:      deploymentList.Items[0].Name,
+				Name:      "nginx",
 			}, svc)
 			Expect(err).To(BeNil())
 
@@ -700,7 +700,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			Eventually(func() error {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
 					Namespace: deploymentList.Items[0].Namespace,
-					Name:      deploymentList.Items[0].Name,
+					Name:      "nginx",
 				}, svc)
 				if err != nil {
 					return nil
@@ -922,7 +922,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			svc := &corev1.Service{}
 			err = k8sClient.Get(ctx, ctrlClient.ObjectKey{
 				Namespace: deploymentList.Items[0].Namespace,
-				Name:      deploymentList.Items[0].Name,
+				Name:      "nginx",
 			}, svc)
 			Expect(err).To(BeNil())
 
@@ -932,7 +932,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			Eventually(func() error {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
 					Namespace: deploymentList.Items[0].Namespace,
-					Name:      deploymentList.Items[0].Name,
+					Name:      "nginx",
 				}, svc)
 				if err != nil {
 					return nil
