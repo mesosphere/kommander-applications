@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"k8s.io/client-go/kubernetes"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -590,7 +591,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should create an nginx app for testing", func() {
+		It("should create an nginx app for testing before upgrade", func() {
 			err := v.CreateNginxApp(ctx, env)
 			Expect(err).To(BeNil())
 
@@ -627,7 +628,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			})
 		})
 
-		It("should back up the nginx app", func() {
+		It("should back up the nginx app before upgrade", func() {
 			err := v.Backup(ctx, env, "nginx-backup")
 			Expect(err).To(BeNil())
 
@@ -657,7 +658,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should delete the nginx app to simulate a disaster", func() {
+		It("should delete the nginx app to simulate a disaster before upgrade", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app": "nginx",
@@ -728,7 +729,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should restore the nginx app", func() {
+		It("should restore the nginx app before upgrade", func() {
 			err := v.Restore(ctx, env, "nginx-backup", "nginx-backup-pre-upgrade-restore")
 			Expect(err).To(BeNil())
 
@@ -790,6 +791,15 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			})
 		})
 
+		It("should remove previous re-install job", func() {
+			// Delete the previous job if it exists - simulate prune option in flux
+			clientset, err := kubernetes.NewForConfig(env.K8sClient.Config())
+			Expect(err).To(BeNil())
+
+			err = clientset.BatchV1().Jobs(kommanderNamespace).Delete(ctx, "velero-pre-install", metav1.DeleteOptions{})
+			Expect(err).To(BeNil())
+		})
+
 		It("should upgrade velero successfully", func() {
 			err := v.Upgrade(ctx, env)
 			Expect(err).To(BeNil())
@@ -822,7 +832,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should create an nginx app for testing", func() {
+		It("should create an nginx app for testing after upgrade", func() {
 			err := v.CreateNginxApp(ctx, env)
 			Expect(err).To(BeNil())
 
@@ -859,8 +869,8 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			})
 		})
 
-		It("should back up the nginx app", func() {
-			err := v.Backup(ctx, env, "nginx-backup")
+		It("should back up the nginx app after upgrade", func() {
+			err := v.Backup(ctx, env, "nginx-backup-post-upgrade")
 			Expect(err).To(BeNil())
 
 			// Check the status of the backup
@@ -889,7 +899,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should delete the nginx app", func() {
+		It("should delete the nginx app after upgrade", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app": "nginx",
@@ -960,7 +970,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should restore the nginx app", func() {
+		It("should restore the nginx app after upgrade", func() {
 			err := v.Restore(ctx, env, "nginx-backup-post-upgrade", "nginx-backup-post-upgrade-restore")
 			Expect(err).To(BeNil())
 
@@ -975,7 +985,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			Eventually(func() error {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
 					Namespace: kommanderNamespace,
-					Name:      "nginx-backup-restore",
+					Name:      "nginx-backup-post-upgrade-restore",
 				}, restore)
 				if err != nil {
 					return err
