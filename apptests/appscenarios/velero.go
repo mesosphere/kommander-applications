@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -87,13 +88,18 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 	}
 
 	v4hooksPath := filepath.Join(appPath, "v4-hooks-adoption")
-	err = env.ApplyYAML(ctx, v4hooksPath, map[string]string{
-		"releaseNamespace":         kommanderNamespace,
-		"kubetoolsImageRepository": kubetoolsImageRepository,
-		"kubetoolsImageTag":        kubetoolsImageTag,
-	})
-	if err != nil {
-		return err
+	// Check If the v4hooksPath path exists - it doesn't in app version 4.1.1
+	// TODO: Remove this check once all previous versions have v4hooksPath
+	_, err = os.Stat(v4hooksPath)
+	if err == nil {
+		err = env.ApplyYAML(ctx, v4hooksPath, map[string]string{
+			"releaseNamespace":         kommanderNamespace,
+			"kubetoolsImageRepository": kubetoolsImageRepository,
+			"kubetoolsImageTag":        kubetoolsImageTag,
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	veleroPath := filepath.Join(appPath, "helmrelease")
