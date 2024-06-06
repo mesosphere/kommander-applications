@@ -173,7 +173,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jpillora/chisel
-  - container_image: docker.io/mesosphere/cluster-observer:1.2.1
+  - container_image: docker.io/mesosphere/cluster-observer:1.3.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-auditing-pipeline
