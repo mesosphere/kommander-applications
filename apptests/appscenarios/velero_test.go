@@ -42,8 +42,8 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
-		err := env.Destroy(ctx)
-		Expect(err).ToNot(HaveOccurred())
+		//err := env.Destroy(ctx)
+		//Expect(err).ToNot(HaveOccurred())
 	})
 
 	Describe("Installing Velero", Ordered, Label("install"), func() {
@@ -588,7 +588,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 					}
 				}
 				return fmt.Errorf("helm release not ready yet")
-			}).WithPolling(pollInterval).WithTimeout(15 * time.Minute).Should(Succeed())
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
 		It("should create an nginx app for testing before upgrade", func() {

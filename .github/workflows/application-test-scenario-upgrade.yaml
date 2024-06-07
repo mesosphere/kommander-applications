@@ -64,12 +64,14 @@ jobs:
         ginkgo --v --label-filter="upgrade && (${{ inputs.apps }})" appscenarios
 
     - name: Gather support bundle
+      if: failure()
       working-directory: apptests
       run: |
         curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
         ./support-bundle --interactive=false --output=support-bundle.tar.gz https://raw.githubusercontent.com/replicatedhq/troubleshoot-specs/main/in-cluster/default.yaml
 
     - name: Upload support bundle
+      if: failure()
       uses: actions/upload-artifact@v2
       with:
         name: support-bundle-${{ inputs.app }}-upgrade-${{ inputs.from_version_ref }}-to-${{ inputs.to_version_ref }}
