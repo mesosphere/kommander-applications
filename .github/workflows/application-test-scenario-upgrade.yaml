@@ -75,4 +75,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: support-bundle-${{ inputs.app }}-upgrade-${{ inputs.from_version_ref }}-to-${{ inputs.to_version_ref }}
-        path: support-bundle.tar.gz
+        path: apptests/support-bundle.tar.gz
