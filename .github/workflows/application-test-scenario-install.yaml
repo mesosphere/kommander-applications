@@ -51,7 +51,7 @@ jobs:
       working-directory: apptests
       run: |
         curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
-        ./support-bundle --interactive=false --output=support-bundle.tar.gz https://raw.githubusercontent.com/replicatedhq/troubleshoot-specs/main/in-cluster/default.yaml
+        ./support-bundle --interactive=false --output=support-bundle.tar.gz support-bundle.yaml
 
     - name: Upload support bundle
       if: failure()
