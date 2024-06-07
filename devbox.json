@@ -10,9 +10,12 @@
     "go":              "1.22",
     "gojq":            "latest",
     "golangci-lint":   "latest",
+    "just":            "latest",
     "kubernetes-helm": "latest",
     "kustomize":       "latest",
+    "oras":            "latest",
     "pre-commit":      "latest",
+    "rsync":           "latest",
     "yq-go":           "latest"
   },
   "shell": {
