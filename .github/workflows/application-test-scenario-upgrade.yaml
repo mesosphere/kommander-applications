@@ -74,5 +74,5 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: support-bundle-${{ inputs.app }}-upgrade-${{ inputs.from_version_ref }}
+        name: support-bundle-${{ inputs.apps }}-upgrade-${{ inputs.from_version_ref }}
         path: apptests/support-bundle.tar.gz
