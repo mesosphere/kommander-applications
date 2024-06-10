@@ -20,6 +20,8 @@ data:
               requests:
                 # Reduce the size for testing
                 storage: 1Gi
+                cpu: "100m"
+                memory: "100Mi"
       mgr:
         count: 1
         allowMultiplePerNode: true
@@ -36,6 +38,8 @@ data:
                   resources:
                     requests:
                       storage: 1Gi
+                      cpu: "100m"
+                      memory: "100Mi"
                   # Specify the storage class directly to avoid using the default storage class of local-path
                   storageClassName: manual
                   # OSD Requires Block storage.
