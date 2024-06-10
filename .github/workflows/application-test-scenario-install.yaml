@@ -57,5 +57,5 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v2
       with:
-        name: support-bundle-${{ inputs.apps }}-install-${{ inputs.version_ref }}
+        name: support-bundle-${{ inputs.apps }}-install
         path: apptests/support-bundle.tar.gz
