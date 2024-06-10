@@ -29,6 +29,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.kommanderoperator.image.repository }}:{{ .Values.kommanderoperator.image.tag }}"
           imagePullPolicy: {{ .Values.kommanderoperator.image.pullPolicy }}
+          {{- if .Values.kommanderoperator.useUpgrade }}
+          args:
+          - --feature-gates=UseUpgrade=true
+          {{- end }}
           ports:
             - name: http
               containerPort: 80
