@@ -2,8 +2,8 @@ name: Application Specific Test - Install
 on:
   workflow_dispatch:
     inputs:
-      app:
-        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+      apps:
+        description: 'The ginkgo label filter query of kommander applications to test, e.g. reloader, or reloader || cert-manager'
         required: true
         type: string
       version_ref:
@@ -12,8 +12,8 @@ on:
         type: string
   workflow_call:
     inputs:
-      app:
-        description: 'The kommander application to test, e.g. reloader,kube-prometheus-stack'
+      apps:
+        description: 'The ginkgo label filter query of kommander applications to test, e.g. reloader, or reloader || cert-manager'
         required: true
         type: string
       version_ref:
@@ -41,7 +41,7 @@ jobs:
       working-directory: apptests
       run: go install github.com/onsi/ginkgo/v2/ginkgo
 
-    - name: Run ${{ github.event.inputs.app }} install Test
+    - name: Run install Test
       working-directory: apptests
       run: |
-        ginkgo --label-filter="install && ${{ inputs.app }}" appscenarios
+        ginkgo --v --label-filter="install && (${{ inputs.apps }})" appscenarios
