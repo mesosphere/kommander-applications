@@ -17,7 +17,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
-      version: "${kommanderChartVersion:=v2.7.2-dev}"
+      version: "${kommanderChartVersion:=v2.7.3-dev}"
   interval: 15s
   # Kommander is quite a big chart and it may need some more time than
   # other charts to get ready so setting this to 10 minutes increases
@@ -34,7 +34,7 @@ spec:
   releaseName: kommander
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-0.7.2-d2iq-defaults
+      name: kommander-0.7.3-d2iq-defaults
     - kind: ConfigMap
-      name: kommander-0.7.2-overrides
+      name: kommander-0.7.3-overrides
       optional: true
