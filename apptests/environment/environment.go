@@ -338,6 +338,11 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 			return nil
 		}
 
+		// Skip the kustomize.yaml files if they exist
+		if info.Name() == "kustomization.yaml" {
+			return nil
+		}
+
 		err = applyYAMLFile(ctx, genericClient, path, substitutions, true)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)

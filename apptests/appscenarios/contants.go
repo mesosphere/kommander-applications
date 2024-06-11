@@ -18,4 +18,8 @@ const (
 	dkpHighPriority               = "dkp-high-priority"
 	systemClusterCriticalPriority = "system-cluster-critical"
 	dkpCriticalPriority           = "dkp-critical-priority"
+
+	// Velero constants
+	kubetoolsImageRepository = "bitnami/kubectl"
+	kubetoolsImageTag        = "1.29.2"
 )

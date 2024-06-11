@@ -42,6 +42,24 @@ data:
                   volumeMode: Block
                   accessModes:
                     - ReadWriteOnce
+      resources:
+        api:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        mgr:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        mon:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        osd:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+
     cephObjectStores:
       - name: dkp-object-store
         spec:

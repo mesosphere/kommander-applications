@@ -45,3 +45,17 @@ jobs:
       working-directory: apptests
       run: |
         ginkgo --v --label-filter="install && (${{ inputs.apps }})" appscenarios
+
+    - name: Gather support bundle
+      if: failure()
+      working-directory: apptests
+      run: |
+        curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
+        ./support-bundle --interactive=false --output=support-bundle.tar.gz support-bundle.yaml
+
+    - name: Upload support bundle
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: support-bundle-${{ inputs.apps }}-install
+        path: apptests/support-bundle.tar.gz
