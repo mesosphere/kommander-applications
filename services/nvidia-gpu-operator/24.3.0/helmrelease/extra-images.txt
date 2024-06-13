@@ -1,5 +1,4 @@
 nvcr.io/nvidia/gpu-feature-discovery:{{ .Values.gfd.version }}
-nvcr.io/nvidia/k8s/container-toolkit:{{ regexReplaceAllLiteral "-.+$" .Values.toolkit.version "" }}-centos7
 nvcr.io/nvidia/k8s/container-toolkit:{{ regexReplaceAllLiteral "-.+$" .Values.toolkit.version "" }}-ubuntu20.04
 nvcr.io/nvidia/k8s/container-toolkit:{{ regexReplaceAllLiteral "-.+$" .Values.toolkit.version "" }}-ubi8
 nvcr.io/nvidia/cloud-native/gpu-operator-validator:{{ .Values.validator.version }}
