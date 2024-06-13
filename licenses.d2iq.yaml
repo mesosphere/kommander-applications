@@ -415,7 +415,7 @@ resources:
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
-        url: https://github.com/NVIDIA/gpu-feature-discovery
+        url: https://github.com/NVIDIA/k8s-device-plugin
   - container_image: nvcr.io/nvidia/gpu-operator:v24.3.0
     sources:
       - license_path: LICENSE
