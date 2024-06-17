@@ -22,6 +22,8 @@ data:
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
       version: v1.15.0-ubuntu20.04
     gfd:
+      # gfd is no longer published a standalone helm chart or image and instead uses
+      # the k8s-device-plugin image.
       enabled: true
       version: v0.15.0-ubi8
     dcgm:
