@@ -3,6 +3,5 @@ kind: Kustomization
 resources:
   - velero-pre-install.yaml
   - velero-post-install.yaml
-  - velero-v4-hooks-adoption.yaml
   - velero.yaml
   - grafana-dashboards
