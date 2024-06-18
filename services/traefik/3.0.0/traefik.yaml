@@ -1,0 +1,194 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: helm.traefik.io-traefik
+        namespace: kommander-flux
+      version: 27.0.2
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: kommander-traefik
+  valuesFrom:
+    - kind: ConfigMap
+      name: traefik-27.0.2-d2iq-defaults
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "traefik"
+data:
+  name: "Traefik"
+  dashboardLink: "/dkp/traefik/dashboard/"
+  docsLink: "https://doc.traefik.io/traefik/v2.11"
+  # Check https://artifacthub.io/packages/helm/traefik/traefik for app version
+  version: "2.11.2"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: d2iq-traefik-certmanager-init
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - '*'
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - certificates
+    verbs:
+      - '*'
+  - apiGroups:
+      - traefik.containo.us
+      - traefik.io
+    resources:
+      - tlsstores
+      - middlewares
+    verbs:
+      - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: d2iq-traefik-certmanager-init
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: d2iq-traefik-certmanager-init
+subjects:
+  - kind: ServiceAccount
+    name: kommander-traefik
+    namespace: ${releaseNamespace}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kommander-traefik-dashboard
+  namespace: ${releaseNamespace}
+spec:
+  ports:
+    - name: dashboard-http
+      port: 80
+      protocol: TCP
+      targetPort: 9000
+  selector:
+    app: traefik
+    app.kubernetes.io/instance: kommander-traefik
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kommander-traefik-prometheus
+  namespace: ${releaseNamespace}
+  labels:
+    servicemonitor.kommander.mesosphere.io/path: metrics
+spec:
+  ports:
+    - name: metrics
+      port: 9100
+      protocol: TCP
+      targetPort: metrics
+  selector:
+    app: traefik
+    app.kubernetes.io/instance: kommander-traefik
+  type: ClusterIP
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-traefik-view
+rules:
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-traefik-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-traefik-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/traefik
+      - /dkp/traefik/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+# Expose Traefik dashboard in insecure mode according to
+# <https://doc.traefik.io/traefik/v2.0/operations/dashboard/>.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  namespace: ${releaseNamespace}
+  labels:
+    app.kubernetes.io/instance: traefik-dashboard
+    app.kubernetes.io/name: traefik-dashboard
+    app.kubernetes.io/version: 2.5.6
+  annotations:
+    kubernetes.io/ingress.class: kommander-traefik
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd,${releaseNamespace}-rewrite-api@kubernetescrd"
+spec:
+  # Requesting `/` from kommander-traefik-dashboard results in an absolute redirect to `/dashboard/`, which then 404s.
+  # We provide a path each for `/dashboard/` and `/api/` to prevent requests to `/`.
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: kommander-traefik-dashboard
+                port:
+                  number: 80
+            path: /dkp/traefik/dashboard/
+            pathType: Prefix
+          - backend:
+              service:
+                name: kommander-traefik-dashboard
+                port:
+                  number: 80
+            path: /dkp/traefik/api/
+            pathType: Prefix
