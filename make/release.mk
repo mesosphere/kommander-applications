@@ -12,6 +12,7 @@ release:
 	git archive --format "tar.gz" -o $(ARCHIVE_NAME) \
 								  $(GIT_TAG) -- \
 								  common services charts \
+								  clusters projects workspaces \
 								  ":(exclude)common/helm-repositories/ai-navigator-repos.yaml" \
 								  ":(exclude)services/ai-navigator-app" \
 								  ":(exclude)services/ai-navigator-cluster-info-agent"
