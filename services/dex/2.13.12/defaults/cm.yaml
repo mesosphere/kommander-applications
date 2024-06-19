@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dex-2.13.12-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    ---
+    priorityClassName: "dkp-critical-priority"
+    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
+    image: mesosphere/dex
+    imageTag: v2.37.0-d2iq.4
+    resources:
+      requests:
+        cpu: 100m
+        memory: 50Mi
+    deploymentAnnotations:
+      secret.reloader.stakater.com/reload: dex-tls # If a fullNameOverride has been set, change the value of "dex-tls" accordingly.
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        ingress.kubernetes.io/protocol: https
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      path: /dex
+      hosts:
+        - ''
+    https: true
+    ports:
+      web:
+        containerPort: 8080
+    grpc: false
+    certs:
+      grpc:
+        create: false
+      web:
+        create: false
+        secret:
+          tlsName: dex-tls
+    config:
+      issuer: https://dex.${releaseNamespace}.svc.cluster.local:8080/dex
+      frontend:
+        issuer: Kubernetes
+        theme: d2iq
+      storage:
+        type: kubernetes
+        config:
+          inCluster: true
+      logger:
+        level: debug
+      web:
+        address: 0.0.0.0
+        tlsCert: /etc/dex/tls/https/server/tls.crt
+        tlsKey: /etc/dex/tls/https/server/tls.key
+      grpc:
+        address: 0.0.0.0
+        tlsCert: /etc/dex/tls/grpc/server/tls.crt
+        tlsKey: /etc/dex/tls/grpc/server/tls.key
+        tlsClientCA: /etc/dex/tls/grpc/ca/tls.crt
+      oauth2:
+        skipApprovalScreen: true
+      staticClients: []
+      lazyInitConnectors: true
+      connectorFiltersHooks:
+        filterHooks:
+        - name: "dex-controller"
+          type: "external"
+          requestContext:
+            params:
+              - "state"
+              - "tenant-id"
+              - "client_id"
+              - "scope"
+          config:
+            url: "https://dex-dex-controller-webhook-service:18443/connectors"
+            tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
+            clientAuthentication:
+              clientKeyFile: "/etc/dex/tls/client/tls.key"
+              clientCertificateFile: "/etc/dex/tls/client/tls.crt"
+              clientCAFile: "/etc/dex/tls/client/ca.crt"
+      tokenClaimsHooks:
+        mutatingHooks:
+        - name: "dex-controller"
+          type: "external"
+          claims:
+            - "groups"
+            - "email"
+            - "username"
+            - "preferred_username"
+          config:
+            url: "https://dex-dex-controller-webhook-service:18443/claims"
+            tlsRootCAFile: "/etc/dex/tls/client/ca.crt"
+            clientAuthentication:
+              clientKeyFile: "/etc/dex/tls/client/tls.key"
+              clientCertificateFile: "/etc/dex/tls/client/tls.crt"
+              clientCAFile: "/etc/dex/tls/client/ca.crt"
+    certIssuerRef:
+      kind: ${certificateIssuerKind:=Issuer}
+      name: ${certificateIssuerName}
+    env:
+      - name: KUBERNETES_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+    dex-controller:
+      priorityClassName: "dkp-critical-priority"
+      controller:
+        manager:
+          dexConfigSecretName: dex
+          dexDeploymentName: dex
+      deployment:
+        annotations:
+          secret.reloader.stakater.com/reload: dex-dex-controller-webhook-server-cert # If a fullNameOverride has been set, change the value of "dex-dex-controller" accordingly.
+      service:
+        metrics:
+          labels:
+            servicemonitor.kommander.mesosphere.io/path: metrics

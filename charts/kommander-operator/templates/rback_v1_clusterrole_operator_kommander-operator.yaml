@@ -32,6 +32,7 @@ rules:
     resources:
       - kommandercores
       - appdeployments
+      - clusterapps
       - kustomizations
       - federatednamespaces
       - helmreleases
@@ -39,6 +40,7 @@ rules:
       - gitrepositories
       - secrets
       - events
+      - configmaps
     verbs:
       - get
       - list
@@ -54,17 +56,22 @@ rules:
   - apiGroups:
       - dkp.d2iq.io
       - apps.kommander.d2iq.io
+      - helm.toolkit.fluxcd.io
       - kustomize.toolkit.fluxcd.io
       - types.kubefed.io
       - kommander.mesosphere.io
+      - ""
     resources:
       - kommandercores
       - kommandercores/status
       - appdeployments
+      - helmreleases
       - kustomizations
       - federatednamespaces
       - kommanderclusters
       - events
+      - configmaps
+      - secrets
     verbs:
       - patch
       - update
@@ -103,8 +110,16 @@ rules:
       - delete
   - apiGroups:
       - ""
+      - helm.toolkit.fluxcd.io
+      - kustomize.toolkit.fluxcd.io
+      - apps.kommander.d2iq.io
     resources:
       - events
+      - configmaps
+      - secrets
+      - helmreleases
+      - kustomizations
+      - appdeployments
     verbs:
       - create
 ---

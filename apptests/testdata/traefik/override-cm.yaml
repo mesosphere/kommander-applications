@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${name}
+  namespace: ${namespace}
+data:
+  values.yaml: |
+    ---
+    deployment:
+      replicas: 1

@@ -3,8 +3,13 @@ package kind
 
 import (
 	"context"
+	"io"
+	"log"
 	"os"
+	"path/filepath"
 
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
 )
@@ -15,7 +20,9 @@ type Cluster struct {
 	name               string
 }
 
-const defaultClusterName = "kommanderapptest"
+const (
+	defaultClusterName = "kommanderapptest"
+)
 
 // CreateCluster creates a new kind cluster with the given name.
 func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
@@ -34,7 +41,17 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	if name == "" {
 		name = defaultClusterName
 	}
-	err = provider.Create(name, cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()))
+
+	kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml"))
+	if err != nil {
+		return nil, err
+	}
+
+	err = provider.Create(name,
+		cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()),
+		cluster.CreateWithRawConfig(kindConfigFile),
+	)
+
 	if err != nil {
 		return nil, err
 	}
@@ -51,6 +68,66 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 		kubeconfigFilePath: kubeconfigFile.Name(),
 		name:               name,
 	}, nil
+}
+
+// ListNodeNames lists all nodes in the cluster.
+func (c *Cluster) ListNodeNames(ctx context.Context) ([]string, error) {
+	select {
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	default:
+	}
+
+	nodes, err := c.provider.ListNodes(c.name)
+	if err != nil {
+		return nil, err
+	}
+
+	nodeNames := make([]string, len(nodes))
+	for i, node := range nodes {
+		nodeNames[i] = node.String()
+	}
+	return nodeNames, nil
+}
+
+// RunScript runs a script on the given node using `docker exec`.
+func (c *Cluster) RunScript(ctx context.Context, nodeName, script string) error {
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	default:
+	}
+
+	apiClient, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		return err
+	}
+	defer apiClient.Close()
+
+	rst, err := apiClient.ContainerExecCreate(context.Background(), nodeName,
+		types.ExecConfig{
+			AttachStdout: true,
+			AttachStderr: true,
+			Cmd:          []string{script},
+		})
+	if err != nil {
+		return err
+	}
+
+	response, err := apiClient.ContainerExecAttach(context.Background(), rst.ID, types.ExecStartCheck{})
+	if err != nil {
+		return err
+	}
+	defer response.Close()
+
+	data, err := io.ReadAll(response.Reader)
+	if err != nil {
+		return err
+	}
+
+	log.Println(string(data))
+
+	return nil
 }
 
 // Delete deletes the cluster and the temporary kubeconfig file.

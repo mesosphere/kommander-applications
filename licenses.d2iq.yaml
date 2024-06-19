@@ -1,5 +1,5 @@
 ignore:
-  - ghcr.io/mesosphere/git-operator:v0.0.0-dev-ec01b70
+  - ghcr.io/mesosphere/git-operator:v0.2.0
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
@@ -34,7 +34,7 @@ ignore:
   #     - url: https://github.com/NVIDIA/DCGM
   #       ref: ${image_tag}
   #       license_path: LICENSE
-  - nvcr.io/nvidia/cloud-native/dcgm:3.3.0-1-ubuntu22.04
+  - nvcr.io/nvidia/cloud-native/dcgm:3.3.5-1-ubuntu22.04
 
   # Incorrect mapping was provided
   # - container_image: docker.io/bitnami/kubectl:1.19.7
@@ -68,7 +68,7 @@ ignore:
   - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
 
 resources:
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.1.4
+  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.2.3
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
@@ -83,7 +83,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r3}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/fluent/fluent-bit:2.1.4
+  - container_image: docker.io/fluent/fluent-bit:2.2.3
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
@@ -188,11 +188,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jpillora/chisel
-  - container_image: docker.io/mesosphere/cluster-observer:1.2.1
+  - container_image: docker.io/mesosphere/cluster-observer:1.3.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-auditing-pipeline
-  - container_image: docker.io/mesosphere/dex-controller:v0.14.1
+  - container_image: docker.io/mesosphere/dex-controller:v0.15.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
@@ -264,7 +264,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:11.5.0
+  - container_image: docker.io/mesosphere/kommander:11.23.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -272,19 +272,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.31
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.32
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.31
+  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.32
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.31
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.32
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.31
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.32
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
@@ -305,7 +305,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.12.6
+  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.14.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -325,7 +325,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero-plugin-for-aws
-  - container_image: docker.io/velero/velero:v1.12.3
+  - container_image: docker.io/velero/velero:v1.13.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -421,42 +421,32 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v23.9.2
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.3.0
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-feature-discovery:v0.8.1-ubi8
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
-        url: https://github.com/NVIDIA/gpu-feature-discovery
-  - container_image: nvcr.io/nvidia/gpu-operator:v23.9.2
+  - container_image: nvcr.io/nvidia/gpu-operator:v24.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.14.5-ubi8
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubi8
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-centos7
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag%-centos7}
-        url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.0-3.2.0-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
@@ -466,7 +456,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v17.2.6
+  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v18.2.2
     sources:
       - license_path: COPYING
         ref: ${image_tag}
@@ -511,12 +501,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/TremoloSecurity/kube-oidc-proxy
-  - container_image: quay.io/kiali/kiali-operator:v1.82.0
+  - container_image: quay.io/kiali/kiali-operator:v1.83.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v1.82.0
+  - container_image: quay.io/kiali/kiali:v1.83.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}

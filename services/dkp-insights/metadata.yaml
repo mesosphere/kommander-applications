@@ -3,6 +3,9 @@ description: NKP Insights is Nutanix’s analytics tool used to ensure clusters 
 category:
   - observability
   - monitoring
+licensing:
+  - Ultimate
+  - Enterprise
 requiredDependencies:
   - kube-prometheus-stack
   - rook-ceph

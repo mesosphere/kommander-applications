@@ -9,6 +9,9 @@ dependencies:
 type: platform
 scope:
   - project
+licensing:
+  - Ultimate
+  - Enterprise
 certifications:
   - certified
   - supported

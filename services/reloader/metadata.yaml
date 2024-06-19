@@ -5,6 +5,12 @@ category:
 type: platform
 scope:
   - workspace
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
 certifications:
   - certified
   - supported

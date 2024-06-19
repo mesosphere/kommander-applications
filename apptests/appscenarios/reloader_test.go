@@ -17,148 +17,167 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-var (
-	r                 *reloader
-	hr                *fluxhelmv2beta2.HelmRelease
-	deploymentList    *appsv1.DeploymentList
-	reloaderContainer corev1.Container
-	err               error
-)
-
-var _ = Describe("Reloader Install Test", Ordered, Label("reloader", "install"), func() {
-
-	It("should install successfully with default config", func() {
-		r = NewReloader()
-		err = r.Install(ctx, env)
+var _ = Describe("Reloader Tests", Label("reloader"), func() {
+	BeforeEach(OncePerOrdered, func() {
+		err := SetupKindCluster()
 		Expect(err).To(BeNil())
 
-		hr = &fluxhelmv2beta2.HelmRelease{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       fluxhelmv2beta2.HelmReleaseKind,
-				APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      r.Name(),
-				Namespace: kommanderNamespace,
-			},
-		}
+		err = env.InstallLatestFlux(ctx)
+		Expect(err).To(BeNil())
 
-		Eventually(func() error {
-			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-			if err != nil {
-				return err
-			}
-
-			for _, cond := range hr.Status.Conditions {
-				if cond.Status == metav1.ConditionTrue &&
-					cond.Type == apimeta.ReadyCondition {
-					return nil
-				}
-			}
-			return fmt.Errorf("helm release not ready yet")
-		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+		err = env.ApplyKommanderBaseKustomizations(ctx)
+		Expect(err).To(BeNil())
 	})
 
-	// Assert the existence of resource limits and priority class
-	It("should have resource limits and priority class", func() {
-		selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-			MatchLabels: map[string]string{
-				"helm.toolkit.fluxcd.io/name": r.Name(),
-			},
+	AfterEach(OncePerOrdered, func() {
+		err := env.Destroy(ctx)
+		Expect(err).ToNot(HaveOccurred())
+	})
+
+	Describe("Reloader Install Test", Ordered, Label("install"), func() {
+		var (
+			r                      *reloader
+			reloaderHr             *fluxhelmv2beta2.HelmRelease
+			reloaderDeploymentList *appsv1.DeploymentList
+			reloaderContainer      corev1.Container
+		)
+
+		It("should install successfully with default config", func() {
+			r = NewReloader()
+			err := r.Install(ctx, env)
+			Expect(err).To(BeNil())
+
+			reloaderHr = &fluxhelmv2beta2.HelmRelease{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       fluxhelmv2beta2.HelmReleaseKind,
+					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      r.Name(),
+					Namespace: kommanderNamespace,
+				},
+			}
+
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(reloaderHr), reloaderHr)
+				if err != nil {
+					return err
+				}
+
+				for _, cond := range reloaderHr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
-		Expect(err).To(BeNil())
-		listOptions := &ctrlClient.ListOptions{
-			LabelSelector: selector,
-		}
-		deploymentList = &appsv1.DeploymentList{}
-		err = k8sClient.List(ctx, deploymentList, listOptions)
-		Expect(err).To(BeNil())
-		Expect(deploymentList.Items).To(HaveLen(1))
-		Expect(err).To(BeNil())
 
-		Expect(deploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal("dkp-high-priority"))
+		// Assert the existence of resource limits and priority class
+		It("should have resource limits and priority class", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"helm.toolkit.fluxcd.io/name": r.Name(),
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			reloaderDeploymentList = &appsv1.DeploymentList{}
+			err = k8sClient.List(ctx, reloaderDeploymentList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(reloaderDeploymentList.Items).To(HaveLen(1))
+			Expect(reloaderDeploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
 
-		reloaderContainer = deploymentList.Items[0].Spec.Template.Spec.Containers[0]
-		Expect(reloaderContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
-		Expect(reloaderContainer.Resources.Requests.Memory().String()).To(Equal("128Mi"))
-		Expect(reloaderContainer.Resources.Limits.Cpu().String()).To(Equal("100m"))
-		Expect(reloaderContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
+			reloaderContainer = reloaderDeploymentList.Items[0].Spec.Template.Spec.Containers[0]
+			Expect(reloaderContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
+			Expect(reloaderContainer.Resources.Requests.Memory().String()).To(Equal("128Mi"))
+			Expect(reloaderContainer.Resources.Limits.Cpu().String()).To(Equal("100m"))
+			Expect(reloaderContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
+		})
+
+		It("should reload the application", func() {
+			reloaderTestReload(r)
+		})
+
 	})
 
-	It("should reload the application", func() {
-		reloaderTestReload(r)
-	})
+	Describe("Reloader Upgrade Test", Ordered, Label("upgrade"), func() {
+		var (
+			r          *reloader
+			reloaderHr *fluxhelmv2beta2.HelmRelease
+		)
 
-})
+		It("should install the previous version successfully", func() {
+			r = NewReloader()
+			err := r.InstallPreviousVersion(ctx, env)
+			Expect(err).To(BeNil())
 
-var _ = Describe("Reloader Upgrade Test", Ordered, Label("reloader", "upgrade"), func() {
-	It("should install the previous version successfully", func() {
-		r = NewReloader()
-		err := r.InstallPreviousVersion(ctx, env)
-		Expect(err).To(BeNil())
-
-		hr := &fluxhelmv2beta2.HelmRelease{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       fluxhelmv2beta2.HelmReleaseKind,
-				APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      r.Name(),
-				Namespace: kommanderNamespace,
-			},
-		}
-
-		Eventually(func() error {
-			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-			if err != nil {
-				return err
+			hr := &fluxhelmv2beta2.HelmRelease{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       fluxhelmv2beta2.HelmReleaseKind,
+					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      r.Name(),
+					Namespace: kommanderNamespace,
+				},
 			}
 
-			for _, cond := range hr.Status.Conditions {
-				if cond.Status == metav1.ConditionTrue &&
-					cond.Type == apimeta.ReadyCondition {
-					return nil
+			Eventually(func() error {
+				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
 				}
-			}
-			return fmt.Errorf("helm release not ready yet")
-		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-	})
-
-	It("should upgrade reloader successfully", func() {
-		// this is installing the latest version of the reloader
-		err := r.InstallPreviousVersion(ctx, env)
-		Expect(err).To(BeNil())
-
-		hr = &fluxhelmv2beta2.HelmRelease{
-			TypeMeta: metav1.TypeMeta{
-				Kind:       fluxhelmv2beta2.HelmReleaseKind,
-				APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-			},
-			ObjectMeta: metav1.ObjectMeta{
-				Name:      r.Name(),
-				Namespace: kommanderNamespace,
-			},
-		}
-
-		Eventually(func() error {
-			err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-			if err != nil {
-				return err
-			}
-
-			for _, cond := range hr.Status.Conditions {
-				if cond.Status == metav1.ConditionTrue &&
-					cond.Type == apimeta.ReadyCondition {
-					return nil
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
 				}
-			}
-			return fmt.Errorf("helm release not ready yet")
-		}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-	})
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-	It("should reload the application", func() {
-		reloaderTestReload(r)
+		})
+
+		It("should upgrade reloader successfully", func() {
+			// this is installing the latest version of the reloader
+			err := r.InstallPreviousVersion(ctx, env)
+			Expect(err).To(BeNil())
+
+			reloaderHr = &fluxhelmv2beta2.HelmRelease{
+				TypeMeta: metav1.TypeMeta{
+					Kind:       fluxhelmv2beta2.HelmReleaseKind,
+					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+				},
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      r.Name(),
+					Namespace: kommanderNamespace,
+				},
+			}
+
+			Eventually(func() error {
+				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(reloaderHr), reloaderHr)
+				if err != nil {
+					return err
+				}
+
+				for _, cond := range reloaderHr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue &&
+						cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("helm release not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+		})
+
+		It("should reload the application", func() {
+			reloaderTestReload(r)
+		})
 	})
 })
 

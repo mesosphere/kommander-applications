@@ -19,6 +19,7 @@ spec:
         controller: {{ .Chart.Name }}
         chart: {{ .Chart.Name }}-{{ .Chart.Version }}
         release: {{ .Release.Name }}
+        kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
     spec:
       serviceAccountName: {{ .Chart.Name }}-sa
       {{- if .Values.priorityClassName }}
@@ -28,6 +29,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.kommanderoperator.image.repository }}:{{ .Values.kommanderoperator.image.tag }}"
           imagePullPolicy: {{ .Values.kommanderoperator.image.pullPolicy }}
+          {{- if .Values.kommanderoperator.useUpgrade }}
+          args:
+          - --feature-gates=UseUpgrade=true
+          {{- end }}
           ports:
             - name: http
               containerPort: 80

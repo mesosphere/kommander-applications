@@ -1,0 +1,170 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-0.46.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    # overriding the default image tag to be consistent with logging-operator
+    image:
+      tag: 2.2.3
+
+    priorityClassName: "dkp-critical-priority"
+    resources:
+      limits:
+        memory: 750Mi
+      requests:
+        cpu: 350m
+        memory: 250Mi
+
+    securityContext:
+      privileged: true
+
+    tolerations:
+    - operator: Exists
+      effect: NoSchedule
+    - operator: Exists
+      effect: NoExecute
+    - operator: Exists
+      key: CriticalAddonsOnly
+
+    serviceMonitor:
+        # right now disabled, as we need another solution for proper dependency on kube-prometheus-stack
+        enabled: false
+
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/path: /api/v1/metrics/prometheus
+      prometheus.io/port: "2020"
+
+    env:
+    - name: FLUENT_BIT_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+
+    extraVolumes:
+    # we create this to have a persistent tail-db directory an all nodes
+    # otherwise a restarted fluent-bit would rescrape all tails
+    - name: tail-db
+      hostPath:
+        path: /var/log/tail-db
+        type: DirectoryOrCreate
+    # we create this to get rid of error messages that would appear on non control-plane nodes
+    - name: kubernetes-audit
+      hostPath:
+        path: /var/log/kubernetes/audit
+        type: DirectoryOrCreate
+    # needed for kmsg input plugin
+    - name: uptime
+      hostPath:
+        path: /proc/uptime
+        type: File
+    - name: kmsg
+      hostPath:
+        path: /dev/kmsg
+        type: CharDevice
+    extraVolumeMounts:
+    - name: tail-db
+      mountPath: /tail-db
+    - name: kubernetes-audit
+      mountPath: /var/log/kubernetes/audit
+    - name: uptime
+      mountPath: /proc/uptime
+    - name: kmsg
+      mountPath: /dev/kmsg
+
+    config:
+      ## https://docs.fluentbit.io/manual/service
+      service: |
+        [SERVICE]
+            Flush 1
+            Daemon Off
+            Log_Level error
+            Parsers_File parsers.conf
+            Parsers_File custom_parsers.conf
+            HTTP_Server On
+            HTTP_Listen 0.0.0.0
+            HTTP_Port 2020
+
+      ## https://docs.fluentbit.io/manual/pipeline/inputs
+      inputs: |
+        # Collect audit logs, systemd logs, and kernel logs.
+        # Pod logs are collected by the fluent-bit deployment managed by logging-operator.
+        [INPUT]
+            Name tail
+            Alias kubernetes_audit
+            Path /var/log/kubernetes/audit/*.log
+            Parser kubernetes-audit
+            DB /tail-db/audit.db
+            Tag audit.*
+            Refresh_Interval 10
+            Rotate_Wait 5
+            Mem_Buf_Limit 135MB
+            Buffer_Chunk_Size 5MB
+            Buffer_Max_Size 20MB
+            Skip_Long_Lines Off
+        [INPUT]
+            Name systemd
+            Alias kubernetes_host
+            DB /tail-db/journal.db
+            Tag host.*
+            Max_Entries 1000
+            Read_From_Tail On
+            Strip_Underscores On
+        [INPUT]
+            Name kmsg
+            Alias kubernetes_host_kernel
+            Tag kernel
+
+      ## https://docs.fluentbit.io/manual/pipeline/filters
+      filters: |
+        [FILTER]
+            Name record_modifier
+            Match audit.*
+            Record host $${FLUENT_BIT_NODE_NAME}
+        [FILTER]
+            Name record_modifier
+            Match kernel
+            Record host $${FLUENT_BIT_NODE_NAME}
+
+      ## https://docs.fluentbit.io/manual/pipeline/outputs
+      outputs: |
+        [OUTPUT]
+            Name loki
+            Match audit.*
+            Alias kubernetes_audit
+            Labels log_source=kubernetes_audit
+            label_keys $verb,$user['username'],$objectRef['namespace'],$objectRef['resource']
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
+            Port 80
+            Retry_Limit 10
+        [OUTPUT]
+            Name loki
+            Match host.*
+            Alias kubernetes_host
+            Labels log_source=kubernetes_host
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
+            Port 80
+            Retry_Limit 10
+        [OUTPUT]
+            Name loki
+            Match kernel
+            Alias kubernetes_host_kernel
+            Labels log_source=kubernetes_host_kernel
+            Host grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc
+            Port 80
+            Retry_Limit 10
+
+      ## https://docs.fluentbit.io/manual/pipeline/parsers
+      customParsers: |
+        [PARSER]
+            Name kubernetes-audit
+            Format json
+            Time_Keep On
+            Time_Key requestReceivedTimestamp
+            Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+    testFramework:
+      enabled: false

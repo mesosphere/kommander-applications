@@ -1,0 +1,16 @@
+# This is a placeholder to bypass a check in the Velero pre-install job.
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: rook-ceph-cluster
+  namespace: kommander
+spec:
+  prune: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/does-not-exist
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m

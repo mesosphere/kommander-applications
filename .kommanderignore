@@ -1,0 +1,2 @@
+# Tell kommander-cli not to scan the apptests directory for HelmRelease and HelmRepository resources
+apptests/*

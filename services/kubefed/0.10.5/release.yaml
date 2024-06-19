@@ -22,7 +22,7 @@ spec:
       - kind: ConfigMap
         name: substitution-vars
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta2
       kind: HelmRelease
       name: kubefed
       namespace: ${releaseNamespace}

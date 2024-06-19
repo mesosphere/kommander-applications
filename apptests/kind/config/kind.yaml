@@ -1,0 +1,27 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  podSubnet: "172.16.0.0/16"
+nodes:
+  - role: control-plane
+    extraMounts:
+      # This works on ubuntu but not on Mac with colima - on a Mac the path would be ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"
+  - role: worker
+    extraMounts:
+      # This works on ubuntu but not on Mac with colima - on a Mac the path would be ./testdata/rook-ceph/scripts/
+      - hostPath: ../testdata/rook-ceph/scripts/
+        containerPath: /hack/scripts
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "ingress-ready=true"

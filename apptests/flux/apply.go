@@ -9,34 +9,32 @@ import (
 	"path/filepath"
 	"time"
 
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	networkingv1 "k8s.io/api/networking/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
+	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	apiruntime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/rest"
+	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/kustomize/api/konfig"
 
 	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
+	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/fluxcd/pkg/ssa"
 	"github.com/fluxcd/pkg/ssa/normalize"
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
-
-	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
-	imageautov1 "github.com/fluxcd/image-automation-controller/api/v1beta1"
-	imagereflectv1 "github.com/fluxcd/image-reflector-controller/api/v1beta2"
-	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
-	notificationv1 "github.com/fluxcd/notification-controller/api/v1"
-	notificationv1b2 "github.com/fluxcd/notification-controller/api/v1beta2"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
-
-	appsv1 "k8s.io/api/apps/v1"
-	networkingv1 "k8s.io/api/networking/v1"
-	rbacv1 "k8s.io/api/rbac/v1"
-	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	apiruntime "k8s.io/apimachinery/pkg/runtime"
+	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
+	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 )
 
 // Apply is the equivalent of 'kubectl apply --server-side -f'.
@@ -121,6 +119,7 @@ func readObjects(root, manifestPath string) ([]*unstructured.Unstructured, error
 }
 
 func newManager(rcg genericclioptions.RESTClientGetter, opts *runclient.Options) (*ssa.ResourceManager, error) {
+	log.SetLogger(klog.NewKlogr())
 	cfg, err := KubeConfig(rcg, opts)
 	if err != nil {
 		return nil, err
@@ -154,10 +153,8 @@ func NewScheme() *apiruntime.Scheme {
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
 	_ = helmv2b2.AddToScheme(scheme)
-	_ = notificationv1.AddToScheme(scheme)
-	_ = notificationv1b2.AddToScheme(scheme)
-	_ = imagereflectv1.AddToScheme(scheme)
-	_ = imageautov1.AddToScheme(scheme)
+	_ = traefikv1a1.AddToScheme(scheme)
+	_ = gatekeeperapi.AddToScheme(scheme)
 	return scheme
 }
 

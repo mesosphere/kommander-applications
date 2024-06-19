@@ -21,7 +21,7 @@ while IFS= read -r repofile; do
   envsubst -no-unset -no-digit -i "${repofile}" | \
     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
     xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update >&2
-done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRepository')
+done < <(grep --recursive --exclude-dir=apptests --max-count=1 --files-with-matches '^kind: HelmRepository')
 
 helm repo update >&2
 
@@ -84,7 +84,7 @@ IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
 trap_add "rm --force ${IMAGES_FILE}" EXIT
 
-for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
+for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
   pushd "${dir}" &>/dev/null
 
   while IFS= read -r hr; do

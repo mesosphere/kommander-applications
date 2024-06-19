@@ -1,0 +1,17 @@
+apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: ${RESTORE_NAME}
+  namespace: kommander
+spec:
+  backupName: ${BACKUP_NAME}
+  excludedResources:
+    - nodes
+    - events
+    - events.events.k8s.io
+    - backups.velero.io
+    - restores.velero.io
+    - resticrepositories.velero.io
+    - csinodes.storage.k8s.io
+    - volumeattachments.storage.k8s.io
+    - backuprepositories.velero.io

@@ -5,15 +5,16 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/drone/envsubst"
 	"io"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/drone/envsubst"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	typedclient "github.com/mesosphere/kommander-applications/apptests/client"
+	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	"github.com/mesosphere/kommander-applications/apptests/kustomize"
@@ -42,28 +43,15 @@ type Env struct {
 	// K8sClient is a reference to the Kubernetes client
 	// This client is used to interact with the cluster built during the execution of the application specific testing.
 	K8sClient *typedclient.Client
-
 	// Cluster is a dedicated instance of a kind cluster created for running an application specific test.
 	Cluster *kind.Cluster
+	Network *docker.NetworkResource
 }
 
 // Provision creates and configures the environment for application specific testings.
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
 // It returns an error if any of the steps fails.
 func (e *Env) Provision(ctx context.Context) error {
-	var err error
-
-	kustomizePath, err := absolutePathToBase()
-	if err != nil {
-		return err
-	}
-	// delete the cluster if any error occurs
-	defer func() {
-		if err != nil {
-			e.Destroy(ctx)
-		}
-	}()
-
 	cluster, k8sClient, err := provisionEnv(ctx)
 	if err != nil {
 		return err
@@ -71,12 +59,17 @@ func (e *Env) Provision(ctx context.Context) error {
 
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
-
-	// apply base Kustomizations
-	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	// install calico CNI
+	err = e.ApplyYAML(ctx, "../environment/calico.yaml", nil)
 	if err != nil {
 		return err
 	}
+
+	subnet, err := e.Network.Subnet()
+	if err != nil {
+		return err
+	}
+	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet)
 
 	return nil
 }
@@ -90,7 +83,7 @@ func (e *Env) Destroy(ctx context.Context) error {
 	return nil
 }
 
-// provisionEnv creates a kind cluster, a Kubernetes client, and installs flux components on the cluster.
+// provisionEnv creates a kind cluster, a Kubernetes client, and installs metallb and calico components on the cluster.
 // It returns the created cluster and client references, or an error if any of the steps fails.
 func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, error) {
 	cluster, err := kind.CreateCluster(ctx, "")
@@ -104,7 +97,7 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 	}
 
 	// creating the necessary namespaces
-	for _, ns := range []string{kommanderNamespace, kommanderFluxNamespace} {
+	for _, ns := range []string{kommanderNamespace} {
 		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
 		if _, err = client.Clientset().
 			CoreV1().
@@ -114,8 +107,25 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 		}
 	}
 
+	return cluster, client, err
+}
+
+// InstallBaseFlux installs the latest version flux components on the cluster. Not the same as installing kommander-flux
+// from the catalog.
+func (e *Env) InstallLatestFlux(ctx context.Context) error {
+	// creating the necessary namespaces
+	for _, ns := range []string{kommanderFluxNamespace} {
+		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
+		if _, err := e.K8sClient.Clientset().
+			CoreV1().
+			Namespaces().
+			Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+			return err
+		}
+	}
+
 	components := []string{"source-controller", "kustomize-controller", "helm-controller"}
-	err = flux.Install(ctx, flux.Options{
+	err := flux.Install(ctx, flux.Options{
 		KubeconfigArgs:    genericclioptions.NewConfigFlags(true),
 		KubeclientOptions: new(runclient.Options),
 		Namespace:         kommanderFluxNamespace,
@@ -125,12 +135,65 @@ func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, erro
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
 	defer cancel()
 
-	err = waitForFluxDeploymentsReady(ctx, client)
+	err = waitForFluxDeploymentsReady(ctx, e.K8sClient)
 	if err != nil {
-		return nil, nil, err
+		return err
 	}
 
-	return cluster, client, err
+	return nil
+}
+
+// RunScriptAllNode runs a script on all nodes in the cluster using Docker
+func (e *Env) RunScriptOnAllNode(ctx context.Context, script string) error {
+	nodes, err := e.Cluster.ListNodeNames(ctx)
+	if err != nil {
+		return err
+	}
+
+	for _, node := range nodes {
+		err = e.Cluster.RunScript(ctx, node, script)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ApplyKommanderBaseKustomizations applies the base Kustomizations from the common directory in the catalog. This
+// creates the HelmRepositories and installs the dkp priority classes.
+func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
+	kustomizePath, err := absolutePathToBase()
+	if err != nil {
+		return err
+	}
+
+	// apply base Kustomizations
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ApplyKommanderPriorityClasses applies the priority classes only from the base resources.
+func (e *Env) ApplyKommanderPriorityClasses(ctx context.Context) error {
+	kustomizePath, err := absolutePathToBase()
+	if err != nil {
+		return err
+	}
+
+	// get priority classes path
+	kustomizePath = filepath.Join(kustomizePath, "../priority-classes")
+
+	// apply priority classes
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // waitForFluxDeploymentsReady discovers all flux deployments in the kommander-flux namespace and waits until they get ready
@@ -190,7 +253,7 @@ func (e *Env) SetK8sClient(k8sClient *typedclient.Client) {
 	e.K8sClient = k8sClient
 }
 
-// ApplyKustomizations applies the kustomizations located in the given path.
+// ApplyKustomizations applies the kustomizations located in the given path and does variable substitution.
 func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitutions map[string]string) error {
 	log.SetLogger(klog.NewKlogr())
 
@@ -254,7 +317,7 @@ func absolutePathToBase() (string, error) {
 	return filepath.Join(wd, base, "common", "base"), nil
 }
 
-// ApplyYAML applies the YAML manifests located in the given directory.
+// ApplyYAML applies the YAML manifests located in the given directory and does variable substitution.
 func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[string]string) error {
 	log.SetLogger(klog.NewKlogr())
 
@@ -275,7 +338,47 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, genericClient, path, substitutions)
+		// Skip the kustomize.yaml files if they exist
+		if info.Name() == "kustomization.yaml" {
+			return nil
+		}
+
+		err = applyYAMLFile(ctx, genericClient, path, substitutions, true)
+		if err != nil {
+			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
+		}
+
+		return nil
+	})
+	if err != nil {
+		return fmt.Errorf("could not walk the path: %s :%w", path, err)
+	}
+
+	return nil
+}
+
+// ApplyYAMLWithoutSubstitutions applies the YAML manifests located in the given directory as is and does not do variable substitution.
+func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) error {
+	log.SetLogger(klog.NewKlogr())
+
+	if path == "" {
+		return fmt.Errorf("requirement argument: path is not specified")
+	}
+
+	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	if err != nil {
+		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
+	}
+
+	// Loop through the files in the specified directory and apply the YAML files to the cluster
+	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+
+		err = applyYAMLFile(ctx, genericClient, path, nil, false)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -291,7 +394,7 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 }
 
 // applyYAMLFile applies the YAML file located in the given path.
-func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string) error {
+func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string, applySubstitutions bool) error {
 	// Read and decode the YAML file specified in the path
 	out, err := os.ReadFile(path)
 	if err != nil {
@@ -299,11 +402,16 @@ func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path
 	}
 
 	// Substitute the environment variables in the YAML file
-	yml, err := envsubst.Eval(string(out), func(s string) string {
-		return substitutions[s]
-	})
-	if err != nil {
-		return err
+	var yml string
+	if applySubstitutions {
+		yml, err = envsubst.Eval(string(out), func(s string) string {
+			return substitutions[s]
+		})
+		if err != nil {
+			return err
+		}
+	} else {
+		yml = string(out)
 	}
 
 	// Decode the YAML file

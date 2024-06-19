@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: fluent-bit
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: fluent-bit
+      sourceRef:
+        kind: HelmRepository
+        name: fluent.github.io
+        namespace: kommander-flux
+      # This chart version should be kept in sync with logging-operator.
+      # Both services should deploy the same version of fluent-bit.
+      version: 0.46.2
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: kommander-fluent-bit
+  valuesFrom:
+    - kind: ConfigMap
+      name: fluent-bit-0.46.2-d2iq-defaults
