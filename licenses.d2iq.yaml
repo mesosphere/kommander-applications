@@ -290,7 +290,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.14.2
+  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.14.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
