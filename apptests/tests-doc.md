@@ -49,4 +49,3 @@ ginkgo --label-filter="kommander-flux && upgrade" appscenarios
 | Traefik     | traefik      | Test the Traefik configuration            |
 | Karma       | karma        | Test the Karma and Traefik configuration  |
 | Flux        | flux         | Test the Flux configuration               |
-
