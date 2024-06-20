@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - velero-pre-install.yaml
+  - velero-post-install.yaml
+  - velero.yaml
+  - grafana-dashboards

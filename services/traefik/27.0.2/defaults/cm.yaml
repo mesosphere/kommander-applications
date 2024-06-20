@@ -58,6 +58,7 @@ data:
                   - /dkp/api-server
                   - /dkp/kommander/ceph-dashboard
                   - /dkp/kommander/dashboard
+                  - /dkp/kommander/git-operator
                   - /dkp/kommander/gitserver
                   - /dkp/kommander/git
                   - /dkp/kommander/helm-mirror

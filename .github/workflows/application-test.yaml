@@ -12,7 +12,7 @@ on:
         default: 'main'
         type: string
   pull_request:
-    types: [synchronize, labeled]
+    types: [synchronize, labeled, opened, reopened]
   push:
     branches:
       - main
@@ -141,10 +141,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
+        apps: ${{ fromJson(needs.setup-pr.outputs.apps) }}
     with:
       version_ref: ${{ github.head_ref }}
-      app: ${{ matrix.app }}
+      apps: ${{ matrix.apps }}
     secrets: inherit
 
   trigger-tests-all-apps-install-ondemand:
@@ -154,10 +154,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+        apps: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
     with:
       version_ref: ${{ github.event.inputs.version_ref }}
-      app: ${{ matrix.app }}
+      apps: ${{ matrix.apps }}
 
   trigger-tests-all-apps-install-push:
     needs: setup-all-apps
@@ -166,10 +166,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+        apps: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
     with:
       version_ref: "main"
-      app: ${{ matrix.app }}
+      apps: ${{ matrix.apps }}
 
   trigger-upgrade-tests-pr:
     needs:
@@ -180,9 +180,9 @@ jobs:
       fail-fast: false
       matrix:
         from: ${{ fromJson(needs.generate-upgrade-versions.outputs.from_versions) }}
-        app: ${{ fromJson(needs.setup-pr.outputs.apps) }}
+        apps: ${{ fromJson(needs.setup-pr.outputs.apps) }}
     with:
-      app: ${{ matrix.app }}
+      apps: ${{ matrix.apps }}
       from_version_ref: ${{ matrix.from }}
       to_version_ref: ${{ needs.generate-upgrade-versions.outputs.to_version }}
     secrets: inherit
@@ -197,9 +197,9 @@ jobs:
       fail-fast: false
       matrix:
         from: ${{ fromJson(needs.generate-upgrade-versions.outputs.from_versions) }}
-        app: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+        apps: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
     with:
-      app: ${{ matrix.app }}
+      apps: ${{ matrix.apps }}
       from_version_ref: ${{ matrix.from }}
       to_version_ref: ${{ needs.generate-upgrade-versions.outputs.to_version }}
     secrets: inherit

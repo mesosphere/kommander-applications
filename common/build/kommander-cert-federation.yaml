@@ -9,7 +9,7 @@
 #  1) CI tooling to build a complete airgapped bundle and 2)
 #  2) Ensure cert federation chart is downloaded when a user runs `dkp create chart-bundle`.
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: ${notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle}
