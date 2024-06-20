@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-ceph-cluster-overrides
+  namespace: kommander
+data:
+  values.yaml: |
+    ---
+    cephClusterSpec:
+      mon:
+        # Use a single node for testing in kind
+        count: 1
+        # Mons should only be allowed on the same node for test environments where data loss is acceptable.
+        allowMultiplePerNode: true
+        volumeClaimTemplate:
+          spec:
+            storageClassName:
+            volumeMode: FileSystem
+            resources:
+              requests:
+                # Reduce the size for testing
+                storage: 1Gi
+      mgr:
+        count: 1
+        allowMultiplePerNode: true
+      storage:
+        storageClassDeviceSets:
+          - name: rook-ceph-osd-set1
+            count: 1
+            portable: false
+            encrypted: false
+            volumeClaimTemplates:
+              - metadata:
+                  name: data
+                spec:
+                  resources:
+                    requests:
+                      storage: 1Gi
+                  # Specify the storage class directly to avoid using the default storage class of local-path
+                  storageClassName: manual
+                  # OSD Requires Block storage.
+                  volumeMode: Block
+                  accessModes:
+                    - ReadWriteOnce
+      resources:
+        api:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        mgr:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        mon:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        osd:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+
+    cephObjectStores:
+      - name: dkp-object-store
+        spec:
+          metadataPool:
+            replicated:
+              size: 1
+          dataPool:
+            replicated:
+              size: 1
+          preservePoolsOnDelete: false
+          gateway:
+            port: 80
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "2Gi"
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+            instances: 1
+            priorityClassName: system-cluster-critical
+          healthCheck:
+            bucket:
+              interval: 60s
+        storageClass:
+          enabled: true
+          name: dkp-object-store
+          reclaimPolicy: Delete
+    dkp:
+      # The name of the bucket is important here as rook creates
+      # a ConfigMap and Secret with same name as bucket.
+      # velero/Loki refers to the secret by name and changing the bucket name
+      # here would affect velero/loki configuration.
+      velero:
+        enabled: true
+        bucketName: dkp-velero
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          maxSize: ".5G"
+      grafana-loki:
+        enabled: true
+        bucketName: dkp-loki
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          # maxObjects:
+          maxSize: ".5G"

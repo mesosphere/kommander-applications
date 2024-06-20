@@ -23,11 +23,11 @@ spec:
     substitute:
       releaseNamespace: ${releaseNamespace}
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta2
       kind: HelmRelease
       name: cert-manager
       namespace: ${releaseNamespace}
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta2
       kind: HelmRelease
       name: cert-manager-crds
       namespace: ${releaseNamespace}
