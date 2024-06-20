@@ -67,6 +67,7 @@ data:
     kind: KommanderCore
     metadata:
       name: kommander-core
+    spec: {}
     EOF
 ---
 apiVersion: batch/v1
