@@ -30,7 +30,7 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
     global:
       image: ${kubetoolsImageRepository:=bitnami/kubectl}
-      tag: ${kubetoolsImageTag:=1.29.2}
+      tag: ${kubetoolsImageTag:=1.29.6}
       priorityClassName: "dkp-critical-priority"
     operator:
       # expose metrics for prometheus scraping

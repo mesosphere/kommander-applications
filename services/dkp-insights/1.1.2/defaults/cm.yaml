@@ -413,7 +413,7 @@ data:
             cpu: 100m
             memory: 512Mi
       schedule: '@every 35m'
-    kubectlImage: bitnami/kubectl:1.29.2
+    kubectlImage: bitnami/kubectl:1.29.6
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
