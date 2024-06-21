@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiali-1.83.0-d2iq-defaults
+  name: kiali-1.85.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
