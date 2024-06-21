@@ -10,6 +10,7 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/util/retry"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -219,7 +220,10 @@ func (r rookCeph) applyRookCephOverrideCM(ctx context.Context, env *environment.
 		Kind: "ConfigMap",
 		Name: "rook-ceph-cluster-overrides",
 	})
-	err = genericClient.Update(ctx, hr)
+
+	err = retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		return genericClient.Update(ctx, hr)
+	})
 
 	return nil
 }
