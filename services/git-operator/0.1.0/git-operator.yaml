@@ -6,9 +6,9 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 5m0s
-  url: "oci://ghcr.io/mesosphere/git-operator-manifests"
+  url: "oci://registry-1.docker.io/mesosphere/git-operator-manifests"
   ref:
-    tag: "v0.3.0"
+    tag: "v0.6.0"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
