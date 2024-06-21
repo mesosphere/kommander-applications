@@ -8,7 +8,7 @@ require (
 	github.com/fluxcd/helm-controller/api v0.37.4
 	github.com/otiai10/copy v1.14.0
 	github.com/r3labs/diff/v3 v3.0.1
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
 	sigs.k8s.io/yaml v1.4.0
 )
