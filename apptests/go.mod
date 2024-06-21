@@ -3,7 +3,7 @@ module github.com/mesosphere/kommander-applications/apptests
 go 1.22.0
 
 require (
-	github.com/docker/cli v24.0.9+incompatible
+	github.com/docker/cli v26.1.4+incompatible
 	github.com/docker/distribution v2.8.3+incompatible
 	github.com/docker/docker v24.0.9+incompatible
 	github.com/drone/envsubst v1.0.3
@@ -27,7 +27,7 @@ require (
 	k8s.io/apimachinery v0.30.1
 	k8s.io/cli-runtime v0.30.1
 	k8s.io/client-go v0.30.1
-	k8s.io/klog/v2 v2.120.1
+	k8s.io/klog/v2 v2.130.0
 	sigs.k8s.io/controller-runtime v0.18.3
 	sigs.k8s.io/kind v0.23.0
 	sigs.k8s.io/kustomize/api v0.17.2
