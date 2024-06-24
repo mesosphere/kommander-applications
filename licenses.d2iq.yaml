@@ -44,6 +44,11 @@ ignore:
   #       license_path: LICENSE
   - docker.io/bitnami/kubectl:1.29.6
 
+  # This is getting included because cert-federation and cluster-observer charts are dynamically deployed with
+  # override values via Kommander controllers. So, the default kubectl image as defined in the chart's values.yaml
+  # is getting included here, even though the image is not used in the cluster.
+  - docker.io/bitnami/kubectl:1.29.2
+
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
   # - container_image: docker.io/curlimages/curl:7.88.1
