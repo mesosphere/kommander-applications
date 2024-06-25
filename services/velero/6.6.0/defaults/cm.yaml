@@ -26,10 +26,17 @@ data:
             s3Url: http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/
             s3ForcePathStyle: true
             insecureSkipTLSVerify: "true"
+      features: EnableCSI
+      uploaderType: kopia
       volumeSnapshotLocation:
         - config:
             region: "fallback"
           provider: "aws"
+    deployNodeAgent: true
+    nodeAgent:
+      annotations:
+        secret.reloader.stakater.com/reload: dkp-velero
+      priorityClassName: dkp-critical-priority
     credentials:
       # This is created by rook-ceph-cluster service. A ConfigMap and a Secret with same name as bucket are created.
       extraSecretRef: dkp-velero
@@ -47,7 +54,13 @@ data:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.7.0
+        image: velero/velero-plugin-for-aws:v1.9.2
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+      - name: velero-plugin-for-csi
+        image: velero/velero-plugin-for-csi:v0.7.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
