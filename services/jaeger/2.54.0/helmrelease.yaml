@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/jaeger/2.53.0/helmrelease
+  path: ./services/jaeger/2.54.0/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
