@@ -26,6 +26,9 @@ data:
     ## END of dkp specific config overrides                           ##
     ####################################################################
 
+    # this is used in object-bucket-claims overrides
+    kubectlImage: bitnami/kubectl:1.29.6
+
     loki:
       ingesterFullname: loki-ingester
       annotations:

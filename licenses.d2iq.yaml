@@ -42,7 +42,7 @@ ignore:
   #     - url: https://github.com/bitnami/bitnami-docker-kubectl
   #       ref: ${image_tag}-debian-10-r31
   #       license_path: LICENSE
-  - docker.io/bitnami/kubectl:1.29.2
+  - docker.io/bitnami/kubectl:1.29.6
 
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
