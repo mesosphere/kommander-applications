@@ -8,6 +8,10 @@ updates:
       - "mesosphere/kommander"
     reviewers:
       - "mesosphere/kommander"
+    labels:
+      - "dependencies"
+      - "ok-to-test"
+      - "ready-for-review"
   - package-ecosystem: "gomod"
     directory: "/apptests"
     schedule:
@@ -16,6 +20,11 @@ updates:
       - "mesosphere/kommander"
     reviewers:
       - "mesosphere/kommander"
+    labels:
+      - "dependencies"
+      - "ok-to-test"
+      - "ready-for-review"
+      - "services/reloader"
   - package-ecosystem: "gomod"
     directory: "/magefiles"
     schedule:
@@ -24,9 +33,19 @@ updates:
       - "mesosphere/kommander"
     reviewers:
       - "mesosphere/kommander"
+    labels:
+      - "dependencies"
+      - "ok-to-test"
+      - "ready-for-review"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     assignees:
       - "mesosphere/kommander"
+    reviewers:
+      - "mesosphere/kommander"
+    labels:
+      - "dependencies"
+      - "ok-to-test"
+      - "ready-for-review"
