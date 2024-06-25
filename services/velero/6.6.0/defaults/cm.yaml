@@ -56,4 +56,4 @@ data:
       image:
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
         # which makes it harder to build airgapped tar bundles. So to make bundle collection predictable, we override the tag here.
-        tag: "${kubetoolsImageTag:=1.29.2}"
+        tag: "${kubetoolsImageTag:=1.29.6}"

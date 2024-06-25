@@ -241,6 +241,9 @@ data:
           cpu: "500m"
           memory: "100Mi"
 
+    # this is used in object-bucket-claims overrides
+    kubectlImage: bitnami/kubectl:1.29.6
+
     #################################################################
     ## BEGIN NKP specific config overrides                         ##
     ## This is added as a workaround to use the same configmap for ##
