@@ -6,36 +6,36 @@ metadata:
 data:
   values.yaml: |
     ---
-    priorityClassName: dkp-high-priority
-    # so that kubectl proxy works
-    fullnameOverride: 'kubernetes-dashboard'
-    protocolHttp: true
-    metricsScraper:
-      enabled: true
+    app:
+      priorityClassName: dkp-high-priority
+      # so that kubectl proxy works
+      fullnameOverride: 'kubernetes-dashboard'
+      protocolHttp: true
+      metricsScraper:
+        enabled: true
+        image:
+          repository: docker.io/kubernetesui/dashboard-metrics-scraper
+          tag: 1.1.0
+      service:
+        externalPort: 9090
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1000Mi
+        requests:
+          cpu: 250m
+          memory: 300Mi
       image:
-        repository: docker.io/kubernetesui/dashboard-metrics-scraper
-        tag: 1.1.0
-    service:
-      externalPort: 9090
-    resources:
-      limits:
-        cpu: 500m
-        memory: 1000Mi
-      requests:
-        cpu: 250m
-        memory: 300Mi
-    image:
-      pullPolicy: Always
-    extraArgs:
-      - --namespace=${releaseNamespace}
-      - --enable-insecure-login
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: kommander-traefik
-        traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
-      paths:
-        - /dkp/kubernetes
-      hosts:
-        - ""
+        pullPolicy: Always
+      extraArgs:
+        - --namespace=${releaseNamespace}
+        - --enable-insecure-login
+      ingress:
+        enabled: true
+        ingressClassName: kommander-traefik
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "kommander-stripprefixes@kubernetescrd,kommander-forwardauth-full@kubernetescrd"
+        path: /dkp/kubernetes
+        hosts: ~
