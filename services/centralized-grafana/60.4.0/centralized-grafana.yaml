@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 48.3.2
+      version: 60.4.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,7 +25,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-48.3.2-d2iq-defaults
+      name: centralized-grafana-60.4.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
@@ -43,4 +43,4 @@ data:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, find the Grafana app version:
   # https://artifacthub.io/packages/helm/grafana/grafana/6.57.2
-  version: "10.3.3"
+  version: "11.0.0"
