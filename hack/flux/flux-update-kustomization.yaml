@@ -77,4 +77,4 @@ patches:
     patch: |-
       - op: add
         path: /spec/template/spec/priorityClassName
-        value: dkp-critical-priority
+        value: system-cluster-critical
