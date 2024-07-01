@@ -20,6 +20,7 @@ jobs:
         with:
           repository: mesosphere/kommander
           path: kommander
+          token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
