@@ -2,6 +2,7 @@ name: Flux Update Schedule Check
 on:
   schedule:
     - cron:  '0 12 * * SUN'
+  workflow_dispatch: {}
 
 jobs:
   flux-schedule-check:
