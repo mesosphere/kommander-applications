@@ -12,6 +12,9 @@ ignore:
   - gcr.io/kubecost1/cost-model:prod-1.106.7
   - gcr.io/kubecost1/frontend:prod-1.106.7
 
+  # There is no repo mapping for this image
+  - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
+
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
   - docker.io/bitnami/bitnami-shell:11-debian-11-r106
@@ -34,7 +37,7 @@ ignore:
   #     - url: https://github.com/NVIDIA/DCGM
   #       ref: ${image_tag}
   #       license_path: LICENSE
-  - nvcr.io/nvidia/cloud-native/dcgm:3.3.0-1-ubuntu22.04
+  - nvcr.io/nvidia/cloud-native/dcgm:3.3.5-1-ubuntu22.04
 
   # Incorrect mapping was provided
   # - container_image: docker.io/bitnami/kubectl:1.19.7
@@ -42,7 +45,7 @@ ignore:
   #     - url: https://github.com/bitnami/bitnami-docker-kubectl
   #       ref: ${image_tag}-debian-10-r31
   #       license_path: LICENSE
-  - docker.io/bitnami/kubectl:1.29.2
+  - docker.io/bitnami/kubectl:1.29.6
 
   # Fossa cannot scan C/CPP projects
   # See: https://docs.fossa.com/docs/c-cpp
@@ -78,10 +81,10 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/thanos:0.34.1-debian-12-r3
+  - container_image: docker.io/bitnami/thanos:0.35.1-debian-12-r1
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-debian-12-r3}
+        ref: v${image_tag%-debian-12-r1}
         url: https://github.com/thanos-io/thanos
   - container_image: docker.io/fluent/fluent-bit:2.2.3
     sources:
@@ -94,6 +97,12 @@ resources:
         ref: v1.19.2-d2iq.1
         url: https://github.com/mesosphere/gitea
   - container_image: docker.io/grafana/grafana:10.3.3
+    sources:
+      - license_path: LICENSE
+        notice_path: NOTICE.md
+        ref: v${image_tag}
+        url: https://github.com/grafana/grafana
+  - container_image: docker.io/grafana/grafana:11.0.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -130,7 +139,7 @@ resources:
         notice_path: NOTICE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.52.0
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.57.0
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
@@ -249,7 +258,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:11.20.0
+  - container_image: docker.io/mesosphere/kommander:11.32.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -278,13 +287,13 @@ resources:
       - license_path: LICENSE.thomseddon.md
         ref: v${image_tag}
         url: https://github.com/mesosphere/traefik-forward-auth
-  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.15.1
+  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.16.3
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.15.1
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.16.3
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -310,7 +319,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero-plugin-for-aws
-  - container_image: docker.io/velero/velero:v1.13.0
+  - container_image: docker.io/velero/velero:v1.13.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -401,47 +410,37 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/mesosphere/kubefed
-  - container_image: ghcr.io/stakater/reloader:v1.0.79
+  - container_image: ghcr.io/stakater/reloader:v1.0.107
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v23.9.2
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.3.0
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-feature-discovery:v0.8.1-ubi8
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
-        url: https://github.com/NVIDIA/gpu-feature-discovery
-  - container_image: nvcr.io/nvidia/gpu-operator:v23.9.2
+  - container_image: nvcr.io/nvidia/gpu-operator:v24.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.14.5-ubi8
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-ubi8
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.14.6-centos7
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag%-centos7}
-        url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.0-3.2.0-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
@@ -496,12 +495,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/TremoloSecurity/kube-oidc-proxy
-  - container_image: quay.io/kiali/kiali-operator:v1.83.0
+  - container_image: quay.io/kiali/kiali-operator:v1.85.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v1.83.0
+  - container_image: quay.io/kiali/kiali:v1.85.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -516,13 +515,13 @@ resources:
       - license_path: LICENSE
         ref: nfs-provisioner-${image_tag}
         url: https://github.com/kubernetes-retired/external-storage
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.66.0
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.74.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.66.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.74.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -534,13 +533,13 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/alertmanager:v0.25.0
+  - container_image: quay.io/prometheus/alertmanager:v0.27.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/node-exporter:v1.6.0
+  - container_image: quay.io/prometheus/node-exporter:v1.8.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -552,28 +551,23 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/prometheus/prometheus:v2.45.0
+  - container_image: quay.io/prometheus/prometheus:v2.53.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.31.0
+  - container_image: quay.io/thanos/thanos:v0.35.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/thanos-io/thanos
-  - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
-    sources:
-      - license_path: LICENSE
-        ref: controller-${image_tag}
-        url: https://github.com/kubernetes/ingress-nginx
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v1.9.8
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/kube-state-metrics
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.9.2
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.12.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}

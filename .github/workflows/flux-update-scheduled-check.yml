@@ -2,6 +2,7 @@ name: Flux Update Schedule Check
 on:
   schedule:
     - cron:  '0 12 * * SUN'
+  workflow_dispatch: {}
 
 jobs:
   flux-schedule-check:
@@ -13,6 +14,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Checkout kommander code
+        uses: actions/checkout@v4
+        with:
+          repository: mesosphere/kommander
+          path: kommander
+          token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}

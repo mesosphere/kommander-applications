@@ -18,9 +18,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
+      #- uses: webfactory/ssh-agent@v0.9.0
+       # with:
+        #  ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
       - name: Install NIX
         uses: cachix/install-nix-action@V27
