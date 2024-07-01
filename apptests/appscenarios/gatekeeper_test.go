@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -35,8 +36,12 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
+		if os.Getenv("SKIP_CLUSTER_TEARDOWN") != "" {
+			return
+		}
+
 		err := env.Destroy(ctx)
-		Expect(err).To(BeNil())
+		Expect(err).ToNot(HaveOccurred())
 	})
 
 	Describe("GateKeeper Install Test", Ordered, Label("install"), func() {

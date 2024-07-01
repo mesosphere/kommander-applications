@@ -2,8 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime/schema"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -14,6 +13,8 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -30,6 +31,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
+		if os.Getenv("SKIP_CLUSTER_TEARDOWN") != "" {
+			return
+		}
+
 		err := env.Destroy(ctx)
 		Expect(err).ToNot(HaveOccurred())
 	})

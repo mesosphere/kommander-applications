@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"fmt"
 	"k8s.io/client-go/kubernetes"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -42,10 +43,13 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
-		//err := env.Destroy(ctx)
-		//Expect(err).ToNot(HaveOccurred())
-	})
+		if os.Getenv("SKIP_CLUSTER_TEARDOWN") != "" {
+			return
+		}
 
+		err := env.Destroy(ctx)
+		Expect(err).ToNot(HaveOccurred())
+	})
 	Describe("Installing Velero", Ordered, Label("install"), func() {
 
 		var (

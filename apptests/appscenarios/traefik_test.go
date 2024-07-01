@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -36,6 +37,10 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
+		if os.Getenv("SKIP_CLUSTER_TEARDOWN") != "" {
+			return
+		}
+
 		err := env.Destroy(ctx)
 		Expect(err).ToNot(HaveOccurred())
 	})
