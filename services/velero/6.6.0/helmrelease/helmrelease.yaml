@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: vmware-tanzu.github.io
         namespace: kommander-flux
-      version: 6.6.0
+      version: 7.1.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-6.6.0-d2iq-defaults
+      name: velero-7.1.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 # This ingress is needed to make Traefik configure an additional route
