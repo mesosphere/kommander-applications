@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/util/retry"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -97,7 +98,10 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		Kind: "ConfigMap",
 		Name: traefikCMName,
 	})
-	err = genericClient.Update(ctx, hr)
+
+	err = retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		return genericClient.Update(ctx, hr)
+	})
 
 	return err
 }
