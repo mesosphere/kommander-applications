@@ -216,7 +216,7 @@ func ensureConstraintEnforced(projectNS string) {
 			Chart: &fluxhelmv2beta2.HelmChartTemplate{
 				Spec: fluxhelmv2beta2.HelmChartTemplateSpec{
 					Chart:   "external-dns",
-					Version: "7.2.0",
+					Version: "7.5.5",
 					SourceRef: fluxhelmv2beta2.CrossNamespaceObjectReference{
 						Kind:      "HelmRepository",
 						Name:      "charts.github.io-bitnami",
@@ -224,7 +224,7 @@ func ensureConstraintEnforced(projectNS string) {
 					},
 				},
 			},
-			Interval: metav1.Duration{Duration: 3 * time.Second},
+			Interval: metav1.Duration{Duration: 3 * time.Minute},
 		},
 	}
 	err := k8sClient.Create(ctx, hr1)
