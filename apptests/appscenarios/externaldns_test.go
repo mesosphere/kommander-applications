@@ -162,9 +162,11 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 						cond.Type == apimeta.ReadyCondition {
 						return nil
 					}
+					fmt.Println("************** cond.Type ", cond.Type)
 				}
+				fmt.Println("************** cond.Type ", hr.Status.Conditions)
 				return fmt.Errorf("helm release not ready yet. Helm Release: %+v", hr)
-			}).WithPolling(pollInterval).WithTimeout(30 * time.Minute).Should(Succeed())
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
 		It("should emit metrics", func() {
