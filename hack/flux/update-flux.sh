@@ -22,7 +22,7 @@ function update_flux() {
     check_remote_branch "kommander-applications" "${BRANCH_NAME}"
     git checkout -b "${BRANCH_NAME}"
 
-    local_flux_version=$(devbox info fluxcd | head -n 1 | cut --delimiter=' ' --fields=2)
+    local_flux_version=$(flux --version)
     if [[ "$local_flux_version" == "$LATEST_FLUX_VERSION" ]]; then
       echo "updating flux to ${local_flux_version}"
     else
