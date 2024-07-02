@@ -470,22 +470,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/FairwindsOps/polaris
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.15.0
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.15.0
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.15.0
+  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.15.0
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
