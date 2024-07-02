@@ -99,11 +99,7 @@ data:
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
     defaultManagementApps:
-    - "dex"
-    - "dex-k8s-authenticator"
     - "reloader"
-    - "traefik"
-    - "traefik-forward-auth-mgmt"
     attached:
       prerequisites:
         defaultApps:
