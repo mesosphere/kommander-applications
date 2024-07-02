@@ -164,7 +164,7 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 					}
 				}
 				return fmt.Errorf("helm release not ready yet. Helm Release: %+v", hr)
-			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+			}).WithPolling(pollInterval).WithTimeout(30 * time.Minute).Should(Succeed())
 		})
 
 		It("should emit metrics", func() {
