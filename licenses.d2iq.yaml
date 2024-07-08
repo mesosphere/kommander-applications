@@ -578,7 +578,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: cr.weaviate.io/semitechnologies/weaviate:1.21.4
+  - container_image: cr.weaviate.io/semitechnologies/weaviate:1.21.4-d2iq.0
     sources:
       - license_path: LICENSE
         ref: v${image_tag}

@@ -35,7 +35,7 @@ data:
       service:
         type: ClusterIP
       image:
-        tag: 1.21.4
+        tag: weaviate:1.21.4-d2iq.0
       initContainers:
         sysctlInitContainer:
           image:
