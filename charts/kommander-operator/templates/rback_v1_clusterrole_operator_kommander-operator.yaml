@@ -113,6 +113,7 @@ rules:
       - helm.toolkit.fluxcd.io
       - kustomize.toolkit.fluxcd.io
       - apps.kommander.d2iq.io
+      - rbac.authorization.k8s.io
     resources:
       - events
       - configmaps
@@ -120,6 +121,18 @@ rules:
       - helmreleases
       - kustomizations
       - appdeployments
+      - clusterrolebindings
     verbs:
       - create
+  # cluster-admin permissions needed here
+  - apiGroups:
+      - "*"
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - nonResourceURLs:
+    - "*"
+    verbs:
+    - "*"
 ---
