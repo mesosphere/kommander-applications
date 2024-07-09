@@ -75,6 +75,7 @@ data:
       - "karma-traefik"
       - "prometheus-thanos-traefik"
       - "thanos"
+      - "dkp-insights-management"
     kommander-ui:
       enabled: false
     capimate:
