@@ -7,15 +7,6 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
-    resources:
-      # these are from the chart defaults
-      # except memory limit, which the default 512Mi can be short when it's during a restoration run
-      requests:
-        cpu: 500m
-        memory: 128Mi
-      limits:
-        cpu: 1000m
-        memory: 2Gi
     configuration:
       backupStorageLocation:
         - bucket: dkp-velero
