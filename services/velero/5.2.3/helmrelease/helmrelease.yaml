@@ -24,7 +24,7 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-5.2.2-d2iq-defaults
+      name: velero-5.2.3-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 # This ingress is needed to make Traefik configure an additional route

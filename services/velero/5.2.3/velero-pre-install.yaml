@@ -1,18 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: velero-v4-hooks-adoption
+  name: velero-pre-install
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: velero-pre-install
-      namespace: ${releaseNamespace}
   force: true
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/velero/5.2.2/v4-hooks-adoption
+  path: ./services/velero/5.2.3/pre-install
   sourceRef:
     kind: GitRepository
     name: management
