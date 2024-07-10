@@ -54,7 +54,7 @@ ignore:
   #     - url: https://github.com/curl/curl
   #       ref: curl-${image_tag//./_}
   #       license_path: COPYING
-  - docker.io/curlimages/curl:7.88.1
+  - ghcr.io/mesosphere/dkp-container-images/docker.io/curlimages/curl:7.88.1-d2iq.0
 
   # This is added as part of `kubetunnel` project, but we only use cURL from
   # this project.

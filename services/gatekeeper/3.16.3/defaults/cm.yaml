@@ -25,8 +25,8 @@ data:
       probeWebhook:
         priorityClassName: system-cluster-critical
         image:
-          repository: curlimages/curl
-          tag: 7.88.1
+          repository: ghcr.io/mesosphere/dkp-container-images/docker.io/curlimages/curl
+          tag: 7.88.1-d2iq.0
     controllerManager:
       tlsMinVersion: 1.2
     upgradeCRDs:
