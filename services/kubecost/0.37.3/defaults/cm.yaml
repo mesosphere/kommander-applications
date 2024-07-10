@@ -10,7 +10,15 @@ data:
       clusterID:
         kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.6}"
         priorityClassName: dkp-high-priority
-      image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
+    image:
+      registry: ghcr.io
+      repository: mesosphere/dkp-container-images/gcr.io/kubecost1/frontend
+      tag: prod-1.106.7-d2iq.0
+    cost-analyzer:
+      priority:
+        enabled: true
+        name: dkp-high-priority
+
       global:
         prometheus:
           enabled: true
