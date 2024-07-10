@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: vmware-tanzu.github.io
         namespace: kommander-flux
-      version: 5.2.3
+      version: 5.2.2
   interval: 15s
   install:
     crds: CreateReplace
