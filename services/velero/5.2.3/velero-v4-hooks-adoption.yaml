@@ -12,7 +12,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/velero/5.2.2/v4-hooks-adoption
+  path: ./services/velero/5.2.3/v4-hooks-adoption
   sourceRef:
     kind: GitRepository
     name: management
