@@ -5,10 +5,6 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    image:
-      registry: ghcr.io
-      repository: mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter
-      tag: 0.12.0-debian-11-r77-d2iq.0
     backend:
       alertExpirationTime: 72h
       alertmanager:
@@ -553,7 +549,6 @@ data:
           cpu: 100m
           memory: 64Mi
     priorityClassName: dkp-critical-priority
-    image : ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
     reforwarder:
       resources:
         limits:
