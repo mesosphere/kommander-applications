@@ -25,4 +25,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: dex-2.13.12-d2iq-defaults
+    - kind: ConfigMap
+      name: dex-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
