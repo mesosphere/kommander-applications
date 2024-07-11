@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: kommander-stripprefixes@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: git-operator-git
+  namespace: git-operator-system
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: git-operator-git
+            port:
+              name: http
+        path: /dkp/kommander/git-operator
+        pathType: Prefix
