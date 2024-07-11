@@ -5,9 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    image: 
-      registry: ghcr.io
-      repository: mesosphere/dkp-container-images/nvcr.io/nvidia/gpu-operator
+    image:
+      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/gpu-operator
       tag: v24.3.0-d2iq.0
     nfd:
       enabled: false
