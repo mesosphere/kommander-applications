@@ -9,8 +9,8 @@ data:
     priorityClassName: "dkp-critical-priority"
     image:
       registry: ghcr.io
-      repository: mesosphere/gitea
-      tag: 1.19.2-d2iq.1
+      repository: mesosphere/dkp-container-images/docker.io/bitnami/memcached
+      tag: 1.6.19-debian-11-r7-d2iq.1
       rootless: true
     ingress:
       enabled: true
