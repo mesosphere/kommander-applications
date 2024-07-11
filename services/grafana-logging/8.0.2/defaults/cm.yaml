@@ -8,7 +8,7 @@ data:
     ---
     priorityClassName: "dkp-critical-priority"
     image:
-      tag: 10.3.3
+      tag: 10.3.3-d2iq.0
     datasources:
       datasources.yaml:
         apiVersion: 1
