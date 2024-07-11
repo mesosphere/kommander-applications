@@ -49,6 +49,8 @@ data:
       grafana:
         priorityClassName: dkp-high-priority
         image:
+          registry: ghcr.io
+          repository: mesosphere/dkp-container-images/docker.io/grafana/grafana
           tag: 10.3.3-d2iq.0
         ingress:
           enabled: true
