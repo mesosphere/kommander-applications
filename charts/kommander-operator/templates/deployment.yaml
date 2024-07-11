@@ -37,3 +37,18 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+        - name: static-artifacts
+          image: mesosphere/kommander2-static-artifacts:{{ .Values.kommanderoperator.image.tag }}
+          imagePullPolicy: {{ .Values.kommanderoperator.image.pullPolicy }}
+          readinessProbe:
+            tcpSocket:
+              port: 6843
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 6843
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 3
