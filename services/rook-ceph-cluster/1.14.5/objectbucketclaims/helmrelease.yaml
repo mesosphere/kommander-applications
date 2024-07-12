@@ -1,31 +1,36 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: dex
+  name: object-bucket-claims
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: dex
+      chart: object-bucket-claim
       sourceRef:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 2.13.12
+      version: 0.1.11
+  timeout: 20m
   interval: 15s
   install:
     crds: CreateReplace
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: dex
+  releaseName: object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.13.12-d2iq-defaults
+      name: rook-ceph-cluster-1.14.5-d2iq-defaults
     - kind: ConfigMap
-      name: dex-overrides
+      name: rook-ceph-cluster-overrides
+      optional: true
+    - kind: ConfigMap
+      name: rook-ceph-cluster-cluster-overrides
       optional: true
   targetNamespace: ${releaseNamespace}

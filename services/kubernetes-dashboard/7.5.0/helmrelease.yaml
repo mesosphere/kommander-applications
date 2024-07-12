@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: rook-ceph-helmrelease
+  name: kubernetes-dashboard-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: false
@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph/1.14.2/helmrelease
+  path: ./services/kubernetes-dashboard/7.5.0/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
