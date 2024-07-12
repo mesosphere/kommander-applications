@@ -24,4 +24,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: reloader-1.0.107-d2iq-defaults
+    - kind: ConfigMap
+      name: reloader-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}

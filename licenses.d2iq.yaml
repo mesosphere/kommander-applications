@@ -3,14 +3,17 @@ ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
-  - docker.io/bitnami/external-dns:0.14.1-debian-12-r2
+  - docker.io/bitnami/external-dns:0.14.2-debian-12-r1
   - docker.io/bitnami/postgresql:11.22.0-debian-11-r4
   - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
   - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
-  - docker.io/bitnami/memcached:1.6.19-debian-11-r7
+  - ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/memcached:1.6.19-debian-11-r7-d2iq.1
   - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.106.7
   - gcr.io/kubecost1/frontend:prod-1.106.7
+
+  # There is no repo mapping for this image
+  - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
 
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
@@ -151,16 +154,31 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: docker.io/kubernetesui/dashboard:v2.7.0
+  - container_image: docker.io/kubernetesui/dashboard-api:1.7.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: api/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-metrics-scraper:1.1.0
+  - container_image: docker.io/kubernetesui/dashboard-auth:1.1.3
+    sources:
+      - license_path: LICENSE
+        ref: auth/v${image_tag}
+        url: https://github.com/kubernetes/dashboard
+  - container_image: docker.io/kubernetesui/dashboard-web:1.4.0
+    sources:
+      - license_path: LICENSE
+        ref: web/v${image_tag}
+        url: https://github.com/kubernetes/dashboard
+  - container_image: docker.io/kubernetesui/dashboard-metrics-scraper:1.1.1
     sources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
+  - container_image: docker.io/library/kong:3.6
+    sources:
+      - license_path: LICENSE
+        ref: 3.6.0
+        url: https://github.com/Kong/kong
   - container_image: docker.io/library/traefik:v2.11.2
     sources:
       - license_path: LICENSE.md
@@ -255,7 +273,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:11.31.0
+  - container_image: docker.io/mesosphere/kommander:12.3.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -467,22 +485,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/FairwindsOps/polaris
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.2
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.14.2
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.14.2
+  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.14.2
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.14.7
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -559,11 +577,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/thanos-io/thanos
-  - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
-    sources:
-      - license_path: LICENSE
-        ref: controller-${image_tag}
-        url: https://github.com/kubernetes/ingress-nginx
   - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v1.9.8
     sources:
       - license_path: LICENSE

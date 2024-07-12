@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -43,6 +44,10 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 	})
 
 	AfterEach(OncePerOrdered, func() {
+		if os.Getenv("SKIP_CLUSTER_TEARDOWN") != "" {
+			return
+		}
+
 		err := env.Destroy(ctx)
 		Expect(err).ToNot(HaveOccurred())
 	})
