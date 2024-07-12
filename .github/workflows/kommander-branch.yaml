@@ -55,6 +55,8 @@ jobs:
 
       - name: Make test branch pointing to kommander-applications ref
         id: make-test-branch
+        env:
+          PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
         run: |
           cd kommander
           git config user.name d2iq-mergebot
@@ -72,7 +74,7 @@ jobs:
             if  [[ ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} == chartbump/* ]] ;
             then
               # Update kuttl tests that reference the app being bumped
-              kapps=$(echo '${{ github.event.pull_request.body }}' | grep kapps:)
+              kapps=$(echo $PULL_REQUEST_BODY | grep kapps:)
               kapps=${kapps#"kapps:"}
               echo $kapps
               semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)"
