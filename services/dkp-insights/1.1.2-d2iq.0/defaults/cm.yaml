@@ -420,7 +420,7 @@ data:
       helmRepositoryURLs: []
       image:
         pullPolicy: IfNotPresent
-        repository: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:3.4.0-d2iq.0
+        repository: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova
         tag: 3.4.0-d2iq.0
       resources:
         limits:
