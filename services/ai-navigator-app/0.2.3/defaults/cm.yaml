@@ -56,6 +56,7 @@ data:
         priorityClassName: dkp-high-priority
       enabled: true
       image:
+        repository: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgresql
         tag: 15.2.0-debian-11-r21-d2iq.0
 
     # Default values for cluster-info-api
