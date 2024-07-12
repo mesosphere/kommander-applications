@@ -533,6 +533,10 @@ data:
         persistence:
           size: 8Gi
         priorityClassName: dkp-critical-priority
+        image:
+          registry: ghcr.io
+          repository: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgresql
+          tag: postgresql:15.2.0-debian-11-r21-d2iq.0
         resources:
           limits:
             cpu: 250m
