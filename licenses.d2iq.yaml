@@ -425,7 +425,7 @@ resources:
         url: https://github.com/ceph/ceph
   - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:3.4.0-d2iq.0
     sources:
-      - license_path: LICENSE
+      - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/FairwindsOps/nova
   - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/pluto:v5.10.6-d2iq.0
