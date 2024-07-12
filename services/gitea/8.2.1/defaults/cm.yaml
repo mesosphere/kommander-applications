@@ -75,4 +75,6 @@ data:
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
+        registry: ghcr.io
+        repository: mesosphere/dkp-container-images/docker.io/bitnami/postgresql
         tag: 11.22.0-debian-11-r4-d2iq.0
