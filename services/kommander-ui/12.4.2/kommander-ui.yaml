@@ -28,4 +28,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kommander-ui-12.4.2-d2iq-defaults
+    - kind: ConfigMap
+      name: kommander-ui-overrides
+      optional: true
   targetNamespace: ${releaseNamespace}
