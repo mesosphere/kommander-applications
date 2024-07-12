@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: kommander-ui
         namespace: kommander-flux
-      version: 12.4.0
+      version: 12.4.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -27,5 +27,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-12.4.0-d2iq-defaults
+      name: kommander-ui-12.4.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
