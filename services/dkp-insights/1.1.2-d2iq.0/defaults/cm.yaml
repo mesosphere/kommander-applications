@@ -518,11 +518,11 @@ data:
           requests:
             cpu: 100m
             memory: 64Mi
-    postgresql: 
+    postgresql:
       image:
         registry: ghcr.io
         repository: mesosphere/dkp-container-images/docker.io/bitnami/postgresql
-        tag: 15.2.0-debian-11-r21-d2iq.0       
+        tag: 15.2.0-debian-11-r21-d2iq.0
       global:
         connectionPool:
           connectionMaxLifetime: 1h
