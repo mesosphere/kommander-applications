@@ -60,3 +60,7 @@ data:
           limits:
             cpu: 250m
             memory: 400Mi
+    kong:
+      admin:
+        tls:
+          enabled: false
