@@ -386,12 +386,12 @@ resources:
   - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.3.0-d2iq.0
     sources:
       - license_path: validator/LICENSE
-        ref: ${image_tag}
+        ref: v24.3.0
         url: https://github.com/NVIDIA/gpu-operator
   - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/gpu-operator:v24.3.0-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: v24.3.0
         url: https://github.com/NVIDIA/gpu-operator
   - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.15.0-ubi8
     sources:
