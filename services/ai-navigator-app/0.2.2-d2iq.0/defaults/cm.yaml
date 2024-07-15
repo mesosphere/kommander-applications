@@ -34,8 +34,9 @@ data:
       globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
-      image:
-        registry: ghcr.io/mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate
+      image: 
+        registry: ghcr.io
+        repository: mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate
         tag: 1.21.4-d2iq.0
       initContainers:
         sysctlInitContainer:
