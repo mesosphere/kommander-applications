@@ -50,7 +50,7 @@ data:
         priorityClassName: dkp-high-priority
         image:
           repository: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana
-          tag: 10.3.3.d2iq.0
+          tag: 10.3.3-d2iq.0
         ingress:
           enabled: true
           annotations:

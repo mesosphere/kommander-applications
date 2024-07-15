@@ -10,7 +10,7 @@ data:
     # pinning grafana to 8.5 since it appears that v9+ is causing the kubernetes audit dashboard to crash
     image:
       repository: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana
-      tag: 10.3.3.d2iq.0
+      tag: 10.3.3-d2iq.0
     datasources:
       datasources.yaml:
         apiVersion: 1
