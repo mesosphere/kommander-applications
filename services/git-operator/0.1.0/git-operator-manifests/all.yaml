@@ -699,7 +699,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-        image: docker.io/mesosphere/git-operator:v0.8.3@sha256:3a4c42890549394bbe3842d99c7bf143334c19dc6e8d13413cd796c219aead8e
+        image: docker.io/mesosphere/git-operator:v0.8.2@sha256:7dde5a0836d212d8fe31f65c42bec32c91962858f6cb7da5526a0b60727141fb
         livenessProbe:
           httpGet:
             path: /healthz
