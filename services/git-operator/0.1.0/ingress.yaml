@@ -15,6 +15,6 @@ spec:
           service:
             name: git-operator-git
             port:
-              name: http
+              name: https
         path: /dkp/kommander/git-operator
         pathType: Prefix
