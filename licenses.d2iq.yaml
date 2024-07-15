@@ -71,10 +71,10 @@ ignore:
   - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
 
 resources:
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.2.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v2.2.3
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.7.2
     sources:
@@ -86,10 +86,10 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r1}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/fluent/fluent-bit:2.2.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v2.2.3
         url: https://github.com/fluent/fluent-bit
   - container_image: ghcr.io/mesosphere/gitea:1.19.2-d2iq.1-rootless
     sources:
