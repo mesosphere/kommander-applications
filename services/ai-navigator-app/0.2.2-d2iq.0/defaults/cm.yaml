@@ -6,6 +6,10 @@ metadata:
 data:
   values.yaml: |
     priorityClassName: dkp-high-priority
+    image:
+      registry: ghcr.io
+      repository: mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate
+      tag: 1.21.4-d2iq.0
     # api.enabled enables the collector service as a whole - will not install anything if set to false
     api:
       enabled: true
