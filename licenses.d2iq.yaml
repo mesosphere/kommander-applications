@@ -86,7 +86,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r1}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/fluent/fluent-bit:2.2.3
+  - container_image: docker.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
