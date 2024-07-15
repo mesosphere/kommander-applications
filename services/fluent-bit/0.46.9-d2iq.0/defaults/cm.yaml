@@ -10,7 +10,9 @@ data:
     image:
       repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
       tag: 2.2.3-d2iq.0
-
+    image:
+      repository: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit
+      tag: 2.2.3-d2iq.0
     priorityClassName: "dkp-critical-priority"
     resources:
       limits:
