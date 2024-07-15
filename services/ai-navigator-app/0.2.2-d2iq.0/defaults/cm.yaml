@@ -31,10 +31,6 @@ data:
     # Default values for subcharts
     weaviate:
       enabled: true
-      image:
-        registry: ghcr.io
-        repository: mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate
-        tag: 1.21.4-d2iq.0
       globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
