@@ -36,4 +36,4 @@ data:
       enabled: true
       version: 3.3.5-3.4.1-ubuntu22.04
     validator:
-      version: v24.3.0-d2iq.0
+      version: v24.3.0
