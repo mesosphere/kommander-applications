@@ -49,7 +49,7 @@ data:
       grafana:
         priorityClassName: dkp-high-priority
         image:
-          tag: 10.3.3
+          tag: 10.3.3.d2iq.0
         ingress:
           enabled: true
           annotations:
