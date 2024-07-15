@@ -581,5 +581,5 @@ resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate:1.21.4-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v1.21.4
         url: https://github.com/weaviate/weaviate
