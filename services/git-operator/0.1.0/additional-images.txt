@@ -1,0 +1,2 @@
+docker.io/mesosphere/gitwebserver:v0.8.3
+nginxinc/nginx-unprivileged:1.25.4-alpine
