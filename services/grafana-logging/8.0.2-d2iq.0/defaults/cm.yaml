@@ -8,6 +8,7 @@ data:
     ---
     priorityClassName: "dkp-critical-priority"
     image:
+      repository: ghcr.io/ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana
       tag: 10.3.3.d2iq.0
     datasources:
       datasources.yaml:
