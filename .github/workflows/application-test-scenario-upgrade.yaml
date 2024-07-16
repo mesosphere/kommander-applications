@@ -59,6 +59,8 @@ jobs:
       run: go install github.com/onsi/ginkgo/v2/ginkgo
 
     - name: Run upgrade Test
+      env:
+        SKIP_CLUSTER_TEARDOWN: "true"
       working-directory: apptests
       run: |
         ginkgo --v --label-filter="upgrade && (${{ inputs.apps }})" appscenarios

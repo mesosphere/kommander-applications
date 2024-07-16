@@ -27,6 +27,11 @@ jobs:
       - name: Run unit tests
         run: devbox run -- make go-test
 
+      - name: Check if git-operator manifests are up to date
+        run: |
+          devbox run just git-operator-fetch-manifests
+          git diff --exit-code
+
       - name: Report Coveralls
         uses: coverallsapp/github-action@v2
         with:

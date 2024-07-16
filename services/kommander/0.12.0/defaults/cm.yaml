@@ -75,6 +75,7 @@ data:
       - "karma-traefik"
       - "prometheus-thanos-traefik"
       - "thanos"
+      - "dkp-insights-management"
     kommander-ui:
       enabled: false
     capimate:
@@ -98,12 +99,6 @@ data:
     - "thanos"
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
-    defaultManagementApps:
-    - "dex"
-    - "dex-k8s-authenticator"
-    - "reloader"
-    - "traefik"
-    - "traefik-forward-auth-mgmt"
     attached:
       prerequisites:
         defaultApps:

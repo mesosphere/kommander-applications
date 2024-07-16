@@ -43,6 +43,8 @@ jobs:
 
     - name: Run install Test
       working-directory: apptests
+      env:
+        SKIP_CLUSTER_TEARDOWN: "true"
       run: |
         ginkgo --v --label-filter="install && (${{ inputs.apps }})" appscenarios
 

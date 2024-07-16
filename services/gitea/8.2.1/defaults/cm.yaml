@@ -68,7 +68,9 @@ data:
     memcached:
       priorityClassName: "dkp-critical-priority"
       image:
-        tag: 1.6.19-debian-11-r7
+        registry: ghcr.io
+        repository: mesosphere/dkp-container-images/docker.io/bitnami/memcached
+        tag: 1.6.19-debian-11-r7-d2iq.1
     postgresql:
       primary:
         priorityClassName: "dkp-critical-priority"

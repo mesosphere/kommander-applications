@@ -1,0 +1,94 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: gatekeeper
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: gatekeeper
+      sourceRef:
+        kind: HelmRepository
+        name: open-policy-agent.github.io-charts
+        namespace: kommander-flux
+      version: 3.16.3
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: kommander-gatekeeper
+  valuesFrom:
+    - kind: ConfigMap
+      name: gatekeeper-3.16.4-d2iq-defaults
+    - kind: ConfigMap
+      name: gatekeeper-overrides
+      optional: true
+  postRenderers:
+    - kustomize:
+        # Remove the hardcoded namespaceSelectors until https://d2iq.atlassian.net/browse/D2IQ-92439 is resolved.
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-mutating-webhook-configuration-mutatingwebhookconfiguration.yaml#L29-L32
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-validating-webhook-configuration-validatingwebhookconfiguration.yaml#L29-L32
+        # https://github.com/open-policy-agent/gatekeeper/blob/master/charts/gatekeeper/templates/gatekeeper-validating-webhook-configuration-validatingwebhookconfiguration.yaml#L93-L96
+        patches:
+          - patch: |
+              - op: remove
+                path: /webhooks/0/namespaceSelector/matchExpressions/1
+            target:
+              kind: MutatingWebhookConfiguration
+              name: gatekeeper-mutating-webhook-configuration
+              version: v1
+          - patch: |
+              - op: remove
+                path: /webhooks/0/namespaceSelector/matchExpressions/1
+            target:
+              kind: ValidatingWebhookConfiguration
+              name: gatekeeper-validating-webhook-configuration
+              version: v1
+          - patch: |-
+              - op: remove
+                path: /webhooks/1/namespaceSelector/matchExpressions/0
+            target:
+              kind: ValidatingWebhookConfiguration
+              name: gatekeeper-validating-webhook-configuration
+              version: v1
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: gatekeeper-proxy-mutations
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: gatekeeper
+  chart:
+    spec:
+      chart: gatekeeper-proxy-mutations
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: v0.0.1
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: gatekeeper-proxy-mutations
+  valuesFrom:
+    - kind: ConfigMap
+      name: gatekeeper-3.16.4-d2iq-defaults
+    - kind: ConfigMap
+      name: gatekeeper-overrides
+      optional: true
