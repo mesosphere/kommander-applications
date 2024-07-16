@@ -74,7 +74,7 @@ resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v2.2.3
+        ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.7.2
     sources:
@@ -89,7 +89,7 @@ resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v2.2.3
+        ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/grafana/grafana:10.3.3
     sources:
