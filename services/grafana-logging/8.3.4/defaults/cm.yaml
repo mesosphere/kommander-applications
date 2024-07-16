@@ -7,8 +7,6 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
-    image:
-      tag: 10.3.3
     datasources:
       datasources.yaml:
         apiVersion: 1
