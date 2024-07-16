@@ -1,6 +1,4 @@
 ignore:
-  - docker.io/mesosphere/git-operator:v0.8.3
-  - docker.io/mesosphere/gitwebserver:v0.8.3
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/kommander2-kubetools
   - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
@@ -230,6 +228,14 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
+  - container_image: docker.io/mesosphere/git-operator:v0.8.3
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/git-operator
+  - container_image: docker.io/mesosphere/gitwebserver:v0.8.3
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/git-operator
   - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name.2
     sources:
       - license_path: LICENSE
