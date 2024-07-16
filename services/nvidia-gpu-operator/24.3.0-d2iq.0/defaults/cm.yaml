@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     image:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native/gpu-operator-validator
+      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/gpu-operator
       tag: v24.3.0-d2iq.0
     nfd:
       enabled: false
