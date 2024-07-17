@@ -7,7 +7,6 @@ resources:
   - dashboard.yaml
   - fluent.yaml
   - gatekeeper.yaml
-  - gitea.yaml
   - grafana.yaml
   - jaegertracing.yaml
   - kiali.yaml
