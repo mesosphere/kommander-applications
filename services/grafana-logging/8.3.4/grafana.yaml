@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 8.0.2
+      version: 8.3.4
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: grafana-logging
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-logging-8.0.2-d2iq-defaults
+      name: grafana-logging-8.3.4-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
@@ -39,7 +39,7 @@ data:
   dashboardLink: "/dkp/logging/grafana"
   docsLink: "https://grafana.com/docs/"
   # Check https://artifacthub.io/packages/helm/grafana/grafana/6.58.6 for app version
-  version: "10.3.3"
+  version: "11.1.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
