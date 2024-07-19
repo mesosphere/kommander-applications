@@ -54,10 +54,6 @@ services/git-operator:
 - changed-files:
   - any-glob-to-any-file:
     - services/git-operator/**
-services/gitea:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/gitea/**
 services/grafana-logging:
 - changed-files:
   - any-glob-to-any-file:
