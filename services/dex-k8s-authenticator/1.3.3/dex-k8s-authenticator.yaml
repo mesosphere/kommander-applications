@@ -34,7 +34,7 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: dex-k8s-authenticator-1.3.2-d2iq-defaults
+      name: dex-k8s-authenticator-1.3.3-d2iq-defaults
     - kind: ConfigMap
       name: dex-k8s-authenticator-overrides
       optional: true
