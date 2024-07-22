@@ -24,4 +24,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: dkp-insights-1.1.2-d2iq-defaults
+      name: dkp-insights-1.1.2-d2iq.0-defaults
