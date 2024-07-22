@@ -608,7 +608,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v${image_tag%-debian-12-r1}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/postgresql:15.2.0-debian-11-r21
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgresql:15.2.0-debian-11-r21-d2iq.0
     sources:
       - url: https://github.com/postgres/postgres
         ref: REL_15_2
