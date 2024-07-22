@@ -403,10 +403,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
+        ref: ${image_tag%-ubi8-d2iq.0}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
