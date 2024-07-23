@@ -423,8 +423,8 @@ data:
       helmRepositoryURLs: []
       image:
         pullPolicy: IfNotPresent
-        repository: quay.io/fairwinds/nova
-        tag: 3.4.0
+        repository: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova
+        tag: 3.4.0-d2iq.0
       resources:
         limits:
           cpu: 100m
@@ -447,8 +447,8 @@ data:
       enabled: true
       image:
         pullPolicy: IfNotPresent
-        repository: quay.io/fairwinds/pluto
-        tag: v5.10.6
+        repository: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/pluto
+        tag: v5.10.6-d2iq.0
       resources:
         limits:
           cpu: 100m
@@ -502,8 +502,8 @@ data:
       enabled: true
       image:
         pullPolicy: IfNotPresent
-        repository: quay.io/fairwinds/polaris
-        tag: 7.0.2
+        repository: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/polaris
+        tag: 7.0.2-d2iq.0
       resources:
         limits:
           cpu: 100m

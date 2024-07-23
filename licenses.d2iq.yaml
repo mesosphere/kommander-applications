@@ -164,11 +164,11 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/git-operator:v0.9.0
+  - container_image: docker.io/mesosphere/git-operator:v0.9.1
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.9.0
+  - container_image: docker.io/mesosphere/gitwebserver:v0.9.1
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
@@ -221,7 +221,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:12.12.0
+  - container_image: docker.io/mesosphere/kommander:12.12.2
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -403,10 +403,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
+        ref: ${image_tag%-ubi8-d2iq.0}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
@@ -423,20 +423,20 @@ resources:
       - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/ceph/ceph
-  - container_image: quay.io/fairwinds/nova:3.4.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:3.4.0-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/nova
-  - container_image: quay.io/fairwinds/pluto:v5.10.6
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/pluto:v5.10.6-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/pluto
-  - container_image: quay.io/fairwinds/polaris:7.0.2
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/polaris:7.0.2-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/polaris
   - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.7
     sources:
