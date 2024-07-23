@@ -172,7 +172,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/karma
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/karma:v0.88-d2iq-server-name.2-d2iq.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq-server-name.2-d2iq.0}
