@@ -24,7 +24,7 @@ spec:
   releaseName: grafana-logging
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-logging-8.3.4-d2iq-defaults
+      name: grafana-logging-8.3.4-d2iq.0-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1

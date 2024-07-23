@@ -1,19 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-logging-8.3.4-d2iq-defaults
+  name: project-grafana-logging-8.3.4-d2iq.0-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    image:
+      repository: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana
+      tag: 10.3.3-d2iq.0
     datasources:
       datasources.yaml:
         apiVersion: 1
         datasources:
         - name: Loki
           type: loki
-          url: "http://grafana-loki-loki-distributed-gateway"
+          url: "http://project-grafana-loki-loki-distributed-gateway"
           access: proxy
           isDefault: false
     ingress:
@@ -24,18 +27,15 @@ data:
         traefik.ingress.kubernetes.io/router.tls: "true"
         traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
       hosts: [""]
-      path: /dkp/logging/grafana
+      path: /dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana
       pathType: ImplementationSpecific
 
     sidecar:
-      sidecar:
-        image:
-          repository: kiwigrid/k8s-sidecar
-          tag: 1.25.3
       dashboards:
         enabled: true
-        label: grafana_logging_dashboard
-        searchNamespace: ALL
+        label: project_grafana_logging_dashboard
+        # only search the namespace in which the sidecar is running
+        searchNamespace: null
 
     grafana.ini:
       log:
@@ -43,7 +43,7 @@ data:
       server:
         protocol: http
         enable_gzip: true
-        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/logging/grafana"
+        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana"
         serve_from_sub_path: true
       auth.proxy:
         enabled: true
@@ -88,6 +88,8 @@ data:
       timeoutSeconds: 30
       failureThreshold: 10
     rbac:
+      enabled: true
+      namespaced: true
       pspUseAppArmor: false
       pspEnabled: false
     # to avoid needing to download any plugins at runtime, use a container and a shared volume
