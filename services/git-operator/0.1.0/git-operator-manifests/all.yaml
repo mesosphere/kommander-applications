@@ -72,12 +72,13 @@ spec:
                       to access the repository.
                     properties:
                       name:
+                        description: |-
+                          Name of the referent.
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Add other useful fields. apiVersion, kind, uid?
                         type: string
-                      namespace:
-                        type: string
-                    required:
-                    - name
                     type: object
+                    x-kubernetes-map-type: atomic
                   url:
                     description: URL is the URL of the git repository.
                     type: string
@@ -699,7 +700,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-        image: docker.io/mesosphere/git-operator:v0.8.3@sha256:3a4c42890549394bbe3842d99c7bf143334c19dc6e8d13413cd796c219aead8e
+        image: docker.io/mesosphere/git-operator:v0.9.1
         livenessProbe:
           httpGet:
             path: /healthz

@@ -12,45 +12,6 @@ data:
       priorityClassName: dkp-high-priority
       image:
         pullPolicy: Always
-      api:
-        containers:
-          args:
-            - --namespace=${releaseNamespace}
-          resources:
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            limits:
-              cpu: 500m
-              memory: 1000Mi
-      auth:
-        containers:
-          resources:
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            limits:
-              cpu: 250m
-              memory: 400Mi
-      web:
-        containers:
-          resources:
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            limits:
-              cpu: 500m
-              memory: 1000Mi
-      metricsScraper:
-        enabled: true
-        containers:
-          resources:
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            limits:
-              cpu: 250m
-              memory: 400Mi
       ingress:
         enabled: true
         ingressClassName: kommander-traefik
@@ -60,3 +21,46 @@ data:
           traefik.ingress.kubernetes.io/router.middlewares: "kommander-stripprefixes@kubernetescrd,kommander-forwardauth-full@kubernetescrd"
         path: /dkp/kubernetes
         hosts: ~
+    api:
+      containers:
+        args:
+          - --namespace=${releaseNamespace}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+    auth:
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 250m
+            memory: 400Mi
+    web:
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+    metricsScraper:
+      enabled: true
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 250m
+            memory: 400Mi
+    kong:
+      admin:
+        tls:
+          enabled: false
