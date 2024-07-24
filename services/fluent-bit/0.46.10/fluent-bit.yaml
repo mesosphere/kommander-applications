@@ -1,17 +1,19 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: nvidia-gpu-operator
+  name: fluent-bit
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: gpu-operator
+      chart: fluent-bit
       sourceRef:
         kind: HelmRepository
-        name: helm.ngc.nvidia.com-nvidia
+        name: fluent.github.io
         namespace: kommander-flux
-      version: v24.3.0
+      # This chart version should be kept in sync with logging-operator.
+      # Both services should deploy the same version of fluent-bit.
+      version: 0.46.9
   interval: 15s
   install:
     crds: CreateReplace
@@ -21,8 +23,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: nvidia-gpu-operator
+  timeout: 5m0s
+  releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-gpu-operator-24.3.0-d2iq.0-defaults
-  targetNamespace: ${releaseNamespace}
+      name: fluent-bit-0.46.10-d2iq-defaults
