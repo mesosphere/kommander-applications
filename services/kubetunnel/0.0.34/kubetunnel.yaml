@@ -24,4 +24,4 @@ spec:
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.33-1-d2iq-defaults
+      name: kubetunnel-0.0.34-d2iq-defaults
