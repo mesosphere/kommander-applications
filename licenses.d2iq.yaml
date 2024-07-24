@@ -26,11 +26,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/grafana/grafana:10.3.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana:10.3.3-d2iq.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
-        ref: v${image_tag}
+        ref: v${image_tag%d2iq.0}
         url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.0.0
     sources:
