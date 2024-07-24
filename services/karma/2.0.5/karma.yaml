@@ -27,7 +27,7 @@ spec:
   releaseName: karma
   valuesFrom:
     - kind: ConfigMap
-      name: karma-2.0.4-d2iq.0-defaults
+      name: karma-2.0.5-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
