@@ -74,18 +74,13 @@ jobs:
             if  [[ ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} == chartbump/* ]] ;
             then
               # Update kuttl tests that reference the app being bumped
-              kapps=$(echo $PULL_REQUEST_BODY | grep "kapps:")
+              kapps=$(echo $PULL_REQUEST_BODY | grep kapps:)
               kapps=${kapps#"kapps:"}
-              echo "########Test1#####"
               echo $kapps
               semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)"
-              echo "########Test2#####"
-              echo $semver
               for appversion in $kapps; do
                 appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
                 for file in $(find ./tests ./docs -type f -print); do
-                  echo "########Test3#####"
-                  echo $file
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
                   esac
