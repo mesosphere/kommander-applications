@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: karma-2.0.4-d2iq-defaults
+  name: karma-2.0.5-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -10,8 +10,8 @@ data:
     image:
       # TODO(https://jira.d2iq.com/browse/D2IQ-78091)
       # switch back to upstream
-      repository: mesosphere/karma
-      tag: v0.88-d2iq-server-name.2
+      repository: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/karma
+      tag: v0.88-d2iq-server-name.2-d2iq.0
 
     service:
       labels:
