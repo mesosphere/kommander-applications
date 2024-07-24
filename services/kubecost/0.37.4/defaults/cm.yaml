@@ -13,7 +13,7 @@ data:
 
     cost-analyzer:
       kubecostFrontend:
-        fullImageName:: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
+        fullImageName: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
       priority:
         enabled: true
         name: dkp-high-priority
