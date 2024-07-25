@@ -83,14 +83,14 @@ data:
         tag: v0.0.0-dev.0
     managementApps:
     - "ai-navigator-app"
-    - "ai-nagivator-cluster-info-agent"
+    - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
     - "centralized-kubecost"
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
     - "dkp-insights-management"
-    - "gitea"
+    - "git-operator"
     - "karma"
     - "kommander"
     - "kommander-appmanagement"

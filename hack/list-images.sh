@@ -131,9 +131,12 @@ done
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
                                 .spec.template.spec |
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
+				./services/git-operator/*/git-operator-manifests/* \
                                 ./services/kommander-flux/*/templates/* \
                                 ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
                                 >>"${IMAGES_FILE}"
+
+cat ./services/git-operator/*/additional-images.txt  >>"${IMAGES_FILE}"
 
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \

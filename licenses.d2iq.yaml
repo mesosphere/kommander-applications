@@ -1,80 +1,15 @@
 ignore:
-  - ghcr.io/mesosphere/git-operator:v0.2.0
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
-  - docker.io/mesosphere/kommander2-kubetools
-  - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
-  - docker.io/bitnami/external-dns:0.14.2-debian-12-r1
-  - docker.io/bitnami/postgresql:11.22.0-debian-11-r4
-  - docker.io/bitnami/postgresql:15.2.0-debian-11-r21
-  - docker.io/bitnami/redis-cluster:7.0.12-debian-11-r2
-  - ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/memcached:1.6.19-debian-11-r7-d2iq.1
-  - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.106.7
   - gcr.io/kubecost1/frontend:prod-1.106.7
-
-  # There is no repo mapping for this image
-  - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
-
-  # Fossa doesn't support scanning arbitrary C-files
-  - docker.io/mesosphere/pause-busybox:3.6
-  - docker.io/bitnami/bitnami-shell:11-debian-11-r106
-  - docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
   - docker.io/mesosphere/trivy-bundles:0.49.1-20240301T193636Z
   - gcr.io/google_containers/pause:3.2
 
-  # Fossa cannot scan and parse gemfile provided by the fluend project
-  # - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
-  #   sources:
-  #     - url: https://github.com/fluent/fluentd
-  #       ref: v1.16.2
-  #       license_path: LICENSE
-  - ghcr.io/kube-logging/fluentd:v1.16-full-build.122
-
-  # Fossa cannot scan C/CPP projects
-  # See: https://docs.fossa.com/docs/c-cpp
-  # - container_image: nvcr.io/nvidia/cloud-native/dcgm:${image_tag}
-  #   sources:
-  #     - url: https://github.com/NVIDIA/DCGM
-  #       ref: ${image_tag}
-  #       license_path: LICENSE
-  - nvcr.io/nvidia/cloud-native/dcgm:3.3.5-1-ubuntu22.04
-
-  # Incorrect mapping was provided
-  # - container_image: docker.io/bitnami/kubectl:1.19.7
-  #   sources:
-  #     - url: https://github.com/bitnami/bitnami-docker-kubectl
-  #       ref: ${image_tag}-debian-10-r31
-  #       license_path: LICENSE
-  - docker.io/bitnami/kubectl:1.29.6
-
-  # Fossa cannot scan C/CPP projects
-  # See: https://docs.fossa.com/docs/c-cpp
-  # - container_image: docker.io/curlimages/curl:7.88.1
-  #   sources:
-  #     - url: https://github.com/curl/curl
-  #       ref: curl-${image_tag//./_}
-  #       license_path: COPYING
-  - docker.io/curlimages/curl:8.8.0
-
-  # This is added as part of `kubetunnel` project, but we only use cURL from
-  # this project.
-  # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.31/pkg/controllers/constants.go
-  - docker.io/alpine/curl:8.5.0
-
-  # This container is part of nvidia extension but the source code of this
-  # repo cannot be scanned by Fossa.
-  # - container_image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
-  #   sources:
-  #     - url: https://github.com/NVIDIA/cuda-samples
-  #       ref: v${image_tag#vectoradd-cuda}
-  #       license_path: LICENSE
-  - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
-
 resources:
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:2.2.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.7.2
     sources:
@@ -86,16 +21,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r1}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/fluent/fluent-bit:2.2.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: v${image_tag}
+        ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
-  - container_image: ghcr.io/mesosphere/gitea:1.19.2-d2iq.1-rootless
-    sources:
-      - license_path: LICENSE
-        ref: v1.19.2-d2iq.1
-        url: https://github.com/mesosphere/gitea
   - container_image: docker.io/grafana/grafana:10.3.3
     sources:
       - license_path: LICENSE
@@ -103,6 +33,12 @@ resources:
         ref: v${image_tag}
         url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.0.0
+    sources:
+      - license_path: LICENSE
+        notice_path: NOTICE.md
+        ref: v${image_tag}
+        url: https://github.com/grafana/grafana
+  - container_image: docker.io/grafana/grafana:11.1.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -149,10 +85,10 @@ resources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
         url: https://github.com/jimmidyson/configmap-reload
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.25.3
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/kiwigrid/k8s-sidecar:1.25.3-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/kiwigrid/k8s-sidecar
   - container_image: docker.io/kubernetesui/dashboard-api:1.7.0
     sources:
@@ -205,7 +141,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.3.2-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.3.3-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -228,10 +164,18 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/karma:v0.88-d2iq-server-name.2
+  - container_image: docker.io/mesosphere/git-operator:v0.9.1
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/git-operator
+  - container_image: docker.io/mesosphere/gitwebserver:v0.9.1
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/git-operator
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/karma:v0.88-d2iq-server-name.2-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-d2iq-server-name.2}
+        ref: ${image_tag%-d2iq-server-name.2-d2iq.0}
         url: https://github.com/prymitive/karma
   - container_image: docker.io/mesosphere/kommander2-appmanagement-config-api:${kommander}
     sources:
@@ -269,11 +213,15 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
+  - container_image: docker.io/mesosphere/kommander2-kubetools:${kommander}
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/kommander
   - container_image: docker.io/mesosphere/kommander2-licensing-webhook:${kommander}
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:12.6.0
+  - container_image: docker.io/mesosphere/kommander:12.14.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -281,19 +229,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubeaddons-extrasteps
-  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.32
+  - container_image: docker.io/mesosphere/kubetunnel-controller:v0.0.33
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.32
+  - container_image: docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.33
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.32
+  - container_image: docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.33
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.32
+  - container_image: docker.io/mesosphere/kubetunnel-webhook:v0.0.33
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
@@ -379,15 +327,20 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
+  - container_image: docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/brancz/kube-rbac-proxy
   - container_image: ghcr.io/fluxcd/helm-controller:v0.37.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.2.2
+  - container_image: ghcr.io/mesosphere/dkp-container-images/ghcr.io/fluxcd/kustomize-controller:v1.2.2-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/fluxcd/kustomize-controller
   - container_image: ghcr.io/fluxcd/notification-controller:v1.2.4
     sources:
@@ -450,10 +403,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubi8-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
+        ref: ${image_tag%-ubi8-d2iq.0}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
     sources:
@@ -470,20 +423,20 @@ resources:
       - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/ceph/ceph
-  - container_image: quay.io/fairwinds/nova:3.4.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:3.4.0-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/nova
-  - container_image: quay.io/fairwinds/pluto:v5.10.6
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/pluto:v5.10.6-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/pluto
-  - container_image: quay.io/fairwinds/polaris:7.0.2
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/polaris:7.0.2-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/polaris
   - container_image: quay.io/jetstack/cert-manager-cainjector:v1.14.7
     sources:
@@ -598,3 +551,70 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/weaviate/weaviate
+  - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
+    sources:
+      - url: https://github.com/fluent/fluentd
+        ref: ${image_tag%-full-build.122}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.5-1-ubuntu22.04
+    sources:
+      - url: https://github.com/NVIDIA/DCGM
+        ref: v${image_tag%-1-ubuntu22.04}
+        license_path: LICENSE
+  - container_image: docker.io/curlimages/curl:8.8.0
+    sources:
+      - url: https://github.com/curl/curl
+        ref: curl-${image_tag//./_}
+        license_path: COPYING
+  # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.31/pkg/controllers/constants.go
+  - container_image: docker.io/alpine/curl:8.5.0
+    sources:
+      - url: https://github.com/curl/curl
+        ref: curl-${image_tag//./_}
+        license_path: COPYING
+  - container_image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
+    sources:
+      - url: https://github.com/NVIDIA/cuda-samples
+        ref: v${image_tag#vectoradd-cuda}
+        license_path: LICENSE
+  - container_image: docker.io/bitnami/kubectl:1.29.6
+    sources:
+      - url: https://github.com/kubernetes/kubectl
+        ref: v0${image_tag#1}
+        license_path: LICENSE
+  - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
+    sources:
+      - url: https://github.com/kubernetes/ingress-nginx
+        ref:  controller-1.5.2
+        license_path: LICENSE
+        directory: /images/kube-webhook-certgen/rootfs
+  - container_image: docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
+    sources:
+      - url: https://github.com/prometheus-community/postgres_exporter
+        ref: v${image_tag%-debian-11-r77}
+        license_path: LICENSE
+  - container_image: docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
+    sources:
+      - url: https://github.com/nginx/nginx
+        ref: release-${image_tag%-alpine}
+        license_path: docs/text/LICENSE
+  - container_image: docker.io/nginxinc/nginx-unprivileged:1.25.4-alpine
+    sources:
+      - url: https://github.com/nginx/nginx
+        ref: release-${image_tag%-alpine}
+        license_path: docs/text/LICENSE
+  - container_image: docker.io/bitnami/external-dns:0.14.2-debian-12-r1
+    sources:
+      - url: https://github.com/kubernetes-sigs/external-dns
+        ref: v${image_tag%-debian-12-r1}
+        license_path: LICENSE
+  - container_image: docker.io/bitnami/postgresql:15.2.0-debian-11-r21
+    sources:
+      - url: https://github.com/postgres/postgres
+        ref: REL_15_2
+        license_path: COPYRIGHT
+  - container_image: docker.io/library/busybox:1
+    sources:
+      - url: https://github.com/mirror/busybox
+        ref: master
+        license_path: LICENSE
