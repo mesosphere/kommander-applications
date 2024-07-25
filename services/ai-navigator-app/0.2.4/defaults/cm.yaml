@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-app-0.2.3-d2iq-defaults
+  name: ai-navigator-app-0.2.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -35,6 +35,8 @@ data:
       service:
         type: ClusterIP
       image:
+        registry: ghcr.io
+        repo: mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate
         tag: 1.21.4
       initContainers:
         sysctlInitContainer:
