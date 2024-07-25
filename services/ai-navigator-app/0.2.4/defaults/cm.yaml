@@ -34,7 +34,6 @@ data:
       globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
-            image:
       image:
         tag: 1.21.4
       initContainers:
