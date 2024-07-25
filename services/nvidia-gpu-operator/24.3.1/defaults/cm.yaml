@@ -13,7 +13,8 @@ data:
       config:
         # Create a ConfigMap (default: false)
         create: false
-      version: v0.15.0-ubi8
+      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
+      version: v0.15.0-ubi8-d2iq.0
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
@@ -33,4 +34,8 @@ data:
       enabled: true
       version: 3.3.5-3.4.1-ubuntu22.04
     validator:
-      version: v24.3.0
+      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native
+      version: v24.3.0-d2iq.0
+    operator:
+      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
+      version: v24.3.0-d2iq.0
