@@ -30,14 +30,14 @@ services/dex-k8s-authenticator:
 - changed-files:
   - any-glob-to-any-file:
     - services/dex-k8s-authenticator/**
-services/dkp-insights:
+services/nkp-insights:
 - changed-files:
   - any-glob-to-any-file:
-    - services/dkp-insights/**
-services/dkp-insights-management:
+    - services/nkp-insights/**
+services/nkp-insights-management:
 - changed-files:
   - any-glob-to-any-file:
-    - services/dkp-insights-management/**
+    - services/nkp-insights-management/**
 services/external-dns:
 - changed-files:
   - any-glob-to-any-file:

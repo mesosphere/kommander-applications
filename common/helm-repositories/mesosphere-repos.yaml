@@ -34,7 +34,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: mesosphere.github.io-dkp-insights-charts-management
+  name: mesosphere.github.io-nkp-insights-charts-management
   namespace: kommander-flux
 spec:
   interval: 10m
@@ -44,7 +44,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: mesosphere.github.io-dkp-insights-charts-attached
+  name: mesosphere.github.io-nkp-insights-charts-attached
   namespace: kommander-flux
 spec:
   interval: 10m

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-management-1.1.1-d2iq-defaults
+  name: nkp-insights-management-1.1.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
