@@ -135,8 +135,8 @@ data:
               plugin:
                 plugin-rewritebody:
                   rewrites:
-                    - regex: "/api"
-                      replacement: "/dkp/traefik/api"
+                    - regex: apiUrl:\"/api\"
+                      replacement: apiUrl:"/dkp/traefik/api"
             EOF
     resources:
       limits:
