@@ -613,6 +613,11 @@ resources:
       - url: https://github.com/postgres/postgres
         ref: REL_15_2
         license_path: COPYRIGHT
+  - container_image: docker.io/bitnami/postgresql:15.2.0-debian-11-r21-d2iq.0
+    sources:
+      - url: https://github.com/postgres/postgres
+        ref: REL_15_2
+        license_path: COPYRIGHT
   - container_image: docker.io/library/busybox:1
     sources:
       - url: https://github.com/mirror/busybox
