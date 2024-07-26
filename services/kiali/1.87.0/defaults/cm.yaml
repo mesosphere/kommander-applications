@@ -6,6 +6,8 @@ metadata:
 data:
   values.yaml: |
     priorityClassName: dkp-high-priority
+    image:
+      tag: v1.87.0-distro
     cr:
       create: true
       namespace: ${releaseNamespace}
