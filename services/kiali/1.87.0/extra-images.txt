@@ -1,1 +1,1 @@
-quay.io/kiali/kiali:{{ .Chart.AppVersion }}
+quay.io/kiali/kiali:v1.87.0-distro

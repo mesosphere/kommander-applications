@@ -6,9 +6,6 @@ metadata:
 data:
   values.yaml: |
     priorityClassName: dkp-high-priority
-    image:
-      repository: quay.io/kiali/kiali
-      tag: v1.87.0-distro
     cr:
       create: true
       namespace: ${releaseNamespace}
