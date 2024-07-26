@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 0.78.6
+      version: 0.78.5
   interval: 15s
   timeout: 15m
   install:
