@@ -1,7 +1,8 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-1.1.2-d2iq.0-defaults
+  name: dkp-insights-1.2.0-beta.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -127,7 +128,7 @@ data:
               groupKind:
                 group: ""
                 kind: Namespace
-              nameRegexp: node-feature-discovery|calico-system|cap.*?-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
+              nameRegexp: node-feature-discovery|caren-system|calico-system|cap.*?-system|caaph-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
             Namespace-kapps:
               groupKind:
                 group: ""
@@ -264,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.1.1
+      tag: v1.2.0-beta.0
     initdb:
       resources:
         limits:
@@ -529,7 +530,18 @@ data:
             database: dkp-insights
             postgresPassword: dkp-insights
           servicePort: 5432
+      image:
+        registry: ghcr.io
+        repository: mesosphere/dkp-container-images/docker.io/bitnami/postgresql
+        tag: 15.2.0-debian-11-r21-d2iq.0
+      metrics:
+        image:
+          registry: ghcr.io
+          repository: mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter
+          tag: 0.12.0-debian-11-r77-d2iq.0
       primary:
+        containerSecurityContext:
+          allowPrivilegeEscalation: false
         persistence:
           size: 8Gi
         priorityClassName: dkp-critical-priority
