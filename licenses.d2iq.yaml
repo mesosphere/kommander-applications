@@ -156,11 +156,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy.1}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v1.1.1
+  - container_image: docker.io/mesosphere/insights-management:v1.2.0-beta.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.1.1
+  - container_image: docker.io/mesosphere/insights:v1.2.0-beta.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -588,10 +588,10 @@ resources:
         ref:  controller-1.5.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
-  - container_image: docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
     sources:
       - url: https://github.com/prometheus-community/postgres_exporter
-        ref: v${image_tag%-debian-11-r77}
+        ref: v0.12.0
         license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
     sources:
@@ -608,7 +608,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v${image_tag%-debian-12-r7}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/postgresql:15.2.0-debian-11-r21
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgresql:15.2.0-debian-11-r21-d2iq.0
     sources:
       - url: https://github.com/postgres/postgres
         ref: REL_15_2
@@ -618,3 +618,9 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
+  # Used by AI Navigator, and can be removed once it also bumps to to 15.2.0-debian-11-r21-d2iq.0
+  - container_image: docker.io/bitnami/postgresql:15.2.0-debian-11-r21
+    sources:
+      - url: https://github.com/postgres/postgres
+        ref: REL_15_2
+        license_path: COPYRIGHT

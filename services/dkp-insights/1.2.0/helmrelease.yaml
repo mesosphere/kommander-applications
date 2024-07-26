@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: dkp-insights-management-helmrelease
+  name: dkp-insights-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: false
   interval: 6h
-  path: ./services/dkp-insights-management/1.1.1/helmrelease
+  path: ./services/dkp-insights/1.2.0/helmrelease
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
