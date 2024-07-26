@@ -4,4 +4,4 @@ ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native/gpu-operator
 nvcr.io/nvidia/cloud-native/dcgm:{{ .Values.dcgm.version }}
 nvcr.io/nvidia/k8s/dcgm-exporter:{{ .Values.dcgmExporter.version }}
 ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s-device-plugin:{{ .Values.devicePlugin.version }}
-nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5
+nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
