@@ -591,7 +591,7 @@ resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
     sources:
       - url: https://github.com/prometheus-community/postgres_exporter
-        ref: v${image_tag%-debian-11-r77}
+        ref: v0.12.0
         license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
     sources:
