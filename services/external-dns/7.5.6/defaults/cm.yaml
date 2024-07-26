@@ -6,6 +6,8 @@ metadata:
 data:
   values.yaml: |-
     priorityClassName: dkp-high-priority
+    image:
+      tag: 0.14.2-debian-12-r7
     service:
       labels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
