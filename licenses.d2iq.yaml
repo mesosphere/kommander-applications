@@ -598,10 +598,10 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: docs/text/LICENSE
-  - container_image: docker.io/nginxinc/nginx-unprivileged:1.25.4-alpine
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged:1.25.5-alpine-d2iq.0
     sources:
       - url: https://github.com/nginx/nginx
-        ref: release-${image_tag%-alpine}
+        ref: release-${image_tag%-alpine-d2iq.0}
         license_path: docs/text/LICENSE
   - container_image: bitnami/external-dns:0.14.2-debian-12-r7
     sources:
