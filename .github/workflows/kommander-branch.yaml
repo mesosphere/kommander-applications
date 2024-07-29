@@ -86,7 +86,6 @@ jobs:
                 appname=$(echo "$appversion" | sed -r 's/(.*)(-.*)/\1/')
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
-                    echo "$file"
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" "$file";;
                   esac
                 done
