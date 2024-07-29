@@ -7,6 +7,7 @@ open-kommander-pr:
     - services/external-dns/**
     - services/fluent-bit/**
     - services/gatekeeper/**
+    - services/git-operator/**
     - services/istio/**
     - services/jaeger/**
     - services/kiali/**
@@ -36,6 +37,7 @@ do-not-merge/testing:
     - services/external-dns/**
     - services/fluent-bit/**
     - services/gatekeeper/**
+    - services/git-operator/**
     - services/istio/**
     - services/jaeger/**
     - services/kiali/**
