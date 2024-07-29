@@ -572,10 +572,10 @@ resources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}
         license_path: COPYING
-  - container_image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda10.2
+  - container_image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
     sources:
       - url: https://github.com/NVIDIA/cuda-samples
-        ref: v${image_tag#vectoradd-cuda}
+        ref: v12.5
         license_path: LICENSE
   - container_image: docker.io/bitnami/kubectl:1.29.6
     sources:
