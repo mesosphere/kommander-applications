@@ -575,7 +575,7 @@ resources:
   - container_image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
     sources:
       - url: https://github.com/NVIDIA/cuda-samples
-        ref: v${image_tag#vectoradd-cuda%.0}
+        ref: v${image_tag#vectoradd-cuda}
         license_path: LICENSE
   - container_image: docker.io/bitnami/kubectl:1.29.6
     sources:
