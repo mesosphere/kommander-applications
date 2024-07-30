@@ -30,10 +30,6 @@ services/dex-k8s-authenticator:
 - changed-files:
   - any-glob-to-any-file:
     - services/dex-k8s-authenticator/**
-services/dkp-insights:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/dkp-insights/**
 services/external-dns:
 - changed-files:
   - any-glob-to-any-file:
@@ -138,6 +134,10 @@ services/nkp-insights-management:
 - changed-files:
   - any-glob-to-any-file:
     - services/nkp-insights-management/**
+services/nkp-insights:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nkp-insights/**
 services/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:
