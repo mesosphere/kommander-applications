@@ -34,8 +34,6 @@ data:
       globalPriorityClassName: dkp-high-priority
       service:
         type: ClusterIP
-      image:
-        tag: 1.21.4
       initContainers:
         sysctlInitContainer:
           image:
@@ -55,8 +53,6 @@ data:
       readReplicas:
         priorityClassName: dkp-high-priority
       enabled: true
-      image:
-        tag: 15.2.0-debian-11-r21-d2iq.0
 
     # Default values for cluster-info-api
     replicaCount: 1
