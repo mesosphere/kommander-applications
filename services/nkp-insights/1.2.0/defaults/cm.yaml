@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dkp-insights-1.2.0-beta.0-d2iq-defaults
+  name: nkp-insights-1.2.0-beta.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,7 +12,7 @@ data:
         db_channel_buffer_size: "16"
       apiPort: "8090"
       engineConfig:
-        dkpIdentification:
+        nkpIdentification:
           appRoots:
             Certificate-kapps:
               groupKind:
@@ -58,7 +58,7 @@ data:
               groupKind:
                 group: apps
                 kind: DaemonSet
-              nameRegexp: ebs-csi-node|calico-system|calico-node|csi-node-driver|capz-nmi|kube-prometheus-stack-prometheus-node-exporter|logging-operator-logging-fluentbit|kube-proxy|node-feature-discovery-worker|etcd-metrics-proxy|aws-cloud-controller-manager|istio-cni-node|dkp-insights-kubebench-.*?
+              nameRegexp: ebs-csi-node|calico-system|calico-node|csi-node-driver|capz-nmi|kube-prometheus-stack-prometheus-node-exporter|logging-operator-logging-fluentbit|kube-proxy|node-feature-discovery-worker|etcd-metrics-proxy|aws-cloud-controller-manager|istio-cni-node|nkp-insights-kubebench-.*?
             Deployment-kapps:
               groupKind:
                 group: apps
@@ -88,12 +88,12 @@ data:
               groupKind:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
-              nameRegexp: .*?-kubecost-.*?|.*?-prometheus-.*?|metallb|nvidia|cluster-observer-.*?|dkp-insights
+              nameRegexp: .*?-kubecost-.*?|.*?-prometheus-.*?|metallb|nvidia|cluster-observer-.*?|nkp-insights
             HelmRelease-kapps:
               groupKind:
                 group: helm.toolkit.fluxcd.io
                 kind: HelmRelease
-              nameRegexp: ai-navigator-cluster-info-agent|ai-navigator-cluster-info-api|centralized-grafana|centralized-kubecost|cert-manager|cert-manager-crds|chartmuseum|dex|dex-k8s-authenticator|dkp-insights|dkp-insights-management|external-dns|fluent-bit|gatekeeper|gatekeeper-proxy-mutations|gitea|grafana-logging|grafana-loki|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|logging-operator-logging|nfs-server-provisioner|nvidia-gpu-operator|object-bucket-claims|project-grafana-logging|project-grafana-loki|project-loki-object-bucket-claims|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero
+              nameRegexp: ai-navigator-cluster-info-agent|ai-navigator-cluster-info-api|centralized-grafana|centralized-kubecost|cert-manager|cert-manager-crds|chartmuseum|dex|dex-k8s-authenticator|nkp-insights|nkp-insights-management|external-dns|fluent-bit|gatekeeper|gatekeeper-proxy-mutations|gitea|grafana-logging|grafana-loki|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|logging-operator-logging|nfs-server-provisioner|nvidia-gpu-operator|object-bucket-claims|project-grafana-logging|project-grafana-loki|project-loki-object-bucket-claims|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero
             Ingress-additional:
               groupKind:
                 group: networking.k8s.io
@@ -123,7 +123,7 @@ data:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
                 kind: Kustomization
-              nameRegexp: ai-navigator-cluster-info-agent-helmrelease|ai-navigator-cluster-info-api-helmrelease|centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-namespace|cert-manager-priorityclass-resource-quota|cert-manager-release|cert-manager-root-ca|dkp-insights-helmrelease|dkp-insights-management-helmrelease|etcd-metrics-proxy|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|grafana-loki-helmrelease|grafana-loki-pre-install|istio-helmrelease|jaeger-helmrelease|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kubefed-federatedtypeconfigs|kubefed-release|nvidia-gpu-operator-helmrelease|object-bucket-claims-helmrelease|prometheus-adapter-helmrelease|rook-ceph-cluster-helmrelease|rook-ceph-cluster-prereq-jobs-v1.14.5|rook-ceph-helmrelease|thanos-jobs|velero-helmrelease|velero-post-install|velero-pre-install
+              nameRegexp: ai-navigator-cluster-info-agent-helmrelease|ai-navigator-cluster-info-api-helmrelease|centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-namespace|cert-manager-priorityclass-resource-quota|cert-manager-release|cert-manager-root-ca|nkp-insights-helmrelease|nkp-insights-management-helmrelease|etcd-metrics-proxy|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|grafana-loki-helmrelease|grafana-loki-pre-install|istio-helmrelease|jaeger-helmrelease|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kubefed-federatedtypeconfigs|kubefed-release|nvidia-gpu-operator-helmrelease|object-bucket-claims-helmrelease|prometheus-adapter-helmrelease|rook-ceph-cluster-helmrelease|rook-ceph-cluster-prereq-jobs-v1.14.5|rook-ceph-helmrelease|thanos-jobs|velero-helmrelease|velero-post-install|velero-pre-install
             Namespace-additional:
               groupKind:
                 group: ""
@@ -265,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.2.0-beta.0
+      tag: v1.2.0-beta.2
     initdb:
       resources:
         limits:
@@ -527,8 +527,8 @@ data:
           maxOpenConnections: 50
         postgresql:
           auth:
-            database: dkp-insights
-            postgresPassword: dkp-insights
+            database: nkp-insights
+            postgresPassword: nkp-insights
           servicePort: 5432
       image:
         registry: ghcr.io
@@ -586,7 +586,7 @@ data:
       enabled: false
       envSecret:
         enabled: false
-        name: dkp-insights-trivy-env
+        name: nkp-insights-trivy-env
       image:
         imageFull: mesosphere/trivy-bundles:0.49.1-20240301T193636Z
         pullPolicy: IfNotPresent
