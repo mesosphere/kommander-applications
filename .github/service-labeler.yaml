@@ -130,14 +130,14 @@ services/nfs-server-provisioner:
 - changed-files:
   - any-glob-to-any-file:
     - services/nfs-server-provisioner/**
-services/nkp-insights-management:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/nkp-insights-management/**
 services/nkp-insights:
 - changed-files:
   - any-glob-to-any-file:
     - services/nkp-insights/**
+services/nkp-insights-management:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nkp-insights-management/**
 services/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:
