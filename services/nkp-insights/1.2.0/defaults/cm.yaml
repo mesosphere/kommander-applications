@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.2.0-beta.2-d2iq-defaults
+  name: nkp-insights-1.2.0-beta.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,6 +12,7 @@ data:
         db_channel_buffer_size: "16"
       apiPort: "8090"
       engineConfig:
+        mode: daytwo
         nkpIdentification:
           appRoots:
             Certificate-kapps:
@@ -123,7 +124,7 @@ data:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
                 kind: Kustomization
-              nameRegexp: ai-navigator-cluster-info-agent-helmrelease|ai-navigator-cluster-info-api-helmrelease|centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-namespace|cert-manager-priorityclass-resource-quota|cert-manager-release|cert-manager-root-ca|nkp-insights-helmrelease|nkp-insights-management-helmrelease|etcd-metrics-proxy|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|grafana-loki-helmrelease|grafana-loki-pre-install|istio-helmrelease|jaeger-helmrelease|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kubefed-federatedtypeconfigs|kubefed-release|nvidia-gpu-operator-helmrelease|object-bucket-claims-helmrelease|prometheus-adapter-helmrelease|rook-ceph-cluster-helmrelease|rook-ceph-cluster-prereq-jobs-v1.14.5|rook-ceph-helmrelease|thanos-jobs|velero-helmrelease|velero-post-install|velero-pre-install
+              nameRegexp: ai-navigator-cluster-info-agent-helmrelease|ai-navigator-cluster-info-api-helmrelease|centralized-kubecost-post-install-jobs|centralized-kubecost-release|cert-manager-namespace|cert-manager-priorityclass-resource-quota|cert-manager-release|cert-manager-root-ca|nkp-insights-helmrelease|nkp-insights-management-helmrelease|etcd-metrics-proxy|gatekeeper-constraint-templates|gatekeeper-constraints|gatekeeper-release|grafana-loki-helmrelease|grafana-loki-pre-install|istio-helmrelease|jaeger-helmrelease|kube-federation-system-namespace|kube-prometheus-stack-helmrelease|kubefed-federatedtypeconfigs|kubefed-release|nvidia-gpu-operator-helmrelease|object-bucket-claims-helmrelease|prometheus-adapter-helmrelease|rook-ceph-cluster-helmrelease|rook-ceph-cluster-prereq-jobs-v1.12.6|rook-ceph-helmrelease|thanos-jobs|velero-helmrelease|velero-post-install|velero-pre-install
             Namespace-additional:
               groupKind:
                 group: ""
@@ -202,7 +203,6 @@ data:
           enabled: true
           filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
           insightClassNames: Nova|Pluto|PolarisAudit
-        mode: daytwo
         replay:
           apiServerService: dkp-insights-replay-troubleshoot-live
       eventExpirationTime: 1h
@@ -265,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.2.0-beta.2
+      tag: v1.2.0-beta.3
     initdb:
       resources:
         limits:
@@ -588,7 +588,7 @@ data:
         enabled: false
         name: nkp-insights-trivy-env
       image:
-        imageFull: mesosphere/trivy-bundles:0.49.1-20240301T193636Z
+        imageFull: mesosphere/trivy-bundles:0.53.0-20240726T101319Z
         pullPolicy: IfNotPresent
       resources:
         limits:
