@@ -75,7 +75,7 @@ data:
       - "karma-traefik"
       - "prometheus-thanos-traefik"
       - "thanos"
-      - "dkp-insights-management"
+      - "nkp-insights-management"
     kommander-ui:
       enabled: false
     capimate:
@@ -89,7 +89,7 @@ data:
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
-    - "dkp-insights-management"
+    - "nkp-insights-management"
     - "git-operator"
     - "karma"
     - "kommander"
