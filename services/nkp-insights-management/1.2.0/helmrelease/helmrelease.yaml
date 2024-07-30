@@ -1,15 +1,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: dkp-insights-management
+  name: nkp-insights-management
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: dkp-insights-management
+      chart: nkp-insights-management
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-dkp-insights-charts-management
+        name: mesosphere.github.io-nkp-insights-charts-management
         namespace: kommander-flux
       version: v1.2.0-beta.0
   dependsOn:
@@ -20,7 +20,7 @@ spec:
     remediation:
       retries: 30
   interval: 15s
-  releaseName: dkp-insights-management
+  releaseName: nkp-insights-management
   targetNamespace: ${releaseNamespace}
   upgrade:
     crds: CreateReplace
@@ -28,4 +28,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: dkp-insights-management-1.2.0-beta.0-d2iq-defaults
+      name: nkp-insights-management-1.2.0-beta.0-d2iq-defaults
