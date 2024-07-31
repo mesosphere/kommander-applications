@@ -67,8 +67,8 @@ jobs:
           git config user.email ci-mergebot@d2iq.com
           git config user.name d2iq-mergebot
           git config --global user.signingkey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git remote set-url origin https://x-access-token:${{ secrets.MESOSPHERECI_USER_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://oauth2:${{ secrets.MESOSPHERECI_USER_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"
