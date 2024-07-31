@@ -75,7 +75,7 @@ jobs:
             git push --force-with-lease
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
