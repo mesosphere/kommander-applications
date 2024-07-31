@@ -735,6 +735,7 @@ spec:
           capabilities:
             drop:
             - ALL
+      priorityClassName: system-cluster-critical
       securityContext:
         runAsNonRoot: true
       serviceAccountName: git-operator-controller-manager
@@ -764,6 +765,7 @@ spec:
                   fieldPath: metadata.namespace
             image: bitnami/kubectl:1.29.6
             name: admin-credentials-rotate
+          priorityClassName: system-cluster-critical
           restartPolicy: OnFailure
           serviceAccountName: git-operator-admin-credentials-rotate
   schedule: 0 0 * * *
