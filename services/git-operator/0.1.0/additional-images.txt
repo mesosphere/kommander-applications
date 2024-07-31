@@ -1,2 +1,2 @@
-docker.io/mesosphere/gitwebserver:v0.11.0
+docker.io/mesosphere/gitwebserver:v0.12.0
 ghcr.io/mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged:1.25.5-alpine-d2iq.0

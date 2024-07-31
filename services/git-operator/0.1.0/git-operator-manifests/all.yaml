@@ -709,7 +709,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-        image: docker.io/mesosphere/git-operator:v0.11.0
+        image: docker.io/mesosphere/git-operator:v0.12.0
         livenessProbe:
           httpGet:
             path: /healthz
@@ -735,6 +735,7 @@ spec:
           capabilities:
             drop:
             - ALL
+      priorityClassName: system-cluster-critical
       securityContext:
         runAsNonRoot: true
       serviceAccountName: git-operator-controller-manager
@@ -764,6 +765,7 @@ spec:
                   fieldPath: metadata.namespace
             image: bitnami/kubectl:1.29.6
             name: admin-credentials-rotate
+          priorityClassName: system-cluster-critical
           restartPolicy: OnFailure
           serviceAccountName: git-operator-admin-credentials-rotate
   schedule: 0 0 * * *
