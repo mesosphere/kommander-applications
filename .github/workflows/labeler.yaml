@@ -23,5 +23,5 @@ jobs:
       - name: Add labels to automated chart bump PRs
         uses: actions/labeler@v5
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
           configuration-path: ".github/services-pr-labeler.yaml"
