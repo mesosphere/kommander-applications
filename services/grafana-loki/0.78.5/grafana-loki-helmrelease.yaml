@@ -12,7 +12,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/grafana-loki/0.78.6/grafana-loki-helmrelease
+  path: ./services/grafana-loki/0.78.5/grafana-loki-helmrelease
   sourceRef:
     kind: GitRepository
     name: management

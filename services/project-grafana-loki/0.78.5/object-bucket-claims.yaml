@@ -1,18 +1,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: project-grafana-loki
+  name: project-loki-object-bucket-claims
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: loki-distributed
+      chart: object-bucket-claim
       sourceRef:
         kind: HelmRepository
-        name: grafana.github.io
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 0.78.5
-  timeout: 15m
+      version: 0.1.11
   interval: 15s
   install:
     crds: CreateReplace
@@ -22,7 +21,11 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: project-grafana-loki
+  releaseName: project-loki-object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.78.6-d2iq-defaults
+      name: project-grafana-loki-0.78.5-d2iq-defaults
+    - kind: ConfigMap
+      name: project-grafana-loki-overrides
+      optional: true
+  targetNamespace: ${releaseNamespace}
