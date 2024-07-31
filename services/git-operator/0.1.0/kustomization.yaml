@@ -15,3 +15,13 @@ patches:
   target:
     kind: Deployment
     name: git-operator-controller-manager
+- patch: |-
+    - op: replace
+      path: "/spec/issuerRef/name"
+      value: kommander-ca
+    - op: replace
+      path: "/spec/issuerRef/kind"
+      value: ClusterIssuer
+  target:
+    kind: Certificate
+    name: git-operator-git-webserver
