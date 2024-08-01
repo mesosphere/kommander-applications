@@ -44,7 +44,7 @@ data:
   dashboardLink: "/dkp/kiali"
   docsLink: "https://istio.io/docs/tasks/telemetry/kiali/"
   # Chart version matches app version
-  version: "1.70.0"
+  version: "1.87.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
