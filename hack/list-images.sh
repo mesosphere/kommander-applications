@@ -136,8 +136,6 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|
                                 ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
                                 >>"${IMAGES_FILE}"
 
-cat ./services/git-operator/*/additional-images.txt  >>"${IMAGES_FILE}"
-
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
     --expression='s|\(^[^/]\+$\)|library/\1|' \
