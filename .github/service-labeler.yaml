@@ -30,14 +30,6 @@ services/dex-k8s-authenticator:
 - changed-files:
   - any-glob-to-any-file:
     - services/dex-k8s-authenticator/**
-services/dkp-insights:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/dkp-insights/**
-services/dkp-insights-management:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/dkp-insights-management/**
 services/external-dns:
 - changed-files:
   - any-glob-to-any-file:
@@ -54,10 +46,6 @@ services/git-operator:
 - changed-files:
   - any-glob-to-any-file:
     - services/git-operator/**
-services/gitea:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/gitea/**
 services/grafana-logging:
 - changed-files:
   - any-glob-to-any-file:
@@ -142,6 +130,14 @@ services/nfs-server-provisioner:
 - changed-files:
   - any-glob-to-any-file:
     - services/nfs-server-provisioner/**
+services/nkp-insights:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nkp-insights/**
+services/nkp-insights-management:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/nkp-insights-management/**
 services/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:

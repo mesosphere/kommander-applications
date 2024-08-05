@@ -5,8 +5,8 @@ kind: Kustomization
 #
 # Also see chart/kommander-bootstrap/templates/flux-resources.yaml
 resources:
-  - ../3.16.3/
-  - ../3.16.3/defaults/
+  - ../3.16.4/
+  - ../3.16.4/defaults/
 patches:
   - patch: |
       - op: replace

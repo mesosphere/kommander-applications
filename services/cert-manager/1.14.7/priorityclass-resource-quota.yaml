@@ -1,0 +1,24 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cert-manager-priorityclass-resource-quota
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - name: cert-manager-namespace
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/cert-manager/1.14.7/priorityclass-resource-quota
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  # passing releaseNamespace to 2nd level configuration files for ability to configure namespace correctly in attached clusters
+  # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}

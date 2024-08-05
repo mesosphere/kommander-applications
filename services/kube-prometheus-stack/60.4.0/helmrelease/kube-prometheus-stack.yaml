@@ -46,7 +46,7 @@ data:
   docsLink: "https://prometheus.io/docs/"
   # Prometheus app version can be found at prometheus.prometheusSpec.image.tag:
   # https://github.com/mesosphere/charts/blob/master/staging/kube-prometheus-stack/values.yaml#L2147
-  version: "2.49.1"
+  version: "2.53.0"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -61,7 +61,7 @@ data:
   docsLink: "https://prometheus.io/docs/alerting/alertmanager/"
   # Alertmanager app version can be found at alertmanager.alertmanagerSpec.image,tag:
   # https://github.com/mesosphere/charts/blob/master/staging/kube-prometheus-stack/values.yaml#L417
-  version: "0.26.0"
+  version: "0.27.0"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -77,4 +77,4 @@ data:
   # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart dependency at:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, check https://artifacthub.io/packages/helm/grafana/grafana/ for app version
-  version: "10.3.3"
+  version: "11.0.0"

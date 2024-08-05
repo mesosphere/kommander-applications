@@ -131,6 +131,7 @@ done
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
                                 .spec.template.spec |
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
+				./services/git-operator/*/git-operator-manifests/* \
                                 ./services/kommander-flux/*/templates/* \
                                 ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
                                 >>"${IMAGES_FILE}"

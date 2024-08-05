@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-ui-13.3.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    ingress:
+      enabled: true
+      extraAnnotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+      path: /dkp/kommander/dashboard
+      graphqlPath: /dkp/kommander/dashboard/graphql
+    impersonateUser: true
+    mountUtilityServiceCert: false
+    showCost: true
+    showCD: true
+    fedNamespace: kube-federation-system
+    priorityClassName: "dkp-critical-priority"

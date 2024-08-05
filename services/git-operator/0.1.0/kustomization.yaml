@@ -1,4 +1,27 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - git-operator.yaml
+  - ./git-operator-manifests/
+  - ingress.yaml
+
+patches:
+- patch: |
+    - op: add
+      path: /spec/template/spec/containers/1/args/-
+      value: -cert-issuer-name=kommander-ca
+    - op: add
+      path: /spec/template/spec/containers/1/args/-
+      value: -cert-issuer-kind=ClusterIssuer
+  target:
+    kind: Deployment
+    name: git-operator-controller-manager
+- patch: |-
+    - op: replace
+      path: "/spec/issuerRef/name"
+      value: kommander-ca
+    - op: replace
+      path: "/spec/issuerRef/kind"
+      value: ClusterIssuer
+  target:
+    kind: Certificate
+    name: git-operator-git-webserver

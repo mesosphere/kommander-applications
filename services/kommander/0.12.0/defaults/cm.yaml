@@ -75,6 +75,7 @@ data:
       - "karma-traefik"
       - "prometheus-thanos-traefik"
       - "thanos"
+      - "nkp-insights-management"
     kommander-ui:
       enabled: false
     capimate:
@@ -82,14 +83,14 @@ data:
         tag: v0.0.0-dev.0
     managementApps:
     - "ai-navigator-app"
-    - "ai-nagivator-cluster-info-agent"
+    - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
     - "centralized-kubecost"
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
-    - "dkp-insights-management"
-    - "gitea"
+    - "nkp-insights-management"
+    - "git-operator"
     - "karma"
     - "kommander"
     - "kommander-appmanagement"
@@ -98,12 +99,6 @@ data:
     - "thanos"
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
-    defaultManagementApps:
-    - "dex"
-    - "dex-k8s-authenticator"
-    - "reloader"
-    - "traefik"
-    - "traefik-forward-auth-mgmt"
     attached:
       prerequisites:
         defaultApps:

@@ -26,6 +26,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: traefik-27.0.2-d2iq-defaults
+    - kind: ConfigMap
+      name: traefik-overrides
+      optional: true
 ---
 apiVersion: v1
 kind: ConfigMap
