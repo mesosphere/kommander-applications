@@ -2,7 +2,7 @@ module github.com/mesosphere/kommander-applications/magefiles
 
 go 1.21
 
-replace github.com/docker/docker => github.com/docker/docker v26.1.5+incompatible
+replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
 
 require github.com/mesosphere/d2iq-daggers v0.7.0
 
