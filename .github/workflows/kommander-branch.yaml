@@ -58,6 +58,7 @@ jobs:
         env:
           PULL_REQUEST_BODY: ${{ github.event.pull_request.body }}
         run: |
+          set -x
           cd kommander
           git config user.name d2iq-mergebot
           git config user.email ci-mergebot@d2iq.com
@@ -71,11 +72,11 @@ jobs:
             sed -i 's|KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.base_branch_name }}|KOMMANDER_APPLICATIONS_REF ?= ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}|' Makefile
             git add Makefile
             # Only automatically bump versions in kommander branch is k-apps branch is an automated chartbump PR
-            if  [[ "${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }}" == chartbump/* ]] ;
+            if  [[ ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} == chartbump/* ]] ;
             then
               # Update kuttl tests that reference the app being bumped
               echo "#### Testing Reloader Bump ####"
-              kapps=$(echo "$PULL_REQUEST_BODY" | grep "kapps:")
+              kapps=$(echo $PULL_REQUEST_BODY | grep kapps:)
               kapps=${kapps#"kapps:"}
               echo "#### Test-1 ####"
               echo $kapps
@@ -83,12 +84,12 @@ jobs:
               for appversion in $kapps; do
                 echo "#### Test-2 ####"
                 echo "$appversion"
-                appname=$(echo "$appversion" | sed -r 's/(.*)(-.*)/\1/')
+                appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
                 echo "#### Test-3 ####"
                 echo "$appname"
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
-                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver-(.*)/$appversion/g" "$file";;
+                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver-(.*)/$appversion/g" $file;;
                   esac
                 done
               done
