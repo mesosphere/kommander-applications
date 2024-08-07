@@ -1,9 +1,6 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
-  - gcr.io/kubecost1/cost-model:prod-1.106.7
-  - ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
   - docker.io/mesosphere/trivy-bundles:0.53.0-20240726T101319Z
-  - gcr.io/google_containers/pause:3.2
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
@@ -616,5 +613,20 @@ resources:
   - container_image: docker.io/library/busybox:1
     sources:
       - url: https://github.com/mirror/busybox
+        ref: master
+        license_path: LICENSE
+  - container_image: gcr.io/kubecost1/cost-model:prod-1.106.7
+    sources:
+      - url: https://github.com/opencost/opencost
+        ref: v${image_tag#prod-}
+        license_path: LICENSE
+  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
+    sources:
+      - url: https://github.com/opencost/opencost
+        ref: v1.106.7
+        license_path: LICENSE
+  - container_image: gcr.io/google_containers/pause:3.2
+    sources:
+      - url: https://github.com/kubernetes/kubernetes
         ref: master
         license_path: LICENSE
