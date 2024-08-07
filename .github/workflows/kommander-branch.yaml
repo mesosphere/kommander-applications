@@ -90,7 +90,7 @@ jobs:
                 echo "$appname"
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
-                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver-(.*)/$appversion/g" $file;;
+                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
                   esac
                 done
               done
