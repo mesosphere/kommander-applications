@@ -75,7 +75,7 @@ data:
       - "karma-traefik"
       - "prometheus-thanos-traefik"
       - "thanos"
-      - "dkp-insights-management"
+      - "nkp-insights-management"
     kommander-ui:
       enabled: false
     capimate:
@@ -83,13 +83,13 @@ data:
         tag: v0.0.0-dev.0
     managementApps:
     - "ai-navigator-app"
-    - "ai-nagivator-cluster-info-agent"
+    - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
     - "centralized-kubecost"
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
-    - "dkp-insights-management"
+    - "nkp-insights-management"
     - "git-operator"
     - "karma"
     - "kommander"

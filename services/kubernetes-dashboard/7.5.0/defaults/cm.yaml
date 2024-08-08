@@ -18,7 +18,7 @@ data:
         annotations:
           kubernetes.io/ingress.class: kommander-traefik
           traefik.ingress.kubernetes.io/router.tls: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: "kommander-stripprefixes@kubernetescrd,kommander-forwardauth-full@kubernetescrd"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
         path: /dkp/kubernetes
         hosts: ~
     api:
