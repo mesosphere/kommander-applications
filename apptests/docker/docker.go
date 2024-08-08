@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/distribution/reference"
 	"github.com/docker/cli/cli/config"
 	clitypes "github.com/docker/cli/cli/config/types"
-	"github.com/docker/distribution/reference"
-	"github.com/docker/docker/api/types"
+	authtypes "github.com/docker/docker/api/types/registry"
 	"github.com/docker/docker/client"
 )
 
@@ -40,10 +40,10 @@ func NewAPI() (API, error) {
 	return &docker{dc}, nil
 }
 
-func (d docker) credentialsForImage(image string) (types.AuthConfig, error) {
+func (d docker) credentialsForImage(image string) (authtypes.AuthConfig, error) {
 	ref, err := reference.ParseNormalizedNamed(image)
 	if err != nil {
-		return types.AuthConfig{}, fmt.Errorf("failed to parse image name: %w", err)
+		return authtypes.AuthConfig{}, fmt.Errorf("failed to parse image name: %w", err)
 	}
 
 	registry := reference.Domain(ref)
@@ -60,7 +60,7 @@ func (d docker) credentialsForImage(image string) (types.AuthConfig, error) {
 	for _, reg := range registryNamesToTry {
 		authConfig, err := configFile.GetAuthConfig(reg)
 		if err != nil {
-			return types.AuthConfig{}, fmt.Errorf(
+			return authtypes.AuthConfig{}, fmt.Errorf(
 				"failed to get auth config for %s: %w",
 				registry,
 				err,
@@ -69,7 +69,7 @@ func (d docker) credentialsForImage(image string) (types.AuthConfig, error) {
 
 		// Ignore authConfig if it's empty, above call doesn't return an error for missing auth config.
 		if (authConfig != clitypes.AuthConfig{}) {
-			return types.AuthConfig{
+			return authtypes.AuthConfig{
 				Auth:          authConfig.Auth,
 				Username:      authConfig.Username,
 				Password:      authConfig.Password,
@@ -81,5 +81,5 @@ func (d docker) credentialsForImage(image string) (types.AuthConfig, error) {
 		}
 	}
 
-	return types.AuthConfig{}, nil
+	return authtypes.AuthConfig{}, nil
 }
