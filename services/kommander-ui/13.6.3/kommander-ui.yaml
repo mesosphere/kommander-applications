@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: kommander-ui
         namespace: kommander-flux
-      version: 13.6.2
+      version: 13.6.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -27,7 +27,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-13.6.2-d2iq-defaults
+      name: kommander-ui-13.6.3-d2iq-defaults
     - kind: ConfigMap
       name: kommander-ui-overrides
       optional: true
