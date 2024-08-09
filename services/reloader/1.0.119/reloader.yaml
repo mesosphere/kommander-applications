@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: stakater-github-io-stakater-charts
         namespace: kommander-flux
-      version: 1.0.107
+      version: 1.0.119
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,7 +23,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: reloader-1.0.107-d2iq-defaults
+      name: reloader-1.0.119-d2iq-defaults
     - kind: ConfigMap
       name: reloader-overrides
       optional: true
