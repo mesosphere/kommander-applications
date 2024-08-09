@@ -88,9 +88,11 @@ jobs:
                 appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
                 echo "#### Test-3 ####"
                 echo "$appname"
+                IFS='-' read -r new_appname new_version <<< "$input"
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
+                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
                   esac
                 done
               done
