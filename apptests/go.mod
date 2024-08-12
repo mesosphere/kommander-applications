@@ -5,7 +5,7 @@ go 1.22.0
 require (
 	github.com/distribution/reference v0.5.0
 	github.com/docker/cli v26.1.4+incompatible
-	github.com/docker/docker v26.1.5+incompatible
+	github.com/docker/docker v27.1.1+incompatible
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/cli-utils v0.36.0-flux.7
 	github.com/fluxcd/flux2/v2 v2.3.0
