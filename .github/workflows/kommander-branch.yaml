@@ -103,7 +103,8 @@ jobs:
                   case $file in
                     # *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
                     # Fix for updating the paths while bumping
-                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
+                    # *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
+                    *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s#($new_appname)/$semver#\1/$new_version#g" $file;;
                   esac
                 done
               done
