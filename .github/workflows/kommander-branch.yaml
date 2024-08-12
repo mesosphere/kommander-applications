@@ -75,35 +75,21 @@ jobs:
             if  [[ ${{ needs.get-kapps-branch-name.outputs.escaped_branch_name }} == chartbump/* ]] ;
             then
               # Update kuttl tests that reference the app being bumped
-              echo "#### Testing Reloader Bump ####"
-              # kapps=$(echo $PULL_REQUEST_BODY | grep kapps:)
               kapps=$(echo "$PULL_REQUEST_BODY" | grep -oP '(?<=kapps:)[^ ]+')
               kapps=${kapps#"kapps:"}
-              echo "#### Test-1 ####"
-              echo $kapps
               semver="(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)\.(0|[1-9]+[0-9]*)"
               for appversion in $kapps; do
-                echo "#### Test-2 ####"
-                echo "$appversion"
                 appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
-                echo "#### Test-3 ####"
-                echo "$appname"
                 IFS='-' read -r new_appname new_version <<< "$appversion"
-                echo "#### $new_appname ####"
-                echo "#### $new_version ####"
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
-                    # Fix for updating the paths while bumping
-                    # *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
                   esac
                 done
-                # for loop to update the paths in files matching
+                # For loop to replace the version in a path based on appname and semver
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
-                    # *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
-                    # Fix for updating the paths while bumping
-                    # *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
+                    # Find and replace the version in the file if the appname and semver pattern matches
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s#($new_appname)/$semver#\1/$new_version#g" $file;;
                   esac
                 done
