@@ -89,6 +89,8 @@ jobs:
                 echo "#### Test-3 ####"
                 echo "$appname"
                 IFS='-' read -r new_appname new_version <<< "$input"
+                echo "#### $new_appname ####"
+                echo "#### $new_version ####"
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
