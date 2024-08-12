@@ -625,7 +625,7 @@ resources:
       - url: https://github.com/opencost/opencost
         ref: v1.106.7
         license_path: LICENSE
-  - container_image: docker.io/registry.k8s.io/pause:3.10
+  - container_image: registry.k8s.io/pause:3.10
     sources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
