@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.2.0-beta.5-d2iq-defaults
+  name: nkp-insights-1.2.0-beta.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -265,7 +265,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.2.0-beta.5
+      tag: v1.2.0-beta.3
     initdb:
       resources:
         limits:
@@ -306,8 +306,8 @@ data:
         pause:
           image:
             pullPolicy: IfNotPresent
-            repository: registry.k8s.io/pause
-            tag: "3.10"
+            repository: gcr.io/google_containers/pause
+            tag: "3.2"
           resources:
             limits:
               cpu: 100m
