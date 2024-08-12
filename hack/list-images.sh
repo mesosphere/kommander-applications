@@ -139,7 +139,7 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
     --expression='s|\(^[^/]\+$\)|library/\1|' \
-    --expression='s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
+    --expression='/^registry\.k8s\.io\//b; s|\(^[^/]\+/[^/]\+$\)|docker.io/\1|' \
     --expression='s|\(^[^:]\+:\?$\)|\1:latest|' \
     --expression='/^[[:space:]]*$/d' \
     --expression='/ai-navigator-/d' \
