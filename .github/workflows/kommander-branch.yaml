@@ -88,7 +88,7 @@ jobs:
                 appname=$(echo $appversion | sed -r 's/(.*)(-.*)/\1/')
                 echo "#### Test-3 ####"
                 echo "$appname"
-                IFS='-' read -r new_appname new_version <<< "$input"
+                IFS='-' read -r new_appname new_version <<< "$appversion"
                 echo "#### $new_appname ####"
                 echo "#### $new_version ####"
                 for file in $(find ./tests ./docs -type f -print); do
