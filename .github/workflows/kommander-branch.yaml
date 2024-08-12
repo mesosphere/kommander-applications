@@ -92,6 +92,7 @@ jobs:
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
+                    # Fix for updating the paths while bumping
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$semver/$new_version/g" $file;;
                   esac
                 done
