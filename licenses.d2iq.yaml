@@ -218,7 +218,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:14.0.1
+  - container_image: docker.io/mesosphere/kommander:14.0.2
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -582,7 +582,7 @@ resources:
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
     sources:
       - url: https://github.com/kubernetes/ingress-nginx
-        ref:  controller-1.5.2
+        ref:  controller-v1.5.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
