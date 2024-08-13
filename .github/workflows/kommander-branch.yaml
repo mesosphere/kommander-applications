@@ -84,15 +84,15 @@ jobs:
                 for file in $(find ./tests ./docs -type f -print); do
                   case $file in
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s/$appname-$semver/$appversion/g" $file;;
-                  esac
-                done
-                # For loop to replace the version in a path based on appname and semver
-                for file in $(find ./tests ./docs -type f -print); do
-                  case $file in
-                    # Find and replace the version in the file if the appname and semver pattern matches
                     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s#($new_appname)/$semver#\1/$new_version#g" $file;;
                   esac
                 done
+                # # For loop to find and replace the version in a path based on appname and semver
+                # for file in $(find ./tests ./docs -type f -print); do
+                #   case $file in
+                #     *".yaml" | *".yaml.tmpl" | *".md") sed -r -i "s#($new_appname)/$semver#\1/$new_version#g" $file;;
+                #   esac
+                # done
               done
               git add ./tests
              fi
