@@ -8,6 +8,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/filters"
+	"github.com/docker/docker/api/types/network"
 	dockernetwork "github.com/docker/docker/api/types/network"
 
 	"github.com/mesosphere/kommander-applications/apptests/net"
@@ -51,10 +52,9 @@ func (d *docker) CreateNetwork(ctx context.Context, name string, internal bool, 
 		return nil, fmt.Errorf("%w: subnet is required for internal networks", ErrMissingParameter)
 	}
 
-	config := types.NetworkCreate{
-		CheckDuplicate: true,
-		Driver:         "bridge",
-		Internal:       internal,
+	config := network.CreateOptions{
+		Driver:   "bridge",
+		Internal: internal,
 	}
 
 	if len(subnet) > 0 {
