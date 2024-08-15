@@ -76,6 +76,18 @@ data:
       - "prometheus-thanos-traefik"
       - "thanos"
       - "nkp-insights-management"
+      defaultProApps:
+      - "ai-navigator-app"
+      - "grafana-logging"
+      - "grafana-loki"
+      - "kube-prometheus-stack"
+      - "kubernetes-dashboard"
+      - "kubetunnel"
+      - "logging-operator"
+      - "prometheus-adapter"
+      - "rook-ceph"
+      - "rook-ceph-cluster"
+      - "velero"
     kommander-ui:
       enabled: false
     capimate:
