@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 2.13.12
+      version: 2.13.13
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,7 +24,7 @@ spec:
   releaseName: dex
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.13.12-d2iq-defaults
+      name: dex-2.13.13-d2iq-defaults
     - kind: ConfigMap
       name: dex-overrides
       optional: true
