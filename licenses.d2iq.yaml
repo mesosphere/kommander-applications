@@ -375,7 +375,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/mesosphere/kubefed
-  - container_image: ghcr.io/stakater/reloader:v1.0.107
+  - container_image: ghcr.io/stakater/reloader:v1.0.119
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
