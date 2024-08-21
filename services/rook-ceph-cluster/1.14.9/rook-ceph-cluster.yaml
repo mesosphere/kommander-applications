@@ -6,14 +6,14 @@ metadata:
 spec:
   dependsOn:
     # There can only be one operator per cluster, just ensure CRDs are present, no need to wait for actual operator Deployment.
-    - name: rook-ceph-cluster-prereq-jobs-v1.14.5
+    - name: rook-ceph-cluster-prereq-jobs-v1.14.9
       namespace: ${workspaceNamespace}
   force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.14.5/helmrelease
+  path: ./services/rook-ceph-cluster/1.14.9/helmrelease
   sourceRef:
     kind: GitRepository
     name: management

@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: rook-ceph-cluster-prereq-jobs-v1.14.5
+  name: rook-ceph-cluster-prereq-jobs-v1.14.9
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph-cluster/1.14.5/pre-install
+  path: ./services/rook-ceph-cluster/1.14.9/pre-install
   sourceRef:
     kind: GitRepository
     name: management
@@ -19,4 +19,4 @@ spec:
     substitute:
       releaseNamespace: ${releaseNamespace}
       # Update the following version whenever ceph-cluster service is bumped.
-      desiredCephOperatorVersion: v1.14.5
+      desiredCephOperatorVersion: v1.14.9
