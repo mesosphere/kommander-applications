@@ -242,10 +242,10 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/traefik-forward-auth:3.1.0
+  - container_image: docker.io/mesosphere/traefik-forward-auth:v3.2.0
     sources:
       - license_path: LICENSE.thomseddon.md
-        ref: v${image_tag}
+        ref: ${image_tag}
         url: https://github.com/mesosphere/traefik-forward-auth
   - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.16.3
     sources:
