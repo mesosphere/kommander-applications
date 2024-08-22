@@ -5,26 +5,24 @@ metadata:
   namespace: ${releaseNamespace}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: ai-navigator-app
-  namespace: ${releaseNamespace}
 rules:
   - apiGroups: ["kommander.mesosphere.io"]
     resources: ["licenses"]
     verbs: ["get", "list"]
   - apiGroups: [""]
-    resources: ["secrets"]
-    verbs: ["get"]
+    resources: ["secrets", "nodes"]
+    verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: ai-navigator-app
-  namespace: ${releaseNamespace}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: ai-navigator-app
 subjects:
   - kind: ServiceAccount
@@ -62,7 +60,7 @@ spec:
       serviceAccountName: ai-navigator-app
       containers:
         - name: ai-navigator-app
-          image: mesosphere/ai-navigator-app:v0.1.0
+          image: mesosphere/ai-navigator-app:v0.1.1
           envFrom:
             - configMapRef:
                 name: ai-navigator-app-config
