@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ai-navigator-app-0.2.4-d2iq-defaults
+      name: ai-navigator-app-0.2.5-d2iq-defaults
