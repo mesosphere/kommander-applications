@@ -5,6 +5,10 @@ on:
       - closed
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   backport:
     name: Backport PR
@@ -29,5 +33,5 @@ jobs:
       - name: Backport Action
         uses: sorenlouv/backport-github-action@v9.5.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
           auto_backport_label_prefix: backport-to-
