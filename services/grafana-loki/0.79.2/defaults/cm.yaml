@@ -1,38 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: project-grafana-loki-0.78.5-d2iq-defaults
+  name: grafana-loki-0.79.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    ####################################################################
-    ## BEGIN NKP specific config overrides                            ##
-    ## This is added as a workaround to use the same configmap for    ##
-    ## both project-grafana-loki & object-bucket-claims helmreleases. ##
-    ####################################################################
-    dkp:
-      project-grafana-loki:
-        enabled: true
-        enableOBCHealthCheck: false
-        bucketName: proj-loki-${releaseNamespace}
-        storageClassName: dkp-object-store
-        additionalConfig:
-          # We emit 200MB per workspace per day with audit logs disabled.
-          # We also have a default retention period 7days.
-          # This is NOT definitive but this translates to 200 x 7 ~ at most 1.5G per week per project (since workspace log data is a superset of project log data).
-          # This value can be configured by user during project deployment according to their project needs (e.g.: if a project has lot of noisy user created workloads).
-          maxSize: "5G"
-    ####################################################################
-    ## END of dkp specific config overrides                           ##
-    ####################################################################
-
-    # this is used in object-bucket-claims overrides
-    kubectlImage: bitnami/kubectl:1.29.6
-
     loki:
       ingesterFullname: loki-ingester
       annotations:
-        secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
+        secret.reloader.stakater.com/reload: dkp-loki
 
       config: |
         common:
@@ -83,6 +59,8 @@ data:
           ingestion_burst_size_mb: 10
           per_stream_rate_limit: 10MB
           per_stream_rate_limit_burst: 15MB
+          # defaults to 30, but ceph components populates 30+ labels that need us to bump this limit.
+          max_label_names_per_series: 40
         schema_config:
           configs:
             - from: 2020-09-07
@@ -99,7 +77,7 @@ data:
             cache_location: /var/loki/cache
             cache_ttl: 168h
           aws:
-            s3: "http://rook-ceph-rgw-dkp-object-store.${workspaceNamespace}.svc:80/proj-loki-${releaseNamespace}"
+            s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/dkp-loki"
             s3forcepathstyle: true
         chunk_store_config:
           max_look_back_period: 0s
@@ -133,8 +111,8 @@ data:
             kvstore:
               store: memberlist
           rule_path: /tmp/loki/scratch
-          alertmanager_url: http://kube-prometheus-stack-alertmanager.${workspaceNamespace}.svc.cluster.local:9093
-          external_url: ""
+          alertmanager_url: http://kube-prometheus-stack-alertmanager.${releaseNamespace}.svc.cluster.local:9093
+          external_url: http://kube-prometheus-stack-alertmanager.${releaseNamespace}.svc.cluster.local:9093
 
     ingester:
       priorityClassName: "dkp-critical-priority"
@@ -148,7 +126,7 @@ data:
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
-            name: proj-loki-${releaseNamespace}
+            name: dkp-loki
 
     querier:
       priorityClassName: "dkp-critical-priority"
@@ -162,14 +140,14 @@ data:
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
-            name: proj-loki-${releaseNamespace}
+            name: dkp-loki
 
     queryFrontend:
       priorityClassName: "dkp-critical-priority"
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
-            name: proj-loki-${releaseNamespace}
+            name: dkp-loki
 
     compactor:
       priorityClassName: "dkp-critical-priority"
@@ -183,11 +161,25 @@ data:
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
-            name: proj-loki-${releaseNamespace}
+            name: dkp-loki
 
     ruler:
       priorityClassName: "dkp-critical-priority"
       enabled: false
+      replicas: 1
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+      persistence:
+        enabled: true
+        size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            # s3 access and secret keys
+            name: dkp-loki
+      # -- Directories containing rules files
+      directories:
+        grafana-loki-rules: {}
 
     gateway:
       priorityClassName: "dkp-critical-priority"
@@ -197,12 +189,12 @@ data:
         registry: ghcr.io
         repository: mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged
         tag: 1.25.5-alpine-d2iq.0
-      verboseLogging: false
       nginxConfig:
         httpSnippet: |-
           client_max_body_size 10M;
         serverSnippet: |-
           client_max_body_size 10M;
+      verboseLogging: false
 
     distributor:
       priorityClassName: "dkp-critical-priority"
@@ -212,4 +204,4 @@ data:
       extraEnvFrom:
         - secretRef:
             # s3 access and secret keys
-            name: proj-loki-${releaseNamespace}
+            name: dkp-loki
