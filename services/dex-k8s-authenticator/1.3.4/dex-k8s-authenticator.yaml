@@ -1,0 +1,41 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: dex-k8s-authenticator
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: dex
+    - namespace: ${releaseNamespace}
+      name: traefik
+    # Depends on kommander because the `DKAClustersHandler` controller configures
+    # clusters (including the management cluster). The container won't start without
+    # at least one cluster configuration.
+    - namespace: ${releaseNamespace}
+      name: kommander
+  chart:
+    spec:
+      chart: dex-k8s-authenticator
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-staging
+        namespace: kommander-flux
+      version: 1.3.2
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: dex-k8s-authenticator
+  valuesFrom:
+    - kind: ConfigMap
+      name: dex-k8s-authenticator-1.3.4-d2iq-defaults
+    - kind: ConfigMap
+      name: dex-k8s-authenticator-overrides
+      optional: true
+  targetNamespace: ${releaseNamespace}

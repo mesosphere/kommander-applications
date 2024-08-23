@@ -1,31 +1,26 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: nkp-insights-management
+  name: ai-navigator-app
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: nkp-insights-management
+      chart: ai-navigator-cluster-info-api
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-nkp-insights-charts-management
+        name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
         namespace: kommander-flux
-      version: v1.2.0
-  dependsOn:
-    - name: kubefed
-      namespace: ${releaseNamespace}
+      version: 0.2.2
   install:
-    crds: CreateReplace
     remediation:
       retries: 30
   interval: 15s
-  releaseName: nkp-insights-management
+  releaseName: ai-navigator-cluster-info-api
   targetNamespace: ${releaseNamespace}
   upgrade:
-    crds: CreateReplace
     remediation:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-management-1.2.0-d2iq-defaults
+      name: ai-navigator-app-0.2.5-d2iq-defaults
