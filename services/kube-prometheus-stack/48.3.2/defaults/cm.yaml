@@ -457,8 +457,14 @@ data:
             prometheus.kommander.d2iq.io/select: "true"
     prometheus-node-exporter:
       priorityClassName: "dkp-critical-priority"
+      kubeRBACProxy:
+        enabled: true
       prometheus:
         monitor:
+          scheme: https
+          bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tlsConfig:
+            insecureSkipVerify: true
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
           relabelings:
