@@ -36,7 +36,7 @@ data:
             use_grpc: true
         deployment:
           priority_class_name: dkp-high-priority
-          image_version: v1.87.0-distro
+          image_version: v1.88.0-distro
           accessible_namespaces:
           - '**'
           ingress:
