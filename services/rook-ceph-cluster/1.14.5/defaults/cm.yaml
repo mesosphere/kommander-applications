@@ -62,6 +62,7 @@ data:
       # priority classes to apply to ceph resources
       priorityClassNames:
         crashcollector: system-cluster-critical
+        exporter: system-node-critical
 
       storage:
         storageClassDeviceSets:
