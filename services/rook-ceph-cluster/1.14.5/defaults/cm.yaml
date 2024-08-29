@@ -61,7 +61,9 @@ data:
 
       # priority classes to apply to ceph resources
       priorityClassNames:
-        crashcollector: system-cluster-critical
+        all: system-cluster-critical
+        osd: system-node-critical
+        mon: system-node-critical
 
       storage:
         storageClassDeviceSets:
