@@ -51,10 +51,9 @@ func (d *docker) CreateNetwork(ctx context.Context, name string, internal bool, 
 		return nil, fmt.Errorf("%w: subnet is required for internal networks", ErrMissingParameter)
 	}
 
-	config := types.NetworkCreate{
-		CheckDuplicate: true,
-		Driver:         "bridge",
-		Internal:       internal,
+	config := dockernetwork.CreateOptions{
+		Driver:   "bridge",
+		Internal: internal,
 	}
 
 	if len(subnet) > 0 {
