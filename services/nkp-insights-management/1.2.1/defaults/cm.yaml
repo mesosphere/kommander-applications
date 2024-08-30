@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nkp-insights-management-1.2.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    airgapped:
+      enabled: ${airgappedEnabled}
+    alertmanager:
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1024Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      webhookURL: http://kube-prometheus-stack-alertmanager.kommander.svc:9093/api/v2/alerts
+    cleanup:
+      logLevel: INFO
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+    image:
+      imagePullPolicy: IfNotPresent
+      registry: docker.io
+      repository: mesosphere/insights-management
+      tag: v1.2.1
+    insightsCRIngress:
+      globalRateLimitAverageQPS: 100
+      globalRateLimitBurst: 100
+    kubectlImage: bitnami/kubectl:1.29.6
+    managementCM:
+      backendTokenTTL: 1h
+      insightsTTL: 72h
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1024Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+    priorityClassName: dkp-critical-priority
