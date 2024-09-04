@@ -20,10 +20,10 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
         path: "/dkp/kommander/monitoring/grafana/metrics"
       sidecar:
-        image:
-          registry: ghcr.io
-          repository: mesosphere/dkp-container-images/quay.io/kiwigrid/k8s-sidecar
-          tag: 1.26.1-d2iq.1
+        sidecar:
+          image:
+            repository: quay.io/kiwigrid/k8s-sidecar
+            tag: 1.27.6
         dashboards:
           enabled: true
           # label that the configmaps with dashboards are marked with
