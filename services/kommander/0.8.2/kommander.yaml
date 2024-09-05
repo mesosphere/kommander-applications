@@ -25,12 +25,12 @@ spec:
   timeout: 10m
   install:
     crds: CreateReplace
-    remediation:
-      retries: 30
+#    remediation:
+#      retries: 30
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 30
+#    remediation:
+#      retries: 30
   releaseName: kommander
   valuesFrom:
     - kind: ConfigMap
