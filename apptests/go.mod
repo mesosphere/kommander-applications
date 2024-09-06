@@ -11,7 +11,7 @@ require (
 	github.com/fluxcd/flux2/v2 v2.3.0
 	github.com/fluxcd/helm-controller/api v1.0.1
 	github.com/fluxcd/kustomize-controller/api v1.3.0
-	github.com/fluxcd/pkg/apis/meta v1.5.0
+	github.com/fluxcd/pkg/apis/meta v1.6.0
 	github.com/fluxcd/pkg/runtime v0.47.1
 	github.com/fluxcd/pkg/ssa v0.39.1
 	github.com/fluxcd/source-controller/api v1.3.0
