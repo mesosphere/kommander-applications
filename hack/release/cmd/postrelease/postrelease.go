@@ -2,6 +2,7 @@ package postrelease
 
 import (
 	"fmt"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 	"log"
 	"os"
 
@@ -54,6 +55,16 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			}
 
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
+
+			if err := upgradematrix.UpdateUpgradeMatrix(
+				cmd.Context(),
+				kommanderApplicationsRepo,
+			); err != nil {
+				return err
+			}
+
+			fmt.Fprintf(cmd.OutOrStdout(), "Updated upgrade matrix")
+
 			return nil
 		},
 	}
