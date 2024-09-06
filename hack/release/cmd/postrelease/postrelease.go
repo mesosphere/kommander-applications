@@ -2,13 +2,13 @@ package postrelease
 
 import (
 	"fmt"
-	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 	"log"
 	"os"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 	"github.com/spf13/cobra"
 )
 
