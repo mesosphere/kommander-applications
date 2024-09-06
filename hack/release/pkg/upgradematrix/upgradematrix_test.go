@@ -2,6 +2,7 @@ package upgradematrix
 
 import (
 	"context"
+	"errors"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -27,6 +28,9 @@ func TestUpdateUpgradeMatrix(t *testing.T) {
 	require.NoError(t, err)
 
 	err = UpdateUpgradeMatrix(context.Background(), dir)
+	if errors.Is(err, ErrDKPNotFound) {
+		t.Skip("Skipping test as gh dkp not installed.")
+	}
 	require.NoError(t, err)
 
 	// Check that the file has been regenerated
