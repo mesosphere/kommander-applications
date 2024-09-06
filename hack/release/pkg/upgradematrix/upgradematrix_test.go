@@ -30,7 +30,6 @@ func TestUpdateUpgradeMatrix(t *testing.T) {
 	require.NoError(t, err)
 
 	// Check that the file has been regenerated
-	// Read the file and compare it to the expected content
 	fileContent, err := os.ReadFile(filepath.Join(dir, "upgrade-matrix.yaml"))
 	require.NoError(t, err)
 
