@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/gatekeeper/3.16.4/constrainttemplates
+  path: ./services/gatekeeper/3.17.0/constrainttemplates
   sourceRef:
     kind: GitRepository
     name: management
