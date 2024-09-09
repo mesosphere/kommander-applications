@@ -339,10 +339,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ghcr.io/fluxcd/kustomize-controller:v1.2.2-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/ghcr.io/fluxcd/kustomize-controller:v1.2.2-d2iq.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-d2iq.0}
+        ref: ${image_tag%-d2iq.1}
         url: https://github.com/fluxcd/kustomize-controller
   - container_image: ghcr.io/fluxcd/notification-controller:v1.2.4
     sources:
