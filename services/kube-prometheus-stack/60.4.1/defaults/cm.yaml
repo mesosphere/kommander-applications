@@ -354,7 +354,7 @@ data:
         sidecar:
           image:
             repository: quay.io/kiwigrid/k8s-sidecar
-            tag: 1.26.1
+            tag: 1.27.6
         dashboards:
           enabled: true
           label: grafana_dashboard
