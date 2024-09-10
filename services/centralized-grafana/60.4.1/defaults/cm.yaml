@@ -20,7 +20,7 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
         path: "/dkp/kommander/monitoring/grafana/metrics"
       sidecar:
-        image: 
+        image:
           registry: ghcr.io
           repository: mesosphere/dkp-container-images/quay.io/kiwigrid/k8s-sidecar
           tag: 1.26.1-d2iq.1
