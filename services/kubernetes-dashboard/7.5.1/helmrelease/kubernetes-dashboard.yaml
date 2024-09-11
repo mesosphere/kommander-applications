@@ -24,7 +24,7 @@ spec:
   releaseName: kubernetes-dashboard
   valuesFrom:
     - kind: ConfigMap
-      name: kubernetes-dashboard-7.5.0-d2iq-defaults
+      name: kubernetes-dashboard-7.5.1-d2iq-defaults
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
