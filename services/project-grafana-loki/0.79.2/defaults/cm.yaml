@@ -196,7 +196,7 @@ data:
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
         registry: ghcr.io
         repository: mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged
-        tag: 1.27.1-alpine-d2iq.0
+        tag: 1.27-alpine-d2iq.0
       verboseLogging: false
       nginxConfig:
         httpSnippet: |-

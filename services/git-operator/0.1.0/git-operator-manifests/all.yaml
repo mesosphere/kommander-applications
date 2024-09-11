@@ -955,7 +955,7 @@ spec:
         app.kubernetes.io/name: git-operator
     spec:
       containers:
-      - image: ghcr.io/mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged:1.27.1-alpine-d2iq.0
+      - image: ghcr.io/mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged:1.27-alpine-d2iq.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
