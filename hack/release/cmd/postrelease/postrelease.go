@@ -8,6 +8,7 @@ import (
 	"github.com/Masterminds/semver/v3"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 	"github.com/spf13/cobra"
 )
 
@@ -54,6 +55,16 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			}
 
 			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
+
+			if err := upgradematrix.UpdateUpgradeMatrix(
+				cmd.Context(),
+				kommanderApplicationsRepo,
+			); err != nil {
+				return err
+			}
+
+			fmt.Fprintf(cmd.OutOrStdout(), "Updated upgrade matrix")
+
 			return nil
 		},
 	}
