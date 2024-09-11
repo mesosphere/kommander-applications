@@ -480,7 +480,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.27.6
+  - container_image: quay.io/kiwigrid/k8s-sidecar:1.27.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
