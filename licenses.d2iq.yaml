@@ -16,7 +16,7 @@ resources:
   - container_image: docker.io/bitnami/thanos:0.36.1-debian-12-r1
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-debian-12-r2}
+        ref: v${image_tag%-debian-12-r1}
         url: https://github.com/thanos-io/thanos
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:2.2.3-d2iq.0
     sources:
