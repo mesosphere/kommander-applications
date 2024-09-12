@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: reloader
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: reloader
+      sourceRef:
+        kind: HelmRepository
+        name: stakater-github-io-stakater-charts
+        namespace: kommander-flux
+      version: 1.1.0
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: reloader-1.1.0-d2iq-defaults
+    - kind: ConfigMap
+      name: reloader-overrides
+      optional: true
+  targetNamespace: ${releaseNamespace}

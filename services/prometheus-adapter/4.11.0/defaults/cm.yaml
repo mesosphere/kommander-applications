@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-adapter-4.11.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    priorityClassName: "dkp-critical-priority"
+    prometheus:
+      url: http://kube-prometheus-stack-prometheus.${releaseNamespace}.svc.cluster.local
+    resources:
+      limits:
+         cpu: 2000m
+         memory: 4000Mi
+      requests:
+         cpu: 1000m
+         memory: 2000Mi
+    metricsRelistInterval: 60s
+    logLevel: 2
+    rules:
+      resource:
+        cpu:
+          containerQuery: |
+            sum by (<<.GroupBy>>) (
+              irate (
+                  container_cpu_usage_seconds_total{<<.LabelMatchers>>,container!="",pod!=""}[120s]
+              )
+            )
+          nodeQuery: |
+            sum by (<<.GroupBy>>) (
+              1 - irate(
+                node_cpu_seconds_total{mode="idle"}[60s]
+              )
+              * on(namespace, pod) group_left(node) (
+                node_namespace_pod:kube_pod_info:{<<.LabelMatchers>>}
+              )
+            )
+            or sum by (<<.GroupBy>>) (
+              1 - irate(
+                windows_cpu_time_total{mode="idle", job="windows-exporter",<<.LabelMatchers>>}[4m]
+              )
+            )
+          resources:
+            overrides:
+              node:
+                resource: node
+              namespace:
+                resource: namespace
+              pod:
+                resource: pod
+          containerLabel: container
+        memory:
+          containerQuery: |
+            sum by (<<.GroupBy>>) (
+              container_memory_working_set_bytes{<<.LabelMatchers>>,container!="",pod!=""}
+            )
+          nodeQuery: |
+            sum by (<<.GroupBy>>) (
+              node_memory_MemTotal_bytes{job="node-exporter",<<.LabelMatchers>>}
+              -
+              node_memory_MemAvailable_bytes{job="node-exporter",<<.LabelMatchers>>}
+            )
+            or sum by (<<.GroupBy>>) (
+              windows_cs_physical_memory_bytes{job="windows-exporter",<<.LabelMatchers>>}
+              -
+              windows_memory_available_bytes{job="windows-exporter",<<.LabelMatchers>>}
+            )
+          resources:
+            overrides:
+              node:
+                resource: node
+              namespace:
+                resource: namespace
+              pod:
+                resource: pod
+          containerLabel: container
+        window: 5m
+      custom:
+        - seriesQuery: 'node_memory_Active_bytes'
+          resources:
+            overrides:
+              node:
+                resource: node
+          name:
+            matches: ^(.*)_Active_bytes
+            as: node_memory_percentage
+          metricsQuery: 'avg_over_time(node_memory_Active_bytes[30d])/node_memory_MemTotal_bytes'
+        - seriesQuery: 'node_cpu_seconds_total'
+          resources:
+            overrides:
+              node:
+                resource: node
+          name:
+            matches: ^(.*)_seconds_total
+            as: node_cpu_percentage
+          metricsQuery: '(1 - rate(node_cpu_seconds_total{mode="idle"}[30d]))'
