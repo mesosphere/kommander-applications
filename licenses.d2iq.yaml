@@ -600,7 +600,7 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: docs/text/LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/nginxinc/nginx-unprivileged:1.25.5-alpine-d2iq.0
+  - container_image: nginxinc/nginx-unprivileged:1.27.1-alpine
     sources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine-d2iq.0}
