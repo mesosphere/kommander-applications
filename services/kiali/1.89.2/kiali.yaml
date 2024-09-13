@@ -29,7 +29,11 @@ spec:
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
+<<<<<<<< HEAD:services/kiali/1.87.0/kiali.yaml
       name: kiali-1.87.0-d2iq-defaults
+========
+      name: kiali-1.89.2-d2iq-defaults
+>>>>>>>> 68813c40 (feat: Bump kiali to 1.87.2 - cve fix (#2618)):services/kiali/1.89.2/kiali.yaml
   targetNamespace: istio-system
 ---
 apiVersion: v1
