@@ -625,7 +625,7 @@ resources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.1
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.106.7

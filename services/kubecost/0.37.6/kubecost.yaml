@@ -25,7 +25,7 @@ spec:
   releaseName: kubecost
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-0.37.5-d2iq-defaults
+      name: kubecost-0.37.6-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
