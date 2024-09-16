@@ -28,7 +28,7 @@ jobs:
           git_tag_gpgsign: true
 
       - name: Install NIX
-        uses: cachix/install-nix-action@V27
+        uses: cachix/install-nix-action@V28
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
