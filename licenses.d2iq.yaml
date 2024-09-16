@@ -600,10 +600,10 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: docs/text/LICENSE
-  - container_image: nginxinc/nginx-unprivileged:1.27.1-alpine
+  - container_image: docker.i0/nginxinc/nginx-unprivileged:1.27.1-alpine
     sources:
       - url: https://github.com/nginx/nginx
-        ref: release-${image_tag%-alpine-d2iq.0}
+        ref: release-${image_tag%-alpine}
         license_path: docs/text/LICENSE
   - container_image: bitnami/external-dns:0.14.2-debian-12-r7
     sources:
