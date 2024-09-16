@@ -600,7 +600,7 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: docs/text/LICENSE
-  - container_image: docker.i0/nginxinc/nginx-unprivileged:1.27.1-alpine
+  - container_image: docker.io/nginxinc/nginx-unprivileged:1.27.1-alpine
     sources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
