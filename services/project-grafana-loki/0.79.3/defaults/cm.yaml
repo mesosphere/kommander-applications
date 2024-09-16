@@ -194,8 +194,8 @@ data:
       image:
         # Override nginx image to address known CVEs.
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
-        registry: docker.io
-        repository: nginxinc/nginx-unprivileged
+        #registry: docker.io
+        #repository: nginxinc/nginx-unprivileged
         tag: 1.27.1-alpine
       verboseLogging: false
       nginxConfig:
