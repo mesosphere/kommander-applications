@@ -138,7 +138,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.3.4-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.4-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
