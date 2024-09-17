@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-grafana-60.4.0-d2iq-defaults
+  name: centralized-grafana-60.4.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -20,6 +20,10 @@ data:
           prometheus.kommander.d2iq.io/select: "true"
         path: "/dkp/kommander/monitoring/grafana/metrics"
       sidecar:
+        image:
+          registry: ghcr.io
+          repository: mesosphere/dkp-container-images/quay.io/kiwigrid/k8s-sidecar
+          tag: 1.26.1-d2iq.1
         dashboards:
           enabled: true
           # label that the configmaps with dashboards are marked with

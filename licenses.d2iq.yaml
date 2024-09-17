@@ -82,10 +82,10 @@ resources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
         url: https://github.com/jimmidyson/configmap-reload
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/kiwigrid/k8s-sidecar:1.25.3-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/kiwigrid/k8s-sidecar:1.25.3-d2iq.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-d2iq.0}
+        ref: ${image_tag%-d2iq.1}
         url: https://github.com/kiwigrid/k8s-sidecar
   - container_image: docker.io/kubernetesui/dashboard-api:1.7.0
     sources:
@@ -475,10 +475,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
-  - container_image: quay.io/kiwigrid/k8s-sidecar:1.26.1
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/kiwigrid/k8s-sidecar:1.26.1-d2iq.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.1}
         url: https://github.com/kiwigrid/k8s-sidecar
   - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
     sources:
