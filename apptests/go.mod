@@ -17,7 +17,7 @@ require (
 	github.com/fluxcd/source-controller/api v1.3.0
 	github.com/mittwald/go-helm-client v0.12.12
 	github.com/onsi/ginkgo/v2 v2.20.2
-	github.com/onsi/gomega v1.34.1
+	github.com/onsi/gomega v1.34.2
 	github.com/open-policy-agent/frameworks/constraint v0.0.0-20240411024313-c2efb00269a8
 	github.com/stretchr/testify v1.9.0
 	github.com/traefik/traefik/v2 v2.11.8
