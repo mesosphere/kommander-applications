@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-management-1.2.1-d2iq-defaults
+  name: nkp-insights-management-1.2.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -30,7 +30,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: v1.2.1
+      tag: v1.2.2
     insightsCRIngress:
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
