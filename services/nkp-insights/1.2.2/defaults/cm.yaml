@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.2.1-d2iq-defaults
+  name: nkp-insights-1.2.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -45,6 +45,11 @@ data:
                 group: templates.gatekeeper.sh
                 kind: ConstraintTemplate
               nameRegexp: requiredserviceaccountname
+            CronJob-additional:
+              groupKind:
+                group: batch
+                kind: CronJob
+              nameRegexp: git-operator-admin-credentials-rotate
             CustomResourceDefinition-kapps:
               groupKind:
                 group: apiextensions.k8s.io
@@ -64,12 +69,12 @@ data:
               groupKind:
                 group: apps
                 kind: Deployment
-              nameRegexp: ai-navigator-app|helm-controller|kustomize-controller|not-used-in-a-patch|notification-controller|source-controller|velero-backup-storage-location-updater
+              nameRegexp: ai-navigator-app|helm-controller|kustomize-controller|not-used-in-a-patch|notification-controller|source-controller|velero-backup-storage-location-updater|ai-navigator-cluster-info-.*?
             Deployments-additional:
               groupKind:
                 group: apps
                 kind: Deployment
-              nameRegexp: calico-kube-controllers|calico-typha|capa-controller-manager|capg-controller-manager|capi-kubeadm-control-plane-controller-manager|capi-kubeadm-bootstrap-controller-manager|capv-controller-manager|capvcd-controller-manager|capz-controller-manager|cert-manager|cert-manager-cainjector|cert-manager-webhook|kommander-appmanagement|cluster-autoscaler|coredns|ebs-csi-controller|capi-kubeadm-control-plane-system|capi-system|capi-kubeadm-control-plane-system|capi-controller-manager|cappp-controller-manager|cappp-system|cluster-observer|ebs-csi-controller|tigera-operator|snapshot-controller|node-feature-discovery-master|velero-backup-storage-location-updater
+              nameRegexp: calico-kube-controllers|calico-typha|capa-controller-manager|capg-controller-manager|capi-kubeadm-control-plane-controller-manager|capi-kubeadm-bootstrap-controller-manager|capv-controller-manager|capvcd-controller-manager|capz-controller-manager|cert-manager|cert-manager-cainjector|cert-manager-webhook|kommander-appmanagement|cluster-autoscaler|coredns|ebs-csi-controller|capi-kubeadm-control-plane-system|capi-system|capi-kubeadm-control-plane-system|capi-controller-manager|cappp-controller-manager|cappp-system|cluster-observer|ebs-csi-controller|tigera-operator|snapshot-controller|node-feature-discovery-master|velero-backup-storage-location-updater|runtime-extension-kommander|git-operator-controller-manager
             Deployments-additional-istio:
               groupKind:
                 group: apps
@@ -99,7 +104,7 @@ data:
               groupKind:
                 group: networking.k8s.io
                 kind: Ingress
-              nameRegexp: kubecost-grafana
+              nameRegexp: kubecost-grafana|git-operator-git
             Ingress-kapps:
               groupKind:
                 group: networking.k8s.io
@@ -109,7 +114,7 @@ data:
               groupKind:
                 group: batch
                 kind: Job
-              nameRegexp: delete-jaeger-deployment|delete-node-exporter-daemonset|delete-prometheus-adapter-deployment|update-tenant-crd-metadata|delete-obc-jobs|object-bucket-claims-check-dkp-.*?|velero-v4-hooks-adoption
+              nameRegexp: delete-jaeger-deployment|delete-node-exporter-daemonset|delete-prometheus-adapter-deployment|update-tenant-crd-metadata|delete-obc-jobs|object-bucket-claims-check-dkp-.*?|velero-v4-hooks-adoption|kommander-bootstrap
             Job-kapps:
               groupKind:
                 group: batch
@@ -200,8 +205,18 @@ data:
                 group: ""
                 kind: ServiceAccount
               nameRegexp: ai-navigator-app|check-dkp-ceph-crd|etcd-metrics-proxy|grafana-loki-pre-install|helm-controller|kommander-thanos-configmap-edit|kubecost-configmap-edit|kubecost-thanos-configmap-edit|kustomize-controller|notification-controller|source-controller|velero-post-install|velero-pre-install
+            StatefulSet-additional:
+              groupKind:
+                group: apps
+                kind: StatefulSet
+              nameRegexp: git-operator-git
+            StatefulSet-kapps:
+              groupKind:
+                group: apps
+                kind: StatefulSet
+              nameRegexp: ai-navigator-cluster-info-.*?|weaviate
           enabled: true
-          filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|tigera-operator
+          filteredNamespacesRegexp: cert-manager|calico-system|cap.*?-system|kommander-flux|kube-federation-system|kube-node-lease|kube-public|kube-system|kubecost|metallb-system|ntnx-system|tigera-operator
           insightClassNames: Nova|Pluto|PolarisAudit
         replay:
           apiServerService: dkp-insights-replay-troubleshoot-live
@@ -265,7 +280,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.2.1
+      tag: v1.2.2
     initdb:
       resources:
         limits:
