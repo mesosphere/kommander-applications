@@ -25,8 +25,4 @@ spec:
   releaseName: grafana-loki
   valuesFrom:
     - kind: ConfigMap
-<<<<<<<< HEAD:services/grafana-loki/0.78.5/grafana-loki-helmrelease/grafana-loki.yaml
-      name: grafana-loki-0.78.5-d2iq-defaults
-========
       name: grafana-loki-0.79.4-d2iq-defaults
->>>>>>>> 330868b7 (fix: cve fix for git operator and webserver (#2646)):services/grafana-loki/0.79.4/grafana-loki-helmrelease/grafana-loki.yaml
