@@ -38,6 +38,7 @@ func TestUpdateUpgradeMatrix(t *testing.T) {
 
 	// Expected update value
 	err = os.Setenv(upgradeMatrixEnv, expectedContent)
+	require.NoError(t, err)
 
 	err = UpdateUpgradeMatrix(context.Background(), dir)
 	require.NoError(t, err)
@@ -59,6 +60,7 @@ func TestUpdateUpgradeMatrixNoEnv(t *testing.T) {
 
 	// Ensure that the environment variable is empty
 	err = os.Setenv(upgradeMatrixEnv, "")
+	require.NoError(t, err)
 
 	err = UpdateUpgradeMatrix(context.Background(), dir)
 	require.NoError(t, err)
