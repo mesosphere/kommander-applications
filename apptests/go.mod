@@ -1,7 +1,6 @@
 module github.com/mesosphere/kommander-applications/apptests
 
 go 1.22.0
-toolchain go1.23.1
 
 require (
 	github.com/distribution/reference v0.6.0
