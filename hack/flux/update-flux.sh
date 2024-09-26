@@ -11,7 +11,7 @@ readonly CURRENT_FLUX_VERSION
 KOMMANDER_REPO_PATH="${REPO_ROOT}/kommander" # Override in CI to path of kommander repository.
 
 function check_remote_branch() {
-    if [[ -n $(git ls-remote --exit-code --heads git@github.com:mesosphere/"$1".git "$2") ]]; then
+    if [[ -n $(git ls-remote --exit-code --heads https://github.com/mesosphere/"$1".git "$2") ]]; then
         echo "Flux update PR is already up!"
         exit 0
     fi
@@ -26,7 +26,7 @@ function update_flux() {
     if [[ "$local_flux_version" == "$LATEST_FLUX_VERSION" ]]; then
       echo "updating flux to ${local_flux_version}"
     else
-      echo "flux ${LATEST_FLUX_VERSION} not avilable in devbox, the latest avilable is ${local_flux_version}"
+      echo "flux ${LATEST_FLUX_VERSION} not available in devbox, the latest available is ${local_flux_version}"
     fi
 
     mkdir -p "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
@@ -45,15 +45,7 @@ function update_flux() {
     kustomize create --autodetect
     popd && popd
 
-    # Update flux version in defaultApps whenever flux version is upgraded.
-    sed -i "s/kommander-flux: \".*\"/kommander-flux: \"$LATEST_FLUX_VERSION\"/g" services/kommander/*/defaults/cm.yaml
-
     git add services
-
-    if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
-        git config user.email "ci@mesosphere.com"
-        git config user.name "mesosphere-teamcity"
-    fi
 
     readonly COMMIT_MSG="feat: Upgrade flux to ${LATEST_FLUX_VERSION}"
 
@@ -62,7 +54,7 @@ function update_flux() {
     git push --set-upstream origin "${BRANCH_NAME}"
 
     git fetch origin main
-    KOMMANDER_APPLICATIONS_PR=$(gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l ok-to-test -l slack-notify -l open-kommander-pr -l update-licenses)
+    KOMMANDER_APPLICATIONS_PR=$(gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l ready-for-review -l ok-to-test -l slack-notify -l update-licenses)
     readonly KOMMANDER_APPLICATIONS_PR
     echo "${KOMMANDER_APPLICATIONS_PR} is created"
 }
@@ -79,14 +71,10 @@ function bump_kommander_repo_flux() {
     git checkout -b "${BRANCH_NAME}"
     sed -i "s~KOMMANDER_APPLICATIONS_REF ?= main~KOMMANDER_APPLICATIONS_REF ?= ${BRANCH_NAME}~g" Makefile
     git add Makefile
-    if [[ -z "$(git config user.email 2>/dev/null || true)" ]]; then
-        git config user.email "ci@mesosphere.com"
-        git config user.name "mesosphere-teamcity"
-    fi
     git commit -m "${COMMIT_MSG}"
     git push --set-upstream origin "${BRANCH_NAME}"
     git fetch origin main
-    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l copy-flux-manifests -l ok-to-test -l ready-for-review -l stacked -b "Depends on ${KOMMANDER_APPLICATIONS_PR}"
+    gh pr create --base main --fill --head "${BRANCH_NAME}" -t "${COMMIT_MSG}" -l copy-flux-manifests -l test/kuttl -l test/kuttl-multi-cluster -l test/airgapped -l test/license -l test/e2e -l ready-for-review -l stacked -b "Depends on ${KOMMANDER_APPLICATIONS_PR}"
     popd
 }
 
