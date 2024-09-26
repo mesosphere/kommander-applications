@@ -6,7 +6,6 @@ on:
 
 jobs:
   flux-schedule-check:
-    if: github.ref == 'refs/heads/main'
     name: Flux Update Schedule Check
     runs-on:
       - self-hosted
@@ -21,6 +20,17 @@ jobs:
           repository: mesosphere/kommander
           path: kommander
           token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_committer_email: ci-mergebot@d2iq.com
+          git_committer_name: d2iq-mergebot
+          git_commit_gpgsign: true
+          git_config_global: true
 
       - uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -38,4 +48,5 @@ jobs:
       - name: Check for Flux update
         env:
           GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
         run: devbox run -- "make KOMMANDER_REPO_PATH=${GITHUB_WORKSPACE}/kommander make flux-update"
