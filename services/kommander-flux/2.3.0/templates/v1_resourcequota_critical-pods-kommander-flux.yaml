@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  labels:
+    app.kubernetes.io/instance: kommander-flux
+    app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: v2.3.0
+  name: critical-pods-kommander-flux
+  namespace: kommander-flux
+spec:
+  hard:
+    pods: "1000"
+  scopeSelector:
+    matchExpressions:
+    - operator: In
+      scopeName: PriorityClass
+      values:
+      - system-node-critical
+      - system-cluster-critical
