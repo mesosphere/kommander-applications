@@ -13,7 +13,7 @@ data:
       config:
         # Create a ConfigMap (default: false)
         create: false
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
+      repository: nvcr.io/nvidia
       version: v0.16.2-ubi8
     toolkit:
       # toolkit needs to be set on per OS
@@ -34,8 +34,8 @@ data:
       enabled: true
       version: 3.3.7-3.5.0-ubuntu22.04
     validator:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native
+      repository: nvcr.io/nvidia/cloud-native
       version: v24.6.1
     operator:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
+      repository: nvcr.io/nvidia
       version: v24.3.0-d2iq.0
