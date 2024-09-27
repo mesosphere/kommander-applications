@@ -480,13 +480,13 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.74.0
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.76.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.74.0
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.76.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -504,7 +504,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/node-exporter:v1.8.1
+  - container_image: quay.io/prometheus/node-exporter:v1.8.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -516,13 +516,13 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/prometheus/prometheus:v2.53.0
+  - container_image: quay.io/prometheus/prometheus:v2.54.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.35.1
+  - container_image: quay.io/thanos/thanos:v0.36.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -532,7 +532,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kubernetes/kube-state-metrics
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.12.0
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
