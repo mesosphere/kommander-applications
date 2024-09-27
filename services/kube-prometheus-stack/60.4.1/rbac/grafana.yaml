@@ -5,15 +5,15 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
-- nonResourceURLs:
-  - /dkp/grafana
-  - /dkp/grafana/*
-  verbs:
-    - get
-    - head
-    - post
-    - put
-    - delete
+  - nonResourceURLs:
+      - /dkp/grafana
+      - /dkp/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -22,19 +22,19 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
-- nonResourceURLs:
-  - /dkp/grafana
-  - /dkp/grafana/*
-  - /dkp/grafana/api/datasources/proxy/*
-  verbs:
-  - get
-  - head
-- nonResourceURLs:
-  - /dkp/grafana/api/datasources/proxy/*
-  - /dkp/grafana/api/ds/query
-  - /dkp/grafana/api/frontend-metrics
-  verbs:
-  - post
+  - nonResourceURLs:
+      - /dkp/grafana
+      - /dkp/grafana/*
+      - /dkp/grafana/api/datasources/proxy/*
+    verbs:
+      - get
+      - head
+  - nonResourceURLs:
+      - /dkp/grafana/api/datasources/proxy/*
+      - /dkp/grafana/api/ds/query
+      - /dkp/grafana/api/frontend-metrics
+    verbs:
+      - post
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -43,11 +43,11 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
 rules:
-- nonResourceURLs:
-  - /dkp/grafana
-  - /dkp/grafana/*
-  verbs:
-    - get
-    - head
-    - post
-    - put
+  - nonResourceURLs:
+      - /dkp/grafana
+      - /dkp/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put

@@ -3,38 +3,38 @@ kind: ClusterRole
 metadata:
   name: dkp-kube-prometheus-stack-alertmanager-admin
 rules:
-- nonResourceURLs:
-  - /dkp/alertmanager
-  - /dkp/alertmanager/*
-  verbs:
-  - get
-  - head
-  - post
-  - put
-  - delete
+  - nonResourceURLs:
+      - /dkp/alertmanager
+      - /dkp/alertmanager/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: dkp-kube-prometheus-stack-alertmanager-view
 rules:
-- nonResourceURLs:
-  - /dkp/alertmanager
-  - /dkp/alertmanager/*
-  verbs:
-  - get
-  - head
+  - nonResourceURLs:
+      - /dkp/alertmanager
+      - /dkp/alertmanager/*
+    verbs:
+      - get
+      - head
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: dkp-kube-prometheus-stack-alertmanager-edit
 rules:
-- nonResourceURLs:
-  - /dkp/alertmanager
-  - /dkp/alertmanager/*
-  verbs:
-  - get
-  - head
-  - post
-  - put
+  - nonResourceURLs:
+      - /dkp/alertmanager
+      - /dkp/alertmanager/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
