@@ -480,11 +480,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: quay.io/kubernetes_incubator/nfs-provisioner:v2.3.0
-    sources:
-      - license_path: LICENSE
-        ref: nfs-provisioner-${image_tag}
-        url: https://github.com/kubernetes-retired/external-storage
   - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.74.0
     sources:
       - license_path: LICENSE
