@@ -126,10 +126,6 @@ services/logging-operator:
 - changed-files:
   - any-glob-to-any-file:
     - services/logging-operator/**
-services/nfs-server-provisioner:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/nfs-server-provisioner/**
 services/nkp-insights:
 - changed-files:
   - any-glob-to-any-file:
