@@ -308,7 +308,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ghcr.io/fluxcd/kustomize-controller:v1.2.2-d2iq.1
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
