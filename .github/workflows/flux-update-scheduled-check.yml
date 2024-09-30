@@ -38,7 +38,7 @@ jobs:
           ssh-private-key: ${{ secrets.PRIVATE_SSH_KEY }}
 
       - name: Install NIX
-        uses: cachix/install-nix-action@V28
+        uses: cachix/install-nix-action@v29
 
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
