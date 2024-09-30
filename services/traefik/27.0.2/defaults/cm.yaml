@@ -39,7 +39,7 @@ data:
         app: traefik
       initContainers:
       - name: initialize-middleware
-        image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.6}"
+        image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
         command:
           - bash
         args:
