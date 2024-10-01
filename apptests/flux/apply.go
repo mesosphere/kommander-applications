@@ -34,7 +34,7 @@ import (
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
 	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
-	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
+	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1"
 )
 
 // Apply is the equivalent of 'kubectl apply --server-side -f'.
