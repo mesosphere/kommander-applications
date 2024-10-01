@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
@@ -98,14 +99,14 @@ func (c *Cluster) RunScript(ctx context.Context, nodeName, script string) error 
 	default:
 	}
 
-	apiClient, err := client.NewClientWithOpts(client.FromEnv)
+	apiClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
 		return err
 	}
 	defer apiClient.Close()
 
 	rst, err := apiClient.ContainerExecCreate(context.Background(), nodeName,
-		types.ExecConfig{
+		container.ExecOptions{
 			AttachStdout: true,
 			AttachStderr: true,
 			Cmd:          []string{script},
