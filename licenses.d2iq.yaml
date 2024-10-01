@@ -385,7 +385,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.3.0-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.6.2
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag%-d2iq.0}
@@ -395,7 +395,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s-device-plugin:v0.15.0-ubi8-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s-device-plugin:v0.16.2-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8-d2iq.0}
@@ -410,7 +410,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8-d2iq.0}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.5-3.4.1-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
@@ -553,7 +553,7 @@ resources:
       - url: https://github.com/fluent/fluentd
         ref: ${image_tag%-full-build.122}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.5-1-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.7-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
         ref: v${image_tag%-1-ubuntu22.04}
