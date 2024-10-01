@@ -247,13 +247,13 @@ resources:
       - license_path: LICENSE.thomseddon.md
         ref: ${image_tag}
         url: https://github.com/mesosphere/traefik-forward-auth
-  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.17.0
+  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.17.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.17.0
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.17.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
