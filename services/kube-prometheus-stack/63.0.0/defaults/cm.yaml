@@ -8,6 +8,9 @@ data:
     ---
     commonLabels:
       prometheus.kommander.d2iq.io/select: "true"
+    patch:
+      enabled: true
+
     prometheusOperator:
       priorityClassName: "dkp-critical-priority"
       logLevel: warn
@@ -17,6 +20,9 @@ data:
         patch:
           priorityClassName: "dkp-critical-priority"
           image:
+            registry: registry.k8s.io
+            repository: ingress-nginx/kube-webhook-certgen
+            tag: v1.4.3
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
     mesosphereResources:
