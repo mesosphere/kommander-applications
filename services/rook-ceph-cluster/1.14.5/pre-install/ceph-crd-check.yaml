@@ -47,7 +47,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: pre-install
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.6}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
           command:
             - sh
             - -c
@@ -57,7 +57,7 @@ spec:
                 sleep 30
               done
         - name: pre-upgrade
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.6}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
           command:
             - sh
             - -c
