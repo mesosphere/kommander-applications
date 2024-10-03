@@ -8,9 +8,6 @@ data:
     ---
     commonLabels:
       prometheus.kommander.d2iq.io/select: "true"
-    patch:
-      enabled: true
-
     prometheusOperator:
       priorityClassName: "dkp-critical-priority"
       logLevel: warn
