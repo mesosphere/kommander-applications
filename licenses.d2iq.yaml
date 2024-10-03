@@ -582,7 +582,7 @@ resources:
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.3
     sources:
       - url: https://github.com/kubernetes/ingress-nginx
-        ref:  controller-v1.4.3
+        ref: ${image_tag}
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
