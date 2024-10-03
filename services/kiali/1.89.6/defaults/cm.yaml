@@ -8,7 +8,7 @@ data:
     priorityClassName: dkp-high-priority
     image:
       repo: quay.io/kiali/kiali-operator
-      tag: v1.89.6
+      tag: v1.89.2
     allowAdHocKialiImage: true
     cr:
       create: true
