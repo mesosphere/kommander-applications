@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: kiali-org
         namespace: kommander-flux
-      version: 1.89.6
+      version: 1.89.2
   interval: 15s
   install:
     crds: CreateReplace
