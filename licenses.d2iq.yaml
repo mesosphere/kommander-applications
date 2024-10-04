@@ -395,10 +395,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s-device-plugin:v0.16.2-ubi8
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.16.2
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubi8}
+        ref: ${image_tag%}
         url: https://github.com/NVIDIA/k8s-device-plugin
   - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.15.0-ubuntu20.04
     sources:
