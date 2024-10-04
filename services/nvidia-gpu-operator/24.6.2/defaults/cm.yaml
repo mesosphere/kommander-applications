@@ -34,8 +34,8 @@ data:
       enabled: true
       version: 3.3.7-3.5.0-ubuntu22.04
     validator:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native
+      repository: nvcr.io/nvidia/cloud-native
       version: v24.6.2
     operator:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
-      version: v24.3.0-d2iq.0
+      repository: nvcr.io/nvidia
+      version: v24.6.2

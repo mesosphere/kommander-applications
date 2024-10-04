@@ -385,15 +385,15 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.6.2
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.6.2
     sources:
       - license_path: validator/LICENSE
-        ref: ${image_tag%-d2iq.0}
+        ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/gpu-operator:v24.3.0-d2iq.0
+  - container_image: nvcr.io/nvidia/gpu-operator:v24.6.2
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-d2iq.0}
+        ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
   - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s-device-plugin:v0.16.2-ubi8
     sources:
