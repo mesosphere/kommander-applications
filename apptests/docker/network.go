@@ -8,6 +8,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/filters"
+	"github.com/docker/docker/api/types/network"
 	dockernetwork "github.com/docker/docker/api/types/network"
 
 	"github.com/mesosphere/kommander-applications/apptests/net"
