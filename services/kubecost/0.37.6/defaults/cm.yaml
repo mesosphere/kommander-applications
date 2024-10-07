@@ -42,10 +42,9 @@ data:
 
       prometheus:
         kube-state-metrics:
-          image:
-            repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
-            tag: v2.13.0
-          priorityClassName: dkp-high-priority
+          enabled: false
+        kube-state-metrics:
+          disabled: true
         server:
           priorityClassName: dkp-high-priority
         alertmanager:
