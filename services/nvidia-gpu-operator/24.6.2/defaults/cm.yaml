@@ -13,15 +13,15 @@ data:
       config:
         # Create a ConfigMap (default: false)
         create: false
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia
-      version: v0.16.2-ubi8
+      repository: nvcr.io/nvidia
+      version: v0.16.2
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.15.0-ubuntu20.04
+      version: v1.16.2-ubuntu20.04
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
