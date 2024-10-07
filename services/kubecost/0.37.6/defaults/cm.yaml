@@ -43,7 +43,7 @@ data:
       prometheus:
         kubeStateMetrics:
           enabled: false
-        kubeStateMetrics:
+        kube-state-metrics:
           disabled: true
         server:
           priorityClassName: dkp-high-priority
