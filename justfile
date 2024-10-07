@@ -11,7 +11,7 @@ git_operator_version := env("GIT_OPERATOR_VERSION", "latest")
 
 s3_path := "dkp" / git_tag
 s3_bucket := "downloads.mesosphere.io"
-s3_uri := "s3://" / s3_bucket / s3_path
+s3_uri := "s3://" + s3_bucket / s3_path
 s3_acl := "bucket-owner-full-control"
 archive_name := "kommander-applications-" + git_tag+ ".tar.gz"
 published_url := "https://downloads.d2iq.com" / s3_path / archive_name
