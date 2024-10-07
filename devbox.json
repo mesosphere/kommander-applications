@@ -1,8 +1,10 @@
 {
   "packages": {
     "awscli2":         "latest",
+    "curl":            "latest",
     "direnv":          "latest",
     "docker":          "latest",
+    "docker-buildx":   "latest",
     "envsubst":        "latest",
     "fluxcd":          "latest",
     "github-cli":      "latest",

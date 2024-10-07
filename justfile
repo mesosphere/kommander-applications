@@ -8,6 +8,7 @@ repository := org_name / "kommander-applications"
 include_file := justfile_directory() / ".include-airgapped"
 exclude_file := justfile_directory() / ".exclude-airgapped"
 git_operator_version := env("GIT_OPERATOR_VERSION", "latest")
+server_docker_repository := registry / org_name / "kommander-applications-server"
 
 s3_path := "dkp" / git_tag
 s3_bucket := "downloads.mesosphere.io"
@@ -16,12 +17,20 @@ s3_acl := "bucket-owner-full-control"
 archive_name := "kommander-applications-" + git_tag+ ".tar.gz"
 published_url := "https://downloads.d2iq.com" / s3_path / archive_name
 
-release tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir)
-    aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}
+release publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) && _cleanup
+    if {{ publish }}; then aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}; fi
     @echo "Published to {{ published_url }}"
 
-release-oci tmp_dir=`mktemp --directory`: (_prepare-files-for-a-bundle tmp_dir)
-    cd {{ tmp_dir }} && echo "${DOCKER_PASSWORD}" | oras push --password-stdin --username "${DOCKER_USERNAME}" --verbose {{ registry }}/{{ repository }}:{{ git_tag }} .
+release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-bundle tmp_dir)
+    if {{ publish }}; then \
+      cd {{ tmp_dir }} && echo "${DOCKER_PASSWORD}" | oras push --password-stdin --username "${DOCKER_USERNAME}" --verbose {{ registry }}/{{ repository }}:{{ git_tag }} .;
+    fi
+
+release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) && _cleanup
+    cp {{ archive_name }} ./server/
+    cd ./server && docker buildx build . --tag {{ server_docker_repository }}:{{ git_tag }} --build-arg ARCHIVE_NAME={{ archive_name }}
+    rm ./server/{{ archive_name }}
+    if {{ publish }}; then docker push {{ server_docker_repository }}:{{ git_tag }}; fi
 
 service_version:=`ls services/git-operator/ | grep -E "v?[[:digit:]]\.[[:digit:]]\.[[:digit:]]"`
 service_dir:=justfile_directory() / "services/git-operator" / service_version
@@ -39,5 +48,7 @@ _cleanup:
     rm {{ archive_name }}
 
 _prepare-files-for-a-bundle output_dir:
-    rsync --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
+    rsync --quiet --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
     yq 'del(.resources[] | select(. == "ai-navigator-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
+
+import 'just/test.just'

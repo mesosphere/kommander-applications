@@ -1,4 +1,4 @@
-name: Go test
+name: Tests
 on:
   push:
     tags:
@@ -31,6 +31,9 @@ jobs:
         run: |
           devbox run just git-operator-fetch-manifests
           git diff --exit-code
+
+      - name: Check if kommander application server works
+        run: devbox run -- just test-server
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@v2
