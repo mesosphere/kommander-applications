@@ -405,6 +405,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.16.2-ubi8
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag%-ubi8}
+        url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.7-3.5.0-ubuntu22.04
     sources:
       - license_path: LICENSE
