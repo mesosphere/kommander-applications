@@ -18,18 +18,29 @@ archive_name := "kommander-applications-" + git_tag+ ".tar.gz"
 published_url := "https://downloads.d2iq.com" / s3_path / archive_name
 
 release publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) && _cleanup
-    if {{ publish }}; then aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}; fi
-    @echo "Published to {{ published_url }}"
-
-release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-bundle tmp_dir)
-    if {{ publish }}; then \
-      cd {{ tmp_dir }} && echo "${DOCKER_PASSWORD}" | oras push --password-stdin --username "${DOCKER_USERNAME}" --verbose {{ registry }}/{{ repository }}:{{ git_tag }} .;
+    #!/usr/bin/env bash
+    set -euox pipefail
+    if {{ publish }}; then
+      aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}
+      echo "Published to {{ published_url }}"
+    else
+      echo "Skipping publish"
     fi
 
-release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) && _cleanup
-    cp {{ archive_name }} ./server/
-    cd ./server && docker buildx build . --tag {{ server_docker_repository }}:{{ git_tag }} --build-arg ARCHIVE_NAME={{ archive_name }}
-    rm ./server/{{ archive_name }}
+release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-bundle tmp_dir)
+    #!/usr/bin/env bash
+    set -euox pipefail
+    cd {{ tmp_dir }}
+    if {{ publish }}; then
+      oras push --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}" --verbose {{ registry }}/{{ repository }}:{{ git_tag }} .
+    else
+      echo "Skipping publish"
+    fi
+
+release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-git-repository tmp_dir)
+    cp -r {{ tmp_dir }} ./server/data/
+    cd ./server && docker buildx build . --tag {{ server_docker_repository }}:{{ git_tag }}
+    rm -rf ./server/data/
     if {{ publish }}; then docker push {{ server_docker_repository }}:{{ git_tag }}; fi
 
 service_version:=`ls services/git-operator/ | grep -E "v?[[:digit:]]\.[[:digit:]]\.[[:digit:]]"`
@@ -44,11 +55,18 @@ git-operator-fetch-manifests tmp_dir=`mktemp --directory`:
 _prepare-archive dir: (_prepare-files-for-a-bundle dir)
     tar -cvzf {{ justfile_directory() }}/{{ archive_name }} -C {{ dir }} .
 
+_prepare-git-repository output_dir tmp_dir_for_cloning=`mktemp --directory`:
+    cd {{ output_dir }} && git init --bare --initial-branch=main
+    git clone {{ output_dir }} {{ tmp_dir_for_cloning }}
+    just --justfile {{ justfile() }} --working-directory {{ invocation_directory() }} _prepare-files-for-a-bundle {{ tmp_dir_for_cloning }}
+    cd {{ tmp_dir_for_cloning }} && git add . && git commit --no-gpg-sign --message "initial commit" && git push origin main
+
 _cleanup:
     rm {{ archive_name }}
 
 _prepare-files-for-a-bundle output_dir:
     rsync --quiet --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
     yq 'del(.resources[] | select(. == "ai-navigator-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
+
 
 import 'just/test.just'
