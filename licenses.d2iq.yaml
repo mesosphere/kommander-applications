@@ -329,7 +329,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
