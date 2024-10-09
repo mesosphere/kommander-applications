@@ -101,7 +101,8 @@ data:
           alertmanager:
             image:
               tag: v0.5.0
-
+          repository: ghcr.io/jimmidyson/configmap-reload
+          tag: v0.14.0
       thanos:
         fullnameOverride: "kommander-kubecost-thanos"
         nameOverride: "kubecost-thanos"
