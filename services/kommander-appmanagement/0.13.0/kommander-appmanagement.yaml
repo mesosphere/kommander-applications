@@ -29,3 +29,12 @@ spec:
     - kind: ConfigMap
       name: kommander-appmanagement-overrides
       optional: true
+  values:
+    kubeRBACProxy:
+      enabled: false
+      image:
+        registry: quay.io
+        repository: brancz/kube-rbac-proxy
+        tag: v0.18.1
+        sha: ""
+        pullPolicy: IfNotPresent

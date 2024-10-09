@@ -319,17 +319,17 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.10.0
         url: https://github.com/knative/serving
-  - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
+  - container_image: quay.io/kubebuilder/kube-rbac-proxy:v0.18.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
+  - container_image: quay.io/kubebuilder/kube-rbac-proxy:v0.18.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.0
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -415,7 +415,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.14.2
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
