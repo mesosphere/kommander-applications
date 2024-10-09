@@ -85,7 +85,7 @@ data:
         configmapReload:
           prometheus:
             image:
-              repository: jimmidyson/configmap-reload
+              repository: ghcr.io/jimmidyson/configmap-reload
               tag: v0.14.0
       grafana:
         priorityClassName: dkp-high-priority
