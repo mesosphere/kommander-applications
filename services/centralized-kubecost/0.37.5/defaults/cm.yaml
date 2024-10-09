@@ -23,10 +23,6 @@ data:
         prometheus:
           fqdn: http://kubecost-prometheus-server.kommander.svc.cluster.local
           enabled: false
-          configmapReload:
-            image:
-              repository: ghcr.io/jimmidyson/configmap-reload
-              tag: v0.14.0
 
         thanos:
           enabled: true
