@@ -78,13 +78,3 @@ data:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, check https://artifacthub.io/packages/helm/grafana/grafana/ for app version
   version: "11.0.0"
-
-  values:
-    kubeRBACProxy:
-      enabled: false
-      image:
-        registry: quay.io
-        repository: brancz/kube-rbac-proxy
-        tag: v0.18.1
-        sha: ""
-        pullPolicy: IfNotPresent
