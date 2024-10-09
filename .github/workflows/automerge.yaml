@@ -9,12 +9,6 @@ on:
       - edited
       - ready_for_review
       - reopened
-      - unlocked
-    branches:
-      - main
-      - 'release/*'
-    paths:
-      - 'services/**/*'
   check_suite:
     types:
       - completed
@@ -24,15 +18,15 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-    - name: Enable auto-merge for automated chart bump PRs
+    - name: Enable auto-merge for automated chart bump PRs or label
       id: automerge
       if: |
-        startsWith(github.head_ref, 'chartbump/')
+        (startsWith(github.head_ref, 'chartbump/') || contains(github.event.pull_request.labels.*.name, 'auto-merge'))
         && contains(github.event.pull_request.labels.*.name, 'ready-for-review')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/testing')
-        && !contains(github.event.pull_request.labels.*.name, 'let-me-merge-it')
+        && !contains(github.event.pull_request.labels.*.name, 'let-me-merge-it'))
       run: gh pr merge --auto --squash "$PR_URL"
       env:
         PR_URL: ${{ github.event.pull_request.html_url }}
-        GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
