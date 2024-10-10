@@ -17,7 +17,7 @@ certifications:
   - airgapped
 overview: |-
   # Overview
-  Reloader is a Kubernetes controller that watches changes in ConfigMap and Secrets in Pods. For any changes, the appilcation can then can perform rolling upgrades on Pods with their associated Deployment, StatefulSet, DaemonSet and DeploymentConfig.
+  Reloader is a Kubernetes controller that watches changes in ConfigMap and Secrets in Pods. For any changes, the application can then can perform rolling upgrades on Pods with their associated Deployment, StatefulSet, DaemonSet and DeploymentConfig.
 
   ## Key Features
   ### Perform Rolling Upgrades
