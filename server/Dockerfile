@@ -1,13 +1,11 @@
-FROM sigoden/dufs
+FROM alpine:3.20.3
 
-ARG ARCHIVE_NAME
+LABEL org.opencontainers.image.source=https://github.com/alpinelinux/docker-alpine
 
-# Dufs settings:
-ENV DUFS_BIND=127.0.0.1
-ENV DUFS_PORT=5000
-ENV DUFS_TLS_CERT=cert.pem
-ENV DUFS_TLS_KEY=key.pem
+RUN apk add --update git && \
+    apk add --update git-daemon \
+    rm -rf /var/cache/apk/*
 
-COPY ${ARCHIVE_NAME} /data/
+COPY --chown=1000:1000 data /data
 
-CMD ["/data"]
+CMD ["git", "daemon", "--verbose", "--port=12345","--export-all", "/data"]

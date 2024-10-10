@@ -49,3 +49,10 @@ updates:
       - "dependencies"
       - "ok-to-test"
       - "ready-for-review"
+
+  - package-ecosystem: "docker"
+    directory: "/server/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "10:00"

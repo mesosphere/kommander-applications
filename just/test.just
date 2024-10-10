@@ -1,14 +1,16 @@
-test-server:
-    #!/usr/bin/env bash
-    set -euox pipefail
-    CONTAINER_ID=$(just --justfile {{ justfile() }} --working-directory {{ invocation_directory() }} _run_server 2>&1 | tail -n 1)
-    trap "docker kill ${CONTAINER_ID}" EXIT
-    curl --no-progress-meter --output /dev/null --retry-connrefused --retry 5 --retry-delay 3 http://localhost:5000/{{ archive_name }}
+test_container_name := "kommander-applications-server"
+
+test-server: _run_server
+    sleep 3 # wait for container
+    git ls-remote git://localhost:12345/data
 
 _run_server: (release-server "false")
     docker run \
-    --env DUFS_TLS_CERT \
-    --env DUFS_TLS_KEY \
-    --network=host \
+    --name {{ test_container_name }} \
+    --publish 12345:12345 \
     --detach \
+    --user 1000:1000 \
     {{ server_docker_repository }}:{{ git_tag }}
+
+_kill_server:
+    docker kill {{ test_container_name }}

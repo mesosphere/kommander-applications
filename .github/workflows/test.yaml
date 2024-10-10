@@ -33,7 +33,10 @@ jobs:
           git diff --exit-code
 
       - name: Check if kommander application server works
-        run: devbox run -- just test-server
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global  user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          devbox run -- just test-server
 
       - name: Report Coveralls
         uses: coverallsapp/github-action@v2
