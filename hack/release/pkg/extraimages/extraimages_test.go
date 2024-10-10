@@ -24,6 +24,7 @@ func TestUpdateExtraImages(t *testing.T) {
 	afterUpgradeFile, err := filepath.Glob(filepath.Join(
 		tmpDir, "services/kommander/*/extra-images.txt",
 	))
+	assert.NoError(t, err)
 
 	assert.Len(t, afterUpgradeFile, 1)
 	contentes, err := os.ReadFile(afterUpgradeFile[0])
