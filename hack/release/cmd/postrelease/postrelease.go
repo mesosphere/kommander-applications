@@ -8,6 +8,7 @@ import (
 	"github.com/Masterminds/semver/v3"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 	"github.com/spf13/cobra"
 )
@@ -60,6 +61,10 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				cmd.Context(),
 				kommanderApplicationsRepo,
 			); err != nil {
+				return err
+			}
+
+			if err := extraimages.UpdateExtraImagesVersions(kommanderApplicationsRepo, chartVersion.Original()); err != nil {
 				return err
 			}
 

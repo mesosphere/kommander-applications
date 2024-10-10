@@ -222,6 +222,10 @@ resources:
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
+  - container_image: docker.io/mesosphere/kommander-applications-server:${kommander}
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/mesosphere/kommander-applications
   - container_image: docker.io/mesosphere/kubeaddons-addon-initializer:v0.7.3
     sources:
       - ref: ${image_tag}
