@@ -112,7 +112,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
-        tag: 2.2.3-d2iq.0
+        tag: 3.1.9
       resources:
        limits:
          memory: 750Mi
