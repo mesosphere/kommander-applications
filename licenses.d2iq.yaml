@@ -77,7 +77,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: ghcr.io/jimmidyson/configmap-reload:v0.14.1
+  - container_image: ghcr.io/jimmidyson/configmap-reload:v0.14.0
     sources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
