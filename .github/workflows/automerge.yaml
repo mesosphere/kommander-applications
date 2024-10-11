@@ -25,7 +25,7 @@ jobs:
         && contains(github.event.pull_request.labels.*.name, 'ready-for-review')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge')
         && !contains(github.event.pull_request.labels.*.name, 'do-not-merge/testing')
-        && !contains(github.event.pull_request.labels.*.name, 'let-me-merge-it'))
+        && !contains(github.event.pull_request.labels.*.name, 'let-me-merge-it')
       run: gh pr merge --auto --squash "$PR_URL"
       env:
         PR_URL: ${{ github.event.pull_request.html_url }}
