@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-0.37.6-d2iq-defaults
+  name: kubecost-0.37.7-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -47,8 +47,43 @@ data:
           disabled: true
         server:
           priorityClassName: dkp-high-priority
+          image:
+            tag: v2.54.1
+          sidecarContainers:
+          - name: thanos-sidecar
+            image: quay.io/thanos/thanos:v0.36.1
+            args:
+            - sidecar
+            - --log.level=debug
+            - --tsdb.path=/data/
+            - --prometheus.url=http://127.0.0.1:9090
+            - --reloader.config-file=/etc/config/prometheus.yml
+            # Start of time range limit to serve. Thanos sidecar will serve only metrics, which happened
+            # later than this value. Option can be a constant time in RFC3339 format or time duration
+            # relative to current time, such as -1d or 2h45m. Valid duration units are ms, s, m, h, d, w, y.
+            - --min-time=-3h
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            ports:
+            - name: sidecar-http
+              containerPort: 10902
+            - name: grpc
+              containerPort: 10901
+            - name: cluster
+              containerPort: 10900
+            volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: storage-volume
+              mountPath: /data
+              subPath: ""
         alertmanager:
           priorityClassName: dkp-high-priority
+          image:
+            tag: v0.27.0
 
       grafana:
         priorityClassName: dkp-high-priority

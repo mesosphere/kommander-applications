@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-kubecost-0.37.5-d2iq-defaults
+  name: centralized-kubecost-0.37.6-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -94,15 +94,10 @@ data:
           fullnameOverride: "kommander-kubecost-prometheus-kube-state-metrics"
           priorityClassName: dkp-high-priority
 
-        configmapReload:
-          prometheus:
-            image:
-              tag: v0.5.0
-          alertmanager:
-            image:
-              tag: v0.5.0
-
       thanos:
+        image:
+          repository: quay.io/thanos/thanos
+          tag: v0.36.1
         fullnameOverride: "kommander-kubecost-thanos"
         nameOverride: "kubecost-thanos"
         priorityClassName: dkp-high-priority
