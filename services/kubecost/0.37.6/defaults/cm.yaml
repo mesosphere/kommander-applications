@@ -46,12 +46,12 @@ data:
         server:
           priorityClassName: dkp-high-priority
         alertmanager:
-          priorityClassName: dkp-high-priority
-      configmapReload:
-          prometheus:
-            image:
-              repository: ghcr.io/jimmidyson/configmap-reload
-              tag: v0.14.0
+          priorityClassName: dkp-high-priority  
+       configmapReload:
+         prometheus:
+           image:
+             repository: ghcr.io/jimmidyson/configmap-reload
+             tag: v0.14.0
           alertmanager:
             image:
               repository: ghcr.io/jimmidyson/configmap-reload
