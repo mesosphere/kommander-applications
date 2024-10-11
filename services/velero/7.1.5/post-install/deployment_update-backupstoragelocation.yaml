@@ -56,7 +56,7 @@ spec:
       serviceAccountName: velero-post-install
       containers:
         - name: velero-update-s3url
-          image: mesosphere/kubeaddons-addon-initializer:v0.7.3
+          image: mesosphere/kubeaddons-addon-initializer:v0.8.0
           args:
             - velero
           env:
