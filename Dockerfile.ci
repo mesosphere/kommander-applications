@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+
+FROM debian:bullseye-20210902-slim
+
+RUN apt-get update && apt-get install -y \
+    bash \
+    build-essential \
+    bzip2 \
+    curl \
+    direnv \
+    git \
+    build-essential \
+    python \
+    python-dev \
+    python3 \
+    python3-pip \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade gitlint
+
+ARG ASDF_VERSION
+RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v${ASDF_VERSION}
+RUN echo ". ${HOME}/.asdf/asdf.sh" >> ${HOME}/.bashrc
+
+RUN --mount type=bind,target=/tmp/kommander-cli,readwrite=true \
+    cd /tmp/kommander-cli && \
+    bash -ec ". ~/.asdf/asdf.sh && make install-tools && \
+              pre-commit install -t pre-commit -t commit-msg --install-hooks"
+
+# needed to be able to pull private repos, e.g. in 'go mod download'
+RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+RUN mkdir -p ~/.ssh && echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' > ~/.ssh/known_hosts
