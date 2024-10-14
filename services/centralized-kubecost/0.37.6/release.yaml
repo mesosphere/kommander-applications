@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/centralized-kubecost/0.37.5/release
+  path: ./services/centralized-kubecost/0.37.6/release
   sourceRef:
     kind: GitRepository
     name: management
