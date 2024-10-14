@@ -82,9 +82,11 @@ data:
               subPath: ""
         alertmanager:
           priorityClassName: dkp-high-priority
-          image:
-            tag: v0.27.0
-
+        configmapReload:
+          prometheus:
+            image:
+              repository: jimmidyson/configmap-reload
+              tag: v0.14.0
       grafana:
         priorityClassName: dkp-high-priority
         image:
