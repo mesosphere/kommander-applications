@@ -902,7 +902,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-        image: docker.io/mesosphere/git-operator:v0.13.2
+        image: docker.io/mesosphere/git-operator:v0.13.3
         livenessProbe:
           httpGet:
             path: /healthz
@@ -1006,7 +1006,7 @@ spec:
       - env:
         - name: GIT_VOLUME_PATH
           value: /volumes/git
-        image: docker.io/mesosphere/gitwebserver:v0.13.2
+        image: docker.io/mesosphere/gitwebserver:v0.13.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           initialDelaySeconds: 3
@@ -1046,7 +1046,7 @@ spec:
         - /volumes/admin-tmp/snapshots
         - --snapshot-symlink
         - /volumes/admin-tmp/active-snapshot
-        image: docker.io/mesosphere/gitwebserver:v0.13.2
+        image: docker.io/mesosphere/gitwebserver:v0.13.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1088,7 +1088,7 @@ spec:
         env:
         - name: ADMIN_REPO_PATH
           value: /volumes/admin/admin.git
-        image: docker.io/mesosphere/gitwebserver:v0.13.2
+        image: docker.io/mesosphere/gitwebserver:v0.13.3
         imagePullPolicy: IfNotPresent
         name: init-admin-repo
         securityContext:
