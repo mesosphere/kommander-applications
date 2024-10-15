@@ -115,3 +115,13 @@ data:
         metrics:
           labels:
             servicemonitor.kommander.mesosphere.io/path: metrics
+
+  values:
+    kubeRBACProxy:
+      enabled: false
+      image:
+        registry: quay.io
+        repository: brancz/kube-rbac-proxy
+        tag: v0.18.1
+        sha: ""
+        pullPolicy: IfNotPresent

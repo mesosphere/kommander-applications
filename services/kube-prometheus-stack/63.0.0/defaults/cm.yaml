@@ -479,3 +479,13 @@ data:
             sourceLabels:
             - __meta_kubernetes_pod_node_name
             targetLabel: node
+
+  values:
+    kubeRBACProxy:
+      enabled: false
+      image:
+        registry: quay.io
+        repository: brancz/kube-rbac-proxy
+        tag: v0.18.1
+        sha: ""
+        pullPolicy: IfNotPresent
