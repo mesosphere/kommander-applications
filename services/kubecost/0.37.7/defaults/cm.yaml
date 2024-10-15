@@ -84,7 +84,7 @@ data:
           priorityClassName: dkp-high-priority
           image:
             repository: quay.io/prometheus/alertmanager
-            tag: v0.21.0
+            tag: v0.27.0
         configmapReload:
           prometheus:
             image:
