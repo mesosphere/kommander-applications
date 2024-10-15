@@ -21,7 +21,7 @@ release publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) 
     #!/usr/bin/env bash
     set -euox pipefail
     if {{ publish }}; then
-      aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}
+      aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}/{{ archive_name }}
       echo "Published to {{ published_url }}"
     else
       echo "Skipping publish"
