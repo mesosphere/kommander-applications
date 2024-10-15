@@ -116,7 +116,7 @@ data:
           labels:
             servicemonitor.kommander.mesosphere.io/path: metrics
 
-  values:
+ 
     kubeRBACProxy:
       enabled: false
       image:

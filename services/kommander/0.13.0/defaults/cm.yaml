@@ -126,7 +126,6 @@ data:
         - "karma-traefik"
         - "gatekeeper"
         - "kommander-flux"
-  values:
     kubeRBACProxy:
       enabled: false
       image:
