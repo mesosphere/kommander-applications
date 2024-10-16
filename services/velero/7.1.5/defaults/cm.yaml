@@ -6,6 +6,14 @@ metadata:
 data:
   values.yaml: |
     ---
+    images:
+      thanos:
+        repository: "docker.io/thanosio/thanos"
+        tag: "v0.29.0"
+    images:
+      thanos:
+        repository: "docker.io/thanosio/thanos"
+        tag: "v0.15.0"
     priorityClassName: "dkp-critical-priority"
     resources:
       # these are from the chart defaults
