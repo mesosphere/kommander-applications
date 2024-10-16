@@ -121,7 +121,7 @@ data:
         sidecar:
           image:
             repository: docker.io/kiwigrid/k8s-sidecar
-            tag: 1.27.6
+            tag: 1.28.0
 
       kubecostProductConfigs:
         grafanaURL: "/dkp/kubecost/grafana"

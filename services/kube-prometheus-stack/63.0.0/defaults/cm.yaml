@@ -357,7 +357,7 @@ data:
         image:
           registry: docker.io
           repository: kiwigrid/k8s-sidecar
-          tag: 1.27.6
+          tag: 1.28.0
         dashboards:
           enabled: true
           label: grafana_dashboard
