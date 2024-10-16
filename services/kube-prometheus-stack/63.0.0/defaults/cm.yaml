@@ -356,7 +356,7 @@ data:
       sidecar:
         image:
           registry: docker.io
-          repository: docker.io/kiwigrid/k8s-sidecar
+          repository: kiwigrid/k8s-sidecar
           tag: 1.27.6
         dashboards:
           enabled: true

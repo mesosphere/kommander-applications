@@ -464,11 +464,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.27.6
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: docker.io/kiwigrid/k8s-sidecar
   - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.76.1
     sources:
       - license_path: LICENSE
