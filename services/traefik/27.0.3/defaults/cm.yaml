@@ -1,11 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-27.0.2-d2iq-defaults
+  name: traefik-27.0.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
+    image:
+      tag: v2.11.9
     priorityClassName: "dkp-critical-priority"
     podDisruptionBudget:
       minAvailable: 1

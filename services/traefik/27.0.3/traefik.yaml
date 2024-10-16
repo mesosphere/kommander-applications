@@ -25,7 +25,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-27.0.2-d2iq-defaults
+      name: traefik-27.0.3-d2iq-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true
