@@ -120,8 +120,8 @@ data:
             check_for_updates: false
         sidecar:
           image:
-            repository: ghcr.io/mesosphere/dkp-container-images/docker.io/kiwigrid/k8s-sidecar
-            tag: 1.25.3-d2iq.1
+            repository: docker.io/kiwigrid/k8s-sidecar
+            tag: 1.27.6
 
       kubecostProductConfigs:
         grafanaURL: "/dkp/kubecost/grafana"
