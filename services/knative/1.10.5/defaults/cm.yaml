@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: knative-1.10.5-d2iq-defaults
+  name: knative-1.15.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
