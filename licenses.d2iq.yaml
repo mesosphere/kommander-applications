@@ -81,7 +81,7 @@ resources:
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
-        url: docker.io/kiwigrid/k8s-sidecar
+        url: https://github.com/kiwigrid/k8s-sidecar
   - container_image: docker.io/kubernetesui/dashboard-api:1.7.0
     sources:
       - license_path: LICENSE
