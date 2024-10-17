@@ -462,8 +462,6 @@ data:
             prometheus.kommander.d2iq.io/select: "true"
     prometheus-node-exporter:
       priorityClassName: "dkp-critical-priority"
-      kubeRBACProxy:
-        enabled: true
       prometheus:
         monitor:
           scheme: https
