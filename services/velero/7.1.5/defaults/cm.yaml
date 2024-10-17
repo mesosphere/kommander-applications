@@ -47,11 +47,11 @@ data:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.7.0
+        image: velero/velero-plugin-for-aws:v1.10.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
-            name: plugins
+            name: plugins 
     kubectl:
       image:
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
