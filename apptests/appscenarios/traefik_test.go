@@ -225,9 +225,11 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	listOptions := &ctrlClient.ListOptions{
 		LabelSelector: selector,
 	}
-	err = k8sClient.List(ctx, podList, listOptions)
-	Expect(err).To(BeNil())
-	Expect(podList.Items).To(HaveLen(1))
+
+	Eventually(func() ([]corev1.Pod, error) {
+		err := k8sClient.List(ctx, podList, listOptions)
+		return podList.Items, err
+	}).WithPolling(5 * time.Second).WithTimeout(time.Minute).Should(HaveLen(1))
 
 	By("checking traefik prometheus metrics endpoint")
 	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
