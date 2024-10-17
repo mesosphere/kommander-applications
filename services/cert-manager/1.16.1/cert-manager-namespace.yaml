@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/cert-manager/1.14.7/cert-manager-namespace
+  path: ./services/cert-manager/1.16.1/cert-manager-namespace
   sourceRef:
     kind: GitRepository
     name: management
