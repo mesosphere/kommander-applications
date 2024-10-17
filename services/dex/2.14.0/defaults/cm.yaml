@@ -105,6 +105,12 @@ data:
     dex-controller:
       priorityClassName: "dkp-critical-priority"
       controller:
+        proxy:
+          image:
+            repository: quay.io/brancz/kube-rbac-proxy
+            tag: v0.18.1
+            pullPolicy: IfNotPresent
+          resources: {}
         manager:
           dexConfigSecretName: dex
           dexDeploymentName: dex
