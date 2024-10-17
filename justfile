@@ -2,13 +2,13 @@ set dotenv-load
 
 git_tag := env_var_or_default("GIT_TAG", "v0.0.0")
 
-registry := "docker.io"
+registry := "ghcr.io"
 org_name := "mesosphere"
 repository := org_name / "kommander-applications"
 include_file := justfile_directory() / ".include-airgapped"
 exclude_file := justfile_directory() / ".exclude-airgapped"
 git_operator_version := env("GIT_OPERATOR_VERSION", "latest")
-server_docker_repository := registry / org_name / "kommander-applications-server"
+server_repository := registry / org_name / "kommander-applications-server"
 
 s3_path := "dkp" / git_tag
 s3_bucket := "downloads.mesosphere.io"
@@ -39,9 +39,9 @@ release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-b
 
 release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-git-repository tmp_dir)
     cp -r {{ tmp_dir }} ./server/data/
-    cd ./server && docker buildx build . --tag {{ server_docker_repository }}:{{ git_tag }}
+    cd ./server && docker buildx build . --tag {{ server_repository }}:{{ git_tag }}
     rm -rf ./server/data/
-    if {{ publish }}; then docker push {{ server_docker_repository }}:{{ git_tag }}; fi
+    if {{ publish }}; then docker push {{ server_repository }}:{{ git_tag }}; fi
 
 service_version:=`ls services/git-operator/ | grep -E "v?[[:digit:]]\.[[:digit:]]\.[[:digit:]]"`
 service_dir:=justfile_directory() / "services/git-operator" / service_version
