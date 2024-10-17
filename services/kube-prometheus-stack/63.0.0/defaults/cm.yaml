@@ -22,12 +22,6 @@ data:
             tag: v1.4.3
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
-      proxy:
-        image:
-          repository: quay.io/brancz/kube-rbac-proxy
-          tag: v0.18.1
-          pullPolicy: IfNotPresent
-        resources: {}
     mesosphereResources:
       create: true
       hooks:

@@ -115,9 +115,3 @@ data:
         metrics:
           labels:
             servicemonitor.kommander.mesosphere.io/path: metrics
-    proxy:
-      image:
-        repository: quay.io/brancz/kube-rbac-proxy
-        tag: v0.18.1
-        pullPolicy: IfNotPresent
-      resources: {}
