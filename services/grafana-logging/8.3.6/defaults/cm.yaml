@@ -29,9 +29,9 @@ data:
 
     sidecar:
       image:
-        registry: ghcr.io
-        repository: mesosphere/dkp-container-images/quay.io/kiwigrid/k8s-sidecar
-        tag: 1.26.1-d2iq.1
+        registry: docker.io
+        repository: kiwigrid/k8s-sidecar
+        tag: 1.28.0
 
       dashboards:
         enabled: true
