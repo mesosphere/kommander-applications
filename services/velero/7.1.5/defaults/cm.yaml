@@ -52,12 +52,6 @@ data:
         volumeMounts:
           - mountPath: /target
             name: plugins 
-      - name: kube-rbac-proxy
-        image: quay.io/brancz/kube-rbac-proxy:v0.18.1
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-          - mountPath: /target  # Adjust the mount path as needed
-            name: rbac-proxy-volume
     kubectl:
       image:
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
