@@ -273,40 +273,30 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.15.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
-        url: https://github.com/knative-sandbox/net-istio
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.10.0
-    sources:
-      - license_path: LICENSE
-        ref: knative-v1.10.0
-        url: https://github.com/knative-sandbox/net-istio
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.10.0
-    sources:
-      - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.15.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.15.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.15.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v1.10.0
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.15.2
     sources:
       - license_path: LICENSE
-        ref: knative-v1.10.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/serving
   - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
     sources:
