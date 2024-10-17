@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -88,16 +89,14 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	if err != nil {
 		return fmt.Errorf("could not create the generic client: %w", err)
 	}
-	err = genericClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-	if err != nil {
-		return fmt.Errorf("could not get the HelmRelease: %w", err)
-	}
 
-	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-		Kind: "ConfigMap",
-		Name: traefikCMName,
+	_, err = controllerruntime.CreateOrUpdate(ctx, genericClient, hr, func() error {
+		hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
+			Kind: "ConfigMap",
+			Name: traefikCMName,
+		})
+		return nil
 	})
-	err = genericClient.Update(ctx, hr)
 
 	return err
 }
