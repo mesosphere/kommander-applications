@@ -22,6 +22,12 @@ data:
             tag: v1.4.3
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
+      proxy:
+        image:
+          repository: quay.io/brancz/kube-rbac-proxy
+          tag: v0.18.1
+          pullPolicy: IfNotPresent
+        resources: {}
     mesosphereResources:
       create: true
       hooks:
@@ -462,8 +468,6 @@ data:
             prometheus.kommander.d2iq.io/select: "true"
     prometheus-node-exporter:
       priorityClassName: "dkp-critical-priority"
-      kubeRBACProxy:
-        enabled: true
       prometheus:
         monitor:
           scheme: https
@@ -479,10 +483,3 @@ data:
             sourceLabels:
             - __meta_kubernetes_pod_node_name
             targetLabel: node
-  values: 
-    proxy:
-      image:
-        repository: quay.io/brancz/kube-rbac-proxy
-        tag: v0.18.1
-        pullPolicy: IfNotPresent
-      resources: {}
