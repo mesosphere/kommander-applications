@@ -164,10 +164,10 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/karma:v0.88-d2iq-server-name.2-d2iq.0
+  - container_image: docker.io/mesosphere/karma:v0.120-ntnx-server-name
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-d2iq-server-name.2-d2iq.0}
+        ref: ${image_tag%-ntnx-server-name}
         url: https://github.com/prymitive/karma
   - container_image: docker.io/mesosphere/kommander2-appmanagement-config-api:${kommander}
     sources:
