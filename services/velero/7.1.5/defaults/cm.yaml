@@ -57,12 +57,4 @@ data:
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
         # which makes it harder to build airgapped tar bundles. So to make bundle collection predictable, we override the tag here.
         tag: "${kubetoolsImageTag:=1.30.5}"
-    configmapReload:
-      thanos:
-        image:
-          repository: docker.io/thanosio/thanos
-          tag: v0.29.0  # Use the updated Thanos version
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/thanos-io/thano
+    
