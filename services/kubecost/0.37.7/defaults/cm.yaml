@@ -83,8 +83,17 @@ data:
         alertmanager:
           priorityClassName: dkp-high-priority
           image:
+            repository: quay.io/prometheus/alertmanager
             tag: v0.27.0
-
+        configmapReload:
+          prometheus:
+            image:
+              repository: ghcr.io/jimmidyson/configmap-reload
+              tag: v0.14.0
+          alertmanager:
+            image:
+              repository: ghcr.io/jimmidyson/configmap-reload
+              tag: v0.14.0
       grafana:
         priorityClassName: dkp-high-priority
         image:
