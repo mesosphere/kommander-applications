@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/util/retry"
 	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -90,12 +91,15 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		return fmt.Errorf("could not create the generic client: %w", err)
 	}
 
-	_, err = controllerruntime.CreateOrUpdate(ctx, genericClient, hr, func() error {
-		hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-			Kind: "ConfigMap",
-			Name: traefikCMName,
+	err = retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		_, err = controllerruntime.CreateOrUpdate(ctx, genericClient, hr, func() error {
+			hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
+				Kind: "ConfigMap",
+				Name: traefikCMName,
+			})
+			return nil
 		})
-		return nil
+		return err
 	})
 
 	return err
