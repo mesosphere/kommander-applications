@@ -1,52 +1,46 @@
 upgrades:
-  - from: v2.6.0
-    to: v2.6.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.0
-    to: v2.7.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.1
-    to: v2.6.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.1
-    to: v2.7.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.2
-    to: v2.6.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.2
-    to: v2.7.3-dev
-    k8s_version: "1.26"
-  - from: v2.6.3-dev
-    to: v2.7.3-dev
-    k8s_version: "1.26"
-  - from: v2.7.0
-    to: v2.7.3-dev
-    k8s_version: "1.27"
-  - from: v2.7.0
-    to: v2.8.2-dev
-    k8s_version: "1.27"
-  - from: v2.7.1
-    to: v2.7.3-dev
-    k8s_version: "1.27"
-  - from: v2.7.1
-    to: v2.8.2-dev
-    k8s_version: "1.27"
-  - from: v2.7.2
-    to: v2.7.3-dev
-    k8s_version: "1.27"
-  - from: v2.7.2
-    to: v2.8.2-dev
-    k8s_version: "1.27"
-  - from: v2.7.3-dev
-    to: v2.8.2-dev
-    k8s_version: "1.27"
-  - from: v2.8.0
-    to: v2.8.2-dev
-    k8s_version: "1.28"
-  - from: v2.8.1
-    to: v2.8.2-dev
-    k8s_version: "1.28"
-  - from: v2.8.2-dev
-    to: v2.12.0-dev
-    k8s_version: "1.28"
+    - from: v2.7.0
+      to: v2.7.3-dev
+      k8sversion: "1.27"
+    - from: v2.7.0
+      to: v2.8.2-dev
+      k8sversion: "1.27"
+    - from: v2.7.1
+      to: v2.7.3-dev
+      k8sversion: "1.27"
+    - from: v2.7.1
+      to: v2.8.2-dev
+      k8sversion: "1.27"
+    - from: v2.7.2
+      to: v2.7.3-dev
+      k8sversion: "1.27"
+    - from: v2.7.2
+      to: v2.8.2-dev
+      k8sversion: "1.27"
+    - from: v2.7.3-dev
+      to: v2.8.2-dev
+      k8sversion: "1.27"
+    - from: v2.8.0
+      to: v2.8.2-dev
+      k8sversion: "1.28"
+    - from: v2.8.0
+      to: v2.12.1-dev
+      k8sversion: "1.28"
+    - from: v2.8.1
+      to: v2.8.2-dev
+      k8sversion: "1.28"
+    - from: v2.8.1
+      to: v2.12.1-dev
+      k8sversion: "1.28"
+    - from: v2.8.2-dev
+      to: v2.12.1-dev
+      k8sversion: "1.28"
+    - from: v2.12.0
+      to: v2.12.1-dev
+      k8sversion: "1.29"
+    - from: v2.12.0
+      to: v2.13.0-dev
+      k8sversion: "1.29"
+    - from: v2.12.1-dev
+      to: v2.13.0-dev
+      k8sversion: "1.29"
