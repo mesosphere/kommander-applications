@@ -51,4 +51,3 @@ data:
     kubectl:
       image:
         tag: "${kubetoolsImageTag:=1.30.5}"
-
