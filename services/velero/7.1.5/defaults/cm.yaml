@@ -47,7 +47,7 @@ data:
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
-            name: plugins 
+            name: plugins
     kubectl:
       image:
         tag: "${kubetoolsImageTag:=1.30.5}"
