@@ -303,16 +303,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
   - container_image: ghcr.io/fluxcd/helm-controller:v0.37.4
     sources:
       - license_path: LICENSE
@@ -394,11 +384,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
   - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v18.2.2
     sources:
       - license_path: COPYING
