@@ -26,7 +26,7 @@ data:
             s3Url: http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/
             s3ForcePathStyle: true
             insecureSkipTLSVerify: "true"
-             checksumAlgorithm: "SHA256"
+            checksumAlgorithm: "SHA256"
       volumeSnapshotLocation:
         - config:
             region: "fallback"
