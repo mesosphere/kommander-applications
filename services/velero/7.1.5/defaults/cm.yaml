@@ -26,7 +26,6 @@ data:
             s3Url: http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/
             s3ForcePathStyle: true
             insecureSkipTLSVerify: "true"
-            checksumAlgorithm: ""
       volumeSnapshotLocation:
         - config:
             region: "fallback"
@@ -48,7 +47,7 @@ data:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     initContainers:
       - name: velero-plugin-for-aws
-        image: velero/velero-plugin-for-aws:v1.10.1
+        image: velero/velero-plugin-for-aws:v1.7.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - mountPath: /target
