@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kubetunnel-charts
         namespace: kommander-flux
-      version: v0.0.36
+      version: v0.0.38
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,4 +24,4 @@ spec:
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.36-d2iq-defaults
+      name: kubetunnel-0.0.38-d2iq-defaults
