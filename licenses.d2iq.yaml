@@ -500,7 +500,7 @@ resources:
       - url: https://github.com/NVIDIA/DCGM
         ref: v${image_tag%-1-ubuntu22.04}
         license_path: LICENSE
-  - container_image: docker.io/curlimages/curl:8.8.0
+  - container_image: docker.io/curlimages/curl:8.9.1
     sources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}

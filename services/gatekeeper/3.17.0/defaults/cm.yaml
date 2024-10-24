@@ -26,7 +26,7 @@ data:
         priorityClassName: system-cluster-critical
         image:
           repository: curlimages/curl
-          tag: 8.8.0
+          tag: 8.9.1
     controllerManager:
       tlsMinVersion: 1.2
     upgradeCRDs:
