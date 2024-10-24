@@ -34,7 +34,7 @@ resources:
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
-        ref: v${image_tag}
+        ref: v${image_tag%-security-01}
         url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/loki:2.9.8
     sources:
