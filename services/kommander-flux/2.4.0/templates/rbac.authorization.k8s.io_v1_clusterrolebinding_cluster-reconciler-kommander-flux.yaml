@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: kommander-flux
+    app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: v2.3.0
+  name: cluster-reconciler-kommander-flux
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: kustomize-controller
+  namespace: kommander-flux
+- kind: ServiceAccount
+  name: helm-controller
+  namespace: kommander-flux
