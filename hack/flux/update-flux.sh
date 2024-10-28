@@ -27,6 +27,8 @@ function update_flux() {
       echo "updating flux to ${local_flux_version}"
     else
       echo "flux ${LATEST_FLUX_VERSION} not available in devbox, the latest available is ${local_flux_version}"
+      echo "running devbox update"
+      devbox update
     fi
 
     mkdir -p "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
