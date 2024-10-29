@@ -463,7 +463,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.54.1
+  - container_image: quay.io/prometheus/prometheus:v2.55.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
