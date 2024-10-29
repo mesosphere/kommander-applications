@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 1.23.2
+      version: 1.23.3
   interval: 15s
   install:
     crds: CreateReplace
