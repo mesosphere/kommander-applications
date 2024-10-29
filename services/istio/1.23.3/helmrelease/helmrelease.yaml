@@ -29,4 +29,4 @@ spec:
   targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
-      name: istio-1.23.2-d2iq-defaults
+      name: istio-1.23.3-d2iq-defaults
