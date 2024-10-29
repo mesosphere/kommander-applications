@@ -484,10 +484,10 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/weaviate/weaviate
-  - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
+  - container_image: ghcr.io/kube-logging/fluentd:v1.16-4.8-full-build.155
     sources:
       - url: https://github.com/fluent/fluentd
-        ref: ${image_tag%-full-build.122}
+        ref: ${image_tag%-full-build.155}
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.7-1-ubuntu22.04
     sources:
