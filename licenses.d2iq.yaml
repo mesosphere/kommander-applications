@@ -24,12 +24,6 @@ resources:
         notice_path: NOTICE.md
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/grafana/grafana
-  - container_image: docker.io/grafana/grafana:11.2.0
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.2.2-security-01
     sources:
       - license_path: LICENSE
@@ -439,13 +433,13 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.76.1
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.77.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.76.1
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.77.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -463,7 +457,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.54.1
+  - container_image: quay.io/prometheus/prometheus:v2.55.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE

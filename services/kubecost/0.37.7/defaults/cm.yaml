@@ -48,7 +48,7 @@ data:
         server:
           priorityClassName: dkp-high-priority
           image:
-            tag: v2.54.1
+            tag: v2.55.0
           sidecarContainers:
           - name: thanos-sidecar
             image: quay.io/thanos/thanos:v0.36.1
