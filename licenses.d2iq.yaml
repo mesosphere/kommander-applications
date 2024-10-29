@@ -24,12 +24,6 @@ resources:
         notice_path: NOTICE.md
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/grafana/grafana
-  - container_image: docker.io/grafana/grafana:11.2.0
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.2.2-security-01
     sources:
       - license_path: LICENSE
