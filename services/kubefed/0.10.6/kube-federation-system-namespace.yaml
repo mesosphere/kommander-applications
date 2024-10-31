@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kube-federation-system-namespace
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: false
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  timeout: 1m
+  path: ./services/kubefed/0.10.6/kube-federation-system-namespace
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
