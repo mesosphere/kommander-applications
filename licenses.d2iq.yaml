@@ -484,7 +484,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/weaviate/weaviate
-  - container_image: ghcr.io/kube-logging/fluentd:v1.16-4.8-full-build.155
+  - container_image: ghcr.io/kube-logging/fluentd:v1.17.1
     sources:
       - url: https://github.com/fluent/fluentd
         ref: ${image_tag%-full-build.155}
