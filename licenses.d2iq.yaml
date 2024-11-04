@@ -487,7 +487,7 @@ resources:
   - container_image: ghcr.io/kube-logging/fluentd:v1.16-4.8-filters-build.155
     sources:
       - url: https://github.com/fluent/fluentd
-        ref: ${image_tag%-filters-build.155}
+        ref: ${image_tag%-4.8-filters-build.155}
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.7-1-ubuntu22.04
     sources:
