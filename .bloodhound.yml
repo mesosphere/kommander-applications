@@ -21,6 +21,7 @@ skip_types:
   - constrainttemplates.gatekeeper.sh/v1beta1
   - nvidia.com/v1/ClusterPolicy
   - core.kubefed.io/v1beta1/FederatedTypeConfig
+  - logging.banzaicloud.io/v1beta1
 
 # load additional CRDs (URLs of CRD yaml files)
 additional_crds:
@@ -28,12 +29,9 @@ additional_crds:
   - https://raw.githubusercontent.com/istio/istio/1.9.1/manifests/charts/base/crds/crd-all.gen.yaml
   # TODO: verify this is not masking real problem in https://d2iq.atlassian.net/browse/D2IQ-99126
   - https://raw.githubusercontent.com/kubernetes-retired/kubefed/master/charts/kubefed/crds/crds.yaml
-  - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml
-  - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-clusterissuers.yaml
-  - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-issuers.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cert-manager-crds/crds/cert-manager.crds.yaml
   - https://raw.githubusercontent.com/rook/rook/master/deploy/olm/assemble/objectbucket.io_objectbucketclaims.yaml
-  - https://raw.githubusercontent.com/kube-logging/logging-operator/refs/heads/master/charts/logging-operator/charts/crds/templates/logging.banzaicloud.io_flows.yaml
-  - https://github.com/kube-logging/logging-operator/blob/master/charts/logging-operator/charts/crds/templates/logging.banzaicloud.io_outputs.yaml
+  - https://raw.githubusercontent.com/open-policy-agent/gatekeeper/refs/heads/master/charts/gatekeeper/crds/constrainttemplate-customresourcedefinition.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
