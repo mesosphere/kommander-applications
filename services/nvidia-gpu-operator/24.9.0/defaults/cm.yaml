@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nvidia-gpu-operator-24.6.2-d2iq-defaults
+  name: nvidia-gpu-operator-24.9.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -14,28 +14,28 @@ data:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      version: v0.16.2
+      version: v0.17.0
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.16.2-ubuntu20.04
+      version: v1.17.0-ubuntu20.04
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.16.2-ubi8
+      version: v0.17.0
     dcgm:
       enabled: true
-      version: 3.3.7-1-ubuntu22.04
+      version: 3.3.8-1-ubuntu22.04
     dcgmExporter:
       enabled: true
-      version: 3.3.7-3.5.0-ubuntu22.04
+      version: 3.3.8-3.6.0-ubuntu22.04
     validator:
       repository: nvcr.io/nvidia/cloud-native
-      version: v24.6.2
+      version: v24.9.0
     operator:
       repository: nvcr.io/nvidia
-      version: v24.6.2
+      version: v24.9.0
