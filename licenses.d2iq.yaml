@@ -1,6 +1,6 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
-  - docker.io/mesosphere/trivy-bundles:0.53.0-20240726T101319Z
+  - docker.io/mesosphere/trivy-bundles:0.56.2-20241027T222746Z
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.1
@@ -8,7 +8,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.1}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/aquasec/kube-bench:v0.7.2
+  - container_image: docker.io/aquasec/kube-bench:v0.9.1
     sources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
@@ -146,7 +146,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.2.2
+  - container_image: docker.io/mesosphere/insights:v1.3.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -383,7 +383,7 @@ resources:
       - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/ceph/ceph
-  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:3.4.0-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:v3.11
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
@@ -393,7 +393,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/pluto
-  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/polaris:7.0.2-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/polaris:9.4.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
@@ -521,7 +521,7 @@ resources:
         ref: controller-v1.11.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.15.0-debian-12-r44
     sources:
       - url: https://github.com/prometheus-community/postgres_exporter
         ref: v0.12.0
