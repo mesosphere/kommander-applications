@@ -38,4 +38,4 @@ data:
       version: v24.9.0
     operator:
       repository: nvcr.io/nvidia
-      version: v24.6.2
+      version: v24.9.0
