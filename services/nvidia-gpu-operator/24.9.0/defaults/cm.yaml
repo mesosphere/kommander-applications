@@ -14,7 +14,7 @@ data:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      version: v0.17.0-ubi9
+      version: v0.17.0
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
@@ -26,7 +26,7 @@ data:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.17.0-ubi9
+      version: v0.17.0
     dcgm:
       enabled: true
       version: 3.3.8-1-ubuntu22.04

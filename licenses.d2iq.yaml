@@ -358,7 +358,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0-ubi9
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
