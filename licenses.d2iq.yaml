@@ -383,7 +383,7 @@ resources:
       - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/ceph/ceph
-  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/fairwinds/nova:v3.11
+  - container_image: quay.io/fairwinds/nova:v3.11
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
