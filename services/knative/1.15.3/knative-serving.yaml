@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 1.15.2
+      version: 1.15.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,4 +28,4 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.15.2-d2iq-defaults
+      name: knative-1.15.3-d2iq-defaults
