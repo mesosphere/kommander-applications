@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kubefed
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kubefed
+      sourceRef:
+        kind: HelmRepository
+        name: kubefed
+        namespace: kommander-flux
+      version: "0.10.4"
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  targetNamespace: kube-federation-system
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kubefed
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubefed-0.10.6-d2iq-defaults
+    - kind: ConfigMap
+      name: kubefed-overrides
+      optional: true

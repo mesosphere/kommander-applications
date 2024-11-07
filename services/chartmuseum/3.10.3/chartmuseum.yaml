@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: chartmuseum
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: services/chartmuseum/3.10.3/chartmuseum-3.10.2.tgz
+      sourceRef:
+        kind: GitRepository
+        name: management
+        namespace: kommander-flux
+      version: "3.10.2"
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: chartmuseum
+  targetNamespace: ${releaseNamespace}
+  valuesFrom:
+    - kind: ConfigMap
+      name: chartmuseum-3.10.3-d2iq-defaults
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chartmuseum
+  namespace: ${releaseNamespace}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: chartmuseum-tls
+  namespace: ${releaseNamespace}
+spec:
+  dnsNames:
+  - localhost
+  - chartmuseum
+  - chartmuseum.kommander.svc
+  - chartmuseum.kommander.svc.cluster.local
+  duration: 2160h0m0s
+  issuerRef:
+    kind: ClusterIssuer
+    name: kommander-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  renewBefore: 360h0m0s
+  secretName: chartmuseum-tls
+  usages:
+  - server auth
