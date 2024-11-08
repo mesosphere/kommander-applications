@@ -70,3 +70,66 @@ jobs:
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global  user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           devbox run -- just release-server
+
+  send_message:
+    runs-on:
+      - self-hosted
+      - small
+    needs:
+      - "release"
+    if: ${{ always() }}
+    steps:
+      - name: Send slack message if any of the release jobs failed
+        if: ${{contains(needs.*.result, 'failure') }}
+        uses: slackapi/slack-github-action@v1.27.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+        with:
+          payload: |
+            {
+              "text": "${{github.repository}} release ${{ github.ref_name }} failed",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":github: :x: ${{github.repository}} release ${{ github.ref_name }} failed",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Rerun the failed job(s) at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
+      - name: Send slack message when all release jobs completed successfully
+        if: ${{ !contains(needs.*.result, 'failure') && !endsWith(github.ref_name, '-dev') }} # No need to send a message on daily releases.
+        uses: slackapi/slack-github-action@v1.27.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+        with:
+          payload: |
+            {
+              "text": "${{github.repository}} release ${{ github.ref_name }} succeeded",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": ":github: :heavy_check_mark: ${{github.repository}} - Release ${{ github.ref_name }} successful :rocket:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
