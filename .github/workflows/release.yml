@@ -84,10 +84,10 @@ jobs:
         uses: slackapi/slack-github-action@v1.27.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+          SLACK_WEBHOOK_TYPE: 'INCOMING_WEBHOOK'
         with:
           payload: |
             {
-              "text": "${{github.repository}} release ${{ github.ref_name }} failed",
               "blocks": [
                 {
                   "type": "header",
@@ -111,10 +111,10 @@ jobs:
         uses: slackapi/slack-github-action@v1.27.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
           payload: |
             {
-              "text": "${{github.repository}} release ${{ github.ref_name }} succeeded",
               "blocks": [
                 {
                   "type": "header",
