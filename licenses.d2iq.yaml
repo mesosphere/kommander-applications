@@ -66,11 +66,6 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: ghcr.io/jimmidyson/configmap-reload:v0.14.0
-    sources:
-      - license_path: LICENSE.txt
-        ref: ${image_tag}
-        url: https://github.com/jimmidyson/configmap-reload
   - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.0
     sources:
       - license_path: LICENSE
