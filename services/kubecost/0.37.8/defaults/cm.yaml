@@ -12,8 +12,6 @@ data:
         priorityClassName: dkp-high-priority
 
     cost-analyzer:
-      kubecostFrontend:
-        fullImageName: gcr.io/kubecost1/frontend:prod-1.108.1
       priority:
         enabled: true
         name: dkp-high-priority
@@ -85,15 +83,6 @@ data:
           image:
             repository: quay.io/prometheus/alertmanager
             tag: v0.27.0
-        configmapReload:
-          prometheus:
-            image:
-              repository: ghcr.io/jimmidyson/configmap-reload
-              tag: v0.14.0
-          alertmanager:
-            image:
-              repository: ghcr.io/jimmidyson/configmap-reload
-              tag: v0.14.0
       grafana:
         priorityClassName: dkp-high-priority
         image:

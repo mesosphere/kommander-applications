@@ -13,8 +13,6 @@ data:
 
     cost-analyzer:
       fullnameOverride: "kommander-kubecost-cost-analyzer"
-      kubecostFrontend:
-        fullImageName: gcr.io/kubecost1/frontend:prod-1.108.1
       priority:
         enabled: true
         name: dkp-high-priority
