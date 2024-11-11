@@ -556,6 +556,11 @@ resources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
+  - container_image: gcr.io/kubecost1/frontend:prod-1.108.1
+    sources:
+      - url: https://github.com/opencost/opencost
+        ref: v1.108.1
+        license_path: LICENSE
   - container_image: registry.k8s.io/pause:3.10
     sources:
       - url: https://github.com/kubernetes/kubernetes
