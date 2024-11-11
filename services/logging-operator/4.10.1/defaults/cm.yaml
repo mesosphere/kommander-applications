@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logging-operator-4.10.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    ---
+    rbac:
+      psp:
+        enabled: false
+    priorityClassName: "dkp-critical-priority"
+    resources:
+     limits:
+       cpu: 1000m
+       memory: 512Mi
+     requests:
+       cpu: 100m
+       memory: 128Mi
+    http:
+      service:
+        labels:
+          servicemonitor.kommander.mesosphere.io/path: "metrics"
+    # For Helm v3, avoids creating CRDs from templates.
+    createCustomResource: false
+    logging:
+      enabled: true
+      clusterFlows:
+        - name: cluster-containers
+          spec:
+            globalOutputRefs:
+              - loki
+      clusterOutputs:
+        - name: loki
+          spec:
+            loki:
+              url: http://grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local:80
+              extract_kubernetes_labels: true
+              configure_kubernetes_labels: true
+              buffer:
+                # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
+                # See https://github.com/banzaicloud/logging-operator/issues/674 and
+                # https://github.com/fluent/fluent-bit/issues/2748.
+                # fluentd uses exponential backoff when retrying logs. The retry limit should balance tolerance for
+                # temporary loki unavailability with dropping out-of-order logs that can't be delivered.
+                retry_forever: false
+                retry_max_times: 5
+                flush_mode: interval
+                flush_interval: 10s
+                flush_thread_count: 8
+              extra_labels:
+                log_source: kubernetes_container
+      tls:
+        enabled: true
+      fluentd:
+        podPriorityClassName: "dkp-critical-priority"
+        image:
+          # The image should be updated when logging-operator is upgraded.
+          repository: ghcr.io/kube-logging/fluentd
+          tag: v1.16-4.10-filters-build.156
+        resources:
+        limits:
+          memory: 400Mi
+          cpu: 1000m
+        requests:
+          memory: 100Mi
+          cpu: 500m
+        scaling:
+          replicas: 1
+        port: 24240
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          tcpSocket:
+            port: 24240
+          timeoutSeconds: 3
+        logLevel: warn
+        fluentLogDestination: stdout
+        bufferStorageVolume:
+          pvc:
+            source:
+              claimName: fluentd-buffer
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+              volumeMode: Filesystem
+        metrics:
+          port: 24231
+          path: /metrics
+          prometheusAnnotations: true
+        bufferVolumeMetrics:
+          port: 9200
+          path: /metrics
+          prometheusAnnotations: true
+        statefulsetAnnotations:
+          secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+      fluentbit:
+        podPriorityClassName: "dkp-critical-priority"
+        image:
+          # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
+          # Also, update the image in fluent-bit configuration if the image is upgraded here.
+          repository: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit
+          tag: 2.2.3-d2iq.1
+        resources:
+        limits:
+          memory: 750Mi
+        requests:
+          cpu: 350m
+          memory: 350Mi
+        tolerations:
+          - operator: Exists
+            effect: NoSchedule
+          - operator: Exists
+            effect: NoExecute
+          - operator: Exists
+            key: CriticalAddonsOnly
+        flush: 1
+        grace: 5
+        logLevel: warn
+        coroStackSize: 24576
+        inputTail:
+          Path: /var/log/containers/*.log
+          Tag: kubernetes.*
+          Parser: cri
+          DB: /tail-db/kubernetes.db
+          Skip_Long_Lines: "On"
+          Refresh_Interval: "5"
+          Rotate_Wait: "5"
+          Mem_Buf_Limit: 5MB
+        filterKubernetes:
+          Match: kubernetes.*
+          Kube_Tag_Prefix: kubernetes.var.log.containers
+          Merge_Log: "On"
+          Labels: "On"
+          Annotations: "On"
+          Buffer_Size: "0"
+          Kube_URL: https://kubernetes.default.svc:443
+          Kube_CA_File: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          Kube_Token_File: /var/run/secrets/kubernetes.io/serviceaccount/token
+          tls.verify: "On"
+          K8S-Logging.Parser: "Off"
+          K8S-Logging.Exclude: "Off"
+        forwardOptions:
+          # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
+          # See https://github.com/banzaicloud/logging-operator/issues/674 and
+          # https://github.com/fluent/fluent-bit/issues/2748.
+          # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
+          # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
+          Retry_Limit: "5"
+        positiondb:
+          hostPath:
+            path: /var/log/tail-db
+            type: DirectoryOrCreate
+        metrics:
+          port: 2020
+          path: /api/v1/metrics/prometheus
+          prometheusAnnotations: true
+        daemonsetAnnotations:
+          secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
