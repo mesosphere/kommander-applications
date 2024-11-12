@@ -57,7 +57,8 @@ data:
         image:
           # The image should be updated when logging-operator is upgraded.
           repository: ghcr.io/kube-logging/fluentd
-          tag: v1.16-4.10-filters-build.156
+          # tag: v1.16-4.10-filters-build.156
+          tag: v1.16-4.8-filters-build.155
         resources:
         limits:
           memory: 400Mi
@@ -162,3 +163,4 @@ data:
           prometheusAnnotations: true
         daemonsetAnnotations:
           secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
+          
