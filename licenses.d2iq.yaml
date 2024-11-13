@@ -337,7 +337,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/config-reloader:v0.0.5
+  - container_image: ghcr.io/kube-logging/config-reloader:v0.0.6
     sources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
@@ -348,7 +348,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/node-exporter:v0.6.1
+  - container_image: ghcr.io/kube-logging/node-exporter:v0.8.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -505,10 +505,10 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/weaviate/weaviate
-  - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
+  - container_image: ghcr.io/kube-logging/fluentd:v1.16-4.10-filters-build.156
     sources:
       - url: https://github.com/fluent/fluentd
-        ref: ${image_tag%-full-build.122}
+        ref: ${image_tag%-filters-build.156}
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.8-1-ubuntu22.04
     sources:
