@@ -1,5 +1,5 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-charts-stable
@@ -9,7 +9,7 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-charts-staging
@@ -21,7 +21,7 @@ spec:
 ---
 # This is to support the HelmReleases created by Kommander's cluster observer controller.
 # See https://github.com/mesosphere/kommander/blob/main/federation/pkg/controllers/clusterobserver_controller.go
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-kommander-auditing-pipeline-charts
@@ -31,7 +31,7 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-nkp-insights-charts-management
@@ -41,7 +41,7 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/dkp-insights-charts-management}"
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-nkp-insights-charts-attached
