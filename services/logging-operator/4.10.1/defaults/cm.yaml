@@ -59,12 +59,12 @@ data:
           repository: ghcr.io/kube-logging/fluentd
           tag: v1.16-4.10-filters-build.156
         resources:
-        limits:
-          memory: 400Mi
-          cpu: 1000m
-        requests:
-          memory: 100Mi
-          cpu: 500m
+          limits:
+            memory: 400Mi
+            cpu: 1000m
+          requests:
+            memory: 100Mi
+            cpu: 500m
         scaling:
           replicas: 1
         port: 24240
@@ -107,11 +107,11 @@ data:
           repository: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit
           tag: 2.2.3-d2iq.1
         resources:
-        limits:
-          memory: 750Mi
-        requests:
-          cpu: 350m
-          memory: 350Mi
+          limits:
+            memory: 750Mi
+          requests:
+            cpu: 350m
+            memory: 350Mi
         tolerations:
           - operator: Exists
             effect: NoSchedule
