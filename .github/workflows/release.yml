@@ -83,11 +83,10 @@ jobs:
         if: ${{contains(needs.*.result, 'failure') }}
         uses: slackapi/slack-github-action@v1.27.0
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+          SLACK_WEBHOOK_URL: ${{ endsWith(github.ref_name, '-dev') && secrets.DKP_TESTING_ALERTMANAGER_SLACK_URL || secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
         with:
           payload: |
             {
-              "text": "${{github.repository}} release ${{ github.ref_name }} failed",
               "blocks": [
                 {
                   "type": "header",
@@ -114,7 +113,6 @@ jobs:
         with:
           payload: |
             {
-              "text": "${{github.repository}} release ${{ github.ref_name }} succeeded",
               "blocks": [
                 {
                   "type": "header",
