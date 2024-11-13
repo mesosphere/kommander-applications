@@ -1,5 +1,5 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
@@ -9,7 +9,7 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/ai-navigator-cluster-info-api}"
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: mesosphere.github.io-ai-navigator-cluster-info-agent-charts
