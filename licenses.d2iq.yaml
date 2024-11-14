@@ -1,6 +1,7 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
+  - docker.io/library/kong:3.6
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.1
@@ -96,7 +97,7 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/kong:3.6
+  - container_image: docker.io/library/kong:3.8.0
     sources:
       - license_path: LICENSE
         ref: 3.8.0
