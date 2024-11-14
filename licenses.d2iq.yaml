@@ -96,7 +96,7 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/kong:3.8.0.0
+  - container_image: docker.io/library/kong:3.6
     sources:
       - license_path: LICENSE
         ref: 3.8.0
