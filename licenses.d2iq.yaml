@@ -76,17 +76,17 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: docker.io/kubernetesui/dashboard-api:1.10.0
+  - container_image: docker.io/kubernetesui/dashboard-api:1.10.1
     sources:
       - license_path: LICENSE
         ref: api/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-auth:1.2.1
+  - container_image: docker.io/kubernetesui/dashboard-auth:1.2.2
     sources:
       - license_path: LICENSE
         ref: auth/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-web:1.5.1
+  - container_image: docker.io/kubernetesui/dashboard-web:1.6.0
     sources:
       - license_path: LICENSE
         ref: web/v${image_tag}
@@ -96,7 +96,7 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/kong:3.8.0
+  - container_image: docker.io/library/kong:3.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
