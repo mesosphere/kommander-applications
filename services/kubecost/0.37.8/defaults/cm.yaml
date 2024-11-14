@@ -15,7 +15,8 @@ data:
       priority:
         enabled: true
         name: dkp-high-priority
-
+      diagnostics:
+        enabled: true
       global:
         prometheus:
           enabled: true

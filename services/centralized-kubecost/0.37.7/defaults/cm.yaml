@@ -16,7 +16,8 @@ data:
       priority:
         enabled: true
         name: dkp-high-priority
-
+      diagnostics:
+        enabled: true
       global:
         prometheus:
           fqdn: http://kubecost-prometheus-server.kommander.svc.cluster.local
