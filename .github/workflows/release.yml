@@ -83,6 +83,7 @@ jobs:
         if: ${{contains(needs.*.result, 'failure') }}
         uses: slackapi/slack-github-action@v1.27.0
         env:
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
           SLACK_WEBHOOK_URL: ${{ endsWith(github.ref_name, '-dev') && secrets.DKP_TESTING_ALERTMANAGER_SLACK_URL || secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
         with:
           payload: |
@@ -109,6 +110,7 @@ jobs:
         if: ${{ !contains(needs.*.result, 'failure') && !endsWith(github.ref_name, '-dev') }} # No need to send a message on daily releases.
         uses: slackapi/slack-github-action@v1.27.0
         env:
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
         with:
           payload: |
