@@ -6,6 +6,9 @@ metadata:
 data:
   values.yaml: |
     ---
+    image:
+      repository: docker.io/velero/velero
+      tag: v1.15.0
     priorityClassName: "dkp-critical-priority"
     resources:
       # these are from the chart defaults
