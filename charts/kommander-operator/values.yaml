@@ -7,7 +7,7 @@ kommanderoperator:
   image:
     repository: mesosphere/kommander2-core-installer
     tag:
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
 
 kubetools:
   image:
