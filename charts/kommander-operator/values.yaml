@@ -14,5 +14,9 @@ kubetools:
     repository: mesosphere/kommander2-kubetools
     tag: ""
     pullPolicy: Always 
+  image:
+    repository: https://github.com/Kong/kong
+    tag: 3.8.0
+    pullPolicy: Always 
 
 priorityClassName: "dkp-critical-priority"
