@@ -98,8 +98,8 @@ resources:
         url: https://github.com/kubernetes/dashboard
   - container_image: docker.io/library/kong:3.8.0
     sources:
-      # - license_path: LICENSE
-        ref: 3.8.0
+      - license_path: LICENSE
+        ref: ${image_tag}
         url: https://github.com/Kong/kong
   - container_image: docker.io/library/traefik:v2.11.9
     sources:
