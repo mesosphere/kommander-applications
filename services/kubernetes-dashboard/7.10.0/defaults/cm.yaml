@@ -60,11 +60,6 @@ data:
           limits:
             cpu: 250m
             memory: 400Mi
-    # kong:
-    #   priorityClassName: dkp-high-priority
-    #   admin:
-    #     tls:
-    #       enabled: false 
     kong:
       priorityClassName: dkp-high-priority
       image:
