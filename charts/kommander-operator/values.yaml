@@ -3,7 +3,7 @@
 replicaCount: 1
 kommanderoperator:
   # feature flag to enable declarative upgrade logic in the operator
-  useUpgrade: true
+  useUpgrade: false
   image:
     repository: mesosphere/kommander2-core-installer
     tag:
@@ -13,6 +13,6 @@ kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
     tag: ""
-    pullPolicy: Always 
+    pullPolicy: IfNotPresent
 
 priorityClassName: "dkp-critical-priority"
