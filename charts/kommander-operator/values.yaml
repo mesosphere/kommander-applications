@@ -7,11 +7,12 @@ kommanderoperator:
   image:
     repository: mesosphere/kommander2-core-installer
     tag:
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
-    tag:
+    tag: ""
+    pullPolicy: Always 
 
 priorityClassName: "dkp-critical-priority"
