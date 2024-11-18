@@ -28,7 +28,7 @@ data:
             tag: 3.20.3
       storage:
         size: 5Gi
-    
+
     postgresql:
       enabled: true
       primary:
