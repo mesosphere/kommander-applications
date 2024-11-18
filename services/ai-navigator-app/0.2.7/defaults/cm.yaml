@@ -10,18 +10,6 @@ data:
     api:
       enabled: true
 
-    # Default values for configmap
-    modelSettings:
-      model_name: thenlper/gte-large
-      chunk_size: 2000
-      chunk_overlap: 250
-      path: /models
-      volumeSize: 4Gi
-
-    vector_db:
-      url: http://weaviate
-      index_name: Cluster_Info
-
     record_manager:
       driver_name: "postgresql"
       username: "postgres"
@@ -37,22 +25,16 @@ data:
       initContainers:
         sysctlInitContainer:
           image:
-            tag: 3.18.4
-      securityContext:
-        runAsUser: 65532
-        fsGroup: 65532
-        runAsGroup: 65532
-      containerSecurityContext:
-        allowPrivilegeEscalation: false
+            tag: 3.20.3
       storage:
         size: 5Gi
-
+    
     postgresql:
+      enabled: true
       primary:
         priorityClassName: dkp-high-priority
       readReplicas:
         priorityClassName: dkp-high-priority
-      enabled: true
 
     # Default values for cluster-info-api
     replicaCount: 1
