@@ -83,7 +83,7 @@ spec:
 
               echo "Waiting for ceph operator to complete its upgrade..."
               while true; do
-                cephOperatorVersion=$(kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph -ogo-template={{.status.lastAppliedRevision}})
+                cephOperatorVersion=$(kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph -ogo-template={{.status.lastAttemptedRevision}})
                 if [[ $cephOperatorVersion == ${desiredCephOperatorVersion} ]]; then
                   echo "Ceph operator is at same version as desired cluster version (${desiredCephOperatorVersion}). Exiting..."
                   break
