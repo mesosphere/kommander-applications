@@ -112,7 +112,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 					names = append(names, mw.Name)
 				}
 				return names
-			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full", "rewrite-api")))
+			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full")))
 
 		})
 

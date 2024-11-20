@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - traefik.yaml
   - grafana-dashboards
-  - traefik-plugin-rewritebody.yaml
