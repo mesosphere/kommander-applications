@@ -10,7 +10,7 @@ _run_server: (release-server "false")
     --publish 12345:12345 \
     --detach \
     --user 1000:1000 \
-    {{ server_docker_repository }}:{{ git_tag }}
+    {{ server_repository }}:{{ git_tag }}
 
 _kill_server:
     docker kill {{ test_container_name }}
