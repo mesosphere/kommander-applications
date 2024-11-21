@@ -287,6 +287,16 @@ resources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.15.1
+    sources:
+      - license_path: LICENSE
+        ref: knative-${image_tag}
+        url: https://github.com/knative-extensions/net-istio
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.15.1
+    sources:
+      - license_path: LICENSE
+        ref: knative-${image_tag}
+        url: https://github.com/knative-extensions/net-istio
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
     sources:
       - license_path: LICENSE
