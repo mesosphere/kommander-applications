@@ -16,12 +16,6 @@ data:
     # Default values for cluster-info-agent
     replicaCount: 1
 
-    image:
-      repository: mesosphere/ai-navigator-cluster-info-agent
-      pullPolicy: Always
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "v0.1.0"
-
     imagePullSecrets: []
     nameOverride: ""
     fullnameOverride: ""
