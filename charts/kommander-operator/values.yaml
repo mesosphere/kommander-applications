@@ -12,7 +12,6 @@ kommanderoperator:
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
-    tag: ""
-    pullPolicy: IfNotPresent
-
+    tag: 
+    
 priorityClassName: "dkp-critical-priority"
