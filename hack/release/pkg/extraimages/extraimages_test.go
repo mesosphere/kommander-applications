@@ -29,5 +29,5 @@ func TestUpdateExtraImages(t *testing.T) {
 	assert.Len(t, afterUpgradeFile, 1)
 	contentes, err := os.ReadFile(afterUpgradeFile[0])
 	require.NoError(t, err)
-	assert.Equal(t, "mesosphere/kommander-applications-server:v1.2.3\n", string(contentes))
+	assert.Equal(t, "ghcr.io/mesosphere/kommander-applications-server:v1.2.3\n", string(contentes))
 }
