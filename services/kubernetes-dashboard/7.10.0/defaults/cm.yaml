@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubernetes-dashboard-7.9.0-d2iq-defaults
+  name: kubernetes-dashboard-7.10.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -62,6 +62,10 @@ data:
             memory: 400Mi
     kong:
       priorityClassName: dkp-high-priority
+      image:
+        repository: docker.io/library/kong
+        tag: "3.8.0"   # Specify the Kong image tag here
+        pullPolicy: IfNotPresent  # Ensure the image is always pulled
       admin:
         tls:
           enabled: false
