@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
         namespace: kommander-flux
-      version: 0.2.4
+      version: 0.2.6
   install:
     remediation:
       retries: 30
@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ai-navigator-app-0.2.7-d2iq-defaults
+      name: ai-navigator-app-0.2.8-d2iq-defaults
