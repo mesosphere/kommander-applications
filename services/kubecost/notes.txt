@@ -1,0 +1,4 @@
+# create configmap for cluster id
+kubectl create configmap kubecost-cluster-info-configmap -nkommander -oyaml --dry-run --save-config --from-literal=CLUSTER_ID=$(kubectl get namespace kube-system -o jsonpath="{.metadata.uid}") | kubectl apply -f -
+
+# removed PSPs as they are no longer supported upstream.
