@@ -102,7 +102,7 @@ jobs:
               to_version_gh_dkp=$latest
               to_version="main"
             else
-              if [[ "${{ github.base_ref }}" == "release-*" ]]; then
+              if [[ "${{ github.base_ref }}" == release-* ]]; then
                 dkp_ver_majorminor=$(echo ${{ github.base_ref }} | cut -d '-' -f 2)
                 to_version_gh_dkp="v$dkp_ver_majorminor"
               else
