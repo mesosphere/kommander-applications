@@ -3,7 +3,7 @@ module github.com/mesosphere/kommander-applications/hack/release
 go 1.22.0
 
 require (
-	github.com/Masterminds/semver/v3 v3.3.0
+	github.com/Masterminds/semver/v3 v3.3.1
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/helm-controller/api v1.0.1
 	github.com/otiai10/copy v1.14.0
