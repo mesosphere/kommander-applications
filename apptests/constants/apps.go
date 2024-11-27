@@ -2,6 +2,7 @@ package constants
 
 const (
 	CertManager  = "cert-manager"
+	Dex          = "dex"
 	Karma        = "karma"
 	KubeCost     = "kubecost"
 	Reloader     = "reloader"
