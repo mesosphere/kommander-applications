@@ -98,7 +98,7 @@ data:
           path: /metrics
           prometheusAnnotations: true
         statefulsetAnnotations:
-          secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+          secret.reloader.stakater.com/reload: logging-operator-fluentd-tls
       fluentbit:
         podPriorityClassName: "dkp-critical-priority"
         image:
@@ -161,4 +161,4 @@ data:
           path: /api/v1/metrics/prometheus
           prometheusAnnotations: true
         daemonsetAnnotations:
-          secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
+          secret.reloader.stakater.com/reload: logging-operator-fluentbit-tls
