@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: charts.github.io-bitnami
         namespace: kommander-flux
-      version: 7.5.6
+      version: 8.6.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,5 +24,5 @@ spec:
   releaseName: external-dns
   valuesFrom:
     - kind: ConfigMap
-      name: external-dns-7.5.6-d2iq-defaults
+      name: external-dns-8.6.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
