@@ -26,7 +26,7 @@ spec:
   releaseName: object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.15.5-d2iq-defaults
+      name: rook-ceph-cluster-1.15.6-d2iq-defaults
     - kind: ConfigMap
       name: rook-ceph-cluster-overrides
       optional: true
