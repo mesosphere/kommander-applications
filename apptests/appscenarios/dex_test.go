@@ -2,10 +2,12 @@ package appscenarios
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
+	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -13,6 +15,7 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	networking "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -57,6 +60,7 @@ var _ = Describe("Dex Tests", Label("dex"), func() {
 		It("should install successfully with default config", func() {
 
 			err := d.Install(ctx, env)
+			fmt.Println("******* ctx and env *********", ctx, env)
 			Expect(err).To(BeNil())
 			dexHr := &fluxhelmv2beta2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
@@ -76,6 +80,7 @@ var _ = Describe("Dex Tests", Label("dex"), func() {
 				}
 
 				for _, cond := range dexHr.Status.Conditions {
+					fmt.Printf("Condition Type: %s, Status: %s\n", cond.Type, cond.Status)
 					if cond.Status == metav1.ConditionTrue &&
 						cond.Type == apimeta.ReadyCondition {
 						return nil
@@ -83,6 +88,25 @@ var _ = Describe("Dex Tests", Label("dex"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+		})
+		Context("Dex Ingress", func() {
+			var (
+				dexHr *fluxhelmv2beta2.HelmRelease
+			)
+			dexIngress := &networking.Ingress{}
+			It("should have traefik ingress annotations", func() {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(dexHr), dexHr)
+				//karmaTfkMdlwaConfigStr := fmt.Sprintf("%s-stripprefixes@kubernetescrd,%s-forwardauth@kubernetescrd", kommanderNamespace, kommanderNamespace)
+				Expect(err).To(BeNil())
+				Expect(dexIngress.Annotations).To(HaveKeyWithValue("kubernetes.io/ingress.class", "kommander-traefik"))
+				Expect(dexIngress.Annotations).To(HaveKeyWithValue("traefik.ingress.kubernetes.io/router.tls", "true"))
+				// Expect(karmaIngress.Annotations).To(HaveKeyWithValue("traefik.ingress.kubernetes.io/router.middlewares",
+				// 	karmaTfkMdlwaConfigStr))
+			})
+
+			It("should set the correct path", func() {
+				Expect(dexIngress.Spec.Rules[0].HTTP.Paths[0].Path).To(Equal("/dex"))
+			})
 		})
 
 		It("should have resource limits and priority class", func() {
@@ -108,6 +132,23 @@ var _ = Describe("Dex Tests", Label("dex"), func() {
 			Expect(dexContainer.Resources.Limits.Memory().String()).To(Equal("512Mi"))
 		})
 
+	})
+
+	Describe("DEX Server Availability", func() {
+
+		const issuerURL = "https://dex.kommander.svc.cluster.local:8080/dex"
+
+		Context("testing the issuer URL", func() {
+			It("should return a valid response from the DEX server", func() {
+				// Make a request to the issuer URL
+				resp, err := http.Get("https://dex.kommander.svc.cluster.local:8080/dex")
+
+				// Ensure that we got a response without error
+				gomega.Expect(err).NotTo(gomega.HaveOccurred())
+				gomega.Expect(resp.StatusCode).To(gomega.Equal(http.StatusOK))
+
+			})
+		})
 	})
 
 	Describe("Dex Upgrade Test", Ordered, Label("upgrade"), func() {
