@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-cluster-info-agent-0.1.1-d2iq-defaults
+  name: ai-navigator-cluster-info-agent-0.1.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -15,12 +15,6 @@ data:
 
     # Default values for cluster-info-agent
     replicaCount: 1
-
-    image:
-      repository: mesosphere/ai-navigator-cluster-info-agent
-      pullPolicy: Always
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "v0.1.0"
 
     imagePullSecrets: []
     nameOverride: ""
