@@ -33,6 +33,8 @@ data:
       enabled: true
       primary:
         priorityClassName: dkp-high-priority
+        initdb:
+          scriptsConfigMap: ai-navigator-cluster-info-api-postgresql-initdb
       readReplicas:
         priorityClassName: dkp-high-priority
 
