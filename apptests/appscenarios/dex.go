@@ -2,7 +2,6 @@ package appscenarios
 
 import (
 	"context"
-	"fmt"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -31,7 +30,6 @@ func NewDex() *dex {
 
 func (d dex) Install(ctx context.Context, env *environment.Env) error {
 	err := d.install(ctx, env, d.appPathCurrentVersion)
-	fmt.Println("*******Install error **********", err)
 	return err
 }
 
