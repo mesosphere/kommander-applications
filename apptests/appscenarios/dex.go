@@ -55,21 +55,16 @@ func (d dex) install(ctx context.Context, env *environment.Env, appPath string) 
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 
-	fmt.Println("*********Deafult kuzt", defaultKustomizations)
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
+		"releaseNamespace": kommanderNamespace,
 	})
-	fmt.Println("Error *************", err)
 	if err != nil {
 		return err
 	}
 	// apply the rest of kustomizations
 	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
+		"releaseNamespace": kommanderNamespace,
 	})
-	fmt.Println("*********************** apply the rest of kustomizations err ", err)
 	if err != nil {
 		return err
 	}
