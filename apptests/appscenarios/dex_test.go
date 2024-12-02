@@ -140,10 +140,8 @@ var _ = Describe("Dex Tests", Label("dex"), func() {
 
 		Context("testing the issuer URL", func() {
 			It("should return a valid response from the DEX server", func() {
-				// Make a request to the issuer URL
 				resp, err := http.Get("https://dex.kommander.svc.cluster.local:8080/dex")
 
-				// Ensure that we got a response without error
 				gomega.Expect(err).NotTo(gomega.HaveOccurred())
 				gomega.Expect(resp.StatusCode).To(gomega.Equal(http.StatusOK))
 
