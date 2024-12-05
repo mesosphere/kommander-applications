@@ -457,7 +457,7 @@ data:
       priorityClassName: "dkp-critical-priority"
       image:
         repository: kube-state-metrics/kube-state-metrics
-        tag: v2.13.0
+        tag: v2.14.0
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]
