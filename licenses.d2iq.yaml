@@ -489,7 +489,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/thanos-io/thanos
-  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.13.0
+  - container_image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.14.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
