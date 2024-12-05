@@ -465,7 +465,7 @@ data:
       kubeRBACProxy:
         enabled: true
         image:
-          tag: v0.18.1
+          tag: v0.18.2
       prometheus:
         monitor:
           scheme: https
