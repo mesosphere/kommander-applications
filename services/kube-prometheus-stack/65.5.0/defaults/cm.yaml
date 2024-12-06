@@ -175,9 +175,7 @@ data:
           matchLabels:
             prometheus.kommander.d2iq.io/select: "true"
         thanos:
-          image:
-            registry: "quay.io/thanos/thanos"
-            tag: "v0.37.1" # Ensure this is the desired version
+          image: "quay.io/thanos/thanos:v0.37.1"
         externalLabels:
           cluster: $(CLUSTER_ID)
         containers:
