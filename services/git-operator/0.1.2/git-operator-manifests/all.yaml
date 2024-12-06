@@ -875,7 +875,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-        image: docker.io/mesosphere/git-operator:v0.13.3
+        image: docker.io/mesosphere/git-operator:v0.13.4
         livenessProbe:
           httpGet:
             path: /healthz
@@ -979,7 +979,7 @@ spec:
       - env:
         - name: GIT_VOLUME_PATH
           value: /volumes/git
-        image: docker.io/mesosphere/gitwebserver:v0.13.3
+        image: docker.io/mesosphere/gitwebserver:v0.13.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           initialDelaySeconds: 3
