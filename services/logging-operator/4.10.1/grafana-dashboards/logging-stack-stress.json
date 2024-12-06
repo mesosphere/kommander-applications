@@ -115,7 +115,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentbit.*\",container=\"fluent-bit\"}[1m])",
+            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-fluentbit.*\",container=\"fluent-bit\"}[1m])",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -207,7 +207,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentbit.*\",reason=\"OOMKilled\"}",
+            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-fluentbit.*\",reason=\"OOMKilled\"}",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -218,7 +218,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentbit.*\",reason=\"Error\"}",
+            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-fluentbit.*\",reason=\"Error\"}",
             "hide": false,
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
@@ -324,7 +324,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentd-.*\", container=\"fluentd\"}[1m])",
+            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-fluentd-.*\", container=\"fluentd\"}[1m])",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -416,7 +416,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_terminated_reason{pod=~\"logging-operator-logging-fluentd-[0-9]*\",reason=\"OOMKilled\"}",
+            "expr": "kube_pod_container_status_terminated_reason{pod=~\"logging-operator-fluentd-[0-9]*\",reason=\"OOMKilled\"}",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -427,7 +427,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-logging-fluentd-[0-9]*\",reason=\"Error\"}",
+            "expr": "kube_pod_container_status_last_terminated_reason{pod=~\"logging-operator-fluentd-[0-9]*\",reason=\"Error\"}",
             "hide": false,
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
