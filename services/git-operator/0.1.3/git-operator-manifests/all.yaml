@@ -1061,7 +1061,7 @@ spec:
         env:
         - name: ADMIN_REPO_PATH
           value: /volumes/admin/admin.git
-        image: docker.io/mesosphere/gitwebserver:v0.13.3
+        image: docker.io/mesosphere/gitwebserver:v0.13.4
         imagePullPolicy: IfNotPresent
         name: init-admin-repo
         securityContext:
