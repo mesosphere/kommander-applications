@@ -176,6 +176,7 @@ data:
             prometheus.kommander.d2iq.io/select: "true"
         thanos:
           image: "quay.io/thanos/thanos:v0.37.1"
+          imagePullPolicy: "Always"
         externalLabels:
           cluster: $(CLUSTER_ID)
         containers:
