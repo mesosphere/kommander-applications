@@ -1019,7 +1019,7 @@ spec:
         - /volumes/admin-tmp/snapshots
         - --snapshot-symlink
         - /volumes/admin-tmp/active-snapshot
-        image: docker.io/mesosphere/gitwebserver:v0.13.3
+        image: docker.io/mesosphere/gitwebserver:v0.13.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
