@@ -303,6 +303,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.2
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/brancz/kube-rbac-proxy
   - container_image: ghcr.io/fluxcd/helm-controller:v1.1.0
     sources:
       - license_path: LICENSE
