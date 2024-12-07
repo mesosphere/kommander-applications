@@ -527,7 +527,7 @@ resources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0${image_tag#1}
         license_path: LICENSE
-  - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.3
+  - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
     sources:
       - url: https://github.com/kubernetes/ingress-nginx
         ref: controller-v1.11.2
