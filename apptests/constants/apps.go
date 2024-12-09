@@ -4,6 +4,7 @@ const (
 	CertManager  = "cert-manager"
 	Karma        = "karma"
 	KubeCost     = "kubecost"
+	Dex          = "dex"
 	Reloader     = "reloader"
 	Traefik      = "traefik"
 	KarmaTraefik = "karma-traefik"
