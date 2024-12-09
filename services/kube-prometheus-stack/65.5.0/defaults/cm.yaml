@@ -22,6 +22,11 @@ data:
             tag: v1.4.4
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
+      thanosImage:
+        registry: quay.io
+        repository: thanos/thanos
+        tag: v0.37.1
+        sha: ""
     mesosphereResources:
       create: true
       hooks:
