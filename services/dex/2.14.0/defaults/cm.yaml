@@ -108,7 +108,7 @@ data:
         proxy:
           image:
             repository: quay.io/brancz/kube-rbac-proxy
-            tag: v0.18.1
+            tag: v0.18.2
             pullPolicy: IfNotPresent
           resources: {}
         manager:
