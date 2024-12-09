@@ -413,7 +413,7 @@ data:
       image:
         registry: docker.io
         repository: bitnami/postgresql
-        tag: 15.8.0-debian-12-r14
+        tag:15.9.0-debian-12-r0
       metrics:
         image:
           registry: docker.io
