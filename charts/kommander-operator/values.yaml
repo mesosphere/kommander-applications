@@ -8,6 +8,11 @@ kommanderoperator:
     repository: mesosphere/kommander2-core-installer
     tag:
     pullPolicy: IfNotPresent
+  image:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.37.0
+    pullPolicy: Always
 
 kubetools:
   image:
