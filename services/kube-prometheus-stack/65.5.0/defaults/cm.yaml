@@ -481,8 +481,3 @@ data:
             sourceLabels:
             - __meta_kubernetes_pod_node_name
             targetLabel: node
-    thanos:
-      Image:
-        registry: quay.io
-        repository: thanos/thanos
-        tag: v0.37.1
