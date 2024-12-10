@@ -10,6 +10,7 @@ ignore:
   - docker.io/library/busybox:1
   - gcr.io/kubecost1/cost-model:prod-1.106.5
   - gcr.io/kubecost1/frontend:prod-1.106.5
+  - gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
 
   # Fossa doesn't support scanning arbitrary C-files
   - docker.io/mesosphere/pause-busybox:3.6
