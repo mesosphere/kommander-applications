@@ -463,7 +463,6 @@ resources:
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/dcgm-exporter
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.14.2
-    image_pull_policy: IfNotPresent
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
