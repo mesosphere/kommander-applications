@@ -2,6 +2,7 @@ ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
   - docker.io/library/alpine:3.20.3
+  
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.1
