@@ -30,7 +30,7 @@ func UpdateExtraImagesVersions(kommanderApplicationsRepo, chartVersion string) e
 
 	if err := os.WriteFile(
 		matches[0],
-		[]byte(fmt.Sprintf("mesosphere/kommander-applications-server:%s\n", chartVersion)),
+		[]byte(fmt.Sprintf("ghcr.io/mesosphere/kommander-applications-server:%s\n", chartVersion)),
 		0o644,
 	); err != nil {
 		return fmt.Errorf("error while updating extra-images file: %w", err)

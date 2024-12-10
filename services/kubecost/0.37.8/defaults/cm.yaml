@@ -1,0 +1,130 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubecost-0.37.8-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    hooks:
+      clusterID:
+        kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+        priorityClassName: dkp-high-priority
+
+    cost-analyzer:
+      kubecostFrontend:
+        fullImageName: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.108.1-d2iq.0
+      priority:
+        enabled: true
+        name: dkp-high-priority
+      diagnostics:
+        enabled: false
+      global:
+        prometheus:
+          enabled: true
+        grafana:
+          enabled: true
+
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+        paths:
+          - "/dkp/kubecost/frontend/"
+        hosts:
+          - ""
+        tls: []
+
+      podSecurityPolicy:
+        enabled: false
+
+      prometheus:
+        kubeStateMetrics:
+          enabled: false
+        kube-state-metrics:
+          disabled: true
+        server:
+          priorityClassName: dkp-high-priority
+          image:
+            tag: v2.55.0
+          sidecarContainers:
+          - name: thanos-sidecar
+            image: quay.io/thanos/thanos:v0.36.1
+            args:
+            - sidecar
+            - --log.level=debug
+            - --tsdb.path=/data/
+            - --prometheus.url=http://127.0.0.1:9090
+            - --reloader.config-file=/etc/config/prometheus.yml
+            # Start of time range limit to serve. Thanos sidecar will serve only metrics, which happened
+            # later than this value. Option can be a constant time in RFC3339 format or time duration
+            # relative to current time, such as -1d or 2h45m. Valid duration units are ms, s, m, h, d, w, y.
+            - --min-time=-3h
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            ports:
+            - name: sidecar-http
+              containerPort: 10902
+            - name: grpc
+              containerPort: 10901
+            - name: cluster
+              containerPort: 10900
+            volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: storage-volume
+              mountPath: /data
+              subPath: ""
+        alertmanager:
+          priorityClassName: dkp-high-priority
+          image:
+            repository: quay.io/prometheus/alertmanager
+            tag: v0.27.0
+      grafana:
+        priorityClassName: dkp-high-priority
+        image:
+          repository: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana
+          tag: 10.3.3-d2iq.0
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: kommander-traefik
+            ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+          hosts: [""]
+          path: "/dkp/kubecost/grafana"
+        grafana.ini:
+          log:
+            level: warn
+          server:
+            protocol: http
+            enable_gzip: true
+            root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/kubecost/grafana"
+            serve_from_sub_path: false # Set to false on Grafana v10+
+          auth.proxy:
+            enabled: true
+            header_name: X-Forwarded-User
+            auto-sign-up: true
+          auth.basic:
+            enabled: false
+          users:
+            auto_assign_org_role: Admin
+          analytics:
+            reporting_enabled: false
+            check_for_updates: false
+        sidecar:
+          image:
+            repository: docker.io/kiwigrid/k8s-sidecar
+            tag: 1.28.0
+
+      kubecostProductConfigs:
+        grafanaURL: "/dkp/kubecost/grafana"
+        # used for display in Kubecost UI
+        clusterName: "Kommander Managed Cluster"

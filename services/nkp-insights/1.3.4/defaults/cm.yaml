@@ -1,0 +1,505 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nkp-insights-1.3.4-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    backend:
+      alertExpirationTime: 72h
+      alertmanager:
+        db_channel_buffer_size: "16"
+      apiPort: "8090"
+      engineConfig:
+        mode: daytwo
+        nkpIdentification:
+          appRoots:
+            Daemonsets-insights:
+              groupKind:
+                group: apps
+                kind: DaemonSet
+              nameRegexp: nkp-insights-kubebench-.*?
+            Daemonsets-istio:
+              groupKind:
+                group: apps
+                kind: DaemonSet
+              nameRegexp: istio-cni-node
+            Deployment-kommander-non-app:
+              groupKind:
+                group: apps
+                kind: Deployment
+              nameRegexp: runtime-extension-kommander
+            Deployments-istio:
+              groupKind:
+                group: apps
+                kind: Deployment
+              nameRegexp: istiod|istio-ingressgateway
+            HelmRelease-kommander-non-app:
+              groupKind:
+                group: helm.toolkit.fluxcd.io
+                kind: HelmRelease
+              nameRegexp: .*?-traefik-certs|kommander-operator
+            Installation-konvoy:
+              groupKind:
+                group: operator.tigera.io
+                kind: Installation
+              nameRegexp: default
+            Job-helm-hooks:
+              groupKind:
+                group: batch
+                kind: Job
+              nameRegexp: object-bucket-claims-check-dkp-.*?
+            Job-kommander-non-app:
+              groupKind:
+                group: batch
+                kind: Job
+              nameRegexp: kommander-bootstrap
+            Kustomization-kommander-app-roots:
+              groupKind:
+                group: kustomize.toolkit.fluxcd.io
+                kind: Kustomization
+              nameRegexp: ai-navigator-app|ai-navigator-cluster-info-agent|centralized-grafana|centralized-kubecost|cert-manager|chartmuseum|dex|dex-k8s-authenticator|external-dns|fluent-bit|gatekeeper|git-operator|grafana-logging|grafana-loki|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-flux|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|nkp-insights|nkp-insights-management|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|project-logging|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero|kafka-operator|zookeeper-operator
+            Kustomization-kommander-non-app:
+              groupKind:
+                group: kustomize.toolkit.fluxcd.io
+                kind: Kustomization
+              nameRegexp: cluster-observer-.*?
+            Namespace-kommander:
+              groupKind:
+                group: ""
+                kind: Namespace
+              nameRegexp: kommander-flux|kube-federation-system|kubecost
+            Namespace-konvoy:
+              groupKind:
+                group: ""
+                kind: Namespace
+              nameRegexp: caren-system|calico-system|caaph-system|cap.*?-system|cert-manager|kube-node-lease|kube-public|kube-system|metallb-system|node-feature-discovery|ntnx-system|tigera-operator
+            Node-all:
+              groupKind:
+                group: ""
+                kind: Node
+              nameRegexp: .*?
+          enabled: true
+          filteredNamespacesRegexp: ""
+          insightClassNames: Nova|Pluto|PolarisAudit
+        replay:
+          apiServerService: dkp-insights-replay-troubleshoot-live
+      eventExpirationTime: 1h
+      livenessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      log_level: INFO
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 128Mi
+      s3:
+        bucketSize: 1G
+        enableObjectBucketClaim: true
+        endpoint: rook-ceph-rgw-dkp-object-store
+        port: 80
+        region: us-east-1
+        storageClassName: dkp-object-store
+      synchronous_view_details: false
+      thresholds:
+        storage:
+          disk:
+            critical: "0.95"
+            notice: "0.80"
+            warning: "0.90"
+          pvc:
+            critical: "0.95"
+            notice: "0.80"
+            warning: "0.90"
+      webhookPort: "8080"
+    cleanup:
+      alertsTTL: 168h
+      dbSizeLimit: 8Gi
+      eventsTTL: 168h
+      insightsTTL: 168h
+      logLevel: INFO
+      rejectedAlertsTTL: 168h
+      resolutionAggregatesTTL: 10000h
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      schedule: '@every 37m'
+    image:
+      imagePullPolicy: IfNotPresent
+      registry: docker.io
+      repository: mesosphere/insights
+      tag: v1.3.4
+    initdb:
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+    kubeBench:
+      config:
+        image:
+          pullPolicy: IfNotPresent
+          repository: aquasec/kube-bench
+          tag: v0.9.1
+        nodeSubsets:
+          all-nodes:
+            defaultSetup: nodes-default
+            setupAutodetection:
+              aks: nodes-aks
+              eks: nodes-eks
+              gke: nodes-gke
+            tolerations:
+              - effect: NoSchedule
+                key: ""
+                operator: Exists
+          control-plane:
+            defaultSetup: control-plane-default
+            nodeSelector:
+              node-role.kubernetes.io/control-plane: ""
+            setupAutodetection: {}
+            tolerations:
+              - effect: NoSchedule
+                key: node-role.kubernetes.io/control-plane
+                operator: Exists
+              - effect: NoSchedule
+                key: node-role.kubernetes.io/master
+                operator: Exists
+        pause:
+          image:
+            pullPolicy: IfNotPresent
+            repository: registry.k8s.io/pause
+            tag: "3.10"
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 10Mi
+        resources:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        setups:
+          control-plane-default:
+            additionalArgs:
+              - --targets
+              - master
+            hostPID: true
+            hostPaths:
+              - /var/lib/etcd
+              - /var/lib/kubelet
+              - /var/lib/kube-scheduler
+              - /var/lib/kube-controller-manager
+              - /etc/systemd
+              - /lib/systemd
+              - /srv/kubernetes
+              - /etc/kubernetes
+              - /etc/cni/net.d/
+              - /opt/cni/bin/
+              - /etc/passwd
+              - /etc/group
+            skip: []
+          nodes-aks:
+            additionalArgs:
+              - --targets
+              - node
+            hostPID: true
+            hostPaths:
+              - /var/lib/kubelet
+              - /etc/systemd
+              - /etc/default
+              - /etc/kubernetes
+            skip: []
+          nodes-default:
+            additionalArgs:
+              - --targets
+              - node
+            hostPID: true
+            hostPaths:
+              - /var/lib/etcd
+              - /var/lib/kubelet
+              - /var/lib/kube-scheduler
+              - /var/lib/kube-controller-manager
+              - /etc/systemd
+              - /lib/systemd
+              - /srv/kubernetes
+              - /etc/kubernetes
+              - /etc/cni/net.d/
+              - /opt/cni/bin/
+            skip: []
+          nodes-eks:
+            additionalArgs:
+              - --targets
+              - node
+            hostPID: true
+            hostPaths:
+              - /var/lib/kubelet
+              - /etc/systemd
+              - /etc/kubernetes
+            skip: []
+          nodes-gke:
+            additionalArgs:
+              - --targets
+              - node,policies,managedservices
+            hostPID: true
+            hostPaths:
+              - /var/lib/kubelet
+              - /etc/systemd
+              - /etc/kubernetes
+              - /home/kubernetes
+            skip: []
+        upload:
+          logLevel: INFO
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      enabled: true
+      launcher:
+        baseEvaluationTimeout: 1m
+        daemonSetRemovalDelay: 0s
+        daemonSetWaitTimeout: 240m
+        logLevel: INFO
+        resources:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+      schedule: '@every 35m'
+    kubectlImage: bitnami/kubectl:1.30.5
+    nova:
+      baseEvaluationTimeout: 1m
+      enabled: true
+      helmRepositoryURLs: []
+      image:
+        pullPolicy: IfNotPresent
+        repository: quay.io/fairwinds/nova
+        tag: v3.11
+      resources:
+        limits:
+          cpu: 100m
+          memory: 512Mi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      schedule: '@every 35m'
+      upload:
+        logLevel: INFO
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+    pluto:
+      baseEvaluationTimeout: 1m
+      enabled: true
+      image:
+        pullPolicy: IfNotPresent
+        repository: us-docker.pkg.dev/fairwinds-ops/oss/pluto
+        tag: v5.20.3
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      schedule: '@every 41m'
+      upload:
+        logLevel: INFO
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+    polaris:
+      baseEvaluationTimeout: 5m
+      config:
+        checks:
+          automountServiceAccountToken: ignore
+          cpuLimitsMissing: warning
+          cpuRequestsMissing: warning
+          dangerousCapabilities: danger
+          deploymentMissingReplicas: warning
+          hostIPCSet: danger
+          hostNetworkSet: danger
+          hostPIDSet: danger
+          hostPortSet: warning
+          insecureCapabilities: warning
+          linuxHardening: ignore
+          livenessProbeMissing: warning
+          memoryLimitsMissing: warning
+          memoryRequestsMissing: warning
+          metadataAndInstanceMismatched: ignore
+          missingNetworkPolicy: ignore
+          missingPodDisruptionBudget: ignore
+          notReadOnlyRootFilesystem: warning
+          pdbDisruptionsIsZero: warning
+          priorityClassNotSet: ignore
+          privilegeEscalationAllowed: danger
+          pullPolicyNotAlways: warning
+          readinessProbeMissing: warning
+          runAsPrivileged: danger
+          runAsRootAllowed: danger
+          sensitiveConfigmapContent: ignore
+          sensitiveContainerEnvVar: ignore
+          tagNotSpecified: danger
+          tlsSettingsMissing: warning
+      enabled: true
+      image:
+        pullPolicy: IfNotPresent
+        repository: quay.io/fairwinds/polaris
+        tag: 9.4.1
+      resources:
+        limits:
+          cpu: 100m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      schedule: '@every 37m'
+      upload:
+        logLevel: INFO
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+    postgresql:
+      global:
+        connectionPool:
+          connectionMaxLifetime: 1h
+          maxIdleConnections: 30
+          maxOpenConnections: 50
+        postgresql:
+          auth:
+            database: nkp-insights
+            postgresPassword: nkp-insights
+          servicePort: 5432
+      image:
+        registry: docker.io
+        repository: bitnami/postgresql
+        tag: 15.8.0-debian-12-r14
+      metrics:
+        image:
+          registry: docker.io
+          repository: bitnami/postgres-exporter
+          tag: 0.15.0-debian-12-r44
+      primary:
+        containerSecurityContext:
+          allowPrivilegeEscalation: false
+        persistence:
+          size: 8Gi
+        priorityClassName: dkp-critical-priority
+        resources:
+          limits:
+            cpu: 250m
+            memory: 1Gi
+          requests:
+            cpu: 250m
+            memory: 1Gi
+    preUpgrade:
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+    priorityClassName: dkp-critical-priority
+    reforwarder:
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+    resolutionCM:
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+    selfAlerting:
+      postgres:
+        enabled: true
+        memoryWorkingSetToRequestsThreshold: 0.75
+    standaloneTesting: false
+    trivy:
+      baseEvaluationTimeout: 10m
+      enabled: false
+      envSecret:
+        enabled: false
+        name: nkp-insights-trivy-env
+      image:
+        imageFull: docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
+        pullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: 200m
+          memory: 10Gi
+        requests:
+          cpu: 200m
+          memory: 10Gi
+      schedule: '@every 2h'
+      severities:
+        - CRITICAL
+        - HIGH
+        - MEDIUM
+        - LOW
+        - UNKNOWN
+      timeout: 90m
+      upload:
+        logLevel: INFO
+        resources:
+          limits:
+            cpu: 250m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+    uninstall:
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi

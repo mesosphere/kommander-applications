@@ -1,0 +1,1 @@
+ghcr.io/mesosphere/kommander-applications-server:v2.14.0-dev

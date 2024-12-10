@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: knative-1.15.5-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    global:
+      priorityClassName: "dkp-high-priority"
+      image: ${kubetoolsImageRepository:=bitnami/kubectl}
+      tag: ${kubetoolsImageTag:=1.30.5}
+    eventing:
+      enabled: false
+    eventing-sources:
+      enabled: false
+    serving:
+      enabled: true
+      namespaceKnativeServing:
+        additionalLabels:
+          ca.istio.io/override: "true"
+      configDeployment:
+        registriesSkippingTagResolving: "gcr.io,k8s.gcr.io,docker.io,index.docker.io,registry-1.docker.io,registry.hub.docker.com,quay.io,mcr.microsoft.com,nvcr.io,public.ecr.aws"
+      gc:
+        retainSinceCreateTime: "48h"
+        retainSinceLastActiveTime: "15h"
+        minNonActiveRevisions: "20"
+        maxNonActiveRevisions: "1000"

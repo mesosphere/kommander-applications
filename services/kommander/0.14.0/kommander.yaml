@@ -1,0 +1,40 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kommander
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      # NOTE: The `kubefed` app is not installing the HelmRelease directly.
+      # That's how its HelmRelease name is simply `kubefed`
+      name: kubefed
+  chart:
+    spec:
+      chart: kommander
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-kommander-charts
+        namespace: kommander-flux
+      version: "${kommanderChartVersion:=v2.14.0-dev}"
+  interval: 15s
+  # Kommander is quite a big chart and it may need some more time than
+  # other charts to get ready so setting this to 10 minutes increases
+  # the chance of the installation not timing out.
+  timeout: 10m
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kommander
+  valuesFrom:
+    - kind: ConfigMap
+      name: kommander-0.14.0-d2iq-defaults
+    - kind: ConfigMap
+      name: kommander-overrides
+      optional: true

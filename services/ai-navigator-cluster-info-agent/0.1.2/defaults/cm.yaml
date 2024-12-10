@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-navigator-cluster-info-agent-0.1.2-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    # Default values for configmap
+    collector:
+      url: http://ai-navigator-cluster-info-api.kommander.svc/api/v1/documents/collect/
+
+    watchNamespaces: {}
+
+    watchGlobalResources: true
+
+    # Default values for cluster-info-agent
+    replicaCount: 1
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    priorityClassName: dkp-high-priority
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: true
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    podAnnotations: {}
+
+    securityContext:
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 1000
+
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+      requests:
+        cpu: 250m
+        memory: 250Mi
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
