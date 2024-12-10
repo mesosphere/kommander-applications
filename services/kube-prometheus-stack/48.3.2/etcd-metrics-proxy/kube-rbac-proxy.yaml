@@ -92,7 +92,7 @@ spec:
       containers:
         - name: kube-rbac-proxy
           image: quay.io/brancz/kube-rbac-proxy:v0.14.2
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           args:
             - "--secure-listen-address=0.0.0.0:8443"
             - "--tls-cert-file=/etc/kube-rbac-proxy/tls/tls.crt"
