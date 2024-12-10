@@ -1,6 +1,7 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
-  - docker.io/mesosphere/trivy-bundles:0.56.2-20241027T222746Z
+  - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
+  - docker.io/library/alpine:3.20.3
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.1
@@ -66,27 +67,22 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: ghcr.io/jimmidyson/configmap-reload:v0.14.0
-    sources:
-      - license_path: LICENSE.txt
-        ref: ${image_tag}
-        url: https://github.com/jimmidyson/configmap-reload
   - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiwigrid/k8s-sidecar
-  - container_image: docker.io/kubernetesui/dashboard-api:1.10.0
+  - container_image: docker.io/kubernetesui/dashboard-api:1.10.1
     sources:
       - license_path: LICENSE
         ref: api/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-auth:1.2.1
+  - container_image: docker.io/kubernetesui/dashboard-auth:1.2.2
     sources:
       - license_path: LICENSE
         ref: auth/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-web:1.5.1
+  - container_image: docker.io/kubernetesui/dashboard-web:1.6.0
     sources:
       - license_path: LICENSE
         ref: web/v${image_tag}
@@ -96,10 +92,10 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/kong:3.6
+  - container_image: docker.io/library/kong:3.8.0
     sources:
       - license_path: LICENSE
-        ref: 3.6.0
+        ref: 3.8.0
         url: https://github.com/Kong/kong
   - container_image: docker.io/library/traefik:v2.11.9
     sources:
@@ -119,7 +115,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jpillora/chisel
-  - container_image: docker.io/mesosphere/cluster-observer:1.4.0
+  - container_image: docker.io/mesosphere/cluster-observer:1.4.1
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-auditing-pipeline
@@ -142,19 +138,19 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v1.3.0
+  - container_image: docker.io/mesosphere/insights-management:v1.3.4
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.3.0
+  - container_image: docker.io/mesosphere/insights:v1.3.4
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/git-operator:v0.13.3
+  - container_image: docker.io/mesosphere/git-operator:v0.13.4
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.13.3
+  - container_image: docker.io/mesosphere/gitwebserver:v0.13.4
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
@@ -207,11 +203,11 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:15.21.0
+  - container_image: docker.io/mesosphere/kommander:16.22.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
-  - container_image: docker.io/mesosphere/kommander-applications-server:${kommander}
+  - container_image: ghcr.io/mesosphere/kommander-applications-server:${kommander}
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander-applications
@@ -252,7 +248,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: ghcr.io/mesosphere/dkp-container-images/rook/ceph:v1.14.5
+  - container_image: docker.io/rook/ceph:v1.15.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -262,7 +258,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero-plugin-for-aws
-  - container_image: docker.io/velero/velero:v1.14.0
+  - container_image: docker.io/velero/velero:v1.15.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -292,7 +288,22 @@ resources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.15.1
+    sources:
+      - license_path: LICENSE
+        ref: knative-${image_tag}
+        url: https://github.com/knative-extensions/net-istio
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.15.1
+    sources:
+      - license_path: LICENSE
+        ref: knative-${image_tag}
+        url: https://github.com/knative-extensions/net-istio
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/brancz/kube-rbac-proxy
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -378,7 +389,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: ghcr.io/mesosphere/dkp-container-images/ceph/ceph:v18.2.2
+  - container_image: quay.io/ceph/ceph:v18.2.4
     sources:
       - license_path: COPYING
         ref: ${image_tag}
@@ -434,6 +445,12 @@ resources:
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
   - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.77.2
+    sources:
+      - license_path: LICENSE
+        notice_path: NOTICE
+        ref: ${image_tag}
+        url: https://github.com/prometheus-operator/prometheus-operator
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.69.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -541,11 +558,6 @@ resources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v${image_tag%-debian-12-r7}
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgresql:15.2.0-debian-11-r21-d2iq.0
-    sources:
-      - url: https://github.com/postgres/postgres
-        ref: REL_15_2
-        license_path: COPYRIGHT
   - container_image: docker.io/bitnami/postgresql:15.8.0-debian-12-r14
     sources:
       - url: https://github.com/postgres/postgres
@@ -556,15 +568,15 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-1.106.7
+  - container_image: gcr.io/kubecost1/cost-model:prod-1.108.1
     sources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag#prod-}
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.106.7-d2iq.1
+  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.108.1-d2iq.0
     sources:
       - url: https://github.com/opencost/opencost
-        ref: v1.106.7
+        ref: v1.108.1
         license_path: LICENSE
   - container_image: registry.k8s.io/pause:3.10
     sources:

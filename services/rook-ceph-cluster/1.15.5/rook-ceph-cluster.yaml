@@ -1,0 +1,27 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: rook-ceph-cluster-helmrelease
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    # There can only be one operator per cluster, just ensure CRDs are present, no need to wait for actual operator Deployment.
+    - name: rook-ceph-cluster-prereq-jobs-v1.15.5
+      namespace: ${workspaceNamespace}
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/rook-ceph-cluster/1.15.5/helmrelease
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars

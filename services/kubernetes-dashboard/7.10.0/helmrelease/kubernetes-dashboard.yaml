@@ -1,0 +1,82 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kubernetes-dashboard
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: kubernetes-dashboard
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-github-io-dashboard
+        namespace: kommander-flux
+      version: 7.10.0
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kubernetes-dashboard
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubernetes-dashboard-7.10.0-d2iq-defaults
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kubernetes-dashboard-view
+rules:
+  - nonResourceURLs:
+      - /dkp/kubernetes
+      - /dkp/kubernetes/*
+    verbs:
+      - get
+      - head
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kubernetes-dashboard-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/kubernetes
+      - /dkp/kubernetes/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-kubernetes-dashboard-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/kubernetes
+      - /dkp/kubernetes/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "dashboard"
+data:
+  name: "Kubernetes"
+  dashboardLink: "/dkp/kubernetes/"
+  docsLink: "https://kubernetes.io/docs/home/"
+  # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for app version
+  version: "2.7.0"

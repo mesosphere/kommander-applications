@@ -1,0 +1,94 @@
+# Ceph operator could be in a different namespace and in order to reuse an operator in different namespace, we simply wait for CRDs.---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: check-dkp-ceph-crd
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: check-dkp-ceph-crd
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "watch", "list"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: check-dkp-ceph-crd
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: check-dkp-ceph-crd
+subjects:
+  - kind: ServiceAccount
+    name: check-dkp-ceph-crd
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: dkp-ceph-prereq-job
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: dkp-ceph-prereq-job
+    spec:
+      serviceAccountName: check-dkp-ceph-crd
+      priorityClassName: system-cluster-critical
+      restartPolicy: OnFailure
+      containers:
+        - name: pre-install
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - sh
+            - -c
+            - |
+              while ! kubectl wait --for condition=established --timeout=30s crd/cephclusters.ceph.rook.io ;
+              do
+                sleep 30
+              done
+        - name: pre-upgrade
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - sh
+            - -c
+            - |
+              # If there is a HelmRelease managed by NKP in same namespace when this job is being ran, it *might* be an
+              # upgrade scenario. If there is no such helm release, there is no way this is an upgrade scenario.
+              # Iff there is such a helmrelease, wait for it to be healthy and be of the same version.
+              #
+              # This is done here to avoid having an explicit dependency against NKP shipped ceph operator while still
+              # being able to allow us to wait for NKP shipped ceph operator if there is one.
+              timeout 30m /bin/bash <<'EOF' || true
+              kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph
+              if [[ $? -ne 0 ]]; then
+                echo "Since rook-ceph HelmRelease does not exist, this might not be an upgrade scenario. Exiting..."
+                exit 0
+              fi
+
+              managedBy=$(kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph -ogo-template='{{index .metadata.labels "kommander.d2iq.io/managed-by-kind"}}')
+              if [[ $managedBy != "AppDeployment" ]]; then
+                echo "HelmRelease is not managed by AppDeployment, no need to wait in this scenario. Exiting..."
+                exit 0
+              fi
+
+              echo "Waiting for ceph operator to complete its upgrade..."
+              while true; do
+                cephOperatorVersion=$(kubectl get helmreleases.helm.toolkit.fluxcd.io -n ${releaseNamespace} rook-ceph -ogo-template={{.status.lastAttemptedRevision}})
+                if [[ $cephOperatorVersion == ${desiredCephOperatorVersion} ]]; then
+                  echo "Ceph operator is at same version as desired cluster version (${desiredCephOperatorVersion}). Exiting..."
+                  break
+                fi
+                echo "Ceph operator is at $cephOperatorVersion version and desired version is ${desiredCephOperatorVersion}. Continuing to wait..."
+                sleep 10
+              done
+              EOF

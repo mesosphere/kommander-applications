@@ -1,1 +1,0 @@
-mesosphere/kommander-applications-server:v2.13.0-dev

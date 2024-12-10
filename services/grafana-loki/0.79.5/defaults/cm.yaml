@@ -65,7 +65,7 @@ data:
           configs:
             - from: 2020-09-07
               store: boltdb-shipper
-              object_store: aws
+              object_store: s3
               schema: v11
               index:
                 prefix: loki_index_

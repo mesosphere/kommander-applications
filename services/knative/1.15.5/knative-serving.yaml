@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: knative
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - name: istio
+      namespace: ${releaseNamespace}
+  chart:
+    spec:
+      chart: knative
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-staging
+        namespace: kommander-flux
+      version: 1.15.5
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: knative
+  targetNamespace: knative-serving
+  valuesFrom:
+    - kind: ConfigMap
+      name: knative-1.15.5-d2iq-defaults

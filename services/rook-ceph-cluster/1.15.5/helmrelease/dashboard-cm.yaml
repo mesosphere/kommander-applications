@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-ceph-cluster-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "rook-ceph-cluster"
+data:
+  name: "Rook Ceph Cluster"
+  dashboardLink: "/dkp/kommander/ceph-dashboard/"
+  docsLink: "https://docs.ceph.com/en/latest/mgr/dashboard/"
+  # Rook Ceph Version can be found at https://github.com/rook/rook/blob/v1.15.5/deploy/charts/rook-ceph-cluster/values.yaml#L97
+  version: "18.2.4"

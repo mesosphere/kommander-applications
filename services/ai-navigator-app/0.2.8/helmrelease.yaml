@@ -1,0 +1,20 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ai-navigator-app-helmrelease
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  interval: 6h
+  path: ./services/ai-navigator-app/0.2.8/helmrelease
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  wait: true
