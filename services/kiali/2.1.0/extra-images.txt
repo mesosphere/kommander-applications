@@ -1,1 +1,1 @@
-quay.io/kiali/kiali:v1.88.0-distro
+quay.io/kiali/kiali:v2.1.0-distro
