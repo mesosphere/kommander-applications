@@ -35,3 +35,4 @@ data:
       image:
         repository: "${kommanderAppManagementConfigAPIImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
+        
