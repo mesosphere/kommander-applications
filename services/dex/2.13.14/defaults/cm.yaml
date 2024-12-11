@@ -104,6 +104,10 @@ data:
             fieldPath: metadata.namespace
     dex-controller:
       priorityClassName: "dkp-critical-priority"
+      image:
+        repository: quay.io/brancz/kube-rbac-proxy
+        tag: "0.18.0"   # Specify the Kong image tag here
+        pullPolicy: IfNotPresent  # Ensure the image is always pulled
       controller:
         manager:
           dexConfigSecretName: dex
