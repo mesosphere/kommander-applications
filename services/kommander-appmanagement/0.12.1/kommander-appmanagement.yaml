@@ -28,4 +28,4 @@ spec:
       name: kommander-appmanagement-0.12.1-d2iq-defaults
     - kind: ConfigMap
       name: kommander-appmanagement-overrides
-      optional: true
+      # optional: true

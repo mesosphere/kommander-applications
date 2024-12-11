@@ -7,11 +7,6 @@ metadata:
 data:
   values.yaml: |
     priorityClassName: "dkp-critical-priority"
-    image:
-      repository: quay.io/brancz/kube-rbac-proxy 
-      pullPolicy: Always
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "v0.18.0"
     airgapped:
       enabled: ${airgappedEnabled}
     controllerManager:
