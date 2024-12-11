@@ -437,7 +437,7 @@ resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/kiali/kiali-operator:v2.1.0-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/kiali/kiali-operator
   - container_image: quay.io/kiali/kiali:v1.88.0-distro
     sources:
