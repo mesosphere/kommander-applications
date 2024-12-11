@@ -7,8 +7,8 @@ data:
   values.yaml: |
     priorityClassName: dkp-high-priority
     image:
-      repo: quay.io/kiali/kiali-operator
-      tag: v1.89.7
+      repo: ghcr.io/mesosphere/dkp-container-images/quay.io/kiali/kiali-operator
+      tag: v2.1.0-d2iq.0
     allowAdHocKialiImage: true
     cr:
       create: true
