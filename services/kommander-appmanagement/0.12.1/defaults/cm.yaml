@@ -16,7 +16,7 @@ data:
           image:
             tag: "${kommanderAppManagementImageTag}"
             repository: "${kommanderAppManagementImageRepository}"
-            pullPolicy: IfNotPresent
+            pullPolicy: Always
     kubetools:
       image:
         repository: "${kommanderAppManagementKubetoolsImageRepository}"
