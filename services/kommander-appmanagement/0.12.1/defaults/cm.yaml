@@ -35,3 +35,7 @@ data:
       image:
         repository: "${kommanderAppManagementConfigAPIImageRepository}"
         tag: "${kommanderAppManagementImageTag}"
+      image:
+        repository: quay.io/brancz/kube-rbac-proxy
+        tag: "0.18.0"  
+        pullPolicy: IfNotPresent  # Ensure the image is always pulled
