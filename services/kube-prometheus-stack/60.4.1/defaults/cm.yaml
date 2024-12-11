@@ -458,6 +458,8 @@ data:
       priorityClassName: "dkp-critical-priority"
       kubeRBACProxy:
         enabled: true
+        image:
+          tag: v0.18.0
       prometheus:
         monitor:
           scheme: https
