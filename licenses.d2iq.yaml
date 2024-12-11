@@ -1,6 +1,8 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/trivy-bundles:0.53.0-20240726T101319Z
+  - docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
+  - docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
@@ -319,16 +321,16 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.10.0
         url: https://github.com/knative/serving
-  - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
+  # - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
+  #   sources:
+  #     - license_path: LICENSE
+  #       ref: ${image_tag}
+  #       url: https://github.com/brancz/kube-rbac-proxy
+  # - container_image: docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
+  #   sources:
+  #     - license_path: LICENSE
+  #       ref: ${image_tag}
+  #       url: https://github.com/brancz/kube-rbac-proxy
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.0
     sources:
       - license_path: LICENSE
