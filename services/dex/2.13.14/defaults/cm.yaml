@@ -7,10 +7,6 @@ data:
   values.yaml: |-
     ---
     priorityClassName: "dkp-critical-priority"
-    image:
-        repository: quay.io/brancz/kube-rbac-proxy
-        tag: "0.18.0"  
-        pullPolicy: IfNotPresent  # Ensure the image is always pulled
     kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.6}"
     image: mesosphere/dex
     imageTag: v2.41.1-d2iq.1
