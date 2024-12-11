@@ -1,8 +1,7 @@
 ignore:
   - ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
   - docker.io/mesosphere/trivy-bundles:0.53.0-20240726T101319Z
-  - docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
-  - docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
+  - gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
 
 resources:
   - container_image: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit:2.2.3-d2iq.0
