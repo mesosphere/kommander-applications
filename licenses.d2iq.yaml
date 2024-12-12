@@ -434,12 +434,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/TremoloSecurity/kube-oidc-proxy
-  - container_image: quay.io/kiali/kiali-operator:v1.89.7
+  - container_image: ghcr.io/mesosphere/dkp-container-images/quay.io/kiali/kiali-operator:v2.1.0-d2iq.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: ${image_tag%-d2iq.0}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v1.88.0-distro
+  - container_image: quay.io/kiali/kiali:v2.1.0-distro
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
