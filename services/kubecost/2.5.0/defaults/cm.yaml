@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubecost-2.5.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    global:
+      prometheus:
+        # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
+        enabled: true
+
+      grafana:
+        enabled: false
+        proxy: false
+    forecasting:
+      # Enable this to use kubecost's cost forecosting model
+      enabled: false
+    upgrade:
+      toV2: false # TODO: Handle upgrades.
+
+    federatedETL:
+      federatedCluster: true
+      agentOnly: true # This disables the UI.
+
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+      paths:
+        - "/dkp/kubecost/frontend/"
+      hosts:
+        - ""
+      tls: []
+
+    kubecostModel:
+      federatedStorageConfigSecret: "federated-store" # TODO(takirala): Who will create this and when? We can ship with ceph storage for now.
+
+    kubecostAggregator:
+      deployMethod: disabled
+
+    priority:
+      enabled: true
+      name: dkp-high-priority
+
+    prometheus:
+      server:
+        retention: 14d
+        clusterIDConfigmap: kubecost-cluster-info-configmap
+
+    kubecostProductConfigs:
+      # used for display in Kubecost UI
+      clusterName: "Kommander Managed Cluster"
