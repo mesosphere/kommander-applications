@@ -68,6 +68,7 @@ data:
       # Enable this to use kubecost's cost forecosting model
       # TODO(takirala): do we enable this and create yet another pod or disable this but ship the image for airgap bundle?
       enabled: true
+
     # Define persistence volume for cost-analyzer, more information at https://github.com/kubecost/docs/blob/master/storage.md
     persistentVolume:
       # Upgrades from original default 0.2Gi may break if automatic disk resize is not supported
@@ -76,6 +77,7 @@ data:
       # Note that setting this to false means configurations will be wiped out on pod restart.
       enabled: true
       # storageClass: "-"
+
     ingress:
       enabled: true
       annotations:
@@ -221,6 +223,19 @@ data:
                   labels:
                     severity: warning
 
+    grafana:
+      sidecar:
+        image:
+          repository: docker.io/kiwigrid/k8s-sidecar
+          tag: 1.28.1
+        dashboards:
+          enabled: true
+          label: grafana_dashboard_kommander
+        datasources:
+          enabled: true
+          defaultDatasourceEnabled: false
+          label: grafana_datasource_kommander
+
     kubecostProductConfigs:
       grafanaURL: "/dkp/kommander/monitoring/grafana"
       # used for display in Kubecost UI
@@ -229,13 +244,14 @@ data:
       productKey:
         enabled: false
         #key: YOUR_KEY
-        
+
+    # TODO(takirala): use cosi api
     dkp:
       # The name of the bucket is important here as rook creates
       # a ConfigMap and Secret with same name as bucket.
       kubecost-cosi-storage:
         enabled: true
-        bucketName: dkp-centralized-kubecost
+        bucketName: kubecost-cosi-storage
         storageClassName: dkp-object-store
         enableOBCHealthCheck: true
         priorityClassName: system-cluster-critical

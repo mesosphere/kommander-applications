@@ -1,0 +1,109 @@
+# Copy grafana-datasource cm after it has been created in the release.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: centralized-kubecost-prerequisites
+  namespace: kubecost
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: centralized-kubecost-prerequisites
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps", "namespaces"]
+    verbs: ["get", "list", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: centralized-kubecost-prerequisites
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: centralized-kubecost-prerequisites
+subjects:
+  - kind: ServiceAccount
+    name: centralized-kubecost-prerequisites
+    namespace: kubecost
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: centralized-kubecost-prerequisites
+  namespace: kubecost
+spec:
+  template:
+    metadata:
+      name: centralized-kubecost-prerequisites
+    spec:
+      serviceAccountName: centralized-kubecost-prerequisites
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: create-kubecost-cluster-info-configmap
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - sh
+            - -c
+            - |
+              /bin/bash <<'EOF'
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+              # Skip if the configmap already exists.
+              if kubectl get configmap -n kubecost kubecost-cluster-info-configmap; then
+                  echo "Configmap kubecost-cluster-info-configmap already exists. Skipping the step."
+                  exit 0
+              fi
+              kubectl create configmap kubecost-cluster-info-configmap -n kubecost -oyaml --dry-run --save-config --from-literal=CLUSTER_ID=$(kubectl get namespace kube-system -o jsonpath="{.metadata.uid}") | kubectl apply -f -
+              echo "Done replacing \$CLUSTER_ID with $CLUSTERID"
+              EOF
+        - name: create-federated-store-secret
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - sh
+            - -c
+            - |
+              set -o nounset
+              set -o errexit
+
+              # Skip this job if a secret already exists.
+              if kubectl get secret -n kubecost federated-store; then
+                  echo "Secret federated-store already exists. Skipping the step."
+                  exit 0
+              fi
+              # Skip this job if the COSI bucket secret does not exist.
+              # TODO(takirala): Do we need to wait for HelmRelease? Probably not, but make sure.
+              if ! kubectl get secret -n kubecost kubecost-cosi-storage; then
+                  echo "COSI bucket secret does not exist. Skipping the step."
+                  exit 0
+              fi
+              # TODO(takirala): Use the cosi secret instead of ceph raw secret
+              access_key=$(kubectl get secret -n kubecost kubecost-cosi-storage -o go-template='{{ .data.AWS_ACCESS_KEY_ID | base64decode }}')
+              secret_key=$(kubectl get secret -n kubecost kubecost-cosi-storage -o go-template='{{ .data.AWS_SECRET_ACCESS_KEY | base64decode }}')
+              # Create a file to store the kubecost compatible secret.
+              tmpfile=$(mktemp /tmp/federated-store.XXXXXX)
+              cat <<EOF > "$tmpfile"
+              type: S3
+              config:
+                bucket: "kubecost-cosi-storage"
+                endpoint: "rook-ceph-rgw-dkp-object-store.kommander.svc"
+                region: ""
+                access_key: $access_key
+                secret_key: $secret_key
+                insecure: true # TODO(takirala): flip this boolean
+                signature_version2: false
+                put_user_metadata:
+                  "X-Amz-Acl": "bucket-owner-full-control"
+                http_config:
+                  idle_conn_timeout: 90s
+                  response_header_timeout: 2m
+                  insecure_skip_verify: true # TODO(takirala): flip this boolean
+                trace:
+                  enable: false # Enable to debug errors (if any)
+                part_size: 134217728
+              EOF
+              # Create the secret.
+              kubectl create secret generic federated-store -n kubecost --from-file=federated-store.yaml="$tmpfile"
+              rm "$tmpfile"

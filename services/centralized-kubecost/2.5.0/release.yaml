@@ -20,5 +20,5 @@ spec:
       - kind: ConfigMap
         name: substitution-vars
   dependsOn:
-    - name: object-bucket-claims-helmrelease
+    - name: kubecost-cosi-storage
       namespace: ${releaseNamespace}

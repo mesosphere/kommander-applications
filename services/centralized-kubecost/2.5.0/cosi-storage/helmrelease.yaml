@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kubecost-cosi-storage
+  name: kubecost-cosi-storage-todo # TODO(takirala): remove this HR and use cosi api
   namespace: ${releaseNamespace}
 spec:
   chart:
@@ -33,4 +33,4 @@ spec:
     - kind: ConfigMap
       name: centralized-kubecost-2.5.0-cluster-overrides
       optional: true
-  targetNamespace: ${releaseNamespace}
+  targetNamespace: kubecost
