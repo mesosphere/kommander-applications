@@ -320,11 +320,6 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.10.0
         url: https://github.com/knative/serving
-  - container_image: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/brancz/kube-rbac-proxy
   - container_image: docker.io/kubebuilder/kube-rbac-proxy:v0.16.0
     sources:
       - license_path: LICENSE
