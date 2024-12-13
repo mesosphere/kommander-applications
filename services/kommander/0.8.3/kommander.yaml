@@ -17,11 +17,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
-<<<<<<< HEAD:services/kommander/0.8.2/kommander.yaml
       version: "${kommanderChartVersion:=v2.8}"
-=======
-      version: "${kommanderChartVersion:=v2.8.3-dev}"
->>>>>>> origin/release-2.8:services/kommander/0.8.3/kommander.yaml
   interval: 15s
   # Kommander is quite a big chart and it may need some more time than
   # other charts to get ready so setting this to 10 minutes increases
