@@ -108,7 +108,7 @@ data:
         proxy:
           image:
             repository: kubebuilder/kube-rbac-proxy
-            tag: v0.14.2
+            tag: v0.14.0
             pullPolicy: Always
           resources: {}
         manager:
