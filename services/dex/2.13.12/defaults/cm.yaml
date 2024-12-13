@@ -107,7 +107,7 @@ data:
       controller:
         proxy:
           image:
-            repository: kubebuilder/kube-rbac-proxy
+            repository: quay.io/brancz/kube-rbac-proxy
             tag: v0.14.2
             pullPolicy: Always
           resources: {}
