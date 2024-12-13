@@ -12,7 +12,11 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
+<<<<<<< HEAD:services/kommander-appmanagement/0.8.2/kommander-appmanagement.yaml
       version: "${kommanderChartVersion:=v2.8}"
+=======
+      version: "${kommanderChartVersion:=v2.8.3-dev}"
+>>>>>>> origin/release-2.8:services/kommander-appmanagement/0.8.3/kommander-appmanagement.yaml
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,4 +29,4 @@ spec:
   releaseName: kommander-appmanagement
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-appmanagement-0.8.2-d2iq-defaults
+      name: kommander-appmanagement-0.8.3-d2iq-defaults
