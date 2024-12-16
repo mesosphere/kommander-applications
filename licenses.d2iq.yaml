@@ -492,10 +492,10 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: ghcr.io/mesosphere/dkp-container-images/cr.weaviate.io/semitechnologies/weaviate:1.21.4-d2iq.0
+  - container_image: cr.weaviate.io/semitechnologies/weaviate:1.27.6
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-d2iq.0}
+        ref: v${image_tag}
         url: https://github.com/weaviate/weaviate
   - container_image: ghcr.io/kube-logging/fluentd:v1.16-full-build.122
     sources:
