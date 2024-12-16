@@ -1,55 +1,57 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: kubecost
+  name: thanos
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: kubecost
+      chart: thanos
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: charts.github.io-bitnami
         namespace: kommander-flux
-      version: 0.37.4
+      version: 15.7.23
   interval: 15s
   install:
     crds: CreateReplace
     remediation:
       retries: 30
-    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: kubecost
+  releaseName: thanos
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-0.37.8-d2iq-defaults
-  targetNamespace: ${releaseNamespace}
+      name: thanos-15.7.24-d2iq-defaults
 ---
-apiVersion: v1
-kind: ConfigMap
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: kubecost-app-dashboard-info
+  name: kommander-thanos-client-cert
   namespace: ${releaseNamespace}
-  labels:
-    "kommander.d2iq.io/application": "kubecost"
-data:
-  name: "Kubecost"
-  dashboardLink: "/dkp/kubecost/frontend/overview.html"
-  docsLink: "http://docs.kubecost.com/"
-  # From: https://github.com/mesosphere/charts/blob/master/stable/kubecost/Chart.yaml#L2
-  version: "1.104.0"
+spec:
+  commonName: client.thanos.localhost.localdomain
+  duration: 87600h
+  dnsNames:
+    - client.thanos.localhost.localdomain
+  subject:
+    organizations:
+      - Nutanix
+  secretName: kommander-thanos-client-tls
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-kubecost-view
+  name: dkp-thanos-query-view
 rules:
   - nonResourceURLs:
-      - /dkp/kubecost/frontend
-      - /dkp/kubecost/frontend/*
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
     verbs:
       - get
       - head
@@ -57,11 +59,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-kubecost-edit
+  name: dkp-thanos-query-edit
 rules:
   - nonResourceURLs:
-      - /dkp/kubecost/frontend
-      - /dkp/kubecost/frontend/*
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
     verbs:
       - get
       - head
@@ -71,11 +73,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: dkp-kubecost-admin
+  name: dkp-thanos-query-admin
 rules:
   - nonResourceURLs:
-      - /dkp/kubecost/frontend
-      - /dkp/kubecost/frontend/*
+      - /dkp/kommander/monitoring/query
+      - /dkp/kommander/monitoring/query/*
     verbs:
       - get
       - head

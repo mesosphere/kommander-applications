@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: thanos-jobs
+  name: centralized-kubecost-post-install-jobs
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,12 +9,15 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  timeout: 1m
-  path: ./services/thanos/15.7.23/jobs
+  path: ./services/centralized-kubecost/0.37.8/post-install-jobs
+  dependsOn:
+    - name: centralized-kubecost-release
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
+  timeout: 1m
   postBuild:
-    substitute:
-      releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
