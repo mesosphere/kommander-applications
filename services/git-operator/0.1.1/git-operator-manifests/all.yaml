@@ -700,7 +700,6 @@ data:
         server {
             server_name       _;
             listen 9443 ssl default_server;
-            listen [::]:9443 ssl default_server;
 
             ssl_certificate /etc/nginx/tls/tls.crt;
             ssl_certificate_key /etc/nginx/tls/tls.key;
@@ -741,7 +740,6 @@ data:
         server {
             server_name       _;
             listen 8443 ssl default_server;
-            listen [::]:8443 ssl default_server;
 
             ssl_certificate /etc/nginx/tls/tls.crt;
             ssl_certificate_key /etc/nginx/tls/tls.key;
@@ -778,7 +776,7 @@ data:
 kind: ConfigMap
 metadata:
   name: git-operator-nginx-conf
-  namespace: ${NAMESPACE:=git-operator-system}
+  namespace: git-operator-system
 ---
 apiVersion: v1
 kind: Service
