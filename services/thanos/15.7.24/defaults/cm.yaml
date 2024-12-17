@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: thanos-15.7.23-d2iq-defaults
+  name: thanos-15.7.24-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
+    image:
+      registry: docker.io
+      repository: bitnami/thanos
+      tag: 0.37.1-debian-12-r0
     storegateway:
       enabled: false
     compactor:
