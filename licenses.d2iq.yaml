@@ -579,3 +579,43 @@ resources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
         license_path: LICENSE
+  - container_image: goharbor/harbor-core:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-db:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-jobservice:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-portal:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-registryctl:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/redis-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/registry-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/trivy-adapter-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
