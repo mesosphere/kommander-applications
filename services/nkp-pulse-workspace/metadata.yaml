@@ -1,0 +1,9 @@
+type: internal
+scope:
+  - workspace
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
