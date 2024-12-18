@@ -1,0 +1,45 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCOSIDriver
+metadata:
+  name: ceph-cosi-driver
+  namespace: kommander
+spec:
+  deploymentStrategy: "Auto"
+---
+# The Ceph-COSI driver needs a privileged user for each CephObjectStore
+# in order to provision buckets and users
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: cosi-admin
+  namespace: kommander
+spec:
+  displayName: "cosi user"
+  store:  dkp-object-store # name of the CephObjectStore
+  capabilities:
+    bucket: "*"
+    user: "*"
+---
+# Following are "ADMIN" operations
+---
+kind: BucketClass
+apiVersion: objectstorage.k8s.io/v1alpha1
+metadata:
+  name: test-bc
+  # Cluster scoped resource
+driverName: rook-ceph.ceph.objectstorage.k8s.io
+deletionPolicy: Delete
+parameters:
+  objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+  objectStoreUserSecretNamespace: kommander
+---
+kind: BucketAccessClass
+apiVersion: objectstorage.k8s.io/v1alpha1
+metadata:
+  name: test-bac
+  # Cluster scoped resource
+driverName: rook-ceph.ceph.objectstorage.k8s.io
+authenticationType: KEY
+parameters:
+  objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+  objectStoreUserSecretNamespace: kommander

@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cosi-move-to-konvoy-todo
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: cosi
+      sourceRef:
+        kind: HelmRepository
+        name: takirala
+        namespace: kommander-flux
+      version: 0.0.1
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: does-not-matter
+  targetNamespace: container-object-storage-system
