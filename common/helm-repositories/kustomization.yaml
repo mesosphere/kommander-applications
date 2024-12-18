@@ -5,6 +5,7 @@ resources:
   - bitnami.yaml
   - cert-manager.yaml
   - dashboard.yaml
+  - deleteme.yaml
   - fluent.yaml
   - gatekeeper.yaml
   - grafana.yaml
@@ -13,6 +14,7 @@ resources:
   - kommander-ui.yaml
   - kommander.yaml
   - kube-logging.yaml
+  - kubecost.yaml
   - kubefed.yaml
   - kubetunnel.yaml
   - mesosphere-repos.yaml
