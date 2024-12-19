@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - grafana-dashboards
   - logging-operator.yaml
-  - logging-operator-logging.yaml
