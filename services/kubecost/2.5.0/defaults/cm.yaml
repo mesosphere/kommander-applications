@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubecost-2.5.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    global:
+      prometheus:
+        enabled: true
+
+      grafana:
+        enabled: true
+        proxy: false
+    forecasting:
+      # Enable this to use kubecost's cost forecosting model
+      enabled: false
+    upgrade:
+      toV2: false # TODO(takirala): Handle upgrades.
+
+    federatedETL:
+      federatedCluster: true
+      agentOnly: true # disables UI
+
+    ingress:
+      enabled: false
+
+    kubecostModel:
+      federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials
+
+    kubecostAggregator:
+      deployMethod: disabled
+
+    priority:
+      enabled: true
+      name: dkp-high-priority
+
+    prometheus:
+      server:
+        retention: 14d
+        clusterIDConfigmap: kubecost-cluster-info-configmap
+        global:
+          scrape_interval: 1m
+          scrape_timeout: 10s
+          evaluation_interval: 1m
+          external_labels:
+            cluster_id: $CLUSTER_ID
+
+    kubecostProductConfigs:
+      # used for display in Kubecost UI
+      clusterName: ""
+      clusterProfile: production

@@ -1,0 +1,53 @@
+# Copy grafana-datasource cm after it has been created in the release.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubecost-prerequisites
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubecost-prerequisites
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "create", "patch"]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubecost-prerequisites
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubecost-prerequisites
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-prerequisites
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-kubecost-cluster-info-configmap
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: create-kubecost-cluster-info-configmap
+    spec:
+      serviceAccountName: kubecost-prerequisites
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: kubectl
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - sh
+            - -c
+            - |
+              kubectl create configmap kubecost-cluster-info-configmap -n ${releaseNamespace} -oyaml --dry-run=client --save-config --from-literal=CLUSTER_ID=$(kubectl get namespace kube-system -o jsonpath="{.metadata.uid}") | kubectl apply -f -
