@@ -146,11 +146,11 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/git-operator:v0.13.3
+  - container_image: docker.io/mesosphere/git-operator:v0.13.5
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.13.3
+  - container_image: docker.io/mesosphere/gitwebserver:v0.13.5
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
@@ -299,6 +299,11 @@ resources:
         ref: knative-${image_tag}
         url: https://github.com/knative-extensions/net-istio
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/brancz/kube-rbac-proxy
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.18.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
