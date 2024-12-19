@@ -237,7 +237,7 @@ data:
       # used for display in Kubecost UI
       clusterName: ""
       clusterProfile: production
-      cloudIntegrationSecret: # TODO: figure out how to add cloud integration secret
+      cloudIntegrationSecret: # TODO(takirala): Do we want to enable this by default?
       productKey:
         enabled: false
         #key: YOUR_KEY
