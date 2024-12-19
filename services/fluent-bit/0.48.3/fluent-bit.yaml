@@ -13,7 +13,7 @@ spec:
         namespace: kommander-flux
       # This chart version should be kept in sync with logging-operator.
       # Both services should deploy the same version of fluent-bit.
-      version: 0.47.7
+      version: 0.48.3
   interval: 15s
   install:
     crds: CreateReplace
@@ -27,4 +27,4 @@ spec:
   releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
-      name: fluent-bit-0.47.7-d2iq-defaults
+      name: fluent-bit-0.48.3-d2iq-defaults
