@@ -1,0 +1,4 @@
+{{ .Values.logging.fluentbit.image.repository }}:{{ .Values.logging.fluentbit.image.tag }}
+{{ .Values.logging.fluentd.image.repository }}:{{ .Values.logging.fluentd.image.tag }}
+ghcr.io/kube-logging/config-reloader:v0.0.6
+ghcr.io/kube-logging/node-exporter:v0.8.0
