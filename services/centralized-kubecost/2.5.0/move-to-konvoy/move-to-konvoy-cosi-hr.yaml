@@ -1,3 +1,15 @@
+---
+# TODO: delete after merging the cosi-bucket-kit chart
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: takirala
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: https://takirala.github.io/charts/stable
+---
 # TODO: https://jira.nutanix.com/browse/NCN-104793 and https://jira.nutanix.com/browse/NCN-104743
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
