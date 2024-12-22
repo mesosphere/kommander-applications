@@ -6,8 +6,7 @@ type: platform
 scope:
   - workspace
 certifications:
-  - certified
-  - supported
+  - qualified
   - airgapped
 licensing:
   - Starter

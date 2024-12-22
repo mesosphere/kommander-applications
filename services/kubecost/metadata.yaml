@@ -2,15 +2,14 @@ displayName: Kubecost
 description: Provides real-time cost visibility and insights for teams using Kubernetes, helping organizations continuously reduce cloud costs.
 category:
   - monitoring
-type: partner
+type: platform
 scope:
   - workspace
 licensing:
   - Ultimate
   - Enterprise
 certifications:
-  - certified
-  - supported
+  - qualified
   - airgapped
 overview: |-
   # Overview
