@@ -11,7 +11,7 @@ data:
         enabled: true
 
       grafana:
-        enabled: false # Cannot use grafana when federatedETL.agentOnly is true. 
+        enabled: false # Cannot use grafana when federatedETL.agentOnly is true.
 
     forecasting:
       # Enable this to use kubecost's cost forecosting model
