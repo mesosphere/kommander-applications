@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-forward-auth-mgmt-0.3.13-d2iq-defaults
+  name: traefik-forward-auth-mgmt-0.3.14-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -9,7 +9,7 @@ data:
     priorityClassName: "dkp-critical-priority"
     replicaCount: 1
     image:
-      tag: v3.2.0
+      tag: v3.2.1
     resources:
       requests:
         cpu: 100m
