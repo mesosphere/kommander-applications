@@ -20,5 +20,5 @@ spec:
       - kind: ConfigMap
         name: substitution-vars
   dependsOn:
-    - name: centralized-kubecost-prerequisites
+    - name: centralized-kubecost-pre-install
       namespace: ${releaseNamespace}

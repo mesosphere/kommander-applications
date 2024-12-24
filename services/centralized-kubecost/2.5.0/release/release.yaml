@@ -28,6 +28,10 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: centralized-kubecost-2.5.0-d2iq-defaults
+      valuesKey: shared-values.yaml
+    - kind: ConfigMap
+      name: centralized-kubecost-2.5.0-d2iq-defaults
+      valuesKey: ${kubecostClusterMode:=single-cluster}-values.yaml
     - kind: ConfigMap
       name: centralized-kubecost-overrides
       optional: true

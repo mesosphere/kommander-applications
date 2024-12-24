@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - move-to-konvoy.yaml
   - cosi-storage.yaml
-  - prerequisites.yaml
+  - pre-install.yaml
   - release.yaml
-  - post-install-jobs.yaml
+  - post-install.yaml

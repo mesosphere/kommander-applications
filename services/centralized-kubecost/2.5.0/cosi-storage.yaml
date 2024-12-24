@@ -21,3 +21,6 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars

@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: centralized-kubecost-prerequisites
+  name: centralized-kubecost-pre-install
   namespace: kubecost
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: centralized-kubecost-prerequisites
+  name: centralized-kubecost-pre-install
 rules:
   - apiGroups: [""]
     resources: ["configmaps", "namespaces"]
@@ -20,27 +20,27 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: centralized-kubecost-prerequisites
+  name: centralized-kubecost-pre-install
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: centralized-kubecost-prerequisites
+  name: centralized-kubecost-pre-install
 subjects:
   - kind: ServiceAccount
-    name: centralized-kubecost-prerequisites
+    name: centralized-kubecost-pre-install
     namespace: kubecost
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: centralized-kubecost-prerequisites
+  name: centralized-kubecost-pre-install
   namespace: kubecost
 spec:
   template:
     metadata:
-      name: centralized-kubecost-prerequisites
+      name: centralized-kubecost-pre-install
     spec:
-      serviceAccountName: centralized-kubecost-prerequisites
+      serviceAccountName: centralized-kubecost-pre-install
       restartPolicy: OnFailure
       priorityClassName: dkp-high-priority
       containers:
@@ -71,6 +71,12 @@ spec:
               set -o nounset
               set -o errexit
               set +x
+
+              # check the value of kubecostClusterMode and exit early if it equals to single-cluster.
+              if [ "${kubecostClusterMode:=single-cluster}" = "single-cluster" ]; then
+                  echo "kubecostClusterMode is single-cluster. Skipping the step."
+                  exit 0
+              fi
 
               # Wait until federated-store secret is found.
               while ! kubectl get secret -n kubecost federated-store; do
@@ -112,4 +118,4 @@ spec:
               kubectl create secret generic federated-store -n kubecost --from-file=federated-store.yaml="$tmpfile" --dry-run=client -o yaml | kubectl apply -f -
               kubectl label secret federated-store -n kubecost app.kubernetes.io/processed-by-kommander-centralized-kubecost=true --overwrite
               rm "$tmpfile"
-              # TODO(takirala): Test and support azure, nutanix cosi secrets.
+              # TODO(takirala): Test and support nutanix cosi secrets.
