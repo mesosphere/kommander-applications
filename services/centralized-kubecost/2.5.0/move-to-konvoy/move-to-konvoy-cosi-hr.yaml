@@ -15,7 +15,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: cosi-move-to-konvoy-todo
-  namespace: ${releaseNamespace}
+  namespace: kommander
 spec:
   chart:
     spec:
