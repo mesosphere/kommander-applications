@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
-      version: "${kommanderChartVersion:=v2.13.1-dev}"
+      version: "${kommanderChartVersion:=v2.13.1-rc.1}"
   interval: 15s
   install:
     crds: CreateReplace
