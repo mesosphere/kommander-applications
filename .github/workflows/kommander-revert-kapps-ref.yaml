@@ -11,7 +11,9 @@ permissions:
 
 jobs:
   get-kapps-branch-name:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     outputs:
       branch_name: ${{ steps.branch-name.outputs.branch_name }}
@@ -32,7 +34,9 @@ jobs:
         run: echo ${{ steps.base-branch-name.outputs.base_branch_name }}
 
   update-kommander-branch:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     needs: get-kapps-branch-name
     if: success()
     steps:

@@ -6,7 +6,9 @@ permissions:
   contents: read
 jobs:
   size-label:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     name: Label PR size
     env:
       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

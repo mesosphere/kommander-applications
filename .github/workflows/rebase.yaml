@@ -9,7 +9,9 @@ jobs:
   rebase:
     name: Rebase
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

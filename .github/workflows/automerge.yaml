@@ -16,7 +16,9 @@ on:
 
 jobs:
   automerge:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     steps:
     - name: Enable auto-merge for automated chart bump PRs or label
       id: automerge

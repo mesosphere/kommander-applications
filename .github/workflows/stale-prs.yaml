@@ -8,7 +8,9 @@ on:
 jobs:
   stale:
     name: Close Stale PRs
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     permissions:
       issues: write
       pull-requests: write
