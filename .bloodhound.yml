@@ -1,10 +1,9 @@
 # Kubernetes versions
 # (e.g. 1.23.0 - has to match versions in https://github.com/yannh/kubernetes-json-schema)
 k8s_versions:
-  - 1.28.7
-  - 1.29.9
   - 1.30.5
   - 1.31.1
+  - 1.32.0
 
 # paths to load (in that order)
 paths:
