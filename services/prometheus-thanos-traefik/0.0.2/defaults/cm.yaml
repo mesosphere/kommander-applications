@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: prometheus-thanos-traefik-0.0.1-d2iq-defaults
+  name: prometheus-thanos-traefik-0.0.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
