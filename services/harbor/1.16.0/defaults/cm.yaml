@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-1.16.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    expose:
+      type: ingress
+      ingress:
+        hosts:
+          core: ""
