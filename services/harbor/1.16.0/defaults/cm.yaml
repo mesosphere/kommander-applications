@@ -6,4 +6,8 @@ metadata:
 data:
   values.yaml: |
     ---
-    # todo
+    expose:
+      type: ingress
+      ingress:
+        hosts:
+          core: ""
