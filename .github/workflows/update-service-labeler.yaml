@@ -10,7 +10,9 @@ on:
 
 jobs:
   update-service-labels-yaml:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

@@ -10,7 +10,9 @@ on:
 
 jobs:
   label-pr:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - small
     permissions:
       contents: read
       pull-requests: write
