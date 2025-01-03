@@ -19,10 +19,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-    createNamespace: true
   upgrade:
-    crds: CreateReplace
+    crds: Skip
     remediation:
       retries: 30
   releaseName: does-not-matter
-  targetNamespace: container-object-storage-system
