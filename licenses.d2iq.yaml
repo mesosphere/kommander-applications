@@ -448,12 +448,6 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.69.1
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE
-        ref: ${image_tag}
-        url: https://github.com/prometheus-operator/prometheus-operator
   - container_image: quay.io/prometheus-operator/prometheus-operator:v0.77.2
     sources:
       - license_path: LICENSE
@@ -472,7 +466,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.55.1
+  - container_image: quay.io/prometheus/prometheus:v2.55.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE

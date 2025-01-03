@@ -69,7 +69,7 @@ data:
         fullnameOverride: "kubecost-prometheus-server"
         image:
           repository: quay.io/prometheus/prometheus
-          tag: v2.55.1
+          tag: v2.55.0
         # If clusterIDConfigmap is defined, instead use user-generated configmap with key CLUSTER_ID
         # to use as unique cluster ID in kubecost cost-analyzer deployment.
         # This overrides the cluster_id set in prometheus.server.global.external_labels.
@@ -109,14 +109,16 @@ data:
       configmapReload:
         prometheus:
           enabled: true
-            #image:
-            #repository: ghcr.io/jimmidyson/configmap-reload
-          #tag: v0.14.0
+          image:
+            repository: quay.io/prometheus-operator/prometheus-config-reloader
+            tag: v0.77.2
+            pullPolicy: IfNotPresent
         alertmanager:
           enabled: true
-            #image:
-            #repository: ghcr.io/jimmidyson/configmap-reload
-          #tag: v0.14.0
+          image:
+            repository: quay.io/prometheus-operator/prometheus-config-reloader
+            tag: v0.77.2
+            pullPolicy: IfNotPresent
       alertmanager:
         fullnameOverride: "kubecost-prometheus-alertmanager"
         priorityClassName: dkp-high-priority
