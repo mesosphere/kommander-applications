@@ -11,9 +11,9 @@ data:
         enabled: true
 
       grafana:
-        enabled: false
-        # Use kommander monitoring Grafana instance
-        domainName: centralized-grafana.${releaseNamespace}.svc.cluster.local
+        enabled: true
+        # TODO(takirala): Use kommander monitoring centralized-grafana instance ?
+        # domainName: centralized-grafana.${releaseNamespace}.svc.cluster.local
 
       notifications:
         alertmanager:
