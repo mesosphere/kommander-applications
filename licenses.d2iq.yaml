@@ -20,12 +20,6 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r0}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/grafana/grafana:11.3.1
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.2.2-security-01
     sources:
       - license_path: LICENSE
@@ -573,11 +567,6 @@ resources:
         ref: master
         license_path: LICENSE
   - container_image: gcr.io/kubecost1/cost-model:prod-2.5.0
-    sources:
-      - url: https://github.com/opencost/opencost
-        ref: v1.112.1
-        license_path: LICENSE
-  - container_image: gcr.io/kubecost1/kubecost-modeling:v0.1.18
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1

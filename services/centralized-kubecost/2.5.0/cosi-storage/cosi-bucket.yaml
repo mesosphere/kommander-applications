@@ -9,8 +9,7 @@ spec:
       chart: cosi-bucket-kit
       sourceRef:
         kind: HelmRepository
-        name: takirala
-        #name: mesosphere.github.io-charts-stable
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       version: 0.0.1-alpha.0
   interval: 15s
