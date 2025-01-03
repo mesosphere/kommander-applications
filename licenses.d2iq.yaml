@@ -5,7 +5,7 @@ ignore:
 
 
 resources:
-  - container_image: cr.fluentbit.io/fluent/fluent-bit:3.2.3
+  - container_image: cr.fluentbit.io/fluent/fluent-bit:3.2.4
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
