@@ -12,7 +12,6 @@ requiredDependencies:
   - rook-ceph-cluster
 certifications:
   - airgapped
-  - certified
   - supported
 type: platform
 allowMultipleInstances: false
