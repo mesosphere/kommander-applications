@@ -12,9 +12,9 @@ spec:
       chart: logging-operator-logging
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: kube-logging.github.io-charts
         namespace: kommander-flux
-      version: 5.0.1
+      version: 4.2.2
   interval: 15s
   install:
     crds: CreateReplace
