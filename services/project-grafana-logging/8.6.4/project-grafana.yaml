@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana.github.io
         namespace: kommander-flux
-      version: 8.5.8
+      version: 8.6.4
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,5 +23,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-logging-8.5.8-d2iq-defaults
+      name: project-grafana-logging-8.6.4-d2iq-defaults
   targetNamespace: ${releaseNamespace}
