@@ -2,6 +2,8 @@ package appscenarios
 
 import (
 	"context"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -66,9 +68,15 @@ func (r kubeCost) Upgrade(ctx context.Context, env *environment.Env) error {
 
 // install installs the centralized-kubecost app
 func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath string) error {
+	_, err := env.K8sClient.Clientset().CoreV1().Namespaces().Create(ctx, &corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{Name: "kubecost"},
+	}, metav1.CreateOptions{})
+	if err != nil {
+		return err
+	}
 	// apply defaults configmaps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+	err = env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
