@@ -42,7 +42,7 @@ func (r kubeCost) InstallPreviousVersion(ctx context.Context, env *environment.E
 		return err
 	}
 
-	err = r.install(ctx, env, appPath)
+	err = r.installOldKubecost(ctx, env, appPath)
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,39 @@ func (r kubeCost) Upgrade(ctx context.Context, env *environment.Env) error {
 	return err
 }
 
+// install installs the centralized-kubecost app
 func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults configmaps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
+	if err != nil {
+		return err
+	}
+
+	// apply the kustomization for the prereqs
+	prereqs := filepath.Join(appPath, "/pre-install")
+	err = env.ApplyKustomizations(ctx, prereqs, map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
+	if err != nil {
+		return err
+	}
+
+	// apply the kustomization for the helmrelease
+	releasePath := filepath.Join(appPath, "/release")
+	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func (r kubeCost) installOldKubecost(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults configmaps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
