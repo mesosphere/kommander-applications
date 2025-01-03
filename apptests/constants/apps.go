@@ -3,9 +3,10 @@ package constants
 const (
 	CertManager = "cert-manager"
 	Karma       = "karma"
-	// KubeCost runs only on the managed clusters (in a lightweight agent mode that depends on the centralized kubecost and a valid object storage configuration).
-	// Centralized kubecost runs only on the management cluster.
-	KubeCost     = "centralized-kubecost"
+	// CentralizedKubecost runs only on the management cluster.
+	CentralizedKubecost = "centralized-kubecost"
+	// KubeCost runs only on the managed clusters since 2.14.x (in a lightweight agent mode that depends on the centralized kubecost and a valid object storage configuration).
+	KubeCost     = "kubecost"
 	Reloader     = "reloader"
 	Traefik      = "traefik"
 	KarmaTraefik = "karma-traefik"

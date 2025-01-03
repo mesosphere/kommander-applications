@@ -14,6 +14,12 @@ func (r kubeCost) Name() string {
 	return constants.KubeCost
 }
 
+// UpgradedName returns the name of the app after upgrade.
+// In 2.15.x we can drop this helper function and just use the Name() function again.
+func (r kubeCost) UpgradedName() string {
+	return constants.CentralizedKubecost
+}
+
 var _ AppScenario = (*reloader)(nil)
 
 func (r kubeCost) Install(ctx context.Context, env *environment.Env) error {
@@ -45,7 +51,7 @@ func (r kubeCost) InstallPreviousVersion(ctx context.Context, env *environment.E
 }
 
 func (r kubeCost) Upgrade(ctx context.Context, env *environment.Env) error {
-	appPath, err := absolutePathTo(r.Name())
+	appPath, err := absolutePathTo(r.UpgradedName())
 	if err != nil {
 		return err
 	}

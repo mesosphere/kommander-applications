@@ -204,7 +204,7 @@ var _ = Describe("Kubecost Tests", Label("kubecost"), func() {
 					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      kc.Name(),
+					Name:      kc.UpgradedName(),
 					Namespace: kommanderNamespace,
 				},
 			}
