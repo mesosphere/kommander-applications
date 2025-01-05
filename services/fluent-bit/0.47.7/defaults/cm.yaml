@@ -8,8 +8,8 @@ data:
     ---
     # overriding the default image tag to be consistent with logging-operator
     image:
-      repository: ghcr.io/mesosphere/dkp-container-images/cr.fluentbit.io/fluent/fluent-bit
-      tag: 2.2.3-d2iq.1
+      repository: cr.fluentbit.io/fluent/fluent-bit
+      tag: 3.2.4
 
     priorityClassName: "dkp-critical-priority"
     resources:
