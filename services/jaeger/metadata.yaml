@@ -13,8 +13,7 @@ licensing:
   - Essentials
   - Enterprise
 certifications:
-  - certified
-  - supported
+  - qualified
 overview: |-
   # Overview
   Jaeger is open source software for tracing transactions between distributed services. It is used for monitoring and troubleshooting complex microservices environments. Jaeger uses distributed tracing to follow the path of a request through different microservices.
