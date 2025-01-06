@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: 27.0.2
+      version: 33.2.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,7 +25,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-27.0.3-d2iq-defaults
+      name: traefik-33.2.1-d2iq-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true
