@@ -1,0 +1,334 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubecost-2.5.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    global:
+      prometheus:
+        enabled: true
+
+      grafana:
+        enabled: false # Cannot use grafana when federatedETL.agentOnly is true.
+
+    forecasting:
+      # Enable this to use kubecost's cost forecosting model
+      enabled: false
+
+    upgrade:
+      toV2: false # TODO(takirala): Handle upgrades.
+
+    federatedETL:
+      federatedCluster: true
+      agentOnly: true
+
+    ingress:
+      enabled: false
+
+    kubecostModel:
+      federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials
+
+    kubecostAggregator:
+      deployMethod: disabled
+
+    priority:
+      enabled: true
+      name: dkp-high-priority
+
+    prometheus:
+      kubeStateMetrics:
+        enabled: false
+      kube-state-metrics:
+        disabled: true
+
+      extraScrapeConfigs: |
+        - job_name: kubecost
+          honor_labels: true
+          scrape_interval: 1m
+          scrape_timeout: 10s
+          metrics_path: /metrics
+          scheme: http
+          dns_sd_configs:
+          - names:
+            - {{ .Release.Name }}-cost-analyzer
+            type: 'A'
+            port: 9003
+        - job_name: kubecost-networking
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+          # Scrape only the the targets matching the following metadata
+            - source_labels: [__meta_kubernetes_pod_label_app]
+              action: keep
+              regex: {{ .Release.Name }}-network-costs
+
+      server:
+        priorityClassName: dkp-high-priority
+        retention: 14d
+        fullnameOverride: "kubecost-prometheus-server"
+        image:
+          repository: quay.io/prometheus/prometheus
+          tag: v2.55.0
+        # If clusterIDConfigmap is defined, instead use user-generated configmap with key CLUSTER_ID
+        # to use as unique cluster ID in kubecost cost-analyzer deployment.
+        # This overrides the cluster_id set in prometheus.server.global.external_labels.
+        # NOTE: This does not affect the external_labels set in prometheus config.
+        clusterIDConfigmap: kubecost-cluster-info-configmap
+        extraFlags:
+          - web.enable-admin-api
+          - web.enable-lifecycle
+          - storage.tsdb.wal-compression
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2500Mi
+          requests:
+            cpu: 300m
+            memory: 1500Mi
+        global:
+          scrape_interval: 1m
+          scrape_timeout: 10s
+          evaluation_interval: 1m
+          external_labels:
+            cluster_id: $CLUSTER_ID
+        persistentVolume:
+          size: 32Gi
+          enabled: true
+        extraArgs:
+          log.level: info
+          log.format: json
+          storage.tsdb.min-block-duration: 2h
+          storage.tsdb.max-block-duration: 2h
+          query.max-concurrency: 1
+          query.max-samples: 100000000
+        enableAdminApi: true
+        service:
+          gRPC:
+            enabled: true
+      configmapReload:
+        prometheus:
+          enabled: true
+          image:
+            repository: quay.io/prometheus-operator/prometheus-config-reloader
+            tag: v0.77.2
+            pullPolicy: IfNotPresent
+        alertmanager:
+          enabled: true
+          image:
+            repository: quay.io/prometheus-operator/prometheus-config-reloader
+            tag: v0.77.2
+            pullPolicy: IfNotPresent
+      alertmanager:
+        fullnameOverride: "kubecost-prometheus-alertmanager"
+        priorityClassName: dkp-high-priority
+        enabled: true
+        image:
+          repository: quay.io/prometheus/alertmanager
+          tag: v0.27.0
+        resources:
+          limits:
+            cpu: 50m
+            memory: 100Mi
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        persistentVolume:
+          enabled: true
+      pushgateway:
+        enabled: false
+        persistentVolume:
+          enabled: false
+      serverFiles:
+        alerts:
+          groups:
+            - name: Kubecost
+              rules:
+                - alert: kubecostDown
+                  expr: up{job="kubecost"} == 0
+                  annotations:
+                    message: 'Kubecost metrics endpoint is not being scraped successfully.'
+                  for: 10m
+                  labels:
+                    severity: warning
+                - alert: kubecostMetricsUnavailable
+                  expr: sum(sum_over_time(node_cpu_hourly_cost[5m])) == 0
+                  annotations:
+                    message: 'Kubecost metrics are not available in Prometheus.'
+                  for: 10m
+                  labels:
+                    severity: warning
+                - alert: kubecostRecordingRulesNotEvaluated
+                  expr: avg_over_time(kubecost_cluster_memory_working_set_bytes[5m]) == 0
+                  annotations:
+                    message: 'Kubecost recording rules are not being successfully evaluated.'
+                  for: 10m
+                  labels:
+                    severity: warning
+
+    kubecostProductConfigs:
+      clusterName: ""
+      clusterProfile: production
+      cloudIntegrationSecret: ""
+      currencyCode: USD
+      productKey:
+        enabled: false
+        #key: YOUR_KEY
+
+  # Overrides for kommander namespace to run kubecost in non agent (but single cluster) mode
+  # Negate some of the values from the default values.yaml to ensure kubecost runs in single cluster mode
+  kommander-namespace-values.yaml: |
+    global:
+      grafana:
+        enabled: true
+        # TODO(takirala): Use kommander monitoring centralized-grafana instance
+        # once it is available.
+        # Or, maybe just add same datasource to it if possible ?
+
+      notifications:
+        alertmanager:
+          # If true, allow kubecost to write to alertmanager
+          enabled: true
+
+    federatedETL:
+      federatedCluster: false
+      agentOnly: false
+
+    kubecostModel:
+      federatedStorageConfigSecret: ""
+
+    kubecostAggregator:
+      # deployMethod determines how Aggregator is deployed. Current options are
+      # "singlepod" (within cost-analyzer Pod) "statefulset" (separate
+      # StatefulSet), and "disabled".
+      deployMethod: singlepod
+      persistentConfigsStorage:
+        storageClass: ""  # default storage class
+        storageRequest: 1Gi
+      aggregatorDbStorage:
+        storageClass: ""  # default storage class
+        storageRequest: 128Gi
+      cloudCost:
+        # The cloudCost component of Aggregator depends on
+        # kubecostAggregator.deployMethod:
+        # kA.dM = "singlepod" -> cloudCost is run as container inside cost-analyzer
+        # kA.dM = "statefulset" -> cloudCost is run as single-replica Deployment
+        enabled: false
+      # Log level for the aggregator container. Options are "trace", "debug", "info", "warn", "error", "fatal", "panic"
+      logLevel: info
+      resources:
+        requests:
+          cpu: 1000m
+          memory: 1Gi
+      jaeger:
+        # Enable this to use jaeger for tracing, useful for debugging
+        enabled: false
+        image: jaegertracing/all-in-one
+        imageVersion: 1.64.0 # Pin the image here to avoid pulling in latest as that would affect CVE scans
+
+    kubecostFrontend:
+      enabled: true
+      fullImageName: gcr.io/kubecost1/frontend:prod-2.5.0
+      deployMethod: singlepod # Other possible value is `haMode` that is supported only with enterprise license.
+      ipv6:
+        enabled: false
+
+    # Define persistence volume for cost-analyzer, more information at https://github.com/kubecost/docs/blob/master/storage.md
+    persistentVolume:
+      # Upgrades from original default 0.2Gi may break if automatic disk resize is not supported
+      # https://github.com/kubecost/cost-analyzer-helm-chart/issues/507
+      size: 32Gi
+      # Note that setting this to false means configurations will be wiped out on pod restart.
+      enabled: true
+      # storageClass: "-"
+
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+      paths:
+        - "/dkp/kommander/kubecost/frontend/" # This used to be the ingress of centralized-kubecost in 2.13.x and older versions of DKP
+      hosts:
+        - ""
+      tls: []
+
+    grafana:
+      priorityClassName: dkp-high-priority
+      image:
+        repository: grafana/grafana
+        tag: 11.4.0
+        pullPolicy: IfNotPresent
+      sidecar:
+        image:
+          repository: docker.io/kiwigrid/k8s-sidecar
+          tag: 1.28.0
+        dashboards:
+          enabled: true
+          label: grafana_dashboard_kommander
+        datasources:
+          enabled: true
+          defaultDatasourceEnabled: false
+          label: grafana_datasource_kommander
+
+  # Overrides for multi cluster kubecost installations
+  kommander-namespace-multi-cluster-values.yaml: |
+    ---
+    kubecostAggregator:
+      # deployMethod determines how Aggregator is deployed. Current options are
+      deployMethod: statefulset
+    federatedETL:
+      federatedCluster: true
+      agentOnly: false
+    kubecostModel:
+      federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials
+    # COSI related resources
+    bucketClasses: # Cluster scoped resource
+      - name: kubecost-cosi-storage
+        driverName: rook-ceph.ceph.objectstorage.k8s.io
+        deletionPolicy: Delete
+        parameters:
+          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+          objectStoreUserSecretNamespace: ${releaseNamespace}
+    bucketAccessClasses: # Cluster scoped resource
+      - name: kubecost-cosi-storage
+        driverName: rook-ceph.ceph.objectstorage.k8s.io
+        authenticationType: KEY
+        parameters:
+          # This secret (backed by a ceph user) is created below in the driver config.
+          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+          objectStoreUserSecretNamespace: ${releaseNamespace}
+    bucketClaims: # Namespace scoped resource
+      - name: kubecost-cosi-storage
+        namespace: ${releaseNamespace}
+        bucketClassName: kubecost-cosi-storage
+        protocols:
+          - s3
+    bucketAccesses: # Namespace scoped resource
+      - name: kubecost-cosi-storage
+        namespace: ${releaseNamespace}
+        bucketAccessClassName: kubecost-cosi-storage
+        bucketClaimName: kubecost-cosi-storage
+        protocol: s3
+        credentialsSecretName: federated-store
+    cosiProviders:
+      ceph:
+        driver:
+          enabled: true
+          name: ceph-cosi-driver
+          namespace: ${releaseNamespace}
+          spec:
+            deploymentStrategy: Auto
+        adminuser:
+          enabled: true
+          name: cosi-admin
+          namespace: ${releaseNamespace}
+          spec:
+            displayName: "ceph cosi admin"
+            store: dkp-object-store # name of the CephObjectStore
+            capabilities:
+              bucket: "*"
+              user: "*"
