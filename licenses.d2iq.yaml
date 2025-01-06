@@ -20,12 +20,6 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r0}
         url: https://github.com/thanos-io/thanos
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/grafana/grafana:10.3.3-d2iq.0
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag%-d2iq.0}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.2.2-security-01
     sources:
       - license_path: LICENSE
@@ -460,12 +454,6 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.69.1
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE
-        ref: ${image_tag}
-        url: https://github.com/prometheus-operator/prometheus-operator
   - container_image: quay.io/prometheus-operator/prometheus-operator:v0.79.2
     sources:
       - license_path: LICENSE
@@ -584,18 +572,23 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-1.108.1
+  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.0
     sources:
       - url: https://github.com/opencost/opencost
-        ref: v${image_tag#prod-}
+        ref: v1.112.1
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/gcr.io/kubecost1/frontend:prod-1.108.1-d2iq.0
+  - container_image: gcr.io/kubecost1/frontend:prod-2.5.0
     sources:
       - url: https://github.com/opencost/opencost
-        ref: v1.108.1
+        ref: v1.112.1
         license_path: LICENSE
   - container_image: registry.k8s.io/pause:3.10
     sources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
+        license_path: LICENSE
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-controller:v20221027-v0.1.1-8-g300019f   # TODO(takirala): drop this entry after merging https://github.com/mesosphere/konvoy2/pull/3474
+    sources:
+      - url: https://github.com/kubernetes-sigs/container-object-storage-interface
+        ref: main
         license_path: LICENSE
