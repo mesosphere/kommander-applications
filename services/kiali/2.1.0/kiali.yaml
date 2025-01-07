@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: kiali-org
         namespace: kommander-flux
-      version: 2.3.0
+      version: 2.1.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,7 +29,7 @@ spec:
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
-      name: kiali-2.3.0-d2iq-defaults
+      name: kiali-2.1.0-d2iq-defaults
   targetNamespace: istio-system
 ---
 apiVersion: v1
