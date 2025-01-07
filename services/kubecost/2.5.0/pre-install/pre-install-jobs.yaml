@@ -83,10 +83,13 @@ spec:
               }
 
               echo "Checking for the existence of kubecost-cluster-info-configmap..."
-              # Skip if the configmap already exists.
-              if kubectl get configmap -n ${releaseNamespace} kubecost-cluster-info-configmap; then
-                  echo "Configmap kubecost-cluster-info-configmap already exists. Skipping the step."
-                  exit 0
+              # Skip if the configmap already exists and has a non empty CLUSTER_ID value.
+              CURRENT_CLUSTER_ID=$(kubectl get configmap kubecost-cluster-info-configmap -n kommander -o jsonpath='{.data.CLUSTER_ID}')
+              if [ -n "$CURRENT_CLUSTER_ID" ]; then
+                echo "CLUSTER_ID exists and is equal to $CURRENT_CLUSTER_ID."
+                exit 0
+              else
+                echo "CLUSTER_ID is either missing or empty. Populating it..."
               fi
               kubectl create configmap kubecost-cluster-info-configmap -n ${releaseNamespace} -oyaml --dry-run=client --save-config --from-literal=CLUSTER_ID=$(kubectl get namespace kube-system -o jsonpath="{.metadata.uid}") | kubectl apply -f -
         - name: transform-cosi-secret-to-kubecost-secret
