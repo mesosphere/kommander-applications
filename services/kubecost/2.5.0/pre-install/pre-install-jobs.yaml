@@ -126,7 +126,7 @@ spec:
               tmpfile=$(mktemp /tmp/federated-store.XXXXXX)
 
               echo "Fetched bucketInfo from federated-store secret. Processing it..."
-              echo "$bucketInfo" | yq eval '
+              yq eval '
               {
                 "type": "S3",
                 "config": {
@@ -150,7 +150,7 @@ spec:
                   },
                   "part_size": 10240 # TODO(takirala): Deduce this value logically.
                 }
-              }' > "$tmpfile"
+              }' <<< "$bucketInfo" > "$tmpfile"
               echo "Transformed bucketInfo to federated-store.yaml. Updating federated-store secret..."
               kubectl create secret generic federated-store -n ${releaseNamespace} --from-file=federated-store.yaml="$tmpfile" --dry-run=client -o yaml | kubectl apply -f -
               kubectl label secret federated-store -n ${releaseNamespace} app.kubernetes.io/processed-by-kommander-kubecost=true --overwrite
