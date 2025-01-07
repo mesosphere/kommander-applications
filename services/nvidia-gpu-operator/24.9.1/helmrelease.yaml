@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/nvidia-gpu-operator/24.9.0/helmrelease
+  path: ./services/nvidia-gpu-operator/24.9.1/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
