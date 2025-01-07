@@ -9,10 +9,10 @@ spec:
       chart: logging-operator
       sourceRef:
         kind: HelmRepository
-        name: kube-logging.github.io-charts
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
-      version: 4.2.3
+      version: 5.0.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,4 +25,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-4.2.5-d2iq-defaults
+      name: logging-operator-5.0.1-d2iq-defaults
