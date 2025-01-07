@@ -110,16 +110,8 @@ data:
       configmapReload:
         prometheus:
           enabled: true
-          image:
-            repository: quay.io/prometheus-operator/prometheus-config-reloader
-            tag: v0.77.2
-            pullPolicy: IfNotPresent
         alertmanager:
           enabled: true
-          image:
-            repository: quay.io/prometheus-operator/prometheus-config-reloader
-            tag: v0.77.2
-            pullPolicy: IfNotPresent
       alertmanager:
         fullnameOverride: "kubecost-prometheus-alertmanager"
         priorityClassName: dkp-high-priority

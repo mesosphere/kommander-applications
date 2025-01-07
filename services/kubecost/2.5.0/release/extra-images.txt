@@ -1,0 +1,2 @@
+{{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}
+quay.io/ceph/cosi:v0.1.2
