@@ -6,8 +6,3 @@ metadata:
 data:
   values.yaml: |
     ---
-    expose:
-      type: ingress
-      ingress:
-        hosts:
-          core: ""
