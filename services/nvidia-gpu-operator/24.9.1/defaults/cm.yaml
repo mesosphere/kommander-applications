@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nvidia-gpu-operator-24.9.0-d2iq-defaults
+  name: nvidia-gpu-operator-24.9.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -29,13 +29,13 @@ data:
       version: v0.17.0
     dcgm:
       enabled: true
-      version: 3.3.8-1-ubuntu22.04
+      version: 3.3.9-1-ubuntu22.04
     dcgmExporter:
       enabled: true
-      version: 3.3.8-3.6.0-ubuntu22.04
+      version: 3.3.9-3.6.1-ubuntu22.04
     validator:
       repository: nvcr.io/nvidia/cloud-native
-      version: v24.9.0
+      version: v24.9.1
     operator:
       repository: nvcr.io/nvidia
-      version: v24.9.0
+      version: v24.9.1
