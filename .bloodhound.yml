@@ -3,7 +3,7 @@
 k8s_versions:
   - 1.30.5
   - 1.31
-  
+
 # paths to load (in that order)
 paths:
   - common/base
