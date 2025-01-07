@@ -8,7 +8,7 @@ type: platform
 scope:
   - workspace
 certifications:
-  - supported
+  - qualified
 licensing:
   - Pro
   - Ultimate
