@@ -23,6 +23,10 @@ spec:
       retries: 30
   timeout: 5m0s
   releaseName: harbor
+  targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
       name: harbor-1.16.0-d2iq-defaults
+    - kind: ConfigMap
+      name: harbor-overrides
+      optional: true
