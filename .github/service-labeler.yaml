@@ -10,10 +10,6 @@ services/centralized-grafana:
 - changed-files:
   - any-glob-to-any-file:
     - services/centralized-grafana/**
-services/centralized-kubecost:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/centralized-kubecost/**
 services/cert-manager:
 - changed-files:
   - any-glob-to-any-file:

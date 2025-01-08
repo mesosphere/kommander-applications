@@ -1,0 +1,26 @@
+# TODO: https://jira.nutanix.com/browse/NCN-104793 and https://jira.nutanix.com/browse/NCN-104743
+# Delete this helm release after merging https://github.com/mesosphere/konvoy2/pull/3474 (and adding a similar change in CAREN)
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cosi-move-to-konvoy-todo
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: cosi
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: 0.0.1-alpha.1
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: Skip
+    remediation:
+      retries: 30
+  releaseName: does-not-matter

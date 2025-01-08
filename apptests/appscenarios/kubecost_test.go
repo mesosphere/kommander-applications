@@ -91,11 +91,16 @@ var _ = Describe("Kubecost Tests", Label("kubecost"), func() {
 			deploymentList = &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(4))
+			Expect(deploymentList.Items).To(HaveLen(4), "Expected 4 deployments to be created - cost-analyzer, grafana, prometheus server and prometheus alertmanager")
 			Expect(err).To(BeNil())
 
 			for _, deployment := range deploymentList.Items {
-				Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
+				Expect(deployment.Spec.Template.Spec.PriorityClassName).To(
+					Equal(dkpHighPriority),
+					"Deployment %q had an unexpected PriorityClass %q",
+					deployment.Name,
+					deployment.Spec.Template.Spec.PriorityClassName,
+				)
 			}
 		})
 

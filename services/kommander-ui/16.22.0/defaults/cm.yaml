@@ -20,3 +20,5 @@ data:
     showCD: true
     fedNamespace: kube-federation-system
     priorityClassName: "dkp-critical-priority"
+    # TODO(takirala): revert after merging and releasing https://github.com/mesosphere/kommander-ui/pull/6987
+    kubecostEndpoint: http://kubecost-cost-analyzer.kommander.svc:9090

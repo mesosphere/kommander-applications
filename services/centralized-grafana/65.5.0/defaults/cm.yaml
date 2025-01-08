@@ -41,7 +41,7 @@ data:
           skipReload: true
           initDatasources: true
       annotations:
-        configmap.reloader.stakater.com/reload: "centralized-kubecost-grafana-datasource"
+        configmap.reloader.stakater.com/reload: "kubecost-grafana-datasource"
       ingress:
         enabled: true
         annotations:

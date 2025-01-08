@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -68,14 +69,30 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 		return err
 	}
 
-	// apply the kustomization for the helmrelease
-	releasePath := filepath.Join(appPath, "/")
-	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	// Kubecost has been restructured in 2.14.x. For upgrades to work, we need to handle both versions gracefully.
+	helmReleasePath := filepath.Join(appPath, "/release")
+	if _, err = os.Stat(helmReleasePath); err == nil {
+		// apply the kustomization for the prereqs
+		prereqs := filepath.Join(appPath, "/pre-install")
+		err = env.ApplyKustomizations(ctx, prereqs, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+
+		// apply the kustomization for the helmrelease
+		err = env.ApplyKustomizations(ctx, helmReleasePath, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+		return nil
 	}
 
-	return err
+	// apply the helmrelease which is at the "/" path up to 2.13.x
+	return env.ApplyKustomizations(ctx, filepath.Join(appPath, "/"), map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
 }

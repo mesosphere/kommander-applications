@@ -13,6 +13,7 @@ resources:
   - kommander-ui.yaml
   - kommander.yaml
   - kube-logging.yaml
+  - kubecost.yaml
   - kubefed.yaml
   - kubetunnel.yaml
   - mesosphere-repos.yaml

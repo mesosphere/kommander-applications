@@ -1,0 +1,160 @@
+# Copy grafana-datasource cm after it has been created in the release.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubecost-pre-install
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubecost-pre-install
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: [ "configmaps" ]
+    verbs: ["get", "list", "create", "patch" ]
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "get", "list", "patch" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubecost-pre-install-clusterrole
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "namespaces" ]
+    verbs: [ "get", "list" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubecost-pre-install
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubecost-pre-install
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubecost-pre-install-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubecost-pre-install-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubecost-pre-install
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: kubecost-pre-install
+    spec:
+      serviceAccountName: kubecost-pre-install
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: create-kubecost-cluster-info-configmap
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+
+              echo "Checking for the existence of kubecost-cluster-info-configmap..."
+              # Skip if the configmap already exists and has a non empty CLUSTER_ID value.
+              CURRENT_CLUSTER_ID=$(kubectl get configmap kubecost-cluster-info-configmap -n kommander -o jsonpath='{.data.CLUSTER_ID}')
+              if [ -n "$CURRENT_CLUSTER_ID" ]; then
+                echo "CLUSTER_ID exists and is equal to $CURRENT_CLUSTER_ID."
+                exit 0
+              else
+                echo "CLUSTER_ID is either missing or empty. Populating it..."
+              fi
+              kubectl create configmap kubecost-cluster-info-configmap -n ${releaseNamespace} -oyaml --dry-run=client --save-config --from-literal=CLUSTER_ID=$(kubectl get namespace kube-system -o jsonpath="{.metadata.uid}") | kubectl apply -f -
+        - name: transform-cosi-secret-to-kubecost-secret
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+
+              # If releaseNamespace is not kommander, skip the step.
+              if [ "${releaseNamespace}" != "kommander" ]; then
+                echo "Skipping the step in non-kommander namespace."
+                exit 0
+              fi
+
+              # check the value of kubecostClusterMode and exit early if it is not equal to multi-cluster.
+              if [ "${kubecostClusterMode}" != "multi-cluster" ]; then
+                  echo "kubecostClusterMode is not set to multi-cluster. Skipping the step."
+                  exit 0
+              fi
+
+              # Wait until federated-store secret is found.
+              while ! kubectl get secret -n ${releaseNamespace} federated-store; do
+                  echo "federated-store secret not found. Waiting for it to be created."
+                  sleep 5
+              done
+
+              echo "federated-store secret found. Fetching bucketInfo..."
+              bucketInfo=$(kubectl get secret -n ${releaseNamespace} federated-store -o go-template='{{ .data.BucketInfo | base64decode }}')
+              tmpfile=$(mktemp /tmp/federated-store.XXXXXX)
+
+              echo "Fetched bucketInfo from federated-store secret. Processing it..."
+              yq eval '
+              {
+                "type": "S3",
+                "config": {
+                  "bucket": .spec.bucketName,
+                  "endpoint": .spec.secretS3.endpoint | sub(":\\d+$", "") | sub("^http://", "") | sub("^https://", ""), # Remove port and protocol (if any).
+                  "region": .spec.secretS3.region,
+                  "access_key": .spec.secretS3.accessKeyID,
+                  "secret_key": .spec.secretS3.accessSecretKey,
+                  "insecure": .spec.secretS3.endpoint | test("^http://"), # Use insecure if endpoint is http (e.g.: cluster internal endpoint).
+                  "signature_version2": false, # Use signature version 4.
+                  "put_user_metadata": {
+                    "X-Amz-Acl": "bucket-owner-full-control"
+                  },
+                  "http_config": {
+                    "idle_conn_timeout": "90s",
+                    "response_header_timeout": "2m",
+                    "insecure_skip_verify": false
+                  },
+                  "trace": {
+                    "enable": false # Enable to debug errors (if any)
+                  },
+                  "part_size": 10240 # TODO(takirala): Deduce this value logically.
+                }
+              }' <<< "$bucketInfo" > "$tmpfile"
+              echo "Transformed bucketInfo to federated-store.yaml. Updating federated-store secret..."
+              kubectl create secret generic federated-store -n ${releaseNamespace} --from-file=federated-store.yaml="$tmpfile" --dry-run=client -o yaml | kubectl apply -f -
+              kubectl label secret federated-store -n ${releaseNamespace} app.kubernetes.io/processed-by-kommander-kubecost=true --overwrite
+              rm "$tmpfile"

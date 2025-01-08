@@ -29,7 +29,7 @@ helm repo update >&2
 # hence have values such as "unused" or are actually empty.
 # If a substitution var is missed here, this script will fail below because `envsubst -no-unset` flag ensures that all
 # necessary variables are set. In that case, the missing variables should be evaluated and added to this list as
-# approriate.
+# appropriate.
 declare -rx releaseNamespace=unused \
             RES="" \
             targetNamespace=unused \
@@ -78,6 +78,8 @@ declare -rx releaseNamespace=unused \
             tfaName=unused \
             notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle=unused \
             caIssuerName=unused \
+            CLUSTER_ID=unused \
+            kubecostClusterMode=unused \
             kommanderChartVersion="${kommanderChartVersion:-}"
 
 IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"

@@ -67,9 +67,7 @@ data:
           tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
-      - "centralized-kubecost"
       - "kubecost"
-      - "kubecost-thanos-traefik"
       - "centralized-grafana"
       - "karma"
       - "karma-traefik"
@@ -97,7 +95,7 @@ data:
     - "ai-navigator-app"
     - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
-    - "centralized-kubecost"
+    - "kubecost"
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
@@ -122,7 +120,6 @@ data:
         - "kube-prometheus-stack"
         - "prometheus-adapter"
         - "prometheus-thanos-traefik"
-        - "kubecost-thanos-traefik"
         - "cert-manager"
         - "karma-traefik"
         - "gatekeeper"

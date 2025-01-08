@@ -1,23 +1,26 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: centralized-kubecost-post-install-jobs
+  name: kubecost-pre-install
   namespace: ${releaseNamespace}
 spec:
   force: true
   prune: true
   wait: true
-  interval: 6h
+  interval: 10m
   retryInterval: 1m
-  path: ./services/centralized-kubecost/0.37.8/post-install-jobs
+  path: ./services/kubecost/2.5.0/pre-install
   dependsOn:
-    - name: centralized-kubecost-release
+    - name: kubecost-cosi-storage
+      namespace: ${releaseNamespace}
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
   timeout: 1m
   postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}
     substituteFrom:
       - kind: ConfigMap
         name: substitution-vars
