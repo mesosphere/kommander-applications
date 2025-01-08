@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kommander-ui-17.7.1-d2iq-defaults
+  name: kommander-ui-17.7.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
