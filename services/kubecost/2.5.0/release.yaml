@@ -24,3 +24,6 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: substitution-vars
+      - kind: ConfigMap
+        name: kubecost-object-store-config # Created by kubecost post install config optionally to upgrade kubecost to use object storage.
+        optional: true

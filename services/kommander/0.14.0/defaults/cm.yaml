@@ -91,11 +91,10 @@ data:
     capimate:
       image:
         tag: v0.0.0-dev.0
-    managementApps:
+    managementApps: # List of apps that are specific to management cluster. Used for platform expansion workflow (exclusively).
     - "ai-navigator-app"
     - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
-    - "kubecost"
     - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
