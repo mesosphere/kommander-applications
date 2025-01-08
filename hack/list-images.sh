@@ -131,7 +131,7 @@ done
 # These services use raw manifests rather than Helm charts so list the images directly from the manifests.
 # If more raw manifest services are added, then they should be added to the list of paths below.
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
-                                .spec.template.spec |
+                                (.spec.template.spec // .spec.jobTemplate.spec.template.spec) |
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
 				./services/git-operator/*/git-operator-manifests/* \
                                 ./services/kommander-flux/*/templates/* \
