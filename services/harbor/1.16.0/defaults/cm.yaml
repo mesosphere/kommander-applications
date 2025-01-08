@@ -6,3 +6,47 @@ metadata:
 data:
   values.yaml: |
     ---
+    # core:
+    #   replicas: 3
+    # jobservice:
+    #   replicas: 1
+    # nginx:
+    #   replicas: 2
+    # portal:
+    #   replicas: 3
+    # registry:
+    #   replicas: 3
+    # trivy:
+    #   replicas: 1
+
+    expose:
+      tls:
+        enabled: false
+      type: ingress
+      ingress:
+        hosts:
+          core: ""
+        className: kommander-traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: registry
+          traefik.ingress.kubernetes.io/router.tls: "true"
+
+    redis:
+      type: internal
+
+    database:
+      type: internal
+      internal:
+        priorityClassName: system-cluster-critical
+        # password: TODO
+
+    persistence:
+      enabled: true
+
+      registry:
+        size: 5Gi
+
+      imageChartStorage:
+        type: filesystem
+
+    externalURL: https://${ingressAddress:=harbor}:5000
