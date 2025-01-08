@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -30,3 +31,16 @@ spec:
     - kind: ConfigMap
       name: harbor-overrides
       optional: true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "harbor"
+data:
+  name: "Harbor"
+  dashboardLink: "https://<ip_or_fqdn_istio_ingress_svc>:5000/"
+  docsLink: "https://goharbor.io/docs/2.12.0/"
+  version: "2.12.0"
