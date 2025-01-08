@@ -41,6 +41,38 @@ metadata:
     "kommander.d2iq.io/application": "harbor"
 data:
   name: "Harbor"
-  dashboardLink: "https://<ip_or_fqdn_istio_ingress_svc>:5000/"
+  dashboardLink: "/dkp/harbor"
   docsLink: "https://goharbor.io/docs/2.12.0/"
   version: "2.12.0"
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: harbor-port-redirect
+  namespace: ${releaseNamespace}
+spec:
+  redirectRegex:
+    regex: https://([^/]+)/(.*)
+    replacement: https://$${1}:5000/
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/protocol: https
+    traefik.ingress.kubernetes.io/router.middlewares: kommander-harbor-port-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: harbor-redirect
+  namespace: ${releaseNamespace}
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: kommander
+            port:
+              number: 80
+        path: /dkp/harbor
+        pathType: Prefix
