@@ -1,14 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiali-2.1.0-d2iq-defaults
+  name: kiali-2.3.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     priorityClassName: dkp-high-priority
-    image:
-      repo: ghcr.io/mesosphere/dkp-container-images/quay.io/kiali/kiali-operator
-      tag: v2.1.0-d2iq.0
     allowAdHocKialiImage: true
     cr:
       create: true
@@ -39,7 +36,7 @@ data:
             use_grpc: true
         deployment:
           priority_class_name: dkp-high-priority
-          image_version: v1.88.0-distro
+          image_version: v2.3.0-distro
           accessible_namespaces:
           - '**'
           ingress:
