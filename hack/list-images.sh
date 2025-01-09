@@ -131,10 +131,19 @@ done
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
                                 (.spec.template.spec // .spec.jobTemplate.spec.template.spec) |
                                 (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
-				./services/git-operator/*/git-operator-manifests/* \
                                 ./services/kommander-flux/*/templates/* \
                                 ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
                                 >>"${IMAGES_FILE}"
+
+# process git operator separately
+gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|StatefulSet|DaemonSet)$")) |
+                                .spec.template.spec |
+                                (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
+				./services/git-operator/*/git-operator-manifests/* \
+                                >>"${IMAGES_FILE}"
+# we patch the cronjob image in this kustomization
+gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.name):\(.newTag)") | .[]' \
+        ./services/git-operator/*/kustomization.yaml
 
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
