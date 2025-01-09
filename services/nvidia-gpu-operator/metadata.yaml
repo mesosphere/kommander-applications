@@ -1,7 +1,7 @@
 displayName: NVIDIA GPU Operator
 description: The NVIDIA GPU Operator manages NVIDIA GPU resources in a Kubernetes cluster and automates tasks related to bootstrapping GPU nodes.
 category:
-  - monitoring
+  - gpu
 type: platform
 scope:
   - workspace
