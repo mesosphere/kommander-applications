@@ -65,3 +65,10 @@ data:
       admin:
         tls:
           enabled: false
+      # ensure it's using ipv4
+      proxy:
+        addresses:
+          - 0.0.0.0
+      status:
+        addresses:
+          - 0.0.0.0
