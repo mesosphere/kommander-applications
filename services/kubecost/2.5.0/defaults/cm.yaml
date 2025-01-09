@@ -328,4 +328,3 @@ data:
       federatedCluster: true
     kubecostModel:
       federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials
-    
