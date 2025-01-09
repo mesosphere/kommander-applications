@@ -25,3 +25,10 @@ patches:
   target:
     kind: Certificate
     name: git-operator-git-webserver
+- patch: |
+    - op: replace
+      path: /spec/jobTemplate/spec/template/spec/containers/0/image
+      value: bitnami/kubectl:1.30.5
+  target:
+    kind: CronJob
+    name: git-operator-admin-credentials-rotate
