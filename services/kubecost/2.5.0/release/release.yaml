@@ -33,7 +33,7 @@ spec:
       optional: true
     - kind: ConfigMap
       name: kubecost-2.5.0-d2iq-defaults
-      valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-ready}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
+      valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
   postRenderers:
