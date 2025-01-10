@@ -4,6 +4,7 @@ metadata:
   name: kubecost-2.5.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
+  # Using just values.yaml will result in kubecost running in agent mode.
   values.yaml: |
     ---
     global:
@@ -168,9 +169,8 @@ data:
         enabled: false
         #key: YOUR_KEY
 
-  # Overrides for kommander namespace to run kubecost in non agent (but single cluster) mode
-  # Negate some of the values from the default values.yaml to ensure kubecost runs in single cluster mode
-  kommander-namespace-values.yaml: |
+  # Overrides for kubecost to run in primary mode (single cluster with no object storage)
+  primary-values.yaml: |
     global:
       grafana:
         enabled: true
@@ -266,17 +266,9 @@ data:
           defaultDatasourceEnabled: false
           label: grafana_datasource_kommander
 
-  # Overrides for multi cluster kubecost installations
-  kommander-namespace-multi-cluster-values.yaml: |
+  # Overrides for kubecost to create cosi resources.
+  primary-cosi-values.yaml: |
     ---
-    kubecostAggregator:
-      # deployMethod determines how Aggregator is deployed. Current options are
-      deployMethod: statefulset
-    federatedETL:
-      federatedCluster: true
-      agentOnly: false
-    kubecostModel:
-      federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials
     # COSI related resources
     bucketClasses: # Cluster scoped resource
       - name: kubecost-cosi-storage
@@ -324,3 +316,15 @@ data:
             capabilities:
               bucket: "*"
               user: "*"
+  # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
+  primary-object-storage-ready-values.yaml: |
+    ---
+    kubecostAggregator:
+      # deployMethod determines how Aggregator is deployed. Current options are
+      # "singlepod" (within cost-analyzer Pod) "statefulset" (separate
+      # StatefulSet), and "disabled".
+      deployMethod: statefulset
+    federatedETL:
+      federatedCluster: true
+    kubecostModel:
+      federatedStorageConfigSecret: "federated-store" # Secret should have a key named "federated-store.yaml" with the federated storage credentials

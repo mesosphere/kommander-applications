@@ -25,14 +25,15 @@ spec:
   releaseName: kubecost
   valuesFrom: # The order is important. The last entry will override the previous ones.
     - kind: ConfigMap
-      name: kubecost-2.5.0-d2iq-defaults # Configures the kubecost cluster as secondary.
+      name: kubecost-2.5.0-d2iq-defaults
+      valuesKey: values.yaml
     - kind: ConfigMap
       name: kubecost-2.5.0-d2iq-defaults
-      valuesKey: ${releaseNamespace}-namespace-values.yaml # Configures the kubecost cluster as primary.
+      valuesKey: ${kubecostClusterMode:=primary}-values.yaml # Configures the kubecost cluster as primary with no object storage for single cluster mode.
       optional: true
     - kind: ConfigMap
       name: kubecost-2.5.0-d2iq-defaults
-      valuesKey: ${releaseNamespace}-namespace-${kubecostClusterMode}-values.yaml # Configures the primary kubecost cluster with multi-cluster mode.
+      valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
   postRenderers:
@@ -47,6 +48,20 @@ spec:
               - op: replace
                 path: /metadata/name
                 value: kubecost-grafana-datasource
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubecost-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "kubecost"
+data:
+  name: "Kubecost"
+  dashboardLink: "/dkp/kommander/kubecost/frontend/overview.html"
+  docsLink: "https://docs.kubecost.com/"
+  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.5.0/cost-analyzer/Chart.yaml#L2
+  version: "2.5.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

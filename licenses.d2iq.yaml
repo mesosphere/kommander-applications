@@ -608,3 +608,8 @@ resources:
       - url: https://github.com/ceph/ceph-cosi
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+    sources:
+      - url: https://github.com/kubernetes-sigs/container-object-storage-interface
+        ref: main
+        license_path: LICENSE

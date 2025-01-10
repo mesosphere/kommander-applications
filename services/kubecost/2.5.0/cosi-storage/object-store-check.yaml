@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubecost-object-store-check
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubecost-object-store-check
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "configmaps" ]
+    verbs: [ "get", "list", "create", "patch" , "delete" ]
+  - apiGroups: [ "" ]
+    resources: [ "secrets" ]
+    verbs: [ "get", "list", "create", "patch" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubecost-object-store-check
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubecost-object-store-check
+subjects:
+  - kind: ServiceAccount
+    name: kubecost-object-store-check
+    namespace: ${releaseNamespace}
+---
+# This job will exit with one of the following outcomes:
+# - If namespace is not kommander namespace then exit successfully (targets attached clusters).
+# - If kubecostClusterMode is not set to primary then exit successfully (targets attached clusters that have been expanded).
+# - In kommander namespace and when running in primary mode, wait until the federated-store secret is found. Could be a user created secret or be created by cosi-bucket-kit helmrelease.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kubecost-object-store-check
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: kubecost-object-store-check
+    spec:
+      serviceAccountName: kubecost-object-store-check
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: upgrade-kubecost-after-federated-store-secret-is-valid
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+
+              # Attached clusters (excluding platform expansion clusters) will exit at this check.
+              if [ "${releaseNamespace}" != "kommander" ]; then
+                echo "Skipping the step in non-kommander namespace."
+                exit 0
+              fi
+
+              # check the value of kubecostClusterMode and exit early if it is not equal to primary
+              # Platform expanded clusters will exit at this check.
+              if [ "${kubecostClusterMode:=primary}" != "primary" ]; then
+                  echo "kubecostClusterMode is not set to primary. Skipping the step."
+                  kubectl delete configmap kubecost-object-store-config -n ${releaseNamespace} --ignore-not-found
+                  exit 0
+              fi
+
+              # Wait until federated-store secret is found.
+              while ! kubectl get secret -n ${releaseNamespace} federated-store; do
+                  echo "federated-store secret not found. Waiting for it to be created."
+                  sleep 5
+              done
+
+              echo "federated-store secret found. Looking up if BucketInfo and/or federated-store.yaml is populated..."
+
+              while true; do # Wait until BucketInfo or federated-store.yaml is found in the secret.
+                  bucketInfo=$(kubectl get secret -n ${releaseNamespace} federated-store -o go-template='{{ .data.BucketInfo | base64decode }}')
+                  federatedStoreYAML=$(kubectl get secret -n ${releaseNamespace} federated-store -o go-template='{{ index .data "federated-store.yaml" | base64decode }}')
+                  if [ -n "$bucketInfo" ] || [ -n "$federatedStoreYAML" ]; then
+                      break
+                  fi
+                  echo "BucketInfo and federated-store.yaml not found in federated-store secret. Waiting for it to be populated."
+                  sleep 5
+              done
+
+              # If bucketInfo is empty and federatedStoreYAML is not empty, then the secret is already updated (probably manually by the user).
+              if [ -z "$bucketInfo" ] && [ -n "$federatedStoreYAML" ]; then
+                  echo "BucketInfo is empty and federated-store.yaml is not empty. Using the federated-store.yaml as-is."
+                  kubectl label secret federated-store -n ${releaseNamespace} app.kubernetes.io/kommander-kubecost-federated-store=true --overwrite
+                  kubectl annotate secret federated-store -n ${releaseNamespace} app.kubernetes.io/kommander-kubecost-federated-store-unprocessed=true --overwrite
+                  exit 0
+              fi
+
+              tmpfile=$(mktemp /tmp/federated-store.XXXXXX)
+              echo "Fetched bucketInfo from federated-store secret. Processing it..."
+              yq eval '
+              {
+                "type": "S3",
+                "config": {
+                  "bucket": .spec.bucketName,
+                  "endpoint": .spec.secretS3.endpoint | sub(":\\d+$", "") | sub("^http://", "") | sub("^https://", ""), # Remove port and protocol (if any).
+                  "region": .spec.secretS3.region,
+                  "access_key": .spec.secretS3.accessKeyID,
+                  "secret_key": .spec.secretS3.accessSecretKey,
+                  "insecure": .spec.secretS3.endpoint | test("^http://"), # Use insecure if endpoint is http (e.g.: cluster internal endpoint).
+                  "signature_version2": false, # Use signature version 4.
+                  "put_user_metadata": {
+                    "X-Amz-Acl": "bucket-owner-full-control"
+                  },
+                  "http_config": {
+                    "idle_conn_timeout": "90s",
+                    "response_header_timeout": "2m",
+                    "insecure_skip_verify": false
+                  },
+                  "trace": {
+                    "enable": false # Enable to debug errors (if any)
+                  },
+                  "part_size": 10240 # TODO(takirala): Deduce this value logically.
+                }
+              }' <<< "$bucketInfo" > "$tmpfile"
+              echo "Transformed bucketInfo to federated-store.yaml. Updating federated-store secret..."
+
+              kubectl create secret generic federated-store -n ${releaseNamespace} --from-file=federated-store.yaml="$tmpfile" --dry-run=client -o yaml | kubectl apply -f -
+              kubectl label secret federated-store -n ${releaseNamespace} app.kubernetes.io/kommander-kubecost-federated-store=true --overwrite
+              kubectl annotate secret federated-store -n ${releaseNamespace} app.kubernetes.io/kommander-kubecost-federated-store-processed=true --overwrite
+
+              kubectl create configmap kubecost-object-store-config -n ${releaseNamespace} --save-config --from-literal=objectStoreStatus=ready --dry-run=client -o yaml | kubectl apply -f -
+              rm "$tmpfile"

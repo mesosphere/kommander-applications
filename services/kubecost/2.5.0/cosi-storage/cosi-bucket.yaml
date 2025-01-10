@@ -27,7 +27,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kubecost-2.5.0-d2iq-defaults
-      valuesKey: ${releaseNamespace}-namespace-${kubecostClusterMode}-values.yaml # This will ensure non kommander namespace installs do not get cosi buckets.
+      valuesKey: ${kubecostClusterMode:=primary}-cosi-values.yaml # This will ensure kubecost agents installs do not get cosi buckets.
       optional: true
     - kind: ConfigMap
       name: kubecost-overrides

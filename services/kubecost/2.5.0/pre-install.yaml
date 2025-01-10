@@ -10,9 +10,6 @@ spec:
   interval: 10m
   retryInterval: 1m
   path: ./services/kubecost/2.5.0/pre-install
-  dependsOn:
-    - name: kubecost-cosi-storage
-      namespace: ${releaseNamespace}
   sourceRef:
     kind: GitRepository
     name: management
