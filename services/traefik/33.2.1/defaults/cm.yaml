@@ -214,6 +214,4 @@ data:
         protocol: TCP
       traefik:
         port: 9000
-        expose:
-          default: true
         exposedPort: 9000
