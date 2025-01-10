@@ -212,3 +212,8 @@ data:
           default: true
         exposedPort: 8085 # Velero and Kubecost are configured to use this value
         protocol: TCP
+      traefik:
+        port: 9000
+        expose:
+          default: true
+        exposedPort: 9000
