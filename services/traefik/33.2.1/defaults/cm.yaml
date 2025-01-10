@@ -7,7 +7,7 @@ data:
   values.yaml: |
     ---
     image:
-      tag: v2.11.9
+      tag: v3.3.1
     priorityClassName: "dkp-critical-priority"
     podDisruptionBudget:
       minAvailable: 1
@@ -149,7 +149,7 @@ data:
       enabled: true
     logs:
       general:
-        level: WARNING
+        level: WARN
       access:
         enabled: true
     # TODO: with Traefik 2 we should be able to validate against the proper CA
