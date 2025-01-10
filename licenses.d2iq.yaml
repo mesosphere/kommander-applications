@@ -68,7 +68,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.0
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -478,7 +478,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.55.0
+  - container_image: quay.io/prometheus/prometheus:v2.55.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE

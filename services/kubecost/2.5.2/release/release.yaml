@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: kubecost
         namespace: kommander-flux
-      version: 2.5.0
+      version: 2.5.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,14 +25,14 @@ spec:
   releaseName: kubecost
   valuesFrom: # The order is important. The last entry will override the previous ones.
     - kind: ConfigMap
-      name: kubecost-2.5.0-d2iq-defaults
+      name: kubecost-2.5.2-d2iq-defaults
       valuesKey: values.yaml
     - kind: ConfigMap
-      name: kubecost-2.5.0-d2iq-defaults
+      name: kubecost-2.5.2-d2iq-defaults
       valuesKey: ${kubecostClusterMode:=primary}-values.yaml # Configures the kubecost cluster as primary with no object storage for single cluster mode.
       optional: true
     - kind: ConfigMap
-      name: kubecost-2.5.0-d2iq-defaults
+      name: kubecost-2.5.2-d2iq-defaults
       valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
@@ -60,8 +60,8 @@ data:
   name: "Kubecost"
   dashboardLink: "/dkp/kommander/kubecost/frontend/overview.html"
   docsLink: "https://docs.kubecost.com/"
-  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.5.0/cost-analyzer/Chart.yaml#L2
-  version: "2.5.0"
+  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.5.2/cost-analyzer/Chart.yaml#L2
+  version: "2.5.2"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole

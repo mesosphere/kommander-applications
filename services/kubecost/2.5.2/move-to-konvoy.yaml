@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/kubecost/2.5.0/move-to-konvoy
+  path: ./services/kubecost/2.5.2/move-to-konvoy
   sourceRef:
     kind: GitRepository
     name: management

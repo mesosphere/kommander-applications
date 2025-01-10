@@ -26,7 +26,7 @@ spec:
   targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: kubecost-2.5.0-d2iq-defaults
+      name: kubecost-2.5.2-d2iq-defaults
       valuesKey: ${kubecostClusterMode:=primary}-cosi-values.yaml # This will ensure kubecost agents installs do not get cosi buckets.
       optional: true
     - kind: ConfigMap

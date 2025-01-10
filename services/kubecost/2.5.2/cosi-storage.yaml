@@ -1,20 +1,23 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kubecost-pre-install
+  name: kubecost-cosi-storage
   namespace: ${releaseNamespace}
 spec:
-  force: true
+  force: false
   prune: true
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./services/kubecost/2.5.0/pre-install
+  path: ./services/kubecost/2.5.2/cosi-storage
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
   timeout: 1m
+  dependsOn:
+    - name: todo-move-to-konvoy
+      namespace: ${releaseNamespace}
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
