@@ -92,7 +92,7 @@ data:
       enabled: false
     capimate:
       image:
-        tag: v0.0.0-dev.0
+        tag: v2.12.2-rc.3
     managementApps:
     - "ai-navigator-app"
     - "ai-navigator-cluster-info-agent"
