@@ -68,7 +68,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.1
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.28.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -583,12 +583,12 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.0
+  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/frontend:prod-2.5.0
+  - container_image: gcr.io/kubecost1/frontend:prod-2.5.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
