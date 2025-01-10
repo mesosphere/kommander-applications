@@ -6,18 +6,14 @@ metadata:
 data:
   values.yaml: |
     ---
-    # core:
-    #   replicas: 3
-    # jobservice:
-    #   replicas: 1
-    # nginx:
-    #   replicas: 2
-    # portal:
-    #   replicas: 3
+    core:
+      replicas: 3
+    portal:
+      replicas: 3
     # registry:
     #   replicas: 3
-    # trivy:
-    #   replicas: 1
+
+    existingSecretAdminPassword: harbor-admin-password
 
     expose:
       tls:
@@ -38,7 +34,6 @@ data:
       type: internal
       internal:
         priorityClassName: system-cluster-critical
-        # password: TODO
 
     persistence:
       enabled: true
