@@ -106,10 +106,6 @@ services/kubecost:
 - changed-files:
   - any-glob-to-any-file:
     - services/kubecost/**
-services/kubecost-thanos-traefik:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/kubecost-thanos-traefik/**
 services/kubefed:
 - changed-files:
   - any-glob-to-any-file:
