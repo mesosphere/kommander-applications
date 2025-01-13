@@ -1,18 +1,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: velero-helmrelease
+  name: velero-post-install
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: velero-pre-install
+    - name: velero-helmrelease
       namespace: ${releaseNamespace}
   force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/velero/7.2.2/helmrelease
+  path: ./services/velero/8.2.0/post-install
   sourceRef:
     kind: GitRepository
     name: management
