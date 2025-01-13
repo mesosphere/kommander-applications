@@ -46,10 +46,10 @@ metadata:
   name: external-ceph
   namespace: ${releaseNamespace}
   annotations:
-    kubernetes.io/ingress.class: kommander-traefik
     traefik.ingress.kubernetes.io/router.entrypoints: external-ceph
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+  ingressClassName: kommander-traefik
   rules:
     - http:
         paths:
