@@ -3,7 +3,6 @@ ignore:
   - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
   - docker.io/library/alpine:3.20.3
 
-
 resources:
   - container_image: cr.fluentbit.io/fluent/fluent-bit:3.2.4
     sources:
@@ -262,12 +261,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
-  - container_image: docker.io/velero/velero-plugin-for-aws:v1.11.0
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.11.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero-plugin-for-aws
-  - container_image: docker.io/velero/velero:v1.15.0
+  - container_image: docker.io/velero/velero:v1.15.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
