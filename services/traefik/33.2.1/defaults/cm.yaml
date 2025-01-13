@@ -187,7 +187,7 @@ data:
         namespaces: []
           # - "default"
       kubernetesIngress:
-        enabled: true
+        enabled: false
         # labelSelector: environment=production,method=traefik
         namespaces: []
           # - "default"
@@ -197,6 +197,12 @@ data:
           # Published Kubernetes Service to copy status from. Format: namespace/servicename
           # By default this Traefik service
           # pathOverride: "${releaseNamespace}/kommander-traefik"
+      kubernetesGateway:
+        enabled: true
+        namespaces: []
+
+    gateway:
+      namespacePolicy: All
     pilot:
       dashboard: false
     # This value should be equal to release name. Justification with timeline of changes:
