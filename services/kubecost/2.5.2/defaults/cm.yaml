@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-2.5.0-d2iq-defaults
+  name: kubecost-2.5.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   # Using just values.yaml will result in kubecost running in agent mode.
@@ -13,6 +13,11 @@ data:
 
       grafana:
         enabled: false # Cannot use grafana when federatedETL.agentOnly is true.
+
+      # Installs custom CA certificates onto Kubecost pods
+      updateCaTrust:
+        enabled: true
+        caCertsSecret: tls-root-ca  # The name of the Secret containing custom CA certificates to mount to the cost-model container.
 
     forecasting:
       # Enable this to use kubecost's cost forecosting model
@@ -69,9 +74,6 @@ data:
         priorityClassName: dkp-high-priority
         retention: 14d
         fullnameOverride: "kubecost-prometheus-server"
-        image:
-          repository: quay.io/prometheus/prometheus
-          tag: v2.55.0
         # If clusterIDConfigmap is defined, instead use user-generated configmap with key CLUSTER_ID
         # to use as unique cluster ID in kubecost cost-analyzer deployment.
         # This overrides the cluster_id set in prometheus.server.global.external_labels.
@@ -117,9 +119,6 @@ data:
         fullnameOverride: "kubecost-prometheus-alertmanager"
         priorityClassName: dkp-high-priority
         enabled: true
-        image:
-          repository: quay.io/prometheus/alertmanager
-          tag: v0.27.0
         resources:
           limits:
             cpu: 50m
@@ -221,7 +220,6 @@ data:
 
     kubecostFrontend:
       enabled: true
-      fullImageName: gcr.io/kubecost1/frontend:prod-2.5.0
       deployMethod: singlepod # Other possible value is `haMode` that is supported only with enterprise license.
       ipv6:
         enabled: false
@@ -255,9 +253,6 @@ data:
         tag: 11.4.0
         pullPolicy: IfNotPresent
       sidecar:
-        image:
-          repository: docker.io/kiwigrid/k8s-sidecar
-          tag: 1.28.0
         dashboards:
           enabled: true
           label: grafana_dashboard_kommander
@@ -298,24 +293,6 @@ data:
         bucketClaimName: kubecost-cosi-storage
         protocol: s3
         credentialsSecretName: federated-store
-    cosiProviders:
-      ceph:
-        driver:
-          enabled: true
-          name: ceph-cosi-driver
-          namespace: ${releaseNamespace}
-          spec:
-            deploymentStrategy: Auto
-        adminuser:
-          enabled: true
-          name: cosi-admin
-          namespace: ${releaseNamespace}
-          spec:
-            displayName: "ceph cosi admin"
-            store: dkp-object-store # name of the CephObjectStore
-            capabilities:
-              bucket: "*"
-              user: "*"
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
   primary-object-storage-ready-values.yaml: |
     ---

@@ -206,9 +206,9 @@ data:
     instanceLabelOverride: "kommander-traefik"
 
     ports:
-      velero-ceph:
+      external-ceph:
         port: 8080
         expose:
           default: true
-        exposedPort: 8085 # Velero is configured to use this value
+        exposedPort: 8085 # Velero and Kubecost are configured to use this value
         protocol: TCP

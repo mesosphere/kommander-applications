@@ -27,25 +27,3 @@ spec:
       name: velero-7.2.2-d2iq-defaults
   targetNamespace: ${releaseNamespace}
 ---
-# This ingress is needed to make Traefik configure an additional route
-# for handling HTTPS requests to Ceph Object Store on the same port.
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: velero-ceph
-  namespace: ${releaseNamespace}
-  annotations:
-    kubernetes.io/ingress.class: kommander-traefik
-    traefik.ingress.kubernetes.io/router.entrypoints: velero-ceph
-    traefik.ingress.kubernetes.io/router.tls: "true"
-spec:
-  rules:
-    - http:
-        paths:
-          - backend:
-              service:
-                name: rook-ceph-rgw-dkp-object-store
-                port:
-                  number: 80
-            path: /
-            pathType: ImplementationSpecific

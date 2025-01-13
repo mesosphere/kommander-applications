@@ -34,3 +34,30 @@ spec:
       name: rook-ceph-cluster-cluster-overrides
       optional: true
   targetNamespace: ${releaseNamespace}
+---
+# This ingress is needed to make Traefik configure an additional route
+# for handling HTTPS requests to Ceph Object Store on the same port from
+# external clients such as:
+# - Velero CLI running external to K8S Clusters (management and attached).
+# - Kubecost pods running internal to K8S Clusters (attached only).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: external-ceph
+  namespace: ${releaseNamespace}
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: external-ceph
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: rook-ceph-rgw-dkp-object-store
+                port:
+                  number: 80
+            path: /
+            pathType: ImplementationSpecific
+---
