@@ -25,3 +25,6 @@ patches:
   target:
     kind: Certificate
     name: git-operator-git-webserver
+images:
+  - name: bitnami/kubectl
+    newTag: 1.31.4
