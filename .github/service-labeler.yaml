@@ -18,6 +18,10 @@ services/chartmuseum:
 - changed-files:
   - any-glob-to-any-file:
     - services/chartmuseum/**
+services/cloudnative-pg:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/cloudnative-pg/**
 services/dex:
 - changed-files:
   - any-glob-to-any-file:

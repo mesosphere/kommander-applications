@@ -613,3 +613,8 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
+  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.25.0
+    sources:
+      - url: https://github.com/cloudnative-pg/cloudnative-pg
+        ref: v${image_tag}
+        license_path: LICENSE

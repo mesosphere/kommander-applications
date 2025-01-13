@@ -4,6 +4,7 @@ resources:
   - ai-navigator-repos.yaml
   - bitnami.yaml
   - cert-manager.yaml
+  - cloudnative-pg.yaml
   - dashboard.yaml
   - fluent.yaml
   - gatekeeper.yaml
