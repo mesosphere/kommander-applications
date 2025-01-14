@@ -29,7 +29,13 @@ data:
       type: internal
 
     database:
-      type: internal
+      type: external
+      external:
+        host: "harbor-database-cluster-rw"
+        port: "5432"
+        username: "harbor"
+        coreDatabase: "harbor"
+        existingSecret: "harbor-database-cluster-app"
 
     core:
       priorityClassName: dkp-critical-priority
