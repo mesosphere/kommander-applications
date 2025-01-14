@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - harbor.yaml
   - database.yaml
+  - cloudnative-pg.yaml
