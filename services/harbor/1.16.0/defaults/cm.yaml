@@ -10,8 +10,6 @@ data:
       replicas: 3
     portal:
       replicas: 3
-    # registry:
-    #   replicas: 3
 
     existingSecretAdminPassword: harbor-admin-password
 
@@ -32,8 +30,15 @@ data:
 
     database:
       type: internal
-      internal:
-        priorityClassName: system-cluster-critical
+
+    core:
+      priorityClassName: dkp-critical-priority
+    portal:
+      priorityClassName: dkp-critical-priority
+    registry:
+      priorityClassName: dkp-critical-priority
+    jobservice:
+      priorityClassName: dkp-high-priority
 
     persistence:
       enabled: true
