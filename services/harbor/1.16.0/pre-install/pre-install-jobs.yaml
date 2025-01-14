@@ -1,0 +1,93 @@
+# Copy grafana-datasource cm after it has been created in the release.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: harbor-pre-install
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: harbor-pre-install
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "create", "patch"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: harbor-pre-install-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: harbor-pre-install
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: harbor-pre-install
+subjects:
+  - kind: ServiceAccount
+    name: harbor-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: harbor-pre-install-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: harbor-pre-install-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: harbor-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: harbor-pre-install
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: harbor-pre-install
+    spec:
+      serviceAccountName: harbor-pre-install
+      restartPolicy: OnFailure
+      priorityClassName: dkp-high-priority
+      containers:
+        - name: generate-admin-password
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+
+              SECRET_NAME="harbor-admin-password"
+
+              if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
+                echo "harbor-admin-password secret exists"
+                exit 0
+              fi
+
+              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client --save-config \
+                --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | kubectl apply -f -

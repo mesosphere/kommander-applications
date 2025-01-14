@@ -54,6 +54,10 @@ services/grafana-loki:
 - changed-files:
   - any-glob-to-any-file:
     - services/grafana-loki/**
+services/harbor:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/harbor/**
 services/istio:
 - changed-files:
   - any-glob-to-any-file:
