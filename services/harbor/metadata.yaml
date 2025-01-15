@@ -2,6 +2,8 @@ displayName: Harbor
 description: A cloud native registry for storing, signing, and scanning container images.
 category: []
 dependencies: []
+requiredDependencies:
+  - cloudnative-pg
 type: platform
 scope:
   - workspace
