@@ -68,7 +68,7 @@ spec:
       restartPolicy: OnFailure
       priorityClassName: dkp-high-priority
       containers:
-        - name: generate-admin-password
+        - name: generate-harbor-admin-password
           image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
           command:
             - bash
@@ -85,9 +85,32 @@ spec:
               SECRET_NAME="harbor-admin-password"
 
               if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
-                echo "harbor-admin-password secret exists"
+                echo "$SECRET_NAME secret exists"
                 exit 0
               fi
 
               kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client --save-config \
                 --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | kubectl apply -f -
+        - name: generate-valkey-password
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o errexit
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+
+              SECRET_NAME="harbor-valkey-password"
+
+              if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
+                echo "$SECRET_NAME secret exists"
+                exit 0
+              fi
+
+              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client --save-config \
+                --from-literal=REDIS_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | kubectl apply -f -

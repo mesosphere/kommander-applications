@@ -6,7 +6,6 @@ type: platform
 scope:
   - workspace
 licensing:
-  - Starter
   - Pro
   - Ultimate
   - Essentials
