@@ -231,6 +231,18 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 		return podList.Items, err
 	}).WithPolling(5 * time.Second).WithTimeout(time.Minute).Should(HaveLen(1))
 
+	By("checking traefik prometheus metrics endpoint")
+	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
+	Expect(res.Error()).To(BeNil())
+
+	var statusCode int
+	res.StatusCode(&statusCode)
+	Expect(statusCode).To(Equal(200))
+
+	body, err := res.Raw()
+	Expect(err).To(BeNil())
+	Expect(string(body)).To(ContainSubstring("traefik_entrypoint_requests_total"))
+
 	By("triggering metrics generation on port 8443")
 	res := restClientV1Pods.Get().Resource("pods").
 		Namespace(podList.Items[0].Namespace).
@@ -247,18 +259,6 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	body, err := res.Raw()
 	Expect(err).To(BeNil())
 	Expect(string(body)).To(ContainSubstring("metrics generation triggered"))
-
-	By("checking traefik prometheus metrics endpoint")
-	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
-	Expect(res.Error()).To(BeNil())
-
-	var statusCode int
-	res.StatusCode(&statusCode)
-	Expect(statusCode).To(Equal(200))
-
-	body, err := res.Raw()
-	Expect(err).To(BeNil())
-	Expect(string(body)).To(ContainSubstring("traefik_entrypoint_requests_total"))
 
 	By("checking traefik dashboard endpoint")
 	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9000").SubResource("proxy").Suffix("/dashboard/").Do(ctx)
