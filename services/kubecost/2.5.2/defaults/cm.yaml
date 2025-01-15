@@ -13,6 +13,7 @@ data:
 
       grafana:
         enabled: false # Cannot use grafana when federatedETL.agentOnly is true.
+        proxy: false
 
       # Installs custom CA certificates onto Kubecost pods
       updateCaTrust:
@@ -171,12 +172,6 @@ data:
   # Overrides for kubecost to run in primary mode (single cluster with no object storage)
   primary-values.yaml: |
     global:
-      grafana:
-        enabled: true
-        # TODO(takirala): Use kommander monitoring centralized-grafana instance
-        # once it is available.
-        # Or, maybe just add same datasource to it if possible ?
-
       notifications:
         alertmanager:
           # If true, allow kubecost to write to alertmanager
@@ -248,18 +243,18 @@ data:
 
     grafana:
       priorityClassName: dkp-high-priority
-      image:
-        repository: grafana/grafana
-        tag: 11.4.0
-        pullPolicy: IfNotPresent
       sidecar:
         dashboards:
           enabled: true
           label: grafana_dashboard_kommander
+          labelValue: 1
         datasources:
           enabled: true
           defaultDatasourceEnabled: false
           label: grafana_datasource_kommander
+
+    kubecostProductConfigs:
+      grafanaURL: "/dkp/kommander/monitoring/grafana"
 
   # Overrides for kubecost to create cosi resources.
   primary-cosi-values.yaml: |
