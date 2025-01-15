@@ -10,7 +10,7 @@ spec:
       chart: valkey
       sourceRef:
         kind: HelmRepository
-        name: bitnamicharts-oci
+        name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
       version: 2.2.3
   interval: 15s
