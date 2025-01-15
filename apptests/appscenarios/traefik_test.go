@@ -239,6 +239,15 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 		Do(ctx)
 	Expect(res.Error()).To(BeNil())
 
+	var statusCode int
+	res.StatusCode(&statusCode)
+	Expect(statusCode).To(Equal(200))
+
+	// Check if the body contains expected content (if any)
+	body, err := res.Raw()
+	Expect(err).To(BeNil())
+	Expect(string(body)).To(ContainSubstring("metrics generation triggered"))
+
 	By("checking traefik prometheus metrics endpoint")
 	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
 	Expect(res.Error()).To(BeNil())
