@@ -232,7 +232,7 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	}).WithPolling(5 * time.Second).WithTimeout(time.Minute).Should(HaveLen(1))
 
 	By("triggering metrics generation on port 8443")
-	res = restClientV1Pods.Get().Resource("pods").
+	res := restClientV1Pods.Get().Resource("pods").
 		Namespace(podList.Items[0].Namespace).
 		Name(podList.Items[0].Name + ":8443").
 		SubResource("proxy").
@@ -240,7 +240,7 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	Expect(res.Error()).To(BeNil())
 
 	By("checking traefik prometheus metrics endpoint")
-	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
+	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9100").SubResource("proxy").Suffix("/metrics").Do(ctx)
 	Expect(res.Error()).To(BeNil())
 
 	var statusCode int
@@ -252,7 +252,7 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	Expect(string(body)).To(ContainSubstring("traefik_entrypoint_requests_total"))
 
 	By("checking traefik dashboard endpoint")
-	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9000").SubResource("proxy").Suffix("/dashboard/").Do(ctx)
+	res := restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9000").SubResource("proxy").Suffix("/dashboard/").Do(ctx)
 	Expect(res.Error()).To(BeNil())
 
 	res.StatusCode(&statusCode)
