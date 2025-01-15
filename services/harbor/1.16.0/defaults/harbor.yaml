@@ -26,7 +26,23 @@ data:
           traefik.ingress.kubernetes.io/router.tls: "true"
 
     redis:
-      type: internal
+      type: external
+      external:
+        addr: "harbor-valkey:26379"
+        sentinelMasterSet: harbor
+        # The "coreDatabaseIndex" must be "0" as the library Harbor
+        # used doesn't support configuring it
+        # harborDatabaseIndex defaults to "0", but it can be configured to "6", this config is optional
+        # cacheLayerDatabaseIndex defaults to "0", but it can be configured to "7", this config is optional
+        coreDatabaseIndex: "0"
+        jobserviceDatabaseIndex: "1"
+        registryDatabaseIndex: "2"
+        trivyAdapterIndex: "5"
+        # harborDatabaseIndex: "6"
+        # cacheLayerDatabaseIndex: "7"
+        # username field can be an empty string, and it will be authenticated against the default user
+        username: ""
+        existingSecret: harbor-valkey-password
 
     database:
       type: external

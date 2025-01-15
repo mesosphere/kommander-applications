@@ -6,3 +6,4 @@ resources:
   - pre-install.yaml
   - cloudnative-pg.yaml
   - database.yaml
+  - valkey.yaml

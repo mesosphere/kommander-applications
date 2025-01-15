@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-valkey-2.2.3-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    sentinel:
+      enabled: true
+      primarySet: harbor
+    auth:
+      enabled: true
+      sentinel: false
+      existingSecret: harbor-valkey-password
+      # This key is required by Harbor helm chart
+      existingSecretPasswordKey: REDIS_PASSWORD
