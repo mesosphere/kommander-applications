@@ -232,7 +232,7 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	}).WithPolling(5 * time.Second).WithTimeout(time.Minute).Should(HaveLen(1))
 
 	By("triggering metrics generation on port 8443")
-	res := restClientV1Pods.Get().Resource("pods").
+	res = restClientV1Pods.Get().Resource("pods").
 		Namespace(podList.Items[0].Namespace).
 		Name(podList.Items[0].Name + ":8443").
 		SubResource("proxy").
