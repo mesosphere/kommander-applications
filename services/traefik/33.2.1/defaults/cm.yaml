@@ -215,3 +215,9 @@ data:
       traefik:
         port: 9000
         exposedPort: 9000
+      registry:
+        port: 5000
+        expose:
+          default: true
+        exposedPort: 5000
+        protocol: TCP

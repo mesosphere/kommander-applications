@@ -9,6 +9,7 @@ resources:
   - fluent.yaml
   - gatekeeper.yaml
   - grafana.yaml
+  - harbor.yaml
   - jaegertracing.yaml
   - kiali.yaml
   - kommander-ui.yaml

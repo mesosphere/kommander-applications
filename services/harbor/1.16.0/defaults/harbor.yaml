@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-1.16.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    core:
+      replicas: 3
+    portal:
+      replicas: 3
+
+    existingSecretAdminPassword: harbor-admin-password
+
+    expose:
+      tls:
+        enabled: false
+      type: ingress
+      ingress:
+        hosts:
+          core: ""
+        className: kommander-traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: registry
+          traefik.ingress.kubernetes.io/router.tls: "true"
+
+    redis:
+      type: internal
+
+    database:
+      type: external
+      external:
+        host: "harbor-database-cluster-rw"
+        port: "5432"
+        username: "harbor"
+        coreDatabase: "harbor"
+        existingSecret: "harbor-database-cluster-app"
+
+    core:
+      priorityClassName: dkp-critical-priority
+    portal:
+      priorityClassName: dkp-critical-priority
+    registry:
+      priorityClassName: dkp-critical-priority
+    jobservice:
+      priorityClassName: dkp-high-priority
+
+    persistence:
+      enabled: true
+
+      registry:
+        size: 5Gi
+
+      imageChartStorage:
+        type: filesystem
+
+    externalURL: https://${ingressAddress:=harbor}:5000
