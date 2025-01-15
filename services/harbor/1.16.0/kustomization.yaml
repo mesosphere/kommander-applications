@@ -4,6 +4,5 @@ resources:
   - release.yaml
   - ncr-system-namespace.yaml
   - pre-install.yaml
-  - cloudnative-pg.yaml
   - database.yaml
   - valkey.yaml
