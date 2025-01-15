@@ -25,7 +25,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "list", "create"]
+    verbs: ["get", "list", "create", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -89,8 +89,9 @@ spec:
                 exit 0
               fi
 
-              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client --save-config \
-                --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | kubectl apply -f -
+              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
+                --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | \
+                kubectl apply --server-side -f -
         - name: generate-valkey-password
           image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
           command:
@@ -112,5 +113,6 @@ spec:
                 exit 0
               fi
 
-              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client --save-config \
-                --from-literal=REDIS_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | kubectl apply -f -
+              kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
+                --from-literal=REDIS_PASSWORD=$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20) | \
+                kubectl apply --server-side -f -
