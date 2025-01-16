@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: gatekeeper-constraint-templates
+  name: gatekeeper-constraints
   namespace: ${releaseNamespace}
 spec:
   force: false
@@ -9,15 +9,15 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/gatekeeper/3.17.0/constrainttemplates
+  path: ./services/gatekeeper/3.18.2/constraints
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  dependsOn:
-    - name: gatekeeper-release
   timeout: 1m
+  dependsOn:
+    - name: gatekeeper-constraint-templates
   healthChecks:
-    - apiVersion: templates.gatekeeper.sh/v1beta1
-      kind: ConstraintTemplate
-      name: requiredserviceaccountname
+    - apiVersion: constraints.gatekeeper.sh/v1beta1
+      kind: RequiredServiceAccountName
+      name: kustomization-must-have-sa
