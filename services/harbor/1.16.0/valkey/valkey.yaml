@@ -31,3 +31,14 @@ spec:
     - kind: ConfigMap
       name: harbor-valkey-overrides
       optional: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: add
+                path: /metadata/labels/servicemonitor.kommander.mesosphere.io~1path
+                value: metrics
+            target:
+              kind: Service
+              name: harbor-valkey-metrics
+              version: v1

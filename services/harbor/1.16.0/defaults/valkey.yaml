@@ -17,7 +17,20 @@ data:
       # This key is required by Harbor helm chart
       existingSecretPasswordKey: REDIS_PASSWORD
 
+    networkPolicy:
+      enabled: true
+      metrics:
+        allowExternal: true
+      allowExternal: false
+      ingressNSMatchLabels:
+        "kubernetes.io/metadata.name": ncr-system
+
     metrics:
       enabled: true
-      serviceMonitor:
+      service:
         enabled: true
+        extraPorts:
+        - name: metrics
+          port: 9122
+          protocol: TCP
+          targetPort: metrics
