@@ -135,6 +135,11 @@ data:
       - "--api.basePath=/dkp/traefik"
       - "--entrypoints.web.http.redirections.entryPoint.to=:443"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    
+    experimental:
+      kubernetesGateway:
+        # -- Enable traefik experimental GatewayClass CRD
+        enabled: false
 
     # Create an IngressRoute for the dashboard
     ingressRoute:
