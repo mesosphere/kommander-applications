@@ -16,3 +16,8 @@ data:
       existingSecret: harbor-valkey-password
       # This key is required by Harbor helm chart
       existingSecretPasswordKey: REDIS_PASSWORD
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
