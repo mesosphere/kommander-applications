@@ -67,7 +67,6 @@ data:
               - /dkp/kubecost/grafana
               - /dkp/kubernetes
               - /dkp/prometheus
-      #          - /dkp/traefik
       - # Create stripprefix middleware for kubetunnel exposed services.
         # This expects that every TunnelGateway will be launched with
         # `urlPathPrefix: /dkp/tunnel` configuration.
@@ -102,6 +101,23 @@ data:
               - X-Forwarded-User
               - Impersonate-User
               - Impersonate-Group
+      - # Used by apps such as Kuberentes-Dashboard and Kiali
+        # that obtain the K8S API Bearer token via
+        # the `Authorization:` header and Impersonate the user.
+        apiVersion: traefik.io/v1alpha1
+        kind: Middleware
+        metadata:
+          name: forwardauth-full
+          namespace: ${releaseNamespace}
+        spec:
+          forwardAuth:
+            address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
+            trustForwardHeader: true
+            authResponseHeaders:
+              - X-Forwarded-User
+              - Impersonate-User
+              - Impersonate-Group
+              - Authorization
     
     resources:
       limits:
@@ -110,9 +126,9 @@ data:
         cpu: 500m
     logs:
       general:
-        level: DEBUG
+        level: WARN
       access:
-        enabled: false
+        enabled: true
     additionalArguments:
       - "--serversTransport.insecureSkipVerify=true"
       - "--metrics.prometheus=true"
