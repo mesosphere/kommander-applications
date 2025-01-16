@@ -139,7 +139,7 @@ data:
     experimental:
       kubernetesGateway:
         # -- Enable traefik experimental GatewayClass CRD
-        enabled: false
+        enabled: true
 
     # Create an IngressRoute for the dashboard
     ingressRoute:
