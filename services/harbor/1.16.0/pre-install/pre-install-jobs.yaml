@@ -68,13 +68,8 @@ spec:
       restartPolicy: OnFailure
       priorityClassName: dkp-high-priority
       containers:
-<<<<<<< HEAD
         - name: generate-harbor-admin-password
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
-=======
-        - name: generate-admin-password
           image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
->>>>>>> a57eb24b (feat: update kubectl to 1.31.4)
           command:
             - bash
             - -c
@@ -98,7 +93,7 @@ spec:
                 --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | \
                 kubectl apply --server-side -f -
         - name: generate-valkey-password
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
           command:
             - bash
             - -c
