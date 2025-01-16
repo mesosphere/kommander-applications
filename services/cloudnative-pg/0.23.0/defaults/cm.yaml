@@ -6,4 +6,6 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
-    ---
+    config:
+      data:
+        INHERITED_LABELS: "prometheus.kommander.d2iq.io/select"

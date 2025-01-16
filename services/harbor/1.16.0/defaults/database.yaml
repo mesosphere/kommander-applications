@@ -14,5 +14,9 @@ data:
         size: 10Gi
       initdb:
         database: harbor
+      monitoring:
+        enabled: true
+      additionalLabels:
+        prometheus.kommander.d2iq.io/select: "true"
     backups:
       enabled: false
