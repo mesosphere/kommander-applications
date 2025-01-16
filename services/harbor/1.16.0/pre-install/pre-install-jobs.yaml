@@ -68,8 +68,13 @@ spec:
       restartPolicy: OnFailure
       priorityClassName: dkp-high-priority
       containers:
+<<<<<<< HEAD
         - name: generate-harbor-admin-password
           image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+=======
+        - name: generate-admin-password
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
+>>>>>>> a57eb24b (feat: update kubectl to 1.31.4)
           command:
             - bash
             - -c

@@ -53,7 +53,7 @@ spec:
           # If we use an image that is also used in k-apps then our tooling might exclude this image from tar by assuming
           # its one of the default images of kind-airgapped tooling (like calico etc.,).
           # TODO: we can make this better
-          image: bitnami/kubectl:1.28.5
+          image: bitnami/kubectl:1.31.4
           command:
             - /bin/bash
             - -c
