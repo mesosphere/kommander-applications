@@ -7,6 +7,8 @@ data:
   values.yaml: |
     ---
     type: postgresql
+    version:
+      postgresql: "17"
     mode: standalone
     cluster:
       instances: 3
