@@ -91,7 +91,7 @@ var _ = Describe("Kubecost Tests", Label("kubecost"), func() {
 			deploymentList = &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(4), "Expected 4 deployments to be created - cost-analyzer, grafana, prometheus server and prometheus alertmanager")
+			Expect(deploymentList.Items).To(HaveLen(3), "Expected 3 components to be created - cost-analyzer, prometheus server and prometheus alertmanager")
 			Expect(err).To(BeNil())
 
 			for _, deployment := range deploymentList.Items {
