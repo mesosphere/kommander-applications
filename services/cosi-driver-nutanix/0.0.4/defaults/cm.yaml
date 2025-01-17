@@ -7,7 +7,7 @@ metadata:
 data:
   values.yaml: |-
     cosiController:
-      enabled: false # This will be deployed during k8s cluster creation.
+      enabled: false # This should be deployed during k8s cluster creation by konvoy.
     objectstorageProvisionerSidecar:
       image:
         registry: gcr.io
@@ -15,3 +15,18 @@ data:
         repository: k8s-staging-sig-storage/objectstorage-sidecar
         tag: v20240513-v0.1.0-35-gefb3255
         pullPolicy: IfNotPresent
+  cosi-bucket-kit-values.yaml: |-
+    cosiBucketKit:
+      enabled: true
+      bucketClasses:
+        - name: nutanix-cosi-storage
+          driverName: ntnx.objectstorage.k8s.io
+          deletionPolicy: Delete
+          parameters:
+            provisioner_data: "test_data"
+      bucketAccessClasses:
+        - name: nutanix-cosi-storage
+          driverName: ntnx.objectstorage.k8s.io
+          authenticationType: KEY
+          parameters:
+            provisioner_data: "test_data"
