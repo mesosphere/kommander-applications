@@ -597,11 +597,6 @@ resources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-controller:v20221027-v0.1.1-8-g300019f # TODO(takirala): drop this entry after merging https://github.com/mesosphere/konvoy2/pull/3474
-    sources:
-      - url: https://github.com/kubernetes-sigs/container-object-storage-interface
-        ref: main
-        license_path: LICENSE
   - container_image: quay.io/ceph/cosi:v0.1.2
     sources:
       - url: https://github.com/ceph/ceph-cosi
