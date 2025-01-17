@@ -39,6 +39,21 @@ spec:
   postRenderers:
     - kustomize:
         patches:
+          - target:
+              version: v1
+              kind: ConfigMap
+              name: grafana-datasource
+            patch: |
+              - op: replace
+                path: /data/datasource.yaml
+                value: |-
+                  apiVersion: 1
+                  datasources:
+                  - access: proxy
+                    name: default-kubecost
+                    type: prometheus
+                    isDefault: false
+                    url: http://kubecost-prometheus-server.${releaseNamespace}.svc.cluster.local
           # The name of grafana datasource configmap is hardcoded in upstream chart. Use postRenderers to make the name specific to kubecost (no-op on attached clusters).
           - target:
               version: v1
