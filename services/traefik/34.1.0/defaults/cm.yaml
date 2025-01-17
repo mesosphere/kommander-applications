@@ -176,7 +176,7 @@ data:
           enabled: false
           # Published Kubernetes Service to copy status from. Format: namespace/servicename
           # By default this Traefik service
-          pathOverride: "${releaseNamespace}/kommander-traefik"
+          # pathOverride: "${releaseNamespace}/kommander-traefik"
 
     # This value should be equal to release name. Justification with timeline of changes:
     # 1. This was set to `kommander-treafik` in an old chart version - https://github.com/traefik/traefik-helm-chart/blob/v10.30.1/traefik/templates/deployment.yaml#L42 (Shipped in DKP 2.4)
