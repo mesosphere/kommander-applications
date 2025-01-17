@@ -280,21 +280,38 @@ data:
     #################################################################
   kommander-namespace-cosi-values.yaml: |
     # COSI related resources corresponding to cosi-bucket-kit chart from mesosphere/charts stable repo.
-    cosiProviders:
-      ceph:
-        driver:
-          enabled: true
-          name: ceph-cosi-driver
-          namespace: ${releaseNamespace}
-          spec:
-            deploymentStrategy: Auto
-        adminuser:
-          enabled: true
-          name: cosi-admin
-          namespace: ${releaseNamespace}
-          spec:
-            displayName: "ceph cosi admin"
-            store: dkp-object-store
-            capabilities:
-              bucket: "*"
-              user: "*"
+    cosiBucketKit:
+      enabled: true
+      bucketClasses: # Cluster scoped resource
+        - name: cosi-storage-rook-ceph-dkp-object-store
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          deletionPolicy: Delete
+          parameters:
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      bucketAccessClasses: # Cluster scoped resource
+        - name: cosi-storage-rook-ceph-dkp-object-store
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          authenticationType: KEY
+          parameters:
+            # This secret (backed by a ceph user) is created below in the driver config.
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      cosiProviders:
+        ceph:
+          driver:
+            enabled: true
+            name: ceph-cosi-driver
+            namespace: ${releaseNamespace}
+            spec:
+              deploymentStrategy: Auto
+          adminuser:
+            enabled: true
+            name: cosi-admin
+            namespace: ${releaseNamespace}
+            spec:
+              displayName: "ceph cosi admin"
+              store: dkp-object-store
+              capabilities:
+                bucket: "*"
+                user: "*"
