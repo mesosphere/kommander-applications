@@ -1,0 +1,35 @@
+displayName: COSI Driver For Nutanix
+description: Seamlessly manage provisioning of object storage resources on Nutanix platforms within Kubernetes environments adhering to COSI standard.
+category: []
+dependencies: []
+type: platform
+scope:
+  - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essentials
+  - Enterprise
+certifications:
+  - airgapped
+  - supported
+allowMultipleInstances: false
+overview: |-
+  # COSI Driver for Nutanix
+
+  The **COSI Driver for Nutanix** simplifies the deployment and configuration of the Nutanix driver for the Kubernetes Container Object Storage Interface (COSI). COSI is an evolving Kubernetes API standard designed to streamline and standardize object storage provisioning and management across diverse environments.
+
+  This package is tailored for Kubernetes clusters using Nutanix as the underlying storage provider. By deploying the COSI Driver for Nutanix, users can leverage Nutanix's robust object storage capabilities to dynamically provision and manage object storage buckets directly from Kubernetes.
+
+  ## Key Features
+
+  - **Automated Deployment**: Simplifies the installation and setup of the COSI driver with configurable parameters for tailored deployments.
+  - **Dynamic Bucket Management**: Enables dynamic provisioning, binding, and deletion of object storage buckets via Kubernetes APIs.
+  - **Seamless Integration**: Ensures compatibility with Nutanix object storage platforms, empowering developers to integrate cloud-native applications with Nutanix's scalable storage solutions.
+  - **Customizable Configuration**: Offers a range of configurable values for aligning the driver setup with specific use cases and operational requirements.
+  - **Scalability and Reliability**: Built to leverage the scalability and robustness of Nutanix object storage while adhering to Kubernetes best practices.
+
+  ## Use Cases
+
+  This solution is ideal for teams seeking to enhance their Kubernetes storage capabilities by integrating object storage directly into their workflows. With the Nutanix COSI driver, users gain a powerful toolset to efficiently manage object storage within cloud-native ecosystems.
+icon: PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzI2MTlfMTEwMzUpIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOS45MjE2IDI1Ljk0NTZDMzAuMDY2MSAyNS45NDU2IDMwLjE5NjUgMjYuMDA4MyAzMC4yOTEzIDI2LjEwOTJMMzkuNzk0IDM0Ljk5MTNDMzkuOTE5MSAzNS4wOTQgMzkuOTk5OSAzNS4yNTU5IDM5Ljk5OTkgMzUuNDM4MUMzOS45OTk5IDM1Ljc0ODEgMzkuNzY1OSAzNS45OTk4IDM5LjQ3NzIgMzUuOTk5OEgzMy4wMDM4QzMyLjg2MTIgMzUuOTk5OCAzMi43MzE2IDM1LjkzODIgMzIuNjM3MyAzNS44Mzg0TDI2LjM0ODggMjkuOTYxNkMyNi4yMzQzIDI5Ljg1NzggMjYuMTYyMSAyOS43MDM5IDI2LjE2MjEgMjkuNTMxMUMyNi4xNjIxIDI5LjM4NTkgMjYuMjEzNiAyOS4yNTM2IDI2LjI5NzggMjkuMTUzOUwyOS41MzQ0IDI2LjEyOTJDMjkuNjMgMjYuMDE2NiAyOS43NjgxIDI1Ljk0NTYgMjkuOTIxNiAyNS45NDU2Wk0zOS40NzcyIDEyQzM5Ljc2NTkgMTIgMzkuOTk5OSAxMi4yNTE4IDM5Ljk5OTkgMTIuNTYxN0MzOS45OTk5IDEyLjc0MzkgMzkuOTE5MSAxMi45MDU2IDM5Ljc5NCAxMy4wMDgyTDMwLjI5MTMgMjEuODkwM0MzMC4xOTY1IDIxLjk5MTUgMzAuMDY2MSAyMi4wNTQzIDI5LjkyMTYgMjIuMDU0M0MyOS43NjgxIDIyLjA1NDMgMjkuNjMgMjEuOTgzNSAyOS41MzQ0IDIxLjg3MDZMMjYuMjk3OCAxOC44NDZDMjYuMjEzNiAxOC43NDYyIDI2LjE2MjEgMTguNjEzOSAyNi4xNjIxIDE4LjQ2ODdDMjYuMTYyMSAxOC4yOTYyIDI2LjIzNDMgMTguMTQyIDI2LjM0ODggMTguMDM4NUwzMi42MzczIDEyLjE2MTFDMzIuNzMxNiAxMi4wNjE2IDMyLjg2MTIgMTIgMzMuMDAzOCAxMkgzOS40NzcyWiIgZmlsbD0iIzc4NTVGQSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1LjM1NzUgMzUuODUyM0MxNS4yNjQ1IDM1Ljk0MzUgMTUuMTQwNSAzNiAxNS4wMDQzIDM2SDguNTIyNjVDOC4yMzM5NyAzNiA4IDM1Ljc0ODIgOCAzNS40MzhDOCAzNS4yODMyIDguMDU4NDMgMzUuMTQyOSA4LjE1Mjk3IDM1LjA0MTZMMTkuNTExMSAyNC40MjkxQzE5LjYyNSAyNC4zMjYyIDE5LjY5NzIgMjQuMTcxOSAxOS42OTcyIDIzLjk5OTRDMTkuNjk3MiAyMy44MzYzIDE5LjYzMjQgMjMuNjg5OCAxOS41Mjk0IDIzLjU4NzRMOC4xODUxMSAxMi45OUM4LjA3MTcxIDEyLjg4NyA4IDEyLjczMzYgOCAxMi41NjE3QzggMTIuMjUxOCA4LjIzMzk3IDEyIDguNTIyNjUgMTJIMTUuMDA0M0MxNS4xNDEgMTIgMTUuMjY1NiAxMi4wNTYyIDE1LjM1ODUgMTIuMTQ4M0wyNy41ODYxIDIzLjU3NTdDMjcuNjk2OSAyMy42Nzg0IDI3Ljc2NjcgMjMuODI5OCAyNy43NjY3IDIzLjk5OTRDMjcuNzY2NyAyNC4xNjk0IDI3LjY5NjYgMjQuMzIxOSAyNy41ODUzIDI0LjQyNTFMMTUuMzU3NSAzNS44NTIzWiIgZmlsbD0iIzc4NTVGQSIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzI2MTlfMTEwMzUiPgo8cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==

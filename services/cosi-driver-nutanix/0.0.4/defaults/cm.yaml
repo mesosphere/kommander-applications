@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudnative-pg-0.23.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    cosiController:
+      enabled: false # This will be deployed during k8s cluster creation.
+    objectstorageProvisionerSidecar:
+      image:
+        registry: gcr.io
+        # We can keep this in sync with the sidecar that is deploy in CephCOSIDriver to avoid duplicate images in airgapped bundle.
+        repository: k8s-staging-sig-storage/objectstorage-sidecar
+        tag: v20240513-v0.1.0-35-gefb3255
+        pullPolicy: IfNotPresent
