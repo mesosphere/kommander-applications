@@ -146,7 +146,6 @@ data:
         matchRule: PathPrefix(`/dkp/traefik/dashboard`) || PathPrefix(`/dkp/traefik/api`)
         # Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
         middlewares:
-          - name: stripprefixes
           - name: forwardauth
         tls: {}
 
