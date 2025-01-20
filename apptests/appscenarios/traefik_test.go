@@ -19,9 +19,7 @@ import (
 )
 
 var _ = Describe("Traefik Tests", Label("traefik"), func() {
-	var (
-		t *traefik
-	)
+	var t *traefik
 
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
@@ -105,7 +103,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				Namespace: kommanderNamespace,
 			})
 			Expect(err).To(BeNil())
-			Expect(middlewareList.Items).To(HaveLen(5))
+			Expect(middlewareList.Items).To(HaveLen(4))
 			Expect(middlewareList.Items).To(WithTransform(func(mwList []traefikv1a1.Middleware) []string {
 				var names []string
 				for _, mw := range mwList {
@@ -113,7 +111,6 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				}
 				return names
 			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full")))
-
 		})
 
 		It("should create dashboard ingress route", func() {
@@ -131,7 +128,6 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			podList = &corev1.PodList{}
 			assertTraefikEndpoints(t, podList)
 		})
-
 	})
 
 	Describe("Traefik Upgrade Test", Ordered, Label("upgrade"), func() {
