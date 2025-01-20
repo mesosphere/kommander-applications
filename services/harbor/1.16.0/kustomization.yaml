@@ -6,3 +6,4 @@ resources:
   - pre-install.yaml
   - database.yaml
   - valkey.yaml
+  - grafana-dashboards
