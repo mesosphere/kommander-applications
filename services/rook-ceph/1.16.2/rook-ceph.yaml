@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/rook-ceph/1.15.5/helmrelease
+  path: ./services/rook-ceph/1.16.2/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
