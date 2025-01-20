@@ -9,7 +9,7 @@ data:
     image:
       repository: traefik
       tag: v3.3.2
-    
+
     #  imagePullPolicy: Always
     priorityClassName: "dkp-critical-priority"
     podDisruptionBudget:
@@ -42,7 +42,7 @@ data:
       podLabels:
         kommander.mesosphere.io/name: traefik
         app: traefik
-    
+
     extraObjects:
       - apiVersion: traefik.io/v1alpha1
         kind: Middleware
@@ -118,7 +118,7 @@ data:
               - Impersonate-User
               - Impersonate-Group
               - Authorization
-    
+
     resources:
       limits:
         cpu: 1000m
@@ -165,7 +165,7 @@ data:
         ingressClass: kommander-traefik
         # - "default"
         # IP used for Kubernetes Ingress endpoints
-        
+
         publishedService:
           enabled: false
           # Published Kubernetes Service to copy status from. Format: namespace/servicename
