@@ -62,6 +62,9 @@ data:
     jobservice:
       priorityClassName: dkp-high-priority
 
+    metrics:
+      enabled: true
+
     persistence:
       enabled: true
 
