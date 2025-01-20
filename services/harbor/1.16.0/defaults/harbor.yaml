@@ -65,6 +65,9 @@ data:
     metrics:
       enabled: true
 
+    internalTLS:
+      enabled: true
+
     persistence:
       enabled: true
 
