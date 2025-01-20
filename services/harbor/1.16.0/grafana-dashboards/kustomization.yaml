@@ -6,6 +6,7 @@ configMapGenerator:
     namespace: ${releaseNamespace}
     files:
       - harbor.json
+      - harbor-redis-exporter.json
 generatorOptions:
   labels:
     grafana_dashboard: "1"
