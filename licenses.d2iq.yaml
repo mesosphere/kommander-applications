@@ -536,11 +536,6 @@ resources:
       - url: https://github.com/NVIDIA/cuda-samples
         ref: v12.5
         license_path: LICENSE
-  - container_image: docker.io/bitnami/kubectl:1.29.6
-    sources:
-      - url: https://github.com/kubernetes/kubectl
-        ref: v0${image_tag#1}
-        license_path: LICENSE
   - container_image: docker.io/bitnami/kubectl:1.30.5
     sources:
       - url: https://github.com/kubernetes/kubectl
