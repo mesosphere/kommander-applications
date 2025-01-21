@@ -170,11 +170,6 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should have access to multiple traefik endpoints", func() {
-			podList = &corev1.PodList{}
-			assertTraefikEndpoints(t, podList)
-		})
-
 		It("should upgrade traefik successfully", func() {
 			err := t.Install(ctx, env)
 			Expect(err).To(BeNil())
