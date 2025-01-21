@@ -6,6 +6,9 @@ metadata:
 data:
   values.yaml: |
     ---
+    # Disable anonymous stats
+    globalArguments: []
+
     image:
       repository: traefik
       tag: v3.3.2
@@ -131,7 +134,6 @@ data:
         enabled: true
     additionalArguments:
       - "--serversTransport.insecureSkipVerify=true"
-      - "--metrics.prometheus=true"
       - "--api.basePath=/dkp/traefik"
       - "--entrypoints.web.http.redirections.entryPoint.to=:443"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
