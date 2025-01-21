@@ -22,11 +22,7 @@ data:
         - name: nutanix-cosi-storage
           driverName: ntnx.objectstorage.k8s.io
           deletionPolicy: Delete
-          parameters:
-            provisioner_data: "test_data"
       bucketAccessClasses:
         - name: nutanix-cosi-storage
           driverName: ntnx.objectstorage.k8s.io
           authenticationType: KEY
-          parameters:
-            provisioner_data: "test_data"
