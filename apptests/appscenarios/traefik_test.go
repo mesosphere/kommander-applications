@@ -203,6 +203,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 		})
 
 		It("should have access to multiple traefik endpoints after upgrade", func() {
+			podList = &corev1.PodList{}
 			assertTraefikEndpoints(t, podList)
 		})
 	})
