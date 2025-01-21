@@ -15,6 +15,12 @@ data:
         repository: k8s-staging-sig-storage/objectstorage-sidecar
         tag: v20250117-a29e5f6
         pullPolicy: IfNotPresent
+    image:
+      registry: ghcr.io
+      repository: nutanix-cloud-native/cosi-driver-nutanix
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: v0.0.4
+      pullPolicy: IfNotPresent
     secret:
       enabled: true
       # Nutanix Object Store instance endpoint, eg. "http://10.51.142.82:80".

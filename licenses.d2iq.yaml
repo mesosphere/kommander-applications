@@ -657,3 +657,8 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
+  - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.0.4
+    sources:
+      - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
+        ref: ${image_tag}
+        license_path: LICENSE
