@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cloudnative-pg-0.23.0-d2iq-defaults
+  name: cosi-driver-nutanix-0.0.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -11,9 +11,9 @@ data:
     objectstorageProvisionerSidecar:
       image:
         registry: gcr.io
-        # We can keep this in sync with the sidecar that is deploy in CephCOSIDriver to avoid duplicate images in airgapped bundle.
+        # keep this in sync with the sidecar that is deployed in CephCOSIDriver to avoid duplicate images in airgapped bundle.
         repository: k8s-staging-sig-storage/objectstorage-sidecar
-        tag: v20240513-v0.1.0-35-gefb3255
+        tag: v20250117-a29e5f6
         pullPolicy: IfNotPresent
   cosi-bucket-kit-values.yaml: |-
     cosiBucketKit:

@@ -288,6 +288,7 @@ data:
           namespace: ${releaseNamespace}
           spec:
             deploymentStrategy: Auto
+            objectProvisionerImage: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
         adminuser:
           enabled: true
           name: cosi-admin
