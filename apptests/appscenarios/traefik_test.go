@@ -1,6 +1,7 @@
 package appscenarios
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -11,6 +12,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/net"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -246,8 +248,9 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	Expect(err).To(BeNil())
 	Expect(string(body)).To(ContainSubstring("traefik_entrypoint_requests_total"))
 
-	By("checking traefik dashboard endpoint")
-	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":8443").SubResource("proxy").Suffix("/dkp/traefik/dashboard/").Do(ctx)
+	By("checking traefik api endpoint")
+	ref := net.JoinSchemeNamePort("https", podList.Items[0].Name, "8443")
+	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(ref).SubResource("proxy").Suffix("/dkp/traefik/api/overview").Do(ctx)
 	Expect(res.Error()).To(BeNil())
 
 	res.StatusCode(&statusCode)
@@ -255,5 +258,11 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 
 	body, err = res.Raw()
 	Expect(err).To(BeNil())
-	Expect(string(body)).To(ContainSubstring("Traefik UI"))
+	apiResponse := struct {
+		Features  map[string]any `json:"features"`
+		Providers []string       `json:"providers"`
+	}{}
+	Expect(json.Unmarshal(body, &apiResponse)).To(Succeed())
+	Expect(apiResponse.Features).To(HaveKeyWithValue("accessLog", Equal(true)))
+	Expect(apiResponse.Providers).To(ConsistOf("KubernetesIngress", "KubernetesCRD", "KubernetesGateway"))
 }
