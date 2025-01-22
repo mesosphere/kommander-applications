@@ -145,7 +145,7 @@ gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|Stateful
                                 >>"${IMAGES_FILE}"
 # we patch the cronjob image in this kustomization
 gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.name):\(.newTag)") | .[]' \
-        ./services/git-operator/*/kustomization.yaml
+        ./services/git-operator/*/kustomization.yaml >>"${IMAGES_FILE}"
 
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
