@@ -130,22 +130,21 @@ done
 
 # These services use raw manifests rather than Helm charts so list the images directly from the manifests.
 # If more raw manifest services are added, then they should be added to the list of paths below.
-gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
-                                (.spec.template.spec // .spec.jobTemplate.spec.template.spec) |
-                                (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
-                                ./services/kommander-flux/*/templates/* \
-                                ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
-                                >>"${IMAGES_FILE}"
-
-# process git operator separately
-gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|StatefulSet|DaemonSet)$")) |
-                                .spec.template.spec |
-                                (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
-				./services/git-operator/*/git-operator-manifests/* \
-                                >>"${IMAGES_FILE}"
-# we patch the cronjob image in this kustomization
-gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.name):\(.newTag)") | .[]' \
-        ./services/git-operator/*/kustomization.yaml >>"${IMAGES_FILE}"
+{
+  gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|CronJob|StatefulSet|DaemonSet)$")) |
+                                  (.spec.template.spec // .spec.jobTemplate.spec.template.spec) |
+                                  (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
+                                  ./services/kommander-flux/*/templates/* \
+                                  ./services/kube-prometheus-stack/*/etcd-metrics-proxy/* \
+  # process git operator separately
+  gojq --yaml-input --raw-output 'select(.kind | test("^(?:Deployment|Job|StatefulSet|DaemonSet)$")) |
+                                  .spec.template.spec |
+                                  (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
+  				./services/git-operator/*/git-operator-manifests/* \
+  # we patch the cronjob image in this kustomization
+  gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.name):\(.newTag)") | .[]' \
+          ./services/git-operator/*/kustomization.yaml
+} >>"${IMAGES_FILE}"
 
 # Ensure that all images are fully qualified to ensure uniqueness of images in the image bundle.
 sed --expression='s|^docker.io/||' \
