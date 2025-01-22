@@ -172,10 +172,10 @@ data:
         # IP used for Kubernetes Ingress endpoints
 
         publishedService:
-          enabled: false
+          enabled: true
           # Published Kubernetes Service to copy status from. Format: namespace/servicename
           # By default this Traefik service
-          # pathOverride: "${releaseNamespace}/kommander-traefik"
+          pathOverride: "${releaseNamespace}/kommander-traefik"
       kubernetesGateway:
         # -- Enable Traefik Gateway provider for Gateway API
         enabled: true
