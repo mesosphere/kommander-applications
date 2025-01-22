@@ -214,21 +214,6 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 					HaveField("Status", Equal(metav1.ConditionTrue)))),
 				),
 			))
-			// Eventually(func() error {
-			// 	err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-			// 	if err != nil {
-			// 		return err
-			// 	}
-			// 	fmt.Println(hr.Status)
-			//
-			// 	for _, cond := range hr.Status.Conditions {
-			// 		if cond.Status == metav1.ConditionTrue &&
-			// 			cond.Type == apimeta.ReadyCondition {
-			// 			return nil
-			// 		}
-			// 	}
-			// 	return fmt.Errorf("helm release not ready yet")
-			// }).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
 		It("should have access to multiple traefik endpoints after upgrade", func() {
