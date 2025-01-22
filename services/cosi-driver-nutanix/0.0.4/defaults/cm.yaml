@@ -22,31 +22,15 @@ data:
       tag: v0.0.4
       pullPolicy: IfNotPresent
     secret:
-      enabled: true
-      # Nutanix Object Store instance endpoint, eg. "http://10.51.142.82:80".
-      endpoint: "<TO BE REPLACED>"
-      # Admin IAM Access key to be used for Nutanix Objects.
-      access_key: "<TO BE REPLACED>"
-      # Admin IAM Secret key to be used for Nutanix Objects.
-      secret_key: "<TO BE REPLACED>"
-      # PC Credentials.
-      pc_ip: "<TO BE REPLACED>"
-      pc_port: "9440"
-      pc_username: admin
-      pc_password: "<TO BE REPLACED>"
-      # Account Name is a displayName identifier Prefix for Nutanix.
-      # Objects to ensure that multiple requests for the same account
-      # result in only one access token being created.
-      # (Default_Prefix: ntnx-cosi-iam-user)
-      account_name: "ntnx-cosi-iam-user"
+      enabled: false # This is handled by kommander UI via a FederatedSecret.
   cosi-bucket-kit-values.yaml: |-
     cosiBucketKit:
       enabled: true
       bucketClasses:
-        - name: nutanix-cosi-storage
+        - name: cosi-storage-nutanix
           driverName: ntnx.objectstorage.k8s.io
           deletionPolicy: Delete
       bucketAccessClasses:
-        - name: nutanix-cosi-storage
+        - name: cosi-storage-nutanix
           driverName: ntnx.objectstorage.k8s.io
           authenticationType: KEY
