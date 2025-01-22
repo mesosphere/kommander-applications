@@ -28,6 +28,11 @@ additional_crds:
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-issuers.yaml
   - https://raw.githubusercontent.com/rook/rook/master/deploy/olm/assemble/objectbucket.io_objectbucketclaims.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketaccessclasses.objectstorage.k8s.io.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketaccesses.objectstorage.k8s.io.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketclaims.objectstorage.k8s.io.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketclasses.objectstorage.k8s.io.yaml
+  - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_buckets.objectstorage.k8s.io.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
