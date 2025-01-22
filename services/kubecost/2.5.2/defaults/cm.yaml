@@ -259,35 +259,37 @@ data:
   # Overrides for kubecost to create cosi resources.
   primary-cosi-values.yaml: |
     ---
-    # COSI related resources
-    bucketClasses: # Cluster scoped resource
-      - name: kubecost-cosi-storage
-        driverName: rook-ceph.ceph.objectstorage.k8s.io
-        deletionPolicy: Delete
-        parameters:
-          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
-          objectStoreUserSecretNamespace: ${releaseNamespace}
-    bucketAccessClasses: # Cluster scoped resource
-      - name: kubecost-cosi-storage
-        driverName: rook-ceph.ceph.objectstorage.k8s.io
-        authenticationType: KEY
-        parameters:
-          # This secret (backed by a ceph user) is created below in the driver config.
-          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
-          objectStoreUserSecretNamespace: ${releaseNamespace}
-    bucketClaims: # Namespace scoped resource
-      - name: kubecost-cosi-storage
-        namespace: ${releaseNamespace}
-        bucketClassName: kubecost-cosi-storage
-        protocols:
-          - s3
-    bucketAccesses: # Namespace scoped resource
-      - name: kubecost-cosi-storage
-        namespace: ${releaseNamespace}
-        bucketAccessClassName: kubecost-cosi-storage
-        bucketClaimName: kubecost-cosi-storage
-        protocol: s3
-        credentialsSecretName: federated-store
+    cosiBucketKit:
+      enabled: true
+      # COSI related resources
+      bucketClasses: # Cluster scoped resource
+        - name: kubecost-cosi-storage
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          deletionPolicy: Delete
+          parameters:
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      bucketAccessClasses: # Cluster scoped resource
+        - name: kubecost-cosi-storage
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          authenticationType: KEY
+          parameters:
+            # This secret (backed by a ceph user) is created below in the driver config.
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      bucketClaims: # Namespace scoped resource
+        - name: kubecost-cosi-storage
+          namespace: ${releaseNamespace}
+          bucketClassName: kubecost-cosi-storage
+          protocols:
+            - s3
+      bucketAccesses: # Namespace scoped resource
+        - name: kubecost-cosi-storage
+          namespace: ${releaseNamespace}
+          bucketAccessClassName: kubecost-cosi-storage
+          bucketClaimName: kubecost-cosi-storage
+          protocol: s3
+          credentialsSecretName: federated-store
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
   primary-object-storage-ready-values.yaml: |
     ---
