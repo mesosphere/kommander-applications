@@ -46,6 +46,9 @@ data:
         kommander.mesosphere.io/name: traefik
         app: traefik
 
+    gateway:
+      enabled: false
+
     extraObjects:
       - apiVersion: traefik.io/v1alpha1
         kind: Middleware
