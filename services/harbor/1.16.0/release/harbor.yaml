@@ -31,6 +31,24 @@ spec:
     - kind: ConfigMap
       name: harbor-overrides
       optional: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: not-used
+                labels:
+                  servicemonitor.kommander.mesosphere.io/path: metrics
+              spec:
+                ports:
+                - port: 8001
+                  name: metrics
+            target:
+              kind: Service
+              name: (harbor-jobservice|harbor-exporter|harbor-registry|harbor-core)
+              version: v1
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -67,12 +85,12 @@ metadata:
 spec:
   ingressClassName: kommander-traefik
   rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: kommander
-            port:
-              number: 80
-        path: /dkp/harbor
-        pathType: Prefix
+    - http:
+        paths:
+          - backend:
+              service:
+                name: kommander
+                port:
+                  number: 80
+            path: /dkp/harbor
+            pathType: Prefix

@@ -9050,6 +9050,7 @@
   "revision": 1,
   "schemaVersion": 39,
   "tags": [
+    "platform apps",
     "cloudnativepg"
   ],
   "templating": {
@@ -9182,7 +9183,7 @@
     "nowDelay": ""
   },
   "timezone": "",
-  "title": "CloudNativePG",
+  "title": "Platform Apps / CloudNativePG",
   "uid": "cloudnative-pg",
   "version": 2,
   "weekStart": ""
