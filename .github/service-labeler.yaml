@@ -18,6 +18,10 @@ services/chartmuseum:
 - changed-files:
   - any-glob-to-any-file:
     - services/chartmuseum/**
+services/cloudnative-pg:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/cloudnative-pg/**
 services/dex:
 - changed-files:
   - any-glob-to-any-file:
@@ -50,6 +54,10 @@ services/grafana-loki:
 - changed-files:
   - any-glob-to-any-file:
     - services/grafana-loki/**
+services/harbor:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/harbor/**
 services/istio:
 - changed-files:
   - any-glob-to-any-file:
@@ -102,10 +110,6 @@ services/kubecost:
 - changed-files:
   - any-glob-to-any-file:
     - services/kubecost/**
-services/kubecost-thanos-traefik:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/kubecost-thanos-traefik/**
 services/kubefed:
 - changed-files:
   - any-glob-to-any-file:

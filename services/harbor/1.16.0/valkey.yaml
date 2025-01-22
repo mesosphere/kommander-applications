@@ -1,0 +1,29 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: harbor-valkey
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/harbor/1.16.0/valkey
+  dependsOn:
+    - name: ncr-system-namespace
+    - name: harbor-pre-install
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: harbor-valkey
+      namespace: ${releaseNamespace}

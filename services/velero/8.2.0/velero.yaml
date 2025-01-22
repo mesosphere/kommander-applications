@@ -1,0 +1,23 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: velero-helmrelease
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - name: velero-pre-install
+      namespace: ${releaseNamespace}
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/velero/8.2.0/helmrelease
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}

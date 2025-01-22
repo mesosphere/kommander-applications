@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kommander-ui
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - namespace: ${releaseNamespace}
+      name: kommander
+  chart:
+    spec:
+      chart: kommander-ui
+      sourceRef:
+        kind: HelmRepository
+        name: kommander-ui
+        namespace: kommander-flux
+      version: 17.15.0
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: kommander-ui-17.15.0-d2iq-defaults
+    - kind: ConfigMap
+      name: kommander-ui-overrides
+      optional: true
+  targetNamespace: ${releaseNamespace}

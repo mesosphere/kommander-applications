@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudnative-pg-0.23.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    config:
+      data:
+        INHERITED_LABELS: "prometheus.kommander.d2iq.io/select"

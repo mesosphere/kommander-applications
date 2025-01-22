@@ -3,7 +3,6 @@ ignore:
   - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
   - docker.io/library/alpine:3.20.3
 
-
 resources:
   - container_image: cr.fluentbit.io/fluent/fluent-bit:3.2.4
     sources:
@@ -98,7 +97,7 @@ resources:
       - license_path: LICENSE
         ref: 3.8.0
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v2.11.9
+  - container_image: docker.io/library/traefik:v3.2.1
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -204,7 +203,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:16.22.0
+  - container_image: docker.io/mesosphere/kommander:17.15.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -262,12 +261,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
-  - container_image: docker.io/velero/velero-plugin-for-aws:v1.11.0
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.11.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero-plugin-for-aws
-  - container_image: docker.io/velero/velero:v1.15.0
+  - container_image: docker.io/velero/velero:v1.15.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -478,7 +477,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.55.0
+  - container_image: quay.io/prometheus/prometheus:v2.55.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -537,11 +536,6 @@ resources:
       - url: https://github.com/NVIDIA/cuda-samples
         ref: v12.5
         license_path: LICENSE
-  - container_image: docker.io/bitnami/kubectl:1.29.6
-    sources:
-      - url: https://github.com/kubernetes/kubectl
-        ref: v0${image_tag#1}
-        license_path: LICENSE
   - container_image: docker.io/bitnami/kubectl:1.30.5
     sources:
       - url: https://github.com/kubernetes/kubectl
@@ -583,12 +577,12 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.0
+  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/frontend:prod-2.5.0
+  - container_image: gcr.io/kubecost1/frontend:prod-2.5.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
@@ -598,7 +592,7 @@ resources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-controller:v20221027-v0.1.1-8-g300019f   # TODO(takirala): drop this entry after merging https://github.com/mesosphere/konvoy2/pull/3474
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-controller:v20221027-v0.1.1-8-g300019f # TODO(takirala): drop this entry after merging https://github.com/mesosphere/konvoy2/pull/3474
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
@@ -613,3 +607,53 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
+  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.25.0
+    sources:
+      - url: https://github.com/cloudnative-pg/cloudnative-pg
+        ref: v${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-core:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-db:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-jobservice:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-portal:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/harbor-registryctl:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/redis-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/registry-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: goharbor/trivy-adapter-photon:v2.12.0
+    sources:
+      - url: https://github.com/goharbor/harbor
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: bitnami/valkey:8.0.2-debian-12-r0
+    sources:
+      - url: https://github.com/valkey-io/valkey
+        ref: ${image_tag%%-debian-*}
+        license_path: COPYING

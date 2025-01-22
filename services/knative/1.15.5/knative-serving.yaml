@@ -29,3 +29,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: knative-1.15.5-d2iq-defaults
+    - kind: ConfigMap
+      name: knative-overrides
+      optional: true

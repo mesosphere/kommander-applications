@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor-valkey
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: valkey
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: 2.2.3
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: harbor-valkey
+  targetNamespace: ncr-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: harbor-valkey-2.2.3-d2iq-defaults
+    - kind: ConfigMap
+      name: harbor-valkey-overrides
+      optional: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: add
+                path: /metadata/labels/servicemonitor.kommander.mesosphere.io~1path
+                value: metrics
+            target:
+              kind: Service
+              name: harbor-valkey-metrics
+              version: v1

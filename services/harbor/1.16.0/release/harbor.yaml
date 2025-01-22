@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: harbor
+      sourceRef:
+        kind: HelmRepository
+        name: helm.goharbor.io
+        namespace: kommander-flux
+      version: 1.16.0
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  timeout: 5m0s
+  releaseName: harbor
+  targetNamespace: ncr-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: harbor-1.16.0-d2iq-defaults
+    - kind: ConfigMap
+      name: harbor-overrides
+      optional: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: not-used
+                labels:
+                  servicemonitor.kommander.mesosphere.io/path: metrics
+              spec:
+                ports:
+                - port: 8001
+                  name: metrics
+            target:
+              kind: Service
+              name: (harbor-jobservice|harbor-exporter|harbor-registry|harbor-core)
+              version: v1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "harbor"
+data:
+  name: "Harbor"
+  dashboardLink: "/dkp/harbor"
+  docsLink: "https://goharbor.io/docs/2.12.0/"
+  version: "2.12.0"
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: harbor-port-redirect
+  namespace: ${releaseNamespace}
+spec:
+  redirectRegex:
+    regex: https://([^/]+)/(.*)
+    replacement: https://$${1}:5000/
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/protocol: https
+    traefik.ingress.kubernetes.io/router.middlewares: kommander-harbor-port-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  name: harbor-redirect
+  namespace: ${releaseNamespace}
+spec:
+  ingressClassName: kommander-traefik
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: kommander
+                port:
+                  number: 80
+            path: /dkp/harbor
+            pathType: Prefix

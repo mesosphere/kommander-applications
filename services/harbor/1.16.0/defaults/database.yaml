@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harbor-database-0.2.0-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    type: postgresql
+    version:
+      postgresql: "17"
+    mode: standalone
+    cluster:
+      instances: 3
+      storage:
+        size: 10Gi
+      initdb:
+        database: harbor
+      monitoring:
+        enabled: true
+      additionalLabels:
+        prometheus.kommander.d2iq.io/select: "true"
+        release: kube-prometheus-stack
+    backups:
+      enabled: false
