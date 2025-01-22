@@ -15,9 +15,6 @@ spec:
     name: management
     namespace: kommander-flux
   timeout: 1m
-  dependsOn:
-    - name: todo-move-to-konvoy
-      namespace: ${releaseNamespace}
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}

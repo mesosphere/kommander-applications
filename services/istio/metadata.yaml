@@ -9,10 +9,11 @@ scope:
   - workspace
 certifications:
   - qualified
+  - airgapped
 licensing:
   - Pro
   - Ultimate
-  - Essentials
+  - Essential
   - Enterprise
 overview: |-
   # Overview
