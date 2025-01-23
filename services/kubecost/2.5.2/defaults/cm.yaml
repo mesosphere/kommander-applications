@@ -261,16 +261,16 @@ data:
     ---
     cosiBucketKit:
       enabled: true
-      bucketClaims: # Namespace scoped resource
+      bucketClaims:
         - name: kubecost-cosi-storage
           namespace: ${releaseNamespace}
-          bucketClassName: kubecost-cosi-storage
+          bucketClassName: cosi-storage-rook-ceph-dkp-object-store
           protocols:
             - s3
-      bucketAccesses: # Namespace scoped resource
+      bucketAccesses:
         - name: kubecost-cosi-storage
           namespace: ${releaseNamespace}
-          bucketAccessClassName: kubecost-cosi-storage
+          bucketAccessClassName: cosi-storage-rook-ceph-dkp-object-store
           bucketClaimName: kubecost-cosi-storage
           protocol: s3
           credentialsSecretName: federated-store
