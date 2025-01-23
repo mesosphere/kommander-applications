@@ -8,3 +8,6 @@ data:
     ---
     deployment:
       replicas: 1
+    ingressRoute:
+      dashboard:
+        middlewares: []
