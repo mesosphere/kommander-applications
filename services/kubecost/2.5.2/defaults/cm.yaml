@@ -234,7 +234,7 @@ data:
         kubernetes.io/ingress.class: kommander-traefik
         ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
         traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+        traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd"
       paths:
         - "/dkp/kommander/kubecost/frontend/" # This used to be the ingress of centralized-kubecost in 2.13.x and older versions of DKP
       hosts:
@@ -261,17 +261,17 @@ data:
     ---
     cosiBucketKit:
       enabled: true
-      bucketClaims:
-        - name: kubecost-cosi-storage-ceph
+      bucketClaims: # Namespace scoped resource
+        - name: kubecost-cosi-storage
           namespace: ${releaseNamespace}
-          bucketClassName: cosi-storage-rook-ceph-dkp-object-store
+          bucketClassName: kubecost-cosi-storage
           protocols:
             - s3
-      bucketAccesses:
-        - name: kubecost-cosi-storage-ceph
+      bucketAccesses: # Namespace scoped resource
+        - name: kubecost-cosi-storage
           namespace: ${releaseNamespace}
-          bucketAccessClassName: cosi-storage-rook-ceph-dkp-object-store
-          bucketClaimName: kubecost-cosi-storage-ceph
+          bucketAccessClassName: kubecost-cosi-storage
+          bucketClaimName: kubecost-cosi-storage
           protocol: s3
           credentialsSecretName: federated-store
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.

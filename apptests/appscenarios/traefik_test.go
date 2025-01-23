@@ -1,6 +1,7 @@
 package appscenarios
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"time"
@@ -10,7 +11,10 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/apimachinery/pkg/util/net"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -19,9 +23,7 @@ import (
 )
 
 var _ = Describe("Traefik Tests", Label("traefik"), func() {
-	var (
-		t *traefik
-	)
+	var t *traefik
 
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
@@ -105,15 +107,14 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				Namespace: kommanderNamespace,
 			})
 			Expect(err).To(BeNil())
-			Expect(middlewareList.Items).To(HaveLen(5))
+			Expect(middlewareList.Items).To(HaveLen(4))
 			Expect(middlewareList.Items).To(WithTransform(func(mwList []traefikv1a1.Middleware) []string {
 				var names []string
 				for _, mw := range mwList {
 					names = append(names, mw.Name)
 				}
 				return names
-			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full", "rewrite-api")))
-
+			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full")))
 		})
 
 		It("should create dashboard ingress route", func() {
@@ -131,7 +132,6 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			podList = &corev1.PodList{}
 			assertTraefikEndpoints(t, podList)
 		})
-
 	})
 
 	Describe("Traefik Upgrade Test", Ordered, Label("upgrade"), func() {
@@ -172,15 +172,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should have access to multiple traefik endpoints", func() {
-			podList = &corev1.PodList{}
-			assertTraefikEndpoints(t, podList)
-		})
-
 		It("should upgrade traefik successfully", func() {
-			err := t.Install(ctx, env)
-			Expect(err).To(BeNil())
-
 			hr = &fluxhelmv2beta2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
 					Kind:       fluxhelmv2beta2.HelmReleaseKind,
@@ -191,31 +183,48 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 					Namespace: kommanderNamespace,
 				},
 			}
+			Expect(k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)).To(Succeed())
+			existingGeneration := hr.Status.ObservedGeneration
+
+			err := t.Install(ctx, env)
+			Expect(err).To(BeNil())
+
+			By("removing outdated ingress config", func() {
+				cl, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{})
+				Expect(err).NotTo(HaveOccurred())
+
+				dashboardIngress := &networkingv1.Ingress{}
+				cl.Get(ctx, types.NamespacedName{
+					Name:      "traefik-dashboard",
+					Namespace: kommanderNamespace,
+				}, dashboardIngress)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(cl.Delete(ctx, dashboardIngress)).To(Succeed())
+			})
 
 			// Check the status of the HelmReleases
-			Eventually(func() error {
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-				if err != nil {
-					return err
-				}
-
-				for _, cond := range hr.Status.Conditions {
-					if cond.Status == metav1.ConditionTrue &&
-						cond.Type == apimeta.ReadyCondition {
-						return nil
-					}
-				}
-				return fmt.Errorf("helm release not ready yet")
-			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+			By("waiting for HR to get upgraded")
+			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				return hr, err
+			}, "30s", pollInterval).Should(And(
+				HaveField("Status.ObservedGeneration", BeNumerically(">", existingGeneration)),
+				HaveField("Status.Conditions", ContainElement(And(
+					HaveField("Type", Equal(apimeta.ReadyCondition)),
+					HaveField("Status", Equal(metav1.ConditionTrue)))),
+				),
+			))
 		})
 
 		It("should have access to multiple traefik endpoints after upgrade", func() {
+			podList = &corev1.PodList{}
 			assertTraefikEndpoints(t, podList)
 		})
 	})
 })
 
 func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
+	GinkgoHelper()
 	selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 		MatchLabels: map[string]string{
 			"app.kubernetes.io/name": t.Name(),
@@ -250,14 +259,28 @@ func assertTraefikEndpoints(t *traefik, podList *corev1.PodList) {
 	Expect(err).To(BeNil())
 	Expect(string(body)).To(ContainSubstring("traefik_entrypoint_requests_total"))
 
-	By("checking traefik dashboard endpoint")
-	res = restClientV1Pods.Get().Resource("pods").Namespace(podList.Items[0].Namespace).Name(podList.Items[0].Name + ":9000").SubResource("proxy").Suffix("/dashboard/").Do(ctx)
-	Expect(res.Error()).To(BeNil())
+	By("checking traefik api endpoint")
+	ref := net.JoinSchemeNamePort("https", podList.Items[0].Name, "8443")
+	Eventually(func() error {
+		res = restClientV1Pods.Get().
+			Resource("pods").
+			Namespace(podList.Items[0].Namespace).
+			Name(ref).
+			SubResource("proxy").
+			Suffix("/dkp/traefik/api/overview").Do(ctx)
+		return res.Error()
+	}, "5s", "500ms").Should(Succeed())
 
 	res.StatusCode(&statusCode)
 	Expect(statusCode).To(Equal(200))
 
 	body, err = res.Raw()
 	Expect(err).To(BeNil())
-	Expect(string(body)).To(ContainSubstring("Traefik UI"))
+	apiResponse := struct {
+		Features  map[string]any `json:"features"`
+		Providers []string       `json:"providers"`
+	}{}
+	Expect(json.Unmarshal(body, &apiResponse)).To(Succeed())
+	Expect(apiResponse.Features).To(HaveKeyWithValue("accessLog", Equal(true)))
+	Expect(apiResponse.Providers).To(ConsistOf("KubernetesIngress", "KubernetesCRD", "KubernetesGateway"))
 }

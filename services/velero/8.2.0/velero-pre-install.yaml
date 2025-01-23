@@ -19,4 +19,4 @@ spec:
     substitute:
       releaseNamespace: ${releaseNamespace}
       kubetoolsImageRepository: ${kubetoolsImageRepository:=bitnami/kubectl}
-      kubetoolsImageTag: ${kubetoolsImageTag:=1.30.5}
+      kubetoolsImageTag: ${kubetoolsImageTag:=1.31.4}

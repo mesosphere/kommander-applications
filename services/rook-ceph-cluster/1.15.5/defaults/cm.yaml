@@ -121,7 +121,7 @@ data:
           kubernetes.io/ingress.class: kommander-traefik
           ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
           traefik.ingress.kubernetes.io/router.tls: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd"
         host:
           name: ""
           path: "/dkp/kommander/ceph-dashboard"
@@ -244,7 +244,7 @@ data:
           memory: "100Mi"
 
     # this is used in object-bucket-claims overrides
-    kubectlImage: bitnami/kubectl:1.30.5
+    kubectlImage: bitnami/kubectl:1.31.4
 
     #################################################################
     ## BEGIN NKP specific config overrides                         ##
