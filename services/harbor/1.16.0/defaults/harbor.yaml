@@ -78,3 +78,12 @@ data:
         type: filesystem
 
     externalURL: https://${ingressAddress:=harbor}:5000
+  harbor-cosi-values.yaml: |
+    ---
+    cosiBucketKit:
+      enabled: false
+      # kubecost:
+      #   enabled: true
+      # harbor:
+      #   enabled: true
+      #   cmName: harbor-cosi-overrides

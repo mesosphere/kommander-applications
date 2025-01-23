@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor-cosi-storage
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: cosi-bucket-kit
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: 0.0.1-alpha.1
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: harbor-cosi-storage
+  targetNamespace: ncr-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: harbor-1.16.0-d2iq-defaults
+      valuesKey: harbor-cosi-values.yaml
+      optional: true
+    - kind: ConfigMap
+      name: harbor-overrides
+      optional: true
