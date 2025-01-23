@@ -85,8 +85,11 @@ spec:
               SECRET_NAME="harbor-admin-password"
 
               if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
-                echo "$SECRET_NAME secret exists"
-                exit 0
+                EXISTING_PASSWORD="$(kubectl get secret -n ncr-system $SECRET_NAME -o jsonpath='{.data.HARBOR_ADMIN_PASSWORD}')"
+                if [ ! -z "$EXISTING_PASSWORD" ]; then
+                  echo "$SECRET_NAME secret with password exists"
+                  exit 0
+                fi
               fi
 
               kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
@@ -109,8 +112,11 @@ spec:
               SECRET_NAME="harbor-valkey-password"
 
               if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
-                echo "$SECRET_NAME secret exists"
-                exit 0
+                EXISTING_PASSWORD="$(kubectl get secret -n ncr-system $SECRET_NAME -o jsonpath='{.data.REDIS_PASSWORD}')"
+                if [ ! -z "$EXISTING_PASSWORD" ]; then
+                  echo "$SECRET_NAME secret with password exists"
+                  exit 0
+                fi
               fi
 
               kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
