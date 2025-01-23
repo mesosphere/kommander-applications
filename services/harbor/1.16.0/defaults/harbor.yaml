@@ -82,8 +82,9 @@ data:
     ---
     cosiBucketKit:
       enabled: false
-      # kubecost:
-      #   enabled: true
-      # harbor:
-      #   enabled: true
-      #   cmName: harbor-cosi-overrides
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}
+        harbor:
+          enabled: true
+          cmName: harbor-cosi-overrides
