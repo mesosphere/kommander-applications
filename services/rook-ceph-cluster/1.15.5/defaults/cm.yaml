@@ -283,14 +283,14 @@ data:
     cosiBucketKit:
       enabled: true
       bucketClasses: # Cluster scoped resource
-        - name: cosi-storage-rook-ceph-dkp-object-store
+        - name: cosi-ceph-nkp
           driverName: rook-ceph.ceph.objectstorage.k8s.io
           deletionPolicy: Delete
           parameters:
             objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
             objectStoreUserSecretNamespace: ${releaseNamespace}
       bucketAccessClasses: # Cluster scoped resource
-        - name: cosi-storage-rook-ceph-dkp-object-store
+        - name: cosi-ceph-nkp
           driverName: rook-ceph.ceph.objectstorage.k8s.io
           authenticationType: KEY
           parameters:

@@ -262,15 +262,15 @@ data:
     cosiBucketKit:
       enabled: true
       bucketClaims:
-        - name: kubecost-cosi-storage
+        - name: cosi-kubecost # Max length should be less than 26 chars.
           namespace: ${releaseNamespace}
-          bucketClassName: cosi-storage-rook-ceph-dkp-object-store
+          bucketClassName: cosi-ceph-nkp
           protocols:
             - s3
       bucketAccesses:
-        - name: kubecost-cosi-storage
+        - name: cosi-kubecost
           namespace: ${releaseNamespace}
-          bucketAccessClassName: cosi-storage-rook-ceph-dkp-object-store
+          bucketAccessClassName: cosi-ceph-nkp
           bucketClaimName: kubecost-cosi-storage
           protocol: s3
           credentialsSecretName: federated-store
