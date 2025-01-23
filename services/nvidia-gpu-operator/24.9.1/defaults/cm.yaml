@@ -7,7 +7,7 @@ data:
   values.yaml: |
     image:
       repo: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
-      tag:ubi8-d2iq.0 
+      tag: ubi8-d2iq.0 
     nfd:
       enabled: false
     driver:
