@@ -17,7 +17,7 @@ data:
     hooks:
       kubectlImage:
         repository: "${kubetoolsImageRepository:=bitnami/kubectl}"
-        tag: "${kubetoolsImageTag:=1.30.5}"
+        tag: "${kubetoolsImageTag:=1.31.4}"
     controller:
       manager:
         resources:

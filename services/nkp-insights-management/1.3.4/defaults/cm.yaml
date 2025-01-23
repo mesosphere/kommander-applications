@@ -34,7 +34,7 @@ data:
     insightsCRIngress:
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
-    kubectlImage: bitnami/kubectl:1.30.5
+    kubectlImage: bitnami/kubectl:1.31.4
     managementCM:
       backendTokenTTL: 1h
       insightsTTL: 72h
