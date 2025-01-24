@@ -42,6 +42,10 @@ services/gatekeeper:
 - changed-files:
   - any-glob-to-any-file:
     - services/gatekeeper/**
+services/gateway-api-crds:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/gateway-api-crds/**
 services/git-operator:
 - changed-files:
   - any-glob-to-any-file:
