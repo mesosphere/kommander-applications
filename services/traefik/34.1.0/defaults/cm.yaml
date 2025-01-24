@@ -159,7 +159,7 @@ data:
     #
     providers:
       kubernetesCRD:
-        enabled: false
+        enabled: true
         namespaces: []
         ingressClass: kommander-traefik
         # - "default"

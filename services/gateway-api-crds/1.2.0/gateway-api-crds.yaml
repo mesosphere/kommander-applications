@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: traefik-crds
-      version: "1.0.0"  # Use the appropriate version for Traefik CRDs
+      version: "1.2.0"  # Use the appropriate version for Traefik CRDs
       sourceRef:
         kind: HelmRepository
         name: helm.traefik.io-traefik
