@@ -597,7 +597,7 @@ resources:
       - url: https://github.com/ceph/ceph-cosi
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
@@ -652,3 +652,8 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
+  - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.0.4
+    sources:
+      - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
+        ref: ${image_tag}
+        license_path: LICENSE
