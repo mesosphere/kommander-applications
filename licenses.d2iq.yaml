@@ -352,7 +352,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kube-logging/node-exporter-image
-  - container_image: ghcr.io/mesosphere/kubefed:v0.10.4
+  - container_image: ghcr.io/mesosphere/kubefed:v0.11.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}

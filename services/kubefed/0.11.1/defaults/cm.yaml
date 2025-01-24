@@ -17,6 +17,9 @@ data:
         PushReconciler: "Enabled"
         SchedulerPreferences: "Disabled"
       controller:
+        repository: ghcr.io/mesosphere
+        image: kubefed
+        tag: v0.11.1
         resources:
           limits:
             cpu: 500m
