@@ -121,7 +121,7 @@ data:
           kubernetes.io/ingress.class: kommander-traefik
           ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
           traefik.ingress.kubernetes.io/router.tls: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-stripprefixes@kubernetescrd,${releaseNamespace}-forwardauth@kubernetescrd"
+          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd"
         host:
           name: ""
           path: "/dkp/kommander/ceph-dashboard"
@@ -244,7 +244,7 @@ data:
           memory: "100Mi"
 
     # this is used in object-bucket-claims overrides
-    kubectlImage: bitnami/kubectl:1.30.5
+    kubectlImage: bitnami/kubectl:1.31.4
 
     #################################################################
     ## BEGIN NKP specific config overrides                         ##
@@ -280,22 +280,38 @@ data:
     #################################################################
   kommander-namespace-cosi-values.yaml: |
     # COSI related resources corresponding to cosi-bucket-kit chart from mesosphere/charts stable repo.
-    cosiProviders:
-      ceph:
-        driver:
-          enabled: true
-          name: ceph-cosi-driver
-          namespace: ${releaseNamespace}
-          spec:
-            deploymentStrategy: Auto
-            objectProvisionerImage: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
-        adminuser:
-          enabled: true
-          name: cosi-admin
-          namespace: ${releaseNamespace}
-          spec:
-            displayName: "ceph cosi admin"
-            store: dkp-object-store
-            capabilities:
-              bucket: "*"
-              user: "*"
+    cosiBucketKit:
+      enabled: true
+      bucketClasses: # Cluster scoped resource
+        - name: cosi-ceph-nkp
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          deletionPolicy: Delete
+          parameters:
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      bucketAccessClasses: # Cluster scoped resource
+        - name: cosi-ceph-nkp
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          authenticationType: KEY
+          parameters:
+            # This secret (backed by a ceph user) is created below in the driver config.
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      cosiProviders:
+        ceph:
+          driver:
+            enabled: true
+            name: ceph-cosi-driver
+            namespace: ${releaseNamespace}
+            spec:
+              deploymentStrategy: Auto
+          adminuser:
+            enabled: true
+            name: cosi-admin
+            namespace: ${releaseNamespace}
+            spec:
+              displayName: "ceph cosi admin"
+              store: dkp-object-store
+              capabilities:
+                bucket: "*"
+                user: "*"

@@ -97,7 +97,7 @@ resources:
       - license_path: LICENSE
         ref: 3.8.0
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v3.2.1
+  - container_image: docker.io/library/traefik:v3.3.2
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -123,7 +123,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.4-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -536,7 +536,7 @@ resources:
       - url: https://github.com/NVIDIA/cuda-samples
         ref: v12.5
         license_path: LICENSE
-  - container_image: docker.io/bitnami/kubectl:1.30.5
+  - container_image: docker.io/bitnami/kubectl:1.31.4
     sources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0${image_tag#1}

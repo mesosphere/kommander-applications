@@ -27,10 +27,10 @@ data:
     cosiBucketKit:
       enabled: true
       bucketClasses:
-        - name: cosi-storage-nutanix
+        - name: cosi-nutanix-nkp
           driverName: ntnx.objectstorage.k8s.io
           deletionPolicy: Delete
       bucketAccessClasses:
-        - name: cosi-storage-nutanix
+        - name: cosi-nutanix-nkp
           driverName: ntnx.objectstorage.k8s.io
           authenticationType: KEY

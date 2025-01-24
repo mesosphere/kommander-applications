@@ -69,7 +69,7 @@ spec:
       priorityClassName: dkp-high-priority
       containers:
         - name: generate-harbor-admin-password
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
           command:
             - bash
             - -c
@@ -85,15 +85,18 @@ spec:
               SECRET_NAME="harbor-admin-password"
 
               if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
-                echo "$SECRET_NAME secret exists"
-                exit 0
+                EXISTING_PASSWORD="$(kubectl get secret -n ncr-system $SECRET_NAME -o jsonpath='{.data.HARBOR_ADMIN_PASSWORD}')"
+                if [ ! -z "$EXISTING_PASSWORD" ]; then
+                  echo "$SECRET_NAME secret with password exists"
+                  exit 0
+                fi
               fi
 
               kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
                 --from-literal=HARBOR_ADMIN_PASSWORD=$(tr -dc 'A-Za-z0-9!?%=' < /dev/urandom | head -c 20) | \
                 kubectl apply --server-side -f -
         - name: generate-valkey-password
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
           command:
             - bash
             - -c
@@ -109,8 +112,11 @@ spec:
               SECRET_NAME="harbor-valkey-password"
 
               if kubectl get secret -n ncr-system "$SECRET_NAME" ; then
-                echo "$SECRET_NAME secret exists"
-                exit 0
+                EXISTING_PASSWORD="$(kubectl get secret -n ncr-system $SECRET_NAME -o jsonpath='{.data.REDIS_PASSWORD}')"
+                if [ ! -z "$EXISTING_PASSWORD" ]; then
+                  echo "$SECRET_NAME secret with password exists"
+                  exit 0
+                fi
               fi
 
               kubectl create secret generic -n ncr-system "$SECRET_NAME" -oyaml --dry-run=client \
