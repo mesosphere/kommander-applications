@@ -1,4 +1,4 @@
-apiVersion: helm.integrations.fluxcd.io/v1beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: traefik-crds
