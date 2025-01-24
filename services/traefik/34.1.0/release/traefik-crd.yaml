@@ -1,0 +1,17 @@
+apiVersion: helm.integrations.fluxcd.io/v1beta1
+kind: HelmRelease
+metadata:
+  name: traefik-crds
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: traefik-crds
+      version: "1.0.0"  # Use the appropriate version for Traefik CRDs
+      sourceRef:
+        kind: HelmRepository
+        name: helm.traefik.io-traefik
+        namespace: kommander-flux
+  values:
+    crds:
+      enabled: true  # Enable only CRDs
