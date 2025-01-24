@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-api-1.2.0-d2iq-defaults
+  namespace: y${releaseNamespace}
+data:
+  values.yaml: |
+    # values.yaml content to enable only Gateway API CRDs installation
+    crds:
+      enabled: true
+    gatewayAPI: true
+    traefik: false
+    hub: false
+    deleteOnUninstall: false
