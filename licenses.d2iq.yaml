@@ -375,7 +375,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8-d2iq.0}
