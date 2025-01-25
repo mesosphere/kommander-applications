@@ -271,9 +271,14 @@ data:
         - name: cosi-kubecost
           namespace: ${releaseNamespace}
           bucketAccessClassName: cosi-ceph-nkp
-          bucketClaimName: kubecost-cosi-storage
+          bucketClaimName: cosi-kubecost
           protocol: s3
           credentialsSecretName: federated-store
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}
+        kubecost:
+          enabled: true
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
   primary-object-storage-ready-values.yaml: |
     ---
