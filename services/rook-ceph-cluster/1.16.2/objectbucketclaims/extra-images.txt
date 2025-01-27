@@ -1,2 +1,2 @@
 quay.io/ceph/cosi:v0.1.2
-gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
+ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
