@@ -42,3 +42,6 @@ data:
     webhook:
       annotations:
         secret.reloader.stakater.com/reload: "kubefed-root-ca"
+      repository: ghcr.io/mesosphere
+      image: kubefed
+      tag: v0.11.1
