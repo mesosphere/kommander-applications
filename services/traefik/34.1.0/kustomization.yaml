@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - traefik.yaml
   - grafana-dashboards
-  - crds
   - crds.yaml
