@@ -632,17 +632,17 @@ resources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/redis-photon:v2.12.0
+  - container_image: goharbor/redis-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/registry-photon:v2.12.0
+  - container_image: goharbor/registry-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/trivy-adapter-photon:v2.12.0
+  - container_image: goharbor/trivy-adapter-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
