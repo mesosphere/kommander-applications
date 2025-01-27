@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kiali-2.3.0-d2iq-defaults
+  name: kiali-2.4.0-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -36,7 +36,7 @@ data:
             use_grpc: true
         deployment:
           priority_class_name: dkp-high-priority
-          image_version: v2.3.0-distro
+          image_version: v2.4.0-distro
           accessible_namespaces:
           - '**'
           ingress:
