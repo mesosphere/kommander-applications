@@ -76,5 +76,17 @@ data:
 
       imageChartStorage:
         type: filesystem
+        disableredirect: true
 
     externalURL: https://${ingressAddress:=harbor}:5000
+  harbor-cosi-values.yaml: |
+    ---
+    cosiBucketKit:
+      enabled: false
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}
+        harbor:
+          enabled: true
+          cmName: harbor-cosi-overrides
+          cmNamespace: ${releaseNamespace}
