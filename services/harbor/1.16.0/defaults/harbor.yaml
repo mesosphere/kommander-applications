@@ -89,3 +89,4 @@ data:
         harbor:
           enabled: true
           cmName: harbor-cosi-overrides
+          cmNamespace: ${releaseNamespace}
