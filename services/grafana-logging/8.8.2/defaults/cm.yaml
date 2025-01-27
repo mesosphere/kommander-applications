@@ -7,6 +7,10 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    image:
+      registry: docker.io
+      repository: grafana/grafana
+      tag: 11.2.2-security-01
     datasources:
       datasources.yaml:
         apiVersion: 1
