@@ -76,6 +76,7 @@ data:
 
       imageChartStorage:
         type: filesystem
+        disableredirect: true
 
     externalURL: https://${ingressAddress:=harbor}:5000
   harbor-cosi-values.yaml: |
