@@ -607,7 +607,7 @@ resources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.12.0
+  - container_image: goharbor/harbor-core:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
@@ -617,17 +617,17 @@ resources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-jobservice:v2.12.0
+  - container_image: goharbor/harbor-jobservice:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-portal:v2.12.0
+  - container_image: goharbor/harbor-portal:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-registryctl:v2.12.0
+  - container_image: goharbor/harbor-registryctl:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}

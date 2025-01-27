@@ -10,7 +10,7 @@ spec:
   interval: 6h
   retryInterval: 1m
   timeout: 1m
-  path: ./services/harbor/1.16.1/ncr-system-namespace
+  path: ./services/harbor/1.16.2/ncr-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
