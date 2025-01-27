@@ -121,7 +121,7 @@ data:
           kubernetes.io/ingress.class: kommander-traefik
           ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
           traefik.ingress.kubernetes.io/router.tls: "true"
-          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd"
+          traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd,${releaseNamespace}-stripprefixes@kubernetescrd"
         host:
           name: ""
           path: "/dkp/kommander/ceph-dashboard"
