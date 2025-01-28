@@ -597,12 +597,7 @@ resources:
       - url: https://github.com/ceph/ceph-cosi
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v20250110-a29e5f6
-    sources:
-      - url: https://github.com/kubernetes-sigs/container-object-storage-interface
-        ref: main
-        license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
