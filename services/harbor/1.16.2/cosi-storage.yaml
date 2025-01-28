@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/harbor/1.16.0/cosi-storage
+  path: ./services/harbor/1.16.2/cosi-storage
   dependsOn:
     - name: ncr-system-namespace
   sourceRef:
