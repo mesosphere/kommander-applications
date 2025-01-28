@@ -305,7 +305,6 @@ data:
             namespace: ${releaseNamespace}
             spec:
               deploymentStrategy: Auto
-              objectProvisionerImage: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
           adminuser:
             enabled: true
             name: cosi-admin
