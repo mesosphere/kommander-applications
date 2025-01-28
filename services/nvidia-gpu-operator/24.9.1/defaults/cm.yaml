@@ -5,10 +5,6 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    image:
-      repository: ghcr.io/mesosphere/dkp-container-images
-      image: nvidia/k8s/container-toolkit:v1.17.0
-      tag: ubi8-d2iq.0
     nfd:
       enabled: false
     driver:
@@ -18,6 +14,7 @@ data:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
+      repository: ghcr.io/mesosphere/dkp-container-images/nvidia/k8s/container-toolkit
       version: v0.17.0
     toolkit:
       # toolkit needs to be set on per OS
@@ -26,6 +23,7 @@ data:
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
       version: v1.17.0-ubuntu20.04
+      version: v1.17.0-ubi8-d2iq.0
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
