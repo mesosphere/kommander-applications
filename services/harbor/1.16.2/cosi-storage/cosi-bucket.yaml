@@ -27,7 +27,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-1.16.0-d2iq-defaults
+      name: harbor-1.16.2-d2iq-defaults
       valuesKey: harbor-cosi-values.yaml
       optional: true
     - kind: ConfigMap

@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: helm.goharbor.io
         namespace: kommander-flux
-      version: 1.16.0
+      version: 1.16.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -27,7 +27,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-1.16.0-d2iq-defaults
+      name: harbor-1.16.2-d2iq-defaults
     - kind: ConfigMap
       name: harbor-cosi-overrides
       optional: true
