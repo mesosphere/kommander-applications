@@ -1,129 +1,23 @@
-apiVersion: v1
-kind: ConfigMap
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
 metadata:
-  name: traefik-app-dashboard-info
-  namespace: ${releaseNamespace}
-  labels:
-    "kommander.d2iq.io/application": "traefik"
-data:
-  name: "Traefik"
-  dashboardLink: "/dkp/traefik/dashboard/"
-  docsLink: "https://doc.traefik.io/traefik/v3.3"
-  # Check https://artifacthub.io/packages/helm/traefik/traefik for app version
-  version: "3.3.2"
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: d2iq-traefik-certmanager-init
-  namespace: ${releaseNamespace}
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    verbs:
-      - '*'
-  - apiGroups:
-      - cert-manager.io
-    resources:
-      - certificates
-    verbs:
-      - '*'
-  - apiGroups:
-      - traefik.containo.us
-      - traefik.io
-    resources:
-      - tlsstores
-      - middlewares
-    verbs:
-      - '*'
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: d2iq-traefik-certmanager-init
-  namespace: ${releaseNamespace}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: d2iq-traefik-certmanager-init
-subjects:
-  - kind: ServiceAccount
-    name: kommander-traefik
-    namespace: ${releaseNamespace}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: kommander-traefik-dashboard
+  name: traefik-main-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  ports:
-    - name: dashboard-http
-      port: 80
-      protocol: TCP
-      targetPort: 9000
-  selector:
-    app: traefik
-    app.kubernetes.io/instance: kommander-traefik
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: kommander-traefik-prometheus
-  namespace: ${releaseNamespace}
-  labels:
-    servicemonitor.kommander.mesosphere.io/path: metrics
-spec:
-  ports:
-    - name: metrics
-      port: 9100
-      protocol: TCP
-      targetPort: metrics
-  selector:
-    app: traefik
-    app.kubernetes.io/instance: kommander-traefik
-  type: ClusterIP
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-traefik-view
-rules:
-  - nonResourceURLs:
-      - /dkp/traefik
-      - /dkp/traefik/*
-    verbs:
-      - get
-      - head
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-traefik-edit
-rules:
-  - nonResourceURLs:
-      - /dkp/traefik
-      - /dkp/traefik/*
-    verbs:
-      - get
-      - head
-      - post
-      - put
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: dkp-traefik-admin
-rules:
-  - nonResourceURLs:
-      - /dkp/traefik
-      - /dkp/traefik/*
-    verbs:
-      - get
-      - head
-      - post
-      - put
-      - delete
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/traefik/34.1.0/traefik
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
