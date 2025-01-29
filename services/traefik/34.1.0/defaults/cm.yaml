@@ -205,3 +205,7 @@ data:
           default: true
         exposedPort: 5000
         protocol: TCP
+        transport:
+          respondingTimeouts:
+            readTimeout: 5m
+
