@@ -13,8 +13,8 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-  valuesFrom:
-    - kind: ConfigMap
-      name: traefik-crd-1.2.0-d2iq-defaults
+  # valuesFrom:
+  #   - kind: ConfigMap
+  #     name: traefik-crd-1.2.0-d2iq-defaults
   values:
     - ./list-images-values.yaml 
