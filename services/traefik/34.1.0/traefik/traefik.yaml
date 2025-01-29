@@ -14,11 +14,11 @@ spec:
       version: 34.1.0
   interval: 15s
   install:
-    crds: CreateReplace
+    crds: Skip
     remediation:
       retries: 30
   upgrade:
-    crds: CreateReplace
+    crds: Skip
     remediation:
       retries: 30
   timeout: 5m0s
