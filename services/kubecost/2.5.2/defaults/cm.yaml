@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-2.5.2-d2iq-defaults
+  name: kubecost-2.5.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   # Using just values.yaml will result in kubecost running in agent mode.
@@ -168,7 +168,6 @@ data:
       productKey:
         enabled: false
         #key: YOUR_KEY
-
   # Overrides for kubecost to run in primary mode (single cluster with no object storage)
   primary-values.yaml: |
     global:
@@ -255,7 +254,6 @@ data:
 
     kubecostProductConfigs:
       grafanaURL: "/dkp/kommander/monitoring/grafana"
-
   # Overrides for kubecost to create cosi resources.
   primary-cosi-values.yaml: |
     ---

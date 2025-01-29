@@ -11,17 +11,17 @@ metadata:
   namespace: ${releaseNamespace}
 rules:
   - apiGroups: [""]
-    resources: [ "configmaps" ]
-    verbs: ["get", "list", "create", "patch" ]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "create", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: kubecost-pre-install-clusterrole
 rules:
-  - apiGroups: [ "" ]
-    resources: [ "namespaces" ]
-    verbs: [ "get", "list" ]
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
