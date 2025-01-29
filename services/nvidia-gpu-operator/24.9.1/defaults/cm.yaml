@@ -39,6 +39,3 @@ data:
     operator:
       repository: nvcr.io/nvidia
       version: v24.9.1
-    toolkit1:
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
-      version: v1.17.0-ubi8-d2iq.0  
