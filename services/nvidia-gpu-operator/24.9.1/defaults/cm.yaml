@@ -14,7 +14,7 @@ data:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
+      repository: nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
       version: v0.17.0
     toolkit:
       # toolkit needs to be set on per OS
