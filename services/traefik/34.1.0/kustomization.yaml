@@ -4,3 +4,4 @@ resources:
   - traefik.yaml
   - grafana-dashboards
   - crds.yaml
+  - traefik-main.yaml
