@@ -86,6 +86,37 @@ IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
 trap_add "rm --force ${IMAGES_FILE}" EXIT
 
+# extracts list of referenced configmap and its key as
+# helm release values, returns in a format "cm_name/values_key.yaml"
+# @param 1 helm release file
+hr:valuesFrom () {
+  envsubst -no-unset -no-digit -i "$1" | \
+    gojq --yaml-input --raw-output '
+        select(.kind == "HelmRelease") | .spec.valuesFrom // [] | .[] |
+        select(.kind == "ConfigMap") | [.name, .valuesKey // "values.yaml"] | join("/")
+    '
+}
+
+# find cm map by "cm_name/values_key.yaml" in given directory echo
+# values.
+# @param 1 cm_name/values_key.yaml
+# @param 2 path to a directory directory with configmaps
+cm:find () {
+  local cm_name=$1
+  local dir=$2
+
+  if [ ! -f "${dir}/kustomization.yaml" ]; then
+    return
+  fi
+
+  # shellcheck disable=SC2016
+  kubectl kustomize "${dir}" | \
+    flux envsubst | \
+    gojq --yaml-input --raw-output --arg name "${cm_name%/*}" --arg key "${cm_name##*/}" '
+      select(.kind == "ConfigMap") | select(.metadata.name == $name) | .data[$key]
+    '
+}
+
 for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 --no-run-if-empty -- grep --files-with-matches '^kind: HelmRelease' | grep --only-matching "\(.*\)/" | sort --unique); do
   pushd "${dir}" &>/dev/null
 
@@ -103,6 +134,23 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
       trap_add "rm --force $(realpath "${temp_values}")" EXIT
       envsubst -no-unset -no-digit -i "${defaults_cm}" | gojq --yaml-input --raw-output '.data.["values.yaml"]' | sed '/---/d' >"${temp_values}"
       extra_args+=('--values' "${temp_values}")
+    fi
+
+    defaults_dir=""
+    if [ -d 'defaults' ]; then
+      defaults_dir='defaults/'
+    elif [ -d '../defaults' ]; then
+      defaults_dir='../defaults/'
+    fi
+
+    if [ -n "$defaults_dir" ]; then
+      for cm in $(hr:valuesFrom "$(basename "${hr}")")
+      do
+        temp_values="$(mktemp .helm-list-images-XXXXXX)"
+        trap_add "rm --force $(realpath "${temp_values}")" EXIT
+        cm:find "$cm" "$defaults_dir" > "${temp_values}"
+        extra_args+=('--values' "${temp_values}")
+      done
     fi
 
     if [ -f 'list-images-values.yaml' ]; then
