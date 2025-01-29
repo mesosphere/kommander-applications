@@ -16,7 +16,6 @@ data:
       repository: nvcr.io/nvidia
       repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s/container-toolkit:v1.17.0-ubi8-d2iq.0
       version: v0.17.0
-      version: v1.17.0-ubi8-d2iq.0
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
@@ -24,6 +23,7 @@ data:
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
       version: v1.17.0-ubuntu20.04
+      version: v1.17.0-ubi8-d2iq.0
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
