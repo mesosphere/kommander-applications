@@ -612,7 +612,7 @@ resources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-db:v2.12.2
+  - container_image: goharbor/harbor-exporter:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
@@ -632,11 +632,6 @@ resources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/redis-photon:v2.12.2
-    sources:
-      - url: https://github.com/goharbor/harbor
-        ref: ${image_tag}
-        license_path: LICENSE
   - container_image: goharbor/registry-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
@@ -652,6 +647,16 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
+  - container_image: bitnami/valkey-sentinel:8.0.2-debian-12-r0
+    sources:
+      - url: https://github.com/valkey-io/valkey
+        ref: ${image_tag%%-debian-*}
+        license_path: COPYING
+  - container_image: bitnami/redis-exporter:1.67.0-debian-12-r0
+    sources:
+      - url: https://github.com/oliver006/redis_exporter
+        ref: v${image_tag%%-debian-*}
+        license_path: LICENSE
   - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.0.4
     sources:
       - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
