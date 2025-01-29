@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -59,12 +60,32 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		return err
 	}
 	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	traefikDir := filepath.Join(appPath, "traefik")
+	if _, err := os.Stat(traefikDir); !os.IsNotExist(err) {
+		// If the traefik directory exists, apply both `crds` and `traefik` subdirectories
+
+		// Apply both CRDs and Traefik subdirectories
+		for _, dir := range []string{"crds", "traefik"} {
+			subDir := filepath.Join(appPath, dir)
+			if _, err := os.Stat(subDir); !os.IsNotExist(err) {
+				err := env.ApplyKustomizations(ctx, subDir, map[string]string{
+					"releaseNamespace":   kommanderNamespace,
+					"workspaceNamespace": kommanderNamespace,
+				})
+				if err != nil {
+					return err
+				}
+			}
+		}
+	} else {
+		// If the `traefik` directory doesn't exist, apply the default (root) kustomizations
+		err = env.ApplyKustomizations(ctx, appPath, map[string]string{
+			"releaseNamespace":   kommanderNamespace,
+			"workspaceNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	traefikCMName := "traefik-overrides"
