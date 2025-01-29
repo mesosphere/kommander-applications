@@ -50,6 +50,15 @@ func (t traefik) InstallPreviousVersion(ctx context.Context, env *environment.En
 }
 
 func (t traefik) install(ctx context.Context, env *environment.Env, appPath string) error {
+	crdsDir := filepath.Join(appPath, "crds")
+	if _, err := os.Stat(crdsDir); !os.IsNotExist(err) {
+		err = env.ApplyKustomizations(ctx, crdsDir, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return fmt.Errorf("failed to apply CRDs: %w", err)
+		}
+	}
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
