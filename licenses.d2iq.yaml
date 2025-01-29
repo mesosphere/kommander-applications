@@ -231,14 +231,6 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kubetunnel
-  - container_image: docker.io/mesosphere/nkp-pulse-management:v0.0.1-dev.0
-    sources:
-      - ref: ${image_tag}
-        url: https://github.com/mesosphere/nkp-pulse
-  - container_image: docker.io/mesosphere/nkp-pulse-workspace:v0.0.1-dev.0
-    sources:
-      - ref: ${image_tag}
-        url: https://github.com/mesosphere/nkp-pulse
   - container_image: docker.io/mesosphere/traefik-forward-auth:v3.2.1
     sources:
       - license_path: LICENSE.thomseddon.md

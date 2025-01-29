@@ -67,7 +67,6 @@ _cleanup:
 _prepare-files-for-a-bundle output_dir:
     rsync --quiet --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
     yq 'del(.resources[] | select(. == "ai-navigator-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
-    yq 'del(.resources[] | select(. == "nkp-pulse-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
 
 
 import 'just/test.just'

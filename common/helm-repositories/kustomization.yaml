@@ -19,7 +19,6 @@ resources:
   - kubefed.yaml
   - kubetunnel.yaml
   - mesosphere-repos.yaml
-  - nkp-pulse-repos.yaml
   - nvidia.yaml
   - prometheus-community.yaml
   - reloader.yaml

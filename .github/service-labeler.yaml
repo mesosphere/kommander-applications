@@ -138,14 +138,6 @@ services/nkp-insights-management:
 - changed-files:
   - any-glob-to-any-file:
     - services/nkp-insights-management/**
-services/nkp-pulse-management:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/nkp-pulse-management/**
-services/nkp-pulse-workspace:
-- changed-files:
-  - any-glob-to-any-file:
-    - services/nkp-pulse-workspace/**
 services/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:
