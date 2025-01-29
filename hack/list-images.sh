@@ -88,8 +88,9 @@ trap_add "rm --force ${IMAGES_FILE}" EXIT
 
 # extracts list of referenced configmap and its key as
 # helm release values, returns in a format "cm_name/values_key.yaml"
+# @param 1 helm release file
 hr:valuesFrom () {
-  envsubst -no-unset -no-digit -i $1 | \
+  envsubst -no-unset -no-digit -i "$1" | \
     gojq --yaml-input --raw-output '
         select(.kind == "HelmRelease") | .spec.valuesFrom // [] | .[] |
         select(.kind == "ConfigMap") | [.name, .valuesKey // "values.yaml"] | join("/")
@@ -98,6 +99,8 @@ hr:valuesFrom () {
 
 # find cm map by "cm_name/values_key.yaml" in given directory echo
 # values.
+# @param 1 cm_name/values_key.yaml
+# @param 2 path to a directory directory with configmaps
 cm:find () {
   local cm_name=$1
   local dir=$2
@@ -106,6 +109,7 @@ cm:find () {
     return
   fi
 
+  # shellcheck disable=SC2016
   kubectl kustomize "${dir}" | \
     flux envsubst | \
     gojq --yaml-input --raw-output --arg name "${cm_name%/*}" --arg key "${cm_name##*/}" '
@@ -144,7 +148,7 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
       do
         temp_values="$(mktemp .helm-list-images-XXXXXX)"
         trap_add "rm --force $(realpath "${temp_values}")" EXIT
-        cm:find $cm $defaults_dir > "${temp_values}"
+        cm:find "$cm" "$defaults_dir" > "${temp_values}"
         extra_args+=('--values' "${temp_values}")
       done
     fi
