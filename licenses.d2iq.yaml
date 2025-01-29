@@ -379,7 +379,7 @@ resources:
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8-d2iq.0}
-        url: https://github.com/NVIDIA/nvidia-container-toolkit
+        url: https://github.com/mesosphere/dkp-container-images
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.9-3.6.1-ubuntu22.04
     sources:
       - license_path: LICENSE
