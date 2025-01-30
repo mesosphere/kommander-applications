@@ -62,9 +62,9 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	// apply the rest of kustomizations
 	traefikDir := filepath.Join(appPath, "traefik")
 	// Install gateway-api-crds first
-	gatewayCRDsPath, err := absolutePathTo("crds")
+	gatewayCRDsPath, err := absolutePathTo("gateway-api-crds")
 	if err != nil {
-		return fmt.Errorf("failed to get path for crds: %w", err)
+		return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
 	}
 
 	err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
