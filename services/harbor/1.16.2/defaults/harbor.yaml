@@ -55,15 +55,32 @@ data:
 
     core:
       priorityClassName: dkp-critical-priority
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-core
+    exporter:
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-core
     portal:
       priorityClassName: dkp-critical-priority
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-portal
     registry:
       priorityClassName: dkp-critical-priority
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-registry
     jobservice:
       priorityClassName: dkp-high-priority
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-jobservice
+    trivy:
+      podAnnotations:
+        secret.reloader.stakater.com/reload: harbor-tls-trivy
 
     metrics:
       enabled: true
+
+    updateStrategy:
+      type: Recreate
 
     internalTLS:
       enabled: true
