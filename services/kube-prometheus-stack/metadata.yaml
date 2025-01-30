@@ -26,7 +26,7 @@ overview: |-
 
   - [Prometheus Documentation - Overview](https://prometheus.io/docs/introduction/overview/)
 
-  ### Prometheus Alertmanager (v0.27.0)
+  ### Prometheus Alertmanager (v0.28.0)
   A Prometheus component that enables you to configure and manage alerts sent by the Prometheus server and to route them to notification, paging, and automation systems.
 
   - [Prometheus Alertmanager Documentation - Overview](https://prometheus.io/docs/alerting/latest/alertmanager/)

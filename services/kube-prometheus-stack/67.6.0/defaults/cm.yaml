@@ -340,6 +340,9 @@ data:
           requests:
             cpu: 100m
             memory: 200Mi
+        image:
+          repository: quay.io/prometheus/alertmanager
+          tag: v0.28.0
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
