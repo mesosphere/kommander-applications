@@ -50,15 +50,6 @@ func (t traefik) InstallPreviousVersion(ctx context.Context, env *environment.En
 }
 
 func (t traefik) install(ctx context.Context, env *environment.Env, appPath string) error {
-	crdsDir := filepath.Join(appPath, "crds")
-	if _, err := os.Stat(crdsDir); !os.IsNotExist(err) {
-		err = env.ApplyKustomizations(ctx, crdsDir, map[string]string{
-			"releaseNamespace": kommanderNamespace,
-		})
-		if err != nil {
-			return fmt.Errorf("failed to apply CRDs: %w", err)
-		}
-	}
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
@@ -70,20 +61,28 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	}
 	// apply the rest of kustomizations
 	traefikDir := filepath.Join(appPath, "traefik")
+	// Install gateway-api-crds first
+	gatewayCRDsPath, err := absolutePathTo("crds")
+	if err != nil {
+		return fmt.Errorf("failed to get path for crds: %w", err)
+	}
+
+	err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
+	if err != nil {
+		return fmt.Errorf("failed to apply gateway-api CRDs: %w", err)
+	}
 	if _, err := os.Stat(traefikDir); !os.IsNotExist(err) {
 		// If the traefik directory exists, apply both `crds` and `traefik` subdirectories
-
-		// Apply both CRDs and Traefik subdirectories
 		for _, dir := range []string{"crds", "traefik"} {
 			subDir := filepath.Join(appPath, dir)
-			if _, err := os.Stat(subDir); !os.IsNotExist(err) {
-				err := env.ApplyKustomizations(ctx, subDir, map[string]string{
-					"releaseNamespace":   kommanderNamespace,
-					"workspaceNamespace": kommanderNamespace,
-				})
-				if err != nil {
-					return err
-				}
+			err := env.ApplyKustomizations(ctx, subDir, map[string]string{
+				"releaseNamespace":   kommanderNamespace,
+				"workspaceNamespace": kommanderNamespace,
+			})
+			if err != nil {
+				return err
 			}
 		}
 	} else {
