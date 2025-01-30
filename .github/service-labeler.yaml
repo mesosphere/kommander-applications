@@ -22,6 +22,10 @@ services/cloudnative-pg:
 - changed-files:
   - any-glob-to-any-file:
     - services/cloudnative-pg/**
+services/cosi-driver-nutanix:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/cosi-driver-nutanix/**
 services/dex:
 - changed-files:
   - any-glob-to-any-file:

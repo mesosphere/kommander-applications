@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ncr-system-namespace
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: false
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  timeout: 1m
+  path: ./services/harbor/1.16.2/ncr-system-namespace
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux

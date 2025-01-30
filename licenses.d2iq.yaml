@@ -19,12 +19,6 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r0}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/grafana/grafana:11.2.2-security-01
-    sources:
-      - license_path: LICENSE
-        notice_path: NOTICE.md
-        ref: v${image_tag%-security-01}
-        url: https://github.com/grafana/grafana
   - container_image: docker.io/grafana/grafana:11.4.0
     sources:
       - license_path: LICENSE
@@ -123,7 +117,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.4-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -203,7 +197,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.15.0
+  - container_image: docker.io/mesosphere/kommander:17.28.2
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -256,7 +250,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.15.5
+  - container_image: docker.io/rook/ceph:v1.16.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -352,7 +346,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kube-logging/node-exporter-image
-  - container_image: ghcr.io/mesosphere/kubefed:v0.10.4
+  - container_image: ghcr.io/mesosphere/kubefed:v0.11.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -392,7 +386,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: quay.io/ceph/ceph:v18.2.4
+  - container_image: quay.io/ceph/ceph:v19.2.0
     sources:
       - license_path: COPYING
         ref: ${image_tag}
@@ -536,7 +530,7 @@ resources:
       - url: https://github.com/NVIDIA/cuda-samples
         ref: v12.5
         license_path: LICENSE
-  - container_image: docker.io/bitnami/kubectl:1.30.5
+  - container_image: docker.io/bitnami/kubectl:1.31.4
     sources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0${image_tag#1}
@@ -597,7 +591,7 @@ resources:
       - url: https://github.com/ceph/ceph-cosi
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+  - container_image: gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
@@ -607,42 +601,37 @@ resources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.12.0
+  - container_image: goharbor/harbor-core:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-db:v2.12.0
+  - container_image: goharbor/harbor-exporter:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-jobservice:v2.12.0
+  - container_image: goharbor/harbor-jobservice:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-portal:v2.12.0
+  - container_image: goharbor/harbor-portal:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-registryctl:v2.12.0
+  - container_image: goharbor/harbor-registryctl:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/redis-photon:v2.12.0
+  - container_image: goharbor/registry-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/registry-photon:v2.12.0
-    sources:
-      - url: https://github.com/goharbor/harbor
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: goharbor/trivy-adapter-photon:v2.12.0
+  - container_image: goharbor/trivy-adapter-photon:v2.12.2
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
@@ -652,3 +641,18 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
+  - container_image: bitnami/valkey-sentinel:8.0.2-debian-12-r0
+    sources:
+      - url: https://github.com/valkey-io/valkey
+        ref: ${image_tag%%-debian-*}
+        license_path: COPYING
+  - container_image: bitnami/redis-exporter:1.67.0-debian-12-r0
+    sources:
+      - url: https://github.com/oliver006/redis_exporter
+        ref: v${image_tag%%-debian-*}
+        license_path: LICENSE
+  - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.0.4
+    sources:
+      - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
+        ref: ${image_tag}
+        license_path: LICENSE

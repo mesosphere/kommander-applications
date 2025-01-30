@@ -234,7 +234,7 @@ data:
         kubernetes.io/ingress.class: kommander-traefik
         ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
         traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd"
+        traefik.ingress.kubernetes.io/router.middlewares: "${releaseNamespace}-forwardauth@kubernetescrd,${releaseNamespace}-stripprefixes@kubernetescrd"
       paths:
         - "/dkp/kommander/kubecost/frontend/" # This used to be the ingress of centralized-kubecost in 2.13.x and older versions of DKP
       hosts:
@@ -259,35 +259,26 @@ data:
   # Overrides for kubecost to create cosi resources.
   primary-cosi-values.yaml: |
     ---
-    # COSI related resources
-    bucketClasses: # Cluster scoped resource
-      - name: kubecost-cosi-storage
-        driverName: rook-ceph.ceph.objectstorage.k8s.io
-        deletionPolicy: Delete
-        parameters:
-          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
-          objectStoreUserSecretNamespace: ${releaseNamespace}
-    bucketAccessClasses: # Cluster scoped resource
-      - name: kubecost-cosi-storage
-        driverName: rook-ceph.ceph.objectstorage.k8s.io
-        authenticationType: KEY
-        parameters:
-          # This secret (backed by a ceph user) is created below in the driver config.
-          objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
-          objectStoreUserSecretNamespace: ${releaseNamespace}
-    bucketClaims: # Namespace scoped resource
-      - name: kubecost-cosi-storage
-        namespace: ${releaseNamespace}
-        bucketClassName: kubecost-cosi-storage
-        protocols:
-          - s3
-    bucketAccesses: # Namespace scoped resource
-      - name: kubecost-cosi-storage
-        namespace: ${releaseNamespace}
-        bucketAccessClassName: kubecost-cosi-storage
-        bucketClaimName: kubecost-cosi-storage
-        protocol: s3
-        credentialsSecretName: federated-store
+    cosiBucketKit:
+      enabled: true
+      bucketClaims:
+        - name: cosi-kubecost # Max length should be less than 26 chars.
+          namespace: ${releaseNamespace}
+          bucketClassName: cosi-ceph-nkp
+          protocols:
+            - s3
+      bucketAccesses:
+        - name: cosi-kubecost
+          namespace: ${releaseNamespace}
+          bucketAccessClassName: cosi-ceph-nkp
+          bucketClaimName: cosi-kubecost
+          protocol: s3
+          credentialsSecretName: federated-store
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}
+        kubecost:
+          enabled: true
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
   primary-object-storage-ready-values.yaml: |
     ---

@@ -3,36 +3,42 @@ upgrades:
       to: v2.8.3-dev
       k8sversion: "1.28"
     - from: v2.8.0
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.28"
     - from: v2.8.1
       to: v2.8.3-dev
       k8sversion: "1.28"
     - from: v2.8.1
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.28"
     - from: v2.8.2
       to: v2.8.3-dev
       k8sversion: "1.28"
     - from: v2.8.2
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.28"
     - from: v2.8.3-dev
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.28"
     - from: v2.12.0
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.29"
     - from: v2.12.0
       to: v2.13.2-dev
       k8sversion: "1.29"
     - from: v2.12.1
-      to: v2.12.2-dev
+      to: v2.12.3-dev
       k8sversion: "1.29"
     - from: v2.12.1
       to: v2.13.2-dev
       k8sversion: "1.29"
-    - from: v2.12.2-dev
+    - from: v2.12.2
+      to: v2.12.3-dev
+      k8sversion: "1.29"
+    - from: v2.12.2
+      to: v2.13.2-dev
+      k8sversion: "1.29"
+    - from: v2.12.3-dev
       to: v2.13.2-dev
       k8sversion: "1.29"
     - from: v2.13.0

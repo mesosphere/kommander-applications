@@ -161,14 +161,12 @@ data:
       kubernetesCRD:
         enabled: true
         namespaces: []
-        ingressClass: kommander-traefik
-        # - "default"
+        ingressClass: ""
       kubernetesIngress:
         enabled: true
         # labelSelector: environment=production,method=traefik
         namespaces: []
         ingressClass: kommander-traefik
-        # - "default"
         # IP used for Kubernetes Ingress endpoints
 
         publishedService:

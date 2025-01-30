@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubefed-0.11.1-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    global:
+      priorityClassName: dkp-critical-priority
+    controllermanager:
+      # override value is necessary due to a "featureGates":interface {}(nil)... spec.featureGates in body must be of type array: "null"
+      # bug found
+      featureGates:
+        CrossClusterServiceDiscovery: "Disabled"
+        FederatedIngress: "Enabled"
+        PushReconciler: "Enabled"
+        SchedulerPreferences: "Disabled"
+      controller:
+        repository: ghcr.io/mesosphere
+        image: kubefed
+        tag: v0.11.1
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+      certManager:
+        enabled: true
+        rootCertificate:
+          organizations:
+            - "cert-manager"
+          dnsNames:
+            - ca.webhook.kubefed
+          commonName: ca.webhook.kubefed
+      service:
+        labels:
+          servicemonitor.kommander.mesosphere.io/path: metrics
+      postInstallJob:
+        repository: bitnami
+        image: kubectl
+        tag: 1.31.4
+      webhook:
+        annotations:
+          secret.reloader.stakater.com/reload: "kubefed-root-ca"
+        repository: ghcr.io/mesosphere
+        image: kubefed
+        tag: v0.11.1

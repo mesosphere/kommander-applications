@@ -1,0 +1,2 @@
+quay.io/ceph/cosi:v0.1.2
+gcr.io/k8s-staging-sig-storage/objectstorage-sidecar:v20250117-a29e5f6

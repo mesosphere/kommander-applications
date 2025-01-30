@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cosi-driver-nutanix-0.0.4-d2iq-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    cosiController:
+      enabled: false # This should be deployed during k8s cluster creation by konvoy.
+    objectstorageProvisionerSidecar:
+      image:
+        registry: gcr.io
+        # keep this in sync with the sidecar that is deployed in CephCOSIDriver to avoid duplicate images in airgapped bundle.
+        repository: k8s-staging-sig-storage/objectstorage-sidecar
+        tag: v20250117-a29e5f6
+        pullPolicy: IfNotPresent
+    image:
+      registry: ghcr.io
+      repository: nutanix-cloud-native/cosi-driver-nutanix
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: v0.0.4
+      pullPolicy: IfNotPresent
+    secret:
+      enabled: false # This is handled by kommander UI via a FederatedSecret.
+  cosi-bucket-kit-values.yaml: |-
+    cosiBucketKit:
+      enabled: true
+      bucketClasses:
+        - name: cosi-nutanix-nkp
+          driverName: ntnx.objectstorage.k8s.io
+          deletionPolicy: Delete
+      bucketAccessClasses:
+        - name: cosi-nutanix-nkp
+          driverName: ntnx.objectstorage.k8s.io
+          authenticationType: KEY

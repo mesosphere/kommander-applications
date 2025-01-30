@@ -1,0 +1,28 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kubefed-release
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./services/kubefed/0.11.1/release
+  dependsOn:
+    - name: kube-federation-system-namespace
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta2
+      kind: HelmRelease
+      name: kubefed
+      namespace: ${releaseNamespace}

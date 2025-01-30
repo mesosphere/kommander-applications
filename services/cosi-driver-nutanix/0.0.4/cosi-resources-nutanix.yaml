@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cosi-resources-nutanix
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: cosi-bucket-kit
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere.github.io-charts-stable
+        namespace: kommander-flux
+      version: 0.0.1-alpha.1
+  interval: 15s
+  dependsOn:
+    # This dependency is not honored during Upgrade, only during Install.
+    # We have this in place to ensure that the cosi-driver-nutanix HelmRelease is installed before creating the BucketClass CR.
+    - name: cosi-driver-nutanix
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: cosi-resources-nutanix
+  targetNamespace: ${releaseNamespace}
+  valuesFrom:
+    - kind: ConfigMap
+      name: cosi-driver-nutanix-0.0.4-d2iq-defaults
+      valuesKey: cosi-bucket-kit-values.yaml
+    - kind: ConfigMap
+      name: cosi-driver-nutanix-overrides
+      optional: true
+---

@@ -65,7 +65,7 @@ spec:
       priorityClassName: dkp-high-priority
       containers:
         - name: create-kubecost-cluster-info-configmap
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.30.5}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
           command:
             - bash
             - -c
