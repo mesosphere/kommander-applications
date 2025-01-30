@@ -26,7 +26,7 @@ spec:
   releaseName: kubefed
   valuesFrom:
     - kind: ConfigMap
-      name: kubefed-0.10.5-d2iq-defaults
+      name: kubefed-0.11.1-d2iq-defaults
     - kind: ConfigMap
       name: kubefed-overrides
       optional: true

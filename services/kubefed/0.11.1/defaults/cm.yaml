@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubefed-0.10.5-d2iq-defaults
+  name: kubefed-0.11.1-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -17,6 +17,9 @@ data:
         PushReconciler: "Enabled"
         SchedulerPreferences: "Disabled"
       controller:
+        repository: ghcr.io/mesosphere
+        image: kubefed
+        tag: v0.11.1
         resources:
           limits:
             cpu: 500m
@@ -36,6 +39,9 @@ data:
         repository: bitnami
         image: kubectl
         tag: 1.31.4
-    webhook:
-      annotations:
-        secret.reloader.stakater.com/reload: "kubefed-root-ca"
+      webhook:
+        annotations:
+          secret.reloader.stakater.com/reload: "kubefed-root-ca"
+        repository: ghcr.io/mesosphere
+        image: kubefed
+        tag: v0.11.1
