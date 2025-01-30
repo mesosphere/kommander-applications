@@ -340,7 +340,7 @@ data:
           requests:
             cpu: 100m
             memory: 200Mi
-      image:
+      alertmanagerimage:
         registry: quay.io
         repository: prometheus/alertmanager
         tag: v0.28.0
