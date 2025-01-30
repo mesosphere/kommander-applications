@@ -27,6 +27,10 @@ data:
         repository: thanos/thanos
         tag: v0.37.1
         sha: ""
+      alertmanagerimage:
+        registry: quay.io
+        repository: prometheus/alertmanager
+        tag: v0.28.0
     mesosphereResources:
       create: true
       hooks:
@@ -340,10 +344,6 @@ data:
           requests:
             cpu: 100m
             memory: 200Mi
-      alertmanagerimage:
-        registry: quay.io
-        repository: prometheus/alertmanager
-        tag: v0.28.0
     grafana:
       enabled: true
       defaultDashboardsEnabled: true
