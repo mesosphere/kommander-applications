@@ -67,6 +67,17 @@ data:
 
     internalTLS:
       enabled: true
+      certSource: secret
+      core:
+        secretName: harbor-tls-core
+      jobservice:
+        secretName: harbor-tls-jobservice
+      registry:
+        secretName: harbor-tls-registry
+      portal:
+        secretName: harbor-tls-portal
+      trivy:
+        secretName: harbor-tls-trivy
 
     persistence:
       enabled: true
