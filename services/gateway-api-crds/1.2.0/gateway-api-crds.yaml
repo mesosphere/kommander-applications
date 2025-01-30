@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: traefik-crds
+  name: gateway-api-crds
   namespace: ${releaseNamespace}
 spec:
   interval: 6h
