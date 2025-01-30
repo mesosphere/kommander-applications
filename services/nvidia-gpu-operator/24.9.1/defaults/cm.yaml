@@ -22,8 +22,6 @@ data:
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
       version: v1.17.0-ubuntu20.04
-    #adding new toolkit
-      enabled: true
       repository: ghcr.io/mesosphere/dkp-container-images/nvcr.io/nvidia/k8s
       image: container-toolkit
       version: v1.17.0-ubi8-d2iq.0
