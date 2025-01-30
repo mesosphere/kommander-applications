@@ -68,6 +68,8 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 
 	// Apply defaults for gateway-api-crds
 	gatewayDefaultsPath := filepath.Join(gatewayCRDsPath, "defaults")
+	fmt.Println("default path", gatewayDefaultsPath)
+	fmt.Println("crd path", gatewayCRDsPath)
 	err = env.ApplyKustomizations(ctx, gatewayDefaultsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
