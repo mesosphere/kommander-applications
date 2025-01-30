@@ -4,6 +4,9 @@ metadata:
   name: traefik
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    - name: traefik-crds
+      namespace: ${releaseNamespace}
   chart:
     spec:
       chart: traefik
