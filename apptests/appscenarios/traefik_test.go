@@ -125,7 +125,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			Expect(err).To(BeNil())
 			Expect(ingressRouteList.Items).To(HaveLen(1))
 			Expect(ingressRouteList.Items[0].Name).To(Equal(fmt.Sprintf("%s-dashboard", hr.GetReleaseName())))
-			Expect(ingressRouteList.Items[0].Annotations).To(HaveKeyWithValue("kubernetes.io/ingress.class", hr.GetReleaseName()))
+			Expect(ingressRouteList.Items[0].Annotations).NotTo(HaveKeyWithValue("kubernetes.io/ingress.class", hr.GetReleaseName()))
 		})
 
 		It("should have access to multiple traefik endpoints", func() {
