@@ -1,4 +1,3 @@
 {{ .Values.global.imageRegistry | default .Values.prometheusOperator.image.registry }}/{{ .Values.prometheusOperator.image.repository }}:{{ .Values.prometheusOperator.image.tag | default .Chart.AppVersion }}
 {{ .Values.global.imageRegistry | default .Values.prometheusOperator.prometheusConfigReloader.image.registry }}/{{ .Values.prometheusOperator.prometheusConfigReloader.image.repository }}:{{ .Values.prometheusOperator.prometheusConfigReloader.image.tag | default .Chart.AppVersion }}
 {{ .Values.global.imageRegistry | default .Values.prometheusOperator.thanosImage.registry }}/{{ .Values.prometheusOperator.thanosImage.repository }}:{{ .Values.prometheusOperator.thanosImage.tag }}
-quay.io/prometheus/alertmanager:v0.28.0
