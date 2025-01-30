@@ -139,7 +139,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dex-controller
-  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.4-d2iq
+  - container_image: docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -583,7 +583,7 @@ resources:
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6
     sources:
       - url: https://github.com/kubernetes/ingress-nginx
-        ref:  controller-v1.5.2
+        ref:  controller-v1.5.1
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
   - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/bitnami/postgres-exporter:0.12.0-debian-11-r77-d2iq.0
