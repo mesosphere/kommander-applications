@@ -61,13 +61,13 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	}
 
 	// Find the correct versioned path for gateway-api-crds
-	gatewayCRDsPath, err := absolutePathTo("gateway-api-crds/1.2.0") // Ensure the correct version is used
+	gatewayCRDsPath, err := absolutePathTo("gateway-api-crds") // Ensure the correct version is used
 	if err != nil {
 		return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
 	}
 
 	// Apply defaults for gateway-api-crds
-	err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
+	err = env.ApplyKustomizations(ctx, filepath.Join(gatewayCRDsPath, "/defaults"), map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -135,9 +135,6 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 			hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
 				Kind: "ConfigMap",
 				Name: traefikCMName,
-			}, fluxhelmv2beta2.ValuesReference{
-				Kind: "ConfigMap",
-				Name: "gateway-api-crds-defaults", // Ensure gateway-api-crds defaults are included
 			})
 			return nil
 		})
