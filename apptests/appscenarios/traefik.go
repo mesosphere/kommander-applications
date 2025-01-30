@@ -60,20 +60,22 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		return err
 	}
 
+	// Find the correct versioned path for gateway-api-crds
+	gatewayCRDsPath, err := absolutePathTo("gateway-api-crds/1.2.0") // Ensure the correct version is used
+	if err != nil {
+		return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
+	}
+
 	// Apply defaults for gateway-api-crds
-	gatewayDefaultsPath := filepath.Join(appPath, "gateway-api-crds", "defaults")
+	gatewayDefaultsPath := filepath.Join(gatewayCRDsPath, "defaults")
 	err = env.ApplyKustomizations(ctx, gatewayDefaultsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to apply defaults for gateway-api-crds: %w", err)
 	}
-	// Install gateway-api-crds first
-	gatewayCRDsPath, err := absolutePathTo("gateway-api-crds")
-	if err != nil {
-		return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
-	}
 
+	// Install gateway-api-crds
 	err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
