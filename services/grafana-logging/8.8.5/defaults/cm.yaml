@@ -91,17 +91,3 @@ data:
     rbac:
       pspUseAppArmor: false
       pspEnabled: false
-    # to avoid needing to download any plugins at runtime, use a container and a shared volume
-    # do not enable the plugins here, instead rebuild the mesosphere/grafana-plugins image with the new plugins
-    plugins: []
-    #  - grafana-piechart-panel
-    extraEmptyDirMounts:
-      - name: plugins
-        mountPath: /var/lib/grafana/plugins/
-    extraInitContainers:
-      - name: grafana-plugins-install
-        image: ghcr.io/mesosphere/dkp-container-images/docker.io/mesosphere/grafana-plugins:v0.0.1-d2iq.0
-        command: ["/bin/sh", "-c", "cp -a /var/lib/grafana/plugins/. /var/lib/grafana/shared-plugins/"]
-        volumeMounts:
-        - name: plugins
-          mountPath: /var/lib/grafana/shared-plugins/
