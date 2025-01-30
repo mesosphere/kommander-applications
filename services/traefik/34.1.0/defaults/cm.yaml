@@ -207,4 +207,3 @@ data:
           respondingTimeouts:
             # Increased read timeout to handle pushing of large images to OCI registry.
             readTimeout: 10m
-
