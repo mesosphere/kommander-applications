@@ -31,6 +31,7 @@ data:
         registry: quay.io
         repository: prometheus/alertmanager
         tag: v0.28.0
+        sha: ""
     mesosphereResources:
       create: true
       hooks:
