@@ -113,6 +113,7 @@ data:
       prerequisites:
         defaultApps:
         - "reloader"
+        - "gateway-api-crds"
         - "traefik"
         - "kubernetes-dashboard"
         - "kubecost"
