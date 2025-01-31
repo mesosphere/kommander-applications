@@ -3,17 +3,11 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/util/retry"
-	controllerruntime "sigs.k8s.io/controller-runtime"
-	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
-
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
-	"github.com/mesosphere/kommander-applications/apptests/flux"
 )
 
 type traefik struct {
@@ -58,14 +52,6 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 	if err != nil {
 		return err
 	}
-	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
 
 	traefikCMName := "traefik-overrides"
 	err = t.applyTraefikOverrideCM(ctx, env, traefikCMName)
@@ -73,36 +59,49 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		return err
 	}
 
-	hr := &fluxhelmv2beta2.HelmRelease{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      constants.Traefik,
-			Namespace: kommanderNamespace,
-		},
-	}
+	// apply the rest of kustomizations
+	traefikDir := filepath.Join(appPath, "traefik")
+	if _, err := os.Stat(traefikDir); !os.IsNotExist(err) {
+		// Find the correct versioned path for gateway-api-crds
+		gatewayCRDsPath, err := absolutePathTo("gateway-api-crds") // Ensure the correct version is used
+		if err != nil {
+			return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
+		}
 
-	genericClient, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{
-		Scheme: flux.NewScheme(),
-	})
-	if err != nil {
-		return fmt.Errorf("could not create the generic client: %w", err)
-	}
-
-	err = retry.RetryOnConflict(retry.DefaultRetry, func() error {
-		_, err = controllerruntime.CreateOrUpdate(ctx, genericClient, hr, func() error {
-			hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
-				Kind: "ConfigMap",
-				Name: traefikCMName,
-			})
-			return nil
+		// Apply defaults for gateway-api-crds
+		err = env.ApplyKustomizations(ctx, filepath.Join(gatewayCRDsPath, "/defaults"), map[string]string{
+			"releaseNamespace": kommanderNamespace,
 		})
-		return err
-	})
+		if err != nil {
+			return fmt.Errorf("failed to apply defaults for gateway-api-crds: %w", err)
+		}
 
-	return err
+		// Install gateway-api-crds
+		err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return fmt.Errorf("failed to apply gateway-api CRDs: %w", err)
+		}
+
+		// If the traefik directory exists, apply both `crds` and `traefik` subdirectories
+		for _, dir := range []string{"crds", "traefik"} {
+			subDir := filepath.Join(appPath, dir)
+			err := env.ApplyKustomizations(ctx, subDir, map[string]string{
+				"releaseNamespace":   kommanderNamespace,
+				"workspaceNamespace": kommanderNamespace,
+			})
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	// If the `traefik` directory doesn't exist, apply the default (root) kustomizations
+	return env.ApplyKustomizations(ctx, appPath, map[string]string{
+		"releaseNamespace":   kommanderNamespace,
+		"workspaceNamespace": kommanderNamespace,
+	})
 }
 
 func (t traefik) applyTraefikOverrideCM(ctx context.Context, env *environment.Env, cmName string) error {

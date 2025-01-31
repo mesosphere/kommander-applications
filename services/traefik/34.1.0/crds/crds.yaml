@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: traefik-crds
+  namespace: ${releaseNamespace}
+spec:
+  interval: 6h
+  chart:
+    spec:
+      chart: traefik-crds
+      version: "1.2.0"  # Use the appropriate version for Traefik CRDs
+      sourceRef:
+        kind: HelmRepository
+        name: helm.traefik.io-traefik
+        namespace: kommander-flux
+  valuesFrom:
+    - kind: ConfigMap
+      name: traefik-crd-1.2.0-d2iq-defaults

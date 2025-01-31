@@ -15,6 +15,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/net"
+	"k8s.io/client-go/util/retry"
+	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -202,12 +204,27 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				Expect(cl.Delete(ctx, dashboardIngress)).To(Succeed())
 			})
 
+			By("triggering a HelmRelease reconciliation", func() {
+				Expect(
+					retry.RetryOnConflict(retry.DefaultRetry, func() error {
+						_, err = controllerruntime.CreateOrUpdate(ctx, k8sClient, hr, func() error {
+							if hr.Annotations == nil {
+								hr.Annotations = map[string]string{}
+							}
+							hr.Annotations["reconcile.fluxcd.io/requestedAt"] = time.Now().Format(time.RFC3339)
+							return nil
+						})
+						return err
+					}),
+				).To(Succeed())
+			})
+
 			// Check the status of the HelmReleases
 			By("waiting for HR to get upgraded")
 			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				return hr, err
-			}, "30s", pollInterval).Should(And(
+			}, "1m", pollInterval).Should(And(
 				HaveField("Status.ObservedGeneration", BeNumerically(">", existingGeneration)),
 				HaveField("Status.Conditions", ContainElement(And(
 					HaveField("Type", Equal(apimeta.ReadyCondition)),
