@@ -1,0 +1,111 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: harbor-ca-issuer
+  namespace: ncr-system
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-ca
+  namespace: ncr-system
+spec:
+  commonName: harbor-ca
+  duration: 87600h
+  isCA: true
+  issuerRef:
+    name: harbor-ca-issuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  secretName: harbor-root-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: harbor-issuer
+  namespace: ncr-system
+spec:
+  ca:
+    secretName: harbor-root-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-core
+  namespace: ncr-system
+spec:
+  secretName: harbor-tls-core
+  duration: 8760h
+  renewBefore: 360h
+  commonName: harbor-core
+  dnsNames:
+    - harbor-core
+    - localhost
+  ipAddresses:
+    - 127.0.0.1
+  issuerRef:
+    name: harbor-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-jobservice
+  namespace: ncr-system
+spec:
+  secretName: harbor-tls-jobservice
+  duration: 8760h
+  renewBefore: 360h
+  commonName: harbor-jobservice
+  dnsNames:
+    - harbor-jobservice
+  issuerRef:
+    name: harbor-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-registry
+  namespace: ncr-system
+spec:
+  secretName: harbor-tls-registry
+  duration: 8760h
+  renewBefore: 360h
+  commonName: harbor-registry
+  dnsNames:
+    - harbor-registry
+  issuerRef:
+    name: harbor-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-portal
+  namespace: ncr-system
+spec:
+  secretName: harbor-tls-portal
+  duration: 8760h
+  renewBefore: 360h
+  commonName: harbor-portal
+  dnsNames:
+    - harbor-portal
+  issuerRef:
+    name: harbor-issuer
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: harbor-trivy
+  namespace: ncr-system
+spec:
+  secretName: harbor-tls-trivy
+  duration: 8760h
+  renewBefore: 360h
+  commonName: harbor-trivy
+  dnsNames:
+    - harbor-trivy
+  issuerRef:
+    name: harbor-issuer
