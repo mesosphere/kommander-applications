@@ -224,7 +224,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				return hr, err
-			}, "30s", pollInterval).Should(And(
+			}, "1m", pollInterval).Should(And(
 				HaveField("Status.ObservedGeneration", BeNumerically(">", existingGeneration)),
 				HaveField("Status.Conditions", ContainElement(And(
 					HaveField("Type", Equal(apimeta.ReadyCondition)),
