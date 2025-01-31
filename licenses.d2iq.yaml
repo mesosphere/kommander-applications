@@ -425,7 +425,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.7
+  - container_image: ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
     sources:
       - license_path: LICENSE
         ref: v${image_tag}

@@ -10,7 +10,7 @@ data:
     # See: https://github.com/mesosphere/dkp-container-images/tree/main/kube-oidc-proxy
     image:
       repository: ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy
-      tag: 1.0.7
+      tag: 1.0.9
     priorityClassName: "dkp-critical-priority"
     deploymentAnnotations:
       # Config changes and certificate rotation by cert-manager need a reload
