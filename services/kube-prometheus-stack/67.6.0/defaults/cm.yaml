@@ -301,10 +301,6 @@ data:
     kubeScheduler:
       enabled: false
     alertmanager:
-      alertmanagerimage:
-        registry: quay.io
-        repository: prometheus/alertmanager
-        tag: v0.28.0
       enabled: true
       config:
         global:
@@ -336,6 +332,10 @@ data:
         pathType: ImplementationSpecific
       alertmanagerSpec:
         priorityClassName: "dkp-critical-priority"
+        alertmanagerimage:
+          registry: quay.io
+          repository: prometheus/alertmanager
+          tag: v0.28.0
         logLevel: warn
         resources:
           limits:
