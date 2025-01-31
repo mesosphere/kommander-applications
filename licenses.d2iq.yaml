@@ -458,7 +458,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus/alertmanager:v0.27.0
+  - container_image: quay.io/prometheus/alertmanager:v0.28.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
