@@ -27,11 +27,6 @@ data:
         repository: thanos/thanos
         tag: v0.37.1
         sha: ""
-      alertmanagerimage:
-        registry: quay.io
-        repository: prometheus/alertmanager
-        tag: v0.28.0
-        sha: ""
     mesosphereResources:
       create: true
       hooks:
@@ -306,6 +301,10 @@ data:
     kubeScheduler:
       enabled: false
     alertmanager:
+      alertmanagerimage:
+        registry: quay.io
+        repository: prometheus/alertmanager
+        tag: v0.28.0
       enabled: true
       config:
         global:
