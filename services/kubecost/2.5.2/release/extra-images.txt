@@ -1,2 +1,1 @@
 {{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}
-quay.io/prometheus/alertmanager:v0.28.0
