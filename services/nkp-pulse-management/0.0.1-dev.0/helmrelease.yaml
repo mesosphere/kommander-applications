@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-nkp-pulse-charts
         namespace: kommander-flux
-      version: v0.0.1-dev.0
+      version: v0.1.0
   interval: 15s
   releaseName: nkp-pulse-management
   targetNamespace: ${releaseNamespace}
@@ -20,4 +20,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-pulse-management-v0.0.1-dev.0-d2iq-defaults
+      name: nkp-pulse-management-0.1.0-d2iq-defaults
