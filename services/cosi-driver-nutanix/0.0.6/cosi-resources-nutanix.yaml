@@ -30,7 +30,7 @@ spec:
   targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: cosi-driver-nutanix-0.0.4-d2iq-defaults
+      name: cosi-driver-nutanix-0.0.6-d2iq-defaults
       valuesKey: cosi-bucket-kit-values.yaml
     - kind: ConfigMap
       name: cosi-driver-nutanix-overrides

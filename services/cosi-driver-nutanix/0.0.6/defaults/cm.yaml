@@ -1,8 +1,7 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cosi-driver-nutanix-0.0.4-d2iq-defaults
+  name: cosi-driver-nutanix-0.0.6-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
