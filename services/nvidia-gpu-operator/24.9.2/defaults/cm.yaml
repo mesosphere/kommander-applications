@@ -21,7 +21,6 @@ data:
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.17.0-ubuntu20.04
       version: v1.17.4-ubuntu20.04
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
