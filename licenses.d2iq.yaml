@@ -435,7 +435,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v2.3.0-distro
+  - container_image: quay.io/kiali/kiali:v2.4.0-distro
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
