@@ -380,7 +380,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.0.0-4.0.1-ubuntu22.04 
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.0.0-4.0.1-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
