@@ -49,13 +49,13 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/proxy
-  - container_image: docker.io/jaegertracing/all-in-one:1.65.0
+  - container_image: docker.io/jaegertracing/all-in-one:1.61.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger
-  - container_image: docker.io/jaegertracing/jaeger-operator:1.65.0
+  - container_image: docker.io/jaegertracing/jaeger-operator:1.61.0
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
