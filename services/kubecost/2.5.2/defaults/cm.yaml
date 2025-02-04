@@ -118,6 +118,9 @@ data:
           enabled: true
       alertmanager:
         fullnameOverride: "kubecost-prometheus-alertmanager"
+        image:
+          repository: quay.io/prometheus/alertmanager
+          tag: v0.28.0
         priorityClassName: dkp-high-priority
         enabled: true
         resources:

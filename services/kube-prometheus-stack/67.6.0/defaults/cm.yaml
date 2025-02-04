@@ -332,6 +332,10 @@ data:
         pathType: ImplementationSpecific
       alertmanagerSpec:
         priorityClassName: "dkp-critical-priority"
+        image:
+          registry: quay.io
+          repository: prometheus/alertmanager
+          tag: v0.28.0
         logLevel: warn
         resources:
           limits:
