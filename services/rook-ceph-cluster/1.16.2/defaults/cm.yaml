@@ -278,7 +278,7 @@ data:
     #################################################################
     ## END of dkp specific config overrides                        ##
     #################################################################
-  kommander-namespace-cosi-values.yaml: |
+  cosi-bucket-kit-values.yaml: |
     # COSI related resources corresponding to cosi-bucket-kit chart from mesosphere/charts stable repo.
     cosiBucketKit:
       enabled: true
