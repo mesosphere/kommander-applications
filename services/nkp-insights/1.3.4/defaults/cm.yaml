@@ -469,7 +469,7 @@ data:
         enabled: false
         name: nkp-insights-trivy-env
       image:
-        imageFull: docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
+        imageFull: docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
         pullPolicy: IfNotPresent
       resources:
         limits:

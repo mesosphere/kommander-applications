@@ -1,5 +1,5 @@
 ignore:
-  - docker.io/mesosphere/trivy-bundles:0.56.2-20241104T225447Z
+  - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
   - docker.io/library/alpine:3.20.3
 
 resources:
