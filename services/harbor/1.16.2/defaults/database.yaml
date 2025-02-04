@@ -21,5 +21,6 @@ data:
       additionalLabels:
         prometheus.kommander.d2iq.io/select: "true"
         release: kube-prometheus-stack
+      priorityClassName: dkp-critical-priority
     backups:
       enabled: false

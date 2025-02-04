@@ -75,6 +75,9 @@ data:
     trivy:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-trivy
+      priorityClassName: dkp-high-priority
+    exporter:
+      priorityClassName: dkp-high-priority
 
     metrics:
       enabled: true
