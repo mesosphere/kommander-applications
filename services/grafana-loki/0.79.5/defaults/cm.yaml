@@ -6,7 +6,9 @@ metadata:
 data:
   values.yaml: |
     loki:
-      image: docker.io/grafana/loki:3.3.2
+      image:
+      repository: docker.io/grafana/loki
+      tag: 3.3.2
       ingesterFullname: loki-ingester
       annotations:
         secret.reloader.stakater.com/reload: dkp-loki
