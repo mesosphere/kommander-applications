@@ -64,7 +64,7 @@ data:
       priorityClassName: dkp-high-priority
       image:
         repository: docker.io/library/kong
-        tag: "3.8.0"   # Specify the Kong image tag here
+        tag: "3.9.0"   # Specify the Kong image tag here
         pullPolicy: IfNotPresent  # Ensure the image is always pulled
       admin:
         tls:
