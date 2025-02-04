@@ -25,6 +25,11 @@ data:
       ingressNSMatchLabels:
         "kubernetes.io/metadata.name": ncr-system
 
+    primary:
+      priorityClassName: dkp-critical-priority
+    replica:
+      priorityClassName: dkp-high-priority
+
     metrics:
       enabled: true
       service:
