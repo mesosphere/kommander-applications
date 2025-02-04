@@ -27,7 +27,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: rook-ceph-cluster-1.16.2-d2iq-defaults
-      valuesKey: ${releaseNamespace}-namespace-cosi-values.yaml # This will ensure attached clusters do install cosi drivers by default.
+      valuesKey: cosi-bucket-kit-values.yaml
       optional: true
     - kind: ConfigMap
       name: rook-ceph-cluster-overrides
