@@ -7,6 +7,10 @@ metadata:
 data:
   values.yaml: |
     priorityClassName: "dkp-critical-priority"
+    image:
+      registry: ghcr.io
+      repository: helm/chartmuseum
+      tag: v0.16.2
     env:
       existingSecret: ${chartmuseumAdminCredentialsSecret}
       existingSecretMappings:
