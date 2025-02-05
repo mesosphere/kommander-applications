@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-nkp-insights-charts-attached
         namespace: kommander-flux
-      version: v1.4.1
+      version: v1.4.2
   install:
     remediation:
       retries: 30
@@ -24,4 +24,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-1.4.1-d2iq-defaults
+      name: nkp-insights-1.4.2-d2iq-defaults
