@@ -1,7 +1,7 @@
 displayName: COSI Driver For Nutanix
 description: Seamlessly manage provisioning of object storage resources on Nutanix platforms within Kubernetes environments adhering to COSI standard.
-category: []
-dependencies: []
+category:
+  - general
 type: platform
 scope:
   - workspace
