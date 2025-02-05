@@ -264,37 +264,37 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.15.2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.15.2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.15.2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.15.2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.15.2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.15.1
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative-extensions/net-istio
-  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.15.1
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.17.0
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
