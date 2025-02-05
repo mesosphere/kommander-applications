@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-nkp-insights-charts-management
         namespace: kommander-flux
-      version: v1.3.4
+      version: v1.4.1
   dependsOn:
     - name: kubefed
       namespace: ${releaseNamespace}
@@ -28,4 +28,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-management-1.3.4-d2iq-defaults
+      name: nkp-insights-management-1.4.1-d2iq-defaults
