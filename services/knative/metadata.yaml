@@ -7,6 +7,9 @@ category:
 type: catalog
 scope:
   - workspace
+certifications:
+  - qualified
+  - airgapped
 licensing:
   - Pro
   - Ultimate
