@@ -18,7 +18,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-debian-12-r0}
         url: https://github.com/thanos-io/thanos
-  - container_image: docker.io/grafana/grafana:11.4.0
+  - container_image: docker.io/grafana/grafana:11.5.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -446,13 +446,13 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.79.2
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.80.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.79.2
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.80.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-67.6.0-d2iq-defaults
+  name: kube-prometheus-stack-69.1.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -348,6 +348,10 @@ data:
       enabled: true
       defaultDashboardsEnabled: true
       priorityClassName: "dkp-critical-priority"
+      image:
+        registry: docker.io
+        repository: grafana/grafana
+        tag: "11.5.1"  # Specify your desired version here
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"

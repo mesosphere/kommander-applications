@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 67.6.0
+      version: 69.1.2
   interval: 15s
   install:
     timeout: 5m0s
@@ -27,7 +27,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: kube-prometheus-stack-67.6.0-d2iq-defaults
+      name: kube-prometheus-stack-69.1.2-d2iq-defaults
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true
@@ -77,4 +77,4 @@ data:
   # Since Grafana is a subchart of kube-prometheus-stack, get the version of the Grafana chart dependency at:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, check https://artifacthub.io/packages/helm/grafana/grafana/ for app version
-  version: "11.0.0"
+  version: "11.5.1"
