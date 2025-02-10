@@ -348,6 +348,10 @@ data:
       enabled: true
       defaultDashboardsEnabled: true
       priorityClassName: "dkp-critical-priority"
+      image:
+        registry: docker.io
+        repository: grafana/grafana
+        tag: "11.5.1"  # Specify your desired version here
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
