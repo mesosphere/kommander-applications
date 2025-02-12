@@ -30,8 +30,8 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	sigs.k8s.io/controller-runtime v0.19.0
 	sigs.k8s.io/kind v0.24.0
-	sigs.k8s.io/kustomize/api v0.17.3
-	sigs.k8s.io/kustomize/kyaml v0.17.2
+	sigs.k8s.io/kustomize/api v0.19.0
+	sigs.k8s.io/kustomize/kyaml v0.19.0
 	sigs.k8s.io/yaml v1.4.0
 )
 
@@ -92,7 +92,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/cel-go v0.20.1 // indirect
-	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
+	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20240910150728-a0b0bb1d4134 // indirect
@@ -164,7 +164,6 @@ require (
 	go.opentelemetry.io/otel v1.29.0 // indirect
 	go.opentelemetry.io/otel/metric v1.29.0 // indirect
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
-	go.starlark.net v0.0.0-20231121155337-90ade8b19d09 // indirect
 	go4.org/intern v0.0.0-20230525184215-6c62f75575cb // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2 // indirect
 	golang.org/x/crypto v0.31.0 // indirect
@@ -191,12 +190,12 @@ require (
 	helm.sh/helm/v3 v3.15.4 // indirect
 	k8s.io/apiserver v0.31.1 // indirect
 	k8s.io/component-base v0.31.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20240411171206-dc4e619f62f3 // indirect
+	k8s.io/kube-openapi v0.0.0-20241212222426-2c72e554b1e7 // indirect
 	k8s.io/kubectl v0.31.1 // indirect
 	k8s.io/utils v0.0.0-20240711033017-18e509b52bc8 // indirect
 	oras.land/oras-go v1.2.5 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
-	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
+	sigs.k8s.io/structured-merge-diff/v4 v4.4.2 // indirect
 )
 
 // traefik Containous forks
