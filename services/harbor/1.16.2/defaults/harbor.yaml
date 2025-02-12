@@ -67,7 +67,7 @@ data:
     registry:
       priorityClassName: dkp-critical-priority
       podAnnotations:
-        secret.reloader.stakater.com/reload: harbor-tls-registry
+        secret.reloader.stakater.com/reload: "harbor-tls-registry,harbor-s3-credentials"
     jobservice:
       priorityClassName: dkp-high-priority
       podAnnotations:
@@ -121,3 +121,13 @@ data:
           enabled: true
           cmName: harbor-cosi-overrides
           cmNamespace: ${releaseNamespace}
+  harbor-copy-secret-values.yaml: |
+    ---
+    harborCopySecret:
+      enabled: false
+      sourceSecretName: "harbor-s3-credentials"
+      targetNamespace: "ncr-system"
+      targetSecretName: "harbor-s3-credentials"
+      reloader: true
+
+      kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}

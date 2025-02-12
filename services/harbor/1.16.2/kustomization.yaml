@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - release.yaml
   - cosi-storage.yaml
+  - manual-storage.yaml
   - ncr-system-namespace.yaml
   - pre-install.yaml
   - database.yaml
