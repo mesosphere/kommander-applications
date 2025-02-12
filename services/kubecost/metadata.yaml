@@ -17,6 +17,15 @@ overview: |-
 
   Today, Kubecost empowers more than 1,000 teams across companies of all sizes to monitor and reduce costs, while balancing cost, performance, and reliability. Kubecost is tightly integrated with the open source cloud native ecosystem and built for engineers and developers first, making it easy to drive adoption within your organization.
 
+  ## Notes
+  Kubecost requires S3-compatible object storage to persist long-term data.
+
+  Please ensure your S3-compatible object storage provider is deployed and has enough storage available.
+
+  To use the default S3-compatible object storage available in NKP (rook-ceph), ensure that the rook-ceph and rook-ceph-cluster applications are enabled in the workspace, and that the rook-ceph-cluster is configured with sufficient storage space.
+
+  For more information on configuring Kubecost to use other S3-compatible storage providers, see: https://docs.kubecost.com/install-and-configure/install/multi-cluster/long-term-storage-configuration.
+
   ## Key Features
   ### Cost Allocation
   Breakdown costs for accurate showbacks, chargebacks, and ongoing monitoring.
