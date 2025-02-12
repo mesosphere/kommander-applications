@@ -2,11 +2,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: chartmuseum-3.10.2-d2iq-defaults
+  name: chartmuseum-3.10.3-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     priorityClassName: "dkp-critical-priority"
+    image:
+      repository: ghcr.io/helm/chartmuseum
+      tag: v0.16.2
     env:
       existingSecret: ${chartmuseumAdminCredentialsSecret}
       existingSecretMappings:
