@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-staging
         namespace: kommander-flux
-      version: 0.0.7
+      version: 0.0.9
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,5 +25,5 @@ spec:
   releaseName: cosi-driver-nutanix
   valuesFrom:
     - kind: ConfigMap
-      name: cosi-driver-nutanix-0.0.4-d2iq-defaults
+      name: cosi-driver-nutanix-0.2.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
