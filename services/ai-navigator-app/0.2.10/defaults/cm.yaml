@@ -28,6 +28,9 @@ data:
             tag: 3.20.3
       storage:
         size: 5Gi
+      image:
+        # Pull from docker hub rather than cr.weaviate.io to avoid rate limiting.
+        registry: docker.io
 
     postgresql:
       enabled: true
