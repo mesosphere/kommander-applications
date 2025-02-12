@@ -15,19 +15,27 @@ certifications:
   - supported
 allowMultipleInstances: false
 overview: |-
-  # COSI Driver for Nutanix
+  # Overview
 
   The **COSI Driver for Nutanix** simplifies the deployment and configuration of the Nutanix driver for the Kubernetes Container Object Storage Interface (COSI). COSI is an evolving Kubernetes API standard designed to streamline and standardize object storage provisioning and management across diverse environments.
 
   This package is tailored for Kubernetes clusters using Nutanix as the underlying storage provider. By deploying the COSI Driver for Nutanix, users can leverage Nutanix's robust object storage capabilities to dynamically provision and manage object storage buckets directly from Kubernetes.
 
   ## Key Features
+  ### Automated Deployment
+  Simplifies the installation and setup of the COSI driver with configurable parameters for tailored deployments.
 
-  - **Automated Deployment**: Simplifies the installation and setup of the COSI driver with configurable parameters for tailored deployments.
-  - **Dynamic Bucket Management**: Enables dynamic provisioning, binding, and deletion of object storage buckets via Kubernetes APIs.
-  - **Seamless Integration**: Ensures compatibility with Nutanix object storage platforms, empowering developers to integrate cloud-native applications with Nutanix's scalable storage solutions.
-  - **Customizable Configuration**: Offers a range of configurable values for aligning the driver setup with specific use cases and operational requirements.
-  - **Scalability and Reliability**: Built to leverage the scalability and robustness of Nutanix object storage while adhering to Kubernetes best practices.
+  ### Dynamic Bucket Management
+  Enables dynamic provisioning, binding, and deletion of object storage buckets via Kubernetes APIs.
+
+  ### Seamless Integration
+  Ensures compatibility with Nutanix object storage platforms, empowering developers to integrate cloud-native applications with Nutanix's scalable storage solutions.
+
+  ### Customizable Configuration
+  Offers a range of configurable values for aligning the driver setup with specific use cases and operational requirements.
+
+  ### Scalability and Reliability
+  Built to leverage the scalability and robustness of Nutanix object storage while adhering to Kubernetes best practices.
 
   ## Use Cases
 
