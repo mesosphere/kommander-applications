@@ -4,7 +4,7 @@ metadata:
   name: traefik-crds
   namespace: ${releaseNamespace}
 spec:
-  interval: 6h
+  interval: 15s
   chart:
     spec:
       chart: traefik-crds
