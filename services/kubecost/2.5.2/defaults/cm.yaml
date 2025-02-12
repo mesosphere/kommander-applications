@@ -39,6 +39,9 @@ data:
 
     kubecostAggregator:
       deployMethod: disabled
+      priority:
+        enabled: true
+        name: dkp-high-priority
 
     priority:
       enabled: true

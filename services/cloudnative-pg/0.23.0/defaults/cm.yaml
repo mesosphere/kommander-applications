@@ -9,3 +9,4 @@ data:
     config:
       data:
         INHERITED_LABELS: "prometheus.kommander.d2iq.io/select"
+    priorityClassName: dkp-critical-priority
