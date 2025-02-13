@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.4.3-d2iq-defaults
+  name: nkp-insights-1.4.4-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -108,17 +108,19 @@ data:
           memory: 128Mi
       s3:
         bucketName: ""
+        bucketSize: 1Gi
         cosi:
           accessClassName: cosi-ceph-nkp
           className: cosi-ceph-nkp
           driverName: rook-ceph.ceph.objectstorage.k8s.io
-          enabled: true
+          enabled: false
           protocols:
             - s3
         credentialsSecretName: ""
-        endpoint: ""
+        endpoint: rook-ceph-rgw-dkp-object-store
         port: 80
         region: us-east-1
+        storageClassName: dkp-object-store
       synchronous_view_details: false
       thresholds:
         storage:
@@ -151,7 +153,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.4.3
+      tag: v1.4.4
     initdb:
       resources:
         limits:
