@@ -270,12 +270,16 @@ data:
       bucketClaims:
         - name: cosi-kubecost # Max length should be less than 26 chars.
           namespace: ${releaseNamespace}
+          annotations:
+            helm.sh/resource-policy: keep
           bucketClassName: cosi-ceph-nkp
           protocols:
             - s3
       bucketAccesses:
         - name: cosi-kubecost
           namespace: ${releaseNamespace}
+          annotations:
+            helm.sh/resource-policy: keep
           bucketAccessClassName: cosi-ceph-nkp
           bucketClaimName: cosi-kubecost
           protocol: s3
