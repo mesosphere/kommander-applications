@@ -27,3 +27,14 @@ spec:
     - kind: ConfigMap
       name: cosi-driver-nutanix-0.2.0-d2iq-defaults
   targetNamespace: ${releaseNamespace}
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |-
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: ${releaseName}
+                namespace: ${releaseNamespace}
+                annotations:
+                  secret.reloader.stakater.com/reload: ${releaseName}
