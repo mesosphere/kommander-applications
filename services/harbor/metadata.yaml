@@ -22,10 +22,17 @@ overview: |-
 
   ## Key Features
 
-  * **Image Storage and Management:** Securely store and manage container images.
-  * **Image Signing and Verification:**  Sign images to ensure authenticity and integrity.
-  * **Vulnerability Scanning:** Integrate with scanning tools to identify security vulnerabilities.
-  * **Role-Based Access Control (RBAC):**  Control access to images based on user roles.
+  ### Image Storage and Management
+  Securely store and manage container images.
+
+  ### Image Signing and Verification
+  Sign images to ensure authenticity and integrity.
+
+  ### Vulnerability Scanning
+  Integrate with scanning tools to identify security vulnerabilities.
+
+  ### Role-Based Access Control (RBAC)
+  Control access to images based on user roles.
 
 
   ## More Information
