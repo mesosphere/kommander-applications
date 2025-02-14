@@ -30,11 +30,13 @@ spec:
   postRenderers:
     - kustomize:
         patches:
-          - patch: |-
-              apiVersion: apps/v1
+          - patch: |
+              - op: add
+                path: /metadata/annotations/secret.reloader.stakater.com~1reload
+                value: ${releaseName} # UI Creates a federatedsecret whose name is equal to AppDeployment name (which will be equal to releaseName).
+            target:
+              group: apps
+              version: v1
               kind: Deployment
-              metadata:
-                name: ${releaseName}
-                namespace: ${releaseNamespace}
-                annotations:
-                  secret.reloader.stakater.com/reload: ${releaseName}
+              name: ${releaseName}
+              namespace: ${releaseNamespace}
