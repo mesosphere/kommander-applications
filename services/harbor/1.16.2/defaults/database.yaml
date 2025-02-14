@@ -8,7 +8,7 @@ data:
     ---
     type: postgresql
     version:
-      postgresql: "17"
+      postgresql: "17.2-minimal-bookworm"
     mode: standalone
     cluster:
       instances: 3
