@@ -305,7 +305,7 @@ data:
             namespace: ${releaseNamespace}
             spec:
               deploymentStrategy: Auto
-              objectProvisionerImage: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+              objectProvisionerImage: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
           adminuser:
             enabled: true
             name: cosi-admin
