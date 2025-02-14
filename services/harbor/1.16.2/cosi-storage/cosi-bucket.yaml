@@ -29,6 +29,8 @@ spec:
     - kind: ConfigMap
       name: harbor-1.16.2-d2iq-defaults
       valuesKey: harbor-cosi-values.yaml
+    - kind: ConfigMap
+      name: harbor-config-overrides
       optional: true
     - kind: ConfigMap
       name: harbor-overrides
