@@ -10,10 +10,10 @@ data:
       enabled: false # This should be deployed during k8s cluster creation by konvoy.
     objectstorageProvisionerSidecar:
       image:
-        registry: gcr.io
+        registry: registry.k8s.io
         # keep this in sync with the sidecar that is deployed in CephCOSIDriver to avoid duplicate images in airgapped bundle.
-        repository: k8s-staging-sig-storage/objectstorage-sidecar
-        tag: v20250117-a29e5f6
+        repository: sig-storage/objectstorage-sidecar
+        tag: v0.2.1
         pullPolicy: IfNotPresent
     image:
       registry: ghcr.io
