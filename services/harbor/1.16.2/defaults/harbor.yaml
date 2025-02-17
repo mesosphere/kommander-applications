@@ -6,11 +6,6 @@ metadata:
 data:
   values.yaml: |
     ---
-    core:
-      replicas: 3
-    portal:
-      replicas: 3
-
     existingSecretAdminPassword: harbor-admin-password
 
     expose:
@@ -24,6 +19,10 @@ data:
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: registry
           traefik.ingress.kubernetes.io/router.tls: "true"
+
+    ipFamily:
+      ipv6:
+        enabled: false # NKP doesn't support ipv6 yet - https://jira.nutanix.com/browse/NCN-105325
 
     redis:
       type: external
@@ -54,13 +53,16 @@ data:
         existingSecret: "harbor-database-cluster-app"
 
     core:
+      replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-core
     exporter:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-core
+      priorityClassName: dkp-high-priority
     portal:
+      replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-portal
@@ -75,8 +77,6 @@ data:
     trivy:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-trivy
-      priorityClassName: dkp-high-priority
-    exporter:
       priorityClassName: dkp-high-priority
 
     metrics:
