@@ -62,6 +62,8 @@ data:
             memory: 400Mi
     kong:
       priorityClassName: dkp-high-priority
+      env:
+        anonymous_reports: "off"
       image:
         repository: docker.io/library/kong
         tag: "3.8.0"   # Specify the Kong image tag here
