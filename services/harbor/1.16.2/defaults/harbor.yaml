@@ -67,9 +67,10 @@ data:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-portal
     registry:
+      replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
-        secret.reloader.stakater.com/reload: "harbor-tls-registry,harbor-s3-credentials"
+        secret.reloader.stakater.com/reload: "harbor-tls-registry,harbor-s3-credentials,cosi-harbor-bucket-credentials"
     jobservice:
       priorityClassName: dkp-high-priority
       podAnnotations:
