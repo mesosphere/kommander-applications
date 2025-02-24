@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 0.0.2
+      version: 0.0.3
   interval: 15s
   dependsOn:
     # This dependency is not honored during Upgrade, only during Install.
