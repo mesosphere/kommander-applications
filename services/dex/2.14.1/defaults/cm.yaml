@@ -9,7 +9,7 @@ data:
     priorityClassName: "dkp-critical-priority"
     kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}"
     image: mesosphere/dex
-    imageTag: v2.41.1-d2iq.1
+    imageTag: v2.41.1-d2iq.2
     resources:
       requests:
         cpu: 100m
