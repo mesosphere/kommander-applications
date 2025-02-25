@@ -31,6 +31,8 @@ data:
   cosi-bucket-kit-values.yaml: |-
     cosiBucketKit:
       enabled: true
+      transformations:
+        kubectlImage: bitnami/kubectl:1.32.2
       bucketClasses:
         - name: cosi-nutanix-nkp
           driverName: ntnx.objectstorage.k8s.io
