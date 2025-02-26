@@ -657,7 +657,7 @@ resources:
       - url: https://github.com/oliver006/redis_exporter
         ref: v${image_tag%%-debian-*}
         license_path: LICENSE
-  - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.2.0
+  - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.3.0
     sources:
       - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
         ref: ${image_tag}
