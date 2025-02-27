@@ -143,7 +143,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.13.5
+  - container_image: docker.io/mesosphere/gitwebserver:v0.13.6
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
