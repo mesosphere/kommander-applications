@@ -9,7 +9,7 @@ _run_server: (release-server "false")
     --name {{ test_container_name }} \
     --publish 12345:12345 \
     --detach \
-    --user 1000:1000 \
+    --user 65532:65532 \
     {{ server_repository }}:{{ git_tag }}
 
 _kill_server:
