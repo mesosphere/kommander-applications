@@ -200,7 +200,7 @@ data:
         storageRequest: 1Gi
       aggregatorDbStorage:
         storageClass: ""  # default storage class
-        storageRequest: 128Gi
+        storageRequest: 32Gi
       cloudCost:
         # The cloudCost component of Aggregator depends on
         # kubecostAggregator.deployMethod:
