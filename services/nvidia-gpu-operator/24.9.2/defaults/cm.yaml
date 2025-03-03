@@ -36,7 +36,7 @@ data:
         enabled: true
         additionalLabels:
           prometheus.kommander.d2iq.io/select: "true"
-      version: 4.0.0-4.0.1-ubuntu22.04
+      version: 3.3.9-3.6.1-ubuntu22.04
     validator:
       repository: nvcr.io/nvidia/cloud-native
       version: v24.9.2
