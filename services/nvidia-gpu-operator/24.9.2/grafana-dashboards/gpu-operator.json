@@ -101,7 +101,6 @@
       "targets": [
         {
           "expr": "DCGM_FI_DEV_GPU_TEMP",
-          "instant": true,
           "interval": "",
           "legendFormat": "GPU {{gpu}}",
           "refId": "A"
@@ -929,7 +928,10 @@
   "refresh": false,
   "schemaVersion": 22,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "nvidia",
+    "platform apps"
+  ],
   "templating": {
     "list": [
       {
