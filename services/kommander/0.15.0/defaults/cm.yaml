@@ -99,6 +99,7 @@ data:
     - "dex"
     - "dex-k8s-authenticator"
     - "nkp-insights-management"
+    - "nkp-pulse-management"
     - "git-operator"
     - "karma"
     - "kommander"
