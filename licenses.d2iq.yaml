@@ -440,7 +440,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
-  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.78.2
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.79.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -470,7 +470,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
-  - container_image: quay.io/prometheus/prometheus:v2.55.1
+  - container_image: quay.io/prometheus/prometheus:v3.2.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -570,12 +570,12 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/cost-model:prod-2.5.2
+  - container_image: gcr.io/kubecost1/cost-model:prod-2.6.3
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
         license_path: LICENSE
-  - container_image: gcr.io/kubecost1/frontend:prod-2.5.2
+  - container_image: gcr.io/kubecost1/frontend:prod-2.6.3
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
