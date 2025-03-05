@@ -2,6 +2,56 @@ apiVersion: v1
 data:
   values.yaml: |
     ---
+    helmController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    imageAutomationController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    imageReflectionController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    kustomizeController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    notificationController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    sourceController:
+      extraEnv:
+        - name: "HTTP_PROXY"
+          value: ${httpProxy:-""}
+        - name: "HTTPS_PROXY"
+          value: ${httpsProxy:-""}
+        - name: "NO_PROXY"
+          value: ${noProxy:=""}
+    policies:
+      create: true # TODO: add upstream support for using selectors.
 kind: ConfigMap
 metadata:
   name: kommander-flux-2.4.0-d2iq-defaults
