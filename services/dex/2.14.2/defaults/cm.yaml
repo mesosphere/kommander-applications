@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.14.1-d2iq-defaults
+  name: dex-2.14.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -9,7 +9,7 @@ data:
     priorityClassName: "dkp-critical-priority"
     kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.2}"
     image: mesosphere/dex
-    imageTag: v2.41.1-d2iq.2
+    imageTag: v2.42.0-d2iq.0
     resources:
       requests:
         cpu: 100m
