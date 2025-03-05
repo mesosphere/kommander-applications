@@ -449,7 +449,9 @@ data:
       kubeRBACProxy:
         enabled: true
         image:
-          tag: v0.18.2
+          registry: quay.io
+          repository: prometheus/node-exporter
+          tag: v1.9.0
       prometheus:
         monitor:
           scheme: https
