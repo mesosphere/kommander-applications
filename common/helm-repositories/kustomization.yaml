@@ -13,6 +13,7 @@ resources:
   - jaegertracing.yaml
   - kiali.yaml
   - kommander-ui.yaml
+  - kommander-flux.yaml
   - kommander.yaml
   - kube-logging.yaml
   - kubecost.yaml
