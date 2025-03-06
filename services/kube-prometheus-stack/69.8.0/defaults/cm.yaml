@@ -465,9 +465,3 @@ data:
             sourceLabels:
             - __meta_kubernetes_pod_node_name
             targetLabel: node
-    container_image: quay.io/prometheus/node-exporter:v1.9.0
-    sources:
-      - license_path: LICENSE
-         notice_path: NOTICE
-         ref: ${image_tag}
-        url: https://github.com/prometheus/node_exporter
