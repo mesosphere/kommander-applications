@@ -450,6 +450,11 @@ data:
         enabled: true
         image:
           tag: v0.18.2
+      node-exporter
+        enable: true
+        image:
+          tag: v1.9.0
+      container_image: quay.io/prometheus/node-exporter:v1.9.0
       prometheus:
         monitor:
           scheme: https
