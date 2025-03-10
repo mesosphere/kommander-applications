@@ -167,7 +167,7 @@ data:
         image:
           pullPolicy: IfNotPresent
           repository: aquasec/kube-bench
-          tag: v0.9.1
+          tag: v0.10.3
         nodeSubsets:
           all-nodes:
             defaultSetup: nodes-default
