@@ -47,7 +47,17 @@ data:
         app: traefik
 
     gateway:
-      enabled: false
+      enabled: true
+      listeners:
+        web:
+          port: 8000
+          protocol: HTTP
+        websecure:
+          port: 8443
+          protocol: HTTPS
+          certificateRefs:
+            - name: kommander-traefik-tls
+          mode: Terminate
 
     extraObjects:
       - apiVersion: traefik.io/v1alpha1
@@ -179,7 +189,7 @@ data:
         enabled: true
         # -- Toggles support for the Experimental Channel resources (Gateway API release channels documentation).
         # This option currently enables support for TCPRoute and TLSRoute.
-        experimentalChannel: false
+        experimentalChannel: true
 
     # This value should be equal to release name. Justification with timeline of changes:
     # 1. This was set to `kommander-treafik` in an old chart version - https://github.com/traefik/traefik-helm-chart/blob/v10.30.1/traefik/templates/deployment.yaml#L42 (Shipped in DKP 2.4)
