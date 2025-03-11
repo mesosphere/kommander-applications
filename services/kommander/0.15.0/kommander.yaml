@@ -12,10 +12,10 @@ spec:
       name: kubefed
   chart:
     spec:
-      chart: kommander
+      chart: kommander-chart
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-kommander-charts
+        name: mesosphere-oci-repo
         namespace: kommander-flux
       version: "${kommanderChartVersion:=v2.15.0-dev}"
   interval: 15s
