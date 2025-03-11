@@ -50,3 +50,15 @@ spec:
   interval: 10m
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/dkp-insights-charts-attached}"
+---
+# TODO: decide to use this or OCIRepo
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: mesosphere-oci-repo
+  namespace: kommander-flux
+spec:
+  type: "oci"
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=oci://docker.io:mesosphere}"
