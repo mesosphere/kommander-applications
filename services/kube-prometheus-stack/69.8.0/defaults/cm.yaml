@@ -450,10 +450,10 @@ data:
         enabled: true
         image:
           tag: v0.18.2
-      node-exporter
-        enable: true
         image:
-          tag: v1.9.0
+          registry: quay.io
+          repository: prometheus/node-exporter
+          tag: v1.9.0 
       prometheus:
         monitor:
           scheme: https
