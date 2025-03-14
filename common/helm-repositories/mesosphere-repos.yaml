@@ -61,4 +61,4 @@ spec:
   type: "oci"
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=oci://docker.io:mesosphere}"
+  url: "${helmMirrorURL:=oci://docker.io/mesosphere}"
