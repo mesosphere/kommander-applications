@@ -2,7 +2,7 @@
 
 # kommander-applications
 
-This repo dedicated to storing the HelmRelease and other info needed for Kommander's Applications.
+This repo it  dedicated to storing the HelmRelease and other info needed for Kommander's Applications.
 
 ### Pre Commit
 
