@@ -503,7 +503,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/weaviate/weaviate
-  - container_image: ghcr.io/kube-logging/fluentd:5.2.0-full
+  - container_image: ghcr.io/kube-logging/fluentd:v1.18.0
     sources:
       - url: https://github.com/fluent/fluentd
         ref: ${image_tag}
