@@ -63,8 +63,8 @@ data:
       podPriorityClassName: "dkp-critical-priority"
       image:
         # The image should be updated when logging-operator is upgraded.
-        repository: ghcr.io/kube-logging/fluentd
-        tag: v1.18.0
+        repository: ghcr.io/kube-logging/logging-operator/fluentd
+        tag: 5.2.0-full
       resources:
        limits:
          memory: 400Mi
