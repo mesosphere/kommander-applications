@@ -333,7 +333,7 @@ resources:
     sources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
-        url: https://github.com/kube-logging/logging-operator/tree/master/images/config-reloader
+        url: ghcr.io/kube-logging/logging-operator/config-reloader
   - container_image: ghcr.io/kube-logging/logging-operator:5.2.0
     sources:
       - license_path: LICENSE
@@ -505,7 +505,7 @@ resources:
         url: https://github.com/weaviate/weaviate
   - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.2.0-full
     sources:
-      - url: https://github.com/fluent/fluentd
+      - url: ghcr.io/kube-logging/logging-operator/fluentd
         ref: ${image_tag}
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.9-1-ubuntu22.04
