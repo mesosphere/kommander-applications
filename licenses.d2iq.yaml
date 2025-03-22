@@ -332,7 +332,7 @@ resources:
   - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.2.0
     sources:
       - license_path: LICENSE.txt
-        ref: ${image_tag%}
+        ref: ${image_tag}
         url: https://github.com/kube-logging/config-reloader
   - container_image: ghcr.io/kube-logging/logging-operator:5.2.0
     sources:
