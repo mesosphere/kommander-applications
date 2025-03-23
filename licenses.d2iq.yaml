@@ -334,7 +334,7 @@ resources:
       - license_path: LICENSE.txt
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-        directory:  pkgs/container/logging-operator/config-reloader
+        directory:  /images/config-reloader
   - container_image: ghcr.io/kube-logging/logging-operator:5.2.0
     sources:
       - license_path: LICENSE
