@@ -331,7 +331,7 @@ resources:
         url: https://github.com/helm/chartmuseum
   - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.2.0
     sources:
-      - license_path: LICENSE.txt
+      - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory:  /images/config-reloader
