@@ -95,4 +95,4 @@ data:
     tolerations: []
 
     affinity: {}
-    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.2}
+    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}
