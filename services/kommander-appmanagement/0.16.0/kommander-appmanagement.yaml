@@ -10,7 +10,7 @@ spec:
       chart: kommander-appmanagement-chart
       sourceRef:
         kind: HelmRepository
-        name: mesosphere-oci-repo
+        name: mesosphere.github.io-kommander-charts
         namespace: kommander-flux
       version: "${kommanderChartVersion:=v2.16.0-dev}"
   interval: 15s
