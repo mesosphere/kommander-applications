@@ -508,6 +508,7 @@ resources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
         license_path: LICENSE
+        directory: /images/fluentd
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.9-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
