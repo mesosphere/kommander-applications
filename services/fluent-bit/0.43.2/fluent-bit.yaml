@@ -27,4 +27,4 @@ spec:
   releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
-      name: fluent-bit-0.43.1-d2iq-defaults
+      name: fluent-bit-0.43.2-d2iq-defaults
