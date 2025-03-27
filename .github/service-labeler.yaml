@@ -18,6 +18,10 @@ services/chartmuseum:
 - changed-files:
   - any-glob-to-any-file:
     - services/chartmuseum/**
+services/cilium-hubble-relay-traefik:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/cilium-hubble-relay-traefik/**
 services/cloudnative-pg:
 - changed-files:
   - any-glob-to-any-file:
