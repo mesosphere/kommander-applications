@@ -6,6 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    fullnameOverride: kommander
     global:
       priorityClassName: "dkp-critical-priority"
     airgapped:
@@ -50,7 +51,7 @@ data:
           namespace: kommander-flux
           name: kommander-git-credentials
         branch: main
-    kommander-licensing:
+    kommander-licensing-chart:
       certificates:
         issuer:
           name: ${certificatesIssuerName}
