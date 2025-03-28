@@ -50,7 +50,7 @@ data:
           namespace: kommander-flux
           name: kommander-git-credentials
         branch: main
-    kommander-licensing:
+    kommander-licensing-chart:
       certificates:
         issuer:
           name: ${certificatesIssuerName}

@@ -12,7 +12,7 @@ spec:
       name: kubefed
   chart:
     spec:
-      chart: kommander
+      chart: kommander-chart
       sourceRef:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
