@@ -1,6 +1,9 @@
 type: internal
 scope:
   - workspace
+requiredDependencies:
+  - traefik
+allowMultipleInstances: false
 licensing:
   - Pro
   - Ultimate
