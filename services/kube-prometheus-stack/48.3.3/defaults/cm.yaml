@@ -43,6 +43,12 @@ data:
           - name: grpc
             port: 10901
             targetPort: grpc
+      additionalRulesForClusterRole:
+        # see https://github.com/prometheus-community/helm-charts/issues/3338
+        - apiGroups: [""]
+          resources:
+            - services/kube-prometheus-stack-prometheus-node-exporter
+          verbs: [ "get", "list", "watch" ]
       additionalServiceMonitors:
         # **NOTE** Any changes here need to be copied to kube-prometheus-stack-overrides.yaml
         # https://github.com/mesosphere/kommander-cli/blob/main/pkg/installer/config/manifests/kube-prometheus-stack/overrides.yaml
