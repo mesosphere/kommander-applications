@@ -66,11 +66,19 @@ data:
               interval: 30s
             - port: monitoring
               interval: 30s
-            # Service port for grafana-logging
-            - port: service
-              interval: 30s
             # Service port for external-dns
             - targetPort: 7979
+              interval: 30s
+        - name: dkp-service-monitor-dkp-logging-grafana-metrics
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "dkp__logging__grafana__metrics"
+          namespaceSelector:
+            any: true
+          endpoints:
+            # Service port for grafana-logging
+            - path: /dkp/logging/grafana/metrics
+              port: service
               interval: 30s
         - name: dkp-service-monitor-metrics-http
           selector:
