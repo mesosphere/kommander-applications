@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: kommander-appmanagement
+      chart: kommander-appmanagement-chart
       sourceRef:
         kind: HelmRepository
         name: mesosphere.github.io-kommander-charts
