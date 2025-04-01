@@ -66,7 +66,7 @@ data:
       type: ClusterIP
       port: 3000
       labels:
-        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/path: "dkp__logging__grafana__metrics"
 
     resources:
       # keep request = limit to keep this container in guaranteed class
