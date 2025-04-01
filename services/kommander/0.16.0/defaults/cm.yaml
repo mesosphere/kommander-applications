@@ -86,6 +86,7 @@ data:
       - "rook-ceph"
       - "rook-ceph-cluster"
       - "velero"
+      - "cilium-hubble-relay-traefik"
     kommander-ui:
       enabled: false
     capimate:
@@ -124,3 +125,4 @@ data:
         - "karma-traefik"
         - "gatekeeper"
         - "kommander-flux"
+        - "cilium-hubble-relay-traefik"
