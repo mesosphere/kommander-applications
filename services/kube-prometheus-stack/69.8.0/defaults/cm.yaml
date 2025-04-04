@@ -477,11 +477,11 @@ data:
                   namespace: ["metadata", "namespace"]
                 metrics:
                   - name: machine_cert_expiry_days
-                      help: "Number of days until the certificate associated with the Machine expires"
-                      each:
-                        type: Gauge
-                        gauge:
-                          path: ["metadata", "annotations", "machine.cluster.x-k8s.io/certificates-expiry"]
+                    help: "Number of days until the certificate associated with the Machine expires"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: ["metadata", "annotations", "machine.cluster.x-k8s.io/certificates-expiry"]
       prometheus:
         monitor:
           additionalLabels:
