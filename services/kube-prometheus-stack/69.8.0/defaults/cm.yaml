@@ -443,11 +443,11 @@ data:
       rbac:
         extraRules:
           - apiGroups: [ "cluster.x-k8s.io" ]
-            resources: ["machines", "clusters", "kubeadmcontrolplanes"]
+            resources: ["machines"]
             verbs: ["get", "list", "watch"]
           - apiGroups: ["controlplane.cluster.x-k8s.io"]
             resources: ["kubeadmcontrolplanes"]
-            verbs: ["list", "watch"]
+            verbs: ["get", "list", "watch"]
       customResourceState:
         enabled: true
         config:
