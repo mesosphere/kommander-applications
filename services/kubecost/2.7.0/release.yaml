@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: kubecost-pre-install
       namespace: ${releaseNamespace}
-  path: ./services/kubecost/2.6.3/release
+  path: ./services/kubecost/2.7.0/release
   sourceRef:
     kind: GitRepository
     name: management
