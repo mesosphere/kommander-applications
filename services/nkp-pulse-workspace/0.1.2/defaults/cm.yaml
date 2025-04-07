@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: nkp-pulse-workspace-0.1.2-d2iq-defaults
-  namespace: ${releaseNamespace}
-data:
-  values.yaml: ""
