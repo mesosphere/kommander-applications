@@ -1,1 +1,1 @@
-quay.io/kiali/kiali:v2.7.1-distro
+quay.io/kiali/kiali:{{ .Values.deployment.image_version }}
