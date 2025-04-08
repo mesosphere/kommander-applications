@@ -1,1 +1,1 @@
-quay.io/kiali/kiali:{{ .Values.deployment.image_version }}
+quay.io/kiali/kiali:{{ .Values.cr.spec.deployment.image_version }}
