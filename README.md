@@ -34,8 +34,8 @@ Currently the following applications are excluded from airgapped builds:
 - NKP-Pulse
 
 To exclude an application, please ensure the following files have been updated:
-- [Exclude Airgapped](exclude-airgapped)
+- [Exclude Airgapped](.exclude-airgapped)
 - [Justfile](justfile)
-- [List Images](hack/list-images)
+- [List Images](hack/list-images.sh)
 
 Please ensure PRs are tested with the label `open-kommander-pr` to ensure there aren't any downstream build breaks.
