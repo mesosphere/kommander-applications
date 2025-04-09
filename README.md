@@ -26,3 +26,16 @@ Due to the automation of image version bumping, the original comments were unabl
 | `docker.io/mesosphere/capimate:${kommander}`          | Note that this image is within `resources` rather than `ignore`. The `capimate` source code is in `capimate` subdirectory but it shares go.mod with main konvoy2 source code. `directory: capimate`                                                                                                                     |
 | `gcr.io/kubecost1/frontend`                           | Partnership                                                                                                                                                                                                                                                                                                             |
 | `gcr.io/kubecost1/cost-model`                         | Partnership                                                                                                                                                                                                                                                                                                             |
+
+### Airgapped Build Exclusions
+
+Currently the following applications are excluded from airgapped builds:
+- AI-Navigator
+- NKP-Pulse
+
+To exclude an application, please ensure the following files have been updated:
+- [Exclude Airgapped](.exclude-airgapped)
+- [Justfile](justfile)
+- [List Images](hack/list-images.sh)
+
+Please ensure PRs are tested with the label `open-kommander-pr` to ensure there aren't any downstream build breaks.
