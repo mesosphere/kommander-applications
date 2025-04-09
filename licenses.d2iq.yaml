@@ -347,32 +347,32 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v24.9.2
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.0
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v24.9.2
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.0
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.4-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.5-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.4-ubi8
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.5-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:3.3.9-3.6.1-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.1.1-4.0.4-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
@@ -500,10 +500,10 @@ resources:
       - url: https://github.com/fluent/fluentd
         ref: ${image_tag%-5.0-full-build.173}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:3.3.9-1-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.1.1-2-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
-        ref: v${image_tag%-1-ubuntu22.04}
+        ref: v${image_tag%-2-ubuntu22.04}
         license_path: LICENSE
   - container_image: docker.io/curlimages/curl:8.9.1
     sources:
