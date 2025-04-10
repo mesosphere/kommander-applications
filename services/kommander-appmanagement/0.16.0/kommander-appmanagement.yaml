@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: kommander-appmanagement-chart
-  namespace: kommander-flux
+  namespace: ${releaseNamespace}
 spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://docker.io/mesosphere}/kommander-appmanagement-chart"
@@ -19,7 +19,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kommander-appmanagement-chart
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace

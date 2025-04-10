@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: kommander-chart
-  namespace: kommander-flux
+  namespace: ${releaseNamespace}
 spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://docker.io/mesosphere}/kommander-chart"
@@ -24,7 +24,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kommander-chart
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   interval: 15s
   # Kommander is quite a big chart and it may need some more time than
   # other charts to get ready so setting this to 10 minutes increases
