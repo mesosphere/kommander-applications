@@ -31,12 +31,7 @@ data:
       image:
         registry: docker.io
         repository: kiwigrid/k8s-sidecar
-<<<<<<< HEAD:services/grafana-logging/8.9.0/defaults/cm.yaml
-        tag: 1.28.0
-
-=======
         tag: 1.30.3
->>>>>>> 9bdd01b0 (fix: CVE-fix k8s-sidecar:1.30.3 (#3368)):services/project-grafana-logging/8.9.2/defaults/cm.yaml
       dashboards:
         enabled: true
         label: grafana_logging_dashboard
