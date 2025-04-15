@@ -590,7 +590,7 @@ resources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.12.2
+  - container_image: goharbor/harbor-core:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
