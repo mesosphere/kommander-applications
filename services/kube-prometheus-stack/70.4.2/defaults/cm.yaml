@@ -446,6 +446,10 @@ data:
             prometheus.kommander.d2iq.io/select: "true"
     prometheus-node-exporter:
       priorityClassName: "dkp-critical-priority"
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 25%
       kubeRBACProxy:
         enabled: true
         image:
