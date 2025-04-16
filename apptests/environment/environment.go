@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"embed"
+
 	"github.com/drone/envsubst"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
 	runclient "github.com/fluxcd/pkg/runtime/client"
@@ -48,6 +50,9 @@ type Env struct {
 	Network *docker.NetworkResource
 }
 
+//go:embed calico.yaml
+var calicoFS embed.FS
+
 // Provision creates and configures the environment for application specific testings.
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
 // It returns an error if any of the steps fails.
@@ -59,17 +64,25 @@ func (e *Env) Provision(ctx context.Context) error {
 
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
+	fmt.Println("=== set clusters")
 	// install calico CNI
-	err = e.ApplyYAML(ctx, "../environment/calico.yaml", nil)
+	calicoYamlFIlePath, err := GetCalicoYAMLPath()
 	if err != nil {
 		return err
 	}
+	err = e.ApplyYAML(ctx, calicoYamlFIlePath, nil) // kunai
+	if err != nil {
+		return err
+	}
+	fmt.Printf("===applied calico yaml : env : %+v\n", e)
 
 	subnet, err := e.Network.Subnet()
 	if err != nil {
 		return err
 	}
-	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet)
+	fmt.Println("=== subnet")
+	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet) // kuani
+	fmt.Println("=== metallb installed")
 
 	return nil
 }
@@ -436,4 +449,22 @@ func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path
 	}
 
 	return nil
+}
+
+// GetCalicoYAMLPath writes the embedded YAML to a temp file and returns the path.
+func GetCalicoYAMLPath() (string, error) {
+	content, err := calicoFS.ReadFile("calico.yaml")
+	if err != nil {
+		return "", err
+	}
+
+	// Write to a temporary file
+	tmpDir := os.TempDir()
+	tmpFile := filepath.Join(tmpDir, "calico.yaml")
+
+	if err := os.WriteFile(tmpFile, content, 0644); err != nil {
+		return "", err
+	}
+
+	return tmpFile, nil
 }

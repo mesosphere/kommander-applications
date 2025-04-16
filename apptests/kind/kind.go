@@ -6,13 +6,14 @@ import (
 	"io"
 	"log"
 	"os"
-	"path/filepath"
+	// "path/filepath"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
+	_ "embed"
 )
 
 type Cluster struct {
@@ -25,6 +26,9 @@ const (
 	defaultClusterName = "kommanderapptest"
 )
 
+//go:embed config/kind.yaml
+var kindConfigFile []byte
+
 // CreateCluster creates a new kind cluster with the given name.
 func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	select {
@@ -33,7 +37,7 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	default:
 	}
 
-	kubeconfigFile, err := os.CreateTemp("", "*-kubeconfig")
+	kubeconfigFile, err := os.CreateTemp("", "*-kubeconfig") // kunai
 	if err != nil {
 		return nil, err
 	}
@@ -43,10 +47,10 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 		name = defaultClusterName
 	}
 
-	kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml"))
-	if err != nil {
-		return nil, err
-	}
+	// kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml")) // kunai
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	err = provider.Create(name,
 		cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()),

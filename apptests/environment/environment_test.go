@@ -17,6 +17,7 @@ import (
 )
 
 func TestProvision(t *testing.T) {
+	fmt.Println("=== tsting provision")
 	env := Env{}
 	ctx := context.Background()
 
