@@ -64,25 +64,23 @@ func (e *Env) Provision(ctx context.Context) error {
 
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
-	fmt.Println("=== set clusters")
+
 	// install calico CNI
 	calicoYamlFIlePath, err := GetCalicoYAMLPath()
 	if err != nil {
 		return err
 	}
-	err = e.ApplyYAML(ctx, calicoYamlFIlePath, nil) // kunai
+	err = e.ApplyYAML(ctx, calicoYamlFIlePath, nil)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("===applied calico yaml : env : %+v\n", e)
 
 	subnet, err := e.Network.Subnet()
 	if err != nil {
 		return err
 	}
-	fmt.Println("=== subnet")
-	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet) // kuani
-	fmt.Println("=== metallb installed")
+
+	_ = InstallMetallb(ctx, e.Cluster.KubeconfigFilePath(), subnet)
 
 	return nil
 }

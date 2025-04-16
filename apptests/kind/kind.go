@@ -6,15 +6,22 @@ import (
 	"io"
 	"log"
 	"os"
-	// "path/filepath"
+
+	"embed"
+	"path/filepath"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"sigs.k8s.io/kind/pkg/cluster"
 	"sigs.k8s.io/kind/pkg/cmd"
-	_ "embed"
 )
+
+//go:embed config/kind.yaml
+var kindConfigFile []byte
+
+//go:embed scripts/*
+var hackScriptsFS embed.FS
 
 type Cluster struct {
 	provider           *cluster.Provider
@@ -23,11 +30,9 @@ type Cluster struct {
 }
 
 const (
-	defaultClusterName = "kommanderapptest"
+	defaultClusterName              = "kommanderapptest"
+	directory_for_kind_hack_scripts = "./tmp-kind-hack-scripts"
 )
-
-//go:embed config/kind.yaml
-var kindConfigFile []byte
 
 // CreateCluster creates a new kind cluster with the given name.
 func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
@@ -37,7 +42,13 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	default:
 	}
 
-	kubeconfigFile, err := os.CreateTemp("", "*-kubeconfig") // kunai
+	var err error
+	err = extractEmbededHackScripts()
+	if err != nil {
+		return nil, err
+	}
+
+	kubeconfigFile, err := os.CreateTemp("", "*-kubeconfig")
 	if err != nil {
 		return nil, err
 	}
@@ -46,11 +57,6 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	if name == "" {
 		name = defaultClusterName
 	}
-
-	// kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml")) // kunai
-	// if err != nil {
-	// 	return nil, err
-	// }
 
 	err = provider.Create(name,
 		cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()),
@@ -157,4 +163,35 @@ func (c *Cluster) KubeconfigFilePath() string {
 
 func (c *Cluster) Name() string {
 	return c.name
+}
+
+// Extracts the embedded files to file system
+func extractEmbededHackScripts() error {
+	// Create the target directory if it doesn't exist
+	err := os.MkdirAll(directory_for_kind_hack_scripts, 0755)
+	if err != nil {
+		return err
+	}
+
+	// Read the embedded files from the "scripts" directory
+	entries, err := hackScriptsFS.ReadDir("scripts")
+	if err != nil {
+		return err
+	}
+
+	// Extract each file from embed.FS and write it to the target directory
+	for _, entry := range entries {
+		data, err := hackScriptsFS.ReadFile("scripts/" + entry.Name())
+		if err != nil {
+			return err
+		}
+
+		// Create the file in the target directory
+		targetPath := filepath.Join(directory_for_kind_hack_scripts, entry.Name())
+		err = os.WriteFile(targetPath, data, 0755)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

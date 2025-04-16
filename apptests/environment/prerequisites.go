@@ -27,6 +27,8 @@ var metallbCRs embed.FS
 //go:embed charts/*
 var environmentChartsFS embed.FS
 
+const METALLB_CHART_BUNDLE_NAME string = "metallb-0.13.7.tgz"
+
 // InstallMetallb runs helm installation of metallb chart with configuration to use
 // IP addresses from given subnet. The function return expected traefik load balancer
 // address.
@@ -37,8 +39,7 @@ func InstallMetallb(ctx context.Context, kubeconfigPath string, subnet *net.Subn
 	addressRange, err := netaddr.ParseIPRange(addresses)
 	Expect(err).ShouldNot(HaveOccurred())
 
-	// chartPath := "../environment/charts/metallb-0.13.7.tgz" // kunai
-	chartPath, err := GetEnvChartPath("metallb-0.13.7.tgz")
+	chartPath, err := GetEnvChartPath(METALLB_CHART_BUNDLE_NAME)
 	Expect(err).ShouldNot(HaveOccurred())
 
 	kubeconfigBytes, err := os.ReadFile(kubeconfigPath)
