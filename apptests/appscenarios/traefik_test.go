@@ -203,7 +203,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				}, dashboardIngress)
 				Expect(err).NotTo(HaveOccurred())
 				Expect(cl.Delete(ctx, dashboardIngress)).To(Or(
-					Succeed(), MatchError(errors.IsNotFound),
+					Succeed(), MatchError(errors.IsNotFound, "IsNotFound"),
 				))
 			})
 
