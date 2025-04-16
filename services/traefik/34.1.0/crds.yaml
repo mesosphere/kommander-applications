@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/traefik/35.0.0/crds
+  path: ./services/traefik/34.1.0/crds
   sourceRef:
     kind: GitRepository
     name: management
