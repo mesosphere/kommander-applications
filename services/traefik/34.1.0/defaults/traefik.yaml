@@ -12,7 +12,6 @@ data:
     image:
       repository: traefik
       tag: v3.3.5
-
     #  imagePullPolicy: Always
     priorityClassName: "dkp-critical-priority"
     podDisruptionBudget:
