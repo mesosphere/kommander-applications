@@ -2,17 +2,17 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: harbor-cosi-storage
+  name: harbor-copy-secret
   namespace: ${releaseNamespace}
 spec:
   chart:
     spec:
-      chart: cosi-bucket-kit
+      chart: harbor-copy-secret
       sourceRef:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: 0.0.5
+      version: 0.1.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,12 +23,12 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: harbor-cosi-storage
-  targetNamespace: ncr-system
+  releaseName: harbor-copy-secret
+  targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-1.16.2-d2iq-defaults
-      valuesKey: harbor-cosi-values.yaml
+      name: harbor-1.17.0-d2iq-defaults
+      valuesKey: harbor-copy-secret-values.yaml
     - kind: ConfigMap
       name: harbor-config-overrides
       optional: true
