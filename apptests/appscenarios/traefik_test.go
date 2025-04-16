@@ -22,6 +22,7 @@ import (
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
+	errors "k8s.io/apimachinery/pkg/api/errors"
 )
 
 var _ = Describe("Traefik Tests", Label("traefik"), func() {
@@ -201,7 +202,9 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 					Namespace: kommanderNamespace,
 				}, dashboardIngress)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(cl.Delete(ctx, dashboardIngress)).To(Succeed())
+				Expect(cl.Delete(ctx, dashboardIngress)).To(Or(
+					Succeed(), MatchError(errors.IsNotFound),
+				))
 			})
 
 			By("triggering a HelmRelease reconciliation", func() {
