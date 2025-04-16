@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    controller: {{ .Chart.Name }}
+    controller: kommander-operator
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
   name: {{ .Chart.Name }}
