@@ -8,14 +8,14 @@ spec:
   chart:
     spec:
       chart: traefik-crds
-      version: "1.2.0"  # Use the appropriate version for Traefik CRDs
+      version: "1.6.0"  # Use the appropriate version for Traefik CRDs
       sourceRef:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-crd-1.2.0-d2iq-defaults
+      name: traefik-crd-1.6.0-d2iq-defaults
     - kind: ConfigMap
       name: traefik-crd-overrides
       optional: true
