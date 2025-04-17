@@ -440,6 +440,48 @@ data:
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]
+      rbac:
+        extraRules:
+          - apiGroups: [ "cluster.x-k8s.io" ]
+            resources: ["machines"]
+            verbs: ["get", "list", "watch"]
+          - apiGroups: ["controlplane.cluster.x-k8s.io"]
+            resources: ["kubeadmcontrolplanes"]
+            verbs: ["get", "list", "watch"]
+      customResourceState:
+        enabled: true
+        config:
+          kind: CustomResourceStateMetrics
+          spec:
+            resources:
+              - groupVersionKind:
+                  group: controlplane.cluster.x-k8s.io
+                  version: v1beta1
+                  kind: KubeadmControlPlane
+                labelsFromPath:
+                  kubeadmcontrolplane: ["metadata", "name"]
+                  namespace: ["metadata", "namespace"]
+                metrics:
+                  - name: rollout_trigger_days_before_cert_expiry
+                    help: "Number of days before certificate expiry when a rollout is triggered"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: ["spec", "rolloutBefore", "certificatesExpiryDays"]
+              - groupVersionKind:
+                  group: cluster.x-k8s.io
+                  version: v1beta1
+                  kind: Machine
+                labelsFromPath:
+                  machine: ["metadata", "name"]
+                  namespace: ["metadata", "namespace"]
+                metrics:
+                  - name: machine_cert_expiry_days
+                    help: "Number of days until the certificate associated with the Machine expires"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: ["metadata", "annotations", "machine.cluster.x-k8s.io/certificates-expiry"]
       prometheus:
         monitor:
           additionalLabels:
