@@ -590,52 +590,52 @@ resources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.12.2
+  - container_image: goharbor/harbor-core:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-exporter:v2.12.2
+  - container_image: goharbor/harbor-exporter:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-jobservice:v2.12.2
+  - container_image: goharbor/harbor-jobservice:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-portal:v2.12.2
+  - container_image: goharbor/harbor-portal:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-registryctl:v2.12.2
+  - container_image: goharbor/harbor-registryctl:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/registry-photon:v2.12.2
+  - container_image: goharbor/registry-photon:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/trivy-adapter-photon:v2.12.2
+  - container_image: goharbor/trivy-adapter-photon:v2.13.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: bitnami/valkey:8.0.2-debian-12-r0
+  - container_image: bitnami/valkey:8.1.0-debian-12-r2
     sources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
-  - container_image: bitnami/valkey-sentinel:8.0.2-debian-12-r0
+  - container_image: bitnami/valkey-sentinel:8.1.0-debian-12-r0
     sources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
-  - container_image: bitnami/redis-exporter:1.67.0-debian-12-r0
+  - container_image: bitnami/redis-exporter:1.69.0-debian-12-r4
     sources:
       - url: https://github.com/oliver006/redis_exporter
         ref: v${image_tag%%-debian-*}
