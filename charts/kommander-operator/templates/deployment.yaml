@@ -3,30 +3,30 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    controller: kommander-operator
+    controller: {{ include "kommander-operator.appName" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
-  name: {{ .Chart.Name }}
+  name: {{ include "kommander-operator.appName" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      controller: {{ .Chart.Name }}
+      controller: {{ include "kommander-operator.appName" . }}
   template:
     metadata:
       labels:
-        controller: {{ .Chart.Name }}
+        controller: {{ include "kommander-operator.appName" . }}
         chart: {{ .Chart.Name }}-{{ .Chart.Version }}
         release: {{ .Release.Name }}
         kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
     spec:
-      serviceAccountName: {{ .Chart.Name }}-sa
+      serviceAccountName: {{ include "kommander-operator.appName" . }}-sa
       {{- if .Values.priorityClassName }}
       priorityClassName: "{{ .Values.priorityClassName }}"
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "kommander-operator.appName" . }}
           image: "{{ .Values.kommanderoperator.image.repository }}:{{ .Values.kommanderoperator.image.tag }}"
           imagePullPolicy: {{ .Values.kommanderoperator.image.pullPolicy }}
           {{- if .Values.kommanderoperator.useUpgrade }}

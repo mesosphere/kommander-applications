@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Chart.Name }}
+  name: {{ include "kommander-operator.appName" . }}
 rules:
   # cluster-admin permissions needed here to avoid escalating
   - apiGroups:
