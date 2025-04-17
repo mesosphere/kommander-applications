@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"embed"
+	_ "embed"
 
 	"github.com/drone/envsubst"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
@@ -51,7 +51,7 @@ type Env struct {
 }
 
 //go:embed calico.yaml
-var calicoFS embed.FS
+var calicoYamlFile []byte
 
 // Provision creates and configures the environment for application specific testings.
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
@@ -65,12 +65,7 @@ func (e *Env) Provision(ctx context.Context) error {
 	e.SetK8sClient(k8sClient)
 	e.SetCluster(cluster)
 
-	// install calico CNI
-	calicoYamlFIlePath, err := GetCalicoYAMLPath()
-	if err != nil {
-		return err
-	}
-	err = e.ApplyYAML(ctx, calicoYamlFIlePath, nil)
+	err = e.ApplyYAMLFileRaw(ctx, calicoYamlFile, nil)
 	if err != nil {
 		return err
 	}
@@ -449,20 +444,52 @@ func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path
 	return nil
 }
 
-// GetCalicoYAMLPath writes the embedded YAML to a temp file and returns the path.
-func GetCalicoYAMLPath() (string, error) {
-	content, err := calicoFS.ReadFile("calico.yaml")
+// ApplyYAMLFileRaw applies the YAML file provided
+func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string) error {
+
+	var err error
+	log.SetLogger(klog.NewKlogr())
+
+	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
 	if err != nil {
-		return "", err
+		return fmt.Errorf("could not create the generic client for path :%w", err)
 	}
 
-	// Write to a temporary file
-	tmpDir := os.TempDir()
-	tmpFile := filepath.Join(tmpDir, "calico.yaml")
-
-	if err := os.WriteFile(tmpFile, content, 0644); err != nil {
-		return "", err
+	// Substitute the environment variables in the YAML file
+	var yml string
+	if substitutions != nil {
+		yml, err = envsubst.Eval(string(file), func(s string) string {
+			return substitutions[s]
+		})
+		if err != nil {
+			return err
+		}
+	} else {
+		yml = string(file)
 	}
 
-	return tmpFile, nil
+	// Decode the YAML file
+	buf := bytes.NewBuffer([]byte(yml))
+	dec := yaml.NewYAMLOrJSONDecoder(buf, 1<<20) // default buffer size is 1MB
+
+	// Loop through the resources in the YAML file and apply them to the cluster
+	for {
+		var obj unstructured.Unstructured
+		err = dec.Decode(&obj)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return fmt.Errorf("could not decode yaml file : %w", err)
+		}
+
+		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		if err != nil {
+			return fmt.Errorf("could not patch the resources for path :%w", err)
+		}
+	}
+
+	return nil
 }
