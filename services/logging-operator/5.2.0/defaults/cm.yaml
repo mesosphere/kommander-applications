@@ -112,7 +112,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: docker.io/fluent/fluent-bit
-        tag: 3.2.5
+        tag: 4.0.0
       resources:
        limits:
          memory: 750Mi
@@ -155,7 +155,7 @@ data:
       forwardOptions:
         # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
         # See https://github.com/banzaicloud/logging-operator/issues/674 and
-        # https://github.com/fluent/fluent-bit/issues/2748.
+        # https://github.com/fluent//issues/2748.
         # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
         # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
         Retry_Limit: "5"
