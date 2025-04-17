@@ -12,6 +12,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/net"
@@ -201,11 +202,9 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 					Namespace: kommanderNamespace,
 				}, dashboardIngress)
 				Expect(ctrlClient.IgnoreNotFound(err)).NotTo(HaveOccurred())
-
 				if err == nil {
 					Expect(cl.Delete(ctx, dashboardIngress)).To(Or(
-						Succeed(),
-						MatchError(Satisfy(apierrors.IsNotFound)),
+						Succeed(), MatchError(errors.IsNotFound, "IsNotFound"),
 					))
 				}
 			})
