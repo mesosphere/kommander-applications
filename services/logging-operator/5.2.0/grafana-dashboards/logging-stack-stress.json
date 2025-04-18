@@ -115,7 +115,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentbit.*\",container=\"\"}[1m])",
+            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"logging-operator-logging-fluentbit.*\",container=\"fluent-bit\"}[1m])",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
