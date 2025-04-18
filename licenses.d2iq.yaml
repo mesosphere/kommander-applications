@@ -3,6 +3,11 @@ ignore:
   - docker.io/library/alpine:3.20.3
 
 resources:
+  - container_image: docker.io/fluent/fluent-bit:3.2.10
+    sources:
+      - license_path: LICENSE
+        ref: v${image_tag}
+        url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/fluent/fluent-bit:3.2.5
     sources:
       - license_path: LICENSE

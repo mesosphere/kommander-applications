@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fluent-bit-0.48.7-d2iq-defaults
+  name: fluent-bit-0.48.10-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -10,7 +10,7 @@ data:
     image:
       # Pull from docker hub rather than cr.fluentbit.io to avoid rate limiting.
       repository: docker.io/fluent/fluent-bit
-      tag: 3.2.5
+      tag: 3.2.10
 
     priorityClassName: "dkp-critical-priority"
     resources:
