@@ -246,7 +246,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.16.2
+  - container_image: docker.io/rook/ceph:v1.17.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -382,7 +382,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: quay.io/ceph/ceph:v19.2.0
+  - container_image: quay.io/ceph/ceph:v19.2.2
     sources:
       - license_path: COPYING
         ref: ${image_tag}
