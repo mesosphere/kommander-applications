@@ -251,7 +251,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
-  - container_image: docker.io/velero/velero-plugin-for-aws:v1.11.1
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.12.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
