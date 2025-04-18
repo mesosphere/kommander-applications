@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
-      version: 34.1.0
+      version: 35.0.0
   interval: 15s
   install:
     crds: Skip
@@ -28,7 +28,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-34.1.0-d2iq-defaults
+      name: traefik-35.0.0-d2iq-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true
@@ -45,7 +45,7 @@ data:
   dashboardLink: "/dkp/traefik/dashboard/"
   docsLink: "https://doc.traefik.io/traefik/v3.3"
   # Check https://artifacthub.io/packages/helm/traefik/traefik for app version
-  version: "3.3.2"
+  version: "3.3.5"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
