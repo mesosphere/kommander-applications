@@ -11,10 +11,10 @@ data:
       repository: docker.io/rook/ceph
       # -- Image tag
       # @default -- `master`
-      tag: 1.17.0
+      tag: v1.17.0
       # -- Image pull policy
       pullPolicy: IfNotPresent
-      
+
     crds:
       # CRDs are not installed with "crds" directory and If this flag is disabled post-install, the cluster may be DESTROYED.
       # If the CRDs are deleted in this case, see the disaster recovery guide to restore them.
