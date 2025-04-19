@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"embed"
 	"path/filepath"
 
 	"github.com/docker/docker/api/types"
@@ -15,6 +17,12 @@ import (
 	"sigs.k8s.io/kind/pkg/cmd"
 )
 
+//go:embed config/kind.yaml
+var kindConfigFile []byte
+
+//go:embed scripts/*
+var hackScriptsFS embed.FS
+
 type Cluster struct {
 	provider           *cluster.Provider
 	kubeconfigFilePath string
@@ -22,7 +30,8 @@ type Cluster struct {
 }
 
 const (
-	defaultClusterName = "kommanderapptest"
+	defaultClusterName              = "kommanderapptest"
+	directory_for_kind_hack_scripts = "./tmp-kind-hack-scripts"
 )
 
 // CreateCluster creates a new kind cluster with the given name.
@@ -33,6 +42,12 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	default:
 	}
 
+	var err error
+	err = extractEmbededHackScripts()
+	if err != nil {
+		return nil, err
+	}
+
 	kubeconfigFile, err := os.CreateTemp("", "*-kubeconfig")
 	if err != nil {
 		return nil, err
@@ -41,11 +56,6 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 	provider := cluster.NewProvider(cluster.ProviderWithLogger(cmd.NewLogger()))
 	if name == "" {
 		name = defaultClusterName
-	}
-
-	kindConfigFile, err := os.ReadFile(filepath.Join("..", "kind/config/kind.yaml"))
-	if err != nil {
-		return nil, err
 	}
 
 	err = provider.Create(name,
@@ -153,4 +163,35 @@ func (c *Cluster) KubeconfigFilePath() string {
 
 func (c *Cluster) Name() string {
 	return c.name
+}
+
+// Extracts the embedded files to file system
+func extractEmbededHackScripts() error {
+	// Create the target directory if it doesn't exist
+	err := os.MkdirAll(directory_for_kind_hack_scripts, 0755)
+	if err != nil {
+		return err
+	}
+
+	// Read the embedded files from the "scripts" directory
+	entries, err := hackScriptsFS.ReadDir("scripts")
+	if err != nil {
+		return err
+	}
+
+	// Extract each file from embed.FS and write it to the target directory
+	for _, entry := range entries {
+		data, err := hackScriptsFS.ReadFile("scripts/" + entry.Name())
+		if err != nil {
+			return err
+		}
+
+		// Create the file in the target directory
+		targetPath := filepath.Join(directory_for_kind_hack_scripts, entry.Name())
+		err = os.WriteFile(targetPath, data, 0755)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

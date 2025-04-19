@@ -19,3 +19,6 @@ images.txt
 
 # apptest working directory
 apptests/.work/
+
+# kind hack scripts
+tmp-kind-hack-scripts/
