@@ -293,6 +293,63 @@ data:
       enabled: false
     kubeScheduler:
       enabled: false
+    additionalPrometheusRulesMap:
+      auto-renewal-certificate-alerts:
+        groups:
+          - name: AutoRenewalCertificateAlerts
+            rules:
+              - alert: CertificateExpiringSoon
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 > 1 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  and
+                  (min by(namespace) (
+                  kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 <= 7 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                for: 1d
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Certificate expiring soon"
+                  description: "Certificate will expire in less than 7 days"
+              - alert: CertificateRollingOutSoon
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 >= 1 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  and
+                  (min by(namespace) (
+                  kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 < 0 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                for: 1d
+                labels:
+                  severity: info
+                annotations:
+                  summary: "Certificate rolling out soon"
+                  description: "Certificate will expire within a day, rollout is expected"
+              - alert: CertificateExpired
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 < 0.1
+                for: 1m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Certificate renewal failed"
+                  description: "Certificate has expired and was not renewed"
+              - alert: CertificateRenewed
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 == 365
+                for: 1d
+                labels:
+                  severity: info
+                annotations:
+                  summary: "Certificate renewed successfully"
+                  description: "Certificate has been renewed successfully"
     alertmanager:
       enabled: true
       config:
