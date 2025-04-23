@@ -198,10 +198,3 @@ require (
 	sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.2 // indirect
 )
-
-// traefik Containous forks
-replace (
-	github.com/abbot/go-http-auth => github.com/containous/go-http-auth v0.4.1-0.20200324110947-a37a7636d23e
-	github.com/gorilla/mux => github.com/containous/mux v0.0.0-20220627093034-b2dd784e613f
-	github.com/mailgun/minheap => github.com/containous/minheap v0.0.0-20190809180810-6e71eb837595
-)
