@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"fmt"
 	"path/filepath"
 	"time"
 
@@ -113,4 +114,8 @@ func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath s
 	err = env.ApplyYAML(ctx, filepath.Join(appPath, "/constraints/enforce-kustomization-sa.yaml"), substMap)
 
 	return err
+}
+
+func (g gatekeeper) Upgrade(ctx context.Context, env *environment.Env) error {
+	return fmt.Errorf("upgrade is not yet implemented")
 }

@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"fmt"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -69,4 +70,8 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 	}
 
 	return err
+}
+
+func (k karma) Upgrade(ctx context.Context, env *environment.Env) error {
+	return fmt.Errorf("upgrade is not yet implemented")
 }

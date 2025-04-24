@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"fmt"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -69,4 +70,8 @@ func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.
 	}
 
 	return err
+}
+
+func (c ciliumHubbleRelayTraefik) Upgrade(ctx context.Context, env *environment.Env) error {
+	return fmt.Errorf("upgrade is not yet implemented")
 }

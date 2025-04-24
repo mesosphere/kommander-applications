@@ -120,3 +120,7 @@ func (t traefik) applyTraefikOverrideCM(ctx context.Context, env *environment.En
 
 	return nil
 }
+
+func (t traefik) Upgrade(ctx context.Context, env *environment.Env) error {
+	return fmt.Errorf("upgrade is not yet implemented")
+}
