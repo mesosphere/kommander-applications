@@ -63,7 +63,12 @@ func TestApplyKustomizations(t *testing.T) {
 	assert.NoError(t, err)
 	defer env.Destroy(ctx)
 
-	env.SetK8sClient(k8sClient)
+	c, err := genericCLient.New(k8sClient.Config(), genericCLient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	assert.NoError(t, err)
+
+	env.SetClient(c)
 	env.SetCluster(cluster)
 
 	// apply common/base kustomizations

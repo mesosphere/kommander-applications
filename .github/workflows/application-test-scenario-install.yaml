@@ -38,11 +38,11 @@ jobs:
         go-version-file: 'apptests/go.mod'
 
     - name: Install Ginkgo
-      working-directory: apptests
+      working-directory: apptests/appscenarios
       run: go install github.com/onsi/ginkgo/v2/ginkgo
 
     - name: Run install Test
-      working-directory: apptests
+      working-directory: apptests/appscenarios
       env:
         SKIP_CLUSTER_TEARDOWN: "true"
       run: |
@@ -50,7 +50,7 @@ jobs:
 
     - name: Gather support bundle
       if: failure()
-      working-directory: apptests
+      working-directory: apptests/appscenarios
       run: |
         curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
         ./support-bundle --interactive=false --output=support-bundle.tar.gz support-bundle.yaml
