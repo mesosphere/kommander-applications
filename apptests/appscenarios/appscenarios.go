@@ -18,8 +18,10 @@ import (
 
 // AppScenario defines the behavior and name of an application test scenario
 type AppScenario interface {
-	Install(context.Context, *environment.Env) error // logic implemented by a scenario
 	Name() string                                    // scenario name
+	Install(context.Context, *environment.Env) error // logic implemented by a scenario
+	InstallPreviousVersion(ctx context.Context, env *environment.Env) error
+	Upgrade(ctx context.Context, env *environment.Env) error
 }
 
 // absolutePathTo returns the absolute path to the given application directory.
