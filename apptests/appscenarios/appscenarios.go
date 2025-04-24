@@ -16,6 +16,8 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
+var upgradeKAppsRepoPath string
+
 // AppScenario defines the behavior and name of an application test scenario
 type AppScenario interface {
 	Name() string                                    // scenario name
