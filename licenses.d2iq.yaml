@@ -535,10 +535,10 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: LICENSE
-  - container_image: bitnami/external-dns:0.14.2-debian-12-r7
+  - container_image: bitnami/external-dns:0.16.1-debian-12-r4
     sources:
       - url: https://github.com/kubernetes-sigs/external-dns
-        ref: v${image_tag%-debian-12-r7}
+        ref: v${image_tag%-debian-12-r4}
         license_path: LICENSE
   - container_image: docker.io/bitnami/postgresql:15.9.0-debian-12-r0
     sources:
