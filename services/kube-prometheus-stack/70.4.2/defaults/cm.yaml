@@ -341,6 +341,13 @@ data:
       enabled: true
       defaultDashboardsEnabled: true
       priorityClassName: "dkp-critical-priority"
+      persistence:
+        enabled: true
+      initChownData:
+        image:
+          registry: docker.io
+          repository: library/busybox
+          tag: "1"
       image:
         registry: docker.io
         repository: grafana/grafana
