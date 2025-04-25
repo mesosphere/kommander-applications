@@ -25,7 +25,6 @@ var (
 	network              *docker.NetworkResource
 	k8sClient            genericClient.Client
 	restClientV1Pods     rest.Interface
-	upgradeKAppsRepoPath string
 )
 
 var _ = BeforeSuite(func() {
