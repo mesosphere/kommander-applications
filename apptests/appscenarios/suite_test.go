@@ -63,6 +63,11 @@ func SetupKindCluster() error {
 		return err
 	}
 
+	k8sClient, err = genericClient.New(env.K8sClient.Config(), genericClient.Options{Scheme: flux.NewScheme()})
+	if err != nil {
+		return err
+	}
+
 	// Get a REST client for making http requests to pods
 	gvk := schema.GroupVersionKind{
 		Group:   "",
