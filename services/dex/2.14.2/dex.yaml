@@ -9,7 +9,7 @@ spec:
       chart: dex
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: dex-stable
         namespace: kommander-flux
       version: 2.14.0
   interval: 15s

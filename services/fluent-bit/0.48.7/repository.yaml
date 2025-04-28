@@ -1,0 +1,11 @@
+# This is the repository.yaml file for version 0.48.7 of fluent-bit.
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: fluent-bit-fluent.github.io
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://fluent.github.io/helm-charts/}"

@@ -1,0 +1,11 @@
+# This is the repository.yaml file for version 0.2.10 of ai-navigator-app.
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: ai-navigator-app-ai-navigator-cluster-info-api
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/ai-navigator-cluster-info-api}"

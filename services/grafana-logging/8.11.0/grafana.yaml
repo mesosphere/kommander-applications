@@ -9,7 +9,7 @@ spec:
       chart: grafana
       sourceRef:
         kind: HelmRepository
-        name: grafana.github.io
+        name: grafana-logging-grafana.github.io
         namespace: kommander-flux
       version: 8.11.0
   interval: 15s

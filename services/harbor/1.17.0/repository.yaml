@@ -1,0 +1,31 @@
+# This is the repository.yaml file for version 1.17.0 of harbor.
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: harbor-stable
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: harbor-cloudnative-pg.github.io-charts
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://cloudnative-pg.github.io/charts/}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: harbor-helm.goharbor.io
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://helm.goharbor.io}"

@@ -11,7 +11,7 @@ spec:
       version: "1.2.0"  # Use the appropriate version for Traefik CRDs
       sourceRef:
         kind: HelmRepository
-        name: helm.traefik.io-traefik
+        name: gateway-api-crds-helm.traefik.io-traefik
         namespace: kommander-flux
   valuesFrom:
     - kind: ConfigMap

@@ -9,7 +9,7 @@ spec:
       chart: kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: centralized-grafana-staging
         namespace: kommander-flux
       version: 70.4.2
   interval: 15s

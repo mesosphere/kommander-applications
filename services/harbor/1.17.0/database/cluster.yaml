@@ -10,7 +10,7 @@ spec:
       chart: cluster
       sourceRef:
         kind: HelmRepository
-        name: cloudnative-pg.github.io-charts
+        name: harbor-cloudnative-pg.github.io-charts
         namespace: kommander-flux
       version: 0.2.0
   interval: 15s

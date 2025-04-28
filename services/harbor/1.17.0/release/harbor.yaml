@@ -10,7 +10,7 @@ spec:
       chart: harbor
       sourceRef:
         kind: HelmRepository
-        name: helm.goharbor.io
+        name: harbor-helm.goharbor.io
         namespace: kommander-flux
       version: 1.17.0
   interval: 15s

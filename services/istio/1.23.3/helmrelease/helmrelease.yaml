@@ -12,7 +12,7 @@ spec:
       chart: istio
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: istio-staging
         namespace: kommander-flux
       version: 1.23.3
   interval: 15s

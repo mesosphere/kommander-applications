@@ -9,7 +9,7 @@ spec:
       chart: cosi-bucket-kit
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: cosi-driver-nutanix-stable
         namespace: kommander-flux
       version: 0.0.5
   interval: 15s

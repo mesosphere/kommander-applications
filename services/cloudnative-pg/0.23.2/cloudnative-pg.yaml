@@ -9,7 +9,7 @@ spec:
       chart: cloudnative-pg
       sourceRef:
         kind: HelmRepository
-        name: cloudnative-pg.github.io-charts
+        name: cloudnative-pg-cloudnative-pg.github.io-charts
         namespace: kommander-flux
       version: 0.23.2
   interval: 15s

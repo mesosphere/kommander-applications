@@ -9,7 +9,7 @@ spec:
       chart: gatekeeper
       sourceRef:
         kind: HelmRepository
-        name: open-policy-agent.github.io-charts
+        name: gatekeeper-open-policy-agent.github.io-charts
         namespace: kommander-flux
       version: 3.18.2
   interval: 15s
@@ -72,7 +72,7 @@ spec:
       chart: gatekeeper-proxy-mutations
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: gatekeeper-stable
         namespace: kommander-flux
       version: v0.0.1
   interval: 15s

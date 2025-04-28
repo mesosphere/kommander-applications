@@ -1,0 +1,11 @@
+# This is the repository.yaml file for version 1.2.0 of gateway-api-crds.
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: gateway-api-crds-helm.traefik.io-traefik
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://helm.traefik.io/traefik}"

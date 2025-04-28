@@ -9,7 +9,7 @@ spec:
       chart: fluent-bit
       sourceRef:
         kind: HelmRepository
-        name: fluent.github.io
+        name: fluent-bit-fluent.github.io
         namespace: kommander-flux
       # This chart version should be kept in sync with logging-operator.
       # Both services should deploy the same version of fluent-bit.

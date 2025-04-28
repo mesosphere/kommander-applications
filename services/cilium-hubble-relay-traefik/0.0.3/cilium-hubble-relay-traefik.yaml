@@ -10,7 +10,7 @@ spec:
       chart: cilium-hubble-relay-traefik
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: cilium-hubble-relay-traefik-staging
         namespace: kommander-flux
       version: 0.0.3
   interval: 15s

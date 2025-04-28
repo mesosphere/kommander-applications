@@ -1,0 +1,10 @@
+# This is the repository.yaml file for version 70.4.2 of centralized-grafana.
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: centralized-grafana-staging
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging}"

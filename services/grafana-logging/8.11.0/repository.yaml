@@ -1,0 +1,11 @@
+# This is the repository.yaml file for version 8.11.0 of grafana-logging.
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: grafana-logging-grafana.github.io
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://grafana.github.io/helm-charts/}"

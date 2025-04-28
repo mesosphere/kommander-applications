@@ -10,7 +10,7 @@ spec:
       chart: cosi-driver-nutanix
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
+        name: cosi-driver-nutanix-staging
         namespace: kommander-flux
       version: 0.0.10
   interval: 15s

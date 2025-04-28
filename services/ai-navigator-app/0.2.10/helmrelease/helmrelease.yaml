@@ -9,7 +9,7 @@ spec:
       chart: ai-navigator-cluster-info-api
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
+        name: ai-navigator-app-ai-navigator-cluster-info-api
         namespace: kommander-flux
       version: 0.2.10
   install:

@@ -9,7 +9,7 @@ spec:
       chart: jaeger-operator
       sourceRef:
         kind: HelmRepository
-        name: jaegertracing-github-io
+        name: jaeger-jaegertracing-github-io
         namespace: kommander-flux
       version: 2.57.0
   # The main reason behind this dependency is to wait until

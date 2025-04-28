@@ -9,7 +9,7 @@ spec:
       chart: cert-manager
       sourceRef:
         kind: HelmRepository
-        name: charts.jetstack.io
+        name: cert-manager-charts.jetstack.io
         namespace: kommander-flux
       version: v1.16.4
   interval: 15s
@@ -39,7 +39,7 @@ spec:
       chart: cert-manager-crds
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        name: cert-manager-staging
         namespace: kommander-flux
       version: v1.16.4
   interval: 15s
