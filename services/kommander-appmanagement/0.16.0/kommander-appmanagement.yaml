@@ -10,8 +10,8 @@ spec:
       chart: kommander-appmanagement-chart
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-kommander-charts
-        namespace: kommander-flux
+        name: kommander-appmanagement-kommander-charts
+        namespace: ${releaseNamespace}
       version: "${kommanderChartVersion:=v2.16.0-dev}"
   interval: 15s
   install:

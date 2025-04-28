@@ -12,7 +12,7 @@ spec:
       chart: cluster-observer
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-kommander-auditing-pipeline-charts
+        name: kommander-kommander-auditing-pipeline-charts
         namespace: kommander-flux
       version: 1.4.1
   interval: 15s
