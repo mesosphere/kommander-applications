@@ -46,7 +46,7 @@ jobs:
       env:
         SKIP_CLUSTER_TEARDOWN: "true"
       run: |
-        ginkgo --v --label-filter="install && (${{ inputs.apps }})" appscenarios
+        ginkgo --v --label-filter="install && (${{ inputs.apps }})"
 
     - name: Gather support bundle
       if: failure()

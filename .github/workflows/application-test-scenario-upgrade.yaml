@@ -63,7 +63,7 @@ jobs:
         SKIP_CLUSTER_TEARDOWN: "true"
       working-directory: apptests/appscenarios
       run: |
-        ginkgo --v --label-filter="upgrade && (${{ inputs.apps }})" appscenarios
+        ginkgo --v --label-filter="upgrade && (${{ inputs.apps }})"
 
     - name: Gather support bundle
       if: failure()
