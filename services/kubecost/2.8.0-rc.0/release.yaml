@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kubecost-pre-install
+  name: kubecost-release
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,7 +9,10 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./services/kubecost/2.7.0/pre-install
+  dependsOn:
+    - name: kubecost-pre-install
+      namespace: ${releaseNamespace}
+  path: ./services/kubecost/2.8.0-rc.0/release
   sourceRef:
     kind: GitRepository
     name: management
@@ -21,3 +24,6 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: substitution-vars
+      - kind: ConfigMap
+        name: kubecost-object-store-config # Created by kubecost post install config optionally to upgrade kubecost to use object storage.
+        optional: true
