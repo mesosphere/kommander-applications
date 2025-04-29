@@ -43,6 +43,9 @@ func setupTraefikSchema(env *environment.Env) error {
 	c, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{
 		Scheme: scheme,
 	})
+	if err != nil {
+		return err
+	}
 	env.SetClient(c)
 	return nil
 }
@@ -90,6 +93,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		}
 
 		// Apply defaults for gateway-api-crds
+		fmt.Println("=== default k : ",  filepath.Join(gatewayCRDsPath, "/defaults"))
 		err = env.ApplyKustomizations(ctx, filepath.Join(gatewayCRDsPath, "/defaults"), map[string]string{
 			"releaseNamespace": kommanderNamespace,
 		})
