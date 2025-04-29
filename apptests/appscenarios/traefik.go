@@ -43,6 +43,9 @@ func setupTraefikSchema(env *environment.Env) error {
 	c, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{
 		Scheme: scheme,
 	})
+	if err != nil {
+		return err
+	}
 	env.SetClient(c)
 	return nil
 }
