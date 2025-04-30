@@ -33,8 +33,6 @@ import (
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
-	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
-	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 )
 
 // Apply is the equivalent of 'kubectl apply --server-side -f'.
@@ -153,8 +151,6 @@ func NewScheme() *apiruntime.Scheme {
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
 	_ = helmv2b2.AddToScheme(scheme)
-	_ = traefikv1a1.AddToScheme(scheme)
-	_ = gatekeeperapi.AddToScheme(scheme)
 	return scheme
 }
 

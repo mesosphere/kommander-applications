@@ -6,8 +6,12 @@ import (
 	"os"
 	"path/filepath"
 
+	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
+	genericCLient "sigs.k8s.io/controller-runtime/pkg/client"
+
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
 )
 
 type traefik struct {
@@ -30,8 +34,28 @@ func NewTraefik() *traefik {
 	}
 }
 
+func setupTraefikSchema(env *environment.Env) error {
+	scheme := flux.NewScheme()
+	err := traefikv1a1.AddToScheme(scheme)
+	if err != nil {
+		return err
+	}
+	c, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{
+		Scheme: scheme,
+	})
+	if err != nil {
+		return err
+	}
+	env.SetClient(c)
+	return nil
+}
+
 func (t traefik) Install(ctx context.Context, env *environment.Env) error {
-	err := t.install(ctx, env, t.appPathCurrentVersion)
+	err := setupTraefikSchema(env)
+	if err != nil {
+		return err
+	}
+	err = t.install(ctx, env, t.appPathCurrentVersion)
 
 	return err
 }
