@@ -29,7 +29,7 @@ import (
 	"k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/klog/v2"
-	genericCLient "sigs.k8s.io/controller-runtime/pkg/client"
+	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 )
 
@@ -45,6 +45,7 @@ type Env struct {
 	// K8sClient is a reference to the Kubernetes client
 	// This client is used to interact with the cluster built during the execution of the application specific testing.
 	K8sClient *typedclient.Client
+	Client    genericClient.Client
 	// Cluster is a dedicated instance of a kind cluster created for running an application specific test.
 	Cluster *kind.Cluster
 	Network *docker.NetworkResource
@@ -62,8 +63,15 @@ func (e *Env) Provision(ctx context.Context) error {
 		return err
 	}
 
-	e.SetK8sClient(k8sClient)
+	e.K8sClient = k8sClient
 	e.SetCluster(cluster)
+	c, err := genericClient.New(k8sClient.Config(), genericClient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	if err != nil {
+		return err
+	}
+	e.Client = c
 
 	err = e.ApplyYAMLFileRaw(ctx, calicoYamlFile, nil)
 	if err != nil {
@@ -255,8 +263,8 @@ func (e *Env) SetCluster(cluster *kind.Cluster) {
 	e.Cluster = cluster
 }
 
-func (e *Env) SetK8sClient(k8sClient *typedclient.Client) {
-	e.K8sClient = k8sClient
+func (e *Env) SetClient(client genericClient.Client) {
+	e.Client = client
 }
 
 // ApplyKustomizations applies the kustomizations located in the given path and does variable substitution.
@@ -278,9 +286,6 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 
 	buf := bytes.NewBuffer(out)
 	dec := yaml.NewYAMLOrJSONDecoder(buf, 1<<20) // default buffer size is 1MB
-	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
-		Scheme: flux.NewScheme(),
-	})
 	if err != nil {
 		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
 	}
@@ -295,7 +300,7 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 			return fmt.Errorf("could not decode kustomization for path: %s :%w", path, err)
 		}
 
-		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		err = e.Client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
 		if err != nil {
 			return fmt.Errorf("could not patch the kustomization resources for path: %s :%w", path, err)
 		}
@@ -331,15 +336,8 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 		return fmt.Errorf("requirement argument: path is not specified")
 	}
 
-	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
-		Scheme: flux.NewScheme(),
-	})
-	if err != nil {
-		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
-	}
-
 	// Loop through the files in the specified directory and apply the YAML files to the cluster
-	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
 		}
@@ -349,7 +347,7 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, genericClient, path, substitutions, true)
+		err = applyYAMLFile(ctx, e.Client, path, substitutions, true)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -371,20 +369,13 @@ func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) er
 		return fmt.Errorf("requirement argument: path is not specified")
 	}
 
-	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
-		Scheme: flux.NewScheme(),
-	})
-	if err != nil {
-		return fmt.Errorf("could not create the generic client for path: %s :%w", path, err)
-	}
-
 	// Loop through the files in the specified directory and apply the YAML files to the cluster
-	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, genericClient, path, nil, false)
+		err = applyYAMLFile(ctx, e.Client, path, nil, false)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -400,7 +391,7 @@ func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) er
 }
 
 // applyYAMLFile applies the YAML file located in the given path.
-func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path string, substitutions map[string]string, applySubstitutions bool) error {
+func applyYAMLFile(ctx context.Context, client genericClient.Client, path string, substitutions map[string]string, applySubstitutions bool) error {
 	// Read and decode the YAML file specified in the path
 	out, err := os.ReadFile(path)
 	if err != nil {
@@ -435,7 +426,7 @@ func applyYAMLFile(ctx context.Context, genericClient genericCLient.Client, path
 			return fmt.Errorf("could not decode yaml for path: %s :%w", path, err)
 		}
 
-		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		err = client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
 		if err != nil {
 			return fmt.Errorf("could not patch the resources for path: %s :%w", path, err)
 		}
@@ -449,13 +440,6 @@ func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions m
 
 	var err error
 	log.SetLogger(klog.NewKlogr())
-
-	genericClient, err := genericCLient.New(e.K8sClient.Config(), genericCLient.Options{
-		Scheme: flux.NewScheme(),
-	})
-	if err != nil {
-		return fmt.Errorf("could not create the generic client for path :%w", err)
-	}
 
 	// Substitute the environment variables in the YAML file
 	var yml string
@@ -485,7 +469,7 @@ func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions m
 			return fmt.Errorf("could not decode yaml file : %w", err)
 		}
 
-		err = genericClient.Patch(ctx, &obj, genericCLient.Apply, genericCLient.ForceOwnership, genericCLient.FieldOwner("k-cli"))
+		err = e.Client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
 		if err != nil {
 			return fmt.Errorf("could not patch the resources for path :%w", err)
 		}

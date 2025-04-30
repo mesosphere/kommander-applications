@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
+	gatekeeperapi "github.com/open-policy-agent/frameworks/constraint/pkg/apis"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -24,8 +25,25 @@ type gatekeeper struct {
 
 var _ AppScenario = (*gatekeeper)(nil)
 
+func setupGatekeeperSchema(env *environment.Env) error {
+	scheme := flux.NewScheme()
+	err := gatekeeperapi.AddToScheme(scheme)
+	if err != nil {
+		return err
+	}
+	c, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{
+		Scheme: scheme,
+	})
+	env.SetClient(c)
+	return nil
+}
+
 func (g gatekeeper) Install(ctx context.Context, env *environment.Env) error {
-	err := g.install(ctx, env, g.appPathCurrentVersion)
+	err := setupGatekeeperSchema(env)
+	if err != nil {
+		return err
+	}
+	err = g.install(ctx, env, g.appPathCurrentVersion)
 	return err
 }
 

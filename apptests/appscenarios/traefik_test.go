@@ -106,7 +106,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 
 		It("should create middlewares", func() {
 			middlewareList := &traefikv1a1.MiddlewareList{}
-			err := k8sClient.List(ctx, middlewareList, &ctrlClient.ListOptions{
+			err := env.Client.List(ctx, middlewareList, &ctrlClient.ListOptions{
 				Namespace: kommanderNamespace,
 			})
 			Expect(err).To(BeNil())
@@ -122,7 +122,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 
 		It("should create dashboard ingress route", func() {
 			ingressRouteList := &traefikv1a1.IngressRouteList{}
-			err := k8sClient.List(ctx, ingressRouteList, &ctrlClient.ListOptions{
+			err := env.Client.List(ctx, ingressRouteList, &ctrlClient.ListOptions{
 				Namespace: kommanderNamespace,
 			})
 			Expect(err).To(BeNil())
