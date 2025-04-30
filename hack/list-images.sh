@@ -80,6 +80,7 @@ declare -rx releaseNamespace=unused \
             caIssuerName=unused \
             CLUSTER_ID=unused \
             kubecostClusterMode=unused \
+            releaseNamespace=kommander \
             kommanderChartVersion="${kommanderChartVersion:-}"
 
 IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
