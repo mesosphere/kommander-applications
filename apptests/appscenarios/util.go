@@ -1,19 +1,9 @@
-// Package appscenarios provides a set of application test scenarios that can be executed
-// in a Kubernetes environment. The package defines an AppScenario interface that specifies the
-// behavior and name of each scenario, and a List type that implements methods to execute, get,
-// and check scenarios.
-//
-// The package currently supports one scenario for the reloader application, but more scenarios can be
-// added by implementing the AppScenario interface and registering them in the scenariosList variable.
 package appscenarios
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
 var upgradeKAppsRepoPath string
