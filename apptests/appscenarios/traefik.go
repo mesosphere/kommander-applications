@@ -12,6 +12,7 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type traefik struct {
@@ -23,7 +24,7 @@ func (t traefik) Name() string {
 	return constants.Traefik
 }
 
-var _ AppScenario = (*traefik)(nil)
+var _ scenarios.AppScenario = (*traefik)(nil)
 
 func NewTraefik() *traefik {
 	appPath, _ := absolutePathTo(constants.Traefik)

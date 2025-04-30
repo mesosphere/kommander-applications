@@ -16,6 +16,7 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type gatekeeper struct {
@@ -23,7 +24,7 @@ type gatekeeper struct {
 	appPathPreviousVersion string
 }
 
-var _ AppScenario = (*gatekeeper)(nil)
+var _ scenarios.AppScenario = (*gatekeeper)(nil)
 
 func setupGatekeeperSchema(env *environment.Env) error {
 	scheme := flux.NewScheme()
