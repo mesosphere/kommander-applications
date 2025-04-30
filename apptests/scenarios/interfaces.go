@@ -1,3 +1,5 @@
+// Package scenarios defines an AppScenario interface that specifies the
+// behavior and name of each scenario
 package scenarios
 
 import (
