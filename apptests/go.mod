@@ -17,7 +17,7 @@ require (
 	github.com/fluxcd/pkg/ssa v0.41.1
 	github.com/fluxcd/source-controller/api v1.5.0
 	github.com/mittwald/go-helm-client v0.12.13
-	github.com/onsi/gomega v1.35.1
+	github.com/onsi/gomega v1.36.1
 	github.com/stretchr/testify v1.10.0
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
 	k8s.io/api v0.32.3
@@ -26,7 +26,7 @@ require (
 	k8s.io/cli-runtime v0.32.3
 	k8s.io/client-go v0.32.3
 	k8s.io/klog/v2 v2.130.1
-	sigs.k8s.io/controller-runtime v0.20.1
+	sigs.k8s.io/controller-runtime v0.20.4
 	sigs.k8s.io/kind v0.24.0
 	sigs.k8s.io/kustomize/api v0.18.0
 	sigs.k8s.io/kustomize/kyaml v0.18.1
@@ -62,7 +62,7 @@ require (
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/emicklei/go-restful/v3 v3.12.0 // indirect
 	github.com/evanphx/json-patch v5.7.0+incompatible // indirect
-	github.com/evanphx/json-patch/v5 v5.9.0 // indirect
+	github.com/evanphx/json-patch/v5 v5.9.11 // indirect
 	github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
