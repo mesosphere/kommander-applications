@@ -7,6 +7,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type velero struct{}
@@ -15,7 +16,7 @@ func (v velero) Name() string {
 	return constants.Velero
 }
 
-var _ AppScenario = (*reloader)(nil)
+var _ scenarios.AppScenario = (*reloader)(nil)
 
 func (v velero) Install(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo(v.Name())

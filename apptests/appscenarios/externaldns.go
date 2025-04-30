@@ -6,6 +6,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type externalDns struct{}
@@ -14,7 +15,7 @@ func (r externalDns) Name() string {
 	return constants.ExternalDns
 }
 
-var _ AppScenario = (*reloader)(nil)
+var _ scenarios.AppScenario = (*reloader)(nil)
 
 func (r externalDns) Install(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo(r.Name())

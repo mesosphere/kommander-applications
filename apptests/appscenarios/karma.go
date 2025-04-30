@@ -7,6 +7,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type karma struct {
@@ -18,7 +19,7 @@ func (k karma) Name() string {
 	return constants.Karma
 }
 
-var _ AppScenario = (*karma)(nil)
+var _ scenarios.AppScenario = (*karma)(nil)
 
 func NewKarma() *karma {
 	appPath, _ := absolutePathTo(constants.Karma)

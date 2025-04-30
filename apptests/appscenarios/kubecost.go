@@ -11,6 +11,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type kubeCost struct{}
@@ -19,7 +20,7 @@ func (r kubeCost) Name() string {
 	return constants.KubeCost
 }
 
-var _ AppScenario = (*reloader)(nil)
+var _ scenarios.AppScenario = (*reloader)(nil)
 
 func (r kubeCost) Install(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo(r.Name())

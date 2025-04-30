@@ -7,6 +7,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type reloader struct {
@@ -18,7 +19,7 @@ func (r reloader) Name() string {
 	return constants.Reloader
 }
 
-var _ AppScenario = (*reloader)(nil)
+var _ scenarios.AppScenario = (*reloader)(nil)
 
 var nginxCMName = "nginx-config"
 
