@@ -8,12 +8,9 @@
 package appscenarios
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
 var upgradeKAppsRepoPath string
