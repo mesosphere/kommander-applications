@@ -2,8 +2,6 @@ module github.com/mesosphere/kommander-applications/hack/release
 
 go 1.23.0
 
-toolchain go1.24.1
-
 require (
 	github.com/Masterminds/semver/v3 v3.3.0
 	github.com/drone/envsubst v1.0.3
