@@ -26,5 +26,5 @@ spec:
   releaseName: rook-ceph-cluster
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.17.0-d2iq-defaults
+      name: rook-ceph-cluster-1.17.0-nkp-defaults
   targetNamespace: ${releaseNamespace}

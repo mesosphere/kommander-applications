@@ -21,12 +21,12 @@ import (
 var (
 	ErrVersionNotFound = errors.New("cannot detect existing kommander app version")
 
-	// kommander-0.4.0-d2iq-defaults
+	// kommander-0.4.0-nkp-defaults
 	// kommander-0.4.0-overrides
 	varNames = regexp.MustCompile(
 		`(?P<prefix>kommander(-appmanagement)?-)` +
 			constants.SemverRegexp +
-			`(?P<suffix>(-d2iq-defaults)|(-overrides))`,
+			`(?P<suffix>(-nkp-defaults)|(-overrides))`,
 	)
 )
 

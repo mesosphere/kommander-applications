@@ -15,4 +15,4 @@ spec:
         namespace: kommander-flux
   valuesFrom:
     - kind: ConfigMap
-      name: gateway-api-1.6.0-d2iq-defaults
+      name: gateway-api-1.6.0-nkp-defaults

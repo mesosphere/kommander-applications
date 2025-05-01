@@ -24,7 +24,7 @@ spec:
   releaseName: dex
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.14.2-d2iq-defaults
+      name: dex-2.14.2-nkp-defaults
     - kind: ConfigMap
       name: dex-overrides
       optional: true

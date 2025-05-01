@@ -27,5 +27,5 @@ spec:
   releaseName: prometheus-adapter
   valuesFrom:
     - kind: ConfigMap
-      name: prometheus-adapter-4.14.1-d2iq-defaults
+      name: prometheus-adapter-4.14.1-nkp-defaults
   targetNamespace: ${releaseNamespace}

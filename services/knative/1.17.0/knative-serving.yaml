@@ -28,7 +28,7 @@ spec:
   targetNamespace: knative-serving
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.17.0-d2iq-defaults
+      name: knative-1.17.0-nkp-defaults
     - kind: ConfigMap
       name: knative-overrides
       optional: true

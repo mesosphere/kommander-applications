@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fluent-bit-0.48.10-d2iq-defaults
+  name: fluent-bit-0.48.10-nkp-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

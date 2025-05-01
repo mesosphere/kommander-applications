@@ -4,5 +4,5 @@ data:
     ---
 kind: ConfigMap
 metadata:
-  name: kommander-flux-2.5.1-d2iq-defaults
+  name: kommander-flux-2.5.1-nkp-defaults
   namespace: ${releaseNamespace}

@@ -20,4 +20,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-pulse-management-0.2.6-d2iq-defaults
+      name: nkp-pulse-management-0.2.6-nkp-defaults

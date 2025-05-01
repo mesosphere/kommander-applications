@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cilium-hubble-relay-traefik-0.0.3-d2iq-defaults
+  name: cilium-hubble-relay-traefik-0.0.3-nkp-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

@@ -27,7 +27,7 @@ spec:
   releaseName: logging-operator-logging
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-logging-5.2.0-d2iq-defaults
+      name: logging-operator-logging-5.2.0-nkp-defaults
     # FIXME: To make logging-operator-logging work properly with federated
     # overrides, the `logging-operator` app should be split into two,
     # after which this entry should be replaced with `configOverrides`
