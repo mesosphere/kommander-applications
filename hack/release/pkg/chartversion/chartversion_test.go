@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/drone/envsubst"
-	"github.com/fluxcd/helm-controller/api/v2beta1"
+	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
 	cp "github.com/otiai10/copy"
 	"github.com/r3labs/diff/v3"
 	"github.com/stretchr/testify/assert"
@@ -48,24 +48,24 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 		afterFile, err := os.ReadFile(afterUpdateFiles[0])
 		assert.Nil(t, err)
 
-		branchHr := v2beta1.HelmRelease{}
-		err = yaml.Unmarshal(beforeFile, &branchHr)
+		branchOciRepo := sourcev1b2.OCIRepository{}
+		err = yaml.Unmarshal(beforeFile, &branchOciRepo)
 		assert.Nil(t, err)
 
-		testHr := v2beta1.HelmRelease{}
-		err = yaml.Unmarshal(afterFile, &testHr)
+		testOciRepo := sourcev1b2.OCIRepository{}
+		err = yaml.Unmarshal(afterFile, &testOciRepo)
 		assert.Nil(t, err)
 
 		// Get the diff between the HRs
-		changes, err := diff.Diff(branchHr, testHr)
+		changes, err := diff.Diff(branchOciRepo, testOciRepo)
 		assert.Nil(t, err)
 		assert.NotEmpty(t, changes)
 
 		for _, change := range changes {
 			// Validate that each change is an "update"
 			assert.Equal(t, diff.UPDATE, change.Type, "expected the chart version update to result in an update operation")
-			// Validate that .spec.chart.spec.version is the only field that changes
-			assert.Equal(t, []string{"Spec", "Chart", "Spec", "Version"}, change.Path, "expected .spec.chart.spec.version to be the only field that changed in the Kommander HelmRelease")
+			// Validate that .spec.reference.tag is the only field that changes
+			assert.Equal(t, []string{"Spec", "Reference", "Tag"}, change.Path, "expected .spec.ref.tag to be the only field that changed in the Kommander chart's OCIRepository")
 			// Validate that the updated version is what we expect
 			assert.Equal(t,
 				fmt.Sprintf(kommanderChartVersionTemplate, updateToVersion),
