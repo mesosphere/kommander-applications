@@ -1,0 +1,67 @@
+name: report-and-confluence-cmd
+run-name: ${{ github.event_name == 'workflow_dispatch' && format('Run on {0}', inputs.branch) || format('Run on {0}', github.ref_name) }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Git branch to run report on'
+        required: false
+        default: 'Shubham/test'
+  push:
+    branches:
+      - Shubham/resource-requirement
+
+jobs:
+  config:
+    name: Determine branch
+    runs-on: self-hosted-nutanix-medium
+    outputs:
+      ref: ${{ steps.set-ref.outputs.ref }}
+    steps:
+      - name: Set the branch to run on
+        id: set-ref
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "ref=${{ inputs.branch }}" >> $GITHUB_OUTPUT
+          else
+            echo "ref=${GITHUB_REF#refs/heads/}"           >> $GITHUB_OUTPUT
+          fi
+
+  publish:
+    name: Generate & Publish
+    needs: config
+    runs-on: self-hosted-nutanix-medium
+    env:
+      BRANCH: ${{ needs.config.outputs.ref }}
+      CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+
+      - name: Build report generator
+        run: |
+          echo "🛠️ Building generate_report..."
+          go build -o generate_report ./app-resources/generate
+
+      - name: Build Confluence publisher
+        run: |
+          echo "🛠️ Building publish..."
+          go build -o publish ./app-resources/publish
+
+      - name: Generate CSV report
+        run: |
+          echo "📝 Generating report on branch $BRANCH"
+          ./generate_report "$BRANCH"
+
+      - name: Publish report to Confluence
+        run: |
+          echo "🚀 Publishing report to Confluence"
+          ./publish
