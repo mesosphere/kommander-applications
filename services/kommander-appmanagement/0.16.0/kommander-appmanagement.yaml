@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://docker.io/mesosphere}/kommander-appmanagement-chart"
   ref:
-    tag: "${kommanderChartVersion:=v2.16.0-dev}"
+    tag: "${kommanderChartVersion:=v2.16.0-dev.2}"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
