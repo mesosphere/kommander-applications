@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: kommander-appmanagement-kommander-charts
-  namespace: kommander
+  namespace: kommander-flux
 spec:
   interval: 10m
   timeout: 1m
