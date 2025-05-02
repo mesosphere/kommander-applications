@@ -19,13 +19,13 @@ jobs:
     outputs:
       ref: ${{ steps.set-ref.outputs.ref }}
     steps:
-      - name: Set the branch to run on
-        id: set-ref
+      - id: set-ref
+        name: Set the branch to run on
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "ref=${{ inputs.branch }}" >> $GITHUB_OUTPUT
           else
-            echo "ref=${GITHUB_REF#refs/heads/}"           >> $GITHUB_OUTPUT
+            echo "ref=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
           fi
 
   publish:
@@ -45,6 +45,11 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.21'
+
+      # ensure you have a go.mod in the repo root
+      - name: Tidy modules
+        run: |
+          go mod tidy
 
       - name: Build report generator
         run: |
