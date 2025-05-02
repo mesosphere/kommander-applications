@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kommander-kommander-auditing-pipeline-charts
-        namespace: ${releaseNamespace}
+        namespace: kommander
       version: 1.4.1
   interval: 15s
   install:
