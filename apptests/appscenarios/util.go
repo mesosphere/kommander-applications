@@ -1,30 +1,12 @@
-// Package appscenarios provides a set of application test scenarios that can be executed
-// in a Kubernetes environment. The package defines an AppScenario interface that specifies the
-// behavior and name of each scenario, and a List type that implements methods to execute, get,
-// and check scenarios.
-//
-// The package currently supports one scenario for the reloader application, but more scenarios can be
-// added by implementing the AppScenario interface and registering them in the scenariosList variable.
 package appscenarios
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
 var upgradeKAppsRepoPath string
-
-// AppScenario defines the behavior and name of an application test scenario
-type AppScenario interface {
-	Name() string                                    // scenario name
-	Install(context.Context, *environment.Env) error // logic implemented by a scenario
-	InstallPreviousVersion(ctx context.Context, env *environment.Env) error
-	Upgrade(ctx context.Context, env *environment.Env) error
-}
 
 // absolutePathTo returns the absolute path to the given application directory.
 func absolutePathTo(application string) (string, error) {

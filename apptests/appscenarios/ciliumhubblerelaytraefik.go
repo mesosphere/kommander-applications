@@ -7,6 +7,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type ciliumHubbleRelayTraefik struct {
@@ -18,7 +19,7 @@ func (c ciliumHubbleRelayTraefik) Name() string {
 	return constants.CiliumHubbleRelayTraefik
 }
 
-var _ AppScenario = (*ciliumHubbleRelayTraefik)(nil)
+var _ scenarios.AppScenario = (*ciliumHubbleRelayTraefik)(nil)
 
 func NewCiliumHubbleRelayTraefik() *ciliumHubbleRelayTraefik {
 	appPath, _ := absolutePathTo(constants.CiliumHubbleRelayTraefik)

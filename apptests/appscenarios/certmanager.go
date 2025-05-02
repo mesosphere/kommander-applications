@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type certManager struct{}
@@ -13,7 +14,7 @@ func (r certManager) Name() string {
 	return "cert-manager"
 }
 
-var _ AppScenario = (*reloader)(nil)
+var _ scenarios.AppScenario = (*reloader)(nil)
 
 func (r certManager) Install(ctx context.Context, env *environment.Env) error {
 	appPath, err := absolutePathTo(r.Name())
