@@ -11,7 +11,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kommander-appmanagement-kommander-charts
-        namespace: ${releaseNamespace}
+        namespace: kommander
       version: "${kommanderChartVersion:=v2.16.0-dev}"
   interval: 15s
   install:
