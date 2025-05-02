@@ -1,0 +1,15 @@
+Centralized-Grafana* centralized-grafana
+Centralized-Kubecost* kubecost
+Chartmuseum chartmuseum
+Dex dex
+Dex-Authenticator dex-k8s-authenticator
+NKP-Insights-Management nkp-insights-management
+Karma* karma
+Kommander kommander 
+Kommander-AppManagement kommander-appmanagement
+Kommander-Flux kommander-flux
+Kommander-UI kommander-ui
+Kubefed kubefed
+Kubetunnel kubetunnel
+Thanos* thanos
+Traefik-ForwardAuth traefik-forward-auth
