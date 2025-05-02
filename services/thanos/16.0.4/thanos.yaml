@@ -24,7 +24,7 @@ spec:
   releaseName: thanos
   valuesFrom:
     - kind: ConfigMap
-      name: thanos-15.7.24-d2iq-defaults
+      name: thanos-16.0.4-d2iq-defaults
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
