@@ -15,7 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kommander-charts-stable
-        namespace: kommander
+        namespace: ${namespace}
       version: 0.1.8
   interval: 15s
   install:
