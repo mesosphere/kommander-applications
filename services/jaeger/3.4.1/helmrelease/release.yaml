@@ -29,7 +29,7 @@ spec:
   targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
-      name: jaeger-2.57.0-d2iq-defaults
+      name: jaeger-3.4.1-d2iq-defaults
 ---
 apiVersion: v1
 kind: ConfigMap
