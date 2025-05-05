@@ -11,7 +11,7 @@ data:
 
     image:
       repository: traefik
-      tag: v3.3.5
+      tag: v3.3.6
 
     #  imagePullPolicy: Always
     priorityClassName: "dkp-critical-priority"
