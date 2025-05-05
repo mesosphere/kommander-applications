@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: prometheus-thanos-traefik-0.0.2-nkp-defaults
+  name: prometheus-thanos-traefik-0.0.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

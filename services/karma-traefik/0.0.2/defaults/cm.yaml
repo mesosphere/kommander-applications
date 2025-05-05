@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: karma-traefik-0.0.2-nkp-defaults
+  name: karma-traefik-0.0.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-pulse-workspace-0.2.6-nkp-defaults
+  name: nkp-pulse-workspace-0.2.6-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

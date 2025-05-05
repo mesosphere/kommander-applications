@@ -25,4 +25,4 @@ spec:
   releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.80.3-nkp-defaults
+      name: project-grafana-loki-0.80.3-config-defaults

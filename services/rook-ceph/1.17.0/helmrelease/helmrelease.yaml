@@ -25,5 +25,5 @@ spec:
   releaseName: rook-ceph
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-1.17.0-nkp-defaults
+      name: rook-ceph-1.17.0-config-defaults
   targetNamespace: ${releaseNamespace}

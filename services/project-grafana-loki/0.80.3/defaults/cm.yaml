@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: project-grafana-loki-0.80.3-nkp-defaults
+  name: project-grafana-loki-0.80.3-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

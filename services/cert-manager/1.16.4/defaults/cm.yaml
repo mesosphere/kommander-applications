@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cert-manager-1.16.4-nkp-defaults
+  name: cert-manager-1.16.4-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-

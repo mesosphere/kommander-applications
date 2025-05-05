@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-k8s-authenticator-1.4.5-nkp-defaults
+  name: dex-k8s-authenticator-1.4.5-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-

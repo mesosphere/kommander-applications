@@ -28,4 +28,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-management-1.4.4-nkp-defaults
+      name: nkp-insights-management-1.4.4-config-defaults

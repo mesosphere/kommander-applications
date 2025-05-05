@@ -27,7 +27,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-valkey-3.0.1-nkp-defaults
+      name: harbor-valkey-3.0.1-config-defaults
     - kind: ConfigMap
       name: harbor-valkey-overrides
       optional: true

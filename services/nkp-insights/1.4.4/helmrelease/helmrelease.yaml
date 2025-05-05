@@ -24,4 +24,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-1.4.4-nkp-defaults
+      name: nkp-insights-1.4.4-config-defaults

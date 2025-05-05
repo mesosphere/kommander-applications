@@ -24,4 +24,4 @@ spec:
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.39-nkp-defaults
+      name: kubetunnel-0.0.39-config-defaults

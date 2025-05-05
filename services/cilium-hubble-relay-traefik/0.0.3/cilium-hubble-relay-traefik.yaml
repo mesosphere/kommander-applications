@@ -25,4 +25,4 @@ spec:
   releaseName: cilium-hubble-relay-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: cilium-hubble-relay-traefik-0.0.3-nkp-defaults
+      name: cilium-hubble-relay-traefik-0.0.3-config-defaults

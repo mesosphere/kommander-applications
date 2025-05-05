@@ -53,9 +53,9 @@ func TestRegexps(t *testing.T) {
 		suffix string
 	}{
 		{
-			input:  "kommander-0.4.0-nkp-defaults",
+			input:  "kommander-0.4.0-config-defaults",
 			prefix: "kommander-",
-			suffix: "-nkp-defaults",
+			suffix: "-config-defaults",
 		},
 		{
 			input:  "kommander-0.4.0-overrides",
@@ -63,9 +63,9 @@ func TestRegexps(t *testing.T) {
 			suffix: "-overrides",
 		},
 		{
-			input:  "kommander-appmanagement-0.4.0-nkp-defaults",
+			input:  "kommander-appmanagement-0.4.0-config-defaults",
 			prefix: "kommander-appmanagement-",
-			suffix: "-nkp-defaults",
+			suffix: "-config-defaults",
 		},
 	}
 

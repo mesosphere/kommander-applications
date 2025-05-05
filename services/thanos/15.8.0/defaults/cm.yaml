@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: thanos-15.8.0-nkp-defaults
+  name: thanos-15.8.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

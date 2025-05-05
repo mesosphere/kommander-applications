@@ -34,5 +34,5 @@ spec:
   releaseName: kube-oidc-proxy
   valuesFrom:
     - kind: ConfigMap
-      name: kube-oidc-proxy-0.3.5-nkp-defaults
+      name: kube-oidc-proxy-0.3.5-config-defaults
   targetNamespace: ${releaseNamespace}

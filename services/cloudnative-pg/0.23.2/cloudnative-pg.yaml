@@ -24,5 +24,5 @@ spec:
   releaseName: cloudnative-pg
   valuesFrom:
     - kind: ConfigMap
-      name: cloudnative-pg-0.23.2-nkp-defaults
+      name: cloudnative-pg-0.23.2-config-defaults
   targetNamespace: ${releaseNamespace}

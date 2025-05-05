@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: istio-1.23.3-nkp-defaults
+  name: istio-1.23.3-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

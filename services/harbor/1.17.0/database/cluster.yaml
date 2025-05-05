@@ -27,7 +27,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-database-0.2.0-nkp-defaults
+      name: harbor-database-0.2.0-config-defaults
     - kind: ConfigMap
       name: harbor-database-overrides
       optional: true

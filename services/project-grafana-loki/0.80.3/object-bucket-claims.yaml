@@ -24,7 +24,7 @@ spec:
   releaseName: project-loki-object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.80.3-nkp-defaults
+      name: project-grafana-loki-0.80.3-config-defaults
     - kind: ConfigMap
       name: project-grafana-loki-overrides
       optional: true

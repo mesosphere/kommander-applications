@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nvidia-gpu-operator-25.3.0-nkp-defaults
+  name: nvidia-gpu-operator-25.3.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

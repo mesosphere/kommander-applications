@@ -24,6 +24,6 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-9.0.0-nkp-defaults
+      name: velero-9.0.0-config-defaults
   targetNamespace: ${releaseNamespace}
 ---

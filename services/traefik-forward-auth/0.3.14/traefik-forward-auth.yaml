@@ -27,5 +27,5 @@ spec:
   releaseName: traefik-forward-auth
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-forward-auth-0.3.14-nkp-defaults
+      name: traefik-forward-auth-0.3.14-config-defaults
   targetNamespace: ${releaseNamespace}

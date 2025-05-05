@@ -26,7 +26,7 @@ spec:
   releaseName: object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.17.0-nkp-defaults
+      name: rook-ceph-cluster-1.17.0-config-defaults
     - kind: ConfigMap
       name: rook-ceph-cluster-overrides
       optional: true

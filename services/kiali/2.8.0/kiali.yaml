@@ -29,7 +29,7 @@ spec:
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
-      name: kiali-2.8.0-nkp-defaults
+      name: kiali-2.8.0-config-defaults
   targetNamespace: istio-system
 ---
 apiVersion: v1

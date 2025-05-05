@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-forward-auth-0.3.14-nkp-defaults
+  name: traefik-forward-auth-0.3.14-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-

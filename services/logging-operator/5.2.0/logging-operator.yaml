@@ -25,4 +25,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-5.2.0-nkp-defaults
+      name: logging-operator-5.2.0-config-defaults

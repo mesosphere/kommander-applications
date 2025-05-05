@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.14.2-nkp-defaults
+  name: dex-2.14.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
