@@ -293,6 +293,63 @@ data:
       enabled: false
     kubeScheduler:
       enabled: false
+    additionalPrometheusRulesMap:
+      auto-renewal-certificate-alerts:
+        groups:
+          - name: AutoRenewalCertificateAlerts
+            rules:
+              - alert: CertificateExpiringSoon
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 > 1 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  and
+                  (min by(namespace) (
+                  kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 <= 7 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                for: 1d
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Certificate expiring soon"
+                  description: "Certificate will expire in less than 7 days"
+              - alert: CertificateRollingOutSoon
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 >= 1 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  and
+                  (min by(namespace) (
+                  kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 < 0 + scalar(kube_customresource_rollout_trigger_days_before_cert_expiry)
+                for: 1d
+                labels:
+                  severity: info
+                annotations:
+                  summary: "Certificate rolling out soon"
+                  description: "Certificate will expire within a day, rollout is expected"
+              - alert: CertificateExpired
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 < 0.1
+                for: 1m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Certificate renewal failed"
+                  description: "Certificate has expired and was not renewed"
+              - alert: CertificateRenewed
+                expr: |
+                  (min by(namespace) (
+                    kube_customresource_machine_cert_expiry_days
+                  ) - time()) / 86400 == 365
+                for: 1d
+                labels:
+                  severity: info
+                annotations:
+                  summary: "Certificate renewed successfully"
+                  description: "Certificate has been renewed successfully"
     alertmanager:
       enabled: true
       config:
@@ -455,6 +512,48 @@ data:
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]
+      rbac:
+        extraRules:
+          - apiGroups: [ "cluster.x-k8s.io" ]
+            resources: ["machines"]
+            verbs: ["get", "list", "watch"]
+          - apiGroups: ["controlplane.cluster.x-k8s.io"]
+            resources: ["kubeadmcontrolplanes"]
+            verbs: ["get", "list", "watch"]
+      customResourceState:
+        enabled: true
+        config:
+          kind: CustomResourceStateMetrics
+          spec:
+            resources:
+              - groupVersionKind:
+                  group: controlplane.cluster.x-k8s.io
+                  version: v1beta1
+                  kind: KubeadmControlPlane
+                labelsFromPath:
+                  kubeadmcontrolplane: ["metadata", "name"]
+                  namespace: ["metadata", "namespace"]
+                metrics:
+                  - name: rollout_trigger_days_before_cert_expiry
+                    help: "Number of days before certificate expiry when a rollout is triggered"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: ["spec", "rolloutBefore", "certificatesExpiryDays"]
+              - groupVersionKind:
+                  group: cluster.x-k8s.io
+                  version: v1beta1
+                  kind: Machine
+                labelsFromPath:
+                  machine: ["metadata", "name"]
+                  namespace: ["metadata", "namespace"]
+                metrics:
+                  - name: machine_cert_expiry_days
+                    help: "Number of days until the certificate associated with the Machine expires"
+                    each:
+                      type: Gauge
+                      gauge:
+                        path: ["metadata", "annotations", "machine.cluster.x-k8s.io/certificates-expiry"]
       prometheus:
         monitor:
           additionalLabels:
