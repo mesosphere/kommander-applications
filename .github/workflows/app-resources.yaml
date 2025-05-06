@@ -1,40 +1,18 @@
 name: report-and-confluence-cmd
-run-name: ${{ github.event_name == 'workflow_dispatch' && format('Run on {0}', inputs.branch) || format('Run on {0}', github.ref_name) }}
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Git branch to run report on'
-        required: false
-        default: 'Shubham/test'
   push:
     branches:
       - Shubham/resource-requirement
 
 jobs:
-  config:
-    name: Determine branch
-    runs-on: self-hosted-nutanix-medium
-    outputs:
-      ref: ${{ steps.set-ref.outputs.ref }}
-    steps:
-      - id: set-ref
-        name: Set the branch to run on
-        run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            echo "ref=${{ inputs.branch }}" >> $GITHUB_OUTPUT
-          else
-            echo "ref=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-          fi
-
   publish:
     name: Generate & Publish
-    needs: config
     runs-on: self-hosted-nutanix-medium
     env:
-      BRANCH: ${{ needs.config.outputs.ref }}
       CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,12 +22,11 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version-file: 'app-resources/go.mod'  # Adjusted to your project layout
 
-      # ensure you have a go.mod in the repo root
-      - name: Tidy modules
-        run: |
-          go mod tidy
+      - name: Download dependencies
+        working-directory: app-resources
+        run: go mod tidy
 
       - name: Build report generator
         run: |
@@ -63,8 +40,8 @@ jobs:
 
       - name: Generate CSV report
         run: |
-          echo "📝 Generating report on branch $BRANCH"
-          ./generate_report "$BRANCH"
+          echo "📝 Generating report"
+          ./generate_report
 
       - name: Publish report to Confluence
         run: |

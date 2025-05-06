@@ -6,7 +6,6 @@ import (
 	"io/fs"
 	"log"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -16,25 +15,6 @@ import (
 )
 
 func main() {
-	// Get branch from arguments or default to "main"
-	args := os.Args
-	branch := "main"
-	if len(args) > 1 {
-		branch = args[1]
-	}
-
-	// Save the current branch so we can return to it later
-	originalBranch, err := getCurrentBranch()
-	if err != nil {
-		log.Fatal("Error getting the current branch: ", err)
-	}
-
-	// Switch to the selected branch
-	fmt.Printf("Switching to branch: %s\n", branch)
-	if err := gitCheckout(branch); err != nil {
-		log.Fatal("Error switching to branch: ", err)
-	}
-
 	// Path to management apps file
 	managementAppsFile := "management_apps.txt"
 	allowedApps := make(map[string]bool)
@@ -132,46 +112,22 @@ func main() {
 
 	// Print the output location
 	fmt.Printf("✅ Output saved to %s\n", outputFile)
-
-	// Switch back to the original branch
-	fmt.Printf("Switching back to original branch: %s\n", originalBranch)
-	if err := gitCheckout(originalBranch); err != nil {
-		log.Fatal("Error switching back to original branch: ", err)
-	}
-}
-
-// Helper function to get the current Git branch
-func getCurrentBranch() (string, error) {
-	cmd := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
-	output, err := cmd.CombinedOutput()
-	return strings.TrimSpace(string(output)), err
-}
-
-// Helper function to checkout a branch using Git
-func gitCheckout(branch string) error {
-	cmd := exec.Command("git", "checkout", branch)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
 }
 
 // Function to extract CPU and memory from cm.yaml
 func extractResourceData(filePath string) (string, string) {
-	// Read cm.yaml content
 	fileContent, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Println("Error reading cm.yaml: ", err)
 		return "", ""
 	}
 
-	// Parse YAML content
 	var configMap map[string]interface{}
 	if err := yaml.Unmarshal(fileContent, &configMap); err != nil {
 		log.Println("Error parsing YAML: ", err)
 		return "", ""
 	}
 
-	// Extract CPU and Memory from the YAML structure
 	data, ok := configMap["data"].(map[string]interface{})
 	if !ok {
 		return "", ""
@@ -182,14 +138,13 @@ func extractResourceData(filePath string) (string, string) {
 		return "", ""
 	}
 
-	// Use regular expression to find cpu and memory under "requests"
 	cpu := extractResource(valuesYaml, "cpu")
 	memory := extractResource(valuesYaml, "memory")
 
 	return cpu, memory
 }
 
-// Helper function to extract CPU or Memory from the string using regex
+// Helper function to extract CPU or Memory using regex
 func extractResource(valuesYaml, resource string) string {
 	re := regexp.MustCompile(fmt.Sprintf(`(?m)^\s*%s:\s*(\S+)`, resource))
 	matches := re.FindStringSubmatch(valuesYaml)
@@ -199,7 +154,7 @@ func extractResource(valuesYaml, resource string) string {
 	return ""
 }
 
-// Function to sort the CSV file by the first column (CustomAppName)
+// Sort the CSV output file alphabetically by CustomAppName
 func sortCSV(outputFile string) {
 	fileContent, err := os.ReadFile(outputFile)
 	if err != nil {
@@ -211,13 +166,11 @@ func sortCSV(outputFile string) {
 		return
 	}
 
-	// Skip the header and sort the remaining lines
 	header := lines[0]
 	dataLines := lines[1:]
 	dataLines = removeEmpty(dataLines)
 	sort.Strings(dataLines)
 
-	// Write sorted lines back to the file
 	fileOutput, err := os.Create(outputFile)
 	if err != nil {
 		log.Fatal("Error creating output file: ", err)
@@ -232,7 +185,7 @@ func sortCSV(outputFile string) {
 	writer.Flush()
 }
 
-// Helper function to remove empty lines
+// Helper to remove empty lines
 func removeEmpty(lines []string) []string {
 	var result []string
 	for _, line := range lines {
@@ -242,3 +195,4 @@ func removeEmpty(lines []string) []string {
 	}
 	return result
 }
+
