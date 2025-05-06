@@ -1,7 +1,6 @@
 name: report-and-confluence-cmd
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - Shubham/resource-requirement
@@ -12,7 +11,6 @@ jobs:
     runs-on: self-hosted-nutanix-medium
     env:
       CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,28 +20,18 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'app-resources/go.mod'  # Adjusted to your project layout
+          go-version-file: 'app-resources/go.mod'
 
       - name: Download dependencies
         working-directory: app-resources
         run: go mod tidy
 
-      - name: Build report generator
-        run: |
-          echo "🛠️ Building generate_report..."
-          go build -o generate_report ./app-resources/generate
-
-      - name: Build Confluence publisher
-        run: |
-          echo "🛠️ Building publish..."
-          go build -o publish ./app-resources/publish
-
       - name: Generate CSV report
         run: |
           echo "📝 Generating report"
-          ./generate_report
+          go run ./app-resources/generate/generate_report.go
 
       - name: Publish report to Confluence
         run: |
           echo "🚀 Publishing report to Confluence"
-          ./publish
+          go run ./app-resources/publish/publish.go
