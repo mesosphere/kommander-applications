@@ -426,7 +426,7 @@ data:
         image:
           registry: docker.io
           repository: bitnami/postgres-exporter
-          tag: 0.16.0-debian-12-r3
+          tag: 0.17.1-debian-12-r6
       primary:
         containerSecurityContext:
           allowPrivilegeEscalation: false
