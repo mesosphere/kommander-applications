@@ -873,11 +873,7 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
-<<<<<<< HEAD:services/git-operator/0.13.9/git-operator-manifests/all.yaml
-        image: docker.io/mesosphere/git-operator:v0.13.9
-=======
         image: docker.io/mesosphere/git-operator:v0.13.10
->>>>>>> 2901b4f9 (upgrade version):services/git-operator/0.1.4/git-operator-manifests/all.yaml
         livenessProbe:
           httpGet:
             path: /healthz
@@ -981,11 +977,7 @@ spec:
       - env:
         - name: GIT_VOLUME_PATH
           value: /volumes/git
-<<<<<<< HEAD:services/git-operator/0.13.9/git-operator-manifests/all.yaml
-        image: docker.io/mesosphere/gitwebserver:v0.13.9
-=======
         image: docker.io/mesosphere/gitwebserver:v0.13.10
->>>>>>> 2901b4f9 (upgrade version):services/git-operator/0.1.4/git-operator-manifests/all.yaml
         imagePullPolicy: IfNotPresent
         livenessProbe:
           initialDelaySeconds: 3
@@ -1025,11 +1017,7 @@ spec:
         - /volumes/admin-tmp/snapshots
         - --snapshot-symlink
         - /volumes/admin-tmp/active-snapshot
-<<<<<<< HEAD:services/git-operator/0.13.9/git-operator-manifests/all.yaml
-        image: docker.io/mesosphere/gitwebserver:v0.13.9
-=======
         image: docker.io/mesosphere/gitwebserver:v0.13.10
->>>>>>> 2901b4f9 (upgrade version):services/git-operator/0.1.4/git-operator-manifests/all.yaml
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1068,11 +1056,7 @@ spec:
         - /bin/bash
         - -c
         - chown 65532:65532 -R /volumes/git /volumes/admin
-<<<<<<< HEAD:services/git-operator/0.13.9/git-operator-manifests/all.yaml
-        image: docker.io/mesosphere/gitwebserver:v0.13.9
-=======
         image: docker.io/mesosphere/gitwebserver:v0.13.10
->>>>>>> 2901b4f9 (upgrade version):services/git-operator/0.1.4/git-operator-manifests/all.yaml
         name: change-permissions
         securityContext:
           runAsUser: 0
@@ -1088,11 +1072,7 @@ spec:
         env:
         - name: ADMIN_REPO_PATH
           value: /volumes/admin/admin.git
-<<<<<<< HEAD:services/git-operator/0.13.9/git-operator-manifests/all.yaml
-        image: docker.io/mesosphere/gitwebserver:v0.13.9
-=======
         image: docker.io/mesosphere/gitwebserver:v0.13.10
->>>>>>> 2901b4f9 (upgrade version):services/git-operator/0.1.4/git-operator-manifests/all.yaml
         imagePullPolicy: IfNotPresent
         name: init-admin-repo
         securityContext:
