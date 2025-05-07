@@ -29,7 +29,7 @@ require (
 	sigs.k8s.io/controller-runtime v0.20.1
 	sigs.k8s.io/kind v0.24.0
 	sigs.k8s.io/kustomize/api v0.18.0
-	sigs.k8s.io/kustomize/kyaml v0.18.1
+	sigs.k8s.io/kustomize/kyaml v0.19.0
 	sigs.k8s.io/yaml v1.4.0
 )
 
@@ -84,7 +84,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/btree v1.1.3 // indirect
-	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
+	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/safetext v0.0.0-20230106111101-7156a760e523 // indirect
@@ -175,7 +175,7 @@ require (
 	helm.sh/helm/v3 v3.15.4 // indirect
 	k8s.io/apiserver v0.32.3 // indirect
 	k8s.io/component-base v0.32.3 // indirect
-	k8s.io/kube-openapi v0.0.0-20241105132330-32ad38e42d3f // indirect
+	k8s.io/kube-openapi v0.0.0-20241212222426-2c72e554b1e7 // indirect
 	k8s.io/kubectl v0.31.1 // indirect
 	k8s.io/utils v0.0.0-20241104100929-3ea5e8cea738 // indirect
 	oras.land/oras-go v1.2.5 // indirect
