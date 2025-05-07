@@ -76,7 +76,6 @@ data:
       - "thanos"
       - "nkp-insights-management"
       defaultProApps:
-      - "ai-navigator-app"
       - "grafana-logging"
       - "grafana-loki"
       - "kube-prometheus-stack"
@@ -88,14 +87,13 @@ data:
       - "rook-ceph-cluster"
       - "velero"
       - "cilium-hubble-relay-traefik"
+      - "ai-navigator-app"
     kommander-ui:
       enabled: false
     capimate:
       image:
         tag: v0.0.0-dev.0
     managementApps: # List of apps that are specific to management cluster. Used for platform expansion workflow (exclusively).
-    - "ai-navigator-app"
-    - "ai-navigator-cluster-info-agent"
     - "centralized-grafana"
     - "chartmuseum"
     - "dex"
@@ -111,6 +109,8 @@ data:
     - "thanos"
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
+    - "ai-navigator-app"
+    - "ai-navigator-cluster-info-agent"
     attached:
       prerequisites:
         defaultApps:
