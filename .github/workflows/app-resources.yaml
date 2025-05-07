@@ -25,10 +25,11 @@ jobs:
         working-directory: app-resources/generate
         run: |
           echo "📝 Generating report"
+          ln -s ../../services ./services
           go run generate_report.go
 
       - name: Publish report to Confluence
         working-directory: app-resources/publish
         run: |
-        echo "🚀 Publishing report to Confluence"
-        go run publish.go
+          echo "🚀 Publishing report to Confluence"
+          go run publish.go
