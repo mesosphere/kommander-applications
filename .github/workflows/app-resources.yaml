@@ -27,13 +27,14 @@ jobs:
         run: go mod tidy
 
       - name: Generate CSV report
-        working-directory: app-resources
+        working-directory: app-resources/generate
         run: |
           echo "📝 Generating report"
-          go run ./generate/generate_report.go
+          ln -s ../../services ./services  # only if needed
+          go run generate_report.go
 
       - name: Publish report to Confluence
-        working-directory: app-resources
+        working-directory: app-resources/publish
         run: |
-          echo "🚀 Publishing report to Confluence"
-          go run ./publish/publish.go
+        echo "🚀 Publishing report to Confluence"
+        go run publish.go
