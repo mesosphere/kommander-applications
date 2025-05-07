@@ -16,7 +16,7 @@ import (
 
 func main() {
 	// Path to management apps file
-	managementAppsFile := "/generate/management_apps.txt"
+	managementAppsFile := "management_apps.txt"
 	allowedApps := make(map[string]bool)
 	customNames := make(map[string]string)
 
@@ -62,7 +62,7 @@ func main() {
 	writer.WriteString("CustomAppName,App,Version,CPU,Memory\n")
 
 	// Walk the services directory recursively
-	err = filepath.Walk("../services", func(path string, info fs.FileInfo, err error) error {
+	err = filepath.Walk("../../services", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
