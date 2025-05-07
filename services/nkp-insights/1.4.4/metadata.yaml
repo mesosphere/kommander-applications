@@ -8,8 +8,6 @@ licensing:
   - Enterprise
 requiredDependencies:
   - kube-prometheus-stack
-  - rook-ceph
-  - rook-ceph-cluster
 certifications:
   - airgapped
   - supported
