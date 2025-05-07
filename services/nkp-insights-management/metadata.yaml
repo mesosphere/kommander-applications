@@ -1,8 +1,0 @@
-type: internal
-scope:
-  - workspace
-requiredDependencies:
-  - kubefed
-licensing:
-  - Ultimate
-  - Enterprise
