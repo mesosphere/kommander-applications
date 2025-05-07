@@ -30,13 +30,10 @@ jobs:
           ln -s ../../services ./services
           go run generate_report.go
 
-      - name: Set environment variables
-        run: |
-          echo "CONFLUENCE_USERNAME=${{ vars.CONFLUENCE_SERVICE_USER }}" >> $GITHUB_ENV
-          echo "CONFLUENCE_API_TOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}" >> $GITHUB_ENV
-
       - name: Publish report to Confluence
         working-directory: app-resources/publish
+        env:
+          CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
         run: |
           echo "🚀 Publishing report to Confluence"
           go run publish.go
