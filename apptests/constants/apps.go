@@ -4,6 +4,7 @@ const (
 	CertManager              = "cert-manager"
 	Karma                    = "karma"
 	KubeCost                 = "kubecost"
+	KubernetesDashboard      = "kubernetes-dashboard"
 	Reloader                 = "reloader"
 	Traefik                  = "traefik"
 	KarmaTraefik             = "karma-traefik"
