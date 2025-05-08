@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: harbor-database-0.2.0-d2iq-defaults
+  name: harbor-database-0.2.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

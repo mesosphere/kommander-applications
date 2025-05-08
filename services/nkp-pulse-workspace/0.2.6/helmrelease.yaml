@@ -20,4 +20,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-pulse-workspace-0.2.6-d2iq-defaults
+      name: nkp-pulse-workspace-0.2.6-config-defaults

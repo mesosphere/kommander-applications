@@ -25,14 +25,14 @@ spec:
   releaseName: kubecost
   valuesFrom: # The order is important. The last entry will override the previous ones.
     - kind: ConfigMap
-      name: kubecost-2.7.2-d2iq-defaults
+      name: kubecost-2.7.2-config-defaults
       valuesKey: values.yaml
     - kind: ConfigMap
-      name: kubecost-2.7.2-d2iq-defaults
+      name: kubecost-2.7.2-config-defaults
       valuesKey: ${kubecostClusterMode:=primary}-values.yaml # Configures the kubecost cluster as primary with no object storage for single cluster mode.
       optional: true
     - kind: ConfigMap
-      name: kubecost-2.7.2-d2iq-defaults
+      name: kubecost-2.7.2-config-defaults
       valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
