@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubecost-2.7.0-d2iq-defaults
+  name: kubecost-2.7.2-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   # Using just values.yaml will result in kubecost running in agent mode.

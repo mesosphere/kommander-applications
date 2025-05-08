@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./services/kubecost/2.7.0/cosi-storage
+  path: ./services/kubecost/2.7.2/cosi-storage
   sourceRef:
     kind: GitRepository
     name: management
