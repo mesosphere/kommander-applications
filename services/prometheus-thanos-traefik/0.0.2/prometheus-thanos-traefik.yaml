@@ -10,8 +10,8 @@ spec:
       chart: thanos-traefik
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
-        namespace: kommander-flux
+        name: prometheus-thanos-traefik-charts-staging-repo
+        namespace: ${releaseNamespace}
       version: 0.0.2
   interval: 15s
   install:

@@ -11,8 +11,8 @@ spec:
       chart: velero
       sourceRef:
         kind: HelmRepository
-        name: vmware-tanzu.github.io
-        namespace: kommander-flux
+        name: velero-vmware-tanzu.github.io-repo
+        namespace: ${releaseNamespace}
       version: 9.0.0
   interval: 15s
   install:

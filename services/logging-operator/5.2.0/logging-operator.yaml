@@ -9,8 +9,8 @@ spec:
       chart: logging-operator
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: logging-operator-stable-repo
+        namespace: ${releaseNamespace}
       # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
       version: 5.2.0
   interval: 15s

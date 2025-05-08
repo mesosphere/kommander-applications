@@ -9,8 +9,8 @@ spec:
       chart: external-dns
       sourceRef:
         kind: HelmRepository
-        name: charts.github.io-bitnami
-        namespace: kommander-flux
+        name: external-dns-charts.github.io-bitnami-repo
+        namespace: ${releaseNamespace}
       version: 7.5.6
   interval: 15s
   install:

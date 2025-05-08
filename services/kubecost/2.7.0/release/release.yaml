@@ -9,8 +9,8 @@ spec:
       chart: cost-analyzer
       sourceRef:
         kind: HelmRepository
-        name: kubecost
-        namespace: kommander-flux
+        name: kubecost-kubecost-repo
+        namespace: ${releaseNamespace}
       version: 2.7.0
   interval: 15s
   install:

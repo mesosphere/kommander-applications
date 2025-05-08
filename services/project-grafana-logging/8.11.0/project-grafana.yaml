@@ -9,8 +9,8 @@ spec:
       chart: grafana
       sourceRef:
         kind: HelmRepository
-        name: grafana.github.io
-        namespace: kommander-flux
+        name: project-grafana-logging-grafana.github.io-repo
+        namespace: ${releaseNamespace}
       version: 8.11.0
   interval: 15s
   install:

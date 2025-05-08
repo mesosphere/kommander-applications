@@ -16,8 +16,8 @@ spec:
       chart: traefik-forward-auth
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
-        namespace: kommander-flux
+        name: traefik-forward-auth-mgmt-staging-repo
+        namespace: ${releaseNamespace}
       version: 0.3.10
   interval: 15s
   install:

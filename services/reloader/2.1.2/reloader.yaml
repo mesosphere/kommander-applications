@@ -9,8 +9,8 @@ spec:
       chart: reloader
       sourceRef:
         kind: HelmRepository
-        name: stakater-github-io-stakater-charts
-        namespace: kommander-flux
+        name: reloader-stakater-github-io-stakater-charts-repo
+        namespace: ${releaseNamespace}
       version: 2.1.2
   interval: 15s
   install:

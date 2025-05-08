@@ -9,8 +9,8 @@ spec:
       chart: loki-distributed
       sourceRef:
         kind: HelmRepository
-        name: grafana.github.io
-        namespace: kommander-flux
+        name: grafana-loki-grafana.github.io-repo
+        namespace: ${releaseNamespace}
       version: 0.80.3
   interval: 15s
   timeout: 15m

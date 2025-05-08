@@ -9,8 +9,8 @@ spec:
       chart: gpu-operator
       sourceRef:
         kind: HelmRepository
-        name: helm.ngc.nvidia.com-nvidia
-        namespace: kommander-flux
+        name: nvidia-gpu-operator-helm.ngc.nvidia.com-nvidia-repo
+        namespace: ${releaseNamespace}
       version: v25.3.0
   interval: 15s
   install:

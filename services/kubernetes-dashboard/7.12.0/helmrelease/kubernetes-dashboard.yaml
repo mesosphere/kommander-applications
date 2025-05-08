@@ -9,8 +9,8 @@ spec:
       chart: kubernetes-dashboard
       sourceRef:
         kind: HelmRepository
-        name: kubernetes-github-io-dashboard
-        namespace: kommander-flux
+        name: kubernetes-dashboard-kubernetes-github-io-dashboard-repo
+        namespace: ${releaseNamespace}
       version: 7.12.0
   interval: 15s
   install:

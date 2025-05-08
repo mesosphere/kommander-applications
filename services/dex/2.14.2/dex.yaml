@@ -9,8 +9,8 @@ spec:
       chart: dex
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: dex-stable-repo
+        namespace: ${releaseNamespace}
       version: 2.14.0
   interval: 15s
   install:

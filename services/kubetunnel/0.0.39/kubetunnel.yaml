@@ -9,8 +9,8 @@ spec:
       chart: kubetunnel
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-kubetunnel-charts
-        namespace: kommander-flux
+        name: kubetunnel-kubetunnel-charts-repo
+        namespace: ${releaseNamespace}
       version: v0.0.39
   interval: 15s
   install:

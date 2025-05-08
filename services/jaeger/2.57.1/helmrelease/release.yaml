@@ -9,8 +9,8 @@ spec:
       chart: jaeger-operator
       sourceRef:
         kind: HelmRepository
-        name: jaegertracing-github-io
-        namespace: kommander-flux
+        name: jaeger-jaegertracing-github-io-repo
+        namespace: ${releaseNamespace}
       version: 2.57.0
   # The main reason behind this dependency is to wait until
   # the istio-system namespace is actually created

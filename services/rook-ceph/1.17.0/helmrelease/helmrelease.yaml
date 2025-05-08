@@ -9,8 +9,8 @@ spec:
       chart: rook-ceph
       sourceRef:
         kind: HelmRepository
-        name: charts.rook.io-release
-        namespace: kommander-flux
+        name: rook-ceph-charts.rook.io-release-repo
+        namespace: ${releaseNamespace}
       version: v1.17.0
   interval: 15s
   install:

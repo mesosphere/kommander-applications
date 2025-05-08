@@ -9,8 +9,8 @@ spec:
       chart: ai-navigator-cluster-info-agent
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-ai-navigator-cluster-info-agent-charts
-        namespace: kommander-flux
+        name: ai-navigator-cluster-info-agent-ai-navigator-cluster-info-agent-repo
+        namespace: ${releaseNamespace}
       version: 0.1.3
   install:
     remediation:

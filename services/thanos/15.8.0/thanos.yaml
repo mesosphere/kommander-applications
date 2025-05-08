@@ -9,8 +9,8 @@ spec:
       chart: thanos
       sourceRef:
         kind: HelmRepository
-        name: charts.github.io-bitnami
-        namespace: kommander-flux
+        name: thanos-charts.github.io-bitnami-repo
+        namespace: ${releaseNamespace}
       version: 15.8.0
   interval: 15s
   install:

@@ -9,8 +9,8 @@ spec:
       chart: ai-navigator-cluster-info-api
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-ai-navigator-cluster-info-api-charts
-        namespace: kommander-flux
+        name: ai-navigator-app-ai-navigator-cluster-info-api-repo
+        namespace: ${releaseNamespace}
       version: 0.2.10
   install:
     remediation:
@@ -24,3 +24,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ai-navigator-app-0.2.10-d2iq-defaults
+      namespace: ${releaseNamespace}

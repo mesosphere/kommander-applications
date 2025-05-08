@@ -13,8 +13,8 @@ spec:
       chart: kommander-ui
       sourceRef:
         kind: HelmRepository
-        name: kommander-ui
-        namespace: kommander-flux
+        name: kommander-ui-repo
+        namespace: ${releaseNamespace}
       version: 17.88.0
   interval: 15s
   install:
