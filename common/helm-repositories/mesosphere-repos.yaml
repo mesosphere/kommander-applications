@@ -17,7 +17,7 @@ metadata:
 spec:
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging}"
+  url: "${helmMirrorURL:=https://github.com/mesosphere/charts/tree/logg/knative-operator/staging}"
 ---
 # This is to support the HelmReleases created by Kommander's cluster observer controller.
 # See https://github.com/mesosphere/kommander/blob/main/federation/pkg/controllers/clusterobserver_controller.go
