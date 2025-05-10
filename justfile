@@ -43,7 +43,7 @@ release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-git-reposi
     rm -rf ./server/data/
     if {{ publish }}; then docker push {{ server_repository }}:{{ git_tag }}; fi
 
-service_version:=`ls services/git-operator/ | grep -E "v?[[:digit:]]\.[[:digit:]]\.[[:digit:]]"`
+service_version:=`ls services/git-operator/ | grep -E "^v?[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$"`
 service_dir:=justfile_directory() / "services/git-operator" / service_version
 
 git-operator-fetch-manifests tmp_dir=`mktemp --directory`:
