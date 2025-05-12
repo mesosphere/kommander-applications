@@ -8,6 +8,7 @@ licensing:
   - Enterprise
 requiredDependencies:
   - kube-prometheus-stack
+  - cloudnative-pg
 certifications:
   - airgapped
   - supported
