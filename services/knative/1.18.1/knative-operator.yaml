@@ -26,7 +26,6 @@ spec:
       retries: 30
   releaseName: knative
   targetNamespace: knative-operator
-  wait: true
   valuesFrom:
     - kind: ConfigMap
       name: knative-1.18.1-config-defaults
