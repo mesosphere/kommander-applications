@@ -62,11 +62,16 @@ func (k kubernetesDashboard) install(ctx context.Context, env *environment.Env, 
 		return err
 	}
 	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
-	})
+	// err = env.ApplyKustomizations(ctx, appPath, map[string]string{
+	// 	"releaseNamespace":   kommanderNamespace,
+	// 	"workspaceNamespace": kommanderNamespace,
+	// })
 
+	// apply the kustomization for the release
+	releasePath := filepath.Join(appPath, "/helmrelease")
+	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"releaseNamespace": kommanderNamespace,
+	})
 	if err != nil {
 		return err
 	}
