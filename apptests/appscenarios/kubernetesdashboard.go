@@ -7,6 +7,7 @@ import (
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
 type kubernetesDashboard struct {
@@ -18,11 +19,10 @@ func (k kubernetesDashboard) Name() string {
 	return constants.KubernetesDashboard
 }
 
-var _ AppScenario = (*kubernetesDashboard)(nil)
+var _ scenarios.AppScenario = (*kubernetesDashboard)(nil)
 
 func NewKubernetesDashboard() *kubernetesDashboard {
 	appPath, _ := absolutePathTo(constants.KubernetesDashboard)
-	fmt.Println("************** appPath ****************", appPath)
 	appPrevVerPath, _ := getkAppsUpgradePath(constants.KubernetesDashboard)
 	return &kubernetesDashboard{
 		appPathCurrentVersion:  appPath,
