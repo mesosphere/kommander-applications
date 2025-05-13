@@ -301,19 +301,19 @@ data:
               - alert: CertificateExpiringSoon
                 expr: |
                   min by(namespace,cluster)(
-                  (kube_customresource_machine_cert_expiry_days - time())/86400
+                  (kube_customresource_control_plane_cert_expiry_days - time())/86400
                   )
                   -
                   min by(namespace,cluster)(
-                  kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  kube_customresource_renew_control_plane_certificates_before)
                   > 1
                   and
                   min by(namespace,cluster)(
-                  (kube_customresource_machine_cert_expiry_days - time())/86400
+                  (kube_customresource_control_plane_cert_expiry_days - time())/86400
                   )
                   -
                   min by(namespace,cluster)(
-                  kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  kube_customresource_renew_control_plane_certificates_before)
                   <= 7
                 for: 1d
                 labels:
@@ -324,19 +324,19 @@ data:
               - alert: CertificateRollingOutSoon
                 expr: |
                   min by(namespace,cluster)(
-                  (kube_customresource_machine_cert_expiry_days - time())/86400
+                  (kube_customresource_control_plane_cert_expiry_days - time())/86400
                   )
                   -
                   min by(namespace,cluster)(
-                  kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  kube_customresource_renew_control_plane_certificates_before)
                   > 0
                   and
                   min by(namespace,cluster)(
-                  (kube_customresource_machine_cert_expiry_days - time())/86400
+                  (kube_customresource_control_plane_cert_expiry_days - time())/86400
                   )
                   -
                   min by(namespace,cluster)(
-                  kube_customresource_rollout_trigger_days_before_cert_expiry)
+                  kube_customresource_renew_control_plane_certificates_before)
                   < 1
                 for: 1d
                 labels:
@@ -347,7 +347,7 @@ data:
               - alert: CertificateExpired
                 expr: |
                   (min by(namespace, cluster) (
-                    kube_customresource_machine_cert_expiry_days
+                    kube_customresource_control_plane_cert_expiry_days
                   ) - time()) / 86400 < 0.1
                 for: 1m
                 labels:
@@ -358,7 +358,7 @@ data:
               - alert: CertificateRenewed
                 expr: |
                   (min by(namespace,cluster) (
-                    kube_customresource_machine_cert_expiry_days
+                    kube_customresource_control_plane_cert_expiry_days
                   ) - time()) / 86400 == 365
                 for: 1d
                 labels:
@@ -550,7 +550,7 @@ data:
                   kubeadmcontrolplane: ["metadata", "name"]
                   namespace: ["metadata", "namespace"]
                 metrics:
-                  - name: rollout_trigger_days_before_cert_expiry
+                  - name: renew_control_plane_certificates_before
                     help: "Number of days before certificate expiry when a rollout is triggered"
                     each:
                       type: Gauge
@@ -564,7 +564,7 @@ data:
                   kubeadmconfig: ["metadata", "name"]
                   namespace: ["metadata", "namespace"]
                 metrics:
-                  - name: machine_cert_expiry_days
+                  - name: control_plane_cert_expiry_days
                     help: "Number of days until the certificate associated with the Machine expires"
                     each:
                       type: Gauge
