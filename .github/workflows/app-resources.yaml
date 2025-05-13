@@ -32,8 +32,19 @@ jobs:
 
       - name: Publish report to Confluence
         working-directory: app-resources/publish
+        env:
+          CONFLUENCE_USERNAME: ${{ vars.CONFLUENCE_SERVICE_USER }}
+          CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
         run: |
-          echo "CONFLUENCE_USERNAME=${{ vars.CONFLUENCE_SERVICE_USER }}"
-          echo "CONFLUENCE_API_TOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}"
+          echo "CONFLUENCE_USERNAME=$CONFLUENCE_USERNAME"
+          echo "CONFLUENCE_API_TOKEN=${CONFLUENCE_API_TOKEN:0:5}***"
           echo "🚀 Publishing report to Confluence"
           go run publish.go
+
+      # - name: Publish report to Confluence
+      #   working-directory: app-resources/publish
+      #   run: |
+      #     echo "CONFLUENCE_USERNAME=${{ vars.CONFLUENCE_SERVICE_USER }}"
+      #     echo "CONFLUENCE_API_TOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}"
+      #     echo "🚀 Publishing report to Confluence"
+      #     go run publish.go
