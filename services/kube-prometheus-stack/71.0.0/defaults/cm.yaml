@@ -514,8 +514,8 @@ data:
         - namespaces=[*]
       rbac:
         extraRules:
-          - apiGroups: [ "cluster.x-k8s.io" ]
-            resources: ["machines"]
+          - apiGroups: [ "bootstrap.cluster.x-k8s.io" ]
+            resources: ["kubeadmconfigs"]
             verbs: ["get", "list", "watch"]
           - apiGroups: ["controlplane.cluster.x-k8s.io"]
             resources: ["kubeadmcontrolplanes"]
@@ -541,11 +541,11 @@ data:
                       gauge:
                         path: ["spec", "rolloutBefore", "certificatesExpiryDays"]
               - groupVersionKind:
-                  group: cluster.x-k8s.io
+                  group: bootstrap.cluster.x-k8s.io
                   version: v1beta1
-                  kind: Machine
+                  kind: KubeadmConfig
                 labelsFromPath:
-                  machine: ["metadata", "name"]
+                  kubeadmconfig: ["metadata", "name"]
                   namespace: ["metadata", "namespace"]
                 metrics:
                   - name: machine_cert_expiry_days
