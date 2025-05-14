@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kommander-ui-17.91.6-config-defaults
+  name: kommander-ui-17.91.7-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
