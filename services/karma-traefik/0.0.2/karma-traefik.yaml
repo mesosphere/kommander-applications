@@ -25,4 +25,4 @@ spec:
   releaseName: karma-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: karma-traefik-0.0.2-d2iq-defaults
+      name: karma-traefik-0.0.2-config-defaults

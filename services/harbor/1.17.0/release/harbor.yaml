@@ -27,7 +27,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-1.17.0-d2iq-defaults
+      name: harbor-1.17.0-config-defaults
     - kind: ConfigMap
       name: harbor-config-overrides
       optional: true

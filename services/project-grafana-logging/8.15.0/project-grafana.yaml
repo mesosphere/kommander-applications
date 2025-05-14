@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: project-grafana-logging
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: grafana
+      sourceRef:
+        kind: HelmRepository
+        name: project-grafana-logging-grafana.github.io-repo
+        namespace: ${releaseNamespace}
+      version: 8.15.0
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: project-grafana-logging-8.15.0-config-defaults
+  targetNamespace: ${releaseNamespace}

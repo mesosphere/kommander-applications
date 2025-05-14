@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dex-2.14.2-d2iq-defaults
+  name: dex-2.14.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -108,7 +108,7 @@ data:
         proxy:
           image:
             repository: quay.io/brancz/kube-rbac-proxy
-            tag: v0.18.2
+            tag: v0.19.1
             pullPolicy: IfNotPresent
           resources: {}
         manager:

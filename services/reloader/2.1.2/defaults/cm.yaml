@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: reloader-2.1.2-d2iq-defaults
+  name: reloader-2.1.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
