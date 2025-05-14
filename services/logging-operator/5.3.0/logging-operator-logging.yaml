@@ -12,8 +12,8 @@ spec:
       chart: logging-operator-logging
       sourceRef:
         kind: HelmRepository
-        name: kube-logging.github.io-charts
-        namespace: kommander-flux
+        name: logging-operator-kube-logging.github.io-charts-repo
+        namespace: ${releaseNamespace}
       version: 4.2.2
   interval: 15s
   install:

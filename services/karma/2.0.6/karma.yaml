@@ -12,8 +12,8 @@ spec:
       chart: karma
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: karma-stable-repo
+        namespace: ${releaseNamespace}
       version: 2.0.2
   interval: 15s
   install:

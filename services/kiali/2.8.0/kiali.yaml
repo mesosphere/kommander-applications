@@ -14,8 +14,8 @@ spec:
       chart: kiali-operator
       sourceRef:
         kind: HelmRepository
-        name: kiali-org
-        namespace: kommander-flux
+        name: kiali-kiali-org-repo
+        namespace: ${releaseNamespace}
       version: 2.8.0
   interval: 15s
   install:

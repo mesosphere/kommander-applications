@@ -9,8 +9,8 @@ spec:
       chart: rook-ceph-cluster
       sourceRef:
         kind: HelmRepository
-        name: charts.rook.io-release
-        namespace: kommander-flux
+        name: rook-ceph-cluster-charts.rook.io-release-repo
+        namespace: ${releaseNamespace}
       version: v1.17.0
   timeout: 15m
   interval: 15s

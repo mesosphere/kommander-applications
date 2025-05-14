@@ -10,8 +10,8 @@ spec:
       chart: valkey
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: harbor-stable-repo
+        namespace: ${releaseNamespace}
       version: 3.0.1
   interval: 15s
   install:

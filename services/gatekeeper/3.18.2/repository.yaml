@@ -1,0 +1,21 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: gatekeeper-open-policy-agent.github.io-charts-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://open-policy-agent.github.io/gatekeeper/charts/}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: gatekeeper-stable-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---

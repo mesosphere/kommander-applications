@@ -9,8 +9,8 @@ spec:
       chart: gatekeeper
       sourceRef:
         kind: HelmRepository
-        name: open-policy-agent.github.io-charts
-        namespace: kommander-flux
+        name: gatekeeper-open-policy-agent.github.io-charts-repo
+        namespace: ${releaseNamespace}
       version: 3.18.2
   interval: 15s
   install:
@@ -72,8 +72,8 @@ spec:
       chart: gatekeeper-proxy-mutations
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: gatekeeper-stable-repo
+        namespace: ${releaseNamespace}
       version: v0.0.1
   interval: 15s
   install:

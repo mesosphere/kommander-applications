@@ -9,8 +9,8 @@ spec:
       chart: cert-manager
       sourceRef:
         kind: HelmRepository
-        name: charts.jetstack.io
-        namespace: kommander-flux
+        name: cert-manager-charts.jetstack.io-repo
+        namespace: ${releaseNamespace}
       version: v1.16.4
   interval: 15s
   install:
@@ -39,8 +39,8 @@ spec:
       chart: cert-manager-crds
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: cert-manager-stable-repo
+        namespace: ${releaseNamespace}
       version: v1.16.4
   interval: 15s
   install:

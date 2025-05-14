@@ -12,8 +12,8 @@ spec:
       chart: traefik
       sourceRef:
         kind: HelmRepository
-        name: helm.traefik.io-traefik
-        namespace: kommander-flux
+        name: traefik-helm.traefik.io-traefik-repo
+        namespace: ${releaseNamespace}
       version: 35.2.0
   interval: 15s
   install:

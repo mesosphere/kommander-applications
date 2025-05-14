@@ -9,8 +9,8 @@ spec:
       chart: cloudnative-pg
       sourceRef:
         kind: HelmRepository
-        name: cloudnative-pg.github.io-charts
-        namespace: kommander-flux
+        name: cloudnative-pg-cloudnative-pg.github.io-charts-repo
+        namespace: ${releaseNamespace}
       version: 0.23.2
   interval: 15s
   install:

@@ -1,0 +1,21 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: cosi-driver-nutanix-staging-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/staging}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: cosi-driver-nutanix-stable-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---
