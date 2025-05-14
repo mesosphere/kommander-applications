@@ -32,7 +32,7 @@ data:
     cosiBucketKit:
       enabled: true
       transformations:
-        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}
+        kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.0}
       bucketClasses:
         - name: cosi-nutanix-nkp
           driverName: ntnx.objectstorage.k8s.io
