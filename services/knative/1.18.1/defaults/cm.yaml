@@ -59,6 +59,6 @@ data:
       namespace: knative-eventing
       manifest:
         spec:
-          # The version of Knative Serving to install - you can upgrade one version at a time
+          # The version of Knative Eventing to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
           version: "1.18"
