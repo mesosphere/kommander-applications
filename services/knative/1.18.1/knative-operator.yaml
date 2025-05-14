@@ -20,6 +20,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
@@ -29,6 +30,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: knative-1.18.1-config-defaults
+    - kind: ConfigMap
+      name: knative-config-overrides
+      optional: true
     - kind: ConfigMap
       name: knative-overrides
       optional: true

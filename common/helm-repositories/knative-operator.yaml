@@ -2,8 +2,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: knative-operator
-  namespace: knative-github-io
+  name: knative-github-io
+  namespace: kommander-flux
 spec:
   interval: 10m
   timeout: 1m
