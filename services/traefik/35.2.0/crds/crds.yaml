@@ -11,8 +11,8 @@ spec:
       version: 1.6.0 # Keep this consistent with /services/gateway-api-crds/<version>/gateway-api-crds.yaml HelmRelease.
       sourceRef:
         kind: HelmRepository
-        name: helm.traefik.io-traefik
-        namespace: kommander-flux
+        name: traefik-helm.traefik.io-traefik-repo
+        namespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
       name: traefik-crd-1.6.0-config-defaults

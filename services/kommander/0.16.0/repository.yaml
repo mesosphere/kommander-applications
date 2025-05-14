@@ -19,3 +19,14 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
 ---
+# This HelmRepository is added here to so that kommander-applications/common/build/kommander-cert-federation.yaml can be patched
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: mesosphere.github.io-charts-stable
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---

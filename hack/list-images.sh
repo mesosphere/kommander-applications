@@ -17,20 +17,12 @@ trap_add() {
 
 declare -rx patch=unused
 
-while IFS= read -r repofile; do
-  envsubst -no-unset -no-digit -i "${repofile}" | \
-    gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
-    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update >&2
-done < <(grep --recursive --exclude-dir=apptests --max-count=1 --files-with-matches '^kind: HelmRepository')
-
-helm repo update >&2
-
 # Dummy variables to satisfy substitution vars used by Flux. Almost all of these do not affect the image being bundled,
 # hence have values such as "unused" or are actually empty.
 # If a substitution var is missed here, this script will fail below because `envsubst -no-unset` flag ensures that all
 # necessary variables are set. In that case, the missing variables should be evaluated and added to this list as
 # appropriate.
-declare -rx releaseNamespace=unused \
+declare -rx releaseNamespace='kommander' \
             RES="" \
             targetNamespace=unused \
             generatedName=unused \
@@ -81,6 +73,14 @@ declare -rx releaseNamespace=unused \
             CLUSTER_ID=unused \
             kubecostClusterMode=unused \
             kommanderChartVersion="${kommanderChartVersion:-}"
+
+while IFS= read -r repofile; do
+  envsubst -no-unset -no-digit -i "${repofile}" | \
+    gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
+    xargs --max-lines=1 --no-run-if-empty -- helm repo add --force-update >&2
+done < <(grep --recursive --exclude-dir=apptests --max-count=1 --files-with-matches '^kind: HelmRepository')
+
+helm repo update >&2
 
 IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
