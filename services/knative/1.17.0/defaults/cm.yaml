@@ -8,7 +8,7 @@ data:
     global:
       priorityClassName: "dkp-high-priority"
       image: ${kubetoolsImageRepository:=bitnami/kubectl}
-      tag: ${kubetoolsImageTag:=1.32.3}
+      tag: ${kubetoolsImageTag:=1.33.0}
     eventing:
       enabled: false
     eventing-sources:
