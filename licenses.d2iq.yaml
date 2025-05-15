@@ -144,11 +144,11 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/git-operator:v0.13.9
+  - container_image: docker.io/mesosphere/git-operator:v0.13.10
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.13.9
+  - container_image: docker.io/mesosphere/gitwebserver:v0.13.10
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
@@ -531,7 +531,7 @@ resources:
       - url: https://github.com/prometheus-community/postgres_exporter
         ref: v0.12.0
         license_path: LICENSE
-  - container_image: docker.io/nginxinc/nginx-unprivileged:1.27.4-alpine
+  - container_image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
     sources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
