@@ -180,33 +180,4 @@ func installKubernetesDashboardDependencies(k *kubernetesDashboard) {
 		return fmt.Errorf("helm release not ready yet")
 	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-	By("should install traefik")
-	err = k.InstallDependency(ctx, env, constants.Traefik)
-	Expect(err).To(BeNil())
-
-	hr = &fluxhelmv2beta2.HelmRelease{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      constants.Traefik,
-			Namespace: kommanderNamespace,
-		},
-	}
-
-	Eventually(func() error {
-		err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-		if err != nil {
-			return err
-		}
-
-		for _, cond := range hr.Status.Conditions {
-			if cond.Status == metav1.ConditionTrue &&
-				cond.Type == apimeta.ReadyCondition {
-				return nil
-			}
-		}
-		return fmt.Errorf("helm release not ready yet")
-	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 }

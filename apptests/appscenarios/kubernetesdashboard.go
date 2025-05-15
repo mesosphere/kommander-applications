@@ -41,16 +41,6 @@ func (k kubernetesDashboard) InstallPreviousVersion(ctx context.Context, env *en
 	return err
 }
 
-func (k kubernetesDashboard) InstallDependency(ctx context.Context, env *environment.Env, depAppName string) error {
-	appPath, err := absolutePathTo(depAppName)
-	if err != nil {
-		return err
-	}
-	err = k.install(ctx, env, appPath)
-
-	return err
-}
-
 func (k kubernetesDashboard) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults config maps first
 	defaultKustomizations := filepath.Join(appPath, "/defaults")
@@ -61,15 +51,9 @@ func (k kubernetesDashboard) install(ctx context.Context, env *environment.Env, 
 	if err != nil {
 		return err
 	}
-	// apply the rest of kustomizations
-	// err = env.ApplyKustomizations(ctx, appPath, map[string]string{
-	// 	"releaseNamespace":   kommanderNamespace,
-	// 	"workspaceNamespace": kommanderNamespace,
-	// })
 
-	// apply the kustomization for the release
-	releasePath := filepath.Join(appPath, "/helmrelease")
-	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+	namespacePath := filepath.Join(appPath, "/helmrelease")
+	err = env.ApplyYAML(ctx, namespacePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
