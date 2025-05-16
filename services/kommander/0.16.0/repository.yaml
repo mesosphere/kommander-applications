@@ -30,3 +30,24 @@ spec:
   timeout: 1m
   url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
 ---
+# This HelmRepository is needed by kommander-flux/kommander-karma-traefik-certs, kommander-flux/kommander-prometheus-traefik-certs
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: mesosphere.github.io-charts-stable
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: kommander-kommander-auditing-pipeline-charts-repo
+  namespace: kommander-flux
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/kommander-auditing-pipeline/charts}"
+---

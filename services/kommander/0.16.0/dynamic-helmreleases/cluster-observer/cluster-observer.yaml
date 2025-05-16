@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kommander-kommander-auditing-pipeline-charts-repo
-        namespace: ${releaseNamespace}
+        namespace: kommander-flux
       version: 1.4.1
   interval: 15s
   install:
