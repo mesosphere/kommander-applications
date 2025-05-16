@@ -11,6 +11,8 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -42,7 +44,9 @@ var _ = Describe("Kubernetes Dashboard Tests", Label("kubernetes-dashboard"), fu
 	})
 	Describe("Kubernetes Dashboard Install Test", Ordered, Label("install"), func() {
 		var (
-			kubernetesDashboardHR *fluxhelmv2beta2.HelmRelease
+			kubernetesDashboardHR             *fluxhelmv2beta2.HelmRelease
+			kubernetesDashboardDeploymentList *appsv1.DeploymentList
+			kubernetesDashboardContainer      corev1.Container
 		)
 
 		It("should install kubernetes dashboard dependencies", func() {
@@ -80,8 +84,30 @@ var _ = Describe("Kubernetes Dashboard Tests", Label("kubernetes-dashboard"), fu
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
-	})
+		// Assert the existence of resource limits and priority class
+		It("should have resource limits and priority class", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"helm.toolkit.fluxcd.io/name": k.Name(),
+				},
+			})
+			Expect(err).To(BeNil())
+			listOptions := &ctrlClient.ListOptions{
+				LabelSelector: selector,
+			}
+			kubernetesDashboardDeploymentList = &appsv1.DeploymentList{}
+			err = k8sClient.List(ctx, kubernetesDashboardDeploymentList, listOptions)
+			Expect(err).To(BeNil())
+			Expect(kubernetesDashboardDeploymentList.Items).To(HaveLen(5))
+			Expect(kubernetesDashboardDeploymentList.Items[0].Spec.Template.Spec.PriorityClassName).To(Equal(dkpHighPriority))
 
+			kubernetesDashboardContainer = kubernetesDashboardDeploymentList.Items[0].Spec.Template.Spec.Containers[0]
+			Expect(kubernetesDashboardContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
+			Expect(kubernetesDashboardContainer.Resources.Requests.Memory().String()).To(Equal("200Mi"))
+			Expect(kubernetesDashboardContainer.Resources.Limits.Cpu().String()).To(Equal("500m"))
+			Expect(kubernetesDashboardContainer.Resources.Limits.Memory().String()).To(Equal("1000Mi"))
+		})
+	})
 })
 
 func installKubernetesDashboardDependencies(k *kubernetesDashboard) {
