@@ -26,11 +26,12 @@ spec:
   install:
     crds: CreateReplace
     remediation:
-      retries: 30
+      retries: -1
   upgrade:
     crds: CreateReplace
     remediation:
-      retries: 30
+      retries: -1
+      strategy: uninstall
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
