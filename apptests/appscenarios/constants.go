@@ -21,5 +21,5 @@ const (
 
 	// Velero constants
 	kubetoolsImageRepository = "bitnami/kubectl"
-	kubetoolsImageTag        = "1.32.3"
+	kubetoolsImageTag        = "1.33.0"
 )
