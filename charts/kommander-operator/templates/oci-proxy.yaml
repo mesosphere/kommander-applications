@@ -1,0 +1,155 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    controller: {{ include "kommander-operator.appName" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+  name: {{ include "kommander-operator.appName" . }}-oci-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      controller: {{ include "kommander-operator.appName" . }}
+  template:
+    metadata:
+      labels:
+        controller: {{ include "kommander-operator.appName" . }}
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        release: {{ .Release.Name }}
+        kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+    spec:
+      securityContext:
+        fsGroup: 65532
+        runAsUser: 65532
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+      - name: oci-proxy
+        image: nginxinc/nginx-unprivileged:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 64Mi
+        ports:
+        - name: https
+          containerPort: 8443
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: 8443
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: nginx-conf
+          readOnly: true
+        - name: tls
+          readOnly: true
+          mountPath: /etc/nginx/tls
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+      - name: tls
+        secret:
+          secretName: oci-webserver-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oci-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: oci-webserver-tls
+  issuerRef:
+    name: kommander-ca
+    kind: ClusterIssuer
+  commonName: oci
+  usages:
+  - server auth
+  dnsNames:
+  - oci-proxy.{{ .Release.Namespace }}
+  - oci-proxy.{{ .Release.Namespace }}.svc
+  - oci-proxy.{{ .Release.Namespace }}.svc.cluster.local
+  # in order to allow access via k8s port forwarding and url "https://localhost"
+  - localhost
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: {{ .Release.Namespace }}
+data:
+  nginx.conf: |
+    events {
+        worker_connections  1024;
+    }
+
+    worker_processes        4;
+    pid                     /tmp/nginx.pid;
+
+    http {
+        access_log            /dev/stdout;
+        error_log             /dev/stderr;
+
+        server {
+            server_name       _;
+
+            ssl_certificate /etc/nginx/tls/tls.crt;
+            ssl_certificate_key /etc/nginx/tls/tls.key;
+
+            listen 8443 ssl default_server;
+
+            ssl_certificate /etc/nginx/tls/tls.crt;
+            ssl_certificate_key /etc/nginx/tls/tls.key;
+
+            location /healthz {
+                default_type text/plain;
+                return 200 'ok';
+            }
+
+            location / {
+                proxy_pass https://docker.io/mesosphere;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oci-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - port: 443
+    targetPort: https
+    protocol: TCP
+    name: https
+  - port: 9443
+    targetPort: https-admin
+    protocol: TCP
+    name: https-admin
+  selector:
+    app.kubernetes.io/name: oci-proxy
+    app.kubernetes.io/instance: oci-proxy-webserver
