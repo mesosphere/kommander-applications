@@ -125,10 +125,10 @@ func generateResourceHTML(csvPath string) (string, error) {
 
 func main() {
 	username := os.Getenv("CONFLUENCE_USERNAME")
-	apiToken := os.Getenv("CONFLUENCE_API_TOKEN")
+	apiToken := os.Getenv("CONFLUENCE_APITOKEN")
 
 	if username == "" || apiToken == "" {
-		log.Fatal("Missing required environment variables: CONFLUENCE_USERNAME or CONFLUENCE_API_TOKEN")
+		log.Fatal("Missing required environment variables: CONFLUENCE_USERNAME or CONFLUENCE_APITOKEN")
 	}
 
 	resourceHTML, err := generateResourceHTML(csvPath)
@@ -147,4 +147,3 @@ func main() {
 
 	log.Println("✅ Confluence page updated successfully.")
 }
-
