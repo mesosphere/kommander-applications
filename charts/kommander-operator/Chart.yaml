@@ -1,7 +1,7 @@
 apiVersion: v2
 name: kommander-operator-chart
-appVersion: "0.3.3"
-version: 0.3.3
+appVersion: "0.4.0"
+version: 0.4.0
 description: kommander-operator helm chart.
 maintainers:
   - name: azhovan
