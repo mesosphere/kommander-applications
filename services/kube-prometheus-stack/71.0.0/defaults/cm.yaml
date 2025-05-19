@@ -357,7 +357,7 @@ data:
                 labels:
                   severity: warning
                 annotations:
-                  summary: "Certificate rollout might might fail"
+                  summary: "Certificate rollout might fail"
                   description: "Certificate will expire soon, rollout might fail"
               - alert: CertificateExpired
                 expr: |
