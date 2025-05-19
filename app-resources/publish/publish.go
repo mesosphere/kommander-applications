@@ -18,17 +18,6 @@ const (
 	csvPath           = "../generate/management_resource.csv"
 )
 
-var (
-	username = os.Getenv("CONFLUENCE_USERNAME")
-	apiToken = os.Getenv("CONFLUENCE_API_TOKEN")
-)
-
-func init() {
-	if username == "" || apiToken == "" {
-		log.Fatal("Missing required environment variables: CONFLUENCE_USERNAME or CONFLUENCE_API_TOKEN")
-	}
-}
-
 type ConfluenceContent struct {
 	Version struct {
 		Number int `json:"number"`
@@ -40,9 +29,8 @@ type ConfluenceContent struct {
 	} `json:"body"`
 }
 
-func getCurrentPageVersion() (int, error) {
+func getCurrentPageVersion(username, apiToken string) (int, error) {
 	url := fmt.Sprintf("%s/rest/api/content/%s?expand=version", confluenceBaseURL, confluencePageID)
-
 	req, _ := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(username, apiToken)
 
@@ -65,7 +53,7 @@ func getCurrentPageVersion() (int, error) {
 	return content.Version.Number, nil
 }
 
-func updateConfluencePage(content string, newVersion int) error {
+func updateConfluencePage(content string, newVersion int, username, apiToken string) error {
 	url := fmt.Sprintf("%s/rest/api/content/%s", confluenceBaseURL, confluencePageID)
 
 	payload := map[string]interface{}{
@@ -136,17 +124,24 @@ func generateResourceHTML(csvPath string) (string, error) {
 }
 
 func main() {
+	username := os.Getenv("CONFLUENCE_USERNAME")
+	apiToken := os.Getenv("CONFLUENCE_API_TOKEN")
+
+	if username == "" || apiToken == "" {
+		log.Fatal("Missing required environment variables: CONFLUENCE_USERNAME or CONFLUENCE_API_TOKEN")
+	}
+
 	resourceHTML, err := generateResourceHTML(csvPath)
 	if err != nil {
 		log.Fatalf("error generating resource HTML: %v", err)
 	}
 
-	version, err := getCurrentPageVersion()
+	version, err := getCurrentPageVersion(username, apiToken)
 	if err != nil {
 		log.Fatalf("error getting page version: %v", err)
 	}
 
-	if err := updateConfluencePage(resourceHTML, version+1); err != nil {
+	if err := updateConfluencePage(resourceHTML, version+1, username, apiToken); err != nil {
 		log.Fatalf("error updating Confluence page: %v", err)
 	}
 
