@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-1.17.0-config-defaults
+  name: rook-ceph-1.17.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -11,7 +11,7 @@ data:
       repository: docker.io/rook/ceph
       # -- Image tag
       # @default -- `master`
-      tag: v1.17.0
+      tag: v1.17.2
       # -- Image pull policy
       pullPolicy: IfNotPresent
 
