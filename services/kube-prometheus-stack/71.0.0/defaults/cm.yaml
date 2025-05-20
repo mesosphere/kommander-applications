@@ -338,12 +338,27 @@ data:
                   min by(namespace,cluster)(
                   kube_customresource_renew_control_plane_certificates_before)
                   < 1
-                for: 1d
+                for: 12h
                 labels:
                   severity: info
                 annotations:
                   summary: "Certificate rolling out soon"
                   description: "Certificate will expire soon, rollout is expected with in a day"
+              - alert: CertificateRolloutMightFail
+                expr: |
+                  min by(namespace,cluster)(
+                  (kube_customresource_control_plane_cert_expiry_days - time())/86400
+                  )
+                  -
+                  min by(namespace,cluster)(
+                  kube_customresource_renew_control_plane_certificates_before)/2
+                  < 0
+                for: 1h
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Certificate rollout might fail"
+                  description: "Certificate will expire soon, rollout might fail"
               - alert: CertificateExpired
                 expr: |
                   (min by(namespace, cluster) (
