@@ -15,6 +15,8 @@ kind: HelmRelease
 metadata:
   name: kommander-appmanagement
   namespace: ${releaseNamespace}
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
 spec:
   chartRef:
     kind: OCIRepository
