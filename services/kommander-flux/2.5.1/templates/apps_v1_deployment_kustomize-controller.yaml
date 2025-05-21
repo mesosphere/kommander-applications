@@ -31,6 +31,7 @@ spec:
         - --enable-leader-election
         - --no-remote-bases=true
         - --concurrent=15
+        - --interval-jitter-percentage=20
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:

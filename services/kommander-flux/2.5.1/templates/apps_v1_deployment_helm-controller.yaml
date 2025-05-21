@@ -30,6 +30,7 @@ spec:
         - --log-encoding=json
         - --enable-leader-election
         - --feature-gates=OOMWatch=true
+        - --interval-jitter-percentage=20
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:

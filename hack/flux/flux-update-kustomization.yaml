@@ -24,6 +24,9 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --concurrent=15
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --interval-jitter-percentage=20
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/memory
         value: 150Mi
@@ -45,6 +48,9 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --feature-gates=OOMWatch=true
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --interval-jitter-percentage=20
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/memory
         value: 250Mi
@@ -66,6 +72,9 @@ patches:
       kind: Deployment
       name: source-controller
     patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --interval-jitter-percentage=20
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/memory
         value: 100Mi
