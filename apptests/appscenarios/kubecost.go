@@ -108,14 +108,14 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 }
 
 func (r kubeCost) satisfyKubecostPrerequisites(ctx context.Context, env *environment.Env) error {
-	genericClient, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{})
+	client, err := genericCLient.New(env.K8sClient.Config(), genericCLient.Options{})
 	if err != nil {
 		return err
 	}
-	return genericClient.Create(ctx, &corev1.Secret{
+	return genericCLient.IgnoreAlreadyExists(client.Create(ctx, &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "tls-root-ca",
 			Namespace: kommanderNamespace,
 		},
-	})
+	}))
 }
