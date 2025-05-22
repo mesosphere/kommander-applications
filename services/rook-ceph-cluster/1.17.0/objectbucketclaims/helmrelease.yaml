@@ -9,8 +9,8 @@ spec:
       chart: object-bucket-claim
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: rook-ceph-cluster-stable-repo
+        namespace: ${releaseNamespace}
       version: 0.1.11
   timeout: 20m
   interval: 15s

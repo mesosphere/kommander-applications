@@ -1,0 +1,21 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: logging-operator-kube-logging.github.io-charts-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://kube-logging.github.io/helm-charts}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: logging-operator-stable-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---

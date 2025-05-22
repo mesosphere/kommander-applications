@@ -19,8 +19,8 @@ spec:
       chart: dex-k8s-authenticator
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
-        namespace: kommander-flux
+        name: dex-k8s-authenticator-staging-repo
+        namespace: ${releaseNamespace}
       version: 1.4.1
   interval: 15s
   install:

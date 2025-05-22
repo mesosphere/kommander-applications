@@ -1,0 +1,21 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: project-grafana-loki-stable-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://mesosphere.github.io/charts/stable}"
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: project-grafana-loki-grafana.github.io-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://grafana.github.io/helm-charts/}"
+---

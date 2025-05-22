@@ -10,8 +10,8 @@ spec:
       chart: cosi-bucket-kit
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
+        name: harbor-stable-repo
+        namespace: ${releaseNamespace}
       version: 0.0.5
   interval: 15s
   install:

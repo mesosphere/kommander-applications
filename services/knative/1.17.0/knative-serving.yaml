@@ -12,8 +12,8 @@ spec:
       chart: knative
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
-        namespace: kommander-flux
+        name: knative-staging-repo
+        namespace: ${releaseNamespace}
       version: 1.17.0
   interval: 15s
   install:

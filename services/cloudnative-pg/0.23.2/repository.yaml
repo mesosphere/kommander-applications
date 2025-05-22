@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: cloudnative-pg-cloudnative-pg.github.io-charts-repo
+  namespace: ${releaseNamespace}
+spec:
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://cloudnative-pg.github.io/charts/}"
+---

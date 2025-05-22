@@ -9,8 +9,8 @@ spec:
       chart: nkp-insights
       sourceRef:
         kind: HelmRepository
-        name: mesosphere.github.io-nkp-insights-charts-attached
-        namespace: kommander-flux
+        name: nkp-insights-nkp-insights-charts-attached-repo
+        namespace: ${releaseNamespace}
       version: v1.4.4
   install:
     remediation:

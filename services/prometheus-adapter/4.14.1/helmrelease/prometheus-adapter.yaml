@@ -12,8 +12,8 @@ spec:
       chart: prometheus-adapter
       sourceRef:
         kind: HelmRepository
-        name: prometheus-community.github.io-helm-charts
-        namespace: kommander-flux
+        name: prometheus-adapter-prometheus-community.github.io-helm-charts-repo
+        namespace: ${releaseNamespace}
       version: 4.14.1
   interval: 15s
   install:

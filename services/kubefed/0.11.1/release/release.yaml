@@ -10,8 +10,8 @@ spec:
       chart: kubefed
       sourceRef:
         kind: HelmRepository
-        name: kubefed
-        namespace: kommander-flux
+        name: kubefed-kubefed-repo
+        namespace: ${releaseNamespace}
       version: "0.10.4"
   interval: 15s
   install:
