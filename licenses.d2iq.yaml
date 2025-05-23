@@ -264,12 +264,12 @@ resources:
   - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: knative-${image_tag}
         url: https://github.com/knative/operator
   - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: knative-${image_tag}
         url: https://github.com/knative/operator
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.19.1
     sources:
