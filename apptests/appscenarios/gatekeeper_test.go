@@ -213,16 +213,10 @@ func ensureConstraintEnforced(projectNS string) {
 			Namespace: projectNS, // we are treating this as a project NS
 		},
 		Spec: fluxhelmv2beta2.HelmReleaseSpec{
-			Chart: &fluxhelmv2beta2.HelmChartTemplate{
-				Spec: fluxhelmv2beta2.HelmChartTemplateSpec{
-					Chart:   "external-dns",
-					Version: "7.2.0",
-					SourceRef: fluxhelmv2beta2.CrossNamespaceObjectReference{
-						Kind:      "HelmRepository",
-						Name:      "charts.github.io-bitnami",
-						Namespace: "kommander-flux",
-					},
-				},
+			ChartRef: &fluxhelmv2beta2.CrossNamespaceSourceReference{
+				Kind:      "HelmChartTemplate",
+				Name:      "external-dns",
+				Namespace: projectNS,
 			},
 			Interval: metav1.Duration{Duration: 3 * time.Second},
 		},
