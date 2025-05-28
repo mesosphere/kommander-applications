@@ -161,6 +161,7 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
     fi
 
     >&2 echo -e " + ${dir}${hr}\n"
+    # shellcheck disable=SC2016
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
       gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
         if .kind == "OCIRepository" then
