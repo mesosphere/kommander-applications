@@ -214,7 +214,7 @@ func ensureConstraintEnforced(projectNS string) {
 		},
 		Spec: fluxhelmv2beta2.HelmReleaseSpec{
 			ChartRef: &fluxhelmv2beta2.CrossNamespaceSourceReference{
-				Kind:      "HelmChartTemplate",
+				Kind:      "OCIRepository",
 				Name:      "external-dns",
 				Namespace: projectNS,
 			},
