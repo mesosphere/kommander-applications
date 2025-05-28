@@ -162,15 +162,32 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
 
     >&2 echo -e " + ${dir}${hr}\n"
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
-      gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" \
-        $'select(.spec.chart.spec.sourceRef.name != null) |
+      gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
+        if .kind == "OCIRepository" then
+          .spec.url
+        elif .spec.chart.spec.sourceRef? != null then
           if .spec.chart.spec.sourceRef.kind == "HelmRepository" then
-            (.spec.chart.spec.sourceRef.name | gsub("\\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
+            (.spec.chart.spec.sourceRef.name | gsub("\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
           elif .spec.chart.spec.sourceRef.kind == "GitRepository" then
             $repoRoot+"/"+.spec.chart.spec.chart
-          end' | \
-      xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" | >&2 tee -a "${IMAGES_FILE}"
-      >&2 echo
+          else
+            empty
+          end
+        else
+          empty
+        end' | \
+      while IFS= read -r line; do
+        if [[ "$line" == *"mesosphere"* ]]; then
+          >&2 echo "Skipping mesosphere chart: $line"
+          continue
+        fi
+        if [[ "$line" == oci://* ]]; then
+          helm images get --unique "$line" | >&2 tee -a "${IMAGES_FILE}"
+        else
+          xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
+        fi
+      done
+    >&2 echo
     popd &>/dev/null
   done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRelease')
   popd &>/dev/null
