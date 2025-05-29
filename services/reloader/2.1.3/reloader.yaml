@@ -23,7 +23,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: reloader-2.1.3-d2iq-defaults
+      name: reloader-2.1.3-config-defaults
     - kind: ConfigMap
       name: reloader-overrides
       optional: true
