@@ -12,7 +12,7 @@ requiredDependencies:
 certifications:
   - airgapped
   - supported
-type: platform
+type: nutanix
 allowMultipleInstances: false
 scope:
   - workspace

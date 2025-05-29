@@ -2,7 +2,7 @@ displayName: NKP AI Navigator
 description: The AI Navigator is a state-of-the-art chatbot powered by advanced artificial intelligence, purpose-built for seamless Kubernetes cluster management and NKP environment optimization.
 category:
   - tools
-type: platform
+type: nutanix
 allowMultipleInstances: false
 scope:
   - workspace
