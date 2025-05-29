@@ -306,7 +306,7 @@ data:
                   -
                   min by(namespace,cluster)(
                   kube_customresource_renew_control_plane_certificates_before)
-                  > 1
+                  > 0
                   and
                   min by(namespace,cluster)(
                   (kube_customresource_control_plane_cert_expiry_days - time())/86400
@@ -315,7 +315,7 @@ data:
                   min by(namespace,cluster)(
                   kube_customresource_renew_control_plane_certificates_before)
                   <= 7
-                for: 1d
+                for: 1m
                 labels:
                   severity: warning
                 annotations:
@@ -329,16 +329,16 @@ data:
                   -
                   min by(namespace,cluster)(
                   kube_customresource_renew_control_plane_certificates_before)
-                  > 0
+                  <= 0
                   and
                   min by(namespace,cluster)(
                   (kube_customresource_control_plane_cert_expiry_days - time())/86400
                   )
                   -
                   min by(namespace,cluster)(
-                  kube_customresource_renew_control_plane_certificates_before)
-                  < 1
-                for: 12h
+                  kube_customresource_renew_control_plane_certificates_before)/2
+                  >= 0
+                for: 1m
                 labels:
                   severity: info
                 annotations:
@@ -353,17 +353,21 @@ data:
                   min by(namespace,cluster)(
                   kube_customresource_renew_control_plane_certificates_before)/2
                   < 0
-                for: 1h
+                  and
+                  (min by(namespace, cluster) (
+                    kube_customresource_control_plane_cert_expiry_days
+                  ) - time()) / 86400 >= 0
+                for: 1m
                 labels:
                   severity: warning
                 annotations:
                   summary: "Certificate rollout might fail"
-                  description: "Certificate will expire soon, rollout might fail"
+                  description: "Certificate will expire soon, rollout not yet completed. Please monitor certificate renewal status for control plane nodes."
               - alert: CertificateExpired
                 expr: |
                   (min by(namespace, cluster) (
                     kube_customresource_control_plane_cert_expiry_days
-                  ) - time()) / 86400 < 0.1
+                  ) - time()) / 86400 < 0
                 for: 1m
                 labels:
                   severity: critical
@@ -375,7 +379,7 @@ data:
                   (min by(namespace,cluster) (
                     kube_customresource_control_plane_cert_expiry_days
                   ) - time()) / 86400 == 365
-                for: 1d
+                for: 1m
                 labels:
                   severity: info
                 annotations:
