@@ -317,7 +317,7 @@ data:
                   <= 7
                 for: 1m
                 labels:
-                  severity: warning
+                  severity: info
                 annotations:
                   summary: "Certificate expiring soon"
                   description: "Certificate will expire soon and rollout will happen in less than 7 days"
