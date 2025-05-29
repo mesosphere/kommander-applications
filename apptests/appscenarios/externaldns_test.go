@@ -136,6 +136,8 @@ var _ = Describe("External DNS Tests", Label("external-dns"), func() {
 
 		It("should install the previous version successfully", func() {
 			ed = externalDns{}
+			// Only needed for 2.16 version as its been migrated to use Bitnami OCIRepository
+			env.ApplyYAML(ctx, "./testdata/bitnami-helmrepository.yaml", nil)
 			err := ed.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
