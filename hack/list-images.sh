@@ -183,8 +183,17 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
         end' | \
       while IFS= read -r line; do
         if [[ "$line" == oci://* ]]; then
-          helm images get --unique "$line" | >&2 tee -a "${IMAGES_FILE}"
-
+          if [[ "$line" == *:* ]]; then
+            # Extract version correctly by taking everything after the last colon
+            image_ref="${line%:*}"
+            version="${line##*:}"
+            >&2 echo "OCI images with tags: $line → using $image_ref with version $version"
+            helm images get --unique "$image_ref" --version "$version" | >&2 tee -a "${IMAGES_FILE}"
+          else
+            # No version tag present
+            >&2 echo "OCI images without version tag: $line"
+            helm images get --unique "$line" | >&2 tee -a "${IMAGES_FILE}"
+          fi
         else
           xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
         fi
