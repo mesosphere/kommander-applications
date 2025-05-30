@@ -165,7 +165,11 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
       gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
         if .kind == "OCIRepository" then
-          .spec.url
+          if .spec.url != null and .spec.ref != null and .spec.ref.tag != null then
+            .spec.url + ":" + .spec.ref.tag
+          else
+            .spec.url
+          end
         elif .spec.chart.spec.sourceRef? != null then
           if .spec.chart.spec.sourceRef.kind == "HelmRepository" then
             (.spec.chart.spec.sourceRef.name | gsub("\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
@@ -178,12 +182,9 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
           empty
         end' | \
       while IFS= read -r line; do
-        if [[ "$line" == *"mesosphere"* ]]; then
-          >&2 echo "Skipping mesosphere chart: $line"
-          continue
-        fi
         if [[ "$line" == oci://* ]]; then
           helm images get --unique "$line" | >&2 tee -a "${IMAGES_FILE}"
+
         else
           xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
         fi
