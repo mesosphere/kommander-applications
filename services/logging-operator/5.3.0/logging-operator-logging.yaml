@@ -27,7 +27,11 @@ spec:
   releaseName: logging-operator-logging
   valuesFrom:
     - kind: ConfigMap
+<<<<<<< HEAD:services/logging-operator/5.3.0/logging-operator-logging.yaml
       name: logging-operator-logging-5.3.0-config-defaults
+=======
+      name: logging-operator-logging-5.3.0-d2iq-defaults
+>>>>>>> bd073ba0 (chore: Update logging-operator 5.2.0 => 5.3.0):services/logging-operator/5.2.0/logging-operator-logging.yaml
     # FIXME: To make logging-operator-logging work properly with federated
     # overrides, the `logging-operator` app should be split into two,
     # after which this entry should be replaced with `configOverrides`
