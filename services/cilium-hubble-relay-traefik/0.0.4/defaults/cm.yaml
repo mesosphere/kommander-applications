@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cilium-hubble-relay-traefik-0.0.4-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    enabled: true
