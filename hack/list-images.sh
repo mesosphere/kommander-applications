@@ -166,15 +166,15 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
       gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
         if .kind == "OCIRepository" then
           if .spec.url != null and .spec.ref != null and .spec.ref.tag != null then
-            .spec.url + ":" + .spec.ref.tag
+            .spec.url + " --chart-version=" +  .spec.ref.tag
           else
             .spec.url
           end
-        elif .spec.chart.spec.sourceRef? != null then
+        elif .spec.chart?.spec?.sourceRef? != null then
           if .spec.chart.spec.sourceRef.kind == "HelmRepository" then
-            (.spec.chart.spec.sourceRef.name | gsub("\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
+            (.spec.chart.spec.sourceRef.name | gsub("\\."; "-")) + "/" + .spec.chart.spec.chart + " --chart-version=" + .spec.chart.spec.version
           elif .spec.chart.spec.sourceRef.kind == "GitRepository" then
-            $repoRoot+"/"+.spec.chart.spec.chart
+            $repoRoot + "/" + .spec.chart.spec.chart
           else
             empty
           end
@@ -182,23 +182,8 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
           empty
         end' | \
       while IFS= read -r line; do
-        if [[ "$line" == oci://* ]]; then
-          if [[ "$line" == *:* ]]; then
-            # Extract version correctly by taking everything after the last colon
-            image_ref="${line%:*}"
-            version="${line##*:}"
-            >&2 echo "OCI images with tags: $line → using $image_ref with version $version"
-            helm images get --unique "$image_ref" --version "$version" \
-            --set kommander-licensing.certificates.issuer.name=unused \
-            | >&2 tee -a "${IMAGES_FILE}"
-          else
-            # No version tag present
-            >&2 echo "OCI images without version tag: $line"
-            helm images get --unique "$line" | >&2 tee -a "${IMAGES_FILE}"
-          fi
-        else
           xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
-        fi
+        #fi
       done
     >&2 echo
     popd &>/dev/null
