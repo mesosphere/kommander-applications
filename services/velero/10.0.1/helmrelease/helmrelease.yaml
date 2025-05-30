@@ -24,6 +24,6 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-10.0.1-d2iq-defaults
+      name: velero-10.0.1-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
