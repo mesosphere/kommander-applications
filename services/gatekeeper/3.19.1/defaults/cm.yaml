@@ -1,15 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-<<<<<<<< HEAD:services/gatekeeper/3.18.3/defaults/cm.yaml
-  name: gatekeeper-3.18.3-config-defaults
-========
-<<<<<<< HEAD
-  name: gatekeeper-3.18.2-config-defaults
-=======
   name: gatekeeper-3.19.1-d2iq-defaults
->>>>>>> b84e14bd (chore: Update gatekeeper 3.18.2 => 3.19.1)
->>>>>>>> 9a23db12 (chore: Update gatekeeper 3.18.2 => 3.19.1):services/gatekeeper/3.19.1/defaults/cm.yaml
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
