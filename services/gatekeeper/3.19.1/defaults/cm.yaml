@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-3.19.1-d2iq-defaults
+  name: gatekeeper-3.19.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

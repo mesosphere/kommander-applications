@@ -25,11 +25,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-<<<<<<<< HEAD:services/gatekeeper/3.18.3/release/release.yaml
-      name: gatekeeper-3.18.3-config-defaults
-========
-      name: gatekeeper-3.19.1-d2iq-defaults
->>>>>>>> 9a23db12 (chore: Update gatekeeper 3.18.2 => 3.19.1):services/gatekeeper/3.19.1/release/release.yaml
+      name: gatekeeper-3.19.1-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
@@ -92,11 +88,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-<<<<<<<< HEAD:services/gatekeeper/3.18.3/release/release.yaml
-      name: gatekeeper-3.18.3-config-defaults
-========
-      name: gatekeeper-3.19.1-d2iq-defaults
->>>>>>>> 9a23db12 (chore: Update gatekeeper 3.18.2 => 3.19.1):services/gatekeeper/3.19.1/release/release.yaml
+      name: gatekeeper-3.19.1-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
