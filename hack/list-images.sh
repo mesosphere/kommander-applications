@@ -188,7 +188,9 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
             image_ref="${line%:*}"
             version="${line##*:}"
             >&2 echo "OCI images with tags: $line → using $image_ref with version $version"
-            helm images get --unique "$image_ref" --version "$version" | >&2 tee -a "${IMAGES_FILE}"
+            helm images get --unique "$image_ref" --version "$version" \
+            --set kommander-licensing.certificates.issuer.name=unused \
+            | >&2 tee -a "${IMAGES_FILE}"
           else
             # No version tag present
             >&2 echo "OCI images without version tag: $line"
