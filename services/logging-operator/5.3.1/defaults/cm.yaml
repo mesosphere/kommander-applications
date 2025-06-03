@@ -1,11 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-<<<<<<< HEAD:services/logging-operator/5.3.1/defaults/cm.yaml
-  name: logging-operator-5.3.0-config-defaults
-=======
-  name: logging-operator-5.3.0-d2iq-defaults
->>>>>>> 768d6d92 (feat: Bump logging-operator to 5.3.0):services/logging-operator/5.3.0/defaults/cm.yaml
+  name: logging-operator-5.3.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -31,11 +27,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-<<<<<<< HEAD:services/logging-operator/5.3.1/defaults/cm.yaml
-  name: logging-operator-logging-5.3.0-config-defaults
-=======
-  name: logging-operator-logging-5.3.0-d2iq-defaults
->>>>>>> 768d6d92 (feat: Bump logging-operator to 5.3.0):services/logging-operator/5.3.0/defaults/cm.yaml
+  name: logging-operator-logging-5.3.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

@@ -25,4 +25,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-5.3.0-config-defaults
+      name: logging-operator-5.3.1-config-defaults
