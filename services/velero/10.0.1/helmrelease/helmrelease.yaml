@@ -1,21 +1,19 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kommander-ui
+  name: velero
   namespace: ${releaseNamespace}
+  annotations:
+    velero.kommander.d2iq.io/no-hooks-chart: "true"
 spec:
-  dependsOn:
-    - namespace: ${releaseNamespace}
-      name: kommander
   chart:
     spec:
-      chart: kommander-ui
+      chart: velero
       sourceRef:
         kind: HelmRepository
-        name: kommander-ui
+        name: vmware-tanzu.github.io
         namespace: kommander-flux
-      version: 17.93.0
+      version: 10.0.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -23,12 +21,9 @@ spec:
       retries: 30
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 30
+  releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-17.93.0-config-defaults
-    - kind: ConfigMap
-      name: kommander-ui-overrides
-      optional: true
+      name: velero-10.0.1-config-defaults
   targetNamespace: ${releaseNamespace}
+---
