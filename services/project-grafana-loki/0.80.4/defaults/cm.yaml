@@ -27,7 +27,7 @@ data:
     ####################################################################
 
     # this is used in object-bucket-claims overrides
-    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}
+    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.1}
 
     loki:
       ingesterFullname: loki-ingester
