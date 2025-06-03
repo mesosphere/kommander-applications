@@ -9,11 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-<<<<<<<< HEAD:services/gatekeeper/3.18.3/constraints.yaml
-  path: ./services/gatekeeper/3.18.3/constraints
-========
   path: ./services/gatekeeper/3.19.1/constraints
->>>>>>>> 9a23db12 (chore: Update gatekeeper 3.18.2 => 3.19.1):services/gatekeeper/3.19.1/constraints.yaml
   sourceRef:
     kind: GitRepository
     name: management

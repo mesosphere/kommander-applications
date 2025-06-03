@@ -10,11 +10,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-<<<<<<<< HEAD:services/gatekeeper/3.18.3/release.yaml
-  path: ./services/gatekeeper/3.18.3/release
-========
   path: ./services/gatekeeper/3.19.1/release
->>>>>>>> 9a23db12 (chore: Update gatekeeper 3.18.2 => 3.19.1):services/gatekeeper/3.19.1/release.yaml
   sourceRef:
     kind: GitRepository
     name: management
