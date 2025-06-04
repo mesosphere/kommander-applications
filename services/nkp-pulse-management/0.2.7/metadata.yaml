@@ -1,0 +1,8 @@
+scope:
+  - workspace
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
