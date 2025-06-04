@@ -6,12 +6,14 @@ resources:
   - cert-manager.yaml
   - cloudnative-pg.yaml
   - dashboard.yaml
+  - external-secrets.yaml
   - fluent.yaml
   - gatekeeper.yaml
   - grafana.yaml
   - harbor.yaml
   - jaegertracing.yaml
   - kiali.yaml
+  - knative-operator.yaml
   - kommander-ui.yaml
   - kube-logging.yaml
   - kubecost.yaml

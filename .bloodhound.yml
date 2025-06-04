@@ -36,6 +36,7 @@ additional_crds:
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
+  releaseName: foobar
   releaseNamespace: kommander
   workspaceNamespace: workspace
   certificateIssuerName: issuer

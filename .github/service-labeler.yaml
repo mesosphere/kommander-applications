@@ -42,6 +42,10 @@ services/external-dns:
 - changed-files:
   - any-glob-to-any-file:
     - services/external-dns/**
+services/external-secrets:
+- changed-files:
+  - any-glob-to-any-file:
+    - services/external-secrets/**
 services/fluent-bit:
 - changed-files:
   - any-glob-to-any-file:
