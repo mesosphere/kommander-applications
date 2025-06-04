@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-pulse-management-0.2.7-config-defaults
+  name: nkp-pulse-management-0.2.7-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     image:
       registry: "pullthrough.infra.nkp.sh"
       repository: "mesosphere/nkp-pulse-management"
-      tag: "v0.2.6"
+      tag: "v0.2.7"
       imagePullPolicy: "IfNotPresent"
-    kubectlImage: "bitnami/kubectl:1.32.3"
     resources:
       limits:
         cpu: "100m"
