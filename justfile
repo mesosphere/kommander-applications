@@ -43,14 +43,14 @@ release-server publish="true" tmp_dir=`mktemp --directory`: (_prepare-git-reposi
     rm -rf ./server/data/
     if {{ publish }}; then docker push {{ server_repository }}:{{ git_tag }}; fi
 
-service_version:=`ls services/git-operator/ | grep -E "^v?[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$"`
-service_dir:=justfile_directory() / "services/git-operator" / service_version
+app_version:=`ls applications/git-operator/ | grep -E "^v?[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+$"`
+app_dir:=justfile_directory() / "applications/git-operator" / app_version
 
 git-operator-fetch-manifests tmp_dir=`mktemp --directory`:
     flux pull artifact oci://docker.io/mesosphere/git-operator-manifests:{{ git_operator_version }} --output {{ tmp_dir }}
     # HACK: strip SHA off git-operator image
-    kustomize build {{ tmp_dir }}/default | sed -r 's/(image\: docker\.io\/mesosphere\/git-operator\:v[0-9]+\.[0-9]+.[0-9]+)\@sha256\:.*?$/\1/g' >{{ service_dir }}/git-operator-manifests/all.yaml
-    [ -z "$(git diff --name-only services/git-operator)" ] || echo -e '\n\n\nWARNING: Git Operator manifests have changed!\nEdit {{ service_dir }}/additional-images.txt to ensure additional images are up to date.\n\n'
+    kustomize build {{ tmp_dir }}/default | sed -r 's/(image\: docker\.io\/mesosphere\/git-operator\:v[0-9]+\.[0-9]+.[0-9]+)\@sha256\:.*?$/\1/g' >{{ app_dir }}/git-operator-manifests/all.yaml
+    [ -z "$(git diff --name-only applications/git-operator)" ] || echo -e '\n\n\nWARNING: Git Operator manifests have changed!\nEdit {{ app_dir }}/additional-images.txt to ensure additional images are up to date.\n\n'
 
 _prepare-archive dir: (_prepare-files-for-a-bundle dir)
     tar -cvzf {{ justfile_directory() }}/{{ archive_name }} -C {{ dir }} .
