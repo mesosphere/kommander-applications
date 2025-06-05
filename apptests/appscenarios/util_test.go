@@ -11,7 +11,7 @@ func TestAbsolutePathTo(t *testing.T) {
 	absAppPath, err := absolutePathTo("reloader")
 	assert.NoError(t, err)
 
-	expected := filepath.Join("kommander-applications", "services", "reloader")
+	expected := filepath.Join("kommander-applications", "applications", "reloader")
 	assert.Contains(t, absAppPath, expected)
 	assert.NotEmpty(t, filepath.Base(absAppPath))
 }

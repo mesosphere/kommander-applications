@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: services/chartmuseum/3.10.4/chartmuseum-3.10.4.tgz
+      chart: applications/chartmuseum/3.10.4/chartmuseum-3.10.4.tgz
       sourceRef:
         kind: GitRepository
         name: management

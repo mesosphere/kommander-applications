@@ -5,7 +5,7 @@ on:
       - main
       - 'release/*'
     paths:
-      - 'services/**/*'
+      - 'applications/**/*'
   workflow_dispatch: {}
 
 jobs:
@@ -15,13 +15,13 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - name: Add service identifying label to PRs updating services
+      - name: Add service identifying label to PRs updating applications
         uses: actions/labeler@v5
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          configuration-path: ".github/service-labeler.yaml"
+          configuration-path: ".github/app-labeler.yaml"
       - name: Add labels to automated chart bump PRs
         uses: actions/labeler@v5
         with:
           repo-token: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
-          configuration-path: ".github/services-pr-labeler.yaml"
+          configuration-path: ".github/applications-pr-labeler.yaml"

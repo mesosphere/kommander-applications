@@ -1,0 +1,67 @@
+open-kommander-pr:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/centralized-kubecost/**
+    - applications/cert-manager/**
+    - applications/chartmuseum/**
+    - applications/external-dns/**
+    - applications/fluent-bit/**
+    - applications/gatekeeper/**
+    - applications/git-operator/**
+    - applications/istio/**
+    - applications/jaeger/**
+    - applications/kiali/**
+    - applications/kube-oidc-proxy/**
+    - applications/kube-prometheus-stack/**
+    - applications/kubecost/**
+    - applications/logging-operator/**
+    - applications/nvidia-gpu-operator/**
+    - applications/project-grafana-logging/**
+    - applications/project-grafana-loki/**
+    - applications/project-logging/**
+    - applications/reloader/**
+    - applications/rook-ceph/**
+    - applications/rook-ceph-cluster/**
+    - applications/thanos/**
+    - applications/traefik-forward-auth/**
+    - applications/traefik-forward-auth-mgmt/**
+    - applications/velero/**
+
+# this should be the same list as above open-kommander-pr
+do-not-merge/testing:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/centralized-kubecost/**
+    - applications/cert-manager/**
+    - applications/chartmuseum/**
+    - applications/external-dns/**
+    - applications/fluent-bit/**
+    - applications/gatekeeper/**
+    - applications/git-operator/**
+    - applications/istio/**
+    - applications/jaeger/**
+    - applications/kiali/**
+    - applications/kube-oidc-proxy/**
+    - applications/kube-prometheus-stack/**
+    - applications/kubecost/**
+    - applications/logging-operator/**
+    - applications/nvidia-gpu-operator/**
+    - applications/project-grafana-logging/**
+    - applications/project-grafana-loki/**
+    - applications/project-logging/**
+    - applications/reloader/**
+    - applications/rook-ceph/**
+    - applications/rook-ceph-cluster/**
+    - applications/thanos/**
+    - applications/traefik-forward-auth/**
+    - applications/traefik-forward-auth-mgmt/**
+
+ok-to-test:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/**/*
+
+update-licenses:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/**/*
