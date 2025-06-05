@@ -33,4 +33,4 @@ jobs:
       - name: Run pre-commit
         env:
           MAGEFILE_VERBOSE: true
-        run: devbox run -- ./mage lint:precommit
+        run: devbox run -- make pre-commit
