@@ -5,7 +5,7 @@ on:
       - main
       - 'release/*'
     paths:
-      - 'services/**/*'
+      - 'applications/**/*'
   workflow_dispatch: {}
 
 jobs:

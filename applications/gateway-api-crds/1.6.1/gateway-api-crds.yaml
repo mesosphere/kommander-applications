@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: traefik-crds
-      version: "1.6.0" # Keep this consistent with /services/traefik/<version>/crds/crds.yaml HelmRelease.
+      version: "1.6.0" # Keep this consistent with /applications/traefik/<version>/crds/crds.yaml HelmRelease.
       sourceRef:
         kind: HelmRepository
         name: helm.traefik.io-traefik

@@ -1,0 +1,216 @@
+applications/ai-navigator-app:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/ai-navigator-app/**
+applications/ai-navigator-cluster-info-agent:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/ai-navigator-cluster-info-agent/**
+applications/centralized-grafana:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/centralized-grafana/**
+applications/cert-manager:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/cert-manager/**
+applications/chartmuseum:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/chartmuseum/**
+applications/cilium-hubble-relay-traefik:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/cilium-hubble-relay-traefik/**
+applications/cloudnative-pg:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/cloudnative-pg/**
+applications/cosi-driver-nutanix:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/cosi-driver-nutanix/**
+applications/dex:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/dex/**
+applications/dex-k8s-authenticator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/dex-k8s-authenticator/**
+applications/external-dns:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/external-dns/**
+applications/external-secrets:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/external-secrets/**
+applications/fluent-bit:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/fluent-bit/**
+applications/gatekeeper:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/gatekeeper/**
+applications/gateway-api-crds:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/gateway-api-crds/**
+applications/git-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/git-operator/**
+applications/grafana-logging:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/grafana-logging/**
+applications/grafana-loki:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/grafana-loki/**
+applications/harbor:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/harbor/**
+applications/istio:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/istio/**
+applications/jaeger:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/jaeger/**
+applications/karma:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/karma/**
+applications/karma-traefik:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/karma-traefik/**
+applications/kiali:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kiali/**
+applications/knative:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/knative/**
+applications/kommander:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kommander/**
+applications/kommander-appmanagement:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kommander-appmanagement/**
+applications/kommander-flux:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kommander-flux/**
+applications/kommander-ui:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kommander-ui/**
+applications/kube-oidc-proxy:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kube-oidc-proxy/**
+applications/kube-prometheus-stack:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kube-prometheus-stack/**
+applications/kubecost:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kubecost/**
+applications/kubefed:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kubefed/**
+applications/kubernetes-dashboard:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kubernetes-dashboard/**
+applications/kubetunnel:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kubetunnel/**
+applications/logging-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/logging-operator/**
+applications/nkp-insights:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nkp-insights/**
+applications/nkp-insights-management:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nkp-insights-management/**
+applications/nkp-pulse-management:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nkp-pulse-management/**
+applications/nkp-pulse-workspace:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nkp-pulse-workspace/**
+applications/nvidia-gpu-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nvidia-gpu-operator/**
+applications/project-grafana-logging:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/project-grafana-logging/**
+applications/project-grafana-loki:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/project-grafana-loki/**
+applications/project-logging:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/project-logging/**
+applications/prometheus-adapter:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/prometheus-adapter/**
+applications/prometheus-thanos-traefik:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/prometheus-thanos-traefik/**
+applications/reloader:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/reloader/**
+applications/rook-ceph:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/rook-ceph/**
+applications/rook-ceph-cluster:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/rook-ceph-cluster/**
+applications/thanos:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/thanos/**
+applications/traefik:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/traefik/**
+applications/traefik-forward-auth:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/traefik-forward-auth/**
+applications/traefik-forward-auth-mgmt:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/traefik-forward-auth-mgmt/**
+applications/velero:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/velero/**
