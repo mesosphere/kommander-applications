@@ -1,15 +1,15 @@
-name: "Update service-labeler.yaml"
+name: "Update app-labeler.yaml"
 on:
   pull_request:
     branches:
       - main
       - 'release/*'
     paths:
-      - 'services/**/*'
+      - 'applications/**/*'
   workflow_dispatch: {}
 
 jobs:
-  update-service-labels-yaml:
+  update-app-labels-yaml:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,7 +35,7 @@ jobs:
         with:
           skip-nix-installation: true
 
-      - name: Update .github/service-labeler.yaml
+      - name: Update .github/app-labeler.yaml
         run: make workflow-labeler-yaml-update
       - name: Commit and push changes
         run: |
@@ -43,9 +43,9 @@ jobs:
           git config user.name d2iq-mergebot
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-          git add .github/service-labeler.yaml
+          git add .github/app-labeler.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-            git commit -v -m "build: Updated .github/service-labeler.yaml"
+            git commit -v -m "build: Updated .github/app-labeler.yaml"
             git push --force-with-lease
           fi
         env:

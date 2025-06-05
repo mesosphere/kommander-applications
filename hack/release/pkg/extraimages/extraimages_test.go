@@ -22,7 +22,7 @@ func TestUpdateExtraImages(t *testing.T) {
 	assert.NoError(t, err)
 
 	afterUpgradeFile, err := filepath.Glob(filepath.Join(
-		tmpDir, "services/kommander/*/extra-images.txt",
+		tmpDir, "applications/kommander/*/extra-images.txt",
 	))
 	assert.NoError(t, err)
 

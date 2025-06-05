@@ -22,7 +22,7 @@ jobs:
     name: Extract app names from PR Labels
     runs-on:
       - ubuntu-latest
-    if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'services/')
+    if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
 
     outputs:
       apps: ${{ steps.pr-labels.outputs.apps }}
@@ -36,7 +36,7 @@ jobs:
           KAPP_NAMES=()
           for label in $PR_LABELS; do
             echo $label
-            if [[ "$label" == "services/"* ]]; then
+            if [[ "$label" == "applications/"* ]]; then
               KAPP_NAMES+=("$(echo "$label" | cut -d '/' -f 2)")
             fi
           done
@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Collect apps from local directory
         id: local-apps
-        working-directory: services
+        working-directory: applications
         run: |
           json_array=$(find . -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
