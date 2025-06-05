@@ -6,7 +6,7 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly REPO_ROOT
 LATEST_FLUX_VERSION="$(gh api -X GET "repos/fluxcd/flux2/releases" --jq '.[0].tag_name|sub("^v"; "")')"
 readonly LATEST_FLUX_VERSION
-CURRENT_FLUX_VERSION=$(find "${REPO_ROOT}/services/kommander-flux" -maxdepth 1 -regextype sed -regex '.*/[0-9]\+.[0-9]\+.[0-9]\+' -printf "%f\n" | sort -V | head -1)
+CURRENT_FLUX_VERSION=$(find "${REPO_ROOT}/appplications/kommander-flux" -maxdepth 1 -regextype sed -regex '.*/[0-9]\+.[0-9]\+.[0-9]\+' -printf "%f\n" | sort -V | head -1)
 readonly CURRENT_FLUX_VERSION
 KOMMANDER_REPO_PATH="${REPO_ROOT}/kommander" # Override in CI to path of kommander repository.
 
@@ -31,8 +31,8 @@ function update_flux() {
       devbox update
     fi
 
-    mkdir -p "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
-    pushd "$REPO_ROOT/services/kommander-flux/$LATEST_FLUX_VERSION"
+    mkdir -p "$REPO_ROOT/appplications/kommander-flux/$LATEST_FLUX_VERSION"
+    pushd "$REPO_ROOT/appplications/kommander-flux/$LATEST_FLUX_VERSION"
     ls ..
     cp -a ../"$CURRENT_FLUX_VERSION"/* .
     rm -r ../"$CURRENT_FLUX_VERSION"
@@ -47,7 +47,7 @@ function update_flux() {
     kustomize create --autodetect
     popd && popd
 
-    git add services
+    git add appplications
 
     readonly COMMIT_MSG="feat: Upgrade flux to ${LATEST_FLUX_VERSION}"
 

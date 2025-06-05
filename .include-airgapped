@@ -1,4 +1,4 @@
 ./clusters
 ./common
-./services
+./applications
 ./charts

@@ -17,14 +17,14 @@ func absolutePathTo(application string) (string, error) {
 
 	// determining the execution path.
 	var base string
-	_, err = os.Stat(filepath.Join(wd, "services"))
+	_, err = os.Stat(filepath.Join(wd, "applications"))
 	if os.IsNotExist(err) {
 		base = "../.."
 	} else {
 		base = ""
 	}
 
-	dir, err := filepath.Abs(filepath.Join(wd, base, "services", application))
+	dir, err := filepath.Abs(filepath.Join(wd, base, "applications", application))
 	if err != nil {
 		return "", err
 	}
@@ -73,7 +73,7 @@ func getkAppsUpgradePath(application string) (string, error) {
 	}
 
 	// Get the absolute path to the application directory
-	dir, err := filepath.Abs(filepath.Join(wd, "../", upgradeKAppsRepoPath, "services", application))
+	dir, err := filepath.Abs(filepath.Join(wd, "../", upgradeKAppsRepoPath, "applications", application))
 	if err != nil {
 		return "", err
 	}
