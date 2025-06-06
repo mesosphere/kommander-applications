@@ -2,7 +2,7 @@ displayName: cert-manager
 description: Automates management and issuance of TLS certificates from various issuing sources.
 category:
   - security
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -12,7 +12,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview

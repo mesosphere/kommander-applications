@@ -2,11 +2,11 @@ displayName: Gatekeeper
 description: Customizable admission webhook for Kubernetes to enforce policies executed by Open Policy Agent (OPA)
 category:
   - security
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 licensing:
   - Starter

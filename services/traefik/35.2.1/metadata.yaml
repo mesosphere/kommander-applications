@@ -5,7 +5,7 @@ category:
 dependencies:
   - cert-manager
   - reloader
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -15,7 +15,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
