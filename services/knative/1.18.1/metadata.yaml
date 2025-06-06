@@ -4,11 +4,11 @@ requiredDependencies:
   - istio
 category:
   - general
-type: catalog
+type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 licensing:
   - Pro
