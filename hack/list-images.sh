@@ -160,17 +160,31 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
       extra_args+=('--extra-images-file' 'extra-images.txt')
     fi
 
-    >&2 echo -e " + ${dir}${hr}\n"
+>&2 echo -e " + ${dir}${hr}\n"
+    # shellcheck disable=SC2016
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
-      gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" \
-        $'select(.spec.chart.spec.sourceRef.name != null) |
+      gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
+        if .kind == "OCIRepository" then
+          if .spec.url != null and .spec.ref != null and .spec.ref.tag != null then
+            .spec.url + " --chart-version=" +  .spec.ref.tag
+          else
+            .spec.url
+          end
+        elif .spec.chart?.spec?.sourceRef? != null then
           if .spec.chart.spec.sourceRef.kind == "HelmRepository" then
-            (.spec.chart.spec.sourceRef.name | gsub("\\\."; "-"))+"/"+.spec.chart.spec.chart+" --chart-version="+.spec.chart.spec.version
+            (.spec.chart.spec.sourceRef.name | gsub("\\."; "-")) + "/" + .spec.chart.spec.chart + " --chart-version=" + .spec.chart.spec.version
           elif .spec.chart.spec.sourceRef.kind == "GitRepository" then
-            $repoRoot+"/"+.spec.chart.spec.chart
-          end' | \
-      xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" | >&2 tee -a "${IMAGES_FILE}"
-      >&2 echo
+            $repoRoot + "/" + .spec.chart.spec.chart
+          else
+            empty
+          end
+        else
+          empty
+        end' | \
+      while IFS= read -r line; do
+          xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
+      done
+    >&2 echo
     popd &>/dev/null
   done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRelease')
   popd &>/dev/null
