@@ -32,6 +32,11 @@ repos:
     stages: [commit]
   - id: end-of-file-fixer
     stages: [commit]
+- repo: https://github.com/jorisroovers/gitlint
+  rev: v0.18.0
+  hooks:
+  - id: gitlint
+    stages: [commit-msg]
 - repo: https://github.com/jumanjihouse/pre-commit-hooks
   rev: 2.1.5
   hooks:
