@@ -37,7 +37,6 @@ jobs:
         run: |
           export PATH=${PWD}/.local/bin:$PATH
           devbox run -- helm plugin install https://github.com/d2iq-labs/helm-list-images
-          devbox run -- helm plugin install https://github.com/nikhilsbhat/helm-images
           devbox run -- ./hack/list-images.sh > images.txt
           echo "printing contents of images.txt"
           cat images.txt
