@@ -8,9 +8,9 @@ data:
     image:
       registry: "pullthrough.infra.nkp.sh"
       repository: "mesosphere/nkp-pulse-management"
-      tag: "v0.2.6"
+      tag: "v0.2.7"
       imagePullPolicy: "IfNotPresent"
-    kubectlImage: "bitnami/kubectl:1.32.3"
+    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}"
     resources:
       limits:
         cpu: "100m"

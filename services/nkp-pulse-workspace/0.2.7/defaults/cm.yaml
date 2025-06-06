@@ -8,7 +8,7 @@ data:
     image:
       registry: "pullthrough.infra.nkp.sh"
       repository: "mesosphere/nkp-pulse-workspace"
-      tag: "v0.2.6"
+      tag: "v0.2.7"
       imagePullPolicy: "IfNotPresent"
     resources:
       limits:
