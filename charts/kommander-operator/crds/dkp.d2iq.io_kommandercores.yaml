@@ -52,6 +52,56 @@ spec:
                     - message: field is immutable
                       rule: self == oldSelf
                 type: object
+              initialization:
+                description: Initialization stores kommander's configuration for the
+                  initialization process.
+                properties:
+                  ociCredentials:
+                    description: OCICredentials defines the configuration of the OCI
+                      repository.
+                    properties:
+                      certSecretRef:
+                        description: |-
+                          LocalObjectReference contains enough information to let you locate the
+                          referenced object inside the same namespace.
+                        properties:
+                          name:
+                            description: |-
+                              Name of the referent.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                        x-kubernetes-validations:
+                        - message: field is immutable
+                          rule: self == oldSelf
+                      secretRef:
+                        description: |-
+                          LocalObjectReference contains enough information to let you locate the
+                          referenced object inside the same namespace.
+                        properties:
+                          name:
+                            description: |-
+                              Name of the referent.
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?
+                            type: string
+                        type: object
+                        x-kubernetes-map-type: atomic
+                        x-kubernetes-validations:
+                        - message: field is immutable
+                          rule: self == oldSelf
+                      url:
+                        type: string
+                        x-kubernetes-validations:
+                        - message: field is immutable
+                          rule: self == oldSelf
+                    type: object
+                    x-kubernetes-validations:
+                    - message: field is immutable
+                      rule: self == oldSelf
+                type: object
               version:
                 description: Version stores the desired version of kommander.
                 type: string
