@@ -2,6 +2,13 @@ exclude: common/pkg/gitops/gogit/testdata/repo\.git
 repos:
 - repo: local
   hooks:
+  - id: lint-go-code
+    name: Lint go code
+    entry: make go-lint
+    files: (^go\.(mod|sum)|\.go$)
+    language: system
+    stages: [pre-commit]
+    pass_filenames: false
   - id: check-app-metadata
     name: Check app metadata exists
     entry: hack/validate-app-metadata.sh

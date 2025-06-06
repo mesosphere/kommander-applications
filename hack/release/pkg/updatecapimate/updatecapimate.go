@@ -25,12 +25,12 @@ func UpdateCAPIMateVersion(kommanderApplicationsRepo, containerImageVersion stri
 	if err != nil {
 		return err
 	}
-	newContents := strings.Replace(string(read), constants.CAPIMateDefaultVersion, containerImageVersion, -1)
+	newContents := strings.ReplaceAll(string(read), constants.CAPIMateDefaultVersion, containerImageVersion)
 
 	err = os.WriteFile(chartFilePath, []byte(newContents), 0)
 	if err != nil {
 		return err
 	}
 
-  return nil
+	return nil
 }

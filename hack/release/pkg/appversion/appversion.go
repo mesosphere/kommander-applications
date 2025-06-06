@@ -106,7 +106,9 @@ func replaceContentInFile(ctx context.Context, file string, version string) (int
 	if err != nil {
 		return 0, err
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(f)
 
 	fscanner := bufio.NewScanner(f)
 	output := &bytes.Buffer{}
@@ -124,17 +126,19 @@ func replaceContentInFile(ctx context.Context, file string, version string) (int
 			return match
 		})
 
-		fmt.Fprintln(output, newText)
+		_, _ = fmt.Fprintln(output, newText)
 	}
 
-	f.Close()
+	_ = f.Close()
 
 	if changes > 0 {
 		f, err = os.Create(file)
 		if err != nil {
 			return 0, err
 		}
-		defer f.Close()
+		defer func(f *os.File) {
+			_ = f.Close()
+		}(f)
 
 		_, err = io.Copy(f, output)
 		return changes, err

@@ -5,9 +5,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 	cp "github.com/otiai10/copy"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
 const rootDir = "../../../../"
@@ -15,7 +16,9 @@ const rootDir = "../../../../"
 func TestUpdateCAPIMateVersionsSuccessfully(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
@@ -51,7 +54,9 @@ func TestUpdateCAPIMateVersionsSuccessfully(t *testing.T) {
 func TestUpdateCAPIMateVersionsFailsWhenItCannotFindCM(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 	updateToVersion := "v1.0.0"
 	err = UpdateCAPIMateVersion(tmpDir, updateToVersion)
 	assert.ErrorContains(t, err, "verify the kommander-applications repo path")
