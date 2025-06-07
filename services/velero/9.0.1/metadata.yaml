@@ -4,7 +4,7 @@ category:
   - backup
 dependencies:
   - rook-ceph-cluster
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -13,7 +13,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
