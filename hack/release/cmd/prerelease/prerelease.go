@@ -5,10 +5,11 @@ import (
 	"log"
 	"os"
 
+	"github.com/spf13/cobra"
+
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/updatecapimate"
-	"github.com/spf13/cobra"
 )
 
 var Cmd *cobra.Command //nolint:gochecknoglobals // Cobra commands are global.
@@ -34,19 +35,19 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			if err != nil {
 				return err
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersionString)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersionString)
 
 			err = updatecapimate.UpdateCAPIMateVersion(kommanderApplicationsRepo, chartVersionString)
 			if err != nil {
 				return err
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated CAPIMate version to %s", chartVersionString)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated CAPIMate version to %s", chartVersionString)
 
 			if err := extraimages.UpdateExtraImagesVersions(kommanderApplicationsRepo, chartVersionString); err != nil {
 				return err
 			}
 
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s", chartVersionString)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s", chartVersionString)
 			return nil
 		},
 	}

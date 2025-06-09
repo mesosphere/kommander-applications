@@ -6,11 +6,12 @@ import (
 	"os"
 
 	"github.com/Masterminds/semver/v3"
+	"github.com/spf13/cobra"
+
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
-	"github.com/spf13/cobra"
 )
 
 var Cmd *cobra.Command //nolint:gochecknoglobals // Cobra commands are global.
@@ -55,7 +56,7 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
-			fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated Kommander chart version to %s", chartVersion)
 
 			if err := upgradematrix.UpdateUpgradeMatrix(
 				cmd.Context(),

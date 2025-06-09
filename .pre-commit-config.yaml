@@ -2,44 +2,57 @@ exclude: common/pkg/gitops/gogit/testdata/repo\.git
 repos:
 - repo: local
   hooks:
-  - id: check-service-metadata
-    name: Check service metadata exists
-    entry: hack/validate-service-metadata.sh
+  - id: lint-go-code
+    name: Lint go code
+    entry: make go-lint
+    files: (^go\.(mod|sum)|\.go$)
     language: system
-    stages: [commit]
+    stages: [pre-commit]
+    pass_filenames: false
+  - id: check-app-metadata
+    name: Check app metadata exists
+    entry: hack/validate-app-metadata.sh
+    language: system
+    stages: [pre-commit]
     always_run: true
     pass_filenames: false
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.0.1
+  rev: v5.0.0
   hooks:
   - id: trailing-whitespace
-    stages: [commit]
+    stages: [pre-commit]
   - id: mixed-line-ending
     args: ["-f", "lf"]
     exclude: \.bat$
-    stages: [commit]
+    stages: [pre-commit]
   - id: no-commit-to-branch
-    stages: [commit]
+    stages: [pre-commit]
   - id: check-added-large-files
-    stages: [commit]
+    stages: [pre-commit]
   - id: check-case-conflict
-    stages: [commit]
+    stages: [pre-commit]
   - id: check-merge-conflict
-    stages: [commit]
+    stages: [pre-commit]
   - id: check-executables-have-shebangs
-    stages: [commit]
+    stages: [pre-commit]
   - id: check-symlinks
-    stages: [commit]
+    stages: [pre-commit]
   - id: end-of-file-fixer
-    stages: [commit]
+    stages: [pre-commit]
+- repo: https://github.com/jorisroovers/gitlint
+  rev: v0.18.0
+  hooks:
+  - id: gitlint
+    stages: [commit-msg]
 - repo: https://github.com/jumanjihouse/pre-commit-hooks
   rev: 2.1.5
   hooks:
   - id: script-must-have-extension
-    stages: [commit]
+    stages: [pre-commit]
+    exclude: "^\\.envrc$"
 - repo: https://github.com/shellcheck-py/shellcheck-py
   rev: v0.7.2.1
   hooks:
   - id: shellcheck
-    stages: [commit]
+    stages: [pre-commit]
     args: ["-e", "SC2211"]

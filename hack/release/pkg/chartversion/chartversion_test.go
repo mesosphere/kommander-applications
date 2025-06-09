@@ -21,7 +21,9 @@ const rootDir = "../../../../"
 func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
@@ -78,7 +80,9 @@ func TestUpdateChartVersionsSuccessfully(t *testing.T) {
 func TestUpdateKommanderOperatorVersion(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
@@ -100,7 +104,9 @@ func TestUpdateKommanderOperatorVersion(t *testing.T) {
 func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
@@ -122,7 +128,9 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
 
 	// Make a copy of the current repo state to modify
 	err = cp.Copy(rootDir, tmpDir)
@@ -163,7 +171,9 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	assert.Nil(t, err)
 	f, err := os.Create(fmt.Sprintf("%s/kommander.yaml", anotherDir))
 	assert.Nil(t, err)
-	defer f.Close()
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(f)
 	updateToVersion := "v1.0.0"
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
