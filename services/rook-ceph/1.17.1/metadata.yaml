@@ -3,7 +3,7 @@ description: Rook orchestrates the Ceph storage solution, with a specialized Kub
 category:
   - logging
   - backup
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -12,7 +12,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview

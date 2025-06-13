@@ -11,8 +11,8 @@ requiredDependencies:
   - cloudnative-pg
 certifications:
   - airgapped
-  - supported
-type: platform
+  - nutanix-supported
+type: nkp-core-platform
 allowMultipleInstances: false
 scope:
   - workspace
