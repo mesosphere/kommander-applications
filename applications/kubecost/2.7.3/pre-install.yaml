@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./services/kubecost/2.7.3/pre-install
+  path: ./applications/kubecost/2.7.3/pre-install
   sourceRef:
     kind: GitRepository
     name: management
