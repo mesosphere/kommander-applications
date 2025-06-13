@@ -1,0 +1,5 @@
+target: unused
+certSecretName: unused
+image:
+  repository: mesosphere/ghostunnel
+  tag: v1.8.1-server-backend-proxy

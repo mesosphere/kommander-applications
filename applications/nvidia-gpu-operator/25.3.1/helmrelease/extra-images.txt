@@ -1,0 +1,7 @@
+nvcr.io/nvidia/k8s/container-toolkit:{{ regexReplaceAllLiteral "-.+$" .Values.toolkit.version "" }}-ubuntu20.04
+nvcr.io/nvidia/k8s/container-toolkit:{{ regexReplaceAllLiteral "-.+$" .Values.toolkit.version "" }}-ubi8
+nvcr.io/nvidia/cloud-native/gpu-operator-validator:{{ .Values.validator.version }}
+nvcr.io/nvidia/cloud-native/dcgm:{{ .Values.dcgm.version }}
+nvcr.io/nvidia/k8s/dcgm-exporter:{{ .Values.dcgmExporter.version }}
+nvcr.io/nvidia/k8s-device-plugin:{{ .Values.devicePlugin.version }}
+nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
