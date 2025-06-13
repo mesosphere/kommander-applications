@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/harbor/1.17.0/manual-storage
+  path: ./applications/harbor/1.17.0/manual-storage
   dependsOn:
     - name: ncr-system-namespace
   sourceRef:

@@ -10,7 +10,7 @@ spec:
   interval: 6h
   retryInterval: 1m
   timeout: 1m
-  path: ./services/kubefed/0.11.2/kube-federation-system-namespace
+  path: ./applications/kubefed/0.11.2/kube-federation-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
