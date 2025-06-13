@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: kommander-traefik
+    traefik.ingress.kubernetes.io/router.middlewares: "kommander-stripprefixes@kubernetescrd"
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    app: helm-mirror
+  name: kommander-helm-mirror
+  namespace: kommander
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: chartmuseum
+            port:
+              number: 8080
+        path: /dkp/kommander/helm-mirror
+        pathType: Prefix
