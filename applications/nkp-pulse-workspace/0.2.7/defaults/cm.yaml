@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nkp-pulse-workspace-0.2.7-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    image:
+      registry: "pullthrough.infra.nkp.sh"
+      repository: "mesosphere/nkp-pulse-workspace"
+      tag: "v0.2.7"
+      imagePullPolicy: "IfNotPresent"
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "128Mi"
+      requests:
+        cpu: "50m"
+        memory: "64Mi"
