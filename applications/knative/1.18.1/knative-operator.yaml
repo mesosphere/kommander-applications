@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: knative-operator
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - name: istio
+      namespace: ${releaseNamespace}
+  chart:
+    spec:
+      chart: knative-operator
+      sourceRef:
+        kind: HelmRepository
+        name: knative-github-io
+        namespace: kommander-flux
+      version: 1.18.1
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: knative
+  targetNamespace: knative-operator
+  valuesFrom:
+    - kind: ConfigMap
+      name: knative-1.18.1-config-defaults
+    - kind: ConfigMap
+      name: knative-config-overrides
+      optional: true
+    - kind: ConfigMap
+      name: knative-overrides
+      optional: true

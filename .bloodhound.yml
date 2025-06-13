@@ -8,7 +8,7 @@ k8s_versions:
 # paths to load (in that order)
 paths:
   - common/base
-  - services
+  - applications
 
 # use strict validation (reject unknown fields in resources)
 strict: true

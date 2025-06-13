@@ -1,0 +1,13 @@
+type: internal
+scope:
+  - workspace
+requiredDependencies:
+  - dex
+  - kommander
+  - traefik
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise

@@ -1,0 +1,1 @@
+ghcr.io/cloudnative-pg/postgresql:{{ .Values.version.postgresql }}

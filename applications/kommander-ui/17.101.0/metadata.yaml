@@ -1,0 +1,11 @@
+type: internal
+scope:
+  - workspace
+requiredDependencies:
+  - kommander
+licensing:
+  - Starter
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise

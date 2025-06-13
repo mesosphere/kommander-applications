@@ -1,0 +1,4 @@
+gatewayAPI: false
+traefik: true
+hub: false
+deleteOnUninstall: false
