@@ -1,0 +1,8 @@
+type: internal
+scope:
+  - workspace
+requiredDependencies:
+  - kube-prometheus-stack
+licensing:
+  - Ultimate
+  - Enterprise

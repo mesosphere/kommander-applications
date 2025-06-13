@@ -1,0 +1,1 @@
+{{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}

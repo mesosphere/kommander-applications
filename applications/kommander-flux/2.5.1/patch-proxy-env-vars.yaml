@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-used-in-a-patch
+spec:
+  template:
+    spec:
+      containers:
+        - name: manager
+          env:
+            - name: "HTTP_PROXY"
+              value: ${httpProxy:-""}
+            - name: "HTTPS_PROXY"
+              value: ${httpsProxy:-""}
+            - name: "NO_PROXY"
+              value: ${noProxy:=""}

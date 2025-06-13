@@ -1,0 +1,4 @@
+istio/install-cni:{{ .Chart.AppVersion }}
+istio/operator:{{ .Chart.AppVersion }}
+istio/pilot:{{ .Chart.AppVersion }}
+istio/proxyv2:{{ .Chart.AppVersion }}
