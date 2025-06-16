@@ -53,7 +53,7 @@ subjects:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: kubecost-pre-install
+  name: kubecost-pre-install-v2
   namespace: ${releaseNamespace}
 spec:
   template:
