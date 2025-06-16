@@ -183,6 +183,7 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
         end' | \
       while IFS= read -r line; do
           xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" <<< "$line" | >&2 tee -a "${IMAGES_FILE}"
+        #fi
       done
     >&2 echo
     popd &>/dev/null
