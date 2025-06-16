@@ -1,3 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: logging-operator-logging
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/kube-logging/helm-charts/logging-operator-logging"
+  ref:
+    tag: 5.3.1
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -11,10 +22,10 @@ spec:
     spec:
       chart: logging-operator-logging
       sourceRef:
-        kind: HelmRepository
-        name: kube-logging.github.io-charts
-        namespace: kommander-flux
-      version: 4.2.2
+        kind: OCIRepository
+        name: logging-operator-logging
+        namespace: ${releaseNamespace}
+      version: 5.3.1
   interval: 15s
   install:
     crds: CreateReplace
@@ -28,7 +39,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: logging-operator-logging-5.3.1-config-defaults
-    # FIXME: To make logging-operator-logging work properly with federated
+  # FIXME: To make logging-operator-logging work properly with federated
     # overrides, the `logging-operator` app should be split into two,
     # after which this entry should be replaced with `configOverrides`
     # in the AppDeployment
