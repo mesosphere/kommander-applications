@@ -2,7 +2,7 @@ displayName: Prometheus Monitoring
 description: Stack of applications that collect metrics and provides visualization and alerting capabilities. Includes Prometheus, Prometheus Alertmanager and Grafana.
 category:
   - monitoring
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -11,7 +11,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
