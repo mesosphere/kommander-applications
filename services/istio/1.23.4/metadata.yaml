@@ -4,11 +4,11 @@ category:
   - service-mesh
 requiredDependencies:
   - kube-prometheus-stack
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 licensing:
   - Pro

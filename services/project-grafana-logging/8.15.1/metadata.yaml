@@ -4,14 +4,14 @@ category:
   - logging
 dependencies:
   - project-grafana-loki
-type: platform
+type: nkp-core-platform
 scope:
   - project
 licensing:
   - Ultimate
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
