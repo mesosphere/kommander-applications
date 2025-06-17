@@ -358,6 +358,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.1-ubuntu20.04
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag%-ubuntu20.04}
+        url: https://github.com/NVIDIA/mig-parted
   - container_image: quay.io/ceph/ceph:v19.2.2
     sources:
       - license_path: COPYING
