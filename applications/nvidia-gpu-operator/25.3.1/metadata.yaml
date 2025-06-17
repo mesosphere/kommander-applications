@@ -2,7 +2,7 @@ displayName: NVIDIA GPU Operator
 description: The NVIDIA GPU Operator manages NVIDIA GPU resources in a Kubernetes cluster and automates tasks related to bootstrapping GPU nodes.
 category:
   - general
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -11,7 +11,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
