@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: grafana-logging-8.15.1-config-defaults
+  name: grafana-logging-9.2.4-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
