@@ -2,11 +2,11 @@ displayName: Fluent Bit
 description: Open source and multi-platform log processor tool which aims to be a generic Swiss knife for logs processing and distribution.
 category:
   - logging
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 licensing:
   - Pro

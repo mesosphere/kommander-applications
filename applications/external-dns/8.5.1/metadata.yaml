@@ -2,11 +2,11 @@ displayName: External DNS
 description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
 category:
   -  tools
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 licensing:
   - Pro

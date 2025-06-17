@@ -6,14 +6,14 @@ dependencies:
   - project-logging
   - grafana-loki
   - logging-operator
-type: platform
+type: nkp-core-platform
 scope:
   - project
 licensing:
   - Ultimate
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview
