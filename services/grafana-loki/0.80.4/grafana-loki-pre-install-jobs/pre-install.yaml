@@ -46,7 +46,7 @@ spec:
       priorityClassName: dkp-critical-priority
       containers:
         - name: pre-install
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}"
+          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.1}"
           command:
             - sh
             - -c
