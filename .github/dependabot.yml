@@ -24,7 +24,7 @@ updates:
       - "dependencies"
       - "ok-to-test"
       - "ready-for-review"
-      - "services/reloader"
+      - "applications/reloader"
   - package-ecosystem: "gomod"
     directory: "/magefiles"
     schedule:
