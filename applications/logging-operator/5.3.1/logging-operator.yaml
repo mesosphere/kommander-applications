@@ -1,11 +1,11 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+aapiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: logging-operator
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:-oci://ghcr.io/kube-logging/helm-charts}/logging-operator"
+  url: "${ociRegistryURL:=oci://ghcr.io/kube-logging/helm-charts}/logging-operator"
   ref:
     tag: 5.3.0
 
@@ -19,7 +19,7 @@ metadata:
 spec:
   chart:
     spec:
-      chartRef: logging-operator
+      chart: logging-operator
       sourceRef:
         kind: OCIRepository
         name: logging-operator
