@@ -1,4 +1,4 @@
-aapiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: logging-operator
@@ -17,13 +17,11 @@ metadata:
   name: logging-operator
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: logging-operator
-      sourceRef:
-        kind: OCIRepository
-        name: logging-operator
-        namespace: ${releaseNamespace}
+  chartRef:
+    kind: OCIRepository
+    name: logging-operator
+    namespace: ${releaseNamespace}
+    chart: logging-operator
   interval: 15s
   install:
     crds: CreateReplace

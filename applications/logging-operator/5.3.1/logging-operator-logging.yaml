@@ -18,13 +18,11 @@ spec:
   dependsOn:
     - namespace: ${releaseNamespace}
       name: logging-operator
-  chart:
-    spec:
-      chart: logging-operator
-      sourceRef:
-        kind: OCIRepository
-        name: logging-operator-logging
-        namespace: ${releaseNamespace}
+  chartRef:
+    kind: OCIRepository
+    name: logging-operator-logging
+    namespace: ${releaseNamespace}
+    chart: logging-operator
   interval: 15s
   install:
     crds: CreateReplace
