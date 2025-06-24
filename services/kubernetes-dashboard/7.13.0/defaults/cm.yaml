@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubernetes-dashboard-7.12.1-config-defaults
+  name: kubernetes-dashboard-7.13.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
