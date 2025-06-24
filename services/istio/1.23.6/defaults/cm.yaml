@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: istio-1.23.4-config-defaults
+  name: istio-1.23.6-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
