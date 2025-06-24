@@ -43,3 +43,8 @@ data:
     operator:
       repository: nvcr.io/nvidia
       version: v25.3.0
+    migManager:
+      enabled: true
+      repository: nvcr.io/nvidia/cloud-native
+      image: k8s-mig-manager
+      version: v0.12.1-ubuntu20.04

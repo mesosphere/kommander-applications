@@ -21,7 +21,6 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
-          enable-cache: true
           skip-nix-installation: true
 
       - name: Run unit tests

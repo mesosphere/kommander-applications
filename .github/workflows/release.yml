@@ -30,7 +30,6 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
-          enable-cache: true
           skip-nix-installation: true
 
       - name: Configure AWS credentials
@@ -82,10 +81,9 @@ jobs:
       - name: Send slack message if any of the release jobs failed
         if: ${{contains(needs.*.result, 'failure') }}
         uses: slackapi/slack-github-action@v2.1.0
-        env:
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-          SLACK_WEBHOOK_URL: ${{ endsWith(github.ref_name, '-dev') && secrets.DKP_TESTING_ALERTMANAGER_SLACK_URL || secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "blocks": [
@@ -109,10 +107,9 @@ jobs:
       - name: Send slack message when all release jobs completed successfully
         if: ${{ !contains(needs.*.result, 'failure') && !endsWith(github.ref_name, '-dev') }} # No need to send a message on daily releases.
         uses: slackapi/slack-github-action@v2.1.0
-        env:
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
         with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "blocks": [

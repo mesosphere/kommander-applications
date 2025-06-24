@@ -2,7 +2,7 @@ displayName: Reloader
 description: Kubernetes controller to automatically reload values for ConfigMaps and Secrets in Pods.
 category:
   - foundation
-type: platform
+type: nkp-core-platform
 scope:
   - workspace
 licensing:
@@ -12,7 +12,7 @@ licensing:
   - Essential
   - Enterprise
 certifications:
-  - qualified
+  - lifecycle-managed
   - airgapped
 overview: |-
   # Overview

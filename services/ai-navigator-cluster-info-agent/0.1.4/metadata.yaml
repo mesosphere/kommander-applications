@@ -2,12 +2,12 @@ displayName: NKP AI Navigator Cluster Info Agent
 description: The AI Navigator Cluster Info Agent collects information about the NKP cluster and sends it to the AI Navigator service.
 category:
   - tools
-type: platform
+type: nkp-core-platform
 allowMultipleInstances: false
 scope:
   - workspace
 certifications:
-  - supported
+  - nutanix-supported
 licensing:
   - Pro
   - Ultimate
