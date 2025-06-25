@@ -8,7 +8,7 @@ spec:
   prune: true
   interval: 6h
   retryInterval: 1m
-  path: ./services/does-not-exist
+  path: ./applications/does-not-exist
   sourceRef:
     kind: GitRepository
     name: management

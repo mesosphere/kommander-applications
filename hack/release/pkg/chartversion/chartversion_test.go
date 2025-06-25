@@ -167,7 +167,7 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	err = cp.Copy(rootDir, tmpDir)
 	assert.Nil(t, err)
 	// Make a new temp dir to put a redundant file in
-	anotherDir, err := os.MkdirTemp(fmt.Sprintf("%s/services/kommander/", tmpDir), "stuff")
+	anotherDir, err := os.MkdirTemp(fmt.Sprintf("%s/applications/kommander/", tmpDir), "stuff")
 	assert.Nil(t, err)
 	f, err := os.Create(fmt.Sprintf("%s/kommander.yaml", anotherDir))
 	assert.Nil(t, err)
