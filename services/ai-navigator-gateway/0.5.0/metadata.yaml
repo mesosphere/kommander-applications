@@ -13,6 +13,8 @@ licensing:
   - Ultimate
   - Essential
   - Enterprise
+requiredDependencies:
+  - cloudnative-pg
 overview: |-
   # Overview
   The AI Navigator Gateway connects NKP AI Navigator to a configured AI inference endpoint.

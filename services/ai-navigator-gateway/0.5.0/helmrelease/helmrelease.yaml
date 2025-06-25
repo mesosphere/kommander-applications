@@ -12,6 +12,9 @@ spec:
         name: mesosphere.github.io-chatbot-charts
         namespace: kommander-flux
       version: 0.1.0
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: ${releaseNamespace}
   install:
     remediation:
       retries: 30
