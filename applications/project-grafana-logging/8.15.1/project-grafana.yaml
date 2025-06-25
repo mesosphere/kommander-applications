@@ -32,5 +32,5 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-logging-8.15.1-config-defaults
+      name: project-grafana-logging-9.2.7-config-defaults
   targetNamespace: ${releaseNamespace}
