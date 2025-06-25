@@ -22,7 +22,7 @@ trap_add() {
 # appropriate.
 declare -rx releaseNamespace=unused \
             kommanderChartVersion="${kommanderChartVersion:-}" \
-            ociRegistryURL="${ociRepositoryURL:-}"
+            ociRegistryURL="${ociRegistryURL:-}"
 
 IMAGES_FILE="$(realpath "$(mktemp .helm-list-images-XXXXXX)")"
 readonly IMAGES_FILE
@@ -39,4 +39,4 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
   popd &>/dev/null
 done
 
-cat $IMAGES_FILE | sort --unique | sed 's|^oci://||'
+sort --unique "$IMAGES_FILE" | sed 's|^oci://||'
