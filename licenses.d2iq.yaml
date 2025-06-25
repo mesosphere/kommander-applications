@@ -468,10 +468,10 @@ resources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-3-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-2-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
-        ref: v${image_tag%-3-ubuntu22.04}
+        ref: v${image_tag%-2-ubuntu22.04}
         license_path: LICENSE
   - container_image: docker.io/curlimages/curl:8.9.1
     sources:
