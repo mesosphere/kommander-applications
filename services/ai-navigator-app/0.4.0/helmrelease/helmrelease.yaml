@@ -23,4 +23,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ai-navigator-app-0.2.11-config-defaults
+      name: ai-navigator-app-0.4.0-config-defaults
