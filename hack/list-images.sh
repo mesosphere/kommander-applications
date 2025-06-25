@@ -160,7 +160,7 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
       extra_args+=('--extra-images-file' 'extra-images.txt')
     fi
 
->&2 echo -e " + ${dir}${hr}\n"
+    >&2 echo -e " + ${dir}${hr}\n"
     # shellcheck disable=SC2016
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
       gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" '
