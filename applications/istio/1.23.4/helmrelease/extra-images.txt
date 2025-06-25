@@ -1,4 +1,4 @@
-istio/install-cni:{{ .Chart.AppVersion }}
-istio/operator:{{ .Chart.AppVersion }}
-istio/pilot:{{ .Chart.AppVersion }}
-istio/proxyv2:{{ .Chart.AppVersion }}
+istio/install-cni:1.23.6
+istio/operator:1.23.6
+istio/pilot:1.23.6
+istio/proxyv2:1.23.6
