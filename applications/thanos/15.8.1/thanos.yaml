@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://docker.io/bitnamicharts}/thanos"
+  url: "${ociRegistryURL:=oci://docker.io}/bitnamicharts/thanos"
   ref:
     tag: 15.8.0
 ---

@@ -7,7 +7,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io/grafana/helm-charts}/grafana"
+  url: "${ociRegistryURL:=oci://ghcr.io}/grafana/helm-charts/grafana"
   ref:
     tag: 8.15.0
 ---
