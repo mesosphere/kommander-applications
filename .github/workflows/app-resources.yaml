@@ -33,7 +33,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "CONFLUENCE_USERNAME=${{ vars.CONFLUENCE_SERVICE_USER }}" >> $GITHUB_ENV
-          echo "CONFLUENCE_APITOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}" >> $GITHUB_ENV
+          echo "CONFLUENCE_API_TOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}" >> $GITHUB_ENV
 
       - name: Publish report to Confluence
         working-directory: app-resources/publish

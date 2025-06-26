@@ -152,5 +152,5 @@ func main() {
 		log.Fatalf("error updating Confluence page: %v", err)
 	}
 
-	log.Println("✅ Confluence page updated successfully.")
+	log.Println("Confluence page updated successfully.")
 }

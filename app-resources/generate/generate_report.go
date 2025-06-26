@@ -111,7 +111,7 @@ func main() {
 	sortCSV(outputFile)
 
 	// Print the output location
-	fmt.Printf("✅ Output saved to %s\n", outputFile)
+	fmt.Printf("Output saved to %s\n", outputFile)
 }
 
 // Function to extract CPU and memory from cm.yaml
