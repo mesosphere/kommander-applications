@@ -18,7 +18,6 @@ const (
 	csvPath           = "../generate/management_resource.csv"
 )
 
-// read token from env
 var apiToken = os.Getenv("CONFLUENCE_API_TOKEN")
 
 func init() {
@@ -31,14 +30,10 @@ type ConfluenceContent struct {
 	Version struct {
 		Number int `json:"number"`
 	} `json:"version"`
-	Body struct {
-		Storage struct {
-			Value string `json:"value"`
-		} `json:"storage"`
-	} `json:"body"`
+	Title string `json:"title"`
 }
 
-func getCurrentPageVersion() (int, error) {
+func getCurrentPageVersion() (int, string, error) {
 	url := fmt.Sprintf("%s/rest/api/content/%s?expand=version", confluenceBaseURL, confluencePageID)
 
 	req, _ := http.NewRequest("GET", url, nil)
@@ -46,30 +41,30 @@ func getCurrentPageVersion() (int, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return 0, fmt.Errorf("getting page version: %w", err)
+		return 0, "", fmt.Errorf("getting page version: %w", err)
 	}
 	defer resp.Body.Close()
 
+	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return 0, fmt.Errorf("error fetching version, status %d: %s", resp.StatusCode, body)
+		return 0, "", fmt.Errorf("error fetching version, status %d: %s", resp.StatusCode, body)
 	}
 
 	var content ConfluenceContent
-	if err := json.NewDecoder(resp.Body).Decode(&content); err != nil {
-		return 0, fmt.Errorf("decoding version response: %w", err)
+	if err := json.Unmarshal(body, &content); err != nil {
+		return 0, "", fmt.Errorf("decoding version response: %w", err)
 	}
 
-	return content.Version.Number, nil
+	return content.Version.Number, content.Title, nil
 }
 
-func updateConfluencePage(content string, newVersion int) error {
+func updateConfluencePage(content string, newVersion int, pageTitle string) error {
 	url := fmt.Sprintf("%s/rest/api/content/%s", confluenceBaseURL, confluencePageID)
 
 	payload := map[string]interface{}{
 		"id":    confluencePageID,
 		"type":  "page",
-		"title": "Component and Application Versions",
+		"title": pageTitle,
 		"version": map[string]interface{}{
 			"number": newVersion,
 		},
@@ -86,15 +81,19 @@ func updateConfluencePage(content string, newVersion int) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+apiToken)
 
+	log.Printf("Updating Confluence page to version: %d", newVersion)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("updating page: %w", err)
 	}
 	defer resp.Body.Close()
 
+	body, _ := io.ReadAll(resp.Body)
+	log.Printf("Confluence response status: %d", resp.StatusCode)
+	log.Printf("Confluence response body:\n%s", string(body))
+
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("failed to update page, status %d: %s", resp.StatusCode, body)
+		return fmt.Errorf("failed to update page, status %d", resp.StatusCode)
 	}
 
 	return nil
@@ -134,21 +133,21 @@ func generateResourceHTML(csvPath string) (string, error) {
 }
 
 func main() {
-	// build the HTML from the CSV
 	resourceHTML, err := generateResourceHTML(csvPath)
 	if err != nil {
 		log.Fatalf("error generating resource HTML: %v", err)
 	}
-	fullContent := resourceHTML
+	log.Println("Generated HTML:\n", resourceHTML)
 
-	// fetch current page version
-	version, err := getCurrentPageVersion()
+
+	version, title, err := getCurrentPageVersion()
 	if err != nil {
 		log.Fatalf("error getting page version: %v", err)
 	}
+	log.Printf("Current page version: %d, title: %s", version, title)
 
-	// update Confluence
-	if err := updateConfluencePage(fullContent, version+1); err != nil {
+
+	if err := updateConfluencePage(resourceHTML, version+1, title); err != nil {
 		log.Fatalf("error updating Confluence page: %v", err)
 	}
 
