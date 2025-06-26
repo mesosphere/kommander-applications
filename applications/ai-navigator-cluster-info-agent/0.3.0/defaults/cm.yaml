@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-cluster-info-0.2.0-config-defaults
+  name: ai-navigator-cluster-info-0.3.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
