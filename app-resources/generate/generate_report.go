@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	// Path to management apps file
+	//management apps file path
 	managementAppsFile := "management_apps.txt"
 	allowedApps := make(map[string]bool)
 	customNames := make(map[string]string)
@@ -50,7 +50,7 @@ func main() {
 		log.Fatal("Error reading management_apps.txt: ", err)
 	}
 
-	// Prepare output file and write headers
+	// creating output file and writing headers
 	outputFile := "management_resource.csv"
 	fileOutput, err := os.Create(outputFile)
 	if err != nil {
@@ -59,7 +59,7 @@ func main() {
 	defer fileOutput.Close()
 
 	writer := bufio.NewWriter(fileOutput)
-	writer.WriteString("CustomAppName,App,Version,CPU,Memory\n")
+	writer.WriteString("CommonName,App,Version,CPU,Memory\n")
 
 	// Walk the services directory recursively
 	err = filepath.Walk("../../services", func(path string, info fs.FileInfo, err error) error {
@@ -67,12 +67,11 @@ func main() {
 			return err
 		}
 
-		// Only interested in files named cm.yaml inside defaults folder
+		// Only check files named cm.yaml
 		if info.IsDir() || !strings.HasSuffix(path, "defaults/cm.yaml") {
 			return nil
 		}
 
-		// Example path: ../services/kommander/0.16.0/defaults/cm.yaml
 		parts := strings.Split(path, string(os.PathSeparator))
 		if len(parts) < 4 {
 			return nil
@@ -92,12 +91,12 @@ func main() {
 				memory = "N/A"
 			}
 
-			customAppName := app
+			CommonName := app
 			if customName, exists := customNames[appLower]; exists {
-				customAppName = customName
+				CommonName = customName
 			}
 
-			writer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%s\n", customAppName, app, version, cpu, memory))
+			writer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%s\n", CommonName, app, version, cpu, memory))
 		}
 		return nil
 	})
@@ -107,14 +106,12 @@ func main() {
 
 	writer.Flush()
 
-	// Sort the output file
 	sortCSV(outputFile)
 
-	// Print the output location
 	fmt.Printf("Output saved to %s\n", outputFile)
 }
 
-// Function to extract CPU and memory from cm.yaml
+// Function to extract CPU and memory
 func extractResourceData(filePath string) (string, string) {
 	fileContent, err := os.ReadFile(filePath)
 	if err != nil {
@@ -144,7 +141,6 @@ func extractResourceData(filePath string) (string, string) {
 	return cpu, memory
 }
 
-// Helper function to extract CPU or Memory using regex
 func extractResource(valuesYaml, resource string) string {
 	re := regexp.MustCompile(fmt.Sprintf(`(?m)^\s*%s:\s*(\S+)`, resource))
 	matches := re.FindStringSubmatch(valuesYaml)
@@ -154,7 +150,7 @@ func extractResource(valuesYaml, resource string) string {
 	return ""
 }
 
-// Sort the CSV output file alphabetically by CustomAppName
+// Sort the CSV output file alphabetically
 func sortCSV(outputFile string) {
 	fileContent, err := os.ReadFile(outputFile)
 	if err != nil {
@@ -184,8 +180,7 @@ func sortCSV(outputFile string) {
 	}
 	writer.Flush()
 }
-
-// Helper to remove empty lines
+//remove empty lines
 func removeEmpty(lines []string) []string {
 	var result []string
 	for _, line := range lines {
