@@ -1,4 +1,4 @@
-istio/install-cni:1.23.6
-istio/operator:1.23.6
-istio/pilot:1.23.6
-istio/proxyv2:1.23.6
+istio/install-cni:{{ .Values.istioOperator.tag }}
+istio/operator:{{ .Values.istioOperator.tag }}
+istio/pilot:{{ .Values.istioOperator.tag }}
+istio/proxyv2:{{ .Values.istioOperator.tag }}
