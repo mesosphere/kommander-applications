@@ -12,5 +12,6 @@ data:
     auth:
       enabled: false
     image:
-      # When empty, the chart appVersion is used for a tag.
-      tag: v0.5.0
+      # TODO: use a stable image instead of a dev one.
+      # NOTE: When empty, the chart appVersion is used for a tag.
+      tag: "v0.0.0-dev.0"
