@@ -9,13 +9,15 @@ jobs:
   publish:
     name: Generate & Publish
     runs-on: self-hosted-nutanix-medium
-    env:
-      CONFLUENCE_API_TOKEN: ${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'app-resources/go.mod'
+          go-version: '1.21'
 
       - name: Download dependencies
         working-directory: app-resources
@@ -24,11 +26,17 @@ jobs:
       - name: Generate CSV report
         working-directory: app-resources/generate
         run: |
-          echo "📝 Generating report"
+          echo "Generating report"
+          ln -s ../../services ./services
           go run generate_report.go
+
+      - name: Set environment variables
+        run: |
+          echo "CONFLUENCE_USERNAME=${{ vars.CONFLUENCE_SERVICE_USER }}" >> $GITHUB_ENV
+          echo "CONFLUENCE_APITOKEN=${{ secrets.CONFLUENCE_SERVICE_USER_TOKEN }}" >> $GITHUB_ENV
 
       - name: Publish report to Confluence
         working-directory: app-resources/publish
         run: |
-        echo "🚀 Publishing report to Confluence"
-        go run publish.go
+          echo "Publishing report to Confluence"
+          go run publish.go
