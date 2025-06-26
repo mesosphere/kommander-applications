@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 const (
@@ -128,6 +129,9 @@ func generateResourceHTML(csvPath string) (string, error) {
 		htmlTable.WriteString("</tr>\n")
 	}
 	htmlTable.WriteString("</tbody></table>")
+
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	htmlTable.WriteString(fmt.Sprintf("<p><em>Updated on: %s</em></p>", timestamp))
 
 	return htmlTable.String(), nil
 }
