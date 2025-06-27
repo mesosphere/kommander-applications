@@ -7,14 +7,13 @@ k8s_versions:
 
 # paths to load (in that order)
 paths:
-  - common/base
+  - common/helm-repositories
   - applications
+  - applications/kommander/0.16.0/dynamic-helmreleases
+  - common/kommander-operator
 
 # use strict validation (reject unknown fields in resources)
 strict: true
-
-# read metadata.yaml from app/version dir (instead of app/)
-read_metadata_from_app_version: true
 
 # types to be skipped (e.g. certmanager.k8s.io/v1, or certmanager.k8s.io/v1/Certificate)
 skip_types:
@@ -45,3 +44,5 @@ substitution_vars:
   certificateIssuerName: issuer
   certificatesIssuerName: issuer
   certificateIssuerKind: ClusterIssuer
+  name: this-hack-is-for-kommander-dynamic-helmreleases
+  clusterID: this-hack-is-for-kommander-dynamic-helmreleases
