@@ -72,5 +72,8 @@ jobs:
 
             echo "Pushing $name-$version to GHCR"
             echo "helm push \"$name-$version.tgz\" oci://ghcr.io/mesosphere/charts"
-            helm push "$name-$version.tgz" oci://ghcr.io/mesosphere/charts
+            helm push "$name-$version.tgz" oci://ghcr.io/mesosphere/charts || {
+              echo "Failed to push $name-$version to GHCR"
+              continue
+            }
           done
