@@ -61,8 +61,8 @@ func main() {
 	writer := bufio.NewWriter(fileOutput)
 	writer.WriteString("CommonName,App,Version,CPU,Memory\n")
 
-	// Walk the services directory recursively
-	err = filepath.Walk("../../services", func(path string, info fs.FileInfo, err error) error {
+	// Walk applications directory recursively
+	err = filepath.Walk("../../applications", func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -101,7 +101,7 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		log.Fatal("Error walking services directory: ", err)
+		log.Fatal("Error walking applications directory: ", err)
 	}
 
 	writer.Flush()

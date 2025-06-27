@@ -27,7 +27,7 @@ jobs:
         working-directory: app-resources/generate
         run: |
           echo "Generating report"
-          ln -s ../../services ./services
+          ln -s ../../applications ./applications
           go run generate_report.go
 
       - name: Set environment variables
