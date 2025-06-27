@@ -71,5 +71,6 @@ jobs:
             helm package "charts/$name"
 
             echo "Pushing $name-$version to GHCR"
-            #helm push "$name-$version.tgz" oci://ghcr.io/mesosphere/charts
+            echo "helm push \"$name-$version.tgz\" oci://ghcr.io/mesosphere/charts"
+            helm push "$name-$version.tgz" oci://ghcr.io/mesosphere/charts
           done
