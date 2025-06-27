@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://docker.io/mesosphere}/kommander-appmanagement-chart"
+  url: "${ociRegistryURL:=oci://docker.io}/mesosphere/kommander-appmanagement-chart"
   ref:
     tag: "${kommanderChartVersion:=v2.16.0-dev}"
 ---

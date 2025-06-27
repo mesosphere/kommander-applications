@@ -48,7 +48,7 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		subVars := map[string]string{
 			"kommanderChartVersion": chartVersion,
 			"releaseNamespace":      "${releaseNamespace}",
-			"ociRegistryURL":        "${ociRegistryURL:=oci://docker.io/mesosphere}",
+			"ociRegistryURL":        "${ociRegistryURL:=oci://docker.io}",
 		}
 		updatedFile, err := parsedFile.Execute(func(s string) string {
 			return subVars[s]
