@@ -8,6 +8,8 @@ scope:
 - workspace
 certifications:
 - nutanix-supported
+requiredDependencies:
+- cloudnative-pg
 licensing:
 - Pro
 - Ultimate
