@@ -18,7 +18,8 @@
     "oras":            "latest",
     "pre-commit":      "latest",
     "rsync":           "latest",
-    "yq-go":           "latest"
+    "yq-go":           "latest",
+    "git":             "latest"
   },
   "shell": {
     "scripts": {
