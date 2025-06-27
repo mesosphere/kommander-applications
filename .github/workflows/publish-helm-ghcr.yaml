@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - sandy/helm-oci-ghcr-registry # branch updated for testing
+      - sandy/helm-oci-ghcr # branch updated for testing
 
 jobs:
   push-charts:
