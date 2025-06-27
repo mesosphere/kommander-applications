@@ -24,4 +24,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ai-navigator-cluster-info-0.3.0-config-defaults
-      valuesKey: api-values.yaml
