@@ -6,6 +6,9 @@ metadata:
 data:
   values.yaml: |
     istioOperator:
+      profile: default
+      hub: docker.io/istio
+      tag: 1.23.6
       components:
         ingressGateways:
         - enabled: true
