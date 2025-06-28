@@ -5,3 +5,4 @@ resources:
   - grafana-loki-helmrelease.yaml
   - grafana-dashboards
   - grafana-dashboards-logging
+  - _repository.yaml
