@@ -1,6 +1,5 @@
 ignore:
   - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
-  - docker.io/library/alpine:3.20.3
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
@@ -464,11 +463,6 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: docker.io/semitechnologies/weaviate:1.27.6
-    sources:
-      - license_path: LICENSE
-        ref: v${image_tag}
-        url: https://github.com/weaviate/weaviate
   - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.3.0-full
     sources:
       - url: https://github.com/kube-logging/logging-operator
