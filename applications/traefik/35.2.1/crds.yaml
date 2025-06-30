@@ -1,23 +1,37 @@
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
 metadata:
-  name: traefik-crd-helmrelease
+  name: traefik-crds
   namespace: ${releaseNamespace}
 spec:
-  force: false
-  prune: true
-  wait: true
-  interval: 6h
-  retryInterval: 1m
-  path: ./applications/traefik/35.2.1/crds
-  sourceRef:
-    kind: GitRepository
-    name: management
-    namespace: kommander-flux
-  timeout: 1m
-  postBuild:
-    substitute:
-      releaseNamespace: ${releaseNamespace}
-    substituteFrom:
-      - kind: ConfigMap
-        name: substitution-vars
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io/traefik/charts}/traefik-crds"
+  ref:
+    tag: 1.6.0
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik-crds
+  namespace: ${releaseNamespace}
+spec:
+  interval: 15s
+  chartRef:
+    kind: OCIRepository
+    name: traefik-crds
+    namespace: ${releaseNamespace}
+    chart: traefik-crds
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  valuesFrom:
+    - kind: ConfigMap
+      name: traefik-crd-1.6.1-config-defaults
+    - kind: ConfigMap
+      name: traefik-crd-overrides
+      optional: true
+
