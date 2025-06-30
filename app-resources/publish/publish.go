@@ -1,0 +1,159 @@
+package main
+
+import (
+	"bytes"
+	"encoding/csv"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+	"time"
+)
+
+const (
+	confluenceBaseURL = "https://confluence.eng.nutanix.com:8443"
+	confluencePageID  = "411939285" //Confluence Page ID
+	csvPath           = "../generate/management_resource.csv"
+)
+
+var apiToken = os.Getenv("CONFLUENCE_API_TOKEN")
+
+func init() {
+	if apiToken == "" {
+		log.Fatal("Missing required environment variable: CONFLUENCE_API_TOKEN")
+	}
+}
+
+type ConfluenceContent struct {
+	Version struct {
+		Number int `json:"number"`
+	} `json:"version"`
+	Title string `json:"title"`
+}
+
+func getCurrentPageVersion() (int, string, error) {
+	url := fmt.Sprintf("%s/rest/api/content/%s?expand=version", confluenceBaseURL, confluencePageID)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer "+apiToken)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return 0, "", fmt.Errorf("getting page version: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	if resp.StatusCode != http.StatusOK {
+		return 0, "", fmt.Errorf("error fetching version, status %d: %s", resp.StatusCode, body)
+	}
+
+	var content ConfluenceContent
+	if err := json.Unmarshal(body, &content); err != nil {
+		return 0, "", fmt.Errorf("decoding version response: %w", err)
+	}
+
+	return content.Version.Number, content.Title, nil
+}
+
+func updateConfluencePage(content string, newVersion int, pageTitle string) error {
+	url := fmt.Sprintf("%s/rest/api/content/%s", confluenceBaseURL, confluencePageID)
+
+	payload := map[string]interface{}{
+		"id":    confluencePageID,
+		"type":  "page",
+		"title": pageTitle,
+		"version": map[string]interface{}{
+			"number": newVersion,
+		},
+		"body": map[string]interface{}{
+			"storage": map[string]string{
+				"value":          content,
+				"representation": "storage",
+			},
+		},
+	}
+
+	data, _ := json.Marshal(payload)
+	req, _ := http.NewRequest("PUT", url, bytes.NewBuffer(data))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+apiToken)
+
+	log.Printf("Updating Confluence page to version: %d", newVersion)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("updating page: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	log.Printf("Confluence response status: %d", resp.StatusCode)
+	log.Printf("Confluence response body:\n%s", string(body))
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("failed to update page, status %d", resp.StatusCode)
+	}
+
+	return nil
+}
+
+func generateResourceHTML(csvPath string) (string, error) {
+	file, err := os.Open(csvPath)
+	if err != nil {
+		return "", fmt.Errorf("opening CSV file: %w", err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return "", fmt.Errorf("reading CSV: %w", err)
+	}
+
+	var htmlTable strings.Builder
+	htmlTable.WriteString("<h2>Management Application Resource Usage</h2>\n")
+	htmlTable.WriteString("<table><tbody>\n")
+
+	for i, row := range records {
+		htmlTable.WriteString("<tr>")
+		for _, cell := range row {
+			tag := "td"
+			if i == 0 {
+				tag = "th"
+			}
+			htmlTable.WriteString(fmt.Sprintf("<%s>%s</%s>", tag, cell, tag))
+		}
+		htmlTable.WriteString("</tr>\n")
+	}
+	htmlTable.WriteString("</tbody></table>")
+
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	htmlTable.WriteString(fmt.Sprintf("<p><em>Updated on: %s</em></p>", timestamp))
+
+	return htmlTable.String(), nil
+}
+
+func main() {
+	resourceHTML, err := generateResourceHTML(csvPath)
+	if err != nil {
+		log.Fatalf("error generating resource HTML: %v", err)
+	}
+	log.Println("Generated HTML:\n", resourceHTML)
+
+
+	version, title, err := getCurrentPageVersion()
+	if err != nil {
+		log.Fatalf("error getting page version: %v", err)
+	}
+	log.Printf("Current page version: %d, title: %s", version, title)
+
+
+	if err := updateConfluencePage(resourceHTML, version+1, title); err != nil {
+		log.Fatalf("error updating Confluence page: %v", err)
+	}
+
+	log.Println("Confluence page updated successfully.")
+}
