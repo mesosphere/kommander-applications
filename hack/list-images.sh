@@ -220,3 +220,4 @@ sed --expression='s|^docker.io/||' \
     --expression='/mesosphere\/chatbot/d' \
     "${IMAGES_FILE}" | \
   sort --unique
+  
