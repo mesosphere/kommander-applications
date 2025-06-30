@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${name}
+  name: ${releaseName}
   namespace: ${namespace}
   labels:
     kommander.mesosphere.io/cluster-id: ${clusterID}
@@ -28,4 +28,5 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${valuesFrom}
+      optional: true
   targetNamespace: ${targetNamespace}

@@ -31,4 +31,5 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${valuesFrom}
+      optional: true
   targetNamespace: ${targetNamespace}
