@@ -216,5 +216,6 @@ sed --expression='s|^docker.io/||' \
     --expression='/^[[:space:]]*$/d' \
     --expression='/ai-navigator-/d' \
     --expression='/nkp-pulse-/d' \
+    --expression='/mesosphere\/chatbot/d' \
     "${IMAGES_FILE}" | \
   sort --unique
