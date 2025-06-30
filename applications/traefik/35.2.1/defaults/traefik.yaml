@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-35.2.1-config-defaults
+  name: traefik-35.2.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
