@@ -46,3 +46,4 @@ substitution_vars:
   certificateIssuerKind: ClusterIssuer
   name: this-hack-is-for-kommander-dynamic-helmreleases
   clusterID: this-hack-is-for-kommander-dynamic-helmreleases
+  caIssuerName: this-hack-is-only-for-istio-ca-issuer # This might be a bug in istio application definition. TODO.
