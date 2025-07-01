@@ -14,4 +14,4 @@ validate-manifests: $(DKP_BLOODHOUND_BIN)
 
 .PHONY: list-images
 list-images: $(DKP_BLOODHOUND_BIN)
-	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml --skip-applications ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
+	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml --skip-applications ai-navigator-app,ai-navigator-cluster-info-agent,ai-navigator-gateway,nkp-pulse-management,nkp-pulse-workspace
