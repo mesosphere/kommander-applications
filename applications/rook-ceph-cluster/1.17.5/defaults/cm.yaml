@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-cluster-1.17.1-config-defaults
+  name: rook-ceph-cluster-1.17.5-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
