@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/fluent-bit"
   ref:
-    tag: 0.48.10
+    tag: 0.50.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
