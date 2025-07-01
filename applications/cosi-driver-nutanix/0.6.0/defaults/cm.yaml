@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cosi-driver-nutanix-0.5.0-config-defaults
+  name: cosi-driver-nutanix-0.6.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
