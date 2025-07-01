@@ -19,7 +19,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: fluent-bit
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
@@ -33,4 +33,4 @@ spec:
   releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
-      name: fluent-bit-0.48.11-config-defaults
+      name: fluent-bit-0.50.0-config-defaults
