@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: open-policy-agent.github.io-charts
         namespace: kommander-flux
-      version: 3.18.2
+      version: 3.19.2
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,7 +25,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.18.3-config-defaults
+      name: gatekeeper-3.19.2-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
@@ -88,7 +88,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.18.3-config-defaults
+      name: gatekeeper-3.19.2-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true

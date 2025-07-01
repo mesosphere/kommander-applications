@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-3.18.3-config-defaults
+  name: gatekeeper-3.19.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
