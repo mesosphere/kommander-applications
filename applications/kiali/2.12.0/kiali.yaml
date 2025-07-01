@@ -1,3 +1,19 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kiali
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    # Istio is a hard dependency for Kiali
+    # https://kiali.io/documentation/latest/architecture/
+    - name: istio
+      namespace: ${releaseNamespace}
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kiali-operator"
+  ref:
+    tag: 2.12.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -9,14 +25,10 @@ spec:
     # https://kiali.io/documentation/latest/architecture/
     - name: istio
       namespace: ${releaseNamespace}
-  chart:
-    spec:
-      chart: kiali-operator
-      sourceRef:
-        kind: HelmRepository
-        name: kiali-org
-        namespace: kommander-flux
-      version: 2.8.0
+  chatRef:
+    kind: OCIRepository
+    name: kiali-org
+    namespace: kommander-flux
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,7 +41,7 @@ spec:
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
-      name: kiali-2.8.1-config-defaults
+      name: kiali-2.12.0-config-defaults
   targetNamespace: istio-system
 ---
 apiVersion: v1
@@ -44,7 +56,7 @@ data:
   dashboardLink: "/dkp/kiali"
   docsLink: "https://istio.io/docs/tasks/telemetry/kiali/"
   # Chart version matches app version
-  version: "2.8.0"
+  version: "2.12.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
