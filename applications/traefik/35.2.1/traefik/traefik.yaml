@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io/traefik/charts}/traefik"
   ref:
-    tag: 35.2.0
+    tag: 36.2.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -18,7 +18,7 @@ spec:
   dependsOn:
     - name: traefik-crds
       namespace: ${releaseNamespace}
-  chartRef:
+  chartRef: 
     kind: OCIRepository
     name: traefik
     namespace: ${releaseNamespace}
@@ -36,7 +36,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-35.2.1-config-defaults
+      name: traefik-35.2.0-config-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true
