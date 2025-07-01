@@ -127,3 +127,6 @@ data:
         - "gatekeeper"
         - "kommander-flux"
         - "cilium-hubble-relay-traefik"
+    catalogOciRepositories:
+    - name: partner-catalog-2.16
+      url: ghcr.io/nroshanrai/nkp-partner-catalog:2.16
