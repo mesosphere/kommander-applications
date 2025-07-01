@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: kiali-org
         namespace: kommander-flux
-      version: 2.8.0
+      version: 2.12.0
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,7 +29,7 @@ spec:
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap
-      name: kiali-2.8.1-config-defaults
+      name: kiali-2.12.0-config-defaults
   targetNamespace: istio-system
 ---
 apiVersion: v1
