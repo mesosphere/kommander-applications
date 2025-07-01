@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: vmware-tanzu.github.io
         namespace: kommander-flux
-      version: 9.0.0
+      version: 10.0.8
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,6 +24,6 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-9.0.1-config-defaults
+      name: velero-10.0.8-config-defaults
   targetNamespace: ${releaseNamespace}
 ---

@@ -1,3 +1,15 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: velero
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://docker.io}/mesosphere/charts/velero"
+  ref:
+    tag: 10.0.8
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -12,10 +24,10 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/velero/9.0.1/post-install
-  sourceRef:
-    kind: GitRepository
-    name: management
+  path: ./applications/velero/10.0.8/post-install
+  chartRef::
+    kind: OCIRepository
+    name: velero
     namespace: kommander-flux
   timeout: 1m
   postBuild:
