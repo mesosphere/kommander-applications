@@ -1,7 +1,7 @@
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: kiali
+  name: kiali-operator
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kiali
+  name: kiali-operator
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -25,9 +25,9 @@ spec:
     # https://kiali.io/documentation/latest/architecture/
     - name: istio
       namespace: ${releaseNamespace}
-  chatRef:
+  chartRef:
     kind: OCIRepository
-    name: kiali-org
+    name: kiali-operator
     namespace: kommander-flux
   interval: 15s
   install:
