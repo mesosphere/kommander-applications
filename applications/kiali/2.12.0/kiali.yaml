@@ -1,10 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kiali-operator
+  name: kiali
   namespace: ${releaseNamespace}
 spec:
-  type: oci
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kiali-operator"
   ref:
