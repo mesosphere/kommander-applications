@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kiali
+  name: kiali-operator
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
