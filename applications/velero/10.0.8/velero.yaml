@@ -24,7 +24,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/velero/10.0.8/helmrelease
+  path: ./helmrelease
   sourceRef:
     kind: OCIRepository
     name: velero
