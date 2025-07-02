@@ -7,7 +7,7 @@ data:
   values.yaml: |-
     ---
     api:
-      enabled: true 
+      enabled: true
     postgresql:
       instances: 1
       image:
@@ -21,10 +21,10 @@ data:
       servicePort: 5432
       priorityClassName: "dkp-critical-priority"
       persistence:
-        size: 8Gi 
+        size: 8Gi
     priorityClassName: dkp-high-priority
     kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.1}
-  agent-values.yaml: |-    
+  agent-values.yaml: |-
     ---
     collector:
       url: http://ai-navigator-cluster-info-api.${releaseNamespace}.svc/api/v1/documents/collect/
