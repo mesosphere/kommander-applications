@@ -1,4 +1,4 @@
-apiVersion: source.toolkit.fluxcd.io/v1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: kiali
@@ -27,7 +27,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: kiali-operator
+    name: kiali
     namespace: ${releaseNamespace}
   interval: 15s
   install:
