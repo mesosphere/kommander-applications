@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kiali-operator
+  name: kiali
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -17,7 +17,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kiali-operator
+  name: kiali
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -28,7 +28,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kiali-operator
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
