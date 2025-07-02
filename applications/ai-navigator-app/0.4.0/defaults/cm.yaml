@@ -10,7 +10,6 @@ data:
     image:
       registry: docker.io
       repository: mesosphere/ai-navigator-app
-      tag: v0.4.0
       pullPolicy: IfNotPresent
     chatbotURL: "https://chatbot.api.d2iq.com/v1/chat"
     authorizerURL: "https://auth.api.d2iq.com"
