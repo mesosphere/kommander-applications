@@ -5,7 +5,6 @@ metadata:
   name: gpu-operator
   namespace: ${releaseNamespace}
 spec:
-  type: oci
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/gpu-operator"
   ref:
