@@ -1,14 +1,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: kiali
-  namespace: ${releaseNamespace}
+  name: kiali-operator
+  namespace: kommander-flux
 spec:
-  dependsOn:
-    # Istio is a hard dependency for Kiali
-    # https://kiali.io/documentation/latest/architecture/
-    - name: istio
-      namespace: ${releaseNamespace}
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kiali-operator"
   ref:
@@ -27,8 +22,8 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: kiali
-    namespace: ${releaseNamespace}
+    name: kiali-operator
+    namespace: kommander-flux
   interval: 15s
   install:
     crds: CreateReplace
