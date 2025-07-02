@@ -10,10 +10,10 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./applications/velero/10.0.8/pre-install
-  chartRef::
+  sourceRef:
     kind: OCIRepository
     name: velero
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   timeout: 1m
   postBuild:
     substitute:
