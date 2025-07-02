@@ -28,7 +28,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: velero
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   timeout: 1m
   postBuild:
     substitute:

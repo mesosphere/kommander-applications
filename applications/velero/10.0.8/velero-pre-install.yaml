@@ -13,7 +13,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: management
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   timeout: 1m
   postBuild:
     substitute:
