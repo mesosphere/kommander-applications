@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kiali-operator"
   ref:
-    tag: v2.12.0
+    tag: 2.12.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
