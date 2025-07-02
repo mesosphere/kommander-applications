@@ -1,4 +1,4 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: kiali-operator
@@ -24,7 +24,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kiali-operator
-    namespace: kommander-flux
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
