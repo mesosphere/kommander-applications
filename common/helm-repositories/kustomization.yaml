@@ -5,8 +5,6 @@ resources:
   - cert-manager.yaml
   - cloudnative-pg.yaml
   - dashboard.yaml
-  - external-secrets.yaml
-  - fluent.yaml
   - gatekeeper.yaml
   - grafana.yaml
   - harbor.yaml
