@@ -20,6 +20,7 @@ spec:
     kind: OCIRepository
     name: gpu-operator
     namespace: ${releaseNamespace}
+    chart: gpu-operator
   interval: 15s
   install:
     crds: CreateReplace
