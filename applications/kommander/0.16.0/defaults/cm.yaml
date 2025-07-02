@@ -127,5 +127,6 @@ data:
         - "gatekeeper"
         - "kommander-flux"
         - "cilium-hubble-relay-traefik"
-    catalogOciRepositories:
-    - "ghcr.io/nroshanrai/nkp-partner-catalog:2.16"
+    catalogCollections:
+    - registry: ghcr.io
+      repository: nroshanrai/nkp-partner-catalog
