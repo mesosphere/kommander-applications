@@ -14,8 +14,8 @@ spec:
   retryInterval: 1m
   path: ./applications/velero/10.0.8/post-install
   sourceRef:
-    kind: OCIRepository
-    name: velero
+    kind: GitRepository
+    name: management
     namespace: kommander-flux
   timeout: 1m
   postBuild:

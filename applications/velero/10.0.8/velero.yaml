@@ -25,7 +25,7 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./applications/velero/10.0.8/helmrelease
-  sourceRef:
+  chartRef:
     kind: OCIRepository
     name: velero
     namespace: kommander-flux

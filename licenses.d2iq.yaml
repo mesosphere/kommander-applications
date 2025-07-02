@@ -250,6 +250,16 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
+  - container_image: docker.io/velero/velero-plugin-for-aws:v1.12.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/vmware-tanzu/velero-plugin-for-aws
+  - container_image: docker.io/velero/velero:v1.16.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/vmware-tanzu/velero
   - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.1
     sources:
       - license_path: LICENSE
