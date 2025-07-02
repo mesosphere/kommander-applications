@@ -2,16 +2,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: gpu-operator
+  name: nvidia-gpu-operator
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/gpu-operator"
   ref:
     tag: 25.3.1
-  layerSelector:
-    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
-    operation: extract
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -21,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: gpu-operator
+    name: nvidia-gpu-operator
     namespace: ${releaseNamespace}
   interval: 15s
   install:
