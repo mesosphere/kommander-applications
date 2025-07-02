@@ -12,11 +12,11 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./post-install
+  path: ./applications/velero/10.0.8/post-install
   sourceRef:
     kind: OCIRepository
     name: velero
-    namespace: ${releaseNamespace}
+    namespace: kommander-flux
   timeout: 1m
   postBuild:
     substitute:

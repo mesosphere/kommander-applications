@@ -24,11 +24,11 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./helmrelease
+  path: ./applications/velero/10.0.8/helmrelease
   sourceRef:
     kind: OCIRepository
     name: velero
-    namespace: ${releaseNamespace}
+    namespace: kommander-flux
   timeout: 1m
   postBuild:
     substitute:
