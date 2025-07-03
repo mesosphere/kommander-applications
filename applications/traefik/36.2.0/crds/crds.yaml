@@ -1,3 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: traefik-crds
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/traefik/helm/traefik-crds"
+  ref:
+    tag: 1.9.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -5,14 +16,18 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 15s
-  chart:
-    spec:
-      chart: traefik-crds
-      version: 1.9.0 # Keep this consistent with /services/gateway-api-crds/<version>/gateway-api-crds.yaml HelmRelease.
-      sourceRef:
-        kind: HelmRepository
-        name: helm.traefik.io-traefik
-        namespace: kommander-flux
+  chartRef:
+    kind: OCIRepository
+    name: traefik-crds
+    namespace: ${releaseNamespace}
+  releaseName: traefik-crds
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  timeout: 5m0s
   valuesFrom:
     - kind: ConfigMap
       name: traefik-crd-1.9.0-config-defaults
