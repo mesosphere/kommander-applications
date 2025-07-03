@@ -23,7 +23,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: kiali-operator
-    namespace: ${releaseNamespace}  
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
