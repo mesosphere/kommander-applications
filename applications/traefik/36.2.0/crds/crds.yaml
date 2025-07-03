@@ -21,13 +21,6 @@ spec:
     name: traefik-crds
     namespace: ${releaseNamespace}
   releaseName: traefik-crds
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-  timeout: 5m0s
   valuesFrom:
     - kind: ConfigMap
       name: traefik-crd-1.9.0-config-defaults
