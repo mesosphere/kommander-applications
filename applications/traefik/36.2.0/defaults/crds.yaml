@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: traefik-crd-1.6.1-config-defaults
+  name: traefik-crd-1.9.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
