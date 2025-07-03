@@ -33,7 +33,7 @@ for dir in $(find . -path "./apptests/*" -prune -o -type f -name "*.yaml" -print
   while IFS= read -r ocirepo_path; do
     >&2 echo "+ ${dir}${ocirepo_path}"
      envsubst -no-unset -no-digit < "${ocirepo_path}" | \
-      yq -r 'select(.kind == "OCIRepository") | .spec.url + ":" + .spec.ref.tag' | \
+      yq -r --no-doc 'select(.kind == "OCIRepository") | .spec.url + ":" + .spec.ref.tag' | \
       >&2 tee -a "${IMAGES_FILE}"
   done < <(grep --recursive --max-count=1 --files-with-matches '^kind: OCIRepository')
   popd &>/dev/null

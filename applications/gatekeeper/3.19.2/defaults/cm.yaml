@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: gatekeeper-3.18.3-config-defaults
+  name: gatekeeper-3.19.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -26,7 +26,7 @@ data:
         priorityClassName: system-cluster-critical
         image:
           repository: curlimages/curl
-          tag: 8.9.1
+          tag: 8.14.1
     controllerManager:
       tlsMinVersion: 1.2
     upgradeCRDs:
