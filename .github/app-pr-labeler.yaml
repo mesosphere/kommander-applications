@@ -65,3 +65,8 @@ update-licenses:
 - changed-files:
   - any-glob-to-any-file:
     - applications/**/*
+
+auto-merge:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/kommander-ui/**
