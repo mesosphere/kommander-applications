@@ -9,7 +9,6 @@ resources:
   - grafana.yaml
   - harbor.yaml
   - jaegertracing.yaml
-  - kiali.yaml
   - knative-operator.yaml
   - kommander-ui.yaml
   - kube-logging.yaml
