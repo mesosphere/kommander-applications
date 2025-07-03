@@ -6,7 +6,7 @@ type: nkp-core-platform
 scope:
   - workspace
 certifications:
-  - lifecycle-managed
+  - qualified
   - airgapped
 licensing:
   - Starter
