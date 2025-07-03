@@ -22,7 +22,6 @@ spec:
     kind: OCIRepository
     name: traefik
     namespace: ${releaseNamespace}
-    chart: traefik
   interval: 15s
   install:
     crds: Skip
