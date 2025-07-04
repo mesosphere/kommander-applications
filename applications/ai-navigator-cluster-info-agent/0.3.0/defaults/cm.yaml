@@ -12,7 +12,7 @@ data:
       instances: 1
       image:
         registry: ghcr.io
-        repository: cloudnative-pg/postgresql
+        repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
         tag: 17.4-8-bookworm
       database: "ai-nav-cluster-info-api"
       driver_name: "postgresql"
