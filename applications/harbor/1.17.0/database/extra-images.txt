@@ -1,1 +1,1 @@
-ghcr.io/cloudnative-pg/postgresql:{{ .Values.version.postgresql }}
+ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:{{ .Values.version.postgresql }}

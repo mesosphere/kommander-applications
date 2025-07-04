@@ -565,7 +565,7 @@ resources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/cloudnative-pg/postgresql:17.2-minimal-bookworm
+  - container_image: ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
     sources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
