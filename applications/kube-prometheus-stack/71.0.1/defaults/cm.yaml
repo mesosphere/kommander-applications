@@ -363,7 +363,7 @@ data:
                 annotations:
                   summary: "Certificate rollout might fail"
                   description: "Certificate will expire soon, rollout not yet completed. Please monitor certificate renewal status for control plane nodes."
-                  runbook_url: https://portal.nutanix.com/page/documents/kbs/details?targetId=certificate-manual-rotation-guide
+                  runbook_url: https://portal.nutanix.com/page/documents/kbs
               - alert: CertificateExpired
                 expr: |
                   (min by(namespace, cluster) (
@@ -375,7 +375,7 @@ data:
                 annotations:
                   summary: "Certificate renewal failed"
                   description: "Certificate has expired and was not renewed"
-                  runbook_url: https://portal.nutanix.com/page/documents/kbs/details?targetId=certificate-manual-rotation-guide
+                  runbook_url: https://portal.nutanix.com/page/documents/kbs
               - alert: CertificateRenewed
                 expr: |
                   (min by(namespace,cluster) (
