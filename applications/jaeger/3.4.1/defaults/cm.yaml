@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: jaeger-2.57.2-config-defaults
+  name: jaeger-3.4.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -10,7 +10,7 @@ data:
       spec:
         strategy: allInOne
         allInOne:
-          image: jaegertracing/all-in-one:1.68.0
+          image: jaegertracing/all-in-one:1.70.0
           options:
             query:
               base-path: /dkp/jaeger
