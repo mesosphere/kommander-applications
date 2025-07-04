@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cert-manager-1.16.5-config-defaults
+  name: cert-manager-1.17.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
