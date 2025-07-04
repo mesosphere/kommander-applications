@@ -1,17 +1,24 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kubernetes-dashboard
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kubernetes-dashboard"
+  ref:
+    tag: 7.13.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kubernetes-dashboard
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: kubernetes-dashboard
-      sourceRef:
-        kind: HelmRepository
-        name: kubernetes-github-io-dashboard
-        namespace: kommander-flux
-      version: 7.13.0
+  chartRef:
+    kind: OCIRepository
+    name: kubernetes-dashboard
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,6 +32,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kubernetes-dashboard-7.13.0-config-defaults
+    - kind: ConfigMap
+      name: kubernetes-dashboard-overrides
+      optional: true
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -78,5 +88,9 @@ data:
   name: "Kubernetes"
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/home/"
-  # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for app version
+   # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for app version
   version: "2.7.0"
+
+
+
+ 
