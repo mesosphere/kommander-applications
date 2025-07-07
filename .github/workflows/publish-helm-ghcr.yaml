@@ -2,9 +2,9 @@ name: Publish Helm Charts to GHCR (OCI)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - sandy/helm-oci-ghcr # branch updated for testing
+  # push:
+  #   branches:
+  #     - sandy/helm-oci-ghcr # branch updated for testing
 
 jobs:
   push-charts:

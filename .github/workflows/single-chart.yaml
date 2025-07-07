@@ -1,0 +1,34 @@
+name: Push cert-manager Helm Chart to GHCR
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - sandy/helm-oci-ghcr # branch updated for testing
+
+jobs:
+  push-chart:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.14.4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull cert-manager Helm chart version v1.17.2
+        run: |
+          helm repo add jetstack https://charts.jetstack.io
+          helm repo update
+          helm pull jetstack/cert-manager --version v1.17.2
+
+      - name: Push cert-manager v1.17.2 to GHCR
+        run: |
+          helm push cert-manager-v1.17.2.tgz oci://ghcr.io/mesosphere/charts
