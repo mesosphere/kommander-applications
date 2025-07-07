@@ -40,4 +40,4 @@ jobs:
 
       - name: Push chart to GHCR
         run: |
-          helm push jaeger-2.57.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push jaeger-operator-2.57.0.tgz oci://ghcr.io/mesosphere/charts
