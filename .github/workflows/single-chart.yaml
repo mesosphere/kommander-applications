@@ -36,7 +36,7 @@ jobs:
           # helm pull jetstack/cert-manager --version v1.17.2
           helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
           helm repo update
-          helm pull jaegertracing/jaeger --version 2.57.0
+          helm pull jaegertracing/jaeger-operator --version 2.57.0
 
       - name: Push chart to GHCR
         run: |
