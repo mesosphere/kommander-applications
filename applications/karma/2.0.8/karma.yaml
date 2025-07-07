@@ -20,7 +20,7 @@ spec:
     - namespace: ${releaseNamespace}
       name: karma-traefik
   chartRef:
-    kind: HelmRepository
+    kind: OCIRepository
     name: karma
     namespace: ${releaseNamespace}
   interval: 15s
