@@ -1,4 +1,5 @@
-apiVersion: helm.toolkit.fluxcd.io/v1
+---
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: kubetunnel
@@ -8,21 +9,21 @@ spec:
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kubetunnel"
   ref:
     tag: v0.0.39
----    
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kubetunnel
   namespace: ${releaseNamespace}
 spec:
+  chartRef:
+    kind: OCIRepository
+    name: kubetunnel
+    namespace: ${releaseNamespace}
   chart:
     spec:
       chart: kubetunnel
       version: v0.0.39
-  chartRef:    
-    kind: OCIRepository
-    name: kubetunnel
-    namespace: ${releaseNamespace}    
   interval: 15s
   install:
     crds: CreateReplace
