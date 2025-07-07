@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: centralized-grafana
+  name: kube-prometheus-stack
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
