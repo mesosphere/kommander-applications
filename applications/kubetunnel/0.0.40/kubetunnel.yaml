@@ -18,11 +18,11 @@ spec:
   chart:
     spec:
       chart: kubetunnel
-      sourceRef:
-        kind: OCIRepository
-        name: kubetunnel
-        namespace: ${releaseNamespace}    
       version: v0.0.39
+  chartRef:    
+    kind: OCIRepository
+    name: kubetunnel
+    namespace: ${releaseNamespace}    
   interval: 15s
   install:
     crds: CreateReplace
