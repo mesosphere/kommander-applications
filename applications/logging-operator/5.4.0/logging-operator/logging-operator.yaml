@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/logging-operator-logging"
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/logging-operator"
   ref:
     tag: 5.4.0
 ---
