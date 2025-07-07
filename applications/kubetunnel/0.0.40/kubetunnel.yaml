@@ -8,6 +8,7 @@ spec:
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kubetunnel"
   ref:
     tag: v0.0.39
+---    
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
