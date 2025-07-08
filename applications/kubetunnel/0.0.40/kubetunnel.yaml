@@ -29,7 +29,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  timeout: 5m0s
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
