@@ -31,13 +31,7 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          # helm repo add jetstack https://charts.jetstack.io
-          # helm repo update
-          # helm pull jetstack/cert-manager --version v1.17.2
-          # helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-          # helm repo update
-          # helm pull jaegertracing/jaeger-operator --version 2.57.0
-          helm repo add mesosphere-staging https://mesosphere.github.io/charts/staging
+          helm repo add mesosphere https://mesosphere.github.io/charts/staging
           helm repo update
           helm pull mesosphere/kube-oidc-proxy --version 0.3.4
 
