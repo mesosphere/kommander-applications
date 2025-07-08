@@ -32,9 +32,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kubernetes-dashboard-7.13.0-config-defaults
-    - kind: ConfigMap
-      name: kubernetes-dashboard-overrides
-      optional: true
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
