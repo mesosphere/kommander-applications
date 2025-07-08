@@ -34,7 +34,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kubetunnel-0.0.40-config-defaults
-    - kind: ConfigMap
-      name: kubetunnel-overrides
-      optional: true
-  targetNamespace: ${releaseNamespace}
