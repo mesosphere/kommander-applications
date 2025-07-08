@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: gpu-operator
+  name: vgpu-token-operator
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
