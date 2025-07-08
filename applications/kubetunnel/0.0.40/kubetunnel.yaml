@@ -33,7 +33,7 @@ spec:
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.39-config-defaults
+      name: kubetunnel-0.0.40-config-defaults
     - kind: ConfigMap
       name: kubetunnel-overrides
       optional: true
