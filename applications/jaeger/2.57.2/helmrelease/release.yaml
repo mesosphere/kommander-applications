@@ -1,17 +1,25 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: jaeger-operator
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}mesosphere/charts/jaeger-operator"
+  ref:
+    tag: 2.57.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: jaeger
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: jaeger-operator
-      sourceRef:
-        kind: HelmRepository
-        name: jaegertracing-github-io
-        namespace: kommander-flux
-      version: 2.57.0
+  chartRef:
+    kind: OCIRepository
+    name: jaeger-operator
+    namespace: ${releaseNamespace}
   # The main reason behind this dependency is to wait until
   # the istio-system namespace is actually created
   dependsOn:
@@ -43,7 +51,7 @@ data:
   dashboardLink: "/dkp/jaeger"
   docsLink: "https://istio.io/docs/tasks/telemetry/distributed-tracing/jaeger/"
   # Check https://artifacthub.io/packages/helm/jaegertracing/jaeger-operator/ for app version
-  version: "1.68.0"
+  version: "1.70.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
