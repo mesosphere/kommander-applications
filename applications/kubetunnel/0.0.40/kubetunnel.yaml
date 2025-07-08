@@ -20,10 +20,6 @@ spec:
     kind: OCIRepository
     name: kubetunnel
     namespace: ${releaseNamespace}
-  chart:
-    spec:
-      chart: kubetunnel
-      version: v0.0.39
   interval: 15s
   install:
     crds: CreateReplace
@@ -33,7 +29,12 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
+  timeout: 5m0s
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.40-config-defaults
+      name: kubetunnel-0.0.39-config-defaults
+    - kind: ConfigMap
+      name: kubetunnel-overrides
+      optional: true
+  targetNamespace: ${releaseNamespace}
