@@ -1,0 +1,22 @@
+displayName: Rook Ceph
+description: Rook orchestrates the Ceph storage solution, with a specialized Kubernetes Operator to automate management.
+category:
+  - logging
+  - backup
+type: nkp-core-platform
+scope:
+  - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
+certifications:
+  - qualified
+  - airgapped
+overview: |-
+  # Overview
+  Rook is an open source cloud-native storage orchestrator, providing the platform, framework, and support for a diverse set of storage solutions to natively integrate with cloud-native environments.
+
+  Rook orchestrates the Ceph storage solution, with a specialized Kubernetes Operator to automate management. Rook ensures that Ceph will run well on Kubernetes and simplify the deployment and management experience.
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMDA5MWJkIj48cGF0aCBkPSJNMjI5IDExNC44MzVoLTQxLjM1MXYtMTMuOGgyNy41VjY4Ljg1MWgtMjEuMDAzdjE4LjI4M2gtMzMuOTk3VjY4Ljg1MWgtMjAuNnYxOC4yODNoLTM1LjAwNVY2OC44NTFIODQuODUxdjMyLjE4NGgyNi41OTN2MTMuOEg3MVY1NWg0Ny4zOTV2MTguMjgzaDcuMzAzVjU1SDE3NHYxOC4yODNoNi4yOTZWNTVIMjI5djU5LjgzNXptLTE0LjIwMyAyNS44ODl2NzYuMDUzYy0uMDUxIDguMTA5LTYuNTk4IDE0LjY1Ny0xNC43MDcgMTQuNzA3SDk5LjgxYy04LjA1OS0uMDUtMTQuNjU3LTYuNTk4LTE0LjY1Ny0xNC43MDd2LTc2LjA1M2gxMjkuNjQ0bTEzLjg1LTEzLjg1MUg3MS4zMDJ2OTAuMTA2Yy4xNTEgMTUuNjY0IDEyLjg0NCAyOC4yNTYgMjguNTA4IDI4LjMwNmgxMDAuMjhjMTUuNzE0LS4wNSAyOC41MDctMTIuNzkzIDI4LjUwNy0yOC41MDh2LTkwLjEwNWwuMDUuMjAxem0tNzguNjcyIDQxLjY1M2ExNS4wMyAxNS4wMyAwIDAgMSAxNC45NTkgMTQuOTU5djE1LjkxNmgtMjkuOTE4di0xNS45MTZhMTUuMDMgMTUuMDMgMCAwIDEgMTQuOTU5LTE0Ljk1OXptMC0xMy44Yy0xNS45MTYgMC0yOC43NTkgMTIuODk0LTI4Ljc1OSAyOC43NTlWMjEzaDU3LjU2OXYtMjkuNTE1Yy0uMDUxLTE1LjkxNi0xMi44OTQtMjguNzU5LTI4LjgxLTI4Ljc1OXoiLz48L3N2Zz4=

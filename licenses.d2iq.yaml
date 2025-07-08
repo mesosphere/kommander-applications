@@ -89,12 +89,12 @@ resources:
       - license_path: LICENSE
         ref: metrics-scraper/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/library/kong:3.9.0
+  - container_image: docker.io/library/kong:3.9.1
     sources:
       - license_path: LICENSE
-        ref: 3.9.0
+        ref: 3.9.1
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v3.3.6
+  - container_image: docker.io/library/traefik:v3.4.0
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -233,19 +233,19 @@ resources:
       - license_path: LICENSE.thomseddon.md
         ref: ${image_tag}
         url: https://github.com/mesosphere/traefik-forward-auth
-  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.18.2
+  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.19.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.18.2
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.19.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.17.0
+  - container_image: docker.io/rook/ceph:v1.17.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -300,18 +300,18 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.3.0
+  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.4.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory: /images/config-reloader
-  - container_image: ghcr.io/kube-logging/logging-operator:5.3.0
+  - container_image: ghcr.io/kube-logging/logging-operator:5.4.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:5.3.0
+  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:5.4.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -327,32 +327,32 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.0
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.1
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.0
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.1
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.5-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.5-ubi8
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.1.1-4.0.4-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.1.3-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
@@ -382,22 +382,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/polaris
-  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.16.4
+  - container_image: quay.io/jetstack/cert-manager-cainjector:v1.17.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-controller:v1.16.4
+  - container_image: quay.io/jetstack/cert-manager-controller:v1.17.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.16.4
+  - container_image: quay.io/jetstack/cert-manager-startupapicheck:v1.17.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/cert-manager/cert-manager
-  - container_image: quay.io/jetstack/cert-manager-webhook:v1.16.4
+  - container_image: quay.io/jetstack/cert-manager-webhook:v1.17.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -407,12 +407,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/TremoloSecurity/kube-oidc-proxy
-  - container_image: quay.io/kiali/kiali-operator:v2.8.0
+  - container_image: quay.io/kiali/kiali-operator:v2.12.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v2.8.0-distro
+  - container_image: quay.io/kiali/kiali:v2.12.0-distro
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
@@ -463,17 +463,17 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.3.0-full
+  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.4.0-full
     sources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.1.1-2-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
-        ref: v${image_tag%-2-ubuntu22.04}
+        ref: v${image_tag%-1-ubuntu22.04}
         license_path: LICENSE
-  - container_image: docker.io/curlimages/curl:8.9.1
+  - container_image: docker.io/curlimages/curl:8.14.1
     sources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}
@@ -560,12 +560,12 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.25.1
+  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.26.0
     sources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/cloudnative-pg/postgresql:17.2-minimal-bookworm
+  - container_image: ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
     sources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
