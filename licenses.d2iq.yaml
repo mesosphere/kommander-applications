@@ -1,5 +1,7 @@
 ignore:
   - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
+  - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.5  # non existant image
+  - docker.io/library/controller:v1.0.5 # non existant image
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
@@ -634,9 +636,9 @@ resources:
     sources:
       - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
         ref: ${image_tag}
-        notice_path: NOTICE
+        notice_path: NOTICES
   - container_image: ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.5
     sources:
       - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
         ref: ${image_tag}
-        notice_path: NOTICE
+        notice_path: NOTICES

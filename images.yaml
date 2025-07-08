@@ -1,0 +1,289 @@
+applications:
+  - name: ""
+    version: ""
+    images:
+      - docker.io/bitnami/kubectl:1.33.1
+      - docker.io/mesosphere/cluster-observer:1.4.1
+      - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
+      - docker.io/mesosphere/kommander2-core-installer:v2.16.0-dev
+  - name: centralized-grafana
+    version: 71.0.1
+    images:
+      - docker.io/grafana/grafana:11.6.1
+      - docker.io/kiwigrid/k8s-sidecar:1.30.3
+  - name: cert-manager
+    version: 1.17.2
+    images:
+      - oci://ghcr.io/mesosphere/charts/cert-manager-crds:v1.17.2
+      - oci://ghcr.io/mesosphere/charts/cert-manager:v1.17.2
+      - quay.io/jetstack/cert-manager-cainjector:v1.17.2
+      - quay.io/jetstack/cert-manager-controller:v1.17.2
+      - quay.io/jetstack/cert-manager-startupapicheck:v1.17.2
+      - quay.io/jetstack/cert-manager-webhook:v1.17.2
+  - name: chartmuseum
+    version: 3.10.4
+    images:
+      - ghcr.io/helm/chartmuseum:v0.16.3
+  - name: cloudnative-pg
+    version: 0.24.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/cloudnative-pg:0.24.0
+      - ghcr.io/cloudnative-pg/cloudnative-pg:1.26.0
+  - name: cosi-driver-nutanix
+    version: 0.6.0
+    images:
+      - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v20250110-a29e5f6
+      - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
+      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+  - name: dex
+    version: 2.14.3
+    images:
+      - docker.io/mesosphere/dex-controller:v0.16.1
+      - docker.io/mesosphere/dex:v2.42.0-d2iq.0
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - name: dex-k8s-authenticator
+    version: 1.4.6
+    images:
+      - docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
+  - name: external-dns
+    version: 8.5.1
+    images:
+      - oci://docker.io/bitnamicharts/external-dns:8.5.0
+      - docker.io/bitnami/external-dns:0.16.1-debian-12-r5
+  - name: external-secrets
+    version: 0.18.1
+    images:
+      - oci://ghcr.io/external-secrets/charts/external-secrets:0.18.1
+      - ghcr.io/external-secrets/external-secrets:v0.18.1
+  - name: fluent-bit
+    version: 0.50.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.50.0
+      - docker.io/fluent/fluent-bit:3.2.10
+  - name: gatekeeper
+    version: 3.19.2
+    images:
+      - oci://ghcr.io/mesosphere/charts/gatekeeper-proxy-mutations:v0.0.1
+      - oci://ghcr.io/mesosphere/charts/gatekeeper:3.19.2
+      - docker.io/curlimages/curl:8.14.1
+      - docker.io/openpolicyagent/gatekeeper-crds:v3.19.2
+      - docker.io/openpolicyagent/gatekeeper:v3.19.2
+  - name: git-operator
+    version: 0.13.10
+    images:
+      - docker.io/mesosphere/git-operator:v0.13.10
+      - docker.io/mesosphere/gitwebserver:v0.13.10
+  - name: grafana-loki
+    version: 0.80.4
+    images:
+      - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.3
+      - docker.io/grafana/loki:2.9.13
+      - docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
+  - name: harbor
+    version: 1.17.0
+    images:
+      - docker.io/bitnami/redis-exporter:1.69.0-debian-12-r4
+      - docker.io/bitnami/valkey-sentinel:8.1.0-debian-12-r0
+      - docker.io/bitnami/valkey:8.1.0-debian-12-r2
+      - docker.io/goharbor/harbor-core:v2.13.0
+      - docker.io/goharbor/harbor-exporter:v2.13.0
+      - docker.io/goharbor/harbor-jobservice:v2.13.0
+      - docker.io/goharbor/harbor-portal:v2.13.0
+      - docker.io/goharbor/harbor-registryctl:v2.13.0
+      - docker.io/goharbor/registry-photon:v2.13.0
+      - docker.io/goharbor/trivy-adapter-photon:v2.13.0
+      - ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
+  - name: istio
+    version: 1.23.4
+    images:
+      - docker.io/istio/install-cni:1.23.6
+      - docker.io/istio/operator:1.23.6
+      - docker.io/istio/pilot:1.23.6
+      - docker.io/istio/proxyv2:1.23.6
+  - name: jaeger
+    version: 2.57.2
+    images:
+      - oci://ghcr.io/mesosphere/charts/jaeger-operator:2.57.0
+      - docker.io/jaegertracing/all-in-one:1.70.0
+      - docker.io/jaegertracing/jaeger-operator:1.61.0
+  - name: karma
+    version: 2.0.7
+    images:
+      - docker.io/mesosphere/karma:v0.120-ntnx-server-name
+  - name: kiali
+    version: 2.12.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kiali-operator:2.12.0
+      - quay.io/kiali/kiali-operator:v2.12.0
+      - quay.io/kiali/kiali:v2.12.0-distro
+  - name: knative
+    version: 1.18.1
+    images:
+      - gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.1
+      - gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.18.1
+  - name: kommander
+    version: 0.16.0
+    images:
+      - oci://docker.io/mesosphere/kommander-chart:v2.16.0-dev
+      - docker.io/mesosphere/capimate:v0.0.0-dev.0
+      - docker.io/mesosphere/kommander2-federation-authorizedlister:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-federation-controller-manager:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-federation-webhook:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-flux-operator:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-kubetools:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-licensing-webhook:v2.16.0-dev
+      - ghcr.io/mesosphere/kommander-applications-server:v2.16.0-dev
+  - name: kommander-appmanagement
+    version: 0.16.0
+    images:
+      - oci://docker.io/mesosphere/kommander-appmanagement-chart:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.16.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement:v2.16.0-dev
+  - name: kommander-flux
+    version: 2.6.1
+    images:
+      - ghcr.io/fluxcd/helm-controller:v1.3.0
+      - ghcr.io/fluxcd/kustomize-controller:v1.6.0
+      - ghcr.io/fluxcd/notification-controller:v1.6.0
+      - ghcr.io/fluxcd/source-controller:v1.6.0
+  - name: kommander-ui
+    version: 17.103.0
+    images:
+      - docker.io/mesosphere/kommander:17.103.0
+  - name: kube-oidc-proxy
+    version: 0.3.6
+    images:
+      - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
+  - name: kube-prometheus-stack
+    version: 71.0.1
+    images:
+      - docker.io/library/busybox:1
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0
+      - quay.io/prometheus-operator/prometheus-operator:v0.82.0
+      - quay.io/prometheus/node-exporter:v1.9.1
+      - quay.io/thanos/thanos:v0.38.0
+      - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.14.0
+  - name: kubecost
+    version: 2.7.3
+    images:
+      - gcr.io/kubecost1/cost-model:prod-2.7.2
+      - gcr.io/kubecost1/frontend:prod-2.7.2
+      - quay.io/prometheus/alertmanager:v0.28.0
+      - quay.io/prometheus/prometheus:v3.3.0
+  - name: kubefed
+    version: 0.11.2
+    images:
+      - ghcr.io/mesosphere/kubefed:v0.11.1
+  - name: kubernetes-dashboard
+    version: 7.13.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kubernetes-dashboard:7.13.0
+      - docker.io/kubernetesui/dashboard-api:1.13.0
+      - docker.io/kubernetesui/dashboard-auth:1.3.0
+      - docker.io/kubernetesui/dashboard-metrics-scraper:1.2.2
+      - docker.io/kubernetesui/dashboard-web:1.7.0
+      - docker.io/library/kong:3.9.1
+  - name: kubetunnel
+    version: 0.0.40
+    images:
+      - docker.io/alpine/curl:8.9.1
+      - docker.io/jpillora/chisel:1.10.1
+      - docker.io/mesosphere/kubetunnel-controller:v0.0.39
+      - docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.39
+      - docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.39
+      - docker.io/mesosphere/kubetunnel-webhook:v0.0.39
+  - name: logging-operator
+    version: 5.4.0
+    images:
+      - oci://ghcr.io/kube-logging/helm-charts/logging-operator:5.4.0
+      - oci://ghcr.io/mesosphere/charts/logging-operator-logging:4.2.2
+      - docker.io/fluent/fluent-bit:3.2.5
+      - ghcr.io/kube-logging/logging-operator/config-reloader:5.4.0
+      - ghcr.io/kube-logging/logging-operator/fluentd:5.4.0-full
+      - ghcr.io/kube-logging/logging-operator/node-exporter:5.4.0
+      - ghcr.io/kube-logging/logging-operator:5.4.0
+  - name: nkp-insights
+    version: 1.4.5
+    images:
+      - docker.io/aquasec/kube-bench:v0.9.1
+      - docker.io/bitnami/postgres-exporter:0.16.0-debian-12-r3
+      - docker.io/bitnami/postgresql:15.9.0-debian-12-r0
+      - docker.io/mesosphere/insights:v1.4.4
+      - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
+      - quay.io/fairwinds/nova:v3.11
+      - quay.io/fairwinds/polaris:9.4.1
+      - registry.k8s.io/pause:3.10
+      - us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.20.3
+  - name: nkp-insights-management
+    version: 1.4.5
+    images:
+      - docker.io/mesosphere/insights-management:v1.4.4
+  - name: nvidia-gpu-operator
+    version: 25.3.1
+    images:
+      - oci://ghcr.io/mesosphere/charts/gpu-operator:v25.3.1
+      - nvcr.io/nvidia/cloud-native/dcgm:4.2.3-1-ubuntu22.04
+      - nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.1
+      - nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.1-ubuntu20.04
+      - nvcr.io/nvidia/gpu-operator:v25.3.1
+      - nvcr.io/nvidia/k8s-device-plugin:v0.17.2
+      - nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubi8
+      - nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
+      - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
+      - nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.1.3-ubuntu22.04
+  - name: project-grafana-logging
+    version: 8.15.1
+    images:
+      - oci://ghcr.io/grafana/helm-charts/grafana:8.15.0
+  - name: prometheus-adapter
+    version: 4.14.2
+    images:
+      - registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0
+  - name: reloader
+    version: 2.1.3
+    images:
+      - ghcr.io/stakater/reloader:v1.4.1
+  - name: rook-ceph
+    version: 1.17.5
+    images:
+      - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.17.5
+      - docker.io/rook/ceph:v1.17.5
+  - name: rook-ceph-cluster
+    version: 1.17.5
+    images:
+      - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.17.5
+      - ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+      - quay.io/ceph/ceph:v19.2.2
+      - quay.io/ceph/cosi:v0.1.2
+  - name: thanos
+    version: 15.8.1
+    images:
+      - oci://docker.io/bitnamicharts/thanos:15.8.0
+      - docker.io/bitnami/thanos:0.38.0-debian-12-r0
+  - name: traefik
+    version: 36.2.0
+    images:
+      - oci://ghcr.io/traefik/helm/traefik-crds:1.9.0
+      - oci://ghcr.io/traefik/helm/traefik:36.2.0
+      - docker.io/library/traefik:v3.4.0
+  - name: traefik-forward-auth-mgmt
+    version: 0.3.15
+    images:
+      - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
+      - docker.io/mesosphere/traefik-forward-auth:v3.2.1
+  - name: velero
+    version: 10.0.8
+    images:
+      - oci://ghcr.io/mesosphere/charts/velero:10.0.8
+      - docker.io/bitnami/kubectl:1.33.1
+      - docker.io/velero/velero-plugin-for-aws:v1.12.1
+      - docker.io/velero/velero:v1.16.1
+  - name: vgpu-token-operator
+    version: 1.0.5
+    images:
+      - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.5
+      - docker.io/library/controller:v1.0.5
+      - ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.5
+      - ghcr.io/nutanix-cloud-native/vgpu-token-operator:v1.0.5
