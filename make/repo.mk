@@ -23,3 +23,8 @@ repo.dev.tag: install-tool.gh-dkp
 .PHONY: repo.supported-branches
 repo.supported-branches: install-tool.gh-dkp
 	gh dkp generate dev-versions --json | jq --raw-output --compact-output "[.releases[] | .branch_name]"
+
+.PHONY: clean
+clean:
+	rm -rf $(LOCAL_DIR)
+	rm -rf $(REPO_ROOT)/.tmp
