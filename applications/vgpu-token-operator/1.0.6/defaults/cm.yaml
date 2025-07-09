@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: vgpu-token-operator-1.0.5-config-defaults
+  name: vgpu-token-operator-1.0.6-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

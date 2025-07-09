@@ -1,2 +1,0 @@
-ghcr.io/nutanix-cloud-native/vgpu-token-copier:{{ $.Chart.AppVersion }}
-ghcr.io/nutanix-cloud-native/vgpu-token-operator:{{ $.Chart.AppVersion }}
