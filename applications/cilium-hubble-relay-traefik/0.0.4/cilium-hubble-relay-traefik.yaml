@@ -1,18 +1,25 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cilium-hubble-relay-traefik
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/cilium-hubble-relay-traefik"
+  ref:
+    tag: 0.0.3
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: cilium-hubble-relay-traefik
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: cilium-hubble-relay-traefik
-      sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-staging
-        namespace: kommander-flux
-      version: 0.0.3
+  chartRef:
+    kind: OCIRepository
+    name: cilium-hubble-relay-traefik
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
@@ -26,3 +33,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-hubble-relay-traefik-0.0.4-config-defaults
+
