@@ -33,8 +33,8 @@ jobs:
         run: |
           helm repo add mesosphere https://mesosphere.github.io/charts/staging
           helm repo update
-          helm pull mesosphere/cilium-hubble-relay-traefik --version 0.0.3
+          helm pull mesosphere/thanos-traefik --version 0.0.2
 
       - name: Push chart to GHCR
         run: |
-          helm push cilium-hubble-relay-traefik-0.0.3.tgz oci://ghcr.io/mesosphere/charts
+          helm push thanos-traefik-0.0.2.tgz oci://ghcr.io/mesosphere/charts
