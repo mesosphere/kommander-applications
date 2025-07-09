@@ -6,11 +6,6 @@ applications:
       - docker.io/mesosphere/cluster-observer:1.4.1
       - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
       - docker.io/mesosphere/kommander2-core-installer:v2.16.0-dev
-  - name: centralized-grafana
-    version: 71.0.1
-    images:
-      - docker.io/grafana/grafana:11.6.1
-      - docker.io/kiwigrid/k8s-sidecar:1.30.3
   - name: cert-manager
     version: 1.17.2
     images:
@@ -32,6 +27,8 @@ applications:
   - name: cosi-driver-nutanix
     version: 0.6.0
     images:
+      - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
+      - oci://ghcr.io/mesosphere/charts/cosi-driver-nutanix:0.6.0
       - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v20250110-a29e5f6
       - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
       - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
@@ -40,7 +37,6 @@ applications:
     images:
       - docker.io/mesosphere/dex-controller:v0.16.1
       - docker.io/mesosphere/dex:v2.42.0-d2iq.0
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: dex-k8s-authenticator
     version: 1.4.6
     images:
@@ -73,12 +69,10 @@ applications:
     images:
       - docker.io/mesosphere/git-operator:v0.13.10
       - docker.io/mesosphere/gitwebserver:v0.13.10
-  - name: grafana-loki
-    version: 0.80.4
+  - name: grafana-logging
+    version: 8.15.1
     images:
-      - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.3
-      - docker.io/grafana/loki:2.9.13
-      - docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
+      - oci://ghcr.io/grafana/helm-charts/grafana:8.15.0
   - name: harbor
     version: 1.17.0
     images:
@@ -148,9 +142,9 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.6.0
       - ghcr.io/fluxcd/source-controller:v1.6.0
   - name: kommander-ui
-    version: 17.103.0
+    version: 17.109.0
     images:
-      - docker.io/mesosphere/kommander:17.103.0
+      - docker.io/mesosphere/kommander:17.109.0
   - name: kube-oidc-proxy
     version: 0.3.6
     images:
@@ -158,8 +152,10 @@ applications:
   - name: kube-prometheus-stack
     version: 71.0.1
     images:
+      - docker.io/grafana/grafana:11.6.1
+      - docker.io/kiwigrid/k8s-sidecar:1.30.3
       - docker.io/library/busybox:1
-      - quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
       - quay.io/prometheus-operator/prometheus-operator:v0.82.0
       - quay.io/prometheus/node-exporter:v1.9.1
       - quay.io/thanos/thanos:v0.38.0
@@ -170,6 +166,7 @@ applications:
     images:
       - gcr.io/kubecost1/cost-model:prod-2.7.2
       - gcr.io/kubecost1/frontend:prod-2.7.2
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0
       - quay.io/prometheus/alertmanager:v0.28.0
       - quay.io/prometheus/prometheus:v3.3.0
   - name: kubefed
@@ -188,6 +185,7 @@ applications:
   - name: kubetunnel
     version: 0.0.40
     images:
+      - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.0.39
       - docker.io/alpine/curl:8.9.1
       - docker.io/jpillora/chisel:1.10.1
       - docker.io/mesosphere/kubetunnel-controller:v0.0.39
@@ -233,10 +231,12 @@ applications:
       - nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
       - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
       - nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.1.3-ubuntu22.04
-  - name: project-grafana-logging
-    version: 8.15.1
+  - name: project-grafana-loki
+    version: 0.80.4
     images:
-      - oci://ghcr.io/grafana/helm-charts/grafana:8.15.0
+      - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.3
+      - docker.io/grafana/loki:2.9.13
+      - docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
   - name: prometheus-adapter
     version: 4.14.2
     images:
@@ -281,9 +281,8 @@ applications:
       - docker.io/velero/velero-plugin-for-aws:v1.12.1
       - docker.io/velero/velero:v1.16.1
   - name: vgpu-token-operator
-    version: 1.0.5
+    version: 1.0.6
     images:
-      - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.5
-      - docker.io/library/controller:v1.0.5
-      - ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.5
-      - ghcr.io/nutanix-cloud-native/vgpu-token-operator:v1.0.5
+      - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.6
+      - ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.6
+      - ghcr.io/nutanix-cloud-native/vgpu-token-operator:v1.0.6
