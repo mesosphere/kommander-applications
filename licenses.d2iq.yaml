@@ -630,3 +630,13 @@ resources:
       - url: https://github.com/external-secrets/external-secrets
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: ghcr.io/nutanix-cloud-native/vgpu-token-operator:v1.0.6
+    sources:
+      - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
+        ref: ${image_tag}
+        notice_path: NOTICES
+  - container_image: ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.6
+    sources:
+      - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
+        ref: ${image_tag}
+        notice_path: NOTICES
