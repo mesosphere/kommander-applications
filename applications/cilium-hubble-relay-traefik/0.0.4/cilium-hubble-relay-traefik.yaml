@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts-staging/cilium-hubble-relay-traefik"
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/lcilium-hubble-relay-traefik"
   ref:
     tag: 0.0.3
 ---
