@@ -31,11 +31,11 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
+          mkdir -p charts
           helm repo add knative-operator https://knative.github.io/operator
           helm repo update
-          helm pull knative-operator/knative-operator --version 1.18.1 --destination ./charts
+          helm pull knative-operator/knative-operator --version 1.18.1 --destination charts
 
       - name: Push chart to GHCR
         run: |
-          cd charts
-          helm push knative-operator-1.18.1.tgz oci://ghcr.io/mesosphere/charts
+          helm push charts/knative-operator-1.18.1.tgz oci://ghcr.io/mesosphere/charts
