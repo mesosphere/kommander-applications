@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: valkey
+    name: harbor-valkey
     namespace: ${releaseNamespace}
   interval: 15s
   install:
