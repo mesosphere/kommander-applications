@@ -1,18 +1,25 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: harbor-valkey
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/valkey"
+  ref:
+    tag: 0.3.1
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: harbor-valkey
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: valkey
-      sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
-      version: 3.0.1
+  chartRef:
+    kind: OCIRepository
+    name: valkey
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
