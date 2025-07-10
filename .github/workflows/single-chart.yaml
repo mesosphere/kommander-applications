@@ -33,8 +33,9 @@ jobs:
         run: |
           helm repo add knative-operator https://knative.github.io/operator
           helm repo update
-          helm pull knative-operator/knative-operator --version 1.18.1
+          helm pull knative-operator/knative-operator --version 1.18.1 --destination ./charts
 
       - name: Push chart to GHCR
         run: |
+          cd charts
           helm push knative-operator-1.18.1.tgz oci://ghcr.io/mesosphere/charts
