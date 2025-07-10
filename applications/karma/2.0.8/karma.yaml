@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/karma"
   ref:
-    tag: 2.0.2
+    tag: 2.0.3
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -35,7 +35,7 @@ spec:
   releaseName: karma
   valuesFrom:
     - kind: ConfigMap
-      name: karma-2.0.7-config-defaults
+      name: karma-2.0.8-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -91,7 +91,7 @@ data:
   dashboardLink: "/dkp/kommander/monitoring/karma"
   docsLink: "https://github.com/prymitive/karma"
   # We override karma image:
-  # https://github.com/mesosphere/kommander-applications/blob/main/services/karma/2.0.7/defaults/cm.yaml#L14
+  # https://github.com/mesosphere/kommander-applications/blob/main/services/karma/2.0.8/defaults/cm.yaml#L14
   version: "0.120"
 ---
 apiVersion: cert-manager.io/v1
