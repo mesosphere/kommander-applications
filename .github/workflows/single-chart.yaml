@@ -31,10 +31,11 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add reloader https://stakater.github.io/stakater-charts
+          helm repo add knative-operator https://knative.github.io/operator
           helm repo update
-          helm pull reloader/reloader --version 2.1.5
+          helm pull knative-operator/knative-operator --version 1.18.1
+
 
       - name: Push chart to GHCR
         run: |
-          helm push reloader-2.1.5.tgz oci://ghcr.io/mesosphere/charts
+          helm push knative-operator-1.18.1.tgz oci://ghcr.io/mesosphere/charts
