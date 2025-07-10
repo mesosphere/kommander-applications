@@ -23,3 +23,4 @@ apptests/.work/
 
 # kind hack scripts
 tmp-kind-hack-scripts/
+images.yaml
