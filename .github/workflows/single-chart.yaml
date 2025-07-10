@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add mesosphere https://mesosphere.github.io/charts/stable
+          helm repo add knative-operator https://knative.github.io/operator
           helm repo update
-          helm pull mesosphere/harbor-copy-secret --version 0.1.0
+          helm pull knative-operator/knative-operator --version 1.18.1
 
       - name: Push chart to GHCR
         run: |
-          helm push  harbor-copy-secret-0.1.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push  knative-operator-1.18.1.tgz oci://ghcr.io/mesosphere/charts
