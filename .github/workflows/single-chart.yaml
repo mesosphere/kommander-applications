@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add mesosphere https://mesosphere.github.io/charts/stable
+          helm repo add reloader https://stakater.github.io/stakater-charts
           helm repo update
-          helm pull mesosphere/karma --version 2.0.3
+          helm pull reloader/reloader --version 2.1.5
 
       - name: Push chart to GHCR
         run: |
-          helm push karma-2.0.3.tgz oci://ghcr.io/mesosphere/charts
+          helm push reloader-2.1.5.tgz oci://ghcr.io/mesosphere/charts
