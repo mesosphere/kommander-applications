@@ -129,4 +129,4 @@ data:
         - "cilium-hubble-relay-traefik"
     catalogCollections:
     - registry: ghcr.io
-      repository: nroshanrai/nkp-partner-catalog
+      repository: nutanix-cloud-native/nkp-partner-catalog
