@@ -1,11 +1,10 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: OCIRepository
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
 metadata:
-  name: harbor
-  namespace: ${releaseNamespace}
+  name: helm.goharbor.io
+  namespace: kommander-flux
 spec:
-  interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/harbor"
-  ref:
-    tag: v1.17.1
+  interval: 10m
+  timeout: 1m
+  url: "${helmMirrorURL:=https://helm.goharbor.io}"
