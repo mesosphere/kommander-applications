@@ -1,17 +1,24 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cost-analyzer
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cost-analyzer"
+  ref:
+    tag: 2.8.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kubecost
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: cost-analyzer
-      sourceRef:
-        kind: HelmRepository
-        name: kubecost
-        namespace: kommander-flux
-      version: 2.7.2
+  chartRef:
+    kind: OCIRepository
+    name: cost-analyzer
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
@@ -25,14 +32,14 @@ spec:
   releaseName: kubecost
   valuesFrom: # The order is important. The last entry will override the previous ones.
     - kind: ConfigMap
-      name: kubecost-2.7.3-config-defaults
+      name: kubecost-2.8.0-config-defaults
       valuesKey: values.yaml
     - kind: ConfigMap
-      name: kubecost-2.7.3-config-defaults
+      name: kubecost-2.8.0-config-defaults
       valuesKey: ${kubecostClusterMode:=primary}-values.yaml # Configures the kubecost cluster as primary with no object storage for single cluster mode.
       optional: true
     - kind: ConfigMap
-      name: kubecost-2.7.3-config-defaults
+      name: kubecost-2.8.0-config-defaults
       valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
@@ -75,8 +82,8 @@ data:
   name: "Kubecost"
   dashboardLink: "/dkp/kommander/kubecost/frontend/overview.html"
   docsLink: "https://docs.kubecost.com/"
-  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.7.2/cost-analyzer/Chart.yaml#L2
-  version: "2.7.2"
+  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.8.0/cost-analyzer/Chart.yaml#L2
+  version: "2.8.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
