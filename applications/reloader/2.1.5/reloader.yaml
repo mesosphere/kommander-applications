@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/reloader"
   ref:
-    tag: 0.3.4
+    tag: 2.1.5
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
