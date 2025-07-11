@@ -16,6 +16,7 @@
 # for updating image licenses
 bloodhound
 images.txt
+images.yaml
 
 # apptest working directory
 apptests/.work/

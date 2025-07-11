@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     image:
-      registry: "pullthrough.infra.nkp.sh"
+      registry: "docker.io"
       repository: "mesosphere/nkp-pulse-workspace"
       tag: "v0.2.7"
       imagePullPolicy: "IfNotPresent"

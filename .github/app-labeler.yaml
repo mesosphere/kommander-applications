@@ -218,3 +218,7 @@ applications/velero:
 - changed-files:
   - any-glob-to-any-file:
     - applications/velero/**
+applications/vgpu-token-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/vgpu-token-operator/**

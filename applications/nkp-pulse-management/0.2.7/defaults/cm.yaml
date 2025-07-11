@@ -6,11 +6,11 @@ metadata:
 data:
   values.yaml: |
     image:
-      registry: "pullthrough.infra.nkp.sh"
+      registry: "docker.io"
       repository: "mesosphere/nkp-pulse-management"
       tag: "v0.2.7"
       imagePullPolicy: "IfNotPresent"
-    kubectlImage: "bitnami/kubectl:1.33.1"
+    kubectlImage: "bitnami/kubectl:1.33.2"
     resources:
       limits:
         cpu: "100m"
