@@ -1,0 +1,107 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flux-oci-mirror
+  labels:
+    app: flux-oci-mirror
+spec:
+  selector:
+    matchLabels:
+      app: flux-oci-mirror
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: flux-oci-mirror
+    spec:
+      volumes:
+        - name: mirror-ca-bundle
+          secret:
+            secretName: flux-oci-mirror-config
+        - name: proxy-ca
+          secret:
+            secretName: flux-oci-mirror-ca-secret
+      containers:
+        - name: flux-oci-mirror
+          image: mhrabovcin/flux-oci-mirror:v0.0.1-dev
+          imagePullPolicy: IfNotPresent
+          args:
+            - -config-dir
+            - /config
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8080
+              name: proxy
+          volumeMounts:
+            - name: mirror-ca-bundle
+              mountPath: /config
+            - name: proxy-ca
+              mountPath: /config/proxy-ca
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flux-oci-mirror-config
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+type: Opaque
+stringData:
+  config.yaml: |
+    proxy_cert_file: /config/proxy-ca/tls.crt
+    proxy_key_file: /config/proxy-ca/tls.key
+
+    mirror_registry: localhost:5000
+  ca.crt: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flux-oci-mirror
+spec:
+  selector:
+    app: flux-oci-mirror
+  type: ClusterIP
+  ports:
+    - name: proxy
+      protocol: TCP
+      port: 8080
+      targetPort: proxy
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: flux-oci-mirror-self-signed
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: flux-oci-mirror-ca
+spec:
+  isCA: true
+  commonName: flux-oci-mirror
+  secretName: flux-oci-mirror-ca-secret
+  issuerRef:
+    name: flux-oci-mirror-self-signed
+    kind: Issuer
