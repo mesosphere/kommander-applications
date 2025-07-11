@@ -1,0 +1,40 @@
+name: Push Single Chart to GHCR
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - sandy/helm-oci-ghcr # branch updated for testing
+
+jobs:
+  push-chart:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+  
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - uses: chrisdickinson/setup-yq@latest
+        with:
+          yq-version: v4.25.3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Single Helm chart
+        run: |
+          helm repo add ai-navigator-api https://mesosphere.github.io/ai-navigator-cluster-info-api
+          helm repo update
+          helm pull ai-navigator-api/ai-navigator-cluster-info-api --version 0.3.0
+          
+      - name: Push chart to GHCR
+        run: |
+          helm push ai-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
