@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add knative-operator https://knative.github.io/operator
+          helm repo add ai-navigator-api https://mesosphere.github.io/ai-navigator-cluster-info-api
           helm repo update
-          helm pull knative-operator/knative-operator --version 1.18.1
+          helm pull helm pull ai-navigator-api/ai-navigator-cluster-info-api --version 0.3.0
           
       - name: Push chart to GHCR
         run: |
-          helm push knative-operator-v1.18.1.tgz oci://ghcr.io/mesosphere/charts
+          helm push i-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
