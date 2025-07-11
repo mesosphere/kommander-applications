@@ -8,11 +8,11 @@ spec:
   chart:
     spec:
       chart: traefik-crds
-      version: "1.6.0" # Keep this consistent with /services/traefik/<version>/crds/crds.yaml HelmRelease.
+      version: 1.9.0 # Keep this consistent with /services/traefik/<version>/crds/crds.yaml HelmRelease.
       sourceRef:
         kind: HelmRepository
         name: helm.traefik.io-traefik
         namespace: kommander-flux
   valuesFrom:
     - kind: ConfigMap
-      name: gateway-api-1.6.1-config-defaults
+      name: gateway-api-1.9.0-config-defaults
