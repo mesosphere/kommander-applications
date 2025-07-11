@@ -26,12 +26,10 @@ spec:
     # at least one cluster configuration.
     - namespace: ${releaseNamespace}
       name: kommander
-  chart:
-    spec:
-      chartRef:
-        kind: OCIRepository
-        name: dex-k8s-authenticator
-        namespace: ${releaseNamespace}  
+  chartRef:
+    kind: OCIRepository
+    name: dex-k8s-authenticator
+    namespace: ${releaseNamespace} 
   interval: 15s
   install:
     crds: CreateReplace
