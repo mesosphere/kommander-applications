@@ -19,10 +19,10 @@ spec:
   dependsOn:
     - name: knative-operator
       namespace: ${releaseNamespace}
-  chartref:
-      kind: OCIRepository
-      name: knative
-      namespace: ${releaseNamespace}
+  chartRef:
+    kind: OCIRepository
+    name: knative
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
