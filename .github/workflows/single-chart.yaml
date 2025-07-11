@@ -37,4 +37,4 @@ jobs:
           
       - name: Push chart to GHCR
         run: |
-          helm push i-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push ai-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
