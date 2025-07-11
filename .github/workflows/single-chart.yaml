@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add ai-navigator-api https://mesosphere.github.io/ai-navigator-cluster-info-api
+          helm repo add mesosphere-chatbot https://mesosphere.github.io/chatbot
           helm repo update
-          helm pull ai-navigator-api/ai-navigator-cluster-info-api --version 0.3.0
+          helm pull mesosphere-chatbot/ai-navigator-chatbot --version 0.1.0
           
       - name: Push chart to GHCR
         run: |
-          helm push i-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push ai-navigator-chatbot-0.1.0.tgz oci://ghcr.io/mesosphere/charts
