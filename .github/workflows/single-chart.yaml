@@ -31,7 +31,7 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kubefed helm repo add kubefed https://raw.githubusercontent.com/mesosphere/kubefed/master/charts
+          helm repo add kubefed https://raw.githubusercontent.com/mesosphere/kubefed/master/charts
           helm repo update
           helm pull kubefed/kubefed --version 0.10.3
           
