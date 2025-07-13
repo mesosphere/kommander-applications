@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add ai-navigator-api https://mesosphere.github.io/ai-navigator-cluster-info-api
+          helm repo add kubefed helm repo add kubefed https://raw.githubusercontent.com/mesosphere/kubefed/master/charts
           helm repo update
-          helm pull ai-navigator-api/ai-navigator-cluster-info-api --version 0.3.0
+          helm pull kubefed/kubefed --version 0.10.3
           
       - name: Push chart to GHCR
         run: |
-          helm push ai-navigator-cluster-info-api-0.3.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push kubefed-0.10.3.tgz oci://ghcr.io/mesosphere/charts
