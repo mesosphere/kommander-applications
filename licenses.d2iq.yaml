@@ -500,11 +500,6 @@ resources:
         ref: controller-v1.11.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
-  - container_image: docker.io/bitnami/postgres-exporter:0.16.0-debian-12-r3
-    sources:
-      - url: https://github.com/prometheus-community/postgres_exporter
-        ref: v0.12.0
-        license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
     sources:
       - url: https://github.com/nginx/nginx
@@ -515,11 +510,6 @@ resources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v${image_tag%-debian-12-r5}
         license_path: LICENSE.md
-  - container_image: docker.io/bitnami/postgresql:15.9.0-debian-12-r0
-    sources:
-      - url: https://github.com/postgres/postgres
-        ref: REL_15_9
-        license_path: COPYRIGHT
   - container_image: docker.io/library/busybox:1
     sources:
       - url: https://github.com/mirror/busybox
