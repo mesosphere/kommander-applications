@@ -1,17 +1,25 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cost-analyzer
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cost-analyzer"
+  ref:
+    tag: 2.8.0
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kubecost
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: cost-analyzer
-      sourceRef:
-        kind: HelmRepository
-        name: kubecost
-        namespace: kommander-flux
-      version: 2.8.0
+  chartRef:
+    kind: OCIRepository
+    name: cost-analyzer
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
