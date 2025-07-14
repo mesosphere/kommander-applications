@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.6.0-d2iq-defaults
+  name: nkp-insights-1.6.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -304,7 +304,7 @@ data:
             cpu: 100m
             memory: 512Mi
       schedule: '@every 35m'
-    kubectlImage: bitnami/kubectl:1.33.2
+    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.2}
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
