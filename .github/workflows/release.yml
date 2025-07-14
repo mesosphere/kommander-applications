@@ -80,7 +80,7 @@ jobs:
     steps:
       - name: Send slack message if any of the release jobs failed
         if: ${{contains(needs.*.result, 'failure') }}
-        uses: slackapi/slack-github-action@v2.1.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
           webhook-type: incoming-webhook
@@ -106,7 +106,7 @@ jobs:
             }
       - name: Send slack message when all release jobs completed successfully
         if: ${{ !contains(needs.*.result, 'failure') && !endsWith(github.ref_name, '-dev') }} # No need to send a message on daily releases.
-        uses: slackapi/slack-github-action@v2.1.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_NTNX_NCNDKPSHIPIT }}
           webhook-type: incoming-webhook
