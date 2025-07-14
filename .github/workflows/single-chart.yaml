@@ -40,5 +40,5 @@ jobs:
           
       - name: Push chart to GHCR
         run: |
-          helm push nkp-pulse-management-0.2.10.tgz oci://ghcr.io/mesosphere/charts
-          helm push nkp-pulse-workspace-0.2.10.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-pulse-management-v0.2.10.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-pulse-workspace-v0.2.10.tgz oci://ghcr.io/mesosphere/charts
