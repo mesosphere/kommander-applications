@@ -343,7 +343,7 @@ data:
                   severity: info
                 annotations:
                   summary: "Certificate rolling out soon"
-                  description: "Certificate will expire soon, rollout is expected with in a day"
+                  description: "Certificate will expire soon, rollout is expected within a day"
               - alert: CertificateRolloutMightFail
                 expr: |
                   min by(namespace,cluster)(
