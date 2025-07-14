@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
 displayName: Project Logging
 description: Application by Nutanix that defines resources for the Logging Operator, which are used for directing project logs to its Loki application.
 category:

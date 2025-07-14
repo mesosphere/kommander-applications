@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
 displayName: kube-oidc-proxy
 description: Proxy to consistently authenticate to managed Kubernetes clusters, on multi-cloud, using OIDC. Requires cert-manager and Traefik.
 category:
