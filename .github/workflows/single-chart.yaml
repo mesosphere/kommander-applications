@@ -31,10 +31,14 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kubefed https://raw.githubusercontent.com/mesosphere/kubefed/master/charts
+          helm repo add nkp-pulse https://mesosphere.github.io/nkp-pulse
           helm repo update
-          helm pull kubefed/kubefed --version 0.10.3
+          helm pull nkp-pulse/nkp-pulse-management --version v0.2.10
+          helm repo add nkp-pulse https://mesosphere.github.io/nkp-pulse
+          helm repo update
+          helm pull nkp-pulse/nkp-pulse-workspace --version v0.2.10
           
       - name: Push chart to GHCR
         run: |
-          helm push kubefed-0.10.3.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-pulse-management-0.2.10.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-pulse-workspace-0.2.10.tgz oci://ghcr.io/mesosphere/charts
