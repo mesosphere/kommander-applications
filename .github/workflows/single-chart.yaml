@@ -31,10 +31,14 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kommander-ui https://mesosphere.github.io/kommander-ui/charts
+          helm repo add dkp https://mesosphere.github.io/dkp-insights-charts-attached
           helm repo update
-          helm pull kommander-ui/kommander-ui --version 17.112.4
+          helm pull dkp/nkp-insights --version v1.6.0
+          helm repo add dkp-management https://mesosphere.github.io/dkp-insights-charts-management
+          helm repo update
+          helm pull dkp-management/nkp-insights-management --version v1.6.0
           
       - name: Push chart to GHCR
         run: |
-          helm push kommander-ui-17.112.4.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-insights-management-v1.6.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-insights-v1.6.0.tgz oci://ghcr.io/mesosphere/charts
