@@ -13,6 +13,11 @@ data:
       logLevel: warn
       tls:
         tlsMinVersion: VersionTLS12
+      prometheusConfigReloader:
+        image:
+          registry: quay.io
+          repository: prometheus-operator/prometheus-config-reloader
+          tag: v0.82.2
       admissionWebhooks:
         patch:
           priorityClassName: "dkp-critical-priority"
