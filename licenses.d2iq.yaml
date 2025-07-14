@@ -1,5 +1,5 @@
 ignore:
-  - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
+  - docker.io/mesosphere/trivy-bundles:0.64.1-20250707T225137Z
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
@@ -12,7 +12,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/aquasec/kube-bench:v0.9.1
+  - container_image: docker.io/aquasec/kube-bench:v0.10.3
     sources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
@@ -139,7 +139,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.4.4
+  - container_image: docker.io/mesosphere/insights:v1.6.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
