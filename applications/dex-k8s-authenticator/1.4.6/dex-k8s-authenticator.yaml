@@ -28,7 +28,7 @@ spec:
       name: kommander
   chartRef:
     kind: OCIRepository
-    name: dex
+    name: dex-k8s-authenticator
     namespace: ${releaseNamespace}
   interval: 15s
   install:
