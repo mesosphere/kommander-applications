@@ -1,5 +1,5 @@
 ignore:
-  - docker.io/mesosphere/trivy-bundles:0.59.0-20250202T050536Z
+  - docker.io/mesosphere/trivy-bundles:0.64.1-20250707T225137Z
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
@@ -12,7 +12,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
         url: https://github.com/fluent/fluent-bit
-  - container_image: docker.io/aquasec/kube-bench:v0.9.1
+  - container_image: docker.io/aquasec/kube-bench:v0.10.3
     sources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
@@ -135,11 +135,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:v1.4.4
+  - container_image: docker.io/mesosphere/insights-management:v1.6.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:v1.4.4
+  - container_image: docker.io/mesosphere/insights:v1.6.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/dkp-insights
@@ -500,11 +500,6 @@ resources:
         ref: controller-v1.11.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
-  - container_image: docker.io/bitnami/postgres-exporter:0.16.0-debian-12-r3
-    sources:
-      - url: https://github.com/prometheus-community/postgres_exporter
-        ref: v0.12.0
-        license_path: LICENSE
   - container_image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
     sources:
       - url: https://github.com/nginx/nginx
@@ -515,11 +510,6 @@ resources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v${image_tag%-debian-12-r5}
         license_path: LICENSE.md
-  - container_image: docker.io/bitnami/postgresql:15.9.0-debian-12-r0
-    sources:
-      - url: https://github.com/postgres/postgres
-        ref: REL_15_9
-        license_path: COPYRIGHT
   - container_image: docker.io/library/busybox:1
     sources:
       - url: https://github.com/mirror/busybox
