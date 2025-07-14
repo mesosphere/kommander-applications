@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Gatekeeper
 description: Customizable admission webhook for Kubernetes to enforce policies executed by Open Policy Agent (OPA)
 category:

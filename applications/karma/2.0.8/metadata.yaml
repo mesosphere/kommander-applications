@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 description: Karma is an alert dashboard for the Prometheus Alertmanager.
 category:
   - monitoring

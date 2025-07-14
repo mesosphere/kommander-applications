@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: NKP AI Navigator Gateway
 description: The AI Navigator Gateway is a component that provides NKP AI Navigator with documentation and interfaces it with an external LLM.
 category:
