@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: cert-manager
 description: Automates management and issuance of TLS certificates from various issuing sources.
 category:

@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Jaeger
 description: Distributed tracing system used for monitoring and troubleshooting microservices-based distributed systems.
 category:
