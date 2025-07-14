@@ -380,11 +380,11 @@ data:
                 expr: |
                   (min by(namespace,cluster) (
                     kube_customresource_control_plane_cert_expiry_days
-                  ) - time()) / 86400 >= 364.75
+                  ) - time()) / 86400 >= 364
                   and
                   (min by(namespace,cluster) (
                     kube_customresource_control_plane_cert_expiry_days
-                  ) - time()) / 86400 < 365
+                  ) - time()) / 86400 <= 365
                 for: 1m
                 labels:
                   severity: info
