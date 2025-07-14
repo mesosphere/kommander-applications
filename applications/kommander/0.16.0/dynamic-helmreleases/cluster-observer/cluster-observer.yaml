@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: cluster-observer
-  namespace: ${releaseNamespace}
+  namespace: ${namespace}
 spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cluster-observer"
@@ -21,7 +21,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cluster-observer
-    namespace: ${releaseNamespace}
+    namespace: ${namespace}
   interval: 15s
   install:
     crds: CreateReplace
