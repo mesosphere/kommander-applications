@@ -1,4 +1,15 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cluster-observer
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cluster-observer"
+  ref:
+    tag: 1.4.1
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,14 +18,10 @@ metadata:
   labels:
     kommander.mesosphere.io/cluster-id: ${clusterID}
 spec:
-  chart:
-    spec:
-      chart: cluster-observer
-      sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-kommander-auditing-pipeline-charts
-        namespace: kommander-flux
-      version: 1.4.1
+  chartRef:
+    kind: OCIRepository
+    name: cluster-observer
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
