@@ -1,18 +1,25 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kubefed
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kubefed"
+  ref:
+    tag: 0.10.3
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kubefed
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: kubefed
-      sourceRef:
-        kind: HelmRepository
-        name: kubefed
-        namespace: kommander-flux
-      version: "0.10.4"
+  chartRef:
+    kind: OCIRepository
+    name: kubefed
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
