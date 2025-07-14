@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
 description: A solution that collects metrics and provides visualization and alerting capabilities.
 category:
   - monitoring
