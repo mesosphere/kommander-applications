@@ -82,8 +82,8 @@ data:
   name: "Kubecost"
   dashboardLink: "/dkp/kommander/kubecost/frontend/overview.html"
   docsLink: "https://docs.kubecost.com/"
-  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.7.2/cost-analyzer/Chart.yaml#L2
-  version: "2.7.2"
+  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.8.0/cost-analyzer/Chart.yaml#L2
+  version: "2.8.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
