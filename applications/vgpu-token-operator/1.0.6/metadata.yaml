@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: VGPU Token Operator
 description: Kubernetes native way to handle VGPU tokens and license validation.
 category:

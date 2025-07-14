@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Prometheus Monitoring
 description: Stack of applications that collect metrics and provides visualization and alerting capabilities. Includes Prometheus, Prometheus Alertmanager and Grafana.
 category:

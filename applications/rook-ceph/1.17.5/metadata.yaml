@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Rook Ceph
 description: Rook orchestrates the Ceph storage solution, with a specialized Kubernetes Operator to automate management.
 category:

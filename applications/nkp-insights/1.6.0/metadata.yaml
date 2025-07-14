@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: NKP Insights
 description: NKP Insights is Nutanix’s analytics tool used to ensure clusters are secure and in debugging, monitoring, and anticipating future issues with your cluster.
 category:
