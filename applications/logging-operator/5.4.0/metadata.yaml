@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Logging Operator
 description: The Logging operator automates the deployment and configuration of a Kubernetes logging pipeline.
 category:

@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Traefik Forward Auth
 description: Installs a forward authentication service - from Nutanix - that provides OAuth based authentication for Traefik. Requires Traefik.
 category:

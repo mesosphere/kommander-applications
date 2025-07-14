@@ -1,4 +1,4 @@
-schema: "catalog.nkp.nutanix.com/v1alpha1/application-metadata"
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Rook Ceph Cluster
 description: Managed by Rook Ceph Operator, Ceph Cluster provides storage services in cloud native environments
 category:
