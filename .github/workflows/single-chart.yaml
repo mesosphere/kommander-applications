@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kubefed https://mesosphere.github.io/kubefed
+          helm repo add dex-k8s-authenticator https://mesosphere.github.io/charts/staging
           helm repo update
-          helm pull kubefed/kubefed --version 0.10.4
+          helm pull dex-k8s-authenticator/dex-k8s-authenticator --version 1.4.2
       - name: Push chart to GHCR
         run: |
-          helm push kubefed-0.10.4.tgz oci://ghcr.io/mesosphere/charts
+          helm push dex-k8s-authenticator-1.4.2.tgz oci://ghcr.io/mesosphere/charts
 
