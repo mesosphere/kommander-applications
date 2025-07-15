@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Reloader
 description: Kubernetes controller to automatically reload values for ConfigMaps and Secrets in Pods.
 category:

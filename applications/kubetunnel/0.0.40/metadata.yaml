@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 type: internal
 scope:
   - workspace

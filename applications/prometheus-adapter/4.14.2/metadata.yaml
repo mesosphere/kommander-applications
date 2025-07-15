@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Prometheus Adapter
 description: Provides cluster metrics from Prometheus. Requires Prometheus.
 category:

@@ -1,3 +1,4 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Fluent Bit
 description: Open source and multi-platform log processor tool which aims to be a generic Swiss knife for logs processing and distribution.
 category:
