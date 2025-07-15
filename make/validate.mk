@@ -15,7 +15,7 @@ list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applica
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
 
-NKP_CATALOG_CLI_VERSION ?= 0.2.0
+NKP_CATALOG_CLI_VERSION ?= 0.3.0
 NKP_CATALOG_CLI := $(LOCAL_DIR)/bin/nkp_catalog_cli_v$(NKP_CATALOG_CLI_VERSION)
 TAG := v$(NKP_CATALOG_CLI_VERSION)
 OWNER := nutanix-cloud-native

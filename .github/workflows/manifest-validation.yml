@@ -36,7 +36,7 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
-      
+
       - run: devbox run -- gh auth setup-git
         env:
           GITHUB_TOKEN: ${{ steps.app-token-ncn.outputs.token }}
