@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cosi-driver-ceph-dkp-object-store
+  name: cosi-bucket-kit
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
