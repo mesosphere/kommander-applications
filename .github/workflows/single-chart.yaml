@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add chartmuseum https://chartmuseum.github.io/charts
+          helm repo add kubecost https://kubecost.github.io/cost-analyzer/
           helm repo update
-          helm pull chartmuseum/chartmuseum --version 3.10.4
+          helm pull kubecost/cost-analyzer --version 2.7.2
       - name: Push chart to GHCR
         run: |
-          helm push chartmuseum-3.10.4.tgz oci://ghcr.io/mesosphere/charts
+          helm push cost-analyzer-2.7.2.tgz oci://ghcr.io/mesosphere/charts
 
