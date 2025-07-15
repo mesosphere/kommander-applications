@@ -377,7 +377,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/nova
-  - container_image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.20.3
+  - container_image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.21.9
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}

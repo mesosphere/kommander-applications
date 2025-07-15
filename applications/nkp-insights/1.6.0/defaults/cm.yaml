@@ -346,7 +346,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: us-docker.pkg.dev/fairwinds-ops/oss/pluto
-        tag: v5.20.3
+        tag: v5.21.9
       resources:
         limits:
           cpu: 100m
