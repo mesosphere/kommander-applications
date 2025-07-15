@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add istio https://mesosphere.github.io/charts/staging
+          helm repo add kubefed https://mesosphere.github.io/kubefed
           helm repo update
-          helm pull istio/istio --version 1.23.3
+          helm pull kubefed/kubefed --version 0.10.4
       - name: Push chart to GHCR
         run: |
-          helm push istio-1.23.3.tgz oci://ghcr.io/mesosphere/charts
+          helm push kubefed-0.10.4.tgz oci://ghcr.io/mesosphere/charts
 
