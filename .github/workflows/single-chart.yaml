@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kubecost https://kubecost.github.io/cost-analyzer/
+          helm repo add istio https://mesosphere.github.io/charts/staging
           helm repo update
-          helm pull kubecost/cost-analyzer --version 2.7.2
+          helm pull istio/istio --version 1.23.3
       - name: Push chart to GHCR
         run: |
-          helm push cost-analyzer-2.7.2.tgz oci://ghcr.io/mesosphere/charts
+          helm push istio-1.23.3.tgz oci://ghcr.io/mesosphere/charts
 
