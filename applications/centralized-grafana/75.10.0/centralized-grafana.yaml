@@ -25,7 +25,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-71.0.1-config-defaults
+      name: centralized-grafana-75.10.0-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
