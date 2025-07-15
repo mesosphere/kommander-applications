@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/dex-k8s-authenticator"
   ref:
-    tag: 1.4.1
+    tag: 1.4.2
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
