@@ -15,19 +15,16 @@ list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applica
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
 
-NKP_CATALOG_CLI_VERSION ?= 0.3.0
-NKP_CATALOG_CLI := $(LOCAL_DIR)/bin/nkp_catalog_cli_v$(NKP_CATALOG_CLI_VERSION)
-TAG := v$(NKP_CATALOG_CLI_VERSION)
-OWNER := nutanix-cloud-native
-REPO := nkp-catalog-cli
-ASSET := catalog_v$(NKP_CATALOG_CLI_VERSION)_$(GOOS)_$(GOARCH).tar.gz
+NKP_CLI_VERSION := 0.0.0-dev.0
+NKP_CLI := $(LOCAL_DIR)/bin/nkp_cli_v$(NKP_CLI_VERSION)
+NKP_CLI_ASSET := nkp_v$(NKP_CLI_VERSION)_$(GOOS)_amd64
+NKP_CLI_ARCHIVE := $(NKP_CLI_ASSET).tar.gz
 
-$(NKP_CATALOG_CLI):
+$(NKP_CLI):
 	mkdir -p $(dir $@)
-	gh release download $(TAG) --repo $(OWNER)/$(REPO) --pattern $(ASSET) && tar -xzf ./$(ASSET) -C .
-	mv ./nkp-catalog-cli $@ && chmod +x $@
-	rm -f $(ASSET)
+	curl -LO "https://downloads.d2iq.com/dkp/v$(NKP_CLI_VERSION)/$(NKP_CLI_ARCHIVE)" && tar -xzf $(NKP_CLI_ARCHIVE) -C .
+	mv ./nkp  $@
 
 .PHONY: validate-manifests
-validate-manifests: $(NKP_CATALOG_CLI)
-	$(NKP_CATALOG_CLI) validate catalog-repository -v=3 --repo-dir=$(CURDIR)
+validate-manifests: $(NKP_CLI)
+	$(NKP_CLI) validate catalog-repository -v=3 --repo-dir=$(CURDIR)
