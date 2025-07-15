@@ -9,12 +9,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: cluster-observer
+      chart: ./charts/cluster-observer/cluster-observer-1.4.1.tgz
       sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-kommander-auditing-pipeline-charts
+        kind: GitRepository
+        name: management
         namespace: kommander-flux
-      version: 1.4.1
   interval: 15s
   install:
     crds: CreateReplace
