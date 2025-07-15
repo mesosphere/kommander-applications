@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cluster
+    name: harbor-database
     namespace: ${releaseNamespace}
   interval: 15s
   install:
