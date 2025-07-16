@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add kubefed https://raw.githubusercontent.com/mesosphere/kubefed/master/charts
+          helm repo add kommander-ui https://mesosphere.github.io/kommander-ui/charts
           helm repo update
-          helm pull kubefed/kubefed --version 0.10.4
+          helm pull kommander-ui/kommander-ui --version 17.114.0
       - name: Push chart to GHCR
         run: |
-          helm push kubefed-0.10.4.tgz oci://ghcr.io/mesosphere/charts
+          helm push kommander-ui-17.114.0.tgz oci://ghcr.io/mesosphere/charts
 
