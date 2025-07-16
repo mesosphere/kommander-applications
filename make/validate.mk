@@ -15,7 +15,7 @@ list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applica
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
 
-NKP_CLI_VERSION := 0.0.0-dev.0
+NKP_CLI_VERSION := 2.16.0-dev.11
 NKP_CLI := $(LOCAL_DIR)/bin/nkp_cli_v$(NKP_CLI_VERSION)
 NKP_CLI_ASSET := nkp_v$(NKP_CLI_VERSION)_$(GOOS)_amd64
 NKP_CLI_ARCHIVE := $(NKP_CLI_ASSET).tar.gz
