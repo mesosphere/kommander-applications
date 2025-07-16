@@ -19,9 +19,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
-    runs-on:
-    - self-hosted
-    - small
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout

@@ -13,9 +13,7 @@ permissions:
 
 jobs:
   pre-commit:
-    runs-on:
-    - self-hosted
-    - small
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
