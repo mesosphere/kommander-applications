@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-cluster-info-0.3.0-config-defaults
+  name: ai-navigator-cluster-info-0.4.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -23,7 +23,7 @@ data:
       persistence:
         size: 8Gi
     priorityClassName: dkp-high-priority
-    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.2}
+    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.32.3}
   agent-values.yaml: |-
     ---
     collector:

@@ -1,4 +1,3 @@
-schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: NKP AI Navigator Cluster Info Agent
 description: The AI Navigator Cluster Info Agent collects information about the NKP cluster and sends it to the AI Navigator service.
 category:
