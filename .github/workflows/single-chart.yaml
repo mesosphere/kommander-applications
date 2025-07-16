@@ -31,7 +31,7 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add mesosphere https://mesosphere.github.io/kubefed
+          helm repo add mesosphere https://github.com/mesosphere/kubefed/tree/master/charts
           helm repo update
           helm pull mesosphere/kubefed --version 0.10.4
       - name: Push chart to GHCR
