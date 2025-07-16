@@ -36,5 +36,5 @@ jobs:
           helm pull kommander-ui/kommander-ui --version 17.113.0
       - name: Push chart to GHCR
         run: |
-          helm push /kommander-ui-17.113.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push kommander-ui-17.113.0.tgz oci://ghcr.io/mesosphere/charts
 
