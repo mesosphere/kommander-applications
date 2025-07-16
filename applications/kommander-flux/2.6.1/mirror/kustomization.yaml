@@ -12,3 +12,6 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/name
         value: manager
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
