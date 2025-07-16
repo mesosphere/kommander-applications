@@ -10,11 +10,22 @@ $(DKP_BLOODHOUND_BIN):
 	curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_v$(DKP_BLOODHOUND_VERSION)_$(GOOS)_$(GOARCH).tar.gz | tar xz -O > $@
 	chmod +x $@
 
-.PHONY: validate-manifests
-validate-manifests: $(DKP_BLOODHOUND_BIN)
-	$(DKP_BLOODHOUND_BIN)
-
 .PHONY: list-images
 list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applications $(SKIP_APPLICATIONS),)
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
+
+# TODO : update with stable version once available
+NKP_CLI_VERSION := 2.16.0-dev.11
+NKP_CLI := $(LOCAL_DIR)/bin/nkp_cli_v$(NKP_CLI_VERSION)
+NKP_CLI_ASSET := nkp_v$(NKP_CLI_VERSION)_$(GOOS)_amd64
+NKP_CLI_ARCHIVE := $(NKP_CLI_ASSET).tar.gz
+
+$(NKP_CLI):
+	mkdir -p $(dir $@)
+	curl -LO "https://downloads.d2iq.com/dkp/v$(NKP_CLI_VERSION)/$(NKP_CLI_ARCHIVE)" && tar -xzf $(NKP_CLI_ARCHIVE) -C .
+	mv ./nkp  $@
+
+.PHONY: validate-manifests
+validate-manifests: $(NKP_CLI)
+	$(NKP_CLI) validate catalog-repository -v=3 --repo-dir=$(CURDIR)
