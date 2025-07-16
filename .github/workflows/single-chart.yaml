@@ -31,10 +31,10 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add dex-k8s-authenticator https://mesosphere.github.io/charts/staging
+          helm repo add kommander-ui https://mesosphere.github.io/kommander-ui/charts
           helm repo update
-          helm pull dex-k8s-authenticator/dex-k8s-authenticator --version 1.4.2
+          helm pull kommander-ui/kommander-ui --version 17.113.0
       - name: Push chart to GHCR
         run: |
-          helm push dex-k8s-authenticator-1.4.2.tgz oci://ghcr.io/mesosphere/charts
+          helm push /kommander-ui-17.113.0.tgz oci://ghcr.io/mesosphere/charts
 
