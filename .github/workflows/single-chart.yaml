@@ -33,8 +33,8 @@ jobs:
         run: |
           helm repo add kommander-ui https://mesosphere.github.io/kommander-ui/charts
           helm repo update
-          helm pull kommander-ui/kommander-ui --version 17.114.0
+          helm pull kommander-ui/kommander-ui --version 17.115.1
       - name: Push chart to GHCR
         run: |
-          helm push kommander-ui-17.114.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push kommander-ui-17.115.1.tgz oci://ghcr.io/mesosphere/charts
 
