@@ -32,7 +32,6 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 	})
 
 	Describe("Installing kommander-flux", Ordered, Label("install"), func() {
-
 		var (
 			kf             kommanderFlux
 			deploymentList *appsv1.DeploymentList
@@ -87,13 +86,10 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).ToNot(BeNil())
 			}
 		})
-
 	})
 
 	Describe("Upgrading komander-flux", Ordered, Label("upgrade"), func() {
-		var (
-			kf kommanderFlux
-		)
+		var kf kommanderFlux
 
 		It("should install the previous version successfully", func() {
 			kf = kommanderFlux{}

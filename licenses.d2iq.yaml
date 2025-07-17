@@ -1,5 +1,10 @@
 ignore:
   - docker.io/mesosphere/trivy-bundles:0.64.1-20250707T225137Z
+  # - container_image: docker.io/mhrabovcin/flux-oci-mirror:v0.0.1-dev
+  #   sources:
+  #     - url: https://github.com/nutanix-cloud-native/flux-oci-mirror
+  #       ref: ${image_tag}
+  - docker.io/mhrabovcin/flux-oci-mirror:v0.0.1-dev
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
