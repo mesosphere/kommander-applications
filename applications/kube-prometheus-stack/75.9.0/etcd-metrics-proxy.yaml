@@ -9,11 +9,15 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
+<<<<<<< HEAD:applications/kube-prometheus-stack/72.8.0/etcd-metrics-proxy.yaml
 <<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.0/etcd-metrics-proxy.yaml
   path: ./applications/kube-prometheus-stack/71.0.0/etcd-metrics-proxy
 ========
   path: ./applications/kube-prometheus-stack/72.8.0/etcd-metrics-proxy
 >>>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kube-prometheus-stack/72.8.0/etcd-metrics-proxy.yaml
+=======
+  path: ./applications/kube-prometheus-stack/75.9.0/etcd-metrics-proxy
+>>>>>>> a81f0dd7 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/etcd-metrics-proxy.yaml
   sourceRef:
     kind: GitRepository
     name: management

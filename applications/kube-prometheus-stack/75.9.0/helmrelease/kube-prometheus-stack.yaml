@@ -12,8 +12,12 @@ spec:
 ========
   url: "${ociRegistryURL:=oci://ghcr.io}/prometheus-community/charts/kube-prometheus-stack"
   ref:
+<<<<<<< HEAD:applications/kube-prometheus-stack/72.8.0/helmrelease/kube-prometheus-stack.yaml
     tag: 72.8.0
 >>>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kube-prometheus-stack/72.8.0/helmrelease/kube-prometheus-stack.yaml
+=======
+    tag: 75.9.0
+>>>>>>> a81f0dd7 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/helmrelease/kube-prometheus-stack.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -40,11 +44,15 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
+<<<<<<< HEAD:applications/kube-prometheus-stack/72.8.0/helmrelease/kube-prometheus-stack.yaml
 <<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.0/helmrelease/kube-prometheus-stack.yaml
       name: kube-prometheus-stack-71.0.0-config-defaults
 ========
       name: kube-prometheus-stack-72.8.0-config-defaults
 >>>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kube-prometheus-stack/72.8.0/helmrelease/kube-prometheus-stack.yaml
+=======
+      name: kube-prometheus-stack-75.9.0-config-defaults
+>>>>>>> a81f0dd7 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/helmrelease/kube-prometheus-stack.yaml
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true
