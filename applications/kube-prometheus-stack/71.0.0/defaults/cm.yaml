@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-71.0.1-config-defaults
+  name: kube-prometheus-stack-71.0.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
