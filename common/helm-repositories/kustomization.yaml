@@ -7,7 +7,6 @@ resources:
   - grafana.yaml
   - jaegertracing.yaml
   - knative-operator.yaml
-  - kommander-ui.yaml
   - kube-logging.yaml
   - kubecost.yaml
   - kubefed.yaml
