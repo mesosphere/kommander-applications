@@ -31,7 +31,7 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm add repo kube-prometheus-stack https://mesosphere.github.io/charts/staging
+          helm repo add kube-prometheus-stack https://mesosphere.github.io/charts/staging
           helm repo update
           helm pull kube-prometheus-stack/kube-prometheus-stack --version 75.9.0
       - name: Push chart to GHCR
