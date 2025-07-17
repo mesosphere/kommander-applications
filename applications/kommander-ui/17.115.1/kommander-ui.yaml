@@ -8,11 +8,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kommander-ui"
   ref:
-<<<<<<< HEAD:applications/kommander-ui/17.115.1/kommander-ui.yaml
     tag: 17.115.1
-=======
-    tag: 17.114.0
->>>>>>> 73847540 (refactor: bump chart version):applications/kommander-ui/17.114.0/kommander-ui.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
