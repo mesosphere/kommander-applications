@@ -54,6 +54,9 @@ type Env struct {
 //go:embed calico.yaml
 var calicoYamlFile []byte
 
+//go:embed crds/cert-manager.crds.yaml
+var certManagerCRDsYamlFile []byte
+
 // Provision creates and configures the environment for application specific testings.
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
 // It returns an error if any of the steps fails.
@@ -74,6 +77,11 @@ func (e *Env) Provision(ctx context.Context) error {
 	e.Client = c
 
 	err = e.ApplyYAMLFileRaw(ctx, calicoYamlFile, nil)
+	if err != nil {
+		return err
+	}
+
+	err = e.ApplyYAMLFileRaw(ctx, certManagerCRDsYamlFile, nil)
 	if err != nil {
 		return err
 	}
@@ -381,7 +389,6 @@ func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) er
 		}
 
 		return nil
-
 	})
 	if err != nil {
 		return fmt.Errorf("could not walk the path: %s :%w", path, err)
@@ -437,7 +444,6 @@ func applyYAMLFile(ctx context.Context, client genericClient.Client, path string
 
 // ApplyYAMLFileRaw applies the YAML file provided
 func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string) error {
-
 	var err error
 	log.SetLogger(klog.NewKlogr())
 
