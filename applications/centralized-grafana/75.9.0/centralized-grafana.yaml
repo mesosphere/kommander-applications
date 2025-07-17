@@ -5,12 +5,16 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
+<<<<<<< HEAD
 <<<<<<<< HEAD:applications/centralized-grafana/71.0.0/centralized-grafana.yaml
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kube-prometheus-stack"
   ref:
     tag: 71.0.0
 ========
   url: "${ociRegistryURL:=oci://ghcr.io}/prometheus-community/charts/kube-prometheus-stack"
+=======
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kube-prometheus-stack"
+>>>>>>> afa7da59 (feat: updated prometheus-stack url)
   ref:
 <<<<<<< HEAD:applications/centralized-grafana/72.8.0/centralized-grafana.yaml
     tag: 72.8.0
