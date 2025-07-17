@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/vgpu-token-operator/1.0.6/helmrelease
+  path: ./applications/vgpu-token-operator/1.0.7/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
