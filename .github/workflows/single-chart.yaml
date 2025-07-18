@@ -33,8 +33,8 @@ jobs:
         run: |
           helm repo add mesosphere-ai-navigator-app https://mesosphere.github.io/ai-navigator-app
           helm repo update
-          helm pull mesosphere-ai-navigator-app/ai-navigator-app --version 0.5.0
+          helm pull mesosphere-ai-navigator-app/ai-navigator-app --version 0.5.1
       - name: Push chart to GHCR
         run: |
-          helm push ai-navigator-app-0.5.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push ai-navigator-app-0.5.1.tgz oci://ghcr.io/mesosphere/charts
 
