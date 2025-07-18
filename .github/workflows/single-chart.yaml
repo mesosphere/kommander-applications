@@ -36,5 +36,5 @@ jobs:
           helm pull mesosphere-ai-navigator-app/ai-navigator-app --version 0.5.0
       - name: Push chart to GHCR
         run: |
-          helm push kai-navigator-app-0.5.0.tgz oci://ghcr.io/mesosphere/charts
+          helm push ai-navigator-app-0.5.0.tgz oci://ghcr.io/mesosphere/charts
 
