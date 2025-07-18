@@ -130,3 +130,6 @@ data:
     catalogCollections:
     - registry: ghcr.io
       repository: nutanix-cloud-native/nkp-partner-catalog
+    - registry: ghcr.io
+      repository: nutanix-cloud-native/nkp-nutanix-product-catalog
+      branch: v2.0.0
