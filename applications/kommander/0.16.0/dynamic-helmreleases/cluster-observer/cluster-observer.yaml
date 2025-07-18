@@ -6,6 +6,8 @@ metadata:
   namespace: ${namespace}
   labels:
     kommander.mesosphere.io/cluster-id: ${clusterID}
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
 spec:
   chart:
     spec:
