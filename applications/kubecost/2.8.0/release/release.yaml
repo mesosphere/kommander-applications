@@ -7,11 +7,7 @@ spec:
   interval: 1m
   url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cost-analyzer"
   ref:
-<<<<<<< HEAD:applications/kubecost/2.7.3/release/release.yaml
-    tag: 2.7.2
-=======
     tag: 2.8.0
->>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kubecost/2.8.0/release/release.yaml
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
