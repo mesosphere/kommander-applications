@@ -41,7 +41,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull Helm chart 
+      - name: Pull Helm chart
         run: |
           set -euo pipefail
           helm repo add "${{ github.event.inputs.repo_name }}" "${{ github.event.inputs.chart_repo }}"
