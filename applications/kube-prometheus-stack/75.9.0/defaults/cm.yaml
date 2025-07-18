@@ -1,15 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-<<<<<<< HEAD:applications/kube-prometheus-stack/72.8.0/defaults/cm.yaml
-<<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.0/defaults/cm.yaml
-  name: kube-prometheus-stack-71.0.0-config-defaults
-========
-  name: kube-prometheus-stack-72.8.0-config-defaults
->>>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kube-prometheus-stack/72.8.0/defaults/cm.yaml
-=======
   name: kube-prometheus-stack-75.9.0-config-defaults
->>>>>>> a81f0dd7 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/defaults/cm.yaml
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
