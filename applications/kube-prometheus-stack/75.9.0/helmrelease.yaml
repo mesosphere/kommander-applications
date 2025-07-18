@@ -9,15 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-<<<<<<< HEAD:applications/kube-prometheus-stack/72.8.0/helmrelease.yaml
-<<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.0/helmrelease.yaml
-  path: ./applications/kube-prometheus-stack/71.0.0/helmrelease
-========
-  path: ./applications/kube-prometheus-stack/72.8.0/helmrelease
->>>>>>>> 1a140b2a (feat: OCI migration of kube-prometheus-stack):applications/kube-prometheus-stack/72.8.0/helmrelease.yaml
-=======
   path: ./applications/kube-prometheus-stack/75.9.0/helmrelease
->>>>>>> a81f0dd7 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/helmrelease.yaml
   sourceRef:
     kind: GitRepository
     name: management
