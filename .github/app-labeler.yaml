@@ -10,10 +10,6 @@ applications/ai-navigator-gateway:
 - changed-files:
   - any-glob-to-any-file:
     - applications/ai-navigator-gateway/**
-applications/ai-navigator-rag:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/ai-navigator-rag/**
 applications/centralized-grafana:
 - changed-files:
   - any-glob-to-any-file:
