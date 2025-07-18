@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-navigator-rag-0.6.0-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    openai:
+      apiEndpoint: ""
+    postgresql:
+      priorityClassName: "dkp-critical-priority"
+    auth:
+      enabled: false
+    image:
+      # NOTE: When empty, the chart appVersion is used for a tag.
+      tag: "v0.6.0"
