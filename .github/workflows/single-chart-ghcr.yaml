@@ -50,4 +50,4 @@ jobs:
 
       - name: Push chart to GHCR
         run: |
-          helm push ${{ github.event.inputs.repo_name }}-${{ github.event.inputs.chart_version }}.tgz oci://ghcr.io/mesosphere/charts
+          helm push ${{ github.event.inputs.chart_name }}-${{ github.event.inputs.chart_version }}.tgz oci://ghcr.io/mesosphere/charts
