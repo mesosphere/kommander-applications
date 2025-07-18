@@ -31,10 +31,11 @@ jobs:
 
       - name: Pull Single Helm chart
         run: |
-          helm repo add mesosphere-ai-navigator-app https://mesosphere.github.io/ai-navigator-app
+          helm repo add dkp https://mesosphere.github.io/dkp-insights-charts-attached
           helm repo update
-          helm pull mesosphere-ai-navigator-app/ai-navigator-app --version 0.5.1
+          helm pull dkp/nkp-insights --version v1.6.2
+          
       - name: Push chart to GHCR
         run: |
-          helm push ai-navigator-app-0.5.1.tgz oci://ghcr.io/mesosphere/charts
+          helm push nkp-insights-v1.6.2.tgz oci://ghcr.io/mesosphere/charts
 
