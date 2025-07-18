@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 6h
-  path: ./applications/nkp-insights/1.6.0/helmrelease
+  path: ./applications/nkp-insights/1.6.2/helmrelease
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
