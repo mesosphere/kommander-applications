@@ -9,18 +9,25 @@
 #  1) CI tooling to build a complete airgapped bundle and 2)
 #  2) Ensure cert federation chart is downloaded when a user runs `dkp create chart-bundle`.
 ---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kommander-cert-federation
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/kommander-cert-federation"
+  ref:
+    tag: "0.0.13"
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ${notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle}
   namespace: ${releaseNamespace}
 spec:
-  chart:
-    spec:
-      chart: kommander-cert-federation
-      sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
-        namespace: kommander-flux
-      version: "0.0.13"
+  chartRef:
+    kind: OCIRepository
+    name: kommander-cert-federation
+    namespace: ${releaseNamespace}
   interval: 15s
