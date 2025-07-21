@@ -29,4 +29,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: nkp-pulse-management-0.2.11-config-defaults
-
