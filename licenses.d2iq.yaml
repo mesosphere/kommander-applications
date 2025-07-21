@@ -142,11 +142,11 @@ resources:
         url: https://github.com/ghostunnel/ghostunnel
   - container_image: docker.io/mesosphere/insights-management:1.6.2
     sources:
-      - ref: ${image_tag}
+      - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
   - container_image: docker.io/mesosphere/insights:1.6.2
     sources:
-      - ref: ${image_tag}
+      - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
   - container_image: docker.io/mesosphere/git-operator:v0.13.10
     sources:
