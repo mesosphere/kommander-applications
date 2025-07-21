@@ -12,7 +12,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${notPopulatedAnywhereAsThisIsOnlyForAirgappedBundle}
+  name: kommander-cert-federation
   namespace: ${releaseNamespace}
 spec:
   interval: 1m

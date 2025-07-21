@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${name}
+  name: mtls-proxy
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
