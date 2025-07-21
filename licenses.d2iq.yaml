@@ -595,7 +595,7 @@ resources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: valkey/valkey:8.1.3
+  - container_image: valkey/valkey:8.1.0
     sources:
       - url: https://github.com/valkey-io/valkey
         license_path: COPYING
@@ -604,7 +604,7 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
-  - container_image: oliver006/redis_exporter:v1.74.0
+  - container_image: oliver006/redis_exporter:v1.69.0
     sources:
       - url: https://github.com/oliver006/redis_exporter
         license_path: LICENSE
