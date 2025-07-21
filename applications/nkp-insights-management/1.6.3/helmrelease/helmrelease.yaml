@@ -4,7 +4,7 @@ metadata:
   name: nkp-insights-management
   namespace: ${releaseNamespace}
 spec:
-  nterval: 1m
+  interval: 1m
   ref:
     tag: 1.6.3
   url: ${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/nkp-insights-management
