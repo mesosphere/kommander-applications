@@ -9,7 +9,7 @@ data:
     image:
       registry: quay.io
       repository: thanos/thanos
-      tag: v0.38.0
+      tag: v0.39.2
     storegateway:
       enabled: false
     compactor:
