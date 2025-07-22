@@ -7,7 +7,10 @@ data:
   values.yaml: |-
     priorityClassName: dkp-high-priority
     image:
-      tag: 0.16.1-debian-12-r5
+      registry: registry.k8s.io
+      repository: external-dns/external-dns
+      tag: v0.18.0
+      pullPolicy: IfNotPresent
     service:
       labels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
