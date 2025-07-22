@@ -40,7 +40,6 @@ additional_crds:
 substitution_vars:
   releaseName: foobar
   releaseNamespace: kommander
-  kommanderNamespace: kommander
   workspaceNamespace: workspace
   certificateIssuerName: issuer
   certificatesIssuerName: issuer
