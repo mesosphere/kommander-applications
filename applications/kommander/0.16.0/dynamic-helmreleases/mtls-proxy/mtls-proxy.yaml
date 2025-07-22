@@ -11,12 +11,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: mtls-proxy
+      chart: ./charts/mtls-proxy/mtls-proxy-0.1.8.tgz
       sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        kind: GitRepository
+        name: management
         namespace: kommander-flux
-      version: 0.1.8
   interval: 15s
   install:
     crds: CreateReplace
@@ -24,6 +23,7 @@ spec:
       retries: 30
     createNamespace: true
   upgrade:
+    force: true
     crds: CreateReplace
     remediation:
       retries: 30

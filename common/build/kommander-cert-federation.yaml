@@ -17,10 +17,9 @@ metadata:
 spec:
   chart:
     spec:
-      chart: kommander-cert-federation
+      chart: ./charts/kommander-cert-federation/kommander-cert-federation-0.0.13.tgz
       sourceRef:
-        kind: HelmRepository
-        name: mesosphere.github.io-charts-stable
+        kind: GitRepository
+        name: management
         namespace: kommander-flux
-      version: "0.0.13"
   interval: 15s
