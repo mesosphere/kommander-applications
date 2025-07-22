@@ -9,10 +9,13 @@ metadata:
     kommander.mesosphere.io/cluster-id: ${clusterID}
     kommander.d2iq.com/prometheus-service: ${prometheusService}
 spec:
-  chartRef:
-    kind: OCIRepository
-    name: mtls-proxy
-    namespace: ${kommadnerNamespace}
+  chart:
+    spec:
+      chart: ./charts/mtls-proxy/mtls-proxy-0.1.8.tgz
+      sourceRef:
+        kind: GitRepository
+        name: management
+        namespace: kommander-flux
   interval: 15s
   install:
     crds: CreateReplace
