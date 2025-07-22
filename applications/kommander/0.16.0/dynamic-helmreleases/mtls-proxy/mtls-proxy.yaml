@@ -23,6 +23,7 @@ spec:
       retries: 30
     createNamespace: true
   upgrade:
+    force: true
     crds: CreateReplace
     remediation:
       retries: 30
