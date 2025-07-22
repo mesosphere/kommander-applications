@@ -7,9 +7,10 @@ data:
   values.yaml: |-
     priorityClassName: dkp-high-priority
     image:
-      pullPolicy: IfNotPresent
-      repository: registry.k8s.io/external-dns/external-dns
+      registry: registry.k8s.io
+      repository: external-dns/external-dns
       tag: v0.18.0
+      pullPolicy: IfNotPresent
     service:
       labels:
         servicemonitor.kommander.mesosphere.io/path: "metrics"
