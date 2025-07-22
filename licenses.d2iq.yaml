@@ -22,11 +22,6 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/bitnami/thanos:0.38.0-debian-12-r0
-    sources:
-      - license_path: LICENSE
-        ref: v${image_tag%-debian-12-r0}
-        url: https://github.com/thanos-io/thanos
   - container_image: docker.io/grafana/grafana:11.6.1
     sources:
       - license_path: LICENSE
@@ -452,7 +447,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.38.0
+  - container_image: quay.io/thanos/thanos:v0.39.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
