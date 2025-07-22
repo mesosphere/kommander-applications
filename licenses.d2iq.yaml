@@ -505,10 +505,10 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: LICENSE
-  - container_image: registry.k8s.io/external-dns/external-dns:0.16.1
+  - container_image: registry.k8s.io/external-dns/external-dns:v0.18.0
     sources:
       - url: https://github.com/kubernetes-sigs/external-dns
-        license_path: LICENSE.md
+        license_path: LICENSE
   - container_image: docker.io/library/busybox:1
     sources:
       - url: https://github.com/mirror/busybox
