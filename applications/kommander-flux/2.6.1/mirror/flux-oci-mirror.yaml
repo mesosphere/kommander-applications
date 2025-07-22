@@ -1,15 +1,39 @@
+apiVersion: v1
+data:
+  ca.crt: ""
+kind: Secret
+metadata:
+  name: flux-oci-mirror-config
+stringData:
+  config.yaml: |
+    listen_addr: ":8443"
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flux-oci-mirror
+spec:
+  ports:
+    - name: proxy
+      port: 8443
+      protocol: TCP
+      targetPort: proxy
+  selector:
+    app: flux-oci-mirror
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flux-oci-mirror
   labels:
     app: flux-oci-mirror
+  name: flux-oci-mirror
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: flux-oci-mirror
-  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,72 +44,58 @@ spec:
       labels:
         app: flux-oci-mirror
     spec:
+      containers:
+        - args:
+            - -config-dir
+            - /config
+          image: mhrabovcin/flux-oci-mirror:v0.0.3-dev
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            tcpSocket:
+              port: 8443
+          name: flux-oci-mirror
+          ports:
+            - containerPort: 8443
+              name: proxy
+          readinessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            tcpSocket:
+              port: 8443
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /config
+              name: flux-oci-mirror-config
+            - mountPath: /config/proxy-ca
+              name: proxy-ca
+      restartPolicy: Always
       volumes:
-        - name: mirror-ca-bundle
+        - name: flux-oci-mirror-config
           secret:
             secretName: flux-oci-mirror-config
         - name: proxy-ca
           secret:
             secretName: flux-oci-mirror-ca-secret
-      containers:
-        - name: flux-oci-mirror
-          image: mhrabovcin/flux-oci-mirror:v0.0.1-dev
-          imagePullPolicy: IfNotPresent
-          args:
-            - -config-dir
-            - /config
-          livenessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 2
-            periodSeconds: 5
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100Mi
-          ports:
-            - containerPort: 8080
-              name: proxy
-          volumeMounts:
-            - name: mirror-ca-bundle
-              mountPath: /config
-            - name: proxy-ca
-              mountPath: /config/proxy-ca
-      restartPolicy: Always
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
-  name: flux-oci-mirror-config
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
-type: Opaque
-stringData:
-  config.yaml: |
-    proxy_cert_file: /config/proxy-ca/tls.crt
-    proxy_key_file: /config/proxy-ca/tls.key
-
-    mirror_registry: localhost:5000
-  ca.crt: ""
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flux-oci-mirror
+  name: flux-oci-mirror-ca
 spec:
-  selector:
-    app: flux-oci-mirror
-  type: ClusterIP
-  ports:
-    - name: proxy
-      protocol: TCP
-      port: 8080
-      targetPort: proxy
+  commonName: flux-oci-mirror
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: flux-oci-mirror-self-signed
+  secretName: flux-oci-mirror-ca-secret
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
@@ -93,15 +103,5 @@ metadata:
   name: flux-oci-mirror-self-signed
 spec:
   selfSigned: {}
+
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: flux-oci-mirror-ca
-spec:
-  isCA: true
-  commonName: flux-oci-mirror
-  secretName: flux-oci-mirror-ca-secret
-  issuerRef:
-    name: flux-oci-mirror-self-signed
-    kind: Issuer

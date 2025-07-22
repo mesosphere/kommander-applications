@@ -6,6 +6,15 @@ namespace: kommander-flux
 
 patches:
   - target:
+      kind: Secret
+      name: flux-oci-mirror-config
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+
+  - target:
       kind: Deployment
       name: flux-oci-mirror
     patch: |
