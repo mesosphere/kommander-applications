@@ -1,7 +1,5 @@
-common/helm-repositories/ai-navigator-repos.yaml
 applications/ai-navigator-app
 applications/ai-navigator-cluster-info-agent
 applications/ai-navigator-rag
-common/helm-repositories/nkp-pulse-repos.yaml
 applications/nkp-pulse-management
 applications/nkp-pulse-workspace
