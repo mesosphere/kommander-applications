@@ -128,7 +128,11 @@ data:
         - "kommander-flux"
         - "cilium-hubble-relay-traefik"
     catalogCollections:
-    - registry: ghcr.io
-      repository: nutanix-cloud-native/nkp-partner-catalog
-    - registry: ghcr.io
-      repository: nutanix-cloud-native/nkp-nutanix-product-catalog
+    - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-partner-catalog/collection
+      catalogName: nkp-partner-catalog
+      tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+      extraLabels: {}
+    - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-nutanix-product-catalog/collection
+      catalogName: nkp-nutanix-product-catalog
+      extraLabels: {}
+      tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
