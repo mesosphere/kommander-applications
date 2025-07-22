@@ -11,7 +11,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: kommander-cert-federation
+    name: mtls-proxy
     namespace: ${kommadnerNamespace}
   interval: 15s
   install:
