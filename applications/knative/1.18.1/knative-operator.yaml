@@ -46,7 +46,7 @@ spec:
       optional: true
   # See https://jira.nutanix.com/browse/NCN-108562
   # We should remove these patches once a fix is merged upstream
-  # Replace `{{ .Chart.Version }}` values found here: https://github.com/knative/operator/blob/knative-v1.18.1/config/charts/knative-operator/templates/operator.yaml in file order
+  # Replace `{{ .Chart.Version }}` values found here: https://github.com/knative/operator/blob/knative-v1.18.1/config/charts/knative-operator/templates/operator.yaml via label-selector
   # We're using JSON6902 style patching: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/#patch-using-path-json6902
   # this means `~1` is used to lookup `app.kubernetes.io/version` as `app.kubernetes.io~1version`
   # example here: https://fluxcd.io/flux/components/helm/helmreleases/#ignore-annotation
@@ -60,6 +60,8 @@ spec:
                 path: /metadata/labels/app.kubernetes.io~1version
                 value: 1.18.1
           - target:
+              version: apps/v1
+              kind: Deployment
               labelSelector: "app.kubernetes.io/version"
             patch: |
               - op: replace
