@@ -1,3 +1,0 @@
-secretName: unused
-commonName: unused
-kubectlImage: bitnami/kubectl:1.33.2
