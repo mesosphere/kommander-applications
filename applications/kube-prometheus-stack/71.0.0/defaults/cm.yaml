@@ -362,7 +362,7 @@ data:
                   severity: warning
                 annotations:
                   summary: "Certificate renewal might fail"
-                  description: "Certificate renewal has not completed in the expected timeframe and might fail. Please refer to the attached KB article for troubleshooting steps and manual certificate renewal procedures."
+                  description: "Certificate renewal has not completed yet and might fail. Please refer to the attached KB article for troubleshooting steps and manual certificate renewal procedures."
                   runbook_url: "https://portal.nutanix.com/kb/19301"
               - alert: CertificateExpired
                 expr: |
