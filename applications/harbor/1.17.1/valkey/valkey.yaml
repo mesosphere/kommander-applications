@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/valkey"
+  url: "oci://ghcr.io/mesosphere/charts/valkey"
   ref:
     tag: 3.0.1
 ---

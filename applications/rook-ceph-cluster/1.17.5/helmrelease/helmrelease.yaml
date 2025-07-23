@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/rook-ceph-cluster"
+  url: "oci://ghcr.io/mesosphere/charts/rook-ceph-cluster"
   ref:
     tag: v1.17.5
 ---

@@ -7,7 +7,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/grafana/helm-charts/loki-distributed"
+  url: "oci://ghcr.io/grafana/helm-charts/loki-distributed"
   ref:
     tag: 0.80.3
 ---

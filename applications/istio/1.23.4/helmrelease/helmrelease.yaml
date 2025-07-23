@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/istio"
+  url: "oci://ghcr.io/mesosphere/charts/istio"
   ref:
     tag: 1.23.3
 ---

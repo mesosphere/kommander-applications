@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/external-secrets/charts/external-secrets"
+  url: "oci://ghcr.io/external-secrets/charts/external-secrets"
   ref:
     tag: 0.18.1
   layerSelector:
