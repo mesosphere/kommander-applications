@@ -598,6 +598,7 @@ resources:
   - container_image: valkey/valkey:8.1.0
     sources:
       - url: https://github.com/valkey-io/valkey
+        ref: ${image_tag}
         license_path: COPYING
   - container_image: bitnami/valkey-sentinel:8.1.0-debian-12-r0
     sources:
@@ -607,6 +608,7 @@ resources:
   - container_image: oliver006/redis_exporter:v1.69.0
     sources:
       - url: https://github.com/oliver006/redis_exporter
+        ref: ${image_tag}
         license_path: LICENSE
   - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
     sources:
