@@ -321,7 +321,7 @@ data:
                 annotations:
                   summary: "Certificate expiring soon"
                   description: "Certificate will expire soon and rollout will happen in less than 7 days"
-              - alert: CertificateRollingOutSoon
+              - alert: CertificateRenewalInProgress
                 expr: |
                   min by(namespace,cluster)(
                   (kube_customresource_control_plane_cert_expiry_days - time())/86400
@@ -342,9 +342,9 @@ data:
                 labels:
                   severity: info
                 annotations:
-                  summary: "Certificate rolling out soon"
-                  description: "Certificate will expire soon, rollout is expected within a day"
-              - alert: CertificateRolloutMightFail
+                  summary: "Certificate renewal in progress"
+                  description: "Certificate renewal has been triggered and is expected to complete within a day"
+              - alert: CertificateRenewalMightFail
                 expr: |
                   min by(namespace,cluster)(
                   (kube_customresource_control_plane_cert_expiry_days - time())/86400
@@ -361,8 +361,8 @@ data:
                 labels:
                   severity: warning
                 annotations:
-                  summary: "Certificate rollout might fail"
-                  description: "Certificate will expire soon, rollout not yet completed. Please monitor certificate renewal status for control plane nodes."
+                  summary: "Certificate renewal might fail"
+                  description: "Certificate renewal has not completed yet and might fail. Please refer to the attached KB article for troubleshooting steps and manual certificate renewal procedures."
                   runbook_url: "https://portal.nutanix.com/kb/19301"
               - alert: CertificateExpired
                 expr: |
@@ -374,7 +374,7 @@ data:
                   severity: critical
                 annotations:
                   summary: "Certificate renewal failed"
-                  description: "Certificate has expired and was not renewed"
+                  description: "Certificate has expired and automatic renewal has failed. Immediate action required. Please refer to the attached KB article for for troubleshooting steps and manual certificate renewal procedures."
                   runbook_url: "https://portal.nutanix.com/kb/19301"
               - alert: CertificateRenewed
                 expr: |
