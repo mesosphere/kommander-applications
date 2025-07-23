@@ -47,7 +47,13 @@ spec:
       name: gatekeeper-3.19.2-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
+      valuesKey: controller-synced-values.yaml # only `controller-synced-values.yaml` from this ConfigMap is owned by kommmander controllers. `values.yaml` is still meant for human consumption.
       optional: true
+    - kind: ConfigMap
+      name: gatekeeper-overrides
+      optional: true
+    # workspace overrides will override any other values above
+    # cluster specific overrides will override workspace overrides
   postRenderers:
     - kustomize:
         # Remove the hardcoded namespaceSelectors until https://d2iq.atlassian.net/browse/D2IQ-92439 is resolved.
