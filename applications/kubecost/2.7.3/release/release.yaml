@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/cost-analyzer"
+  url: "oci://ghcr.io/mesosphere/charts/cost-analyzer"
   ref:
     tag: 2.7.2
 ---

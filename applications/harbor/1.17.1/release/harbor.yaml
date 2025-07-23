@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/harbor"
+  url: "oci://ghcr.io/mesosphere/charts/harbor"
   ref:
     tag: 1.17.1
 ---

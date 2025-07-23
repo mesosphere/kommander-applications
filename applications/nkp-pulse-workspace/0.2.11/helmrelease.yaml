@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/nkp-pulse-workspace"
+  url: "oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace"
   ref:
     tag: 0.2.11
 ---

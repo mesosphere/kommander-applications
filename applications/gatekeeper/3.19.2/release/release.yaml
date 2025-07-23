@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/gatekeeper"
+  url: "oci://ghcr.io/mesosphere/charts/gatekeeper"
   ref:
     tag: 3.19.2
 ---
@@ -17,7 +17,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/gatekeeper-proxy-mutations"
+  url: "oci://ghcr.io/mesosphere/charts/gatekeeper-proxy-mutations"
   ref:
     tag: v0.0.1
 ---

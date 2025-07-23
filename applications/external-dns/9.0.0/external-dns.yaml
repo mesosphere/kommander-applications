@@ -6,7 +6,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/external-dns"
+  url: "oci://ghcr.io/mesosphere/charts/external-dns"
   ref:
     tag: 9.0.0
 ---

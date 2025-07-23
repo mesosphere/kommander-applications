@@ -18,9 +18,7 @@ import (
 )
 
 var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
-	var (
-		gk *gatekeeper
-	)
+	var gk *gatekeeper
 
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
@@ -96,7 +94,7 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			err = k8sClient.List(ctx, gateKeeperDeploymentList, listOptions)
 			Expect(err).To(BeNil())
 			Expect(len(gateKeeperDeploymentList.Items)).To(Equal(2))
-			for i, _ := range gateKeeperDeploymentList.Items {
+			for i := range gateKeeperDeploymentList.Items {
 				Expect(gateKeeperDeploymentList.Items[i].Spec.Template.Spec.PriorityClassName).To(Equal(systemClusterCriticalPriority))
 				gateKeeperContainer = gateKeeperDeploymentList.Items[i].Spec.Template.Spec.Containers[0]
 				Expect(gateKeeperContainer.Resources.Requests.Cpu().String()).To(Equal("100m"))
@@ -120,7 +118,6 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			Expect(err).ToNot(HaveOccurred())
 			ensureConstraintEnforced(projectNS.Name)
 		})
-
 	})
 
 	Describe("GateKeeper Upgrade Test", Ordered, Label("upgrade"), func() {
@@ -214,7 +211,7 @@ func ensureConstraintEnforced(projectNS string) {
 		},
 		Spec: fluxhelmv2beta2.HelmReleaseSpec{
 			ChartRef: &fluxhelmv2beta2.CrossNamespaceSourceReference{
-				Kind:      "HelmChartTemplate",
+				Kind:      "HelmChart",
 				Name:      "external-dns",
 				Namespace: projectNS,
 			},
