@@ -1,7 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+<<<<<<<< HEAD:applications/project-grafana-logging/8.15.2/defaults/cm.yaml
   name: project-grafana-logging-8.15.2-config-defaults
+========
+  name: project-grafana-logging-9.2.9-config-defaults
+>>>>>>>> a443b418 (feat: update kube-prometheus-stack to 75.9.0):applications/project-grafana-logging/9.2.9/defaults/cm.yaml
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -31,7 +35,11 @@ data:
       image:
         registry: docker.io
         repository: kiwigrid/k8s-sidecar
+<<<<<<<< HEAD:applications/project-grafana-logging/8.15.2/defaults/cm.yaml
         tag: 1.30.7
+========
+        tag: 1.30.3
+>>>>>>>> a443b418 (feat: update kube-prometheus-stack to 75.9.0):applications/project-grafana-logging/9.2.9/defaults/cm.yaml
       dashboards:
         enabled: true
         label: project_grafana_logging_dashboard
