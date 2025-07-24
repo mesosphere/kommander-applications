@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/rook-ceph-cluster"
   ref:
-    tag: v1.17.5
+    tag: v1.17.6
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -34,5 +34,5 @@ spec:
   releaseName: rook-ceph-cluster
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.17.5-config-defaults
+      name: rook-ceph-cluster-1.17.6-config-defaults
   targetNamespace: ${releaseNamespace}
