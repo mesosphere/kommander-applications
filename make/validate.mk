@@ -5,6 +5,8 @@ GOARCH := $(shell go env GOARCH)
 
 SKIP_APPLICATIONS ?= ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
 
+YQ_SKIP_APPLICATIONS := $(shell echo $(SKIP_APPLICATIONS) | tr ',' '\n' | awk '{ printf "%s.name == \"%s\"", (NR==1?"":" or "), $$0 }')
+
 $(DKP_BLOODHOUND_BIN):
 	mkdir -p `dirname $@`
 	curl -fsSL https://downloads.d2iq.com/dkp-bloodhound/dkp-bloodhound_v$(DKP_BLOODHOUND_VERSION)_$(GOOS)_$(GOARCH).tar.gz | tar xz -O > $@
@@ -18,7 +20,7 @@ list-images: $(DKP_BLOODHOUND_BIN)
 .PHONY: list-images-excluded-from-airgapped
 list-images-excluded-from-airgapped: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/_tmp_all_images.yaml
-	yq '.applications |= map(select(.name == "ai-navigator-app" or .name == "ai-navigator-cluster-info-agent" or .name == "nkp-pulse-management" or .name == "nkp-pulse-workspace"))' $(REPO_ROOT)/_tmp_all_images.yaml > $(REPO_ROOT)/images-excluded-from-airgapped.yaml
+	yq '.applications |= map(select($(YQ_SKIP_APPLICATIONS)))' $(REPO_ROOT)/_tmp_all_images.yaml > $(REPO_ROOT)/images-excluded-from-airgapped.yaml
 	rm $(REPO_ROOT)/_tmp_all_images.yaml
 
 # TODO : update with stable version once available
