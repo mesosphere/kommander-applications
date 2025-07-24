@@ -67,3 +67,11 @@ spec:
               - op: replace
                 path: /spec/template/metadata/labels/app.kubernetes.io~1version
                 value: 1.18.1
+          - target:
+              version: apps/v1
+              kind: Deployment
+              labelSelector: "app.kubernetes.io/version"
+            patch: |
+              - op: replace
+                path: /spec/template/labels/app.kubernetes.io~1version
+                value: 1.18.1
