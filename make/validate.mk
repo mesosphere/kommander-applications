@@ -17,7 +17,7 @@ list-images: $(DKP_BLOODHOUND_BIN)
 
 .PHONY: list-images-excluded-from-airgapped
 list-images-excluded-from-airgapped: $(DKP_BLOODHOUND_BIN)
-    $(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/_tmp_all_images.yaml
+	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/_tmp_all_images.yaml
 	yq '.applications |= map(select(.name == "ai-navigator-app" or .name == "ai-navigator-cluster-info-agent" or .name == "nkp-pulse-management" or .name == "nkp-pulse-workspace"))' $(REPO_ROOT)/_tmp_all_images.yaml > $(REPO_ROOT)/images-excluded-from-airgapped.yaml
 	rm $(REPO_ROOT)/_tmp_all_images.yaml
 
