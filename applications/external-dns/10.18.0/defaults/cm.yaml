@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: external-dns-1.18.0-config-defaults
+  name: external-dns-10.18.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
