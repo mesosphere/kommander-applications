@@ -10,7 +10,7 @@ data:
       repository: "mesosphere/nkp-pulse-management"
       tag: "0.2.11"
       imagePullPolicy: "IfNotPresent"
-    kubectlImage: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.33.2}"
+    kubectlImage: "${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}"
     resources:
       limits:
         cpu: "100m"
