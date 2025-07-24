@@ -1,0 +1,46 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: cosi-bucket-kit
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/mesosphere/charts/cosi-bucket-kit"
+  ref:
+    tag: 0.0.5
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kubecost-cosi-storage
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: cosi-bucket-kit
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kubecost-cosi-storage
+  targetNamespace: ${releaseNamespace}
+  valuesFrom:
+    - kind: ConfigMap
+<<<<<<<< HEAD:applications/kubecost/2.8.1/cosi-storage/cosi-bucket.yaml
+      name: kubecost-2.8.1-config-defaults
+========
+      name: kubecost-2.8.0-config-defaults
+>>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/cosi-storage/cosi-bucket.yaml
+      valuesKey: ${kubecostClusterMode:=primary}-cosi-values.yaml # This will ensure kubecost agents installs do not get cosi buckets.
+      optional: true
+    - kind: ConfigMap
+      name: kubecost-overrides
+      optional: true
+---

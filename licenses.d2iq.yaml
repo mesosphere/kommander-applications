@@ -22,7 +22,7 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/grafana/grafana:11.6.1
+  - container_image: docker.io/grafana/grafana:12.0.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -559,6 +559,15 @@ resources:
         ref: ${image_tag%-distro}
         url: https://github.com/kiali/kiali
   - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.82.2
+<<<<<<< HEAD
+=======
+    sources:
+      - license_path: LICENSE
+        notice_path: NOTICE
+        ref: ${image_tag}
+        url: https://github.com/prometheus-operator/prometheus-operator
+  - container_image: quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0
+>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0)
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -582,7 +591,11 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/node_exporter
+<<<<<<< HEAD
   - container_image: quay.io/prometheus/prometheus:v3.4.1
+=======
+  - container_image: quay.io/prometheus/prometheus:v3.4.0
+>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0)
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -662,12 +675,20 @@ resources:
       - url: https://github.com/mirror/busybox
         ref: master
         license_path: LICENSE
+<<<<<<< HEAD
   - container_image: gcr.io/kubecost1/cost-model:prod-2.8.1
+=======
+  - container_image: gcr.io/kubecost1/cost-model:prod-2.8.0
+>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0)
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1
         license_path: LICENSE
+<<<<<<< HEAD
   - container_image: gcr.io/kubecost1/frontend:prod-2.8.1
+=======
+  - container_image: gcr.io/kubecost1/frontend:prod-2.8.0
+>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0)
     sources:
       - url: https://github.com/opencost/opencost
         ref: v1.112.1

@@ -33,7 +33,11 @@ spec:
   targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
+<<<<<<<< HEAD:applications/kubecost/2.8.1/cosi-storage/cosi-bucket.yaml
       name: kubecost-2.8.1-config-defaults
+========
+      name: kubecost-2.8.0-config-defaults
+>>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/cosi-storage/cosi-bucket.yaml
       valuesKey: ${kubecostClusterMode:=primary}-cosi-values.yaml # This will ensure kubecost agents installs do not get cosi buckets.
       optional: true
     - kind: ConfigMap
