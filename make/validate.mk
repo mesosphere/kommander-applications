@@ -15,6 +15,12 @@ list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applica
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
 
+.PHONY: list-images-excluded-from-airgapped
+list-images-excluded-from-airgapped: $(DKP_BLOODHOUND_BIN)
+    $(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/_tmp_all_images.yaml
+	yq '.applications |= map(select(.name == "ai-navigator-app" or .name == "ai-navigator-cluster-info-agent" or .name == "nkp-pulse-management" or .name == "nkp-pulse-workspace"))' $(REPO_ROOT)/_tmp_all_images.yaml > $(REPO_ROOT)/images-excluded-from-airgapped.yaml
+	rm $(REPO_ROOT)/_tmp_all_images.yaml
+
 # TODO : update with stable version once available
 NKP_CLI_VERSION := 2.16.0-dev.11
 NKP_CLI := $(LOCAL_DIR)/bin/nkp_cli_v$(NKP_CLI_VERSION)
