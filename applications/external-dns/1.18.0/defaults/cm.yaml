@@ -1,11 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-<<<<<<<< HEAD:applications/external-dns/9.0.0/defaults/cm.yaml
-  name: external-dns-9.0.0-config-defaults
-========
   name: external-dns-1.18.0-config-defaults
->>>>>>>> bf1d9fa1 (feat: update the bitnami to official dns):applications/external-dns/1.18.0/defaults/cm.yaml
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
