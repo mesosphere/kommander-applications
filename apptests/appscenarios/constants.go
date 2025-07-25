@@ -20,6 +20,6 @@ const (
 	dkpCriticalPriority           = "dkp-critical-priority"
 
 	// Velero constants
-	kubetoolsImageRepository = "bitnami/kubectl"
+	kubetoolsImageRepository = "bitnamilegacy/kubectl:1.33.2"
 	kubetoolsImageTag        = "1.33.2"
 )
