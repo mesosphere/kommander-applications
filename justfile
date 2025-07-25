@@ -15,7 +15,7 @@ s3_bucket := "downloads.mesosphere.io"
 s3_uri := "s3://" + s3_bucket / s3_path
 s3_acl := "bucket-owner-full-control"
 archive_name := "kommander-applications-" + git_tag+ ".tar.gz"
-full_archive_name := "kommander-applications-" + git_tag + "-full.tar.gz"
+full_archive_name := "kommander-applications-full-" + git_tag + ".tar.gz"
 published_url := "https://downloads.d2iq.com" / s3_path / archive_name
 full_published_url := "https://downloads.d2iq.com" / s3_path / full_archive_name
 
