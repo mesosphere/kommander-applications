@@ -15,14 +15,19 @@ s3_bucket := "downloads.mesosphere.io"
 s3_uri := "s3://" + s3_bucket / s3_path
 s3_acl := "bucket-owner-full-control"
 archive_name := "kommander-applications-" + git_tag+ ".tar.gz"
+full_archive_name := "kommander-applications-full-" + git_tag + ".tar.gz"
 published_url := "https://downloads.d2iq.com" / s3_path / archive_name
+full_published_url := "https://downloads.d2iq.com" / s3_path / full_archive_name
 
-release publish="true" tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) && _cleanup
+release publish="true" tmp_dir=`mktemp --directory` full_tmp_dir=`mktemp --directory`: (_prepare-archive tmp_dir) (_prepare-archive-full full_tmp_dir) && _cleanup
     #!/usr/bin/env bash
     set -euox pipefail
     if {{ publish }}; then
       aws s3 cp --acl {{ s3_acl }} {{ archive_name }} {{ s3_uri }}/{{ archive_name }}
       echo "Published to {{ published_url }}"
+
+      aws s3 cp --acl {{ s3_acl }} {{ full_archive_name }} {{ s3_uri }}/{{ full_archive_name }}
+      echo "Published to {{ full_published_url }}"
     else
       echo "Skipping publish"
     fi
@@ -55,6 +60,9 @@ git-operator-fetch-manifests tmp_dir=`mktemp --directory`:
 _prepare-archive dir: (_prepare-files-for-a-bundle dir)
     tar -cvzf {{ justfile_directory() }}/{{ archive_name }} -C {{ dir }} .
 
+_prepare-archive-full full_dir: (_prepare-files-for-full-bundle full_dir)
+	tar -cvzf {{ justfile_directory() }}/{{ full_archive_name }} -C {{ full_dir }} .
+
 _prepare-git-repository output_dir tmp_dir_for_cloning=`mktemp --directory`:
     cd {{ output_dir }} && git init --bare --initial-branch=main
     git clone {{ output_dir }} {{ tmp_dir_for_cloning }}
@@ -62,12 +70,14 @@ _prepare-git-repository output_dir tmp_dir_for_cloning=`mktemp --directory`:
     cd {{ tmp_dir_for_cloning }} && git add . && git commit --no-gpg-sign --message "initial commit" && git push origin main
 
 _cleanup:
-    rm {{ archive_name }}
+    rm {{ archive_name }} {{ full_archive_name }}
 
 _prepare-files-for-a-bundle output_dir:
     rsync --quiet --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
     yq 'del(.resources[] | select(. == "ai-navigator-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
     yq 'del(.resources[] | select(. == "nkp-pulse-repos.yaml"))' --inplace {{ output_dir }}/common/helm-repositories/kustomization.yaml
 
+_prepare-files-for-full-bundle full_output_dir:
+	rsync --quiet --archive --recursive --files-from={{ include_file }} {{ justfile_directory() }}/ {{ full_output_dir }}/
 
 import 'just/test.just'

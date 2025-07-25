@@ -15,6 +15,10 @@ list-images: _SKIP_APPLICATIONS_FLAG := $(if $(SKIP_APPLICATIONS),--skip-applica
 list-images: $(DKP_BLOODHOUND_BIN)
 	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/images.yaml $(_SKIP_APPLICATIONS_FLAG)
 
+.PHONY: list-images-full
+list-images-full: $(DKP_BLOODHOUND_BIN)
+	$(DKP_BLOODHOUND_BIN) --no-validation --list-artifacts --output-artifacts-file $(REPO_ROOT)/all_images.yaml
+
 # TODO : update with stable version once available
 NKP_CLI_VERSION := 2.16.0-dev.11
 NKP_CLI := $(LOCAL_DIR)/bin/nkp_cli_v$(NKP_CLI_VERSION)
