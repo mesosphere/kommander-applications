@@ -605,7 +605,7 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
-  - container_image: ghcr.io/mesosphere/charts/prometheus-redis-exporter:4.6.0
+  - container_image: oliver006/redis_exporter:v1.74.0
     sources:
       - url: https://github.com/oliver006/redis_exporter
         ref: v${image_tag}
