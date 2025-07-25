@@ -7,6 +7,10 @@ metadata:
 data:
   values.yaml: |
     ---
+    image:
+      registry: ""
+      repository: valkey/valkey
+      tag: 8.1.3
     sentinel:
       enabled: true
       primarySet: harbor
