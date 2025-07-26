@@ -605,7 +605,7 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag}
         license_path: COPYING
-  - container_image: docker.io/oliver006/redis_exporter:v1.74.0
+  - container_image: docker.io/oliver006/redis_exporter:1.74.0
     sources:
       - url: https://github.com/oliver006/redis_exporter
         ref: ${image_tag}
