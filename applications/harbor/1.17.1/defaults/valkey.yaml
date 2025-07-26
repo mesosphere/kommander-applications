@@ -46,7 +46,7 @@ data:
       image:
         registry: docker.io
         repository: oliver006/redis_exporter
-        tag: 1.74.0
+        tag: v1.74.0
       service:
         enabled: true
         extraPorts:
