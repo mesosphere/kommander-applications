@@ -7,11 +7,21 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/cost-analyzer"
   ref:
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/release/release.yaml
     tag: 2.8.1
 ========
     tag: 2.8.0
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/release/release.yaml
+<<<<<<< HEAD
+=======
+========
+    tag: 2.8.1
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -36,6 +46,10 @@ spec:
   releaseName: kubecost
   valuesFrom: # The order is important. The last entry will override the previous ones.
     - kind: ConfigMap
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/release/release.yaml
       name: kubecost-2.8.1-config-defaults
       valuesKey: values.yaml
@@ -47,6 +61,7 @@ spec:
       name: kubecost-2.8.1-config-defaults
 ========
       name: kubecost-2.8.0-config-defaults
+<<<<<<< HEAD
       valuesKey: values.yaml
     - kind: ConfigMap
       name: kubecost-2.8.0-config-defaults
@@ -55,6 +70,23 @@ spec:
     - kind: ConfigMap
       name: kubecost-2.8.0-config-defaults
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/release/release.yaml
+=======
+========
+      name: kubecost-2.8.1-config-defaults
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/release/release.yaml
+      valuesKey: values.yaml
+    - kind: ConfigMap
+      name: kubecost-2.8.1-config-defaults
+      valuesKey: ${kubecostClusterMode:=primary}-values.yaml # Configures the kubecost cluster as primary with no object storage for single cluster mode.
+      optional: true
+    - kind: ConfigMap
+<<<<<<<< HEAD:applications/kubecost/2.8.0/release/release.yaml
+      name: kubecost-2.8.0-config-defaults
+>>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/release/release.yaml
+========
+      name: kubecost-2.8.1-config-defaults
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
       valuesKey: ${kubecostClusterMode:=primary}-object-storage-${objectStoreStatus:=not-applicable}-values.yaml # Configures the primary kubecost cluster with object storage for multi cluster mode.
       optional: true
   targetNamespace: ${releaseNamespace}
@@ -97,6 +129,10 @@ data:
   name: "Kubecost"
   dashboardLink: "/dkp/kommander/kubecost/frontend/overview.html"
   docsLink: "https://docs.kubecost.com/"
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/release/release.yaml
   # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.8.1/cost-analyzer/Chart.yaml#L2
   version: "2.8.1"
@@ -104,6 +140,13 @@ data:
   # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.8.0/cost-analyzer/Chart.yaml#L2
   version: "2.8.0"
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/release/release.yaml
+<<<<<<< HEAD
+=======
+========
+  # From: https://github.com/kubecost/cost-analyzer-helm-chart/blob/v2.8.1/cost-analyzer/Chart.yaml#L2
+  version: "2.8.1"
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/release/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
