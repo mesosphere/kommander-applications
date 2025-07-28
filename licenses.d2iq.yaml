@@ -4,7 +4,7 @@ ignore:
   #   sources:
   #     - url: https://github.com/nutanix-cloud-native/flux-oci-mirror
   #       ref: ${image_tag}
-  - docker.io/mhrabovcin/flux-oci-mirror:v0.0.3-dev
+  # - docker.io/mhrabovcin/flux-oci-mirror:v0.0.3-dev
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:3.2.10
@@ -630,3 +630,7 @@ resources:
       - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
         ref: ${image_tag}
         notice_path: NOTICES
+  - container_image: docker.io/mesosphere/flux-oci-mirror:v0.2.3
+    sources:
+      - url: https://github.com/nutanix-cloud-native/flux-oci-mirror
+        ref: ${image_tag}

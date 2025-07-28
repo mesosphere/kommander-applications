@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 VERSION="v0.2.3"
 
 TMP_DIR=$(mktemp -d)
@@ -9,4 +11,4 @@ gh -R nutanix-cloud-native/flux-oci-mirror release download "$VERSION" --dir "$T
 
 CURRENT_FLUX_VERSION=$(find "${REPO_ROOT}/applications/kommander-flux" -maxdepth 1 -regextype sed -regex '.*/[0-9]\+.[0-9]\+.[0-9]\+' -printf "%f\n" | sort -V | head -1)
 
-cp $TMP_DIR/flux-oci-mirror-cert-manager.yaml "$REPO_ROOT/applications/kommander-flux/$CURRENT_FLUX_VERSION/mirror/flux-oci-mirror.yaml"
+cp "$TMP_DIR/flux-oci-mirror-cert-manager.yaml" "$REPO_ROOT/applications/kommander-flux/$CURRENT_FLUX_VERSION/mirror/flux-oci-mirror.yaml"
