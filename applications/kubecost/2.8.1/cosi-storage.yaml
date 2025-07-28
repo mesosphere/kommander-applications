@@ -9,11 +9,21 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/cosi-storage.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/cosi-storage.yaml
   path: ./applications/kubecost/2.8.1/cosi-storage
 ========
   path: ./applications/kubecost/2.8.0/cosi-storage
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/cosi-storage.yaml
+<<<<<<< HEAD
+=======
+========
+  path: ./applications/kubecost/2.8.1/cosi-storage
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/cosi-storage.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
   sourceRef:
     kind: GitRepository
     name: management

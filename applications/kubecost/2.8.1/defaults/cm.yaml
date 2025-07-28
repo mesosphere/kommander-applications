@@ -1,11 +1,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/defaults/cm.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/defaults/cm.yaml
   name: kubecost-2.8.1-config-defaults
 ========
   name: kubecost-2.8.0-config-defaults
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/defaults/cm.yaml
+<<<<<<< HEAD
+=======
+========
+  name: kubecost-2.8.1-config-defaults
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/defaults/cm.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
   namespace: ${releaseNamespace}
 data:
   # Using just values.yaml will result in kubecost running in agent mode.

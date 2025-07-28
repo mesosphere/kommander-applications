@@ -12,11 +12,21 @@ spec:
   dependsOn:
     - name: kubecost-pre-install
       namespace: ${releaseNamespace}
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:applications/kubecost/2.8.0/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
 <<<<<<<< HEAD:applications/kubecost/2.8.1/release.yaml
   path: ./applications/kubecost/2.8.1/release
 ========
   path: ./applications/kubecost/2.8.0/release
 >>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/release.yaml
+<<<<<<< HEAD
+=======
+========
+  path: ./applications/kubecost/2.8.1/release
+>>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/release.yaml
+>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
   sourceRef:
     kind: GitRepository
     name: management
