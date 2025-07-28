@@ -48,7 +48,7 @@ spec:
         - args:
             - -config-dir
             - /config
-          image: mhrabovcin/flux-oci-mirror:v0.0.3-dev
+          image: mesosphere/flux-oci-mirror:v0.2.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             initialDelaySeconds: 10
