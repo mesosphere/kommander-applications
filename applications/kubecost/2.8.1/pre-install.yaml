@@ -9,21 +9,7 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-<<<<<<< HEAD
-=======
-<<<<<<<< HEAD:applications/kubecost/2.8.0/pre-install.yaml
->>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
-<<<<<<<< HEAD:applications/kubecost/2.8.1/pre-install.yaml
   path: ./applications/kubecost/2.8.1/pre-install
-========
-  path: ./applications/kubecost/2.8.0/pre-install
->>>>>>>> 1ee68322 (feat: update kube-prometheus-stack to 75.9.0):applications/kubecost/2.8.0/pre-install.yaml
-<<<<<<< HEAD
-=======
-========
-  path: ./applications/kubecost/2.8.1/pre-install
->>>>>>>> 56098cb6 (feat: update kubecost to 2.8.1):applications/kubecost/2.8.1/pre-install.yaml
->>>>>>> 56098cb6 (feat: update kubecost to 2.8.1)
   sourceRef:
     kind: GitRepository
     name: management
