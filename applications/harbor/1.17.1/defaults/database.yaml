@@ -23,8 +23,5 @@ data:
         prometheus.kommander.d2iq.io/select: "true"
         release: kube-prometheus-stack
       priorityClassName: dkp-critical-priority
-      postgresql:
-        parameters:
-          log_timezone:
     backups:
       enabled: false
