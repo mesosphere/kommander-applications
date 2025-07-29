@@ -25,6 +25,6 @@ data:
       priorityClassName: dkp-critical-priority
       postgresql:
         parameters:
-          log_timezone: ""
+          log_timezone:
     backups:
       enabled: false
