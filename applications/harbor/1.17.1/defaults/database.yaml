@@ -24,7 +24,6 @@ data:
         release: kube-prometheus-stack
       priorityClassName: dkp-critical-priority
       postgresql:
-        parameters:
-          log_timezone: UTC
+        parameters: {}
     backups:
       enabled: false

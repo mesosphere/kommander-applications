@@ -1,0 +1,3 @@
+postgresql:
+  parameters:
+    log_timezone: UTC
