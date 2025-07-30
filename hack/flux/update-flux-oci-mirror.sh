@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="v0.2.3"
+VERSION="v0.2.4"
 
 TMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TMP_DIR"' EXIT
