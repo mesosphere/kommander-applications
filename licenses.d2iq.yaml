@@ -605,7 +605,7 @@ resources:
       - url: https://github.com/valkey-io/valkey
         ref: ${image_tag%%-debian-*}
         license_path: COPYING
-  - container_image: bitnamilegacy/redis_exporter:1.74.0-debian-12-r3
+  - container_image: bitnamilegacy/redis_exporter:1.74.0-debian-12-r2
     sources:
       - url: https://github.com/oliver006/redis_exporter
         ref: v${image_tag%%-debian-*}

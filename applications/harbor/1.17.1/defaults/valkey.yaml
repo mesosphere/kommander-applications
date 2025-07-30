@@ -46,7 +46,7 @@ data:
       image:
         registry: docker.io
         repository: bitnamilegacy/redis_exporter
-        tag: 1.74.0-debian-12-r3
+        tag: 1.74.0-debian-12-r2
       service:
         enabled: true
         extraPorts:
