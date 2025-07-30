@@ -13,13 +13,13 @@ data:
     image:
       registry: docker.io
       repository: bitnamilegacy/valkey
-      tag: 8.1.3
+      tag: 8.1.3-debian-12-r2
     sentinel:
       enabled: true
       image:
         registry: docker.io
         repository: bitnamilegacy/valkey-sentinel
-        tag: 8.1.3
+        tag: 8.1.3-debian-12-r2
       primarySet: harbor
     auth:
       enabled: true
@@ -45,8 +45,8 @@ data:
       enabled: true
       image:
         registry: docker.io
-        repository: oliver006/redis_exporter
-        tag: v1.74.0
+        repository: bitnamilegacy/redis-exporter
+        tag: 1.74.0-debian-12-r3
       service:
         enabled: true
         extraPorts:
