@@ -608,7 +608,7 @@ resources:
   - container_image: docker.io/bitnamilegacy/redis_exporter:v1.74.0-debian-12-r3
     sources:
       - url: https://github.com/oliver006/redis_exporter
-        ref: v${image_tag%%-debian-*}
+        ref: ${image_tag%%-debian-*}
         license_path: LICENSE
   - container_image: ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
     sources:
