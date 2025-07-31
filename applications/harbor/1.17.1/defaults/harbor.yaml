@@ -53,6 +53,9 @@ data:
         existingSecret: "harbor-database-cluster-app"
 
     core:
+      image:
+        repository: goharbor/harbor-core
+        tag: v2.13.2
       replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
