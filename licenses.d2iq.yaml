@@ -588,7 +588,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/prometheus/prometheus:v3.3.0
+  - container_image: quay.io/prometheus/prometheus:v3.4.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
