@@ -18,11 +18,6 @@ data:
           registry: quay.io
           repository: prometheus-operator/prometheus-config-reloader
           tag: v0.82.2
-      prometheus:
-        image:
-          registry: quay.io
-          repository: prometheus/prometheus
-          tag: v3.3.0
       admissionWebhooks:
         patch:
           priorityClassName: "dkp-critical-priority"
@@ -187,6 +182,10 @@ data:
                   - image-automation-controller
                   - image-reflector-controller
       prometheusSpec:
+        image:
+          registry: quay.io
+          repository: prometheus/prometheus
+          tag: v3.3.0
         priorityClassName: "dkp-critical-priority"
         logLevel: warn
         serviceMonitorNamespaceSelector: {}  # all namespaces
