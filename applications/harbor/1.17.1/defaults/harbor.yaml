@@ -61,24 +61,39 @@ data:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-core
     exporter:
+      image:
+        repository: goharbor/harbor-exporter
+        tag: v2.13.2
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-core
       priorityClassName: dkp-high-priority
     portal:
+      image:
+        repository: goharbor/harbor-portal
+        tag: v2.13.2
       replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-portal
     registry:
+      image:
+        repository: goharbor/registry-photon
+        tag: v2.13.2
       replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
         secret.reloader.stakater.com/reload: "harbor-tls-registry,harbor-s3-credentials,cosi-harbor-bucket-credentials"
     jobservice:
+      image:
+        repository: goharbor/harbor-jobservice
+        tag: v2.13.2
       priorityClassName: dkp-high-priority
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-jobservice
     trivy:
+      image:
+        repository: goharbor/trivy-adapter-photon
+        tag: v2.13.2
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-trivy
       priorityClassName: dkp-high-priority
