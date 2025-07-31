@@ -1,10 +1,44 @@
 #!/usr/bin/env python3
+"""
+Extract Docker images from KNative operator manifests.
+
+Requires the 'docker-image-py' library for proper Docker image reference validation:
+    pip install docker-image-py
+"""
 
 import subprocess
 import re
 import sys
 import json
 from datetime import datetime
+from docker_image import reference
+
+def is_valid_docker_image(image_str):
+    """
+    Validate if a string is a valid Docker image reference using docker-image-py.
+    """
+    if not image_str or not isinstance(image_str, str):
+        return False
+    
+    try:
+        # Parse the reference - this will raise an exception if invalid
+        ref = reference.Reference.parse(image_str.strip())
+        
+        # Additional validation: reject obvious version strings that aren't real image names
+        # Extract the repository name (without registry, tag, or digest)
+        image_name = str(ref).split('@')[0].split(':')[0]
+        
+        # If it contains a slash, get the last component (the actual image name)
+        if '/' in image_name:
+            image_name = image_name.split('/')[-1]
+        
+        # Reject if it looks like a version string (v1.2.3, 1.2.3, etc.)
+        if re.match(r'^v?\d+\.\d+(\.\d+)?$', image_name):
+            return False
+            
+        return True
+    except Exception:
+        return False
 
 def run_curl(url):
     """Run curl command and return output."""
@@ -23,17 +57,28 @@ def extract_images_from_yaml(yaml_content):
     """Extract Docker image references from YAML content."""
     images = set()
     
-    # Pattern to match image references
-    # Look for 'image:' followed by a Docker image reference
+    # Pattern 1: Standard image
     image_pattern = r'^\s*image:\s*["\']?([^"\'\s#]+)["\']?\s*(?:#.*)?$'
     
+    # Pattern 2: Any line containing @sha256 (for ConfigMaps, EnvVars, etc.)
+    # Updated to capture the complete image reference, not just from the tag part
+    sha256_pattern = r'([a-zA-Z0-9.-]+(?:/[a-zA-Z0-9._-]+)*(?::[a-zA-Z0-9._-]+)?@sha256:[a-f0-9]{64})'
+    
     for line in yaml_content.split('\n'):
+        # Check for standard image
         match = re.match(image_pattern, line)
         if match:
             image = match.group(1)
-            # Validate it looks like a Docker image reference
-            if re.match(r'^[a-zA-Z0-9.-]+(/[a-zA-Z0-9._-]+)*(@sha256:[a-f0-9]{64}|:[a-zA-Z0-9._-]+)?$', image):
+            # Docker image validation
+            if is_valid_docker_image(image):
                 images.add(image)
+        
+        # Check for @sha256 patterns anywhere in the line (ConfigMaps, EnvVars, etc.)
+        sha256_matches = re.findall(sha256_pattern, line)
+        for match in sha256_matches:
+            # Validate using docker-image-py
+            if is_valid_docker_image(match):
+                images.add(match)
     
     return sorted(images)
 

@@ -1,3 +1,10 @@
+gcr.io/knative-releases/aws-ddb-streams-source@sha256:f3a1b04ea62ab0aafd9675d82dbd09186b154349a287e33581bd7435fa9b96b2
+gcr.io/knative-releases/aws-s3-sink@sha256:6998f21cb3fbf33980ee6814d7dab9c45543c39472afaab3f573dd53f8448d6d
+gcr.io/knative-releases/aws-s3-source@sha256:87480e82fd46d1884c588c4ef05e2dfcf866a5a3ae5a3952bd60c7c51bc1919f
+gcr.io/knative-releases/aws-sns-sink@sha256:c997f8a226a6a89e29c98136ac47b81d6b9b673bc40cdb4a392d3df5f00969f2
+gcr.io/knative-releases/aws-sqs-sink@sha256:278f14bfcff3de55f7c93deb4c3001a19b58f86de00033235f0fb29baa3c0e0b
+gcr.io/knative-releases/aws-sqs-source@sha256:87a49ca30eceedcde2458ef48517c5d24669f904c9d88a80aa5de196115bacef
+gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter@sha256:29857b374ddab90df858e66d65df25dae9cbe73590ef091a1e90ca4525e86cc9
 gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter@sha256:402fa0b876272bbcd03517d8a11088b543a0eb02c2a74ec65be16979f53c8dc2
 gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress@sha256:5f67e6ec7bd88293de294ba414ad74aedd17f3510bf33ab4d9ae9531379f2b29
 gcr.io/knative-releases/knative.dev/eventing/cmd/controller@sha256:9828bd0a928620c2bb8ba3edb4bae8b97dad7b953cbda6caa4ae1d96ee3ff1ac
@@ -16,3 +23,6 @@ gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:5b93308a392c00
 gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:d0be939fdfb469e52e999eb65f39466d18f029984a782affa26322c9fec6db78
 gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:50831d9aaa69c4d2a8277d35650d3e2ad4832b4a04c0a089e715fd190fd8c273
 gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup@sha256:7376d3c9b24947830dca9cada5da9926e15203204dfd183780d5fe88e684deb2
+gcr.io/knative-releases/log-sink@sha256:87da054374112c0e78c5a0bbcda09205c030507bde2d6629e5a32d593ff587ca
+gcr.io/knative-releases/timer-source@sha256:ffa7dde82d5d30a3fd411ca7fda01e5a77157116c97cc17da0f7ac0b07032e93
+gcr.io/knative-releases/transform-jsonata:v1.18.0@sha256:fd60d124074e146289f78a1c17d19ba338cc95c268c390741e22c05483a716d3
