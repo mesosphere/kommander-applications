@@ -23,7 +23,7 @@ def is_valid_docker_image(image_str):
     try:
         # Parse the reference - this will raise an exception if invalid
         ref = reference.Reference.parse(image_str.strip())
-        
+
         # Additional validation: reject obvious version strings that aren't real image names
         # Extract the repository name (without registry, tag, or digest)
         image_name = str(ref).split('@')[0].split(':')[0]
