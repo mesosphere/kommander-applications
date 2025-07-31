@@ -4,35 +4,34 @@ Extract Docker images from KNative operator manifests.
 
 Requires the 'docker-image-py' library for proper Docker image reference validation:
     pip install docker-image-py
+
+Usage:
+    python3 hack/knative/extract-images.py <version>
 """
 
+import argparse
 import subprocess
 import re
 import sys
 import json
+import os
 from datetime import datetime
+from pathlib import Path
 from docker_image import reference
 
 def is_valid_docker_image(image_str):
-    """
-    Validate if a string is a valid Docker image reference using docker-image-py.
-    """
+    """Validate if a string is a valid Docker image reference using docker-image-py."""
     if not image_str or not isinstance(image_str, str):
         return False
 
     try:
-        # Parse the reference - this will raise an exception if invalid
         ref = reference.Reference.parse(image_str.strip())
 
-        # Additional validation: reject obvious version strings that aren't real image names
-        # Extract the repository name (without registry, tag, or digest)
+        # Reject obvious version strings that aren't real image names
         image_name = str(ref).split('@')[0].split(':')[0]
-
-        # If it contains a slash, get the last component (the actual image name)
         if '/' in image_name:
             image_name = image_name.split('/')[-1]
 
-        # Reject if it looks like a version string (v1.2.3, 1.2.3, etc.)
         if re.match(r'^v?\d+\.\d+(\.\d+)?$', image_name):
             return False
 
@@ -57,26 +56,23 @@ def extract_images_from_yaml(yaml_content):
     """Extract Docker image references from YAML content."""
     images = set()
 
-    # Pattern 1: Standard image
+    # Pattern 1: Standard image references
     image_pattern = r'^\s*image:\s*["\']?([^"\'\s#]+)["\']?\s*(?:#.*)?$'
 
-    # Pattern 2: Any line containing @sha256 (for ConfigMaps, EnvVars, etc.)
-    # Updated to capture the complete image reference, not just from the tag part
+    # Pattern 2: Digest references (ConfigMaps, EnvVars, etc.)
     sha256_pattern = r'([a-zA-Z0-9.-]+(?:/[a-zA-Z0-9._-]+)*(?::[a-zA-Z0-9._-]+)?@sha256:[a-f0-9]{64})'
 
     for line in yaml_content.split('\n'):
-        # Check for standard image
+        # Check for standard image references
         match = re.match(image_pattern, line)
         if match:
             image = match.group(1)
-            # Docker image validation
             if is_valid_docker_image(image):
                 images.add(image)
 
-        # Check for @sha256 patterns anywhere in the line (ConfigMaps, EnvVars, etc.)
+        # Check for digest patterns
         sha256_matches = re.findall(sha256_pattern, line)
         for match in sha256_matches:
-            # Validate using docker-image-py
             if is_valid_docker_image(match):
                 images.add(match)
 
@@ -130,7 +126,11 @@ def download_and_extract_images(files, component_name):
     return all_images
 
 def main():
-    version = sys.argv[1] if len(sys.argv) > 1 else "1.18.1"
+    parser = argparse.ArgumentParser(description='Extract Docker images from KNative operator manifests')
+    parser.add_argument('version', help='KNative version (e.g., 1.18.1, 1.19.0)')
+    args = parser.parse_args()
+
+    version = args.version
 
     print(f"Extracting Docker images from KNative operator manifests for version {version}")
     print("=" * 70)
@@ -157,14 +157,13 @@ def main():
     else:
         print("No knative-serving files found")
 
-    # Write results to file in the knative application directory
-    import os
+    # Write results to file - use Path for proper directory resolution
+    script_dir = Path(__file__).parent
+    repo_root = script_dir.parent.parent
+    knative_dir = repo_root / "applications" / "knative" / version
+    knative_dir.mkdir(parents=True, exist_ok=True)
 
-    # Create the directory structure if it doesn't exist
-    knative_dir = f"applications/knative/{version}"
-    os.makedirs(knative_dir, exist_ok=True)
-
-    output_file = f"{knative_dir}/extra-images.txt"
+    output_file = knative_dir / "extra-images.txt"
 
     with open(output_file, 'w') as f:
         for image in sorted(all_images):
