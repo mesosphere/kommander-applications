@@ -196,6 +196,10 @@ data:
           version: v0.30.1
         externalLabels:
           cluster: $(CLUSTER_ID)
+        image:
+          registry: quay.io
+          repository: prometheus/prometheus
+          tag: v3.3.0
         containers:
           - name: config-reloader
             envFrom:
