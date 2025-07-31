@@ -605,6 +605,11 @@ data:
                       gauge:
                         path: ["metadata", "annotations", "machine.cluster.x-k8s.io/certificates-expiry"]
       prometheus:
+        enabled: true
+        image:
+          registry: quay.io
+          repository: prometheus/prometheus
+          tag: v3.3.0
         monitor:
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
@@ -619,6 +624,7 @@ data:
         image:
           tag: v0.19.1
       prometheus:
+
         monitor:
           scheme: https
           bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
