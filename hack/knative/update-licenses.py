@@ -64,7 +64,7 @@ def get_repository_url(image_ref):
 def create_license_entry_text(image_ref, version):
     """Create the text for a license entry."""
     repo_url = get_repository_url(image_ref)
-    
+
     # For operator images, use ${image_tag} variable instead of hardcoded version
     if 'knative.dev/operator' in image_ref:
         ref_value = "knative-${image_tag}"
@@ -74,7 +74,7 @@ def create_license_entry_text(image_ref, version):
         ref_value = f"release-{major_minor}"
     else:
         ref_value = f"knative-v{version}"
-    
+
     return (f"  - container_image: {image_ref}\n"
             f"    sources:\n"
             f"      - license_path: LICENSE\n"
@@ -105,7 +105,7 @@ def main():
         f"gcr.io/knative-releases/knative.dev/operator/cmd/operator:v{version}",
         f"gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v{version}"
     ]
-    
+
     # Combine all images - operator images first, then extra images
     all_knative_images = operator_images + extra_images
 
@@ -121,11 +121,11 @@ def main():
     # Remove ALL existing KNative entries
     knative_pattern = r'(  - container_image: gcr\.io/knative-releases/[^\n]+\n(?:    [^\n]+\n)*)'
     existing_matches = list(re.finditer(knative_pattern, licenses_content))
-    
+
     removed_count = len(existing_matches)
     for match in reversed(existing_matches):  # Remove in reverse order to maintain indices
         licenses_content = licenses_content[:match.start()] + licenses_content[match.end():]
-    
+
     if removed_count > 0:
         print(f"Removed {removed_count} existing KNative entries")
 
@@ -137,7 +137,7 @@ def main():
     # Find insertion point (after Velero images, before other images)
     velero_pattern = r'(  - container_image: docker\.io/velero/velero:v[^\n]+\n(?:    [^\n]+\n)*)'
     velero_match = re.search(velero_pattern, licenses_content)
-    
+
     if velero_match:
         insertion_point = velero_match.end()
         licenses_content = licenses_content[:insertion_point] + new_knative_entries + licenses_content[insertion_point:]
