@@ -197,8 +197,7 @@ data:
         externalLabels:
           cluster: $(CLUSTER_ID)
         image:
-          registry: quay.io
-          repository: prometheus/prometheus
+          repository: quay.io/prometheus/prometheus
           tag: v3.3.0
         containers:
           - name: config-reloader
