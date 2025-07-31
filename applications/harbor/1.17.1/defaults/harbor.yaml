@@ -76,9 +76,14 @@ data:
       podAnnotations:
         secret.reloader.stakater.com/reload: harbor-tls-portal
     registry:
-      image:
-        repository: goharbor/registry-photon
-        tag: v2.13.2
+      registry:
+        image:
+          repository: goharbor/registry-photon
+          tag: v2.13.2
+      controller:
+        image:
+          repository: goharbor/harbor-registryctl
+          tag: v2.13.2
       replicas: 3
       priorityClassName: dkp-critical-priority
       podAnnotations:
