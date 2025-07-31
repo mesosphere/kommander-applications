@@ -203,7 +203,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.3.0
+          tag: v3.4.2
         containers:
           - name: config-reloader
             envFrom:
