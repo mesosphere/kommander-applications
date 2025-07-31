@@ -400,7 +400,7 @@ resources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/eventing-contrib
-  - container_image: gcr.io/knative-releases/transform-jsonata:v1.18.0
+  - container_image: gcr.io/knative-releases/transform-jsonata:v1.18.0@sha256
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
