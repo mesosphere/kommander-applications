@@ -68,6 +68,10 @@ def create_license_entry_text(image_ref, version):
     # For operator images, use ${image_tag} variable instead of hardcoded version
     if 'knative.dev/operator' in image_ref:
         ref_value = "knative-${image_tag}"
+    elif 'knative.dev/pkg' in image_ref:
+        # pkg repository uses release branches without 'v' prefix and no patch version
+        major_minor = '.'.join(version.split('.')[:2])  # e.g., "1.18.1" -> "1.18"
+        ref_value = f"release-{major_minor}"
     else:
         ref_value = f"knative-v{version}"
     
