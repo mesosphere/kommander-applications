@@ -61,27 +61,20 @@ def get_repository_url(image_ref):
         return 'https://github.com/knative/eventing'
 
 
-def extract_base_image_name(image_ref):
-    """Extract the base image name without tag/digest for comparison."""
-    if '@sha256:' in image_ref:
-        base = image_ref.split('@sha256:')[0]
-        # Handle special case like transform-jsonata:v1.19.0@sha256:...
-        if ':' in base and not base.endswith(':latest'):
-            return base.rsplit(':', 1)[0]
-        return base
-    elif ':' in image_ref and not image_ref.endswith(':latest'):
-        return image_ref.rsplit(':', 1)[0]
-    else:
-        return image_ref
-
-
 def create_license_entry_text(image_ref, version):
     """Create the text for a license entry."""
     repo_url = get_repository_url(image_ref)
+    
+    # For operator images, use ${image_tag} variable instead of hardcoded version
+    if 'knative.dev/operator' in image_ref:
+        ref_value = "knative-${image_tag}"
+    else:
+        ref_value = f"knative-v{version}"
+    
     return (f"  - container_image: {image_ref}\n"
             f"    sources:\n"
             f"      - license_path: LICENSE\n"
-            f"        ref: knative-v{version}\n"
+            f"        ref: {ref_value}\n"
             f"        url: {repo_url}\n")
 
 
@@ -103,6 +96,15 @@ def main():
 
     print(f"Found {len(extra_images)} images in extra-images.txt")
 
+    # Add operator images (they are not in extra-images.txt)
+    operator_images = [
+        f"gcr.io/knative-releases/knative.dev/operator/cmd/operator:v{version}",
+        f"gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v{version}"
+    ]
+    
+    # Combine all images - operator images first, then extra images
+    all_knative_images = operator_images + extra_images
+
     # Read the current licenses file
     licenses_file = Path("licenses.d2iq.yaml")
     if not licenses_file.exists():
@@ -112,50 +114,44 @@ def main():
     with open(licenses_file) as f:
         licenses_content = f.read()
 
-    # Track updates
-    updated_count = 0
-    new_count = 0
+    # Remove ALL existing KNative entries
+    knative_pattern = r'(  - container_image: gcr\.io/knative-releases/[^\n]+\n(?:    [^\n]+\n)*)'
+    existing_matches = list(re.finditer(knative_pattern, licenses_content))
+    
+    removed_count = len(existing_matches)
+    for match in reversed(existing_matches):  # Remove in reverse order to maintain indices
+        licenses_content = licenses_content[:match.start()] + licenses_content[match.end():]
+    
+    if removed_count > 0:
+        print(f"Removed {removed_count} existing KNative entries")
 
-    for image_ref in extra_images:
-        base_image = extract_base_image_name(image_ref)
+    # Generate new license entries for all images
+    new_knative_entries = ""
+    for image_ref in all_knative_images:
+        new_knative_entries += create_license_entry_text(image_ref, version)
 
-        # Find existing entries for this base image
-        escaped_base = re.escape(base_image)
-        pattern = rf'(  - container_image: {escaped_base}(?::[^@\s]+)?(?:@[^\s]+)?\n(?:    [^\n]+\n)*)'
-
-        match = re.search(pattern, licenses_content)
-        if match:
-            # Update existing entry
-            new_entry_text = create_license_entry_text(image_ref, version)
-            licenses_content = licenses_content.replace(match.group(1), new_entry_text)
-            updated_count += 1
-            print(f"Updated: {base_image}")
-        else:
-            # Add new image after the last KNative entry
-            new_entry_text = create_license_entry_text(image_ref, version)
-
-            knative_pattern = r'(  - container_image: gcr\.io/knative-releases/[^\n]+\n(?:    [^\n]+\n)*)'
-            matches = list(re.finditer(knative_pattern, licenses_content))
-            if matches:
-                last_match = matches[-1]
-                insertion_point = last_match.end()
-                licenses_content = licenses_content[:insertion_point] + new_entry_text + licenses_content[insertion_point:]
-                new_count += 1
-                print(f"Added new: {base_image}")
-            else:
-                print(f"Could not find insertion point for: {base_image}")
+    # Find insertion point (after Velero images, before other images)
+    velero_pattern = r'(  - container_image: docker\.io/velero/velero:v[^\n]+\n(?:    [^\n]+\n)*)'
+    velero_match = re.search(velero_pattern, licenses_content)
+    
+    if velero_match:
+        insertion_point = velero_match.end()
+        licenses_content = licenses_content[:insertion_point] + new_knative_entries + licenses_content[insertion_point:]
+        print(f"Added {len(all_knative_images)} KNative entries after Velero")
+    else:
+        print("Could not find Velero entries as insertion point")
+        return 1
 
     # Write updated file
-    if updated_count > 0 or new_count > 0:
-        with open(licenses_file, 'w') as f:
-            f.write(licenses_content)
+    with open(licenses_file, 'w') as f:
+        f.write(licenses_content)
 
-        print(f"\nUpdated {licenses_file}:")
-        print(f"  - Updated {updated_count} existing entries")
-        print(f"  - Added {new_count} new entries")
-        print(f"  - Used version: knative-v{version}")
-    else:
-        print("\nNo changes made to licenses file.")
+    print(f"\nUpdated {licenses_file}:")
+    print(f"  - Removed {removed_count} existing KNative entries")
+    print(f"  - Added {len(all_knative_images)} new KNative entries")
+    print(f"  - Used version: knative-v{version}")
+    print(f"  - Operator images: {len(operator_images)}")
+    print(f"  - Extra images: {len(extra_images)}")
 
     return 0
 
