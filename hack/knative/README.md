@@ -73,10 +73,18 @@ python3 hack/knative/update-licenses.py 1.19.0
 
 **What it does:**
 - Reads the extra-images.txt file generated in Step 1
-- Updates existing KNative entries in licenses.d2iq.yaml
-- Adds new KNative images if they don't exist
-- Uses proper knative-v{version} ref format
+- Completely replaces all existing KNative entries in licenses.d2iq.yaml
+- Processes ALL images from extra-images.txt without deduplication
+- Adds KNative operator images (not included in extra-images.txt)
+- Uses proper version-specific ref format for all entries
 - Maps images to correct GitHub repositories
+
+**Key Features:**
+- **Clean replacement**: Removes all existing KNative entries and adds fresh ones
+- **No deduplication**: Processes every image in extra-images.txt, including duplicates
+- **Source of truth**: Uses extra-images.txt + version parameter as definitive source
+- **Operator image management**: Automatically includes operator images with correct versioning
+- **Positioning**: Places operator images first, followed by extra-images.txt content
 
 **Output:**
 - Updates licenses.d2iq.yaml with current image digests and version refs
@@ -101,25 +109,34 @@ python3 hack/knative/update-licenses.py 1.19.0
 #### Repository Structure:
 ```
 cmd/operator/kodata/
-├── knative-eventing/
-│   └── {version}/
-│       ├── 200-eventing-core.yaml
-│       ├── 201-eventing-crds.yaml
-│       └── ...
-└── knative-serving/
-    └── {version}/
-        ├── 200-serving-core.yaml
-        ├── 201-serving-crds.yaml
-        └── ...
+  knative-eventing/
+    {version}/
+      200-eventing-core.yaml
+      201-eventing-crds.yaml
+      ...
+  knative-serving/
+    {version}/
+      200-serving-core.yaml
+      201-serving-crds.yaml
+      ...
 ```
 
 ### `update-licenses.py`
 
 #### Features:
-- Smart updates: Updates existing entries rather than duplicating
-- Version-aware: Uses the specified version for proper ref formatting
-- Repository mapping: Maps images to correct GitHub repositories
-- Insertion logic: Adds new images after existing KNative entries
+- **Complete replacement**: Removes all existing KNative entries and rebuilds from scratch
+- **No deduplication**: Processes every image in extra-images.txt exactly as listed
+- **Version-aware**: Updates version references when new version is specified
+- **Operator integration**: Automatically includes KNative operator images
+- **Repository mapping**: Maps images to correct GitHub repositories
+- **Clean insertion**: Places all KNative entries after Velero images in consistent order
+
+#### Processing Logic:
+1. **Read source**: Loads all images from extra-images.txt
+2. **Add operators**: Includes operator images (not in extra-images.txt)
+3. **Clean slate**: Removes ALL existing KNative entries from license file
+4. **Rebuild**: Adds all images (operators first, then extra-images.txt content)
+5. **Version update**: Uses provided version for ref formatting
 
 #### Repository Mapping:
 | Image Path | GitHub Repository |
@@ -132,12 +149,26 @@ cmd/operator/kodata/
 
 #### License Entry Format:
 ```yaml
+# Operator images (use variable ref)
+- container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.19.0
+  sources:
+    - license_path: LICENSE
+      ref: knative-${image_tag}
+      url: https://github.com/knative/operator
+
+# Regular KNative images (use version-specific ref)
 - container_image: gcr.io/knative-releases/image@sha256:...
   sources:
     - license_path: LICENSE
-      ref: knative-v1.18.1
+      ref: knative-v1.19.0
       url: https://github.com/knative/eventing
 ```
+
+#### Image Processing:
+- **Total images**: 30 (2 operator + 28 from extra-images.txt)
+- **Operator images**: Always added first with `knative-${image_tag}` ref
+- **Extra images**: Processed in order from extra-images.txt with `knative-v{version}` ref
+- **Duplicates**: If extra-images.txt contains duplicates, all are included in license file
 
 ---
 
@@ -151,14 +182,28 @@ source venv/bin/activate
 
 # 2. Extract images from KNative operator manifests
 python3 hack/knative/extract-images.py 1.19.0
-# Output: applications/knative/1.19.0/extra-images.txt
+# Output: applications/knative/1.19.0/extra-images.txt (28 images)
 
 # 3. Update license file
 python3 hack/knative/update-licenses.py 1.19.0
-# Output: Updated licenses.d2iq.yaml
+# Output: Updated licenses.d2iq.yaml (30 total images: 2 operator + 28 extra)
 
 # 4. Validate results (optional)
 make validate-licenses
+```
+
+### Expected Output:
+```
+Found 28 images in extra-images.txt
+Removed 30 existing KNative entries
+Added 30 KNative entries after Velero
+
+Updated licenses.d2iq.yaml:
+  - Removed 30 existing KNative entries
+  - Added 30 new KNative entries
+  - Used version: knative-v1.19.0
+  - Operator images: 2
+  - Extra images: 28
 ```
 
 ---
@@ -167,13 +212,13 @@ make validate-licenses
 
 ```
 hack/knative/
-├── README.md                    # This documentation
-├── extract-images.py            # Image extraction script
-└── update-licenses.py           # License update script
+  README.md                    # This documentation
+  extract-images.py            # Image extraction script
+  update-licenses.py           # License update script
 
 applications/knative/
-└── {version}/
-    └── extra-images.txt         # Generated image list
+  {version}/
+    extra-images.txt         # Generated image list
 
 licenses.d2iq.yaml               # Updated license file
 ```
@@ -215,6 +260,20 @@ licenses.d2iq.yaml               # Updated license file
    make validate-licenses
    ```
 
+6. Missing images in license file
+   ```bash
+   # Check if all images from extra-images.txt are included
+   wc -l applications/knative/1.19.0/extra-images.txt  # Should match extra images count
+   grep -c "gcr.io/knative-releases/" licenses.d2iq.yaml  # Should be extra + 2 operators
+   ```
+
+7. Wrong version references
+   ```bash
+   # Check version consistency
+   grep "knative-v" licenses.d2iq.yaml | head -5  # Should show current version
+   grep "knative-\${image_tag}" licenses.d2iq.yaml  # Should show exactly 2 (operators)
+   ```
+
 ### Debug Information:
 
 Both scripts provide verbose output showing:
@@ -228,10 +287,17 @@ Both scripts provide verbose output showing:
 ## Development Notes
 
 ### Script Architecture:
-- Modular design: Clear separation of concerns
-- Error handling: Graceful failure with informative messages
-- Validation: Multiple layers of image reference validation
-- Logging: Detailed progress reporting
+- **Simplified design**: Clean replacement strategy eliminates complex update logic
+- **Error handling**: Graceful failure with informative messages
+- **Validation**: Multiple layers of image reference validation
+- **Logging**: Detailed progress reporting with counts and statistics
+- **Source of truth**: Uses extra-images.txt as definitive image list
+
+### Key Principles:
+- **No deduplication**: Processes exactly what's in extra-images.txt
+- **Clean replacement**: Remove all, then add all (no selective updates)
+- **Version consistency**: All images use same version reference format
+- **Predictable output**: Same input always produces same result
 
 ### Maintenance:
 - Scripts are version-agnostic and should work with future KNative releases
@@ -244,6 +310,22 @@ Both scripts provide verbose output showing:
 python3 hack/knative/extract-images.py 1.18.1
 python3 hack/knative/update-licenses.py 1.18.1
 
-# Verify no errors
+# Verify no errors and check counts
 echo $?  # Should return 0
+
+# Expected: 28 images in extra-images.txt + 2 operator images = 30 total
+grep -c "gcr.io/knative-releases/" licenses.d2iq.yaml  # Should show 30
+
+# Verify all images from extra-images.txt are included
+wc -l applications/knative/1.18.1/extra-images.txt  # Should show 28
+```
+
+### Version Update Testing:
+```bash
+# Test version updating (1.18.1 → 1.19.0)
+python3 hack/knative/update-licenses.py 1.19.0
+
+# Verify version refs updated
+grep -c "knative-v1.19.0" licenses.d2iq.yaml  # Should show 28
+grep -c "knative-\${image_tag}" licenses.d2iq.yaml  # Should show 2 (operators)
 ```
