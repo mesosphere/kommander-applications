@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.6.4-config-defaults
+  name: nkp-insights-1.6.5-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -29,12 +29,17 @@ data:
               groupKind:
                 group: apps
                 kind: Deployment
-              nameRegexp: runtime-extension-kommander
+              nameRegexp: runtime-extension-kommander|ceph-cosi-driver
             Deployments-istio:
               groupKind:
                 group: apps
                 kind: Deployment
               nameRegexp: istiod|istio-ingressgateway
+            Deployments-konvoy:
+              groupKind:
+                group: apps
+                kind: Deployment
+              nameRegexp: cluster-autoscaler*
             HelmRelease-kommander-non-app:
               groupKind:
                 group: helm.toolkit.fluxcd.io
@@ -59,7 +64,7 @@ data:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
                 kind: Kustomization
-              nameRegexp: ai-navigator-app|ai-navigator-cluster-info-agent|centralized-grafana|centralized-kubecost|cert-manager|chartmuseum|cloudnative-pg|cosi-driver-nutanix|dex|dex-k8s-authenticator|external-dns|fluent-bit|gatekeeper|gateway-api-crds|git-operator|grafana-logging|grafana-loki|harbor|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-flux|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|nkp-insights|nkp-insights-management|nkp-pulse-management|nkp-pulse-workspace|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|project-logging|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero|kafka-operator|zookeeper-operator|nutanix-ai
+              nameRegexp: ai-navigator-app|ai-navigator-cluster-info-agent|ai-navigator-rag|centralized-grafana|centralized-kubecost|cert-manager|chartmuseum|cloudnative-pg|cosi-driver-nutanix|dex|dex-k8s-authenticator|external-dns|fluent-bit|gatekeeper|gateway-api-crds|git-operator|grafana-logging|grafana-loki|harbor|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-flux|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|nkp-insights|nkp-insights-management|nkp-pulse-management|nkp-pulse-workspace|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|project-logging|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero|kafka-operator|zookeeper-operator|nutanix-ai
             Kustomization-kommander-non-app:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
@@ -155,7 +160,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.6.4
+      tag: 1.6.5
     initdb:
       resources:
         limits:
@@ -169,7 +174,7 @@ data:
         image:
           pullPolicy: IfNotPresent
           repository: aquasec/kube-bench
-          tag: v0.10.3
+          tag: v0.11.1
         nodeSubsets:
           all-nodes:
             defaultSetup: nodes-default
