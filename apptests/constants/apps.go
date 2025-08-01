@@ -13,4 +13,5 @@ const (
 	RookCeph                 = "rook-ceph"
 	Velero                   = "velero"
 	CiliumHubbleRelayTraefik = "cilium-hubble-relay-traefik"
+	KubeOidcProxy            = "kube-oidc-proxy"
 )
