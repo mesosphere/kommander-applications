@@ -107,7 +107,7 @@ data:
               - X-Forwarded-User
               - Impersonate-User
               - Impersonate-Group
-      - # Used by apps such as Kuberentes-Dashboard and Kiali
+      - # Used by apps such as Kubernetes-Dashboard and Kiali
         # that obtain the K8S API Bearer token via
         # the `Authorization:` header and Impersonate the user.
         apiVersion: traefik.io/v1alpha1
