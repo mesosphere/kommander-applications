@@ -12,7 +12,7 @@ data:
     mode: standalone
     cluster:
       instances: 3
-      imageName: {{ .Values.cnpg.repository }}:{{ .Values.cnpg.tag }}
+      imageName: ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
       storage:
         size: 10Gi
       initdb:

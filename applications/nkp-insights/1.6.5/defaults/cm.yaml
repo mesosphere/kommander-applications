@@ -432,8 +432,8 @@ data:
       database: nkp-insights
       image:
         registry: ghcr.io
-        repository: {{ .Values.cnpg.repository }}
-        tag: {{ .Values.cnpg.tag }}
+        repository: ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql
+        tag: 17.5-minimal-bookworm
       instances: 1
       persistence:
         size: 8Gi
