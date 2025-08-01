@@ -1,3 +1,7 @@
 redis:
   external:
     existingSecret: ""
+
+cnpg:
+  repository: ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql
+  tag: 17.5-minimal-bookworm
