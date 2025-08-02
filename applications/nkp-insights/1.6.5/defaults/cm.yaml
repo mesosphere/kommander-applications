@@ -454,6 +454,9 @@ data:
         requests:
           cpu: 100m
           memory: 256Mi
+    cnpg:
+      repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
+      tag: 17.5-minimal-bookworm
     priorityClassName: dkp-critical-priority
     reforwarder:
       resources:
