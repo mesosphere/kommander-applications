@@ -6,6 +6,9 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    cnpg:
+      repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
+      tag: 17.5-minimal-bookworm
     backend:
       alertExpirationTime: 72h
       alertmanager:
@@ -432,8 +435,8 @@ data:
       database: nkp-insights
       image:
         registry: ghcr.io
-        repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
-        tag: 17.5-minimal-bookworm
+        repository: {{ .Values.cnpg.repository }}
+        tag: {{ .Values.cnpg.tag }}
       instances: 1
       persistence:
         size: 8Gi

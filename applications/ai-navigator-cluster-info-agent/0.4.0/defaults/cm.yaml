@@ -12,8 +12,8 @@ data:
       instances: 1
       image:
         registry: ghcr.io
-        repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
-        tag: 17.5-minimal-bookworm
+        repository: {{ .Values.cnpg.repository }}
+        tag: {{ .Values.cnpg.tag }}
       database: "ai-nav-cluster-info-api"
       driver_name: "postgresql"
       pgvector:
@@ -22,6 +22,9 @@ data:
       priorityClassName: "dkp-critical-priority"
       persistence:
         size: 8Gi
+    cnpg:
+      repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
+      tag: 17.5-minimal-bookworm
     priorityClassName: dkp-high-priority
     kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
   agent-values.yaml: |-
