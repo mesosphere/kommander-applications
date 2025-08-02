@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-gateway-0.5.0-config-defaults
+  name: ai-navigator-rag-0.6.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,6 +12,4 @@ data:
     auth:
       enabled: false
     image:
-      # TODO: use a stable image instead of a dev one.
-      # NOTE: When empty, the chart appVersion is used for a tag.
-      tag: "v0.0.0-dev.0"
+      tag: "0.6.0"
