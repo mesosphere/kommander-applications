@@ -21,8 +21,6 @@ spec:
       # NOTE: The `kubefed` app is not installing the HelmRelease directly.
       # That's how its HelmRelease name is simply `kubefed`
       name: kubefed
-    - namespace: ${releaseNamespace}
-      name: external-secrets
   chartRef:
     kind: OCIRepository
     name: kommander-chart
