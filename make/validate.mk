@@ -3,7 +3,7 @@ DKP_BLOODHOUND_BIN := $(LOCAL_DIR)/bin/dkp-bloodhound_v$(DKP_BLOODHOUND_VERSION)
 GOOS := $(shell go env GOOS)
 GOARCH := $(shell go env GOARCH)
 
-SKIP_APPLICATIONS ?= ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
+SKIP_APPLICATIONS ?= ai-navigator-rag,ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
 
 $(DKP_BLOODHOUND_BIN):
 	mkdir -p `dirname $@`

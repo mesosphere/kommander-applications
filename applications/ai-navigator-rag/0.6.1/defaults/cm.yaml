@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-navigator-rag-0.6.1-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    openai:
+      apiEndpoint: ""
+    postgresql:
+      priorityClassName: "dkp-critical-priority"
+    auth:
+      enabled: false
+    image:
+      chatbot:
+        repository: "pullthrough.infra.nkp.sh/mesosphere/ai-navigator-rag"
+      tag: "0.6.1"
