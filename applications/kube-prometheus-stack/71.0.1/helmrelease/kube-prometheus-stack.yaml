@@ -34,7 +34,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: kube-prometheus-stack-71.0.0-config-defaults
+      name: kube-prometheus-stack-71.0.1-config-defaults
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-71.0.0-config-defaults
+  name: kube-prometheus-stack-71.0.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -477,7 +477,7 @@ data:
         image:
           registry: docker.io
           repository: kiwigrid/k8s-sidecar
-          tag: 1.30.3
+          tag: 1.30.7
         dashboards:
           enabled: true
           label: grafana_dashboard
