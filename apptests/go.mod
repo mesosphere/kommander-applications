@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/distribution/reference v0.6.0
-	github.com/docker/cli v27.3.1+incompatible
+	github.com/docker/cli v28.3.3+incompatible
 	github.com/docker/docker v27.1.1+incompatible
 	github.com/drone/envsubst v1.0.3
 	github.com/fluxcd/cli-utils v0.36.0-flux.9
