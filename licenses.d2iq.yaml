@@ -135,11 +135,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-server-backend-proxy}
         url: https://github.com/ghostunnel/ghostunnel
-  - container_image: docker.io/mesosphere/insights-management:1.6.5
+  - container_image: docker.io/mesosphere/insights-management:1.6.6
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:1.6.5
+  - container_image: docker.io/mesosphere/insights:1.6.6
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
