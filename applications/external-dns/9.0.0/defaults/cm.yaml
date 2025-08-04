@@ -11,8 +11,8 @@ data:
       security:
         allowInsecureImages: true
     image:
-      registry: registry.k8s.io
-      repository: external-dns/external-dns
+      registry: docker.io
+      repository: bitnamilegacy/external-dns
       tag: v0.18.0
       pullPolicy: IfNotPresent
     service:
