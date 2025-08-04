@@ -13,7 +13,7 @@ data:
     image:
       registry: docker.io
       repository: bitnamilegacy/external-dns
-      tag: v0.18.0
+      tag: 0.18.0-debian-12-r1
       pullPolicy: IfNotPresent
     service:
       labels:
