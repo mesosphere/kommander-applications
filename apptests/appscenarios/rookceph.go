@@ -81,6 +81,7 @@ func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env,
 	objBucketClaimsPath := filepath.Join(appPath, "/objectbucketclaims")
 	err = env.ApplyKustomizations(ctx, objBucketClaimsPath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
+		"releaseName":      "rook-ceph-cluster",
 	})
 	if err != nil {
 		return err
