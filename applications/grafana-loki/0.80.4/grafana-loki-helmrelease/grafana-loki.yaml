@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: loki-distributed
+  name: grafana-loki-loki-distributed
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -19,7 +19,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: loki-distributed
+    name: grafana-loki-loki-distributed
     namespace: ${releaseNamespace}
   interval: 15s
   timeout: 15m

@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: grafana
+  name: project-grafana-logging-grafana
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -19,7 +19,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: grafana
+    name: project-grafana-logging-grafana
     namespace: ${releaseNamespace}
   interval: 15s
   install:
