@@ -505,7 +505,7 @@ resources:
   - container_image: nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
     sources:
       - license_path: LICENSE
-        ref: 535-5.15.0-139-generic-ubuntu22.04
+        ref: ${image_tag%-535-5.15.0-139-generic-ubuntu22.04}
         url: https://github.com/NVIDIA/gpu-driver-container
   - container_image: quay.io/ceph/ceph:v19.2.2
     sources:
