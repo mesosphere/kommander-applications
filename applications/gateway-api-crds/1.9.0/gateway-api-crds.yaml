@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: gateway-api-crds-traefik-crds
+  name: ${releaseName}-traefik-crds
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ spec:
   interval: 6h
   chartRef:
     kind: OCIRepository
-    name: gateway-api-crds-traefik-crds
+    name: ${releaseName}-traefik-crds
     namespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap

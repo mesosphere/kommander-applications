@@ -21,4 +21,5 @@ spec:
   timeout: 1m
   postBuild:
     substitute:
+      releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}

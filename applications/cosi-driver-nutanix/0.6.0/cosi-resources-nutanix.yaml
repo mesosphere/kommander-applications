@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cosi-driver-nutanix-cosi-bucket-kit
+  name: ${releaseName}-cosi-bucket-kit
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cosi-driver-nutanix-cosi-bucket-kit
+    name: ${releaseName}-cosi-bucket-kit
     namespace: ${releaseNamespace}
   interval: 15s
   dependsOn:

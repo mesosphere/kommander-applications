@@ -22,4 +22,5 @@ spec:
   # Using `substituteFrom` with `substitution-vars` creates 2nd level resources in `kommander` namespace instead of workspace ns
   postBuild:
     substitute:
+      releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
