@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: object-bucket-claim
+  name: ${releaseName}-object-bucket-claim
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: object-bucket-claim
+    name: ${releaseName}-object-bucket-claim
     namespace: ${releaseNamespace}
   timeout: 20m
   interval: 15s

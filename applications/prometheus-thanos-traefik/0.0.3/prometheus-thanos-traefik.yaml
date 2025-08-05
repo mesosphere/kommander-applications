@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: thanos-traefik
+  name: ${releaseName}-thanos-traefik
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: thanos-traefik
+    name: ${releaseName}-thanos-traefik
     namespace: ${releaseNamespace}
   interval: 15s
   install:
