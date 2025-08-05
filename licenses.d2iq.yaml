@@ -502,7 +502,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/mig-parted
-  - container_image: nvcr.io/nvidia/driver
+  - container_image: nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: 535-5.15.0-139-generic-ubuntu22.04
