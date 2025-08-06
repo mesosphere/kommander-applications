@@ -29,7 +29,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  timeout: 5m0s
+  timeout: 10m0s
   releaseName: harbor-valkey
   targetNamespace: ncr-system
   valuesFrom:
