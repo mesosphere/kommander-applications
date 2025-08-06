@@ -76,7 +76,7 @@ jobs:
           git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-            git commit -S -v -m "build: Updated licenses.d2iq.yaml"
+            git commit -S -v -m "build: Updated licenses.d2iq.yaml [skip ci]"
             git push --force-with-lease
           fi
         env:
