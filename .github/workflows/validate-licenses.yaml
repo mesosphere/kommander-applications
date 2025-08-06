@@ -16,8 +16,6 @@ on:
       - v*
     branches:
       - main
-    paths-ignore:
-      - '**/licenses.d2iq.yaml'
 jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
@@ -78,7 +76,8 @@ jobs:
           git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-            git commit -S -v -m "build: Updated licenses.d2iq.yaml [skip ci]"
+            git commit -S -v -m "build: Updated licenses.d2iq.yaml "
+            skip-checks: true"
             git push --force-with-lease
             echo "pushed=true" >> $GITHUB_OUTPUT
           else
