@@ -17,7 +17,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus-operator/prometheus-config-reloader
-          tag: v0.82.2
+          tag: v0.83.0
       admissionWebhooks:
         patch:
           priorityClassName: "dkp-critical-priority"
@@ -199,7 +199,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.3.0
+          tag: v3.5.0
         containers:
           - name: config-reloader
             envFrom:
@@ -435,7 +435,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/alertmanager
-          tag: v0.28.0
+          tag: v0.28.1
         logLevel: warn
         resources:
           limits:
