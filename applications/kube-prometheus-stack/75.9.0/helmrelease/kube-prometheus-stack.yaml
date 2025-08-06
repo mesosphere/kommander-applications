@@ -34,11 +34,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-<<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.1/helmrelease/kube-prometheus-stack.yaml
-      name: kube-prometheus-stack-71.0.1-config-defaults
-========
       name: kube-prometheus-stack-75.9.0-config-defaults
->>>>>>>> a443b418 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/helmrelease/kube-prometheus-stack.yaml
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true
