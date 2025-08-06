@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/kube-prometheus-stack/71.0.2/etcd-metrics-proxy
+  path: ./applications/kube-prometheus-stack/71.0.1/etcd-metrics-proxy
   sourceRef:
     kind: GitRepository
     name: management
