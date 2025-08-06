@@ -52,8 +52,72 @@ def run_curl(url):
         print(f"Error running curl for {url}: {e}")
         return None
 
-def extract_images_from_yaml(yaml_content, target_version):
-    """Extract Docker image references from YAML content and convert to tagged versions."""
+
+def reverse_lookup_tag_from_digest(image_ref):
+    """Reverse lookup to find the actual tag for a digest-based image reference."""
+    if '@sha256:' not in image_ref:
+        return image_ref  # Already a tagged image
+    
+    # Check if this is a tagged image with digest (tag:version@sha256:...)
+    if ':v' in image_ref and '@sha256:' in image_ref:
+        # Extract just the tagged part (remove the digest)
+        tagged_part = image_ref.split('@sha256:')[0]
+        print(f"    Image already tagged, removing digest: {tagged_part}")
+        return tagged_part
+    
+    try:
+        # Parse the image reference
+        base_image, digest = image_ref.split('@sha256:', 1)
+        digest = f'sha256:{digest}'
+        
+        # Extract repository path from gcr.io/knative-releases/image:tag format
+        if 'gcr.io/knative-releases/' not in base_image:
+            return image_ref  # Not a knative image
+            
+        repo_path = base_image.replace('gcr.io/knative-releases/', '')
+        
+        # Query GCR API to get all tags for this repository
+        api_url = f"https://gcr.io/v2/knative-releases/{repo_path}/tags/list"
+        
+        content = run_curl(api_url)
+        if not content:
+            print(f"    Warning: Could not fetch tags for {repo_path}")
+            return image_ref
+            
+        try:
+            tags_data = json.loads(content)
+            if 'manifest' not in tags_data:
+                print(f"    Warning: No manifest data found for {repo_path}")
+                return image_ref
+                
+            # Check if our digest exists in the manifest mapping
+            if digest in tags_data['manifest']:
+                manifest_info = tags_data['manifest'][digest]
+                if 'tag' in manifest_info and manifest_info['tag']:
+                    # Find the first version tag (starts with 'v')
+                    for tag in manifest_info['tag']:
+                        if tag.startswith('v'):
+                            print(f"    Found tag {tag} for digest {digest[:12]}...")
+                            return f"{base_image}:{tag}"
+                    
+                    # If no version tag found, use the first available tag
+                    tag = manifest_info['tag'][0]
+                    print(f"    Found tag {tag} for digest {digest[:12]}...")
+                    return f"{base_image}:{tag}"
+                        
+            print(f"    Warning: No matching tag found for digest {digest[:12]}...")
+            return image_ref
+            
+        except json.JSONDecodeError as e:
+            print(f"    Warning: Error parsing tags response for {repo_path}: {e}")
+            return image_ref
+            
+    except Exception as e:
+        print(f"    Warning: Error in reverse lookup for {image_ref}: {e}")
+        return image_ref
+
+def extract_images_from_yaml(yaml_content):
+    """Extract Docker image references from YAML content and do reverse lookup for actual tags."""
     images = set()
 
     # Pattern 1: Standard image references
@@ -68,45 +132,20 @@ def extract_images_from_yaml(yaml_content, target_version):
         if match:
             image = match.group(1)
             if is_valid_docker_image(image):
-                # Convert to tagged version
-                tagged_image = convert_to_tagged_image(image, target_version)
-                if tagged_image:
-                    images.add(tagged_image)
+                # Do reverse lookup to find actual tag
+                actual_image = reverse_lookup_tag_from_digest(image)
+                images.add(actual_image)
 
         # Check for digest patterns
         sha256_matches = re.findall(sha256_pattern, line)
         for match in sha256_matches:
             if is_valid_docker_image(match):
-                # Convert to tagged version
-                tagged_image = convert_to_tagged_image(match, target_version)
-                if tagged_image:
-                    images.add(tagged_image)
+                # Do reverse lookup to find actual tag
+                actual_image = reverse_lookup_tag_from_digest(match)
+                images.add(actual_image)
 
     return sorted(images)
 
-
-def convert_to_tagged_image(image_ref, target_version):
-    """Convert digest-based or existing tagged image to use target version tag."""
-    # Remove digest if present
-    if '@sha256:' in image_ref:
-        base_image = image_ref.split('@sha256:')[0]
-    else:
-        base_image = image_ref
-    
-    # Remove existing tag if present
-    if ':' in base_image and not base_image.count(':') > 1:
-        parts = base_image.split('/')
-        if len(parts) > 1 and ':' in parts[0] and parts[0].split(':')[1].isdigit():
-            # Registry:port format - don't remove tag
-            base_image_no_tag = base_image
-        else:
-            # Image:tag format - remove tag
-            base_image_no_tag = base_image.rsplit(':', 1)[0]
-    else:
-        base_image_no_tag = base_image
-    
-    # Add target version tag
-    return f"{base_image_no_tag}:v{target_version}"
 
 def get_yaml_files_from_github_dir(repo_path, version):
     """Get list of YAML files from a GitHub directory."""
@@ -132,7 +171,7 @@ def get_yaml_files_from_github_dir(repo_path, version):
         print(f"Error parsing JSON from {api_url}: {e}")
         return []
 
-def download_and_extract_images(files, component_name, target_version):
+def download_and_extract_images(files, component_name):
     """Download YAML files and extract images."""
     all_images = set()
 
@@ -143,7 +182,7 @@ def download_and_extract_images(files, component_name, target_version):
 
         yaml_content = run_curl(file_info['download_url'])
         if yaml_content:
-            images = extract_images_from_yaml(yaml_content, target_version)
+            images = extract_images_from_yaml(yaml_content)
             all_images.update(images)
 
             if images:
@@ -179,7 +218,7 @@ def main():
     eventing_files = get_yaml_files_from_github_dir("knative-eventing", eventing_version)
     if eventing_files:
         print(f"Found {len(eventing_files)} eventing files")
-        eventing_images = download_and_extract_images(eventing_files, "knative-eventing", eventing_version)
+        eventing_images = download_and_extract_images(eventing_files, "knative-eventing")
         all_images.update(eventing_images)
     else:
         print("No knative-eventing files found")
@@ -189,7 +228,7 @@ def main():
     serving_files = get_yaml_files_from_github_dir("knative-serving", serving_version)
     if serving_files:
         print(f"Found {len(serving_files)} serving files")
-        serving_images = download_and_extract_images(serving_files, "knative-serving", serving_version)
+        serving_images = download_and_extract_images(serving_files, "knative-serving")
         all_images.update(serving_images)
     else:
         print("No knative-serving files found")
