@@ -9,11 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-<<<<<<<< HEAD:applications/kube-prometheus-stack/71.0.1/helmrelease.yaml
-  path: ./applications/kube-prometheus-stack/71.0.1/helmrelease
-========
   path: ./applications/kube-prometheus-stack/75.9.0/helmrelease
->>>>>>>> a443b418 (feat: update kube-prometheus-stack to 75.9.0):applications/kube-prometheus-stack/75.9.0/helmrelease.yaml
   sourceRef:
     kind: GitRepository
     name: management
