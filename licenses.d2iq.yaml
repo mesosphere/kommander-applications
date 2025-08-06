@@ -477,7 +477,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:1.17.8-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: v${image_tag%-ubuntu20.04}
