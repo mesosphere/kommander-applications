@@ -21,7 +21,7 @@ data:
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.17.8-ubi8
+      version: v1.17.8-ubuntu20.04
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
@@ -29,14 +29,14 @@ data:
       version: v0.17.3
     dcgm:
       enabled: true
-      version: 4.2.3-1-ubi9
+      version: 4.2.3-1-ubuntu22.04
     dcgmExporter:
       enabled: true
       serviceMonitor:
         enabled: true
         additionalLabels:
           prometheus.kommander.d2iq.io/select: "true"
-      version: 4.2.3-4.2.0-ubi9
+      version: 4.2.3-4.2.0-ubuntu22.04
     validator:
       repository: nvcr.io/nvidia/cloud-native
       version: v25.3.2
@@ -47,4 +47,4 @@ data:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
-      version: v0.12.2-ubi9
+      version: v0.12.2-ubuntu20.04
