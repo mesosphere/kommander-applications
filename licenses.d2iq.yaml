@@ -480,7 +480,7 @@ resources:
   - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu20.04}
+        ref: v${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.2.0-ubuntu22.04
     sources:
