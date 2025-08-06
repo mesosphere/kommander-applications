@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
-  url: "oci://ghcr.io/prometheus-community/helm-charts/kube-prometheus-stack"
+  url: "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack"
   ref:
     tag: 75.16.1
 ---
