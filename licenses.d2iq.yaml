@@ -477,10 +477,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:1.17.8-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-ubuntu20.04}
+        ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.2.0-ubuntu22.04
     sources:
@@ -492,7 +492,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag%-1-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.2-ubuntu20.04
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.1-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
