@@ -260,155 +260,150 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero
-  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.1
+  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.3
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/operator
-  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.18.1
+  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.18.3
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/operator
-  - container_image: gcr.io/knative-releases/aws-ddb-streams-source@sha256:f3a1b04ea62ab0aafd9675d82dbd09186b154349a287e33581bd7435fa9b96b2
+  - container_image: gcr.io/knative-releases/aws-ddb-streams-source:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/aws-s3-sink@sha256:6998f21cb3fbf33980ee6814d7dab9c45543c39472afaab3f573dd53f8448d6d
+  - container_image: gcr.io/knative-releases/aws-s3-sink:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/aws-s3-source@sha256:87480e82fd46d1884c588c4ef05e2dfcf866a5a3ae5a3952bd60c7c51bc1919f
+  - container_image: gcr.io/knative-releases/aws-s3-source:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/aws-sns-sink@sha256:c997f8a226a6a89e29c98136ac47b81d6b9b673bc40cdb4a392d3df5f00969f2
+  - container_image: gcr.io/knative-releases/aws-sns-sink:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/aws-sqs-sink@sha256:278f14bfcff3de55f7c93deb4c3001a19b58f86de00033235f0fb29baa3c0e0b
+  - container_image: gcr.io/knative-releases/aws-sqs-sink:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/aws-sqs-source@sha256:87a49ca30eceedcde2458ef48517c5d24669f904c9d88a80aa5de196115bacef
+  - container_image: gcr.io/knative-releases/aws-sqs-source:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter@sha256:29857b374ddab90df858e66d65df25dae9cbe73590ef091a1e90ca4525e86cc9
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter@sha256:402fa0b876272bbcd03517d8a11088b543a0eb02c2a74ec65be16979f53c8dc2
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress@sha256:5f67e6ec7bd88293de294ba414ad74aedd17f3510bf33ab4d9ae9531379f2b29
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/controller@sha256:9828bd0a928620c2bb8ba3edb4bae8b97dad7b953cbda6caa4ae1d96ee3ff1ac
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller@sha256:1b42e21f9fe9f7e3e88f14f9c4f237f6273aa5378a96dd30a2aa1793a2c56f3c
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher@sha256:bbf7c8bf1e550d5a8ba3cf145f4b0d27bdde4bf813449f825c7731b694fdf75b
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink@sha256:8cdeb8008975c7c8d67b4a3384b09ece25e85d8ad6acc6357ef31b1e2d44676b
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker@sha256:9176e09fc33d38a0ee7cc894b0267e34c9c87d2e0ea0c46ed64a2189f3ae012f
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping@sha256:5611eb000a130082e6117b995919a0cd671dc963f9084b4726fa5dfeac916ce8
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook@sha256:129fa9f552851b69d836df0a77236c78d2a0efe1bf2331226c3f31aef4e37d81
+  - container_image: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate@sha256:413a9f05ccbf8be0932fc9e8d0a64b4be8c6a03219cae8649615ddb5b7d4f78a
+  - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
     sources:
       - license_path: LICENSE
         ref: release-1.18
         url: https://github.com/knative/pkg
-  - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate@sha256:4446c18c763149a3ac93ab49868a8085c5163558b70542dfd6f2337ec3b4c985
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: release-1.18
-        url: https://github.com/knative/pkg
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:031408ec516f374636a77ce1c689accfcfa13154abfef96716e636405f64464c
-    sources:
-      - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:7405faeb76367cd4e20a598978b20f7450f7729da2f9fac9ff5e2ec088999d3c
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:3502bb5aa60f485ec702f98f0391fa54d91a30e905a1b7ad0adddcd31205c79c
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:5b93308a392c00381f0ac48e7f55806bce7b4d30c34cf399fc7dae3ec538b23d
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:d0be939fdfb469e52e999eb65f39466d18f029984a782affa26322c9fec6db78
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:50831d9aaa69c4d2a8277d35650d3e2ad4832b4a04c0a089e715fd190fd8c273
+  - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup@sha256:7376d3c9b24947830dca9cada5da9926e15203204dfd183780d5fe88e684deb2
+  - container_image: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/serving
-  - container_image: gcr.io/knative-releases/log-sink@sha256:87da054374112c0e78c5a0bbcda09205c030507bde2d6629e5a32d593ff587ca
+  - container_image: gcr.io/knative-releases/log-sink:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/timer-source@sha256:ffa7dde82d5d30a3fd411ca7fda01e5a77157116c97cc17da0f7ac0b07032e93
+  - container_image: gcr.io/knative-releases/timer-source:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/transform-jsonata:v1.18.0@sha256:fd60d124074e146289f78a1c17d19ba338cc95c268c390741e22c05483a716d3
+  - container_image: gcr.io/knative-releases/transform-jsonata:v1.18.1
     sources:
       - license_path: LICENSE
-        ref: knative-v1.18.1
+        ref: knative-v1.18.3
         url: https://github.com/knative/eventing
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.19.1
     sources:

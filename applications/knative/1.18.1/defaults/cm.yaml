@@ -39,8 +39,10 @@ data:
         spec:
           # The version of Knative Serving to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#install-knative-serving
-          version: "1.18"
+          version: "1.18.1"
           config:
+            deployment:
+              registriesSkippingTagResolving: "gcr.io"
             istio:
               external-gateways: |
                 - name: knative-ingress-gateway
@@ -58,4 +60,7 @@ data:
         spec:
           # The version of Knative Eventing to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
-          version: "1.18"
+          version: "1.18.1"
+          deployment:
+            config:
+              registriesSkippingTagResolving: "gcr.io"
