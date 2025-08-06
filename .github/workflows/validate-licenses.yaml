@@ -1,7 +1,7 @@
 name: Check licenses.d2iq.yaml
 
 concurrency:
-  group: ci-${{ github.ref_name }}
+  group: ci-${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -16,6 +16,8 @@ on:
       - v*
     branches:
       - main
+    paths-ignore:
+      - '**/licenses.d2iq.yaml'
 jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
