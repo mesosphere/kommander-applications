@@ -57,39 +57,39 @@ def reverse_lookup_tag_from_digest(image_ref):
     """Reverse lookup to find the actual tag for a digest-based image reference."""
     if '@sha256:' not in image_ref:
         return image_ref  # Already a tagged image
-    
+
     # Check if this is a tagged image with digest (tag:version@sha256:...)
     if ':v' in image_ref and '@sha256:' in image_ref:
         # Extract just the tagged part (remove the digest)
         tagged_part = image_ref.split('@sha256:')[0]
         print(f"    Image already tagged, removing digest: {tagged_part}")
         return tagged_part
-    
+
     try:
         # Parse the image reference
         base_image, digest = image_ref.split('@sha256:', 1)
         digest = f'sha256:{digest}'
-        
+
         # Extract repository path from gcr.io/knative-releases/image:tag format
         if 'gcr.io/knative-releases/' not in base_image:
             return image_ref  # Not a knative image
-            
+
         repo_path = base_image.replace('gcr.io/knative-releases/', '')
-        
+
         # Query GCR API to get all tags for this repository
         api_url = f"https://gcr.io/v2/knative-releases/{repo_path}/tags/list"
-        
+
         content = run_curl(api_url)
         if not content:
             print(f"    Warning: Could not fetch tags for {repo_path}")
             return image_ref
-            
+
         try:
             tags_data = json.loads(content)
             if 'manifest' not in tags_data:
                 print(f"    Warning: No manifest data found for {repo_path}")
                 return image_ref
-                
+
             # Check if our digest exists in the manifest mapping
             if digest in tags_data['manifest']:
                 manifest_info = tags_data['manifest'][digest]
@@ -99,19 +99,19 @@ def reverse_lookup_tag_from_digest(image_ref):
                         if tag.startswith('v'):
                             print(f"    Found tag {tag} for digest {digest[:12]}...")
                             return f"{base_image}:{tag}"
-                    
+
                     # If no version tag found, use the first available tag
                     tag = manifest_info['tag'][0]
                     print(f"    Found tag {tag} for digest {digest[:12]}...")
                     return f"{base_image}:{tag}"
-                        
+
             print(f"    Warning: No matching tag found for digest {digest[:12]}...")
             return image_ref
-            
+
         except json.JSONDecodeError as e:
             print(f"    Warning: Error parsing tags response for {repo_path}: {e}")
             return image_ref
-            
+
     except Exception as e:
         print(f"    Warning: Error in reverse lookup for {image_ref}: {e}")
         return image_ref
@@ -164,7 +164,7 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
     """Generate registry override configuration for cm.yaml."""
     serving_overrides = []
     eventing_overrides = []
-    
+
     # Mapping from image paths to deployment/container names
     # Based on KNative operator deployment structure
     serving_image_mappings = {
@@ -177,7 +177,7 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
         'knative.dev/serving/pkg/cleanup/cmd/cleanup': 'storage-version-migration/migrate',
         'knative.dev/pkg/apiextensions/storageversion/cmd/migrate': 'storage-version-migration/migrate',
     }
-    
+
     eventing_image_mappings = {
         'knative.dev/eventing/cmd/controller': 'eventing-controller/eventing-controller',
         'knative.dev/eventing/cmd/webhook': 'eventing-webhook/eventing-webhook',
@@ -200,24 +200,24 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
         'timer-source': 'timer-source/timer-source',
         'transform-jsonata': 'transform-jsonata/transform-jsonata',
     }
-    
+
     # Process regular images
     for image in sorted(all_images):
         if '@sha256:' in image:
             continue  # Skip digest-based images that weren't converted
-            
+
         # Extract the image path after gcr.io/knative-releases/
         if 'gcr.io/knative-releases/' not in image:
             continue
-            
+
         image_path = image.replace('gcr.io/knative-releases/', '')
-        
+
         # Split into path and tag
         if ':' in image_path:
             path, tag = image_path.rsplit(':', 1)
         else:
             continue
-        
+
         # Look up the deployment/container name mapping
         deployment_container = None
         if path in serving_image_mappings:
@@ -235,32 +235,32 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
                 serving_overrides.append(f"              {deployment_container}: {image}")
             else:
                 eventing_overrides.append(f"              {deployment_container}: {image}")
-    
+
     # Process environment variable images (they keep the env var name as the key)
     for env_name, image in sorted(all_env_var_images.items()):
         if '@sha256:' in image:
             continue  # Skip digest-based images that weren't converted
-            
+
         # Environment variable images use the env var name as the key
         # Most env var images are eventing-related, but we can determine by the image path
         if 'knative.dev/serving' in image or 'knative.dev/pkg' in image:
             serving_overrides.append(f"              {env_name}: {image}")
         else:
             eventing_overrides.append(f"              {env_name}: {image}")
-    
+
     print("\n" + "="*70)
     print("REGISTRY OVERRIDE CONFIGURATION")
     print("="*70)
     print("Add this to applications/knative/{version}/defaults/cm.yaml:")
     print()
-    
+
     print("For serving section:")
     print("          registry:")
     print("            override:")
     print("              # Pin serving images to specific tagged versions")
     for override in serving_overrides:
         print(override)
-    
+
     print()
     print("For eventing section:")
     print("          registry:")
@@ -268,14 +268,14 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
     print("              # Pin eventing images to specific tagged versions")
     for override in eventing_overrides:
         print(override)
-    
+
     if all_env_var_images:
         print()
         print("Note: Environment variable images found:")
         for env_name, image in sorted(all_env_var_images.items()):
             print(f"  {env_name} -> {image}")
         print("These use the environment variable name as the registry override key.")
-    
+
     return serving_overrides, eventing_overrides
 
 
@@ -284,16 +284,16 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent.parent
     cm_file = repo_root / "applications" / "knative" / k_apps_version / "defaults" / "cm.yaml"
-    
+
     if not cm_file.exists():
         print(f"Warning: {cm_file} does not exist, skipping automatic update")
         return
-    
+
     print(f"\nUpdating {cm_file} with registry overrides...")
-    
+
     with open(cm_file, 'r') as f:
         content = f.read()
-    
+
     # Helper function to update registry overrides for a section
     def update_section_registry(content, section_name, overrides, comment):
         lines = content.split('\n')
@@ -302,10 +302,10 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
         in_target_section = False
         in_registry_section = False
         target_section_indent = 0
-        
+
         while i < len(lines):
             line = lines[i]
-            
+
             # Check if we're entering the target section (serving or eventing)
             if re.match(rf'    {section_name}:', line):
                 in_target_section = True
@@ -313,35 +313,35 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                 result_lines.append(line)
                 i += 1
                 continue
-            
+
             # Check if we're leaving the target section (next section at same level)
             if in_target_section and line.strip() and len(line) - len(line.lstrip()) <= target_section_indent and not line.startswith('    #'):
                 if not re.match(r'    [a-zA-Z]', line):
                     in_target_section = False
                 elif re.match(r'    [a-zA-Z]', line) and not line.startswith(f'    {section_name}'):
                     in_target_section = False
-            
+
             if in_target_section:
                 # Look for registry section start
                 if re.match(r'          registry:', line):
                     in_registry_section = True
                     result_lines.append(line)
                     i += 1
-                    
+
                     # Add override section header
                     if i < len(lines) and re.match(r'            override:', lines[i]):
                         result_lines.append(lines[i])
                         i += 1
-                        
+
                         # Skip existing override entries
                         while i < len(lines) and (re.match(r'              [#]', lines[i]) or re.match(r'              [a-zA-Z_]', lines[i])):
                             i += 1
-                        
+
                         # Add our overrides
                         result_lines.append(f'              # {comment}')
                         for override in overrides:
                             result_lines.append(override)
-                        
+
                         in_registry_section = False
                         continue
                     else:
@@ -353,26 +353,26 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                         in_registry_section = False
                         i += 1
                         continue
-                
+
                 # If we're not in a registry section, just copy the line
                 if not in_registry_section:
                     result_lines.append(line)
             else:
                 result_lines.append(line)
-            
+
             i += 1
-        
+
         return '\n'.join(result_lines)
-    
+
     # Update serving section
     content = update_section_registry(content, "serving", serving_overrides, "Pin serving images to specific tagged versions")
-    
+
     # Update eventing section
     content = update_section_registry(content, "eventing", eventing_overrides, "Pin eventing images to specific tagged versions")
-    
+
     with open(cm_file, 'w') as f:
         f.write(content)
-    
+
     print(f"Successfully updated {cm_file}")
 
 
@@ -420,7 +420,7 @@ def download_and_extract_images(files, component_name):
                 print(f"    Found {len(images)} images")
                 for img in images:
                     print(f"      {img}")
-            
+
             if env_var_images:
                 print(f"    Found {len(env_var_images)} env var images")
                 for env_name, img in env_var_images.items():
@@ -486,7 +486,7 @@ def main():
 
     # Generate registry overrides configuration
     serving_overrides, eventing_overrides = generate_registry_overrides(all_images, all_env_var_images, eventing_version, serving_version)
-    
+
     # Optionally update cm.yaml automatically
     try:
         update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides)
