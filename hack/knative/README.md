@@ -118,7 +118,7 @@ python3 hack/knative/update-licenses.py 1.19.0
 #### Command Line Arguments:
 ```bash
 --eventing-version  # Required: KNative eventing version (e.g., 1.18.1)
---serving-version   # Required: KNative serving version (e.g., 1.18.1)  
+--serving-version   # Required: KNative serving version (e.g., 1.18.1)
 --k-apps-version    # Optional: Kommander apps version (defaults to serving_version)
 ```
 
@@ -227,7 +227,7 @@ source venv/bin/activate
 
 # 2. Extract images and generate registry overrides
 python3 hack/knative/extract-images.py --eventing-version 1.19.0 --serving-version 1.19.0
-# Output: 
+# Output:
 #   - applications/knative/1.19.0/extra-images.txt (extracted images)
 #   - applications/knative/1.19.0/defaults/cm.yaml (updated with registry overrides)
 
@@ -323,7 +323,7 @@ export GITHUB_TOKEN=your_token_here
 ### Common Issues
 
 **Problem**: Virtual environment not activated
-**Solution**: 
+**Solution**:
 ```bash
 # Activate the virtual environment
 source venv/bin/activate
@@ -341,7 +341,7 @@ pip install requests pyyaml
 
 **Problem**: Network issues fetching manifests
 **Error**: `Error fetching https://api.github.com/repos/knative/operator/contents/...`
-**Solution**: 
+**Solution**:
 - Check internet connectivity
 - Verify GitHub API access
 
@@ -349,7 +349,7 @@ pip install requests pyyaml
 **Solution**: Run scripts from the repository root directory, not from the hack/knative/ directory.
 
 **Problem**: License validation failures
-**Solution**: 
+**Solution**:
 ```bash
 # Run license validation to check for issues
 make validate-licenses
