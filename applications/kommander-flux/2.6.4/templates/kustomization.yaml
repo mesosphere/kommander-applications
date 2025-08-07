@@ -1,0 +1,89 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - flux.yaml
+patches:
+  - target:
+      kind: Namespace
+      name: kommander-flux
+    patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          # Ensures that any labels to namespace are preserved if a user adds them manually.
+          kustomize.toolkit.fluxcd.io/ssa: "Merge"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: kustomize-controller
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --no-remote-bases=true
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=15
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 150Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2500m
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: helm-controller
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=OOMWatch=true
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 250Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 2Gi
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: source-controller
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 100Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: notification-controller
+    patch: |-
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: system-cluster-critical
