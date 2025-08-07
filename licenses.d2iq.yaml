@@ -477,30 +477,30 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-device-plugin
-  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubuntu20.04
+  - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu20.04}
+        ref: ${image_tag}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
   - container_image: nvcr.io/nvidia/k8s/container-toolkit:v1.17.8-ubi8
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubi8}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.2.0-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.2.3-4.2.0
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu22.04}
+        ref: ${image_tag}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-1-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-1-ubuntu22.04}
+        ref: v${image_tag}
         url: https://github.com/NVIDIA/dcgm
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.2-ubuntu20.04
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.2
     sources:
       - license_path: LICENSE
-        ref: ${image_tag%-ubuntu20.04}
+        ref: ${image_tag}
         url: https://github.com/NVIDIA/mig-parted
   - container_image: nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
     sources:
