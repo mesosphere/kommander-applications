@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nkp-insights-helmrelease
+  name: nkp-insights-management-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: false
   interval: 6h
-  path: ./applications/nkp-insights/1.6.6/helmrelease
+  path: ./applications/nkp-insights-management/1.6.7/helmrelease
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
