@@ -1,11 +1,16 @@
 # KNative Image Management Scripts
 
-This directory contains automation scripts for managing KNative Docker images and their license entries in the Kommander Applications repository.
+This directory contains automation scripts for managing KNative Docker images, registry overrides for air-gapped deployments, and license entries in the Kommander Applications repository.
 
 ## Scripts Overview
 
 ### `extract-images.py`
-Extracts Docker image references from KNative operator manifests by fetching YAML files from the official KNative operator repository.
+Extracts Docker image references from KNative operator manifests and automatically generates registry overrides for air-gapped deployments. Features include:
+- Multi-version support for eventing and serving components
+- Automatic registry override generation with deployment/container name mapping
+- Environment variable image detection and special formatting
+- Reverse digest-to-tag lookup using Google Container Registry API
+- Automatic cm.yaml configuration file updates
 
 ### `update-licenses.py`
 Updates the `licenses.d2iq.yaml` file with KNative images extracted by the first script, ensuring proper license compliance.
@@ -34,31 +39,43 @@ pip install docker-image-py
 
 ## Usage
 
-### Step 1: Extract KNative Images
+### Step 1: Extract KNative Images and Generate Registry Overrides
 
 ```bash
 # Activate virtual environment
 source venv/bin/activate
 
-# Extract images for a specific KNative version
-python3 hack/knative/extract-images.py <version>
+# Extract images and generate registry overrides for specific versions
+python3 hack/knative/extract-images.py --eventing-version <eventing_version> --serving-version <serving_version> [--k-apps-version <k_apps_version>]
 
 # Examples:
-python3 hack/knative/extract-images.py 1.18.1
-python3 hack/knative/extract-images.py 1.19.0
+python3 hack/knative/extract-images.py --eventing-version 1.18.1 --serving-version 1.18.1
+python3 hack/knative/extract-images.py --eventing-version 1.18.1 --serving-version 1.18.1 --k-apps-version 1.18.1
+python3 hack/knative/extract-images.py --eventing-version 1.19.0 --serving-version 1.19.0
 ```
 
 **What it does:**
-- Fetches YAML manifests from knative/operator repository
-- Scans both knative-eventing and knative-serving components
-- Extracts Docker image references using multiple regex patterns
+- Fetches YAML manifests from knative/operator repository for both eventing and serving
+- Extracts Docker image references using multiple advanced patterns including environment variables
 - Validates image references using docker-image-py
-- Saves results to applications/knative/{version}/extra-images.txt
+- Performs reverse digest-to-tag lookup using Google Container Registry API v2
+- Generates deployment/container name mappings for proper registry override format
+- Automatically updates cm.yaml with properly formatted registry overrides
+- Preserves existing config sections (deployment, istio, features, autoscaler)
+- Saves extracted images to applications/knative/{version}/extra-images.txt
 
 **Output:**
 ```
-applications/knative/1.18.1/extra-images.txt
+applications/knative/1.18.1/extra-images.txt                    # Raw image list
+applications/knative/1.18.1/defaults/cm.yaml                   # Updated with registry overrides
 ```
+
+**New Registry Override Features:**
+- **Deployment/Container Format**: Uses proper `deployment-name/container-name` format instead of image paths
+- **Environment Variable Handling**: Environment variable images use env var names as keys (e.g., `APISERVER_RA_IMAGE`)
+- **No Duplicates**: Properly replaces existing registry sections without creating duplicates
+- **Config Preservation**: Maintains critical config sections like `registriesSkippingTagResolving`
+- **Comprehensive Mapping**: Covers both serving and eventing components with accurate deployment mappings
 
 ### Step 2: Update License File
 
@@ -79,13 +96,6 @@ python3 hack/knative/update-licenses.py 1.19.0
 - Uses proper version-specific ref format for all entries
 - Maps images to correct GitHub repositories
 
-**Key Features:**
-- **Clean replacement**: Removes all existing KNative entries and adds fresh ones
-- **No deduplication**: Processes every image in extra-images.txt, including duplicates
-- **Source of truth**: Uses extra-images.txt + version parameter as definitive source
-- **Operator image management**: Automatically includes operator images with correct versioning
-- **Positioning**: Places operator images first, followed by extra-images.txt content
-
 **Output:**
 - Updates licenses.d2iq.yaml with current image digests and version refs
 
@@ -95,16 +105,51 @@ python3 hack/knative/update-licenses.py 1.19.0
 
 ### `extract-images.py`
 
-#### Features:
-- Multi-pattern extraction: Uses both standard image: patterns and @sha256 digest patterns
-- Comprehensive scanning: Covers ConfigMaps, EnvVars, and standard Kubernetes manifests
-- Docker validation: Validates all extracted strings as proper Docker image references
-- GitHub API integration: Fetches live manifests from the official KNative operator repository
+#### Major Features:
+- **Multi-version support**: Separate eventing and serving version specification
+- **Advanced image extraction**: Multiple patterns for standard images, digests, and environment variables
+- **Registry override generation**: Creates properly formatted registry overrides for air-gapped deployments
+- **Digest-to-tag conversion**: Uses Google Container Registry API v2 to convert digest references to tagged versions
+- **Automatic cm.yaml updates**: Updates configuration files with registry overrides while preserving existing config
+- **Environment variable detection**: Special handling for images defined in environment variables
+- **Docker validation**: Validates all extracted strings as proper Docker image references
+- **GitHub API integration**: Fetches live manifests from the official KNative operator repository
+
+#### Command Line Arguments:
+```bash
+--eventing-version  # Required: KNative eventing version (e.g., 1.18.1)
+--serving-version   # Required: KNative serving version (e.g., 1.18.1)
+--k-apps-version    # Optional: Kommander apps version (defaults to serving_version)
+```
 
 #### Image Extraction Patterns:
-1. Standard image references: image: gcr.io/knative-releases/...
-2. Digest references: gcr.io/knative-releases/...@sha256:...
-3. Embedded references: Images referenced in ConfigMaps or environment variables
+1. **Standard image references**: `image: gcr.io/knative-releases/...`
+2. **Digest references**: `gcr.io/knative-releases/...@sha256:...` (converted to tagged versions)
+3. **Environment variable images**: Detected via pattern `name: IMAGE_NAME\nvalue: image-reference`
+4. **ConfigMap references**: Images referenced in ConfigMaps or other resources
+
+#### Registry Override Generation:
+- **Deployment/Container Format**: Converts image paths to `deployment-name/container-name` format
+- **Environment Variable Keys**: Environment variable images use env var names as keys
+- **Comprehensive Mappings**: Covers both serving and eventing components with accurate deployment mappings
+- **Config Preservation**: Maintains essential config sections like `registriesSkippingTagResolving`, `istio`, `features`
+
+#### Example Registry Override Output:
+```yaml
+serving:
+  manifest:
+    spec:
+      registry:
+        override:
+          # Pin serving images to specific tagged versions
+          activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.18.1
+          autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.18.1
+          controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.18.1
+      config:
+        deployment:
+          registriesSkippingTagResolving: "gcr.io"
+        # ... other config preserved
+```
 
 #### Repository Structure:
 ```
@@ -180,9 +225,11 @@ Complete workflow for updating KNative images to version 1.19.0:
 # 1. Set up environment
 source venv/bin/activate
 
-# 2. Extract images from KNative operator manifests
-python3 hack/knative/extract-images.py 1.19.0
-# Output: applications/knative/1.19.0/extra-images.txt (28 images)
+# 2. Extract images and generate registry overrides
+python3 hack/knative/extract-images.py --eventing-version 1.19.0 --serving-version 1.19.0
+# Output:
+#   - applications/knative/1.19.0/extra-images.txt (extracted images)
+#   - applications/knative/1.19.0/defaults/cm.yaml (updated with registry overrides)
 
 # 3. Update license file
 python3 hack/knative/update-licenses.py 1.19.0
@@ -194,16 +241,23 @@ make validate-licenses
 
 ### Expected Output:
 ```
-Found 28 images in extra-images.txt
-Removed 30 existing KNative entries
-Added 30 KNative entries after Velero
+Extract Images Script:
+  Extracting Docker images from KNative operator manifests
+  Eventing version: 1.19.0
+  Serving version: 1.19.0
+  ======================================================================
+  Found 28 images in eventing and serving manifests
+  Generated registry overrides with deployment/container format
+  Updated applications/knative/1.19.0/defaults/cm.yaml (preserved config sections)
 
-Updated licenses.d2iq.yaml:
-  - Removed 30 existing KNative entries
-  - Added 30 new KNative entries
-  - Used version: knative-v1.19.0
-  - Operator images: 2
-  - Extra images: 28
+Update Licenses Script:
+  Found 28 images in extra-images.txt
+  Removed 30 existing KNative entries
+  Added 30 KNative entries after Velero
+  Updated licenses.d2iq.yaml:
+    - Operator images: 2
+    - Extra images: 28
+    - Used version: knative-v1.19.0
 ```
 
 ---
@@ -227,52 +281,79 @@ licenses.d2iq.yaml               # Updated license file
 
 ## Troubleshooting
 
-### Common Issues:
+### Registry Override Issues
 
-1. Virtual environment not activated
-   ```bash
-   # Solution: Activate the virtual environment
-   source venv/bin/activate
-   ```
+**Problem**: Config sections are missing after running extract-images.py
+**Solution**: The script now preserves all non-registry-override content in cm.yaml using line-by-line processing. Check that your cm.yaml has the expected config sections intact.
 
-2. Missing docker-image-py dependency
-   ```bash
-   # Solution: Install the required dependency
-   pip install docker-image-py
-   ```
+**Problem**: Registry overrides in wrong format
+**Solution**: Ensure you're using the latest version of extract-images.py. The script now generates overrides in the correct deployment/container format:
+```yaml
+registry:
+  override:
+    eventing-controller/eventing-controller: my-registry.com/gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.19.0
+    eventing-webhook/eventing-webhook: my-registry.com/gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.0
+```
 
-3. Invalid KNative version
-   ```
-   Error: applications/knative/1.99.0/extra-images.txt not found
-   ```
-   - Check available versions at: https://github.com/knative/operator/releases
+**Problem**: Duplicate registry sections being created
+**Solution**: The script now detects existing registry override sections and updates them in place instead of creating duplicates.
 
-4. Network issues fetching manifests
-   ```
-   Error fetching https://api.github.com/repos/knative/operator/contents/...
-   ```
-   - Check internet connectivity
-   - Verify GitHub API access
+### Image Extraction Issues
 
-5. License validation failures
-   ```bash
-   # Run license validation to check for issues
-   make validate-licenses
-   ```
+**Problem**: Script fails with "Could not find tag for digest"
+**Solution**: Some images may not have tags in the GCR API. The script will log these cases and continue processing other images.
 
-6. Missing images in license file
-   ```bash
-   # Check if all images from extra-images.txt are included
-   wc -l applications/knative/1.19.0/extra-images.txt  # Should match extra images count
-   grep -c "gcr.io/knative-releases/" licenses.d2iq.yaml  # Should be extra + 2 operators
-   ```
+**Problem**: Environment variable images not detected
+**Solution**: Check that environment variables follow the pattern `*_IMAGE` in the YAML manifests. The script looks for this specific pattern and treats them specially.
 
-7. Wrong version references
-   ```bash
-   # Check version consistency
-   grep "knative-v" licenses.d2iq.yaml | head -5  # Should show current version
-   grep "knative-\${image_tag}" licenses.d2iq.yaml  # Should show exactly 2 (operators)
-   ```
+**Problem**: GitHub API rate limiting
+**Solution**: Set up a GitHub token in your environment to increase rate limits:
+```bash
+export GITHUB_TOKEN=your_token_here
+```
+
+### License Update Issues
+
+**Problem**: Wrong number of images in licenses.d2iq.yaml
+**Solution**: Verify that extra-images.txt exists and contains the expected number of images. The update-licenses.py script counts operator images (typically 2) plus extracted images.
+
+**Problem**: Images not found in correct order
+**Solution**: The script inserts KNative entries after Velero entries in the license file. Ensure Velero entries exist as landmarks.
+
+### Common Issues
+
+**Problem**: Virtual environment not activated
+**Solution**:
+```bash
+# Activate the virtual environment
+source venv/bin/activate
+```
+
+**Problem**: Missing dependencies
+**Solution**: Install the required dependencies:
+```bash
+pip install requests pyyaml
+```
+
+**Problem**: Invalid KNative version
+**Error**: `applications/knative/1.99.0/extra-images.txt not found`
+**Solution**: Check available versions at: https://github.com/knative/operator/releases
+
+**Problem**: Network issues fetching manifests
+**Error**: `Error fetching https://api.github.com/repos/knative/operator/contents/...`
+**Solution**:
+- Check internet connectivity
+- Verify GitHub API access
+
+**Problem**: File not found errors
+**Solution**: Run scripts from the repository root directory, not from the hack/knative/ directory.
+
+**Problem**: License validation failures
+**Solution**:
+```bash
+# Run license validation to check for issues
+make validate-licenses
+```
 
 ### Debug Information:
 
