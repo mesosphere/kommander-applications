@@ -355,11 +355,6 @@ resources:
       - license_path: LICENSE
         ref: release-1.18
         url: https://github.com/knative/pkg
-  - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate@sha256:4446c18c763149a3ac93ab49868a8085c5163558b70542dfd6f2337ec3b4c985
-    sources:
-      - license_path: LICENSE
-        ref: release-1.18
-        url: https://github.com/knative/pkg
   - container_image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.18.1
     sources:
       - license_path: LICENSE
