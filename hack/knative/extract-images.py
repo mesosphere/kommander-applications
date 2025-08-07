@@ -147,6 +147,136 @@ def extract_images_from_yaml(yaml_content):
     return sorted(images)
 
 
+def generate_registry_overrides(all_images, eventing_version, serving_version):
+    """Generate registry override configuration for cm.yaml."""
+    serving_overrides = []
+    eventing_overrides = []
+    
+    for image in sorted(all_images):
+        if '@sha256:' in image:
+            continue  # Skip digest-based images that weren't converted
+            
+        # Extract the image path after gcr.io/knative-releases/
+        if 'gcr.io/knative-releases/' not in image:
+            continue
+            
+        image_path = image.replace('gcr.io/knative-releases/', '')
+        
+        # Split into path and tag
+        if ':' in image_path:
+            path, tag = image_path.rsplit(':', 1)
+        else:
+            continue
+            
+        # Determine if this is a serving or eventing image
+        if 'knative.dev/serving' in path:
+            serving_overrides.append(f"              {path}: {image}")
+        elif 'knative.dev/eventing' in path:
+            eventing_overrides.append(f"              {path}: {image}")
+        elif 'knative.dev/pkg' in path:
+            # pkg images are used by serving
+            serving_overrides.append(f"              {path}: {image}")
+        else:
+            # Standalone images like aws-*, log-sink, timer-source, transform-jsonata
+            # These are typically eventing-related
+            image_name = path.split('/')[-1] if '/' in path else path
+            eventing_overrides.append(f"              {image_name}: {image}")
+    
+    print("\n" + "="*70)
+    print("REGISTRY OVERRIDE CONFIGURATION")
+    print("="*70)
+    print("Add this to applications/knative/{version}/defaults/cm.yaml:")
+    print()
+    
+    print("For serving section:")
+    print("          registry:")
+    print("            override:")
+    print("              # Pin serving images to specific tagged versions")
+    for override in serving_overrides:
+        print(override)
+    
+    print()
+    print("For eventing section:")
+    print("          registry:")
+    print("            override:")
+    print("              # Pin eventing images to specific tagged versions")
+    for override in eventing_overrides:
+        print(override)
+    
+    return serving_overrides, eventing_overrides
+
+
+def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
+    """Update the cm.yaml file with registry overrides."""
+    script_dir = Path(__file__).parent
+    repo_root = script_dir.parent.parent
+    cm_file = repo_root / "applications" / "knative" / k_apps_version / "defaults" / "cm.yaml"
+    
+    if not cm_file.exists():
+        print(f"Warning: {cm_file} does not exist, skipping automatic update")
+        return
+    
+    print(f"\nUpdating {cm_file} with registry overrides...")
+    
+    with open(cm_file, 'r') as f:
+        content = f.read()
+    
+    # Helper function to update registry overrides for a section
+    def update_section_registry(content, section_name, overrides, comment):
+        # Build replacement text for overrides
+        overrides_text = f'          registry:\n            override:\n              # {comment}\n'
+        for override in overrides:
+            overrides_text += override + '\n'
+        
+        # Find the section boundary - look for the next top-level section or end of content
+        section_start_pattern = rf'(    {section_name}:)'
+        section_match = re.search(section_start_pattern, content)
+        if not section_match:
+            print(f"Warning: Could not find {section_name} section")
+            return content
+        
+        section_start = section_match.start()
+        
+        # Find the end of this section (next section starting with 4 spaces or end of content)
+        remaining_content = content[section_start:]
+        next_section_pattern = r'\n    [a-zA-Z]'
+        next_section_match = re.search(next_section_pattern, remaining_content[20:])  # Skip first 20 chars to avoid matching our own section
+        
+        if next_section_match:
+            section_end = section_start + 20 + next_section_match.start() + 1  # +1 to include the newline
+        else:
+            section_end = len(content)
+        
+        section_content = content[section_start:section_end]
+        
+        # Check if registry section already exists in this section
+        existing_registry_pattern = r'(.*?          version: "[^"]+").*?          registry:\s*\n            override:\s*\n((?:              .*\n)*)'
+        existing_match = re.search(existing_registry_pattern, section_content, flags=re.DOTALL)
+        
+        if existing_match:
+            # Replace existing registry section
+            new_section_content = re.sub(existing_registry_pattern, rf'\1\n{overrides_text}', section_content, flags=re.DOTALL)
+        else:
+            # Add new registry section after version line
+            version_pattern = r'(          version: "[^"]+")'
+            new_section_content = re.sub(version_pattern, rf'\1\n{overrides_text.rstrip()}', section_content)
+        
+        # Replace the section in the full content
+        new_content = content[:section_start] + new_section_content + content[section_end:]
+        return new_content
+    
+    # Update serving section
+    content = update_section_registry(content, "serving", serving_overrides, "Pin serving images to specific tagged versions")
+    
+    # Update eventing section
+    content = update_section_registry(content, "eventing", eventing_overrides, "Pin eventing images to specific tagged versions")
+    
+    with open(cm_file, 'w') as f:
+        f.write(content)
+    
+    print(f"Successfully updated {cm_file}")
+
+
 def get_yaml_files_from_github_dir(repo_path, version):
     """Get list of YAML files from a GitHub directory."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{repo_path}/{version}"
@@ -244,6 +374,15 @@ def main():
     with open(output_file, 'w') as f:
         for image in sorted(all_images):
             f.write(f"{image}\n")
+
+    # Generate registry overrides configuration
+    serving_overrides, eventing_overrides = generate_registry_overrides(all_images, eventing_version, serving_version)
+    
+    # Optionally update cm.yaml automatically
+    try:
+        update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides)
+    except Exception as e:
+        print(f"Warning: Could not automatically update cm.yaml: {e}")
 
     print(f"\nResults:")
     print("=" * 20)
