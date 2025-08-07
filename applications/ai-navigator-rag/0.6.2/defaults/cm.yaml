@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-rag-0.6.1-config-defaults
+  name: ai-navigator-rag-0.6.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -12,6 +12,5 @@ data:
     auth:
       enabled: false
     image:
-      chatbot:
-        repository: "mesosphere/ai-navigator-rag"
-      tag: "0.6.1"
+      # NOTE: When empty, the chart appVersion is used for a tag.
+      tag: "v0.6.2"
