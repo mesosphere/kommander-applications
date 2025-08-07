@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.6.6-config-defaults
+  name: nkp-insights-1.6.7-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -160,7 +160,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.6.6
+      tag: 1.6.7
     initdb:
       resources:
         limits:
@@ -309,7 +309,7 @@ data:
             cpu: 100m
             memory: 512Mi
       schedule: '@every 35m'
-    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+    kubectlImage: bitnamilegacy/kubectl:1.33.2
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
@@ -355,10 +355,10 @@ data:
       resources:
         limits:
           cpu: 100m
-          memory: 128Mi
+          memory: 512Mi
         requests:
           cpu: 100m
-          memory: 128Mi
+          memory: 256Mi
       schedule: '@every 41m'
       upload:
         logLevel: INFO
@@ -430,6 +430,7 @@ data:
         maxIdleConnections: 30
         maxOpenConnections: 50
       database: nkp-insights
+      enablePDB: false
       image:
         registry: ghcr.io
         repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
