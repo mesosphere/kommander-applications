@@ -12,5 +12,4 @@ data:
     auth:
       enabled: false
     image:
-      # NOTE: When empty, the chart appVersion is used for a tag.
-      tag: "v0.6.2"
+      tag: "0.6.2"
