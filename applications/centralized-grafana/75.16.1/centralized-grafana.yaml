@@ -7,7 +7,7 @@ spec:
   interval: 10m
   url: "oci://ghcr.io/mesosphere/charts/kube-prometheus-stack"
   ref:
-    tag: 75.9.1
+    tag: 75.16.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,7 +32,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-75.9.1-config-defaults
+      name: centralized-grafana-75.16.1-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
@@ -50,4 +50,4 @@ data:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, find the Grafana app version:
   # https://artifacthub.io/packages/helm/grafana/grafana/6.57.2
-  version: "12.0.2"
+  version: "12.1.0"
