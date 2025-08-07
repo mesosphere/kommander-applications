@@ -165,6 +165,42 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
     serving_overrides = []
     eventing_overrides = []
     
+    # Mapping from image paths to deployment/container names
+    # Based on KNative operator deployment structure
+    serving_image_mappings = {
+        'knative.dev/serving/cmd/activator': 'activator/activator',
+        'knative.dev/serving/cmd/autoscaler': 'autoscaler/autoscaler',
+        'knative.dev/serving/cmd/autoscaler-hpa': 'autoscaler-hpa/autoscaler-hpa',
+        'knative.dev/serving/cmd/controller': 'controller/controller',
+        'knative.dev/serving/cmd/webhook': 'webhook/webhook',
+        'knative.dev/serving/cmd/queue': 'queue-proxy/queue-proxy',
+        'knative.dev/serving/pkg/cleanup/cmd/cleanup': 'storage-version-migration/migrate',
+        'knative.dev/pkg/apiextensions/storageversion/cmd/migrate': 'storage-version-migration/migrate',
+    }
+    
+    eventing_image_mappings = {
+        'knative.dev/eventing/cmd/controller': 'eventing-controller/eventing-controller',
+        'knative.dev/eventing/cmd/webhook': 'eventing-webhook/eventing-webhook',
+        'knative.dev/eventing/cmd/apiserver_receive_adapter': 'apiserver-source-adapter/apiserver-source-adapter',
+        'knative.dev/eventing/cmd/jobsink': 'job-sink/job-sink',
+        'knative.dev/eventing/cmd/mtping': 'mt-ping/mt-ping',
+        'knative.dev/eventing/cmd/in_memory/channel_controller': 'imc-controller/controller',
+        'knative.dev/eventing/cmd/in_memory/channel_dispatcher': 'imc-dispatcher/dispatcher',
+        'knative.dev/eventing/cmd/broker/filter': 'mt-broker-filter/filter',
+        'knative.dev/eventing/cmd/broker/ingress': 'mt-broker-ingress/ingress',
+        'knative.dev/eventing/cmd/mtchannel_broker': 'mt-broker-controller/mt-broker-controller',
+        # Standalone source images - these use their simple names
+        'aws-ddb-streams-source': 'aws-ddb-streams-source/aws-ddb-streams-source',
+        'aws-s3-sink': 'aws-s3-sink/aws-s3-sink',
+        'aws-s3-source': 'aws-s3-source/aws-s3-source',
+        'aws-sns-sink': 'aws-sns-sink/aws-sns-sink',
+        'aws-sqs-sink': 'aws-sqs-sink/aws-sqs-sink',
+        'aws-sqs-source': 'aws-sqs-source/aws-sqs-source',
+        'log-sink': 'log-sink/log-sink',
+        'timer-source': 'timer-source/timer-source',
+        'transform-jsonata': 'transform-jsonata/transform-jsonata',
+    }
+    
     # Process regular images
     for image in sorted(all_images):
         if '@sha256:' in image:
@@ -181,22 +217,26 @@ def generate_registry_overrides(all_images, all_env_var_images, eventing_version
             path, tag = image_path.rsplit(':', 1)
         else:
             continue
-            
-        # Determine if this is a serving or eventing image
-        if 'knative.dev/serving' in path:
-            serving_overrides.append(f"              {path}: {image}")
-        elif 'knative.dev/eventing' in path:
-            eventing_overrides.append(f"              {path}: {image}")
-        elif 'knative.dev/pkg' in path:
-            # pkg images are used by serving
-            serving_overrides.append(f"              {path}: {image}")
+        
+        # Look up the deployment/container name mapping
+        deployment_container = None
+        if path in serving_image_mappings:
+            deployment_container = serving_image_mappings[path]
+            serving_overrides.append(f"              {deployment_container}: {image}")
+        elif path in eventing_image_mappings:
+            deployment_container = eventing_image_mappings[path]
+            eventing_overrides.append(f"              {deployment_container}: {image}")
         else:
-            # Standalone images like aws-*, log-sink, timer-source, transform-jsonata
-            # These are typically eventing-related
+            # For unknown images, try to extract the last component as both deployment and container
             image_name = path.split('/')[-1] if '/' in path else path
-            eventing_overrides.append(f"              {image_name}: {image}")
+            deployment_container = f"{image_name}/{image_name}"
+            # Determine if it's serving or eventing based on the path
+            if 'knative.dev/serving' in path or 'knative.dev/pkg' in path:
+                serving_overrides.append(f"              {deployment_container}: {image}")
+            else:
+                eventing_overrides.append(f"              {deployment_container}: {image}")
     
-    # Process environment variable images (they use a different format)
+    # Process environment variable images (they keep the env var name as the key)
     for env_name, image in sorted(all_env_var_images.items()):
         if '@sha256:' in image:
             continue  # Skip digest-based images that weren't converted
@@ -256,47 +296,73 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
     
     # Helper function to update registry overrides for a section
     def update_section_registry(content, section_name, overrides, comment):
-        # Build replacement text for overrides
-        overrides_text = f'          registry:\n            override:\n              # {comment}\n'
-        for override in overrides:
-            overrides_text += override + '\n'
+        lines = content.split('\n')
+        result_lines = []
+        i = 0
+        in_target_section = False
+        in_registry_section = False
+        target_section_indent = 0
         
-        # Find the section boundary - look for the next top-level section or end of content
-        section_start_pattern = rf'(    {section_name}:)'
-        section_match = re.search(section_start_pattern, content)
-        if not section_match:
-            print(f"Warning: Could not find {section_name} section")
-            return content
+        while i < len(lines):
+            line = lines[i]
+            
+            # Check if we're entering the target section (serving or eventing)
+            if re.match(rf'    {section_name}:', line):
+                in_target_section = True
+                target_section_indent = len(line) - len(line.lstrip())
+                result_lines.append(line)
+                i += 1
+                continue
+            
+            # Check if we're leaving the target section (next section at same level)
+            if in_target_section and line.strip() and len(line) - len(line.lstrip()) <= target_section_indent and not line.startswith('    #'):
+                if not re.match(r'    [a-zA-Z]', line):
+                    in_target_section = False
+                elif re.match(r'    [a-zA-Z]', line) and not line.startswith(f'    {section_name}'):
+                    in_target_section = False
+            
+            if in_target_section:
+                # Look for registry section start
+                if re.match(r'          registry:', line):
+                    in_registry_section = True
+                    result_lines.append(line)
+                    i += 1
+                    
+                    # Add override section header
+                    if i < len(lines) and re.match(r'            override:', lines[i]):
+                        result_lines.append(lines[i])
+                        i += 1
+                        
+                        # Skip existing override entries
+                        while i < len(lines) and (re.match(r'              [#]', lines[i]) or re.match(r'              [a-zA-Z_]', lines[i])):
+                            i += 1
+                        
+                        # Add our overrides
+                        result_lines.append(f'              # {comment}')
+                        for override in overrides:
+                            result_lines.append(override)
+                        
+                        in_registry_section = False
+                        continue
+                    else:
+                        # Add new override section
+                        result_lines.append('            override:')
+                        result_lines.append(f'              # {comment}')
+                        for override in overrides:
+                            result_lines.append(override)
+                        in_registry_section = False
+                        i += 1
+                        continue
+                
+                # If we're not in a registry section, just copy the line
+                if not in_registry_section:
+                    result_lines.append(line)
+            else:
+                result_lines.append(line)
+            
+            i += 1
         
-        section_start = section_match.start()
-        
-        # Find the end of this section (next section starting with 4 spaces or end of content)
-        remaining_content = content[section_start:]
-        next_section_pattern = r'\n    [a-zA-Z]'
-        next_section_match = re.search(next_section_pattern, remaining_content[20:])  # Skip first 20 chars to avoid matching our own section
-        
-        if next_section_match:
-            section_end = section_start + 20 + next_section_match.start() + 1  # +1 to include the newline
-        else:
-            section_end = len(content)
-        
-        section_content = content[section_start:section_end]
-        
-        # Check if registry section already exists in this section
-        existing_registry_pattern = r'(.*?          version: "[^"]+").*?          registry:\s*\n            override:\s*\n((?:              .*\n)*)'
-        existing_match = re.search(existing_registry_pattern, section_content, flags=re.DOTALL)
-        
-        if existing_match:
-            # Replace existing registry section
-            new_section_content = re.sub(existing_registry_pattern, rf'\1\n{overrides_text}', section_content, flags=re.DOTALL)
-        else:
-            # Add new registry section after version line
-            version_pattern = r'(          version: "[^"]+")'
-            new_section_content = re.sub(version_pattern, rf'\1\n{overrides_text.rstrip()}', section_content)
-        
-        # Replace the section in the full content
-        new_content = content[:section_start] + new_section_content + content[section_end:]
-        return new_content
+        return '\n'.join(result_lines)
     
     # Update serving section
     content = update_section_registry(content, "serving", serving_overrides, "Pin serving images to specific tagged versions")
