@@ -119,12 +119,25 @@ def reverse_lookup_tag_from_digest(image_ref):
 def extract_images_from_yaml(yaml_content):
     """Extract Docker image references from YAML content and do reverse lookup for actual tags."""
     images = set()
+    env_var_images = {}  # {env_var_name: image_reference}
 
     # Pattern 1: Standard image references
     image_pattern = r'^\s*image:\s*["\']?([^"\'\s#]+)["\']?\s*(?:#.*)?$'
 
     # Pattern 2: Digest references (ConfigMaps, EnvVars, etc.)
     sha256_pattern = r'([a-zA-Z0-9.-]+(?:/[a-zA-Z0-9._-]+)*(?::[a-zA-Z0-9._-]+)?@sha256:[a-f0-9]{64})'
+
+    # Pattern 3: Environment variable image references
+    env_var_pattern = r'^\s*-\s*name:\s*([A-Z_]+_IMAGE)\s*\n\s*value:\s*([^\s#]+)'
+
+    # Check for environment variable image patterns first (multi-line)
+    env_matches = re.findall(env_var_pattern, yaml_content, re.MULTILINE)
+    for env_name, image_ref in env_matches:
+        if is_valid_docker_image(image_ref):
+            # Do reverse lookup to find actual tag
+            actual_image = reverse_lookup_tag_from_digest(image_ref)
+            env_var_images[env_name] = actual_image
+            print(f"    Found env var image: {env_name} -> {actual_image}")
 
     for line in yaml_content.split('\n'):
         # Check for standard image references
@@ -144,14 +157,15 @@ def extract_images_from_yaml(yaml_content):
                 actual_image = reverse_lookup_tag_from_digest(match)
                 images.add(actual_image)
 
-    return sorted(images)
+    return sorted(images), env_var_images
 
 
-def generate_registry_overrides(all_images, eventing_version, serving_version):
+def generate_registry_overrides(all_images, all_env_var_images, eventing_version, serving_version):
     """Generate registry override configuration for cm.yaml."""
     serving_overrides = []
     eventing_overrides = []
     
+    # Process regular images
     for image in sorted(all_images):
         if '@sha256:' in image:
             continue  # Skip digest-based images that weren't converted
@@ -182,6 +196,18 @@ def generate_registry_overrides(all_images, eventing_version, serving_version):
             image_name = path.split('/')[-1] if '/' in path else path
             eventing_overrides.append(f"              {image_name}: {image}")
     
+    # Process environment variable images (they use a different format)
+    for env_name, image in sorted(all_env_var_images.items()):
+        if '@sha256:' in image:
+            continue  # Skip digest-based images that weren't converted
+            
+        # Environment variable images use the env var name as the key
+        # Most env var images are eventing-related, but we can determine by the image path
+        if 'knative.dev/serving' in image or 'knative.dev/pkg' in image:
+            serving_overrides.append(f"              {env_name}: {image}")
+        else:
+            eventing_overrides.append(f"              {env_name}: {image}")
+    
     print("\n" + "="*70)
     print("REGISTRY OVERRIDE CONFIGURATION")
     print("="*70)
@@ -202,6 +228,13 @@ def generate_registry_overrides(all_images, eventing_version, serving_version):
     print("              # Pin eventing images to specific tagged versions")
     for override in eventing_overrides:
         print(override)
+    
+    if all_env_var_images:
+        print()
+        print("Note: Environment variable images found:")
+        for env_name, image in sorted(all_env_var_images.items()):
+            print(f"  {env_name} -> {image}")
+        print("These use the environment variable name as the registry override key.")
     
     return serving_overrides, eventing_overrides
 
@@ -304,6 +337,7 @@ def get_yaml_files_from_github_dir(repo_path, version):
 def download_and_extract_images(files, component_name):
     """Download YAML files and extract images."""
     all_images = set()
+    all_env_var_images = {}
 
     print(f"\nProcessing {component_name} manifests...")
 
@@ -312,17 +346,23 @@ def download_and_extract_images(files, component_name):
 
         yaml_content = run_curl(file_info['download_url'])
         if yaml_content:
-            images = extract_images_from_yaml(yaml_content)
+            images, env_var_images = extract_images_from_yaml(yaml_content)
             all_images.update(images)
+            all_env_var_images.update(env_var_images)
 
             if images:
                 print(f"    Found {len(images)} images")
                 for img in images:
                     print(f"      {img}")
+            
+            if env_var_images:
+                print(f"    Found {len(env_var_images)} env var images")
+                for env_name, img in env_var_images.items():
+                    print(f"      {env_name} -> {img}")
         else:
             print(f"    Error downloading {file_info['name']}")
 
-    return all_images
+    return all_images, all_env_var_images
 
 def main():
     parser = argparse.ArgumentParser(description='Extract Docker images from KNative operator manifests')
@@ -342,14 +382,16 @@ def main():
     print("=" * 70)
 
     all_images = set()
+    all_env_var_images = {}
 
     # Process knative-eventing
     print("Fetching knative-eventing file list...")
     eventing_files = get_yaml_files_from_github_dir("knative-eventing", eventing_version)
     if eventing_files:
         print(f"Found {len(eventing_files)} eventing files")
-        eventing_images = download_and_extract_images(eventing_files, "knative-eventing")
+        eventing_images, eventing_env_vars = download_and_extract_images(eventing_files, "knative-eventing")
         all_images.update(eventing_images)
+        all_env_var_images.update(eventing_env_vars)
     else:
         print("No knative-eventing files found")
 
@@ -358,8 +400,9 @@ def main():
     serving_files = get_yaml_files_from_github_dir("knative-serving", serving_version)
     if serving_files:
         print(f"Found {len(serving_files)} serving files")
-        serving_images = download_and_extract_images(serving_files, "knative-serving")
+        serving_images, serving_env_vars = download_and_extract_images(serving_files, "knative-serving")
         all_images.update(serving_images)
+        all_env_var_images.update(serving_env_vars)
     else:
         print("No knative-serving files found")
 
@@ -376,7 +419,7 @@ def main():
             f.write(f"{image}\n")
 
     # Generate registry overrides configuration
-    serving_overrides, eventing_overrides = generate_registry_overrides(all_images, eventing_version, serving_version)
+    serving_overrides, eventing_overrides = generate_registry_overrides(all_images, all_env_var_images, eventing_version, serving_version)
     
     # Optionally update cm.yaml automatically
     try:
