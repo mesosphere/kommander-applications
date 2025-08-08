@@ -69,6 +69,23 @@ data:
       namespace: knative-eventing
       manifest:
         spec:
+          deployments:
+            - name: eventing-webhook
+              replicas: 3
+              podTemplate:
+                spec:
+                  affinity:
+                    podAntiAffinity:
+                      preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 1
+                          podAffinityTerm:
+                            labelSelector:
+                              matchLabels:
+                                app: eventing-webhook
+                            topologyKey: kubernetes.io/hostname
+          podDisruptionBudgets:
+            - name: eventing-webhook
+              maxUnavailable: 1
           # The version of Knative Eventing to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
           version: "1.18.1"
