@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+  name: etcd-metrics-proxy-tls-cert
+  namespace: ${releaseNamespace}
+spec:
+  commonName: etcd-metrics-proxy
+  dnsNames:
+    - etcd-metrics-proxy
+    - etcd-metrics-proxy.${releaseNamespace}
+    - etcd-metrics-proxy.${releaseNamespace}.svc
+    - etcd-metrics-proxy.${releaseNamespace}.svc.cluster.local
+  issuerRef:
+    kind: ${certificateIssuerKind:=Issuer}
+    name: ${certificateIssuerName}
+  secretName: etcd-metrics-proxy-tls
