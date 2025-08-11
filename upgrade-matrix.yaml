@@ -44,3 +44,6 @@ upgrades:
     - from: v2.15.1-dev
       to: v2.16.0-dev
       k8sversion: "1.32"
+    - from: v2.16.0-dev
+      to: v2.17.0-dev
+      k8sversion: "1.33"
