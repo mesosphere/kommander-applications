@@ -389,7 +389,7 @@ data:
         users:
           auto_assign_org_role: Admin
         plugins:
-          allow_loading_unsigned_plugins: "grafana-piechart-panel"
+          preinstall_disabled: true
         dashboards:
           default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
         analytics:
