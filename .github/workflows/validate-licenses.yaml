@@ -77,17 +77,17 @@ jobs:
           git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
-            git commit -S -v -m "build: Updated licenses.d2iq.yaml "
+            git commit -S -v -m "build: Updated licenses.d2iq.yaml [ci skip]"
             git push --force-with-lease
-            echo "pushed=true" >> $GITHUB_OUTPUT
-          else
-            echo "No changes to commit"
-            echo "pushed=false" >> $GITHUB_OUTPUT
+          #  echo "pushed=true" >> $GITHUB_OUTPUT
+          #else
+          #  echo "No changes to commit"
+          #  echo "pushed=false" >> $GITHUB_OUTPUT
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
       - name: Run validation
-        if: steps.commit_push.outputs.pushed == 'false'
+        #if: steps.commit_push.outputs.pushed == 'false'
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
           args: >-
