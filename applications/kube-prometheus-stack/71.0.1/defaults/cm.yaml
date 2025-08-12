@@ -458,7 +458,7 @@ data:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: "12.0.2"  # Specify your desired version here
+        tag: "11.6.1"  # Specify your desired version here
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
