@@ -73,7 +73,7 @@ jobs:
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"
-            git push --force-with-lease
+            git push --force-with-lease && gh run cancel ${{ github.run_id }}
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
