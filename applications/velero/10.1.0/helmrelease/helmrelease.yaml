@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/velero"
   ref:
-    tag: 10.0.8
+    tag: 10.1.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,6 +32,6 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-10.0.8-config-defaults
+      name: velero-10.1.0-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
