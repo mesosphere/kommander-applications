@@ -1,5 +1,9 @@
 name: Check licenses.d2iq.yaml
 
+concurrency:
+  group: licenses-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
