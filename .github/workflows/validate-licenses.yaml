@@ -77,7 +77,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-        - name: Cancel other workflows for this branch
+      - name: Cancel other workflows for this branch
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
