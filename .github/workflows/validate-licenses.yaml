@@ -2,7 +2,6 @@ name: Check licenses.d2iq.yaml
 
 permissions:
   contents: write
-  actions: write   # Required to cancel workflows
 
 on:
   pull_request:
@@ -13,11 +12,6 @@ on:
       - v*
     branches:
       - main
-
-concurrency:
-  group: licenses-${{ github.ref_name }}
-  cancel-in-progress: true
-
 jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
@@ -47,11 +41,11 @@ jobs:
           yq '.applications[].images[]' images.yaml | sort | uniq | grep -v "oci://" > images.txt
           echo "printing contents of images.txt"
           cat images.txt
-
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
-        if: contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
           args: >-
@@ -59,17 +53,17 @@ jobs:
             --check-sources --check-sources-skip-gh-org mesosphere --update-licenses
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
       - name: Import GPG key
-        if: contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
-
       - name: Commit and push changes
-        if: contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
           git config user.email ci-mergebot@d2iq.com
           git config user.name d2iq-mergebot
@@ -83,25 +77,6 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-
-      - name: Cancel other workflows for this branch
-        if: contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        run: |
-          echo "Fetching and canceling all other workflows for branch: ${{ github.ref_name }}"
-          runs=$(gh run list --branch "${GITHUB_REF_NAME}" --json databaseId,status --jq '.[] | select(.status == "in_progress") | .databaseId')
-          for run_id in $runs; do
-            if [[ "$run_id" != "${GITHUB_RUN_ID}" ]]; then
-              echo "Canceling run $run_id"
-              gh run cancel "$run_id"
-            fi
-          done
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Exit after cancel
-        if: contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        run: exit 0
-
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
