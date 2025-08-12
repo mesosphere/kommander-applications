@@ -97,10 +97,6 @@ jobs:
         run: |
           exit 0
       - name: Run validation
-        if: |
-          contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        run: |
-          exit 0
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
           args: >-
