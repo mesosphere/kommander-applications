@@ -15,8 +15,9 @@ on:
       - check-test-license
 
 concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: ${{ contains(github.ref_name, 'check-test-license') }}
+  #cancel-in-progress: true
 
 jobs:
   check-license-yaml:
