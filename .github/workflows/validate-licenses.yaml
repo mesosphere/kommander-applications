@@ -14,6 +14,9 @@ on:
       - main
 
 concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+
+concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
@@ -77,29 +80,10 @@ jobs:
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"
-            git push --force-with-lease && gh run cancel ${{ github.run_id }}
+            git push --force-with-lease
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-      - name: Cancel other workflows for this branch
-        if: |
-          contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        run: |
-          echo "Fetching and canceling all other workflows for branch: ${{ github.ref_name }}"
-          runs=$(gh run list --branch "${GITHUB_REF_NAME}" --json databaseId,status --jq '.[] | select(.status == "in_progress") | .databaseId')
-          for run_id in $runs; do
-            if [[ "$run_id" != "${GITHUB_RUN_ID}" ]]; then
-              echo "Canceling run $run_id"
-              gh run cancel "$run_id"
-            fi
-          done
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Exit after cancel
-        if: |
-          contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        run: |
-          exit 0
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
