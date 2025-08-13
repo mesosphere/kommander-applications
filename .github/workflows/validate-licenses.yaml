@@ -15,7 +15,7 @@ on:
       - check-test-license
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  ggroup: ${ {github.ref} || refs/heads/{github.href} }
   cancel-in-progress: true
 
 jobs:
