@@ -39,6 +39,73 @@ def is_valid_docker_image(image_str):
     except Exception:
         return False
 
+def configmap_key_to_env_var(config_key):
+    """Convert ConfigMap key to environment variable name format."""
+    # Convert dashes to underscores and make uppercase
+    # aws-ddb-streams-source -> AWS_DDB_STREAMS_SOURCE
+    return config_key.replace('-', '_').upper()
+
+def extract_configmap_images(yaml_content, default_version=None):
+    """Extract image references from ConfigMap data sections only."""
+    configmap_images = {}
+    
+    # Split into documents and process each one
+    yaml_documents = re.split(r'\n---+\n', yaml_content)
+    
+    for yaml_doc in yaml_documents:
+        if not yaml_doc.strip():
+            continue
+            
+        lines = yaml_doc.split('\n')
+        in_configmap = False
+        in_data_section = False
+        current_indent = 0
+        
+        for line in lines:
+            stripped = line.strip()
+            if not stripped or stripped.startswith('#'):
+                continue
+                
+            # Check if this is a ConfigMap
+            if stripped.startswith('kind:') and 'ConfigMap' in stripped:
+                in_configmap = True
+                continue
+                
+            # Skip if not in a ConfigMap
+            if not in_configmap:
+                continue
+                
+            # Check if we're entering the data section
+            if stripped == 'data:':
+                in_data_section = True
+                current_indent = len(line) - len(line.lstrip())
+                continue
+                
+            # Check if we're still in the data section
+            if in_data_section:
+                line_indent = len(line) - len(line.lstrip())
+                
+                # If indentation is less than or equal to data section, we've left it
+                if line_indent <= current_indent and stripped:
+                    in_data_section = False
+                    continue
+                    
+                # If we're in the data section, look for image references
+                if ':' in stripped and 'gcr.io/' in stripped:
+                    try:
+                        key, value = stripped.split(':', 1)
+                        key = key.strip()
+                        value = value.strip()
+                        
+                        if is_valid_docker_image(value):
+                            # Do reverse lookup to find actual tag
+                            actual_image = reverse_lookup_tag_from_digest(value, default_version)
+                            configmap_images[key] = actual_image
+                    except ValueError:
+                        continue
+                        
+    return configmap_images
+
 def run_curl(url):
     """Run curl command and return output."""
     try:
@@ -149,6 +216,7 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
     # Pattern 3: Environment variable image references
     env_var_pattern = r'^\s*-\s*name:\s*([A-Z_]+_IMAGE)\s*\n\s*value:\s*([^\s#]+)'
 
+
     # Check for environment variable image patterns first (multi-line)
     env_matches = re.findall(env_var_pattern, yaml_content, re.MULTILINE)
     for env_name, image_ref in env_matches:
@@ -160,6 +228,17 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
             # Add to images set but do NOT add to component_images since it's env-only
             images.add(actual_image)
             print(f"    Found env var image: {env_name} -> {actual_image}")
+
+    # Check for ConfigMap data image patterns (context-aware)
+    configmap_images = extract_configmap_images(yaml_content, default_version)
+    for config_key, actual_image in configmap_images.items():
+        # Convert ConfigMap key to environment variable name
+        env_var_name = configmap_key_to_env_var(config_key)
+        env_var_images[env_var_name] = actual_image
+        env_only_images.add(actual_image)  # Track as env-only
+        # Add to images set but do NOT add to component_images since it's env-only
+        images.add(actual_image)
+        print(f"    Found ConfigMap image: {config_key} -> {env_var_name} -> {actual_image}")
 
     # Split YAML content by document separators to handle multiple manifests
     # Handle both single and consecutive document separators
