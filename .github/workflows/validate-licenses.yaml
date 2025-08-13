@@ -6,6 +6,8 @@ permissions:
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
+    branches:
+      - '*'
   workflow_dispatch: {}
   push:
     tags:
@@ -15,7 +17,7 @@ on:
       - check-test-license
 
 concurrency:
-  ggroup: ${ {github.ref} || refs/heads/{github.href} }
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
