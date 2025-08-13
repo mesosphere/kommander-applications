@@ -9,7 +9,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/grafana/helm-charts/grafana"
   ref:
-    tag: 8.15.0
+    tag: 9.3.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -33,7 +33,7 @@ spec:
   releaseName: grafana-logging
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-logging-8.15.2-config-defaults
+      name: grafana-logging-9.3.1-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1

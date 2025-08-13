@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kube-prometheus-stack-71.0.1-config-defaults
+  name: kube-prometheus-stack-75.16.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -17,14 +17,14 @@ data:
         image:
           registry: quay.io
           repository: prometheus-operator/prometheus-config-reloader
-          tag: v0.82.2
+          tag: v0.83.0
       admissionWebhooks:
         patch:
           priorityClassName: "dkp-critical-priority"
           image:
             registry: registry.k8s.io
             repository: ingress-nginx/kube-webhook-certgen
-            tag: v1.4.4
+            tag: v1.6.0
             # Set SHA to empty so airgapped deployments work out of box.
             sha: ""
       thanosImage:
@@ -199,7 +199,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.3.0
+          tag: v3.5.0
         containers:
           - name: config-reloader
             envFrom:
@@ -435,7 +435,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/alertmanager
-          tag: v0.28.0
+          tag: v0.28.1
         logLevel: warn
         resources:
           limits:
@@ -458,7 +458,7 @@ data:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: "11.6.1"  # Specify your desired version here
+        tag: "12.1.0"  # Specify your desired version here
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
@@ -511,6 +511,7 @@ data:
         users:
           auto_assign_org_role: Admin
         plugins:
+          public_key_retrieval_disabled: true
           preinstall_disabled: true
         dashboards:
           default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
@@ -558,7 +559,7 @@ data:
       priorityClassName: "dkp-critical-priority"
       image:
         repository: kube-state-metrics/kube-state-metrics
-        tag: v2.14.0
+        tag: v2.16.0
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]
