@@ -4,7 +4,7 @@ ignore:
   #   sources:
   #     - url: https://github.com/nutanix-cloud-native/flux-oci-mirror
   #       ref: ${image_tag}
-  - docker.io/mesosphere/flux-oci-mirror:v0.2.4
+  - docker.io/mesosphere/flux-oci-mirror:v0.2.5
 
 resources:
   - container_image: docker.io/fluent/fluent-bit:4.0.5
