@@ -48,62 +48,62 @@ def configmap_key_to_env_var(config_key):
 def extract_configmap_images(yaml_content, default_version=None):
     """Extract image references from ConfigMap data sections only."""
     configmap_images = {}
-    
+
     # Split into documents and process each one
     yaml_documents = re.split(r'\n---+\n', yaml_content)
-    
+
     for yaml_doc in yaml_documents:
         if not yaml_doc.strip():
             continue
-            
+
         lines = yaml_doc.split('\n')
         in_configmap = False
         in_data_section = False
         current_indent = 0
-        
+
         for line in lines:
             stripped = line.strip()
             if not stripped or stripped.startswith('#'):
                 continue
-                
+
             # Check if this is a ConfigMap
             if stripped.startswith('kind:') and 'ConfigMap' in stripped:
                 in_configmap = True
                 continue
-                
+
             # Skip if not in a ConfigMap
             if not in_configmap:
                 continue
-                
+
             # Check if we're entering the data section
             if stripped == 'data:':
                 in_data_section = True
                 current_indent = len(line) - len(line.lstrip())
                 continue
-                
+
             # Check if we're still in the data section
             if in_data_section:
                 line_indent = len(line) - len(line.lstrip())
-                
+
                 # If indentation is less than or equal to data section, we've left it
                 if line_indent <= current_indent and stripped:
                     in_data_section = False
                     continue
-                    
+
                 # If we're in the data section, look for image references
                 if ':' in stripped and 'gcr.io/' in stripped:
                     try:
                         key, value = stripped.split(':', 1)
                         key = key.strip()
                         value = value.strip()
-                        
+
                         if is_valid_docker_image(value):
                             # Do reverse lookup to find actual tag
                             actual_image = reverse_lookup_tag_from_digest(value, default_version)
                             configmap_images[key] = actual_image
                     except ValueError:
                         continue
-                        
+
     return configmap_images
 
 def run_curl(url):
@@ -243,19 +243,19 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
     # Split YAML content by document separators to handle multiple manifests
     # Handle both single and consecutive document separators
     yaml_documents = re.split(r'\n---+\n', yaml_content)
-    
+
     for doc_index, yaml_doc in enumerate(yaml_documents):
         if not yaml_doc.strip():
             continue
-            
+
         # Extract deployment/job context from each YAML document
         lines = yaml_doc.split('\n')
         current_context = {"kind": None, "metadata_name": None, "generate_name": None, "container_name": None}
-        
+
         i = 0
         while i < len(lines):
             line = lines[i]
-            
+
             # Track current resource context
             if line.startswith('kind:'):
                 current_context["kind"] = line.split(':', 1)[1].strip()
@@ -283,17 +283,17 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
                         final_image = reverse_lookup_tag_from_digest(image, default_version)
                     else:
                         final_image = image
-                    
+
                     # Add the final image (preferring tagged versions)
                     images.add(final_image)
-                    
+
                     # Remove from env-only set since it also appears as a container image
                     env_only_images.discard(final_image)
-                    
+
                     # Generate container context for the final image
                     container_context = generate_container_context(
-                        final_image, 
-                        current_context, 
+                        final_image,
+                        current_context,
                         component_name
                     )
                     component_images[final_image] = {
@@ -307,18 +307,18 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
                 if is_valid_docker_image(match):
                     # Convert digest to tagged version
                     tagged_image = reverse_lookup_tag_from_digest(match, default_version)
-                    
+
                     # Only add if we haven't already added this image
                     if tagged_image not in images:
                         images.add(tagged_image)
-                        
+
                         # Remove from env-only set since it also appears as a container image
                         env_only_images.discard(tagged_image)
-                        
+
                         # Generate container context for tagged image
                         container_context = generate_container_context(
-                            tagged_image, 
-                            current_context, 
+                            tagged_image,
+                            current_context,
                             component_name
                         )
                         component_images[tagged_image] = {
@@ -344,14 +344,14 @@ def generate_container_context(image, current_context, component_name):
             metadata_name = current_context.get("metadata_name", "") or ""
             generate_name = current_context.get("generate_name", "") or ""
             container_name = current_context.get("container_name", "") or ""
-            
+
             # Use generateName if available, otherwise fall back to metadata_name
             job_name_base = generate_name if generate_name else metadata_name
-            
+
             print(f"      Processing job: kind={current_context.get('kind')}, name={metadata_name}, generateName={generate_name}, container={container_name}")
             print(f"      Job name base: {job_name_base}")
             print(f"      Image path: {image_path}")
-            
+
             # Generate proper job-based override key based on generateName pattern
             if job_name_base:
                 if "storage-version-migration-serving-" in job_name_base:
@@ -372,7 +372,7 @@ def generate_container_context(image, current_context, component_name):
                         return f"cleanup-eventing-/{container_name}"
                     else:
                         return f"storage-version-migration-eventing-/{container_name}"
-            
+
             # Fallback based on component and image path
             if component_name == "knative-serving":
                 if "cleanup" in image_path:
@@ -388,10 +388,10 @@ def generate_container_context(image, current_context, component_name):
     # Handle standard deployments
     deployment_name = current_context.get("metadata_name", "") or ""
     container_name = current_context.get("container_name", "") or ""
-    
+
     if deployment_name and container_name:
         return f"{deployment_name}/{container_name}"
-    
+
     # Fallback to image-based mapping for known patterns
     return generate_fallback_context(image_path, component_name)
 
@@ -406,7 +406,7 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
     """Generate registry override configuration for cm.yaml using component context."""
     serving_overrides = []
     eventing_overrides = []
-    
+
     # Track override keys to avoid duplicates
     serving_keys = set()
     eventing_keys = set()
@@ -415,7 +415,7 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
     for image in sorted(all_images):
         if image not in all_component_images:
             continue  # Skip images without component context
-            
+
         # Skip images that only appear as environment variables
         if image in all_env_only_images:
             continue  # This image should only be processed as an environment variable
@@ -423,14 +423,14 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
         component_info = all_component_images[image]
         component = component_info["component"]
         container_context = component_info["container_context"]
-        
+
         # Use the converted tagged image if available, otherwise use the original
         display_image = image
-        
+
         # Special case for queue-proxy: use just "queue-proxy" instead of "queue-proxy/queue-proxy" or "queue/queue"
         if 'queue' in image and (container_context == "queue-proxy/queue-proxy" or container_context == "queue/queue"):
             container_context = "queue-proxy"
-        
+
         # Create override entry
         override_entry = f"              {container_context}: {display_image}"
 
@@ -619,7 +619,7 @@ def download_and_extract_images(files, component_name, default_version=None):
 
     for file_info in files:
         print(f"  Processing: {file_info['name']}")
-        
+
         # Special debug for post-install jobs
         if "post-install" in file_info['name']:
             print(f"    DEBUG: Found post-install file: {file_info['name']}")
@@ -631,7 +631,7 @@ def download_and_extract_images(files, component_name, default_version=None):
                 print(f"    DEBUG: YAML content length: {len(yaml_content)}")
                 yaml_documents = re.split(r'\n---+\n', yaml_content)
                 print(f"    DEBUG: Found {len(yaml_documents)} documents")
-                
+
             images, env_var_images, component_images, env_only_images = extract_images_from_yaml(yaml_content, component_name, default_version)
             all_images.update(images)
             all_env_var_images.update(env_var_images)
