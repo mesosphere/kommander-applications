@@ -487,10 +487,10 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:v4.2.3
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm
     sources:
       - license_path: LICENSE
-        ref: ${image_tag}
+        ref: v4.2.3
         url: https://github.com/NVIDIA/dcgm
   - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.2
     sources:
