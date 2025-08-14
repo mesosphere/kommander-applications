@@ -25,7 +25,7 @@ python3 hack/knative/extract-images.py --eventing-version <version> --serving-ve
 ### Options
 
 - `--eventing-version` (required): KNative eventing version (e.g., 1.18.1)
-- `--serving-version` (required): KNative serving version (e.g., 1.18.1)  
+- `--serving-version` (required): KNative serving version (e.g., 1.18.1)
 - `--k-apps-version` (optional): Output directory version (defaults to serving version)
 
 ### What it does
