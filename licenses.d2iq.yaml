@@ -350,11 +350,6 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.18.1
         url: https://github.com/knative/eventing
-  - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.0
-    sources:
-      - license_path: LICENSE
-        ref: release-1.18
-        url: https://github.com/knative/pkg
   - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
     sources:
       - license_path: LICENSE

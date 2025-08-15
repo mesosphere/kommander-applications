@@ -43,14 +43,15 @@ data:
           registry:
             override:
               # Pin serving images to specific tagged versions
-              storage-version-migration-serving-/migrate: "gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.0"
+              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
               activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.18.1
               autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.18.1
               autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.18.1
               controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.18.1
-              queue-proxy/queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
+              queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
               webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.18.1
-              storage-version-migration-serving-/cleanup: "gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.18.1"
+              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.18.1
+              QUEUE_SIDECAR_IMAGE: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
           config:
             deployment:
               registriesSkippingTagResolving: "gcr.io"
@@ -92,13 +93,6 @@ data:
           registry:
             override:
               # Pin eventing images to specific tagged versions
-              aws-ddb-streams-source/aws-ddb-streams-source: gcr.io/knative-releases/aws-ddb-streams-source:v1.18.0
-              aws-s3-sink/aws-s3-sink: gcr.io/knative-releases/aws-s3-sink:v1.18.0
-              aws-s3-source/aws-s3-source: gcr.io/knative-releases/aws-s3-source:v1.18.0
-              aws-sns-sink/aws-sns-sink: gcr.io/knative-releases/aws-sns-sink:v1.18.0
-              aws-sqs-sink/aws-sqs-sink: gcr.io/knative-releases/aws-sqs-sink:v1.18.0
-              aws-sqs-source/aws-sqs-source: gcr.io/knative-releases/aws-sqs-source:v1.18.0
-              apiserver-source-adapter/apiserver-source-adapter: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.18.1
               mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.18.1
               mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.18.1
               eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.18.1
@@ -106,11 +100,17 @@ data:
               imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.18.1
               job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.18.1
               mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.18.1
-              mt-ping/mt-ping: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.18.1
+              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.18.1
               eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.18.1
-              log-sink/log-sink: gcr.io/knative-releases/log-sink:v1.18.0
-              timer-source/timer-source: gcr.io/knative-releases/timer-source:v1.18.0
-              transform-jsonata/transform-jsonata: gcr.io/knative-releases/transform-jsonata:v1.18.0
               storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
               APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.18.1
+              AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.18.0
+              AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.18.0
+              AWS_S3_SOURCE: gcr.io/knative-releases/aws-s3-source:v1.18.0
+              AWS_SNS_SINK: gcr.io/knative-releases/aws-sns-sink:v1.18.0
+              AWS_SQS_SINK: gcr.io/knative-releases/aws-sqs-sink:v1.18.0
+              AWS_SQS_SOURCE: gcr.io/knative-releases/aws-sqs-source:v1.18.0
               DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.18.1
+              LOG_SINK: gcr.io/knative-releases/log-sink:v1.18.0
+              TIMER_SOURCE: gcr.io/knative-releases/timer-source:v1.18.0
+              TRANSFORM_JSONATA: gcr.io/knative-releases/transform-jsonata:v1.18.0
