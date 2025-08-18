@@ -29,7 +29,7 @@ data:
       version: v0.17.3
     dcgm:
       enabled: true
-      version: 4.1.1
+      version: 4.3.1-1-ubuntu22.04
     dcgmExporter:
       enabled: true
       serviceMonitor:
