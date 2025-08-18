@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 6h
-  path: ./applications/ai-navigator-rag/0.6.4/helmrelease
+  path: ./applications/ai-navigator-rag/0.7.1/helmrelease
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
