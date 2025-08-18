@@ -47,4 +47,4 @@ data:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
-      version: v0.12.2
+      version: v0.12.3-ubuntu20.04
