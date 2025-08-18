@@ -490,12 +490,12 @@ resources:
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.3.1-1-ubuntu22.04
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-1-ubuntu22.04}
+        ref: ${image_tag%-1-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:0.12.3-ubuntu20.04
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.3-ubuntu20.04
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-ubuntu20.04}
+        ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/mig-parted
   - container_image: nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
     sources:
