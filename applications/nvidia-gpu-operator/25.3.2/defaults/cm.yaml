@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nvidia-gpu-operator-25.3.1-config-defaults
+  name: nvidia-gpu-operator-25.3.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -26,7 +26,7 @@ data:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.17.2
+      version: v0.17.3
     dcgm:
       enabled: true
       version: 4.2.3-1-ubuntu22.04
@@ -47,4 +47,4 @@ data:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
-      version: v0.12.1-ubuntu20.04
+      version: v0.12.2-ubuntu20.04
