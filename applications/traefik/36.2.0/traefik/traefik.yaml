@@ -50,7 +50,7 @@ metadata:
 data:
   name: "Traefik"
   dashboardLink: "/dkp/traefik/dashboard/"
-  docsLink: "https://doc.traefik.io/traefik/v3.3"
+  docsLink: "https://doc.traefik.io/traefik"
   # Check https://artifacthub.io/packages/helm/traefik/traefik for app version
   version: "3.4.0"
 ---
