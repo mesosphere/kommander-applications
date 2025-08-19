@@ -467,7 +467,7 @@ resources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.1
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
