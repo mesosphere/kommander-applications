@@ -68,13 +68,11 @@ data:
         servicemonitor.kommander.mesosphere.io/path: "dkp__logging__grafana__metrics"
 
     resources:
-      # keep request = limit to keep this container in guaranteed class
       limits:
-        cpu: 300m
-        memory: 200Mi
+        memory: 512Mi
       requests:
         cpu: 200m
-        memory: 200Mi
+        memory: 256Mi
 
     readinessProbe:
       httpGet:
