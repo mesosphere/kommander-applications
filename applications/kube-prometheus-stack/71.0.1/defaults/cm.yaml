@@ -521,13 +521,11 @@ data:
         type: ClusterIP
         port: 3000
       resources:
-        # keep request = limit to keep this container in guaranteed class
         limits:
-          cpu: 300m
-          memory: 250Mi
+          memory: 512Mi
         requests:
-          cpu: 300m
-          memory: 250Mi
+          cpu: 200m
+          memory: 256Mi
       readinessProbe:
         httpGet:
           path: /api/health
