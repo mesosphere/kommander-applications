@@ -489,11 +489,10 @@ data:
           searchNamespace: ALL
         resources:
           limits:
-            cpu: 150m
-            memory: 100Mi
+            memory: 512Mi
           requests:
-            cpu: 150m
-            memory: 100Mi
+            cpu: 200m
+            memory: 256Mi
       grafana.ini:
         log:
           level: warn
