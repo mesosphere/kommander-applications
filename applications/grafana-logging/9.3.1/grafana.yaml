@@ -47,8 +47,8 @@ data:
   name: "Grafana Logging"
   dashboardLink: "/dkp/logging/grafana"
   docsLink: "https://grafana.com/docs/"
-  # Check https://artifacthub.io/packages/helm/grafana/grafana/6.58.6 for app version
-  version: "11.1.0"
+  # Check https://artifacthub.io/packages/helm/grafana/grafana/8.15.0 for app version
+  version: "11.6.1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
