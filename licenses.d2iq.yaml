@@ -462,17 +462,17 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.1
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.2
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.1
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.2
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.17.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -492,7 +492,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.1-ubuntu20.04
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.2-ubuntu20.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
