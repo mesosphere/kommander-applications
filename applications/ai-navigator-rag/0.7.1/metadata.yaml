@@ -39,7 +39,7 @@ overview: |-
 
   **Model Name** - `gpt-4o-mini`
 
-  **Completion Model Deployment Name** - `gpt-4o-mini`
+  **Completion Model Name** - `gpt-4o-mini`
 
   **Embeddings Model Name** - `text-embedding-ada-002`
 
