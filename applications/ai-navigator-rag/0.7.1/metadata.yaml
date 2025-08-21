@@ -17,22 +17,39 @@ licensing:
 requiredDependencies:
   - cloudnative-pg
 overview: |-
-
   # Overview
 
   AI Navigator RAG enables AI Navigator to use a private Azure OpenAI endpoint for data processing. This ensures data sent through AI Navigator remains within this private infrastructure.
 
   ## Configuration
 
-  Create and configure your own [Azure OpenAI Deployment](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?tabs=python#deployments).
+  Before Enabling this Application, you **must** have the following -
 
-  Configure AI Navigator RAG to use your new [Azure OpenAI Endpoint](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?tabs=python#endpoints) created via the above Deployment.
+  Have a [Deployment](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?tabs=python#deployments) and [Endpoint](https://learn.microsoft.com/en-us/azure/ai-foundry/foundry-models/concepts/endpoints?tabs=python#endpoints) of Azure OpenAI Service.
 
-  Configure the AI Navigator service to direct its traffic through the running [AI Navigator RAG](https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Kubernetes-Platform-v2_16:top-ai-nav-rag-c.html)
+  Create a secret with the **Azure OpenAI API Key**.
+
+  Configure this Application by providing the following details - **Model Name**, **Completion Model Deployment Name**, **Embeddings Deployment Name**, **API Endpoint**, **API Version**
+
+  Once this Application is enabled, configure the AI Navigator service to direct its traffic through the running [AI Navigator RAG](https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Kubernetes-Platform-v2_16:top-ai-nav-rag-c.html)
+
+  ## Compatibility
+
+  This release of AI Navigator has been validated to work with the following -
+
+  **Model Name** - `gpt-4o-mini`
+
+  **Completion Model Deployment Name** - `gpt-4o-mini`
+
+  **Embeddings Model Name** - `test-embedding-ada-002`
+
+  **API Version** - `2024-10-21`
+
+  Values other than the above have not been validated for use with AI Navigator.
 
   ## Enterprise Azure OpenAI Endpoint Disclaimer
 
-  This application enables integration with your organization's own Azure OpenAI endpoint managed by your organization, not Nutanix, to support AI-driven use cases. By proceeding, you acknowledge and accept the following responsibilities:
+  This application enables integration with your organization's own Azure OpenAI endpoint managed by your organization, not Nutanix, to support AI-driven use cases. By proceeding, you acknowledge and accept the following responsibilities
 
   **Endpoint Security** - Your organization is solely responsible for securing and managing its Azure OpenAI endpoint, including all configurations, access controls, and network protections.
 
