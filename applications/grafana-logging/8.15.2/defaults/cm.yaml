@@ -37,7 +37,7 @@ data:
         enabled: true
         label: grafana_logging_dashboard
         searchNamespace: ALL
-      
+
       resources:
         limits:
           memory: 512Mi
