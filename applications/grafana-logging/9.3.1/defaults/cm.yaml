@@ -38,6 +38,13 @@ data:
         label: grafana_logging_dashboard
         searchNamespace: ALL
 
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 200m
+          memory: 256Mi
+
     grafana.ini:
       log:
         level: warn
