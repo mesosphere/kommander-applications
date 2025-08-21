@@ -29,7 +29,7 @@ overview: |-
 
   Create a secret with the **Azure OpenAI API Key**.
 
-  Configure this Application by providing the following details - **Model Name**, **Completion Model Deployment Name**, **Embeddings Deployment Name**, **API Endpoint**, **API Version**
+  Configure this Application by providing the following details - **Model Name**, **Completion Model Deployment Name**, **Embeddings Model Name**, **Embeddings Deployment Name**, **API Endpoint**, **API Version**
 
   Once this Application is enabled, configure the AI Navigator service to direct its traffic through the running [AI Navigator RAG](https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Kubernetes-Platform-v2_16:top-ai-nav-rag-c.html)
 
