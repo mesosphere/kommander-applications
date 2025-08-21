@@ -41,7 +41,7 @@ overview: |-
 
   **Completion Model Deployment Name** - `gpt-4o-mini`
 
-  **Embeddings Model Name** - `test-embedding-ada-002`
+  **Embeddings Model Name** - `text-embedding-ada-002`
 
   **API Version** - `2024-10-21`
 
