@@ -103,6 +103,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 
 		// Install gateway-api-crds
 		err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
+			"releaseName":      "gateway-api-crds",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
