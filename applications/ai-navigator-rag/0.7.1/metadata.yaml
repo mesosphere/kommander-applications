@@ -32,22 +32,22 @@ overview: |-
 
   ## Enterprise Azure OpenAI Endpoint Disclaimer
 
-  This application enables integration with your organization’s own Azure OpenAI endpoint managed by your organization, not Nutanix, to support AI-driven use cases. By proceeding, you acknowledge and accept the following responsibilities
+  This application enables integration with your organization's own Azure OpenAI endpoint managed by your organization, not Nutanix, to support AI-driven use cases. By proceeding, you acknowledge and accept the following responsibilities:
 
   **Endpoint Security** - Your organization is solely responsible for securing and managing its Azure OpenAI endpoint, including all configurations, access controls, and network protections.
 
   **Credential Management** - Any API keys, tokens, or authentication credentials used must be securely stored, rotated as needed, and protected in accordance with your internal security policies.
 
-  **Data Governance** - You are responsible for ensuring that all data transmitted through your endpoint complies with your organization’s data governance standards and applicable privacy regulations.
+  **Data Governance** - You are responsible for ensuring that all data transmitted through your endpoint complies with your organization's data governance standards and applicable privacy regulations.
 
-  **Compliance & Risk** - Your organization assumes full responsibility for compliance with Azure OpenAI’s terms of use, as well as any legal, regulatory, or contractual obligations related to the use of Azure OpenAI services.
+  **Compliance & Risk** - Your organization assumes full responsibility for compliance with Azure OpenAI's terms of use, as well as any legal, regulatory, or contractual obligations related to the use of Azure OpenAI services.
 
-  **Costs** - You are responsible for all costs incurred by your organization’s use of the Azure OpenAI Endpoint, including charges for token usage.
+  **Costs** - You are responsible for all costs incurred by your organization's use of the Azure OpenAI Endpoint, including charges for token usage.
 
   This application does not persist or monitor your Azure OpenAI Endpoint credentials or transmitted data. You can disable the Azure OpenAI Endpoint at any time by deleting the Azure OpenAI Deployment which was created.
 
   If you do not agree to these terms, please do not proceed with endpoint configuration and installation of this AI Navigator RAG application.
 
-  The [AI Navigator RAG](https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Kubernetes-Platform-v2_16:top-ai-nav-rag-c.html) documentation has futher information on configuring AI Navigator RAG and AI Navigator.
+  The [AI Navigator RAG](https://portal.nutanix.com/page/documents/details?targetId=Nutanix-Kubernetes-Platform-v2_16:top-ai-nav-rag-c.html) documentation has further information on configuring AI Navigator RAG and AI Navigator.
 
 icon: PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjRDNFREZEIi8+CjxwYXRoIGQ9Ik0xMyAyN0MxMyAyNS44OTU0IDEzLjg5NTQgMjUgMTUgMjVIMTZDMTcuMTA0NiAyNSAxOCAyNS44OTU0IDE4IDI3VjMyQzE4IDMzLjEwNDYgMTcuMTA0NiAzNCAxNiAzNEgxNUMxMy44OTU0IDM0IDEzIDMzLjEwNDYgMTMgMzJWMjdaIiBmaWxsPSIjNTlCQ0Y5Ii8+CjxwYXRoIGQ9Ik00NSAyN0M0NSAyNS44OTU0IDQ1Ljg5NTQgMjUgNDcgMjVINDhDNDkuMTA0NiAyNSA1MCAyNS44OTU0IDUwIDI3VjMyQzUwIDMzLjEwNDYgNDkuMTA0NiAzNCA0OCAzNEg0N0M0NS44OTU0IDM0IDQ1IDMzLjEwNDYgNDUgMzJWMjdaIiBmaWxsPSIjNTlCQ0Y5Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzAuNzkgNDBINDIuMDE3OUM0My4zMzg4IDM5Ljk5ODYgNDQuNjA1MSAzOS40ODc1IDQ1LjUzOTEgMzguNTc5QzQ2LjQ3MzIgMzcuNjcwNSA0Ni45OTg1IDM2LjQzODcgNDcgMzUuMTUzOFYyMi44NDYyQzQ2Ljk5ODUgMjEuNTYxMyA0Ni40NzMyIDIwLjMyOTUgNDUuNTM5MSAxOS40MjFDNDQuNjA1MSAxOC41MTI1IDQzLjMzODggMTguMDAxNCA0Mi4wMTc5IDE4SDIwLjk4MjFDMTkuNjYxMiAxOC4wMDE0IDE4LjM5NDkgMTguNTEyNSAxNy40NjA5IDE5LjQyMUMxNi41MjY4IDIwLjMyOTUgMTYuMDAxNSAyMS41NjEzIDE2IDIyLjg0NjJWMzUuMTUzOEMxNi4wMDE1IDM2LjQzODcgMTYuNTI2OCAzNy42NzA1IDE3LjQ2MDkgMzguNTc5QzE4LjM5NDkgMzkuNDg3NSAxOS42NjEyIDM5Ljk5ODYgMjAuOTgyMSA0MEgyMi42NDI5VjQ0LjY3MjhDMjIuNjQyOSA0NC45NTg0IDIyLjc1OTUgNDUuMjMyMyAyMi45NjcxIDQ1LjQzNDNDMjMuMTc0OCA0NS42MzYyIDIzLjQ1NjQgNDUuNzQ5NyAyMy43NSA0NS43NDk3QzI0LjAwOTEgNDUuNzQ5NSAyNC4yNiA0NS42NjEyIDI0LjQ1OTMgNDUuNUwzMC43OSA0MFpNMjUuMTQyOSA0MS41OTQ0VjQwQzI1LjE0MjkgMzguNjE5MyAyNC4wMjM2IDM3LjUgMjIuNjQyOSAzNy41TDIwLjk4NDggMzcuNUMyMC45ODQ0IDM3LjUgMjAuOTgzOSAzNy41IDIwLjk4MzQgMzcuNUMyMC4zMDMyIDM3LjQ5ODkgMTkuNjY0NiAzNy4yMzUgMTkuMjA0IDM2Ljc4N0MxOC43NDU4IDM2LjM0MTIgMTguNTAxIDM1Ljc1MTkgMTguNSAzNS4xNTIyVjIyLjg0NzhDMTguNTAxIDIyLjI0ODEgMTguNzQ1OCAyMS42NTg4IDE5LjIwNCAyMS4yMTNDMTkuNjY0NiAyMC43NjUgMjAuMzAzNCAyMC41MDEgMjAuOTgzNyAyMC41SDQyLjAxNjNDNDIuNjk2NiAyMC41MDEgNDMuMzM1NCAyMC43NjUgNDMuNzk2IDIxLjIxM0M0NC4yNTQyIDIxLjY1ODcgNDQuNDk5IDIyLjI0OCA0NC41IDIyLjg0NzdDNDQuNSAyMi44NDgxIDQ0LjUgMjIuODQ4NiA0NC41IDIyLjg0OVYzNS4xNTFDNDQuNSAzNS4xNTE0IDQ0LjUgMzUuMTUxOSA0NC41IDM1LjE1MjNDNDQuNDk5IDM1Ljc1MiA0NC4yNTQyIDM2LjM0MTMgNDMuNzk2IDM2Ljc4N0M0My4zMzU1IDM3LjIzNSA0Mi42OTY4IDM3LjQ5ODkgNDIuMDE2NiAzNy41QzQyLjAxNjEgMzcuNSA0Mi4wMTU2IDM3LjUgNDIuMDE1MiAzNy41TDMwLjc5IDM3LjVDMzAuMTg3NSAzNy41IDI5LjYwNTMgMzcuNzE3NiAyOS4xNTA1IDM4LjExMjdMMjUuMTQyOSA0MS41OTQ0WiIgZmlsbD0iIzE4NTZBRCIvPgo8Y2lyY2xlIGN4PSIyNi41IiBjeT0iMjkuNSIgcj0iMi41IiBmaWxsPSIjNTlCQ0Y5Ii8+CjxjaXJjbGUgY3g9IjM2LjUiIGN5PSIyOS41IiByPSIyLjUiIGZpbGw9IiM1OUJDRjkiLz4KPC9zdmc+Cg==
