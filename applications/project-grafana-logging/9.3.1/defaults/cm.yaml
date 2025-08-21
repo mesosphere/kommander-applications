@@ -37,6 +37,12 @@ data:
         label: project_grafana_logging_dashboard
         # only search the namespace in which the sidecar is running
         searchNamespace: null
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          cpu: 200m
+          memory: 256Mi
 
     grafana.ini:
       log:
