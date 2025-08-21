@@ -44,6 +44,12 @@ data:
           searchNamespace: ALL
           skipReload: true
           initDatasources: true
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
       annotations:
         configmap.reloader.stakater.com/reload: "kubecost-grafana-datasource"
       ingress:
@@ -101,7 +107,6 @@ data:
         port: 80
       resources:
         limits:
-          cpu: 2000m
           memory: 10922Mi
         requests:
           cpu: 200m
