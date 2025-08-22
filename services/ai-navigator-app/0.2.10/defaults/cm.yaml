@@ -40,6 +40,8 @@ data:
           scriptsConfigMap: ai-navigator-cluster-info-api-postgresql-initdb
       readReplicas:
         priorityClassName: dkp-high-priority
+      image:
+        repository: bitnamilegacy/postgresql
 
     # Default values for cluster-info-api
     replicaCount: 1
