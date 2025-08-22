@@ -29,7 +29,7 @@ data:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
     global:
-      image: ${kubetoolsImageRepository:=bitnami/kubectl}
+      image: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
       tag: ${kubetoolsImageTag:=1.32.3}
       priorityClassName: "dkp-critical-priority"
     operator:
