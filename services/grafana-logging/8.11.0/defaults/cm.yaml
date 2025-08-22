@@ -58,7 +58,6 @@ data:
       analytics:
         reporting_enabled: false
         check_for_updates: false
-        check_for_plugin_updates: false
 
     service:
       type: ClusterIP
