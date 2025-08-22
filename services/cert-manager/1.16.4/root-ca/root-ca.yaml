@@ -16,7 +16,6 @@ spec:
   isCA: true
   commonName: kommander-ca
   secretName: kommander-ca
-  duration: 87600h # 10 Years
   privateKey:
     algorithm: ECDSA
     size: 256
