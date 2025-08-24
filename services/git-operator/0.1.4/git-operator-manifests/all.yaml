@@ -1140,7 +1140,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            image: bitnami/kubectl:1.32.3
+            image: bitnamilegacy/kubectl:1.32.3
             name: admin-credentials-rotate
           priorityClassName: system-cluster-critical
           restartPolicy: OnFailure
