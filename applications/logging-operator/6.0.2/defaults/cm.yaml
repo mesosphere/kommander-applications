@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-5.4.0-config-defaults
+  name: logging-operator-6.0.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -27,7 +27,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-5.4.0-config-defaults
+  name: logging-operator-logging-6.0.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -64,7 +64,7 @@ data:
       image:
         # The image should be updated when logging-operator is upgraded.
         repository: ghcr.io/kube-logging/logging-operator/fluentd
-        tag: 5.4.0-full
+        tag: 6.0.2-full
       resources:
        limits:
          memory: 400Mi
@@ -112,7 +112,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
-        tag: 3.2.5-d2iq.0
+        tag: 4.0.3-d2iq.0
       resources:
        limits:
          memory: 750Mi
