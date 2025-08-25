@@ -19,7 +19,7 @@ data:
       primarySet: harbor
       image:
         registry: docker.io
-        repository: bitnamilegacy/valkey
+        repository: bitnamilegacy/valkey-sentinel
         tag: 8.0.2-debian-12-r0
     auth:
       enabled: true
