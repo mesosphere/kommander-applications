@@ -282,6 +282,8 @@ data:
     # COSI related resources corresponding to cosi-bucket-kit chart from mesosphere/charts stable repo.
     cosiBucketKit:
       enabled: true
+      transformations:
+        kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.31.4}
       bucketClasses: # Cluster scoped resource
         - name: cosi-ceph-nkp
           driverName: rook-ceph.ceph.objectstorage.k8s.io
