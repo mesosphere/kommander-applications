@@ -14,7 +14,6 @@ kind: HelmRelease
 metadata:
   name: logging-operator
   namespace: ${releaseNamespace}
-  # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
 spec:
   chartRef:
     kind: OCIRepository
