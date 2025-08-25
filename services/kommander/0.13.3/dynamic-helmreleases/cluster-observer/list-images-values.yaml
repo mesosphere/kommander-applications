@@ -1,2 +1,2 @@
 hooks:
-  kubectlImage: "bitnami/kubectl:1.30.7"
+  kubectlImage: "bitnamilegacy/kubectl:1.30.7"
