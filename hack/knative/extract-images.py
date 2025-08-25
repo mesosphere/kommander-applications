@@ -656,8 +656,8 @@ def download_and_extract_images(files, component_name, default_version=None):
 
 def main():
     parser = argparse.ArgumentParser(description='Extract Docker images from KNative operator manifests')
-    parser.add_argument('--eventing-version', required=True, help='KNative eventing version (e.g., 1.18.1)')
-    parser.add_argument('--serving-version', required=True, help='KNative serving version (e.g., 1.18.1)')
+    parser.add_argument('--eventing-version', required=True, help='KNative eventing version (e.g., 1.19.1)')
+    parser.add_argument('--serving-version', required=True, help='KNative serving version (e.g., 1.19.1)')
     parser.add_argument('--k-apps-version', help='Kommander applications version for output directory (defaults to serving_version)')
     args = parser.parse_args()
 

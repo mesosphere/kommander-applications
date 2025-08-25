@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/knative"
   ref:
-    tag: 1.18.1
+    tag: 1.19.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -35,7 +35,7 @@ spec:
   releaseName: knative-deploy
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.18.1-config-defaults
+      name: knative-1.19.1-config-defaults
     - kind: ConfigMap
       name: knative-config-overrides
       optional: true
