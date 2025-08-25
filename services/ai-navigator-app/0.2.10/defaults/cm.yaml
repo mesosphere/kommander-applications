@@ -40,6 +40,8 @@ data:
           scriptsConfigMap: ai-navigator-cluster-info-api-postgresql-initdb
       readReplicas:
         priorityClassName: dkp-high-priority
+      image:
+        repository: bitnamilegacy/postgresql
 
     # Default values for cluster-info-api
     replicaCount: 1
@@ -95,4 +97,4 @@ data:
     tolerations: []
 
     affinity: {}
-    kubectlImage: ${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.31.4}
+    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.31.4}
