@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-6.0.2-config-defaults
+  name: logging-operator-logging-5.4.0-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -32,7 +32,7 @@ data:
       podPriorityClassName: "dkp-critical-priority"
       image:
         repository: ghcr.io/kube-logging/logging-operator/fluentd
-        tag: 6.0.2-full
+        tag: 5.4.0-full
       resources:
         limits:
           memory: 400Mi

@@ -1,0 +1,4 @@
+docker.io/fluent/fluent-bit:4.0.5
+ghcr.io/kube-logging/logging-operator/fluentd:5.4.0-full
+ghcr.io/kube-logging/logging-operator/config-reloader:5.4.0
+ghcr.io/kube-logging/logging-operator/node-exporter:5.4.0
