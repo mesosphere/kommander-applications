@@ -294,7 +294,7 @@ data:
             cpu: 100m
             memory: 512Mi
       schedule: '@every 35m'
-    kubectlImage: bitnami/kubectl:1.30.7
+    kubectlImage: bitnamilegacy/kubectl:1.30.7
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
@@ -412,12 +412,12 @@ data:
           servicePort: 5432
       image:
         registry: docker.io
-        repository: bitnami/postgresql
+        repository: bitnamilegacy/postgresql
         tag: 15.8.0-debian-12-r14
       metrics:
         image:
           registry: docker.io
-          repository: bitnami/postgres-exporter
+          repository: bitnamilegacy/postgres-exporter
           tag: 0.15.0-debian-12-r44
       primary:
         containerSecurityContext:
