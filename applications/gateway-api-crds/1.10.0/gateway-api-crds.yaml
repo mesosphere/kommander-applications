@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/traefik/helm/traefik-crds"
   ref:
-    tag: 1.9.0 # Keep this consistent with applications/traefik/<version>/crds/crds.yaml HelmRelease.
+    tag: 1.10.0 # Keep this consistent with applications/traefik/<version>/crds/crds.yaml HelmRelease.
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -22,4 +22,4 @@ spec:
     namespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: gateway-api-1.9.0-config-defaults
+      name: gateway-api-1.10.0-config-defaults
