@@ -1,3 +1,7 @@
+applications/README.md:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/README.md/**
 applications/ai-navigator-app:
 - changed-files:
   - any-glob-to-any-file:
@@ -142,10 +146,6 @@ applications/kubetunnel:
 - changed-files:
   - any-glob-to-any-file:
     - applications/kubetunnel/**
-applications/logging-operator:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/logging-operator/**
 applications/nkp-insights:
 - changed-files:
   - any-glob-to-any-file:
