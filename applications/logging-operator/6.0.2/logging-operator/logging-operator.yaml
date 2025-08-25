@@ -7,14 +7,13 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/kube-logging/helm-charts/logging-operator"
   ref:
-    tag: 5.4.0
+    tag: 6.0.2
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: logging-operator
   namespace: ${releaseNamespace}
-  # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
 spec:
   chartRef:
     kind: OCIRepository
@@ -32,4 +31,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-5.4.0-config-defaults
+      name: logging-operator-6.0.2-config-defaults

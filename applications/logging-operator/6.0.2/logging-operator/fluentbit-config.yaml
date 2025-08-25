@@ -1,0 +1,38 @@
+apiVersion: logging.banzaicloud.io/v1beta1
+kind: FluentbitConfig
+metadata:
+  name: fluentbit-config
+  namespace: ${releaseNamespace}
+spec:
+  service:
+    flush: 1
+    grace: 5
+    logLevel: warn
+    http:
+      enabled: true
+      port: 2020
+  inputTail:
+    path: /var/log/containers/*.log
+    tag: kubernetes.*
+    parser: cri
+    db: /tail-db/kubernetes.db
+    skipLongLines: true
+    refreshInterval: 5
+    rotateWait: 5
+    memBufLimit: 5MB
+  filterKubernetes:
+    match: kubernetes.*
+    kubeTagPrefix: kubernetes.var.log.containers
+    mergeLog: true
+    labels: true
+    annotations: true
+    bufferSize: "0"
+    kubeURL: https://kubernetes.default.svc:443
+    kubeCAFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    kubeTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    tlsVerify: true
+    k8sLoggingParser: false
+    k8sLoggingExclude: false
+  outputForward:
+    match: kubernetes.*
+    retryLimit: 5
