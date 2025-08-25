@@ -7,9 +7,20 @@ metadata:
 data:
   values.yaml: |
     ---
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/valkey
+      tag: 8.0.2-debian-12-r0
     sentinel:
       enabled: true
       primarySet: harbor
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/valkey-sentinel
+        tag: 8.0.2-debian-12-r0
     auth:
       enabled: true
       sentinel: false
@@ -32,6 +43,10 @@ data:
 
     metrics:
       enabled: true
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/redis-exporter
+        tag: 1.67.0-debian-12-r0
       service:
         enabled: true
         extraPorts:

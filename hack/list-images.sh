@@ -190,7 +190,7 @@ done
                                   (select(.containers != null) | .containers[].image), (select(.initContainers != null) | .initContainers[].image)' \
   				./services/git-operator/*/git-operator-manifests/* \
   # we patch the cronjob image in this kustomization
-  gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.name):\(.newTag)") | .[]' \
+  gojq --yaml-input --raw-output 'select(.kind | test("^(?:Kustomization)$")) | .images | map("\(.newName):\(.newTag)") | .[]' \
           ./services/git-operator/*/kustomization.yaml
 } >>"${IMAGES_FILE}"
 
