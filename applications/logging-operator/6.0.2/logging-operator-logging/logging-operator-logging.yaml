@@ -34,7 +34,7 @@ spec:
   releaseName: logging-operator-logging
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-logging-5.4.0-config-defaults
+      name: logging-operator-logging-6.0.2-config-defaults
     - kind: ConfigMap
       name: logging-operator-logging-overrides
       optional: true
