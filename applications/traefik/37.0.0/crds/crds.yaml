@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://ghcr.io/traefik/helm/traefik-crds"
+  url: "oci://ghcr.io/mesosphere/charts/traefik-crds"
   ref:
     tag: 1.10.0
 ---
