@@ -32,3 +32,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: logging-operator-6.0.2-config-defaults
+      valuesKey: values.yaml  # 👈 required if using 'values.yaml' as key in ConfigMap

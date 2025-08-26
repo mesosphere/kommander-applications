@@ -1,12 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-6.0.2-config-defaults
+  name: logging-operator-6.0.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
     ---
-    fluentbit: null  # 👈 This disables the deprecated inline fluentbit block in the Logging CR
+   
+    fluentbit:
+      enabled: false
 
     clusterFlows:
       - name: cluster-containers
