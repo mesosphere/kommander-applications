@@ -435,18 +435,18 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.0.2
+  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.3.0
     sources:
       - ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory: /images/config-reloader
-  - container_image: ghcr.io/kube-logging/logging-operator:6.0.2
+  - container_image: ghcr.io/kube-logging/logging-operator:5.3.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:6.0.2
+  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:5.3.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -616,7 +616,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:6.0.2-full
+  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.3.0-full
     sources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
