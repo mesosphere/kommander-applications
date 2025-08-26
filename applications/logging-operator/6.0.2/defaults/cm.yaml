@@ -6,11 +6,14 @@ metadata:
 data:
   values.yaml: |
     ---
+    fluentbit: null  # 👈 This disables the deprecated inline fluentbit block in the Logging CR
+
     clusterFlows:
       - name: cluster-containers
         spec:
           globalOutputRefs:
             - loki
+
     clusterOutputs:
       - name: loki
         spec:
@@ -26,8 +29,10 @@ data:
               flush_thread_count: 8
             extra_labels:
               log_source: kubernetes_container
+
     tls:
       enabled: true
+
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
