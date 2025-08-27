@@ -237,7 +237,7 @@ data:
           memory: "100Mi"
 
     # this is used in object-bucket-claims overrides
-    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.27.9}
+    kubectlImage: bitnamilegacy/kubectl:1.27.9
 
     #################################################################
     ## BEGIN DKP specific config overrides                         ##
