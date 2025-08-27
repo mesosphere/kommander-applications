@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     # the default kubectl image in chart is 1.29
-    kubectlImage: "bitnami/kubectl:1.27.9"
+    kubectlImage: "bitnamilegacy/kubectl:1.27.9"
     priorityClassName: dkp-high-priority
     # api.enabled enables the collector service as a whole - will not install anything if set to false
     api:
