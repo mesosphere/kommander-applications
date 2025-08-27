@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: logging-operator-logging-6.0.3-config-defaults
+  name: logging-operator-6.0.3-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
