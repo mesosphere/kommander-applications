@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/kube-logging/helm-charts/logging-operator"
   ref:
-    tag: 5.4.0
+    tag: 6.0.3
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,4 +32,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-5.4.0-config-defaults
+      name: logging-operator-6.0.3-config-defaults
