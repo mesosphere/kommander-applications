@@ -6,6 +6,9 @@ metadata:
 data:
   values.yaml: |
     ---
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/thanos
     storegateway:
       enabled: false
     compactor:

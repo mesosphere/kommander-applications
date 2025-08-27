@@ -1,0 +1,2 @@
+hooks:
+  kubectlImage: bitnamilegacy/kubectl:1.29.2
