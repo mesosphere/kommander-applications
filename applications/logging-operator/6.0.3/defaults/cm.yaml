@@ -1,4 +1,4 @@
-apiVersion: v1ss
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: logging-operator-6.0.3-config-defaults
