@@ -15,6 +15,8 @@ trap_add() {
   trap "${hdls}${hdls:+;}${1:?Handler required}" "${sig}"
 }
 
+declare -rx patch=unused
+
 while IFS= read -r repofile; do
   envsubst -no-unset -no-digit -i "${repofile}" | \
     gojq --yaml-input --raw-output 'select(.spec.url != null) | (.metadata.name | gsub("\\."; "-"))+" "+.spec.url' | \
@@ -108,6 +110,7 @@ for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 
       extra_args+=('--extra-images-file' 'extra-images.txt')
     fi
 
+    >&2 echo -e " + ${dir}${hr}\n"
     envsubst -no-unset -no-digit -i "$(basename "${hr}")" | \
       gojq --yaml-input --raw-output --arg repoRoot "${REPO_ROOT}" \
         $'select(.spec.chart.spec.sourceRef.name != null) |
@@ -116,7 +119,8 @@ for dir in $(find . -type f -name "*.yaml" -print0 | xargs --null --max-lines=1 
           elif .spec.chart.spec.sourceRef.kind == "GitRepository" then
             $repoRoot+"/"+.spec.chart.spec.chart
           end' | \
-      xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" >>"${IMAGES_FILE}"
+      xargs --max-lines=1 --no-run-if-empty -- helm list-images --unique "${extra_args[@]}" | >&2 tee -a "${IMAGES_FILE}"
+      >&2 echo
     popd &>/dev/null
   done < <(grep --recursive --max-count=1 --files-with-matches '^kind: HelmRelease')
   popd &>/dev/null
