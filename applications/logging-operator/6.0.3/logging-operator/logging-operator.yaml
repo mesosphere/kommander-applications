@@ -14,7 +14,6 @@ kind: HelmRelease
 metadata:
   name: logging-operator
   namespace: ${releaseNamespace}
-  # When upgrading, make sure to update the fluent-bit and fluentd images in logging-operator-logging.yaml.
 spec:
   chartRef:
     kind: OCIRepository
@@ -30,6 +29,74 @@ spec:
     remediation:
       retries: 30
   releaseName: logging-operator
-  valuesFrom:
-    - kind: ConfigMap
-      name: logging-operator-6.0.3-config-defaults
+  values:
+    fluentbit:
+      enabled: false
+    fluentd:
+      podPriorityClassName: "dkp-critical-priority"
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/fluentd
+        tag: 6.0.3-full
+      resources:
+        limits:
+          memory: 400Mi
+          cpu: 1000m
+        requests:
+          memory: 100Mi
+          cpu: 500m
+      scaling:
+        replicas: 1
+      port: 24240
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        successThreshold: 1
+        tcpSocket:
+          port: 24240
+        timeoutSeconds: 3
+      logLevel: warn
+      fluentLogDestination: stdout
+      bufferStorageVolume:
+        pvc:
+          source:
+            claimName: fluentd-buffer
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            volumeMode: Filesystem
+      metrics:
+        port: 24231
+        path: /metrics
+        prometheusAnnotations: true
+      bufferVolumeMetrics:
+        port: 9200
+        path: /metrics
+        prometheusAnnotations: true
+      statefulsetAnnotations:
+        secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+    clusterFlows:
+      - name: cluster-containers
+        spec:
+          globalOutputRefs:
+            - loki
+    clusterOutputs:
+      - name: loki
+        spec:
+          loki:
+            url: "http://grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local:80"
+            extract_kubernetes_labels: true
+            configure_kubernetes_labels: true
+            buffer:
+              retry_forever: false
+              retry_max_times: 5
+              flush_mode: interval
+              flush_interval: 10s
+              flush_thread_count: 8
+            extra_labels:
+              log_source: kubernetes_container
+    tls:
+      enabled: true
