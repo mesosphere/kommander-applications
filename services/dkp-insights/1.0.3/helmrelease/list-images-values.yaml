@@ -8,7 +8,6 @@ postgresql:
   #
   # volumePermissions:
   # tls:
-kubectlImage: bitnamilegacy/kubectl:1.27.9
 nova:
   helmRepositoryURLs: ["https://mesosphere.github.io/charts/stable"]
 trivy:
