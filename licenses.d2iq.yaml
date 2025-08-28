@@ -4,7 +4,6 @@ ignore:
   - docker.io/nginxinc/nginx-unprivileged:1.24.0-alpine
   - docker.io/bitnamilegacy/external-dns:0.14.1-debian-12-r2
   - docker.io/bitnamilegacy/postgresql:11.22.0-debian-11-r4
-  - docker.io/bitnamilegacy/postgresql:15.2.0-debian-11-r21
   - docker.io/bitnamilegacy/redis-cluster:7.0.12-debian-11-r2
   - docker.io/bitnamilegacy/memcached:1.6.19-debian-11-r7
   - docker.io/library/busybox:1
