@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     # values.yaml content to enable only Gateway API CRDs installation
-    gatewayAPI: false
+    gatewayAPI: true
     traefik: true
     hub: false
     deleteOnUninstall: false

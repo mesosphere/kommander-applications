@@ -1,4 +1,4 @@
-gatewayAPI: false
+gatewayAPI: true
 traefik: true
 hub: false
 deleteOnUninstall: false
