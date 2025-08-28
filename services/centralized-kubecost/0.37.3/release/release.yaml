@@ -73,7 +73,7 @@ spec:
       priorityClassName: dkp-high-priority
       containers:
         - name: kubectl
-          image: "${kubetoolsImageRepository:=bitnami/kubectl}:${kubetoolsImageTag:=1.29.2}"
+          image: "${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.29.2}"
           command:
             - sh
             - "-c"

@@ -33,7 +33,7 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: metrics
       postInstallJob:
-        repository: bitnami
+        repository: bitnamilegacy
         image: kubectl
         tag: 1.29.2
     webhook:
