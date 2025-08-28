@@ -9,12 +9,24 @@ data:
     fluentbit:
       enabled: false
 
+    # Define input source for Fluentd (acts as log receiver)
+    clusterInputs:
+      - name: fluentd-forward
+        spec:
+          forward:
+            bind: "0.0.0.0"
+            port: 24224
+
+    # Define the flow: input -> output
     clusterFlows:
       - name: cluster-containers
         spec:
+          inputRefs:
+            - fluentd-forward
           globalOutputRefs:
             - loki
 
+    # Define output: Loki
     clusterOutputs:
       - name: loki
         spec:
@@ -31,9 +43,11 @@ data:
             extra_labels:
               log_source: kubernetes_container
 
+    # TLS for fluentd endpoints
     tls:
       enabled: true
 
+    # Fluentd configuration
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
@@ -59,6 +73,8 @@ data:
         timeoutSeconds: 3
       logLevel: warn
       fluentLogDestination: stdout
+
+      # Persistent buffer
       bufferStorageVolume:
         pvc:
           source:
@@ -70,6 +86,8 @@ data:
               requests:
                 storage: 10Gi
             volumeMode: Filesystem
+
+      # Metrics
       metrics:
         port: 24231
         path: /metrics
@@ -78,5 +96,7 @@ data:
         port: 9200
         path: /metrics
         prometheusAnnotations: true
+
+      # Config-reloader integration
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls

@@ -1,3 +1,4 @@
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -8,6 +9,7 @@ spec:
   url: "oci://ghcr.io/kube-logging/helm-charts/logging-operator"
   ref:
     tag: 6.0.3
+
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,6 +34,7 @@ spec:
   values:
     fluentbit:
       enabled: false
+
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
@@ -78,11 +81,25 @@ spec:
         prometheusAnnotations: true
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+
+    tls:
+      enabled: true
+
+    clusterInputs:
+      - name: fluentd-forward
+        spec:
+          forward:
+            bind: "0.0.0.0"
+            port: 24224
+
     clusterFlows:
       - name: cluster-containers
         spec:
+          inputRefs:
+            - fluentd-forward
           globalOutputRefs:
             - loki
+
     clusterOutputs:
       - name: loki
         spec:
@@ -98,5 +115,3 @@ spec:
               flush_thread_count: 8
             extra_labels:
               log_source: kubernetes_container
-    tls:
-      enabled: true

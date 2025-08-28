@@ -7,11 +7,6 @@ ignore:
   - docker.io/mesosphere/flux-oci-mirror:v0.2.5
 
 resources:
-  - container_image: docker.io/fluent/fluent-bit:4.0.5
-    sources:
-      - license_path: LICENSE
-        ref: v${image_tag}
-        url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.11.1
     sources:
       - url: https://github.com/aquasecurity/kube-bench
@@ -430,12 +425,23 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/logging-operator:6.0.3
+  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.4.0
+    sources:
+      - ref: ${image_tag}
+        url: https://github.com/kube-logging/logging-operator
+        directory: /images/config-reloader
+  - container_image: ghcr.io/kube-logging/logging-operator:5.4.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
+  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:5.4.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kube-logging/logging-operator
+        directory: /images/node-exporter
   - container_image: ghcr.io/mesosphere/kubefed:v0.11.1
     sources:
       - license_path: LICENSE
@@ -600,6 +606,11 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
+  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.4.0-full
+    sources:
+      - url: https://github.com/kube-logging/logging-operator
+        ref: ${image_tag%-full}
+        license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
