@@ -9,6 +9,18 @@ data:
     fluentbit:
       enabled: false
 
+    configReloader:
+      enabled: true
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/config-reloader
+        tag: 6.0.3
+
+    nodeExporter:
+      enabled: true
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/node-exporter
+        tag: 6.0.3
+
     clusterFlows:
       - name: cluster-containers
         spec:
