@@ -430,23 +430,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
-    sources:
-      - ref: ${image_tag}
-        url: https://github.com/kube-logging/logging-operator
-        directory: /images/config-reloader
   - container_image: ghcr.io/kube-logging/logging-operator:6.0.3
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:6.0.3
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/kube-logging/logging-operator
-        directory: /images/node-exporter
   - container_image: ghcr.io/mesosphere/kubefed:v0.11.1
     sources:
       - license_path: LICENSE
