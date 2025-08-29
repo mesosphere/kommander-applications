@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logging-operator-6.0.3-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    
+    clusterFlows:
+      - name: cluster-containers
+        spec:
+          globalOutputRefs:
+            - loki
+
+    clusterOutputs:
+      - name: loki
+        spec:
+          loki:
+            url: http://grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local:80
+            extract_kubernetes_labels: true
+            configure_kubernetes_labels: true
+            buffer:
+              retry_forever: false
+              retry_max_times: 5
+              flush_mode: interval
+              flush_interval: 10s
+              flush_thread_count: 8
+            extra_labels:
+              log_source: kubernetes_container
+
+    tls:
+      enabled: true
+
+    fluentd:
+      podPriorityClassName: "dkp-critical-priority"
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/fluentd
+        tag: 6.0.3-full
+      resources:
+        limits:
+          memory: 400Mi
+          cpu: 1000m
+        requests:
+          memory: 100Mi
+          cpu: 500m
+      scaling:
+        replicas: 1
+      port: 24240
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        successThreshold: 1
+        tcpSocket:
+          port: 24240
+        timeoutSeconds: 3
+      logLevel: warn
+      fluentLogDestination: stdout
+      bufferStorageVolume:
+        pvc:
+          source:
+            claimName: fluentd-buffer
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            volumeMode: Filesystem
+      metrics:
+        port: 24231
+        path: /metrics
+        prometheusAnnotations: true
+      bufferVolumeMetrics:
+        port: 9200
+        path: /metrics
+        prometheusAnnotations: true
+      statefulsetAnnotations:
+        secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+
+    # Fluent Bit new syntax config block
+    fluentbitConfig:
+      service:
+        flush: 1
+        daemon: Off
+        log_level: info
+        parsers_file: parsers.conf
+        http_server: On
+        http_listen: 0.0.0.0
+        http_port: 2020
+
+      inputs:
+        - name: tail
+          path: /var/log/containers/*.log
+          multiline:
+            pattern: ^\d{4}-\d{2}-\d{2}
+            negate: true
+            match: after
+          parser: cri
+          tag: kubernetes.*
+          db: /tail-db/kubernetes.db
+          skip_long_lines: On
+          refresh_interval: 5
+          rotate_wait: 5
+          mem_buf_limit: 5MB
+
+      filters:
+        - name: kubernetes
+          match: kubernetes.*
+          kube_url: https://kubernetes.default.svc:443
+          kube_ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          kube_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          merge_log: On
+          keep_log: On
+          labels: On
+          annotations: On
+          buffer_size: 0
+          tls_verify: On
+          k8s_logging_parser: Off
+          k8s_logging_exclude: Off
+
+      outputs:
+        - name: forward
+          match: "*"
+          host: fluentd.logging.svc
+          port: 24240
+          retry_limit: 5
