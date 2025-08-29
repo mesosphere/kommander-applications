@@ -31,7 +31,23 @@ spec:
   releaseName: logging-operator
   values:
     fluentbit:
-      enabled: false
+      enabled: true
+      image:
+        repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
+        tag: 3.2.5-d2iq.0
+
+    configReloader:
+      enabled: true
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/config-reloader
+        tag: 6.0.3
+
+    nodeExporter:
+      enabled: true
+      image:
+        repository: ghcr.io/kube-logging/logging-operator/node-exporter
+        tag: 6.0.3
+
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
@@ -78,11 +94,13 @@ spec:
         prometheusAnnotations: true
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
+
     clusterFlows:
       - name: cluster-containers
         spec:
           globalOutputRefs:
             - loki
+
     clusterOutputs:
       - name: loki
         spec:
@@ -98,5 +116,6 @@ spec:
               flush_thread_count: 8
             extra_labels:
               log_source: kubernetes_container
+
     tls:
       enabled: true
