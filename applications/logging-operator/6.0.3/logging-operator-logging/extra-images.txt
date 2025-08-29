@@ -1,4 +1,4 @@
-{{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
-{{ .Values.fluentd.image.repository }}:{{ .Values.fluentd.image.tag }}
+ghcr.io/kube-logging/logging-operator/fluentd:6.0.3-full
+ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:3.2.5-d2iq.0
 ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
 ghcr.io/kube-logging/logging-operator/node-exporter:6.0.3
