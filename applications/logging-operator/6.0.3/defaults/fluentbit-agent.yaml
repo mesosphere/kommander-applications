@@ -5,8 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   image:
-    repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
-    tag: 3.2.5-d2iq.0
+    repository: docker.io/fluent/fluent-bit
+    tag: 4.0.8
   podPriorityClassName: dkp-critical-priority
   resources:
     limits:
