@@ -35,10 +35,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: logging-operator-logging-6.0.3-config-defaults
-    # FIXME: To make logging-operator-logging work properly with federated
-    # overrides, the `logging-operator` app should be split into two,
-    # after which this entry should be replaced with `configOverrides`
-    # in the AppDeployment
     - kind: ConfigMap
       name: logging-operator-logging-overrides
       optional: true
