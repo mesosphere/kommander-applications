@@ -68,9 +68,11 @@ data:
     memcached:
       priorityClassName: "dkp-critical-priority"
       image:
+        repository: bitnamilegacy/memcached
         tag: 1.6.19-debian-11-r7
     postgresql:
       primary:
         priorityClassName: "dkp-critical-priority"
       image:
+        repository: bitnamilegacy/postgresql
         tag: 11.22.0-debian-11-r4

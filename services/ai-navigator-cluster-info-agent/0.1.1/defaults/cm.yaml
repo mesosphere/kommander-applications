@@ -27,6 +27,7 @@ data:
     fullnameOverride: ""
 
     priorityClassName: dkp-high-priority
+    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.27.9}
     serviceAccount:
       # Specifies whether a service account should be created
       create: true

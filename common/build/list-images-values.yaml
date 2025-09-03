@@ -1,2 +1,3 @@
 secretName: unused
 commonName: unused
+kubectlImage: bitnamilegacy/kubectl:1.29.2

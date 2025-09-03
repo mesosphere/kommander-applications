@@ -13,7 +13,8 @@
     "kubernetes-helm": "latest",
     "kustomize":       "latest",
     "pre-commit":      "latest",
-    "yq-go":           "latest"
+    "yq-go":           "latest",
+    "git":             "latest"
   },
   "shell": {
     "scripts": {

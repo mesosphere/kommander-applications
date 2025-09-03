@@ -22,5 +22,5 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-charts-stable
         namespace: kommander-flux
-      version: "0.0.5"
+      version: "0.0.7"
   interval: 15s
