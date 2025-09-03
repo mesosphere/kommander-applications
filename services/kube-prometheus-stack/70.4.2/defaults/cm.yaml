@@ -389,12 +389,14 @@ data:
         users:
           auto_assign_org_role: Admin
         plugins:
-          allow_loading_unsigned_plugins: "grafana-piechart-panel"
+          public_key_retrieval_disabled: true
+          preinstall_disabled: true
         dashboards:
           default_home_dashboard_path: "/tmp/dashboards/k8s-resources-cluster.json"
         analytics:
           reporting_enabled: false
           check_for_updates: false
+          check_for_plugin_updates: false
 
       service:
         type: ClusterIP
