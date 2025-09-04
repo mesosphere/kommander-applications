@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ai-navigator-rag-0.7.3-config-defaults
+  name: ai-navigator-rag-0.7.6-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -14,4 +14,4 @@ data:
     image:
       rag:
         repository: "docker.io/mesosphere/ai-navigator-rag"
-      tag: "0.7.3"
+      tag: "0.7.6"
