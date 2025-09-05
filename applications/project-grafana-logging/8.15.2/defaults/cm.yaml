@@ -61,10 +61,12 @@ data:
       users:
         auto_assign_org_role: Admin
       plugins:
+        public_key_retrieval_disabled: true
         preinstall_disabled: true
       analytics:
         reporting_enabled: false
         check_for_updates: false
+        check_for_plugin_updates: false
 
     service:
       type: ClusterIP
