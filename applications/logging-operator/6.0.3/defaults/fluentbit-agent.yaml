@@ -1,4 +1,4 @@
-apiVersion: logging.banzaicloud.io/v1beta1
+apiVersion: logging.banzaicloud.io/v1
 kind: FluentbitAgent
 metadata:
   name: default
