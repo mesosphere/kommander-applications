@@ -30,7 +30,7 @@ metadata:
   name: logging-operator-logging-6.0.3-config-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: |-
+  values.yaml: |
     ---
     clusterFlows:
       - name: cluster-containers
@@ -45,6 +45,11 @@ data:
             extract_kubernetes_labels: true
             configure_kubernetes_labels: true
             buffer:
+              # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
+              # See https://github.com/banzaicloud/logging-operator/issues/674 and
+              # https://github.com/fluent/fluent-bit/issues/2748.
+              # fluentd uses exponential backoff when retrying logs. The retry limit should balance tolerance for
+              # temporary loki unavailability with dropping out-of-order logs that can't be delivered.
               retry_forever: false
               retry_max_times: 5
               flush_mode: interval
@@ -57,15 +62,16 @@ data:
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
+       # The image should be updated when logging-operator is upgraded.
         repository: ghcr.io/kube-logging/logging-operator/fluentd
         tag: 6.0.3-full
       resources:
-        limits:
-          memory: 400Mi
-          cpu: 1000m
-        requests:
-          memory: 100Mi
-          cpu: 500m
+       limits:
+         memory: 400Mi
+         cpu: 1000m
+       requests:
+         memory: 100Mi
+         cpu: 500m
       scaling:
         replicas: 1
       port: 24240
@@ -104,6 +110,8 @@ data:
     fluentbit:
       enabled: true
       image:
+      # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
+      # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: docker.io/fluent/fluent-bit
         tag: 4.0.8
       podPriorityClassName: dkp-critical-priority
@@ -155,5 +163,9 @@ data:
         hostPath:
           path: /var/log/tail-db
           type: DirectoryOrCreate
+      metrics:
+        port: 2020
+        path: /api/v1/metrics/prometheus
+        prometheusAnnotations: true
       daemonsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
