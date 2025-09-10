@@ -114,7 +114,7 @@ data:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: docker.io/fluent/fluent-bit
-        tag: 3.2.5-d2iq.0
+        tag: 4.0.8
       podPriorityClassName: dkp-critical-priority
       resources:
         limits:
