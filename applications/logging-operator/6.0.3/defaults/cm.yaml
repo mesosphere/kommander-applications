@@ -11,12 +11,12 @@ data:
         enabled: false
     priorityClassName: "dkp-critical-priority"
     resources:
-     limits:
-       cpu: 1000m
-       memory: 512Mi
-     requests:
-       cpu: 100m
-       memory: 128Mi
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     http:
       service:
         labels:
@@ -30,7 +30,7 @@ metadata:
   name: logging-operator-logging-6.0.3-config-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: |
+  values.yaml: |-
     ---
     clusterFlows:
       - name: cluster-containers
@@ -60,12 +60,12 @@ data:
         repository: ghcr.io/kube-logging/logging-operator/fluentd
         tag: 6.0.3-full
       resources:
-       limits:
-         memory: 400Mi
-         cpu: 1000m
-       requests:
-         memory: 100Mi
-         cpu: 500m
+        limits:
+          memory: 400Mi
+          cpu: 1000m
+        requests:
+          memory: 100Mi
+          cpu: 500m
       scaling:
         replicas: 1
       port: 24240
@@ -100,9 +100,60 @@ data:
         prometheusAnnotations: true
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
-    
+
     fluentbit:
-      enabled: false
+      enabled: true
       image:
-        repository: ""
-        tag: ""
+        repository: docker.io/fluent/fluent-bit
+        tag: 4.0.8
+      podPriorityClassName: dkp-critical-priority
+      resources:
+        limits:
+          memory: 750Mi
+        requests:
+          cpu: 350m
+          memory: 350Mi
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+        - operator: Exists
+          effect: NoExecute
+        - operator: Exists
+          key: CriticalAddonsOnly
+      metrics:
+        port: 2020
+        path: /api/v1/metrics/prometheus
+        prometheusAnnotations: true
+      inputTail:
+        Path: /var/log/containers/*.log
+        Tag: kubernetes.*
+        Parser: cri
+        DB: /tail-db/kubernetes.db
+        Skip_Long_Lines: "On"
+        Refresh_Interval: "5"
+        Rotate_Wait: "5"
+        Mem_Buf_Limit: 5MB
+      filterKubernetes:
+        Match: kubernetes.*
+        Kube_Tag_Prefix: kubernetes.var.log.containers
+        Merge_Log: "On"
+        Labels: "On"
+        Annotations: "On"
+        Buffer_Size: "0"
+        Kube_URL: https://kubernetes.default.svc:443
+        Kube_CA_File: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        Kube_Token_File: /var/run/secrets/kubernetes.io/serviceaccount/token
+        tls_verify: "On"
+        K8S-Logging.Parser: "Off"
+        K8S-Logging.Exclude: "Off"
+      outputForward:
+        match: "*"
+        host: fluentd.logging.svc
+        port: 24240
+        retry_limit: "5"
+      positiondb:
+        hostPath:
+          path: /var/log/tail-db
+          type: DirectoryOrCreate
+      daemonsetAnnotations:
+        secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
