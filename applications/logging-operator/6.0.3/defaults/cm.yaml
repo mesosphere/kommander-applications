@@ -30,7 +30,7 @@ metadata:
   name: logging-operator-logging-6.0.3-config-defaults
   namespace: ${releaseNamespace}
 data:
-  values.yaml: |
+  values.yaml: |-
     ---
     clusterFlows:
       - name: cluster-containers
@@ -57,21 +57,23 @@ data:
               flush_thread_count: 8
             extra_labels:
               log_source: kubernetes_container
+
     tls:
       enabled: true
+
     fluentd:
       podPriorityClassName: "dkp-critical-priority"
       image:
-       # The image should be updated when logging-operator is upgraded.
+        # The image should be updated when logging-operator is upgraded.
         repository: ghcr.io/kube-logging/logging-operator/fluentd
         tag: 6.0.3-full
       resources:
-       limits:
-         memory: 400Mi
-         cpu: 1000m
-       requests:
-         memory: 100Mi
-         cpu: 500m
+        limits:
+          memory: 400Mi
+          cpu: 1000m
+        requests:
+          memory: 100Mi
+          cpu: 500m
       scaling:
         replicas: 1
       port: 24240
@@ -108,12 +110,11 @@ data:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
 
     fluentbit:
-      enabled: true
       image:
-      # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
-      # Also, update the image in fluent-bit configuration if the image is upgraded here.
+        # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
+        # Also, update the image in fluent-bit configuration if the image is upgraded here.
         repository: docker.io/fluent/fluent-bit
-        tag: 4.0.8
+        tag: 3.2.5-d2iq.0
       podPriorityClassName: dkp-critical-priority
       resources:
         limits:
@@ -151,21 +152,22 @@ data:
         Kube_URL: https://kubernetes.default.svc:443
         Kube_CA_File: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         Kube_Token_File: /var/run/secrets/kubernetes.io/serviceaccount/token
-        tls_verify: "On"
+        tls.verify: "On"
         K8S-Logging.Parser: "Off"
         K8S-Logging.Exclude: "Off"
       outputForward:
+        # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
+        # See https://github.com/banzaicloud/logging-operator/issues/674 and
+        # https://github.com/fluent/fluent-bit/issues/2748.
+        # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
+        # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
         match: "*"
         host: fluentd.logging.svc
         port: 24240
-        retry_limit: "5"
+        retry_limit: 5   # must be integer
       positiondb:
         hostPath:
           path: /var/log/tail-db
           type: DirectoryOrCreate
-      metrics:
-        port: 2020
-        path: /api/v1/metrics/prometheus
-        prometheusAnnotations: true
       daemonsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
