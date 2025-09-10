@@ -100,8 +100,7 @@ data:
         prometheusAnnotations: true
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
-
-    # Stub to prevent Helm nil pointer errors (fluentbit deprecated)
+    
     fluentbit:
       enabled: false
       image:
