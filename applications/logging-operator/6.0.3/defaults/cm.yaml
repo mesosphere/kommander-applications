@@ -108,12 +108,11 @@ data:
         prometheusAnnotations: true
       statefulsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentd-tls
-
     fluentbit:
       image:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
-        repository: docker.io/fluent/fluent-bit
+        repository: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit
         tag: 4.0.8
       podPriorityClassName: dkp-critical-priority
       resources:
