@@ -33,7 +33,7 @@ spec:
   releaseName: grafana-logging
   valuesFrom:
     - kind: ConfigMap
-      name: grafana-logging-9.3.1-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
