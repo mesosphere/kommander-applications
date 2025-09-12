@@ -59,17 +59,17 @@ spec:
                 path: /spec/template/spec/containers/0/env/-
                 value:
                   name: HTTP_PROXY
-                  value: ${httpProxy:-""}
+                  value: ${httpProxy}
               - op: add
                 path: /spec/template/spec/containers/0/env/-
                 value:
                   name: HTTPS_PROXY
-                  value: ${httpsProxy:-""}
+                  value: ${httpsProxy}
               - op: add
                 path: /spec/template/spec/containers/0/env/-
                 value:
                   name: NO_PROXY
-                  value: ${noProxy:-""}
+                  value: ${noProxy}
   valuesFrom:
     - kind: ConfigMap
       name: kommander-flux-2.6.4-config-defaults
