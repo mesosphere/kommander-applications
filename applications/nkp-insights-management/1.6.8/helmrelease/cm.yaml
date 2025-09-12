@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-management-1.6.8-config-defaults
+  name: ${releaseName}-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
