@@ -32,7 +32,7 @@ spec:
   releaseName: centralized-grafana
   valuesFrom:
     - kind: ConfigMap
-      name: centralized-grafana-75.16.1-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
 ---
 apiVersion: v1
