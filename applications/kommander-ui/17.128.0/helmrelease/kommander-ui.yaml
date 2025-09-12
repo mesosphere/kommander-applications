@@ -34,7 +34,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-17.128.0-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: kommander-ui-overrides
       optional: true
