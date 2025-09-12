@@ -44,7 +44,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.19.2-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       valuesKey: controller-synced-values.yaml # only `controller-synced-values.yaml` from this ConfigMap is owned by kommmander controllers. `values.yaml` is still meant for human consumption.
@@ -109,7 +109,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-      name: gatekeeper-3.19.2-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
