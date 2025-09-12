@@ -32,4 +32,4 @@ spec:
   releaseName: prometheus-thanos-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: prometheus-thanos-traefik-0.0.3-config-defaults
+      name: ${releaseName}-config-defaults
