@@ -1,0 +1,75 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: flux2
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/fluxcd-community/charts/flux2"
+  ref:
+    tag: 2.16.4
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kommander-flux
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: nutanix-ai
+    namespace: ${workspaceNamespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: kommander-flux
+  targetNamespace: kommander-flux
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: networking.k8s.io
+              version: v1
+              kind: NetworkPolicy
+              name: allow-source
+              namespace: kommander-flux
+            patch: |
+              - op: add
+                path: /spec/ingress/0/from/-
+                value:
+                  namespaceSelector:
+                    matchLabels:
+                      kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+                  podSelector:
+                    matchLabels:
+                      kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: HTTP_PROXY
+                  value: ${httpProxy:-""}
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: HTTPS_PROXY
+                  value: ${httpsProxy:-""}
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: NO_PROXY
+                  value: ${noProxy:-""}
+  valuesFrom:
+    - kind: ConfigMap
+      name: kommander-flux-2.6.4-d2iq-defaults
