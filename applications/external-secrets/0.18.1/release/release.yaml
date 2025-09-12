@@ -36,7 +36,7 @@ spec:
   releaseName: external-secrets
   valuesFrom:
     - kind: ConfigMap
-      name: external-secrets-0.18.1-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: external-secrets-overrides
       optional: true
