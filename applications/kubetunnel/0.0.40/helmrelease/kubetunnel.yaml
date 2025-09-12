@@ -32,4 +32,4 @@ spec:
   releaseName: kubetunnel
   valuesFrom:
     - kind: ConfigMap
-      name: kubetunnel-0.0.40-config-defaults
+      name: ${releaseName}-config-defaults
