@@ -35,7 +35,7 @@ spec:
   releaseName: knative-deploy
   valuesFrom:
     - kind: ConfigMap
-      name: knative-1.18.1-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: knative-config-overrides
       optional: true
