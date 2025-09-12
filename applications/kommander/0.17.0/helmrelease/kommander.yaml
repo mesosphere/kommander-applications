@@ -41,7 +41,7 @@ spec:
   releaseName: kommander
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-0.17.0-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: kommander-overrides
       optional: true
