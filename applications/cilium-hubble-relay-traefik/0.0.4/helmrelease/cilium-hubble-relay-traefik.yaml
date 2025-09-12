@@ -32,4 +32,4 @@ spec:
   releaseName: cilium-hubble-relay-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: cilium-hubble-relay-traefik-0.0.4-config-defaults
+      name: ${releaseName}-config-defaults
