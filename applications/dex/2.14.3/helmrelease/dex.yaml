@@ -32,7 +32,7 @@ spec:
   releaseName: dex
   valuesFrom:
     - kind: ConfigMap
-      name: dex-2.14.3-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: dex-overrides
       optional: true
