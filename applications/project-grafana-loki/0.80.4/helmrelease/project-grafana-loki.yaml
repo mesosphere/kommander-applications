@@ -34,4 +34,4 @@ spec:
   releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
-      name: project-grafana-loki-0.80.4-config-defaults
+      name: ${releaseName}-config-defaults
