@@ -17,8 +17,8 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: nutanix-ai
-    namespace: ${workspaceNamespace}
+    name: flux2
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
@@ -72,4 +72,5 @@ spec:
                   value: ${noProxy:-""}
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-flux-2.6.4-d2iq-defaults
+      name: kommander-flux-2.6.4-config-defaults
+
