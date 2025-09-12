@@ -39,7 +39,7 @@ spec:
               version: v1
               kind: NetworkPolicy
               name: allow-source
-              namespace: kommander-flux
+              namespace: ${releaseNamespace}
             patch: |
               - op: add
                 path: /spec/ingress/0/from/-
