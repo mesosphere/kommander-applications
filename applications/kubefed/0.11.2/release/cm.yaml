@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kubefed-0.11.2-config-defaults
+  name: ${releaseName}-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
