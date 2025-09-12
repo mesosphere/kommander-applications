@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: harbor-valkey-3.0.1-config-defaults
+  name: ${releaseName}-valkey-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
