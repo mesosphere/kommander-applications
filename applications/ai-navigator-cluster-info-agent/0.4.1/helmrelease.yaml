@@ -9,6 +9,7 @@ spec:
   path: ./applications/ai-navigator-cluster-info-agent/0.4.1/helmrelease
   postBuild:
     substitute:
+      releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
   prune: true
   retryInterval: 1m
