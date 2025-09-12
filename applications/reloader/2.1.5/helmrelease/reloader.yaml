@@ -31,7 +31,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: reloader-2.1.5-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: reloader-overrides
       optional: true
