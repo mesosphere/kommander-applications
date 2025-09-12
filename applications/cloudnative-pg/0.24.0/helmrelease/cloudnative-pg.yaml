@@ -33,5 +33,5 @@ spec:
   releaseName: kommander-cloudnative-pg
   valuesFrom:
     - kind: ConfigMap
-      name: cloudnative-pg-0.24.0-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
