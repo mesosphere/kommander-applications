@@ -28,4 +28,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-pulse-workspace-0.2.11-config-defaults
+      name: ${releaseName}-config-defaults
