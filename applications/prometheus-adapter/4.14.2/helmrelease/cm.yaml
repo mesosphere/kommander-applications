@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: prometheus-adapter-4.14.2-config-defaults
+  name: ${releaseName}-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
