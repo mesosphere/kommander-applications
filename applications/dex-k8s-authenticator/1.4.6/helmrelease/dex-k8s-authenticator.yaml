@@ -42,7 +42,7 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: dex-k8s-authenticator-1.4.6-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: dex-k8s-authenticator-overrides
       optional: true
