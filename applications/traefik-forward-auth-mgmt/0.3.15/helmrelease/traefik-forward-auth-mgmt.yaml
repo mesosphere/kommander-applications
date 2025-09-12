@@ -38,7 +38,7 @@ spec:
   releaseName: traefik-forward-auth-mgmt
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-forward-auth-mgmt-0.3.15-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: traefik-forward-auth-mgmt-overrides
       optional: true
