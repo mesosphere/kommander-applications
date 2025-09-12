@@ -33,4 +33,4 @@ spec:
   releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
-      name: fluent-bit-0.50.0-config-defaults
+      name: ${releaseName}-config-defaults
