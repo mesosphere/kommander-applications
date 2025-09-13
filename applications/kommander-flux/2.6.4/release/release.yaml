@@ -73,3 +73,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: kommander-flux-2.6.4-config-defaults
+    - kind: ConfigMap
+      name: kommander-flux-overrides
+      optional: true
