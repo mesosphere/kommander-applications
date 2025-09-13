@@ -7,6 +7,12 @@ spec:
   ingress:
   - from:
     - namespaceSelector: {}
+    - namespaceSelector:
+        matchLabels:
+          kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+      podSelector:
+        matchLabels:
+          kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
   podSelector:
     matchLabels:
       app: source-controller

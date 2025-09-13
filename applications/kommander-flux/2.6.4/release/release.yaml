@@ -35,22 +35,6 @@ spec:
     - kustomize:
         patches:
           - target:
-              group: networking.k8s.io
-              version: v1
-              kind: NetworkPolicy
-              name: allow-source
-              namespace: kommander-flux
-            patch: |
-              - op: add
-                path: /spec/ingress/0/from/-
-                value:
-                  namespaceSelector:
-                    matchLabels:
-                      kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
-                  podSelector:
-                    matchLabels:
-                      kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
-          - target:
               group: apps
               version: v1
               kind: Deployment
