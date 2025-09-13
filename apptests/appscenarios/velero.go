@@ -61,17 +61,8 @@ func (v velero) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (v velero) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults configmaps first
-	defaultKustomization := filepath.Join(appPath, "defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-
 	preInstallPath := filepath.Join(appPath, "pre-install")
-	err = env.ApplyYAML(ctx, preInstallPath, map[string]string{
+	err := env.ApplyYAML(ctx, preInstallPath, map[string]string{
 		"releaseNamespace":         kommanderNamespace,
 		"kubetoolsImageRepository": kubetoolsImageRepository,
 		"kubetoolsImageTag":        kubetoolsImageTag,
@@ -105,6 +96,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 
 	veleroPath := filepath.Join(appPath, "helmrelease")
 	err = env.ApplyYAML(ctx, veleroPath, map[string]string{
+		"releaseName":      "anyReleaseName",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
