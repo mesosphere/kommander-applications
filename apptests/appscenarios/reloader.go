@@ -45,16 +45,8 @@ func (r reloader) InstallPreviousVersion(ctx context.Context, env *environment.E
 }
 
 func (r reloader) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults config maps first
-	defaultKustomizations := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
+	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
