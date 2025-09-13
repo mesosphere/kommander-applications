@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-obc-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    dkp:
+      # The name of the bucket is important here as rook creates
+      # a ConfigMap and Secret with same name as bucket.
+      # velero/Loki refers to the secret by name and changing the bucket name
+      # here would affect velero/loki configuration.
+      velero:
+        enabled: true
+        bucketName: dkp-velero
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          maxSize: "20G"
+      grafana-loki:
+        enabled: true
+        bucketName: dkp-loki
+        storageClassName: dkp-object-store
+        enableOBCHealthCheck: true
+        priorityClassName: system-cluster-critical
+        ttlSecondsAfterFinished: 100
+        additionalConfig:
+          # maxObjects:
+          maxSize: "80G"

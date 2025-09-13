@@ -34,5 +34,5 @@ spec:
   releaseName: rook-ceph-cluster
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-cluster-1.17.6-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}

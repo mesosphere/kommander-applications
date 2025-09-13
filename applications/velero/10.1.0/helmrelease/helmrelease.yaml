@@ -32,6 +32,6 @@ spec:
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap
-      name: velero-10.1.0-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
 ---

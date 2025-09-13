@@ -32,4 +32,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-1.6.8-config-defaults
+      name: ${releaseName}-config-defaults

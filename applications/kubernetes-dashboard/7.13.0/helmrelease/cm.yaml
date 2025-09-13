@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    # so that kubectl proxy works
+    fullnameOverride: 'kubernetes-dashboard'
+    app:
+      priorityClassName: dkp-high-priority
+      image:
+        pullPolicy: Always
+      ingress:
+        enabled: true
+        ingressClassName: kommander-traefik
+        annotations:
+          kubernetes.io/ingress.class: kommander-traefik
+          traefik.ingress.kubernetes.io/router.tls: "true"
+          traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
+        path: /dkp/kubernetes
+        hosts: ~
+    api:
+      containers:
+        args:
+          - --namespace=${releaseNamespace}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+    auth:
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 250m
+            memory: 400Mi
+    web:
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+    metricsScraper:
+      enabled: true
+      containers:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 250m
+            memory: 400Mi
+    kong:
+      priorityClassName: dkp-high-priority
+      env:
+        anonymous_reports: "off"
+      image:
+        repository: docker.io/library/kong
+        tag: "3.9.1"   # Specify the Kong image tag here
+        pullPolicy: IfNotPresent  # Ensure the image is always pulled
+      admin:
+        tls:
+          enabled: false
+      # ensure it's using ipv4
+      proxy:
+        addresses:
+          - 0.0.0.0
+      status:
+        addresses:
+          - 0.0.0.0

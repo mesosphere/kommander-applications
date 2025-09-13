@@ -9,6 +9,7 @@ spec:
   path: ./applications/ai-navigator-rag/0.7.3/helmrelease
   postBuild:
     substitute:
+      releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
   prune: true
   retryInterval: 1m
