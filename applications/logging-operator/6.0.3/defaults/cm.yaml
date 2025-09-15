@@ -170,4 +170,3 @@ data:
           type: DirectoryOrCreate
       daemonsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
-
