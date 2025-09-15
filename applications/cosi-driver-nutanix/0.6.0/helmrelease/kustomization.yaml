@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - cm.yaml
   - cosi-driver-nutanix.yaml
+  - cosi-resources-nutanix.yaml
