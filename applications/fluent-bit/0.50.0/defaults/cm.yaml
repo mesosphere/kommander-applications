@@ -10,7 +10,7 @@ data:
     image:
       # Pull from docker hub rather than cr.fluentbit.io to avoid rate limiting.
       repository: docker.io/fluent/fluent-bit
-      tag: 4.0.8
+      tag: 3.2.5-d2iq.0
 
     priorityClassName: "dkp-critical-priority"
     resources:
