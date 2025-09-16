@@ -33,7 +33,7 @@ spec:
   releaseName: kubefed
   valuesFrom:
     - kind: ConfigMap
-      name: kubefed-0.11.2-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: kubefed-overrides
       optional: true

@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-cosi-bucket-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  cosi-bucket-kit-values.yaml: |
+    # COSI related resources corresponding to cosi-bucket-kit chart from mesosphere/charts stable repo.
+    cosiBucketKit:
+      enabled: true
+      transformations:
+        kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+      bucketClasses: # Cluster scoped resource
+        - name: cosi-ceph-nkp
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          deletionPolicy: Delete
+          parameters:
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      bucketAccessClasses: # Cluster scoped resource
+        - name: cosi-ceph-nkp
+          driverName: rook-ceph.ceph.objectstorage.k8s.io
+          authenticationType: KEY
+          parameters:
+            # This secret (backed by a ceph user) is created below in the driver config.
+            objectStoreUserSecretName: rook-ceph-object-user-dkp-object-store-cosi-admin
+            objectStoreUserSecretNamespace: ${releaseNamespace}
+      cosiProviders:
+        ceph:
+          driver:
+            enabled: true
+            name: ceph-cosi-driver
+            namespace: ${releaseNamespace}
+            spec:
+              deploymentStrategy: Auto
+              objectProvisionerImage: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+          adminuser:
+            enabled: true
+            name: cosi-admin
+            namespace: ${releaseNamespace}
+            spec:
+              displayName: "ceph cosi admin"
+              store: dkp-object-store
+              capabilities:
+                bucket: "*"
+                user: "*"

@@ -65,18 +65,9 @@ func (r kubeCost) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults configmaps first
-	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-
 	// Kubecost has been restructured in 2.14.x. For upgrades to work, we need to handle both versions gracefully.
 	helmReleasePath := filepath.Join(appPath, "/release")
-	if _, err = os.Stat(helmReleasePath); err == nil {
+	if _, err := os.Stat(helmReleasePath); err == nil {
 		// kubecost installation requires that a secret named "tls-root-ca" exists in the installation namespace. It's fine if the secret is empty.
 		if err = r.satisfyKubecostPrerequisites(ctx, env); err != nil {
 			return err
@@ -85,6 +76,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 		// apply the kustomization for the prereqs
 		prereqs := filepath.Join(appPath, "/pre-install")
 		err = env.ApplyKustomizations(ctx, prereqs, map[string]string{
+			"releaseName":      "app-deployment-name",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -93,6 +85,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 
 		// apply the kustomization for the helmrelease
 		err = env.ApplyKustomizations(ctx, helmReleasePath, map[string]string{
+			"releaseName":      "app-deployment-name",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -103,6 +96,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 
 	// apply the helmrelease which is at the "/" path up to 2.13.x
 	return env.ApplyKustomizations(ctx, filepath.Join(appPath, "/"), map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 }

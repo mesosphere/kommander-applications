@@ -70,18 +70,12 @@ func NewGatekeeper() *gatekeeper {
 }
 
 func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults config maps first
-	defaultKustomizations := filepath.Join(appPath, "/defaults")
 	substMap := map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	}
 	// apply the gatekeeper HelmReleases
-	err := env.ApplyKustomizations(ctx, defaultKustomizations, substMap)
-	if err != nil {
-		return err
-	}
-	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, filepath.Join(appPath, "/release"), substMap)
+	err := env.ApplyKustomizations(ctx, filepath.Join(appPath, "/release"), substMap)
 	if err != nil {
 		return err
 	}

@@ -35,7 +35,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-36.2.0-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true

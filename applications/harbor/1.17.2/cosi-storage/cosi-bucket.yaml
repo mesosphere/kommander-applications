@@ -34,7 +34,7 @@ spec:
   targetNamespace: ncr-system
   valuesFrom:
     - kind: ConfigMap
-      name: harbor-1.17.2-config-defaults
+      name: ${releaseName}-cosi-config-defaults
       valuesKey: harbor-cosi-values.yaml
     - kind: ConfigMap
       name: harbor-config-overrides

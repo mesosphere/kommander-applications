@@ -60,18 +60,10 @@ func (r externalDns) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (r externalDns) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults configmaps first
-	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-
 	// apply the kustomization for the helmrelease
 	releasePath := filepath.Join(appPath, "/")
-	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

@@ -23,7 +23,7 @@ spec:
   releaseName: traefik-crds
   valuesFrom:
     - kind: ConfigMap
-      name: traefik-crd-1.9.0-config-defaults
+      name: ${releaseName}-crds-config-defaults
     - kind: ConfigMap
       name: traefik-crd-overrides
       optional: true
