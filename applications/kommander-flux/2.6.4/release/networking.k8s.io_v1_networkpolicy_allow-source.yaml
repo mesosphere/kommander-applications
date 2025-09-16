@@ -1,17 +1,20 @@
-# For management cluster:
-# - controller manager ~~> source controller traffic must be allowed (For GitRepositoryAppsController)
-# For attached clusters:
-# - No one talks to source controller
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: not-used-in-a-patch
+  name: allow-source
+  namespace: ${releaseNamespace}
 spec:
   ingress:
   - from:
+    - namespaceSelector: {}
     - namespaceSelector:
         matchLabels:
           kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
       podSelector:
         matchLabels:
           kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+  podSelector:
+    matchLabels:
+      app: source-controller
+  policyTypes:
+  - Ingress
