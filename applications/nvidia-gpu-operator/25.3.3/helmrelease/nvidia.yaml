@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/gpu-operator"
   ref:
-    tag: v25.3.2
+    tag: v25.3.3
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,5 +32,5 @@ spec:
   releaseName: nvidia-gpu-operator
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-gpu-operator-25.3.2-config-defaults
+      name: nvidia-gpu-operator-25.3.3-config-defaults
   targetNamespace: ${releaseNamespace}
