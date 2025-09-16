@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opencost-2.2.7-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    priorityClassName: dkp-high-priority
+    service:
+      enabled: true
+    opencost:
+      prometheus:
+        internal:
+          enabled: true
+          namespaceName: ${releaseNamespace}
+          serviceName: kube-prometheus-stack-prometheus
+          port: 9090
+
+      dataRetention:
+        dailyResolutionDays: 14
+
+      # frontend
+      ui:
+        enabled: true
+        ingress:
+          enabled: true
+          ingressClassName: "kommander-traefik"
+          annotations:
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+          hosts:
+            - paths:
+                - path: /dkp/kommander/opencost/frontend
+
+      # backend
+      exporter:
+        extraEnv:
+          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+        apiIngress:
+          enabled: true
+          ingress:
+            enabled: true
+            ingressClassName: "kommander-traefik"
+            annotations:
+              traefik.ingress.kubernetes.io/router.tls: "true"
+              traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
+            hosts:
+              - paths:
+                  - path: /dkp/kommander/opencost/frontend
+                    pathType: ImplementationSpecific
+
+        replicas: 1
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "55Mi"
+          limits:
+            memory: "1Gi"
+        persistence:
+          enabled: true
+          storageClass: "nutanix-volume"
+          accessMode: ReadWriteOnce
+          size: 10Gi
+
+      metrics:
+        kubeStateMetrics:
+          emitKsmV1Metrics: false
+          emitKsmV1MetricsOnly: false
+        serviceMonitor:
+          enabled: true
