@@ -6,12 +6,20 @@ permissions:
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
+    branches:
+      - '*'
   workflow_dispatch: {}
   push:
     tags:
       - v*
     branches:
       - main
+      - check-test-license
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check-license-yaml:
     runs-on: ubuntu-latest
