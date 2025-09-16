@@ -166,6 +166,10 @@ applications/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:
     - applications/nvidia-gpu-operator/**
+applications/opencost:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/opencost/**
 applications/project-grafana-logging:
 - changed-files:
   - any-glob-to-any-file:
