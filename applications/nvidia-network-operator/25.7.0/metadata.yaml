@@ -1,0 +1,26 @@
+schema: catalog.nkp.nutanix.com/v1/application-metadata
+allowMultipleInstances: true
+category:
+- general
+type: nkp-core-platform
+description: The NVIDIA Network Operator simplifies the provisioning and management of NVIDIA networking resources in a Kubernetes cluster.
+displayName: NVIDIA Network Operator
+icon: ""
+scope:
+- workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
+certifications:
+  - qualified
+  - airgapped
+overview: |-
+  # Overview
+  The operator automatically installs the required host networking software - bringing together all the needed components to provide high-speed network connectivity. These components include the NVIDIA networking driver, Kubernetes device plugin, CNI plugins, IP address management (IPAM) plugin and others.
+
+  ## More Information
+    - [NVIDIA Network Operator Documentation](https://docs.nvidia.com/networking/display/kubernetes2570/index.html)
+    - [NVIDIA Network Operator - GitHub](https://github.com/Mellanox/network-operator/tree/master)
+---
