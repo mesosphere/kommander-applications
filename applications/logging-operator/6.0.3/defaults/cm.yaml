@@ -154,19 +154,20 @@ data:
         tls.verify: "On"
         K8S-Logging.Parser: "Off"
         K8S-Logging.Exclude: "Off"
-      outputForward:
+      forwardOptions:
         # Limit retries to prevent getting stuck on delivering logs out-of-order to Loki.
         # See https://github.com/banzaicloud/logging-operator/issues/674 and
         # https://github.com/fluent/fluent-bit/issues/2748.
         # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
         # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
-        match: "*"
-        host: fluentd.logging.svc
-        port: 24240
-        retry_limit: 5   # must be integer
+        Retry_Limit: "5"
       positiondb:
         hostPath:
           path: /var/log/tail-db
           type: DirectoryOrCreate
+      metrics:
+        port: 2020
+        path: /api/v1/metrics/prometheus
+        prometheusAnnotations: true
       daemonsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
