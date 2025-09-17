@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nvidia-network-operator-25.7.0-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    nfd:
+      enabled: false
+      deployNodeFeatureRules: true
+    upgradeCRDs: true
+    sriovNetworkOperator:
+      enabled: false
+    nicConfigurationOperator:
+      enabled: false
+    maintenanceOperator:
+      enabled: false
+---
