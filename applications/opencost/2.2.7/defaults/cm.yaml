@@ -29,25 +29,16 @@ data:
             traefik.ingress.kubernetes.io/router.tls: "true"
             traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
           hosts:
-            - paths:
-                - path: /dkp/kommander/opencost/frontend
+            - host: ""
+              paths:
+                - /dkp/kommander/opencost/frontend
 
       # backend
       exporter:
         extraEnv:
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
         apiIngress:
-          enabled: true
-          ingress:
-            enabled: true
-            ingressClassName: "kommander-traefik"
-            annotations:
-              traefik.ingress.kubernetes.io/router.tls: "true"
-              traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
-            hosts:
-              - paths:
-                  - path: /dkp/kommander/opencost/frontend
-                    pathType: ImplementationSpecific
+          enabled: false
 
         replicas: 1
         resources:
