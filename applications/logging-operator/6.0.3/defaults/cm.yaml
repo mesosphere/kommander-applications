@@ -37,6 +37,14 @@ data:
         spec:
           globalOutputRefs:
             - loki
+      - name: forward-to-fluentd
+        spec:
+          forward:
+            match: "*"
+            host: fluentd.logging.svc
+            port: 24240
+            retry_limit: 5
+
     clusterOutputs:
       - name: loki
         spec:
@@ -160,14 +168,10 @@ data:
         # https://github.com/fluent/fluent-bit/issues/2748.
         # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
         # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
-        Retry_Limit: "5"
+        retry_limit: 5
       positiondb:
         hostPath:
           path: /var/log/tail-db
           type: DirectoryOrCreate
-      metrics:
-        port: 2020
-        path: /api/v1/metrics/prometheus
-        prometheusAnnotations: true
       daemonsetAnnotations:
         secret.reloader.stakater.com/reload: logging-operator-logging-fluentbit-tls
