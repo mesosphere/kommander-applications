@@ -21,6 +21,10 @@ data:
 
       # frontend
       ui:
+        image:
+          registry: ghcr.io
+          repository: opencost/opencost-ui
+          tag: "1.117.3"
         enabled: true
         ingress:
           enabled: true
@@ -35,6 +39,10 @@ data:
 
       # backend
       exporter:
+        image:
+          registry: ghcr.io
+          repository: opencost/opencost
+          tag: "1.117.3"
         extraEnv:
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
         apiIngress:
