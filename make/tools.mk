@@ -18,5 +18,5 @@ $(YQ_BIN):
 
 $(NKP_CLI_BIN):
 	mkdir -p `dirname $@`
-	curl -fsSL https://downloads.d2iq.com/dkp/$(NKP_CLI_VERSION)/nkp_$(NKP_CLI_VERSION)_$(GOOS)_amd64.tar.gz | tar xz -O > $@
+	curl -fsSL https://s3.amazonaws.com/downloads.mesosphere.io/dkp/$(NKP_CLI_VERSION)/nkp_$(NKP_CLI_VERSION)_$(GOOS)_amd64.tar.gz | tar xz -O > $@
 	chmod +x $@
