@@ -923,3 +923,13 @@ resources:
       - url: nvcr.io/nvidia/mellanox/doca-driver
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.3
+    sources:
+      - url: https://github.com/NVIDIA/gpu-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/cloud-native/vgpu-device-manager:v0.4.0
+    sources:
+      - url: https://github.com/NVIDIA/vgpu-device-manager
+        ref: ${image_tag}
+        license_path: LICENSE
