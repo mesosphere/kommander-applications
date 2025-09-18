@@ -35,7 +35,7 @@ data:
           hosts:
             - host: ""
               paths:
-                - /dkp/kommander/opencost/frontend
+                - /dkp/opencost/frontend
 
       # backend
       exporter:
