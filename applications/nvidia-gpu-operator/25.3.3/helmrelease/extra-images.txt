@@ -9,3 +9,8 @@ nvcr.io/nvidia/cloud-native/k8s-mig-manager:{{ .Values.migManager.version }}
 # When the kernel changes this should change too.
 nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
 nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
+nvcr.io/nvidia/cloud-native/nvidia-fs:{{ .Values.gds.version }}-ubuntu20.04
+nvcr.io/nvidia/cloud-native/nvidia-fs:{{ .Values.gds.version }}-ubuntu22.04
+nvcr.io/nvidia/cloud-native/nvidia-fs:{{ .Values.gds.version }}-ubuntu24.04
+nvcr.io/nvidia/gpu-operator:{{ .Values.operator.version }}
+nvcr.io/nvidia/cloud-native/vgpu-device-manager:{{ .Values.vgpuDeviceManager.version }}

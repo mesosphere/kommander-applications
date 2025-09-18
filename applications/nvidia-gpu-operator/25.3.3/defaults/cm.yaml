@@ -48,8 +48,17 @@ data:
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
       version: v0.12.2-ubuntu20.04
+    vgpuDeviceManager:
+      enabled: true
+      repository: nvcr.io/nvidia/cloud-native
+      image: vgpu-device-manager
+      version: v0.4.0
+      imagePullPolicy: IfNotPresent
     gds:
       enabled: false
+      repository: nvcr.io/nvidia/cloud-native
+      image: nvidia-fs
+      version: "2.20.5"
     rdma:
       enabled: false
       useHostMofed: true
