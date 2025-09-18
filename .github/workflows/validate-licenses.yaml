@@ -14,7 +14,7 @@ on:
       - main
 jobs:
   check-license-yaml:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-large
     name: Check licenses.d2iq.yaml
     steps:
       - name: Checkout code
