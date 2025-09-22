@@ -1,1 +1,17 @@
-# TODO : add images to be bundled in airgapped
+nvcr.io/nvstaging/mellanox/sriov-network-operator:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/sriov-network-operator-config-daemon:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/sriov-cni:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/ib-sriov-cni:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/ovs-cni-plugin:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/rdma-cni:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
+ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+nvcr.io/nvstaging/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/maintenance-operator:network-operator-v25.7.0
+nvcr.io/nvstaging/mellanox/network-operator:v25.7.0
+nvcr.io/nvstaging/mellanox/network-operator-init-container:network-operator-v25.7.0
+ghcr.io/mellanox/nic-feature-discovery:v0.0.1
+ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
+nvcr.io/nvidia/mellanox/doca-driver:25.01-0.6.0.0-0
+ghcr.io/k8snetworkplumbingwg/plugins:v1.5.0
+ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.0
