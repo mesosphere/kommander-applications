@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: oci://ghcr.io/mesosphere/charts/network-operator
+  url: "oci://ghcr.io/mesosphere/charts/network-operator"
   ref:
     tag: 25.7.0
 ---
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: gpu-operator
+    name: network-operator
     namespace: ${releaseNamespace}
   install:
     crds: CreateReplace
@@ -25,7 +25,6 @@ spec:
     remediation:
       retries: 30
   interval: 15s
-  targetNamespace: ${releaseNamespace}
   upgrade:
     crds: CreateReplace
     remediation:
