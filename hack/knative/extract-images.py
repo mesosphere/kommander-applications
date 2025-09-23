@@ -587,11 +587,11 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
 def validate_version_exists(component, version):
     """Check if a specific version exists for a component in the knative/operator repository."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{component}/{version}"
-    
+
     content = run_curl(api_url)
     if not content:
         return False
-        
+
     try:
         response = json.loads(content)
         # If we get a "message" field with "Not Found", the version doesn't exist
@@ -605,11 +605,11 @@ def validate_version_exists(component, version):
 def get_available_versions(component):
     """Get list of available versions for a component."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{component}"
-    
+
     content = run_curl(api_url)
     if not content:
         return []
-        
+
     try:
         folders = json.loads(content)
         versions = []
@@ -711,48 +711,48 @@ def main():
     print("Validating versions...")
     eventing_exists = validate_version_exists("knative-eventing", eventing_version)
     serving_exists = validate_version_exists("knative-serving", serving_version)
-    
+
     errors = []
     warnings = []
-    
+
     if not eventing_exists:
         available_eventing = get_available_versions("knative-eventing")
         latest_eventing = available_eventing[-1] if available_eventing else "unknown"
         errors.append(f"❌ KNative eventing version {eventing_version} does not exist!")
         errors.append(f"   Available eventing versions: {', '.join(available_eventing[-5:] if available_eventing else ['none'])}")
         errors.append(f"   Latest available: {latest_eventing}")
-        
+
     if not serving_exists:
         available_serving = get_available_versions("knative-serving")
         latest_serving = available_serving[-1] if available_serving else "unknown"
         errors.append(f"❌ KNative serving version {serving_version} does not exist!")
         errors.append(f"   Available serving versions: {', '.join(available_serving[-5:] if available_serving else ['none'])}")
         errors.append(f"   Latest available: {latest_serving}")
-    
+
     # Check for version mismatches (common issue)
     if eventing_exists and serving_exists:
         if eventing_version != serving_version:
             warnings.append(f"⚠️  Warning: Using different versions for eventing ({eventing_version}) and serving ({serving_version})")
             warnings.append(f"   This may cause compatibility issues.")
-    
+
     # Print errors and warnings
     if errors:
         print("\nVersion Validation Errors:")
         print("-" * 40)
         for error in errors:
             print(error)
-    
+
     if warnings:
         print("\nWarnings:")
         print("-" * 20)
         for warning in warnings:
             print(warning)
-    
+
     # Exit if critical errors found
     if errors:
         print(f"\n❌ Cannot proceed with invalid versions. Please fix the version parameters and try again.")
         return 1
-        
+
     if warnings:
         print(f"\n✅ Validation passed with warnings. Proceeding...\n")
     else:
