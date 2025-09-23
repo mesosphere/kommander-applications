@@ -44,7 +44,7 @@ data:
           repository: opencost/opencost
           tag: "1.117.3"
         extraEnv:
-          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+          CURRENT_CLUSTER_ID_FILTER_ENABLED: "true"
         apiIngress:
           enabled: false
 
