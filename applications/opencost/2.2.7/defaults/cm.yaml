@@ -9,10 +9,12 @@ data:
     service:
       enabled: true
       labels:
-        prometheus.kommander.d2iq.io/select=true
+        prometheus.kommander.d2iq.io/select: "true"
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
     opencost:
       selectorLabels:
-        servicemonitor.kommander.mesosphere.io/path: metrics
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
       prometheus:
         internal:
           enabled: true
@@ -49,6 +51,7 @@ data:
           tag: "1.117.3"
         extraEnv:
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
         apiIngress:
           enabled: false
 
@@ -71,5 +74,7 @@ data:
           emitKsmV1MetricsOnly: false
         serviceMonitor:
           enabled: true
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
