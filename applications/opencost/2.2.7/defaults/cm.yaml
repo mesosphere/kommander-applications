@@ -76,5 +76,3 @@ data:
           enabled: true
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
-          additionalLabels:
-            prometheus.kommander.d2iq.io/select: "true"
