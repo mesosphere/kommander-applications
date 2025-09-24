@@ -196,7 +196,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.72.0
+  - container_image: docker.io/mesosphere/kommander:17.73.1
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -486,7 +486,7 @@ resources:
   - container_image: ghcr.io/kube-logging/fluentd:v1.17-5.0-full-build.173
     sources:
       - url: https://github.com/fluent/fluentd
-        ref: ${image_tag%-5.0-full-build.173}
+        ref: ${image_tag%%-*}.0
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.2.3-1-ubuntu22.04
     sources:
