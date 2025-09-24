@@ -22,7 +22,7 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     # For Helm v3, avoids creating CRDs from templates.
-    createCustomResource: false
+    createCustomResource: true
 ---
 apiVersion: v1
 kind: ConfigMap
