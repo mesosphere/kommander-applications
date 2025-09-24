@@ -792,4 +792,93 @@ resources:
     sources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
+  - container_image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.0
+    sources:
+      - url: ghcr.io/k8snetworkplumbingwg/multus-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+    sources:
+      - url: ghcr.io/k8snetworkplumbingwg/network-resources-injector
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/k8snetworkplumbingwg/plugins:v1.5.0
+    sources:
+      - url: ghcr.io/k8snetworkplumbingwg/plugins
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/mellanox/nic-feature-discovery:v0.0.1
+    sources:
+      - url: ghcr.io/mellanox/nic-feature-discovery
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
+    sources:
+      - url: ghcr.io/mellanox/nvidia-k8s-ipam
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/cloud-native/network-operator:v25.7.0
+    sources:
+      - url: nvcr.io/nvidia/cloud-native/network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/doca-driver:25.01-0.6.0.0-0
+    sources:
+      - url: nvcr.io/nvidia/mellanox/doca-driver
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/ib-sriov-cni:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/ib-sriov-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/maintenance-operator:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/maintenance-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/network-operator-init-container:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/network-operator-init-container
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/network-operator:v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/ovs-cni-plugin:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/ovs-cni-plugin
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/rdma-cni:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/rdma-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/sriov-cni:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/sriov-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/sriov-network-device-plugin
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/sriov-network-operator-config-daemon:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/sriov-network-operator-config-daemon
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/sriov-network-operator-webhook
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvstaging/mellanox/sriov-network-operator:network-operator-v25.7.0
+    sources:
+      - url: nvcr.io/nvstaging/mellanox/sriov-network-operator
+        ref: ${image_tag}
         license_path: LICENSE
