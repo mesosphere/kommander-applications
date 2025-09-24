@@ -51,7 +51,7 @@ data:
           tag: "1.117.3"
         extraEnv:
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
-          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+          PROM_CLUSTER_ID_LABEL: "cluster"
         apiIngress:
           enabled: false
 
