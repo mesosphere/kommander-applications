@@ -34,3 +34,17 @@ spec:
     - kind: ConfigMap
       name: opencost-2.2.7-config-defaults
   targetNamespace: ${releaseNamespace}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opencost-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "opencost"
+data:
+  name: "opencost"
+  dashboardLink: "/dkp/opencost/frontend/"
+  docsLink: "https://opencost.io/docs/"
+  # From: https://github.com/opencost/opencost-helm-chart/blob/opencost-2.2.7/charts/opencost/Chart.yaml#L12
+  version: "2.2.7"

@@ -8,7 +8,11 @@ data:
     priorityClassName: dkp-high-priority
     service:
       enabled: true
+      labels:
+        prometheus.kommander.d2iq.io/select=true
     opencost:
+      selectorLabels:
+        servicemonitor.kommander.mesosphere.io/path: metrics
       prometheus:
         internal:
           enabled: true
@@ -44,7 +48,7 @@ data:
           repository: opencost/opencost
           tag: "1.117.3"
         extraEnv:
-          CURRENT_CLUSTER_ID_FILTER_ENABLED: "true"
+          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
         apiIngress:
           enabled: false
 
@@ -67,3 +71,5 @@ data:
           emitKsmV1MetricsOnly: false
         serviceMonitor:
           enabled: true
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"
