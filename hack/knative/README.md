@@ -28,6 +28,18 @@ python3 hack/knative/extract-images.py --eventing-version <version> --serving-ve
 - `--serving-version` (required): KNative serving version (e.g., 1.18.1)
 - `--k-apps-version` (optional): Output directory version (defaults to serving version)
 
+### Version Management
+
+**Important**: The script validates that both eventing and serving versions exist in [the knative/operator repository](https://github.com/knative/operator/tree/main/cmd/operator/kodata) before proceeding. If a version doesn't exist, it will show available versions and exit with an error.
+
+**Directory Structure**: The script creates/updates files in `applications/knative/{k-apps-version}/`. If you're upgrading from an existing version:
+
+1. **Rename the existing directory** to your target version first (e.g., `mv applications/knative/1.18.1 applications/knative/1.19.6`)
+2. **Run the script** with `--k-apps-version` matching your renamed directory
+3. The script will update `cm.yaml` and regenerate `extra-images.txt` in the target directory
+
+**Version Compatibility**: Different eventing and serving versions can be used, but the script will warn about potential compatibility issues.
+
 ### What it does
 
 1. Fetches YAML manifests from knative/operator GitHub repository
@@ -83,11 +95,23 @@ python3 hack/knative/update-licenses.py <version>
 ## Complete workflow
 
 ```bash
-# 1. Extract images and generate registry overrides
-python3 hack/knative/extract-images.py --eventing-version 1.19.0 --serving-version 1.19.0 --k-apps-version 1.19.0
+# 1. Rename existing directory (if upgrading)
+mv applications/knative/1.18.1 applications/knative/1.19.6
 
-# 2. Update license file
-python3 hack/knative/update-licenses.py 1.19.0
+# 2. Extract images and generate registry overrides (use latest available versions)
+python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --k-apps-version 1.19.6
+
+# 3. Update license file
+python3 hack/knative/update-licenses.py 1.19.6
+```
+
+### Example: Version mismatch handling
+```bash
+# This will fail with clear error message:
+python3 hack/knative/extract-images.py --eventing-version 1.19.6 --serving-version 1.19.6
+
+# This will work with warning about version mismatch:
+python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --k-apps-version 1.19.6
 ```
 
 ## Troubleshooting
