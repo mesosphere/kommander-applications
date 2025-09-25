@@ -160,7 +160,7 @@ data:
         # https://github.com/fluent/fluent-bit/issues/2748.
         # fluent-bit uses exponential backoff when retrying logs. The retry limit should balance tolerance for
         # temporary fluentd unavailability with dropping out-of-order logs that can't be delivered.
-        Retry_Limit: 5
+        Retry_Limit: "5"
       positiondb:
         hostPath:
           path: /var/log/tail-db
