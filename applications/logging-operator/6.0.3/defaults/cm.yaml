@@ -22,7 +22,7 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: "metrics"
     # For Helm v3, avoids creating CRDs from templates.
-    createCustomResource: true
+    createCustomResource: false
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -128,6 +128,9 @@ data:
           effect: NoExecute
         - operator: Exists
           key: CriticalAddonsOnly
+      flush: 1
+      grace: 5
+      logLevel: warn
       metrics:
         port: 2020
         path: /api/v1/metrics/prometheus
