@@ -31,8 +31,8 @@ data:
           cpu: 500m
           memory: 1024Mi
         limits:
-          cpu: 750m
-          memory: 1536Mi
+          cpu: 2
+          memory: 3072Mi
       # Enable DNS discovery for stores
       dnsDiscovery:
         enabled: false
