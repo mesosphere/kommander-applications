@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kommander-ui"
   ref:
-    tag: 17.135.0
+    tag: 17.136.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -34,7 +34,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-17.135.0-config-defaults
+      name: kommander-ui-17.136.0-config-defaults
     - kind: ConfigMap
       name: kommander-ui-overrides
       optional: true
