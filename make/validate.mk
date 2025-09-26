@@ -11,8 +11,6 @@ list-images: $(NKP_CLI_BIN) $(YQ_BIN) list-images-full
 	echo "Images after removing applications:"
 	cat $(REPO_ROOT)/images.yaml
 	yq '.applications[].images[]' $(REPO_ROOT)/images.yaml | sort | uniq | grep -v "oci://" > images.txt
-	echo "Final list of images in images.txt:"
-	cat images.txt
 
 .PHONY: list-images-full
 list-images-full: $(NKP_CLI_BIN)

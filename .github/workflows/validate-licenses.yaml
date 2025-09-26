@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image list
-        run: devbox run make list-images
+        run: devbox run make list-images && cat images.txt
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
