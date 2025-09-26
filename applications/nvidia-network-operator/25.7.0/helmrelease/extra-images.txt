@@ -1,0 +1,26 @@
+nvcr.io/nvidia/mellanox/network-operator:v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/network-operator-init-container:{{ .Values.ofedDriver.initContainer.version }}
+ghcr.io/mellanox/nic-feature-discovery:v0.0.1
+ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
+nvcr.io/nvidia/mellanox/plugins:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/multus-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/whereabouts:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
+nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v{{ .Chart.Version }}
+{{ index .Values "sriov-network-operator" "images" "operator" }}
+{{ index .Values "sriov-network-operator" "images" "sriovConfigDaemon" }}
+{{ index .Values "sriov-network-operator" "images" "sriovCni" }}
+{{ index .Values "sriov-network-operator" "images" "ibSriovCni" }}
+{{ index .Values "sriov-network-operator" "images" "ovsCni" }}
+{{ index .Values "sriov-network-operator" "images" "rdmaCni" }}
+{{ index .Values "sriov-network-operator" "images" "sriovDevicePlugin" }}
+{{ index .Values "sriov-network-operator" "images" "resourcesInjector" }}
+{{ index .Values "sriov-network-operator" "images" "webhook" }}
+nvcr.io/nvidia/mellanox/maintenance-operator:{{ index .Values "maintenance-operator-chart" "operator" "image" "tag" }}
+nvcr.io/nvidia/mellanox/nic-configuration-operator:{{ index .Values "nic-configuration-operator-chart" "operator" "image" "tag" }}
+nvcr.io/nvidia/mellanox/nic-configuration-operator-daemon:{{ index .Values "nic-configuration-operator-chart" "configDaemon" "image" "tag" }}
+# precompiled driver specifically for ubuntu22.04 | kernel 5.15.0-151-generic | x86 arch
+nvcr.io/nvidia/mellanox/doca-driver:doca3.1.0-25.07-0.9.7.0-0-5.15.0-151-generic-ubuntu22.04-amd64
