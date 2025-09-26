@@ -792,7 +792,6 @@ resources:
     sources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
-  - container_image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.0
   - container_image: nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.7.0
     sources:
       - url: https://github.com/Mellanox/multus-cni
