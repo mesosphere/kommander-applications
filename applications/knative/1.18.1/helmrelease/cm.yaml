@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    knativeOperator:
+      enabled: true
+      priorityClassName: ""
+      # Add any specific values for the Knative Operator chart here
+    # Overriding this value will allow to provide a custom knative-ingress-gateway configuration
+    knativeIngressGateway:
+      spec:
+        selector:
+          istio: ingressgateway
+        servers:
+          - port:
+              number: 80
+              name: http
+              protocol: HTTP
+            hosts:
+              - "*"
+            tls:
+              httpsRedirect: true
+          - port:
+              number: 443
+              name: https
+              protocol: HTTPS
+            hosts:
+              - "*"
+            tls:
+              mode: SIMPLE
+              credentialName: nai-self-signed-cert
+    serving:
+      enabled: true
+      namespace: knative-serving
+      manifest:
+        spec:
+          # The version of Knative Serving to install - you can upgrade one version at a time
+          # See https://knative.dev/docs/install/operator/knative-with-operators/#install-knative-serving
+          version: "1.18.1"
+          registry:
+            override:
+              # Pin serving images to specific tagged versions
+              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
+              activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.18.1
+              autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.18.1
+              autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.18.1
+              controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.18.1
+              queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
+              webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.18.1
+              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.18.1
+              QUEUE_SIDECAR_IMAGE: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.18.1
+          config:
+            deployment:
+              registriesSkippingTagResolving: "gcr.io"
+            istio:
+              external-gateways: |
+                - name: knative-ingress-gateway
+                  namespace: knative-serving
+                  service: istio-ingressgateway.istio-system.svc.cluster.local
+            features:
+              kubernetes.podspec-nodeselector: "enabled"
+              kubernetes.podspec-tolerations: "enabled"
+            autoscaler:
+              enable-scale-to-zero: "false"
+    eventing:
+      enabled: true
+      namespace: knative-eventing
+      manifest:
+        spec:
+          deployments:
+            - name: eventing-webhook
+              replicas: 3
+              podTemplate:
+                spec:
+                  affinity:
+                    podAntiAffinity:
+                      preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 1
+                          podAffinityTerm:
+                            labelSelector:
+                              matchLabels:
+                                app: eventing-webhook
+                            topologyKey: kubernetes.io/hostname
+          podDisruptionBudgets:
+            - name: eventing-webhook
+              maxUnavailable: 1
+          # The version of Knative Eventing to install - you can upgrade one version at a time
+          # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
+          version: "1.18.1"
+          registry:
+            override:
+              # Pin eventing images to specific tagged versions
+              mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.18.1
+              mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.18.1
+              eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.18.1
+              imc-controller/controller: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.18.1
+              imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.18.1
+              job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.18.1
+              mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.18.1
+              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.18.1
+              eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.18.1
+              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.18.1
+              APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.18.1
+              AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.18.0
+              AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.18.0
+              AWS_S3_SOURCE: gcr.io/knative-releases/aws-s3-source:v1.18.0
+              AWS_SNS_SINK: gcr.io/knative-releases/aws-sns-sink:v1.18.0
+              AWS_SQS_SINK: gcr.io/knative-releases/aws-sqs-sink:v1.18.0
+              AWS_SQS_SOURCE: gcr.io/knative-releases/aws-sqs-source:v1.18.0
+              DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.18.1
+              LOG_SINK: gcr.io/knative-releases/log-sink:v1.18.0
+              TIMER_SOURCE: gcr.io/knative-releases/timer-source:v1.18.0
+              TRANSFORM_JSONATA: gcr.io/knative-releases/transform-jsonata:v1.18.0

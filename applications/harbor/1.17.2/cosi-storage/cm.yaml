@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-cosi-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  harbor-cosi-values.yaml: |
+    ---
+    cosiBucketKit:
+      enabled: false
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+        harbor:
+          enabled: true
+          cmName: harbor-cosi-overrides
+          cmNamespace: ${releaseNamespace}
+  harbor-copy-secret-values.yaml: |
+    ---
+    harborCopySecret:
+      enabled: false
+      sourceSecretName: "harbor-s3-credentials"
+      targetNamespace: "ncr-system"
+      targetSecretName: "harbor-s3-credentials"
+      reloader: true
+
+      kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}

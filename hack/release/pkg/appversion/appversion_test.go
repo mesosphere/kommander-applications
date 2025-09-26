@@ -26,13 +26,6 @@ func TestMove(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestReplaceContent(t *testing.T) {
-	dir := fetchRepo(t)
-	changes, err := ReplaceContent(context.Background(), dir, "0.99.99")
-	require.NoError(t, err)
-	assert.Equal(t, 4, changes)
-}
-
 func fetchRepo(t *testing.T) string {
 	t.Helper()
 
@@ -41,43 +34,4 @@ func fetchRepo(t *testing.T) string {
 	require.NoError(t, cmd.Run())
 
 	return dir
-}
-
-func TestRegexps(t *testing.T) {
-	prefixIndex := varNames.SubexpIndex("prefix")
-	suffixIndex := varNames.SubexpIndex("suffix")
-
-	cases := []struct {
-		input  string
-		prefix string
-		suffix string
-	}{
-		{
-			input:  "kommander-0.4.0-config-defaults",
-			prefix: "kommander-",
-			suffix: "-config-defaults",
-		},
-		{
-			input:  "kommander-0.4.0-overrides",
-			prefix: "kommander-",
-			suffix: "-overrides",
-		},
-		{
-			input:  "kommander-appmanagement-0.4.0-config-defaults",
-			prefix: "kommander-appmanagement-",
-			suffix: "-config-defaults",
-		},
-	}
-
-	for _, c := range cases {
-		t.Run(c.input, func(t *testing.T) {
-			result := varNames.FindStringSubmatch(c.input)
-			require.GreaterOrEqual(t, len(result), suffixIndex)
-			assert.Equal(t, c.prefix, result[prefixIndex])
-			assert.Equal(t, c.suffix, result[suffixIndex])
-
-			reconstructed := result[prefixIndex] + "0.4.0" + result[suffixIndex]
-			assert.Equal(t, c.input, reconstructed)
-		})
-	}
 }

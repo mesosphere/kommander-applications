@@ -1,5 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - ceph-object-bucket-claim-config-defaults.yaml
   - helmrelease.yaml
+  - cosi-bucket-config-defaults.yaml
   - cosi-bucket.yaml

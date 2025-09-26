@@ -169,7 +169,10 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	// Make a new temp dir to put a redundant file in
 	anotherDir, err := os.MkdirTemp(fmt.Sprintf("%s/applications/kommander/", tmpDir), "stuff")
 	assert.Nil(t, err)
-	f, err := os.Create(fmt.Sprintf("%s/kommander.yaml", anotherDir))
+	helmReleaseDir := fmt.Sprintf("%s/helmrelease/", anotherDir)
+	err = os.MkdirAll(helmReleaseDir, 0755)
+	assert.Nil(t, err)
+	f, err := os.Create(fmt.Sprintf("%s/kommander.yaml", helmReleaseDir))
 	assert.Nil(t, err)
 	defer func(f *os.File) {
 		_ = f.Close()

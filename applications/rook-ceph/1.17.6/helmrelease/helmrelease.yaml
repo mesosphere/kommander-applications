@@ -33,5 +33,5 @@ spec:
   releaseName: rook-ceph
   valuesFrom:
     - kind: ConfigMap
-      name: rook-ceph-1.17.6-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}

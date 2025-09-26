@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - velero-pre-install.yaml
   - velero-post-install.yaml
-  - velero.yaml
+  - helmrelease
   - grafana-dashboards

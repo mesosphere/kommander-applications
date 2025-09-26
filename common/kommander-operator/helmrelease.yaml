@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/kommander-operator/
+      chart: ./common/kommander-operator/chart
       sourceRef:
         kind: GitRepository
         name: management
