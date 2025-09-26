@@ -39,11 +39,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image list
-        run: |
-          export PATH=${PWD}/.local/bin:$PATH
-          devbox run -- make list-images
-          echo "printing contents of images.txt"
-          cat images.txt
+        run: devbox run make list-images
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
