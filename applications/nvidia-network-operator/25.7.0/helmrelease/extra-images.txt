@@ -1,15 +1,15 @@
-nvcr.io/nvidia/mellanox/network-operator:v25.7.0
+nvcr.io/nvidia/mellanox/network-operator:v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/network-operator-init-container:{{ .Values.ofedDriver.initContainer.version }}
 ghcr.io/mellanox/nic-feature-discovery:v0.0.1
 ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
-nvcr.io/nvidia/mellanox/plugins:network-operator-v25.7.0
-nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.7.0
-nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v25.7.0
-nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v25.7.0
-nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v25.7.0
-nvcr.io/nvidia/mellanox/whereabouts:network-operator-v25.7.0
+nvcr.io/nvidia/mellanox/plugins:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/multus-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/whereabouts:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
-nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v25.7.0
+nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v{{ .Chart.Version }}
 {{ index .Values "sriov-network-operator" "images" "operator" }}
 {{ index .Values "sriov-network-operator" "images" "sriovConfigDaemon" }}
 {{ index .Values "sriov-network-operator" "images" "sriovCni" }}
