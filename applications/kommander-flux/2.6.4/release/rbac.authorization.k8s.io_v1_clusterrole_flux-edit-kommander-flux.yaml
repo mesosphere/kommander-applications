@@ -4,11 +4,10 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.6.1
+    app.kubernetes.io/version: v2.6.4
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    rbac.authorization.k8s.io/aggregate-to-view: "true"
-  name: flux-view-kommander-flux
+  name: flux-edit-kommander-flux
 rules:
 - apiGroups:
   - notification.toolkit.fluxcd.io
@@ -19,6 +18,8 @@ rules:
   resources:
   - '*'
   verbs:
-  - get
-  - list
-  - watch
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
