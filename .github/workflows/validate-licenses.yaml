@@ -73,9 +73,12 @@ jobs:
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"
             git push --force-with-lease
+            gh pr close "$PR_URL"
+            gh pr reopen "$PR_URL"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
       - name: Run validation
         uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
         with:
