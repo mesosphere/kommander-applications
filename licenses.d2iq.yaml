@@ -15,7 +15,7 @@ resources:
   - container_image: ghcr.io/fluent/fluent-bit:4.0.3
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-d2iq.0}
+        ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.11.1
     sources:
