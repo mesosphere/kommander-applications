@@ -42,9 +42,6 @@ jobs:
         run: |
           export PATH=${PWD}/.local/bin:$PATH
           devbox run -- make list-images
-          echo "printing contents of images.yaml"
-          cat images.yaml
-          yq '.applications[].images[]' images.yaml | sort | uniq | grep -v "oci://" > images.txt
           echo "printing contents of images.txt"
           cat images.txt
       - name: Update licenses
