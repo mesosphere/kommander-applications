@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -70,6 +71,17 @@ func NewGatekeeper() *gatekeeper {
 }
 
 func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace":   kommanderNamespace,
+			"workspaceNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
 	substMap := map[string]string{
 		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,

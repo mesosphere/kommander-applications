@@ -61,6 +61,17 @@ func (v velero) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (v velero) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	preInstallPath := filepath.Join(appPath, "pre-install")
 	err := env.ApplyYAML(ctx, preInstallPath, map[string]string{
 		"releaseName":              "app-deployment-name",

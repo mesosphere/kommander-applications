@@ -65,6 +65,18 @@ func (r kubeCost) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace":   kommanderNamespace,
+			"workspaceNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	// Kubecost has been restructured in 2.14.x. For upgrades to work, we need to handle both versions gracefully.
 	helmReleasePath := filepath.Join(appPath, "/release")
 	if _, err := os.Stat(helmReleasePath); err == nil {

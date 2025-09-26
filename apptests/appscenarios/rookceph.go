@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -56,6 +57,16 @@ func (r rookCeph) CreateBucketPreReqsPreviousVersion(ctx context.Context, env *e
 }
 
 func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env, appPath string, err error) error {
+	// Apply defaults configmaps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
 	// Apply overrides configmap
 	testDataPath, err := getTestDataDir()
 	if err != nil {
@@ -164,6 +175,16 @@ func (r rookCeph) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (r rookCeph) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults configmaps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseName":      "app-deployment-name",

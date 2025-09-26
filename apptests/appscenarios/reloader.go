@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -45,6 +46,16 @@ func (r reloader) InstallPreviousVersion(ctx context.Context, env *environment.E
 }
 
 func (r reloader) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
 		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,

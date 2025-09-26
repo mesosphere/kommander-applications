@@ -68,6 +68,17 @@ func (t traefik) InstallPreviousVersion(ctx context.Context, env *environment.En
 }
 
 func (t traefik) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+			"tfaName":          "traefik-forward-auth-mgmt",
+		})
+		if err != nil {
+			return err
+		}
+	}
 	traefikCMName := "traefik-overrides"
 	err := t.applyTraefikOverrideCM(ctx, env, traefikCMName)
 	if err != nil {
@@ -83,6 +94,16 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 			return fmt.Errorf("failed to get path for gateway-api-crds: %w", err)
 		}
 
+		// Apply defaults for gateway-api-crds
+		defaultKustomization := filepath.Join(gatewayCRDsPath, "/defaults")
+		if _, err := os.Stat(defaultKustomization); err == nil {
+			err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+				"releaseNamespace": kommanderNamespace,
+			})
+			if err != nil {
+				return fmt.Errorf("failed to apply defaults for gateway-api-crds: %w", err)
+			}
+		}
 		// Install gateway-api-crds
 		err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
 			"releaseName":      "gateway-api-crds",
