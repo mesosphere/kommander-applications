@@ -50,11 +50,9 @@ data:
           repository: opencost/opencost
           tag: "1.117.3"
         extraEnv:
-          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
           PROM_CLUSTER_ID_LABEL: "cluster"
         apiIngress:
           enabled: false
-
         replicas: 1
         resources:
           requests:
