@@ -12,7 +12,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:3.2.5-d2iq.0
+  - container_image: ghcr.io/fluent/fluent-bit:4.0.3
     sources:
       - license_path: LICENSE
         ref: v${image_tag%-d2iq.0}
