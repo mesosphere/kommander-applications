@@ -1,7 +1,7 @@
 SKIP_APPLICATIONS ?= ai-navigator-rag,ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
 
 .PHONY: list-images
-list-images: $(NKP_CLI_BIN) $(YQ_BIN) #list-images-full
+list-images: $(NKP_CLI_BIN) $(YQ_BIN) list-images-full
 	echo "Removing applications from images.yaml: $(SKIP_APPLICATIONS)"
 	@if [ -n "$(SKIP_APPLICATIONS)" ]; then \
 		for app in $$(echo "$(SKIP_APPLICATIONS)" | tr ',' ' '); do \
