@@ -43,6 +43,7 @@ additional_crds:
   - https://raw.githubusercontent.com/traefik/traefik-helm-chart/refs/heads/master/traefik-crds/crds-files/traefik/traefik.io_tlsoptions.yaml # for karma
   - https://raw.githubusercontent.com/kube-logging/logging-operator/refs/heads/master/charts/logging-operator/crds/logging.banzaicloud.io_flows.yaml # for project logging
   - https://raw.githubusercontent.com/kube-logging/logging-operator/refs/heads/master/charts/logging-operator/crds/logging.banzaicloud.io_outputs.yaml # for project logging
+  - https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/refs/heads/master/deployment/helm/node-feature-discovery/crds/nfd-api-crds.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:

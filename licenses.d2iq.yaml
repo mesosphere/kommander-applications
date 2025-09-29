@@ -792,4 +792,133 @@ resources:
     sources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
+  - container_image: nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/multus-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+    sources:
+      - url: https://github.com/k8snetworkplumbingwg/network-resources-injector
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/plugins:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/k8snetworkplumbingwg-plugins
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/mellanox/nic-feature-discovery:v0.0.1
+    sources:
+      - url: https://github.com/Mellanox/nic-feature-discovery
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
+    sources:
+      - url: https://github.com/Mellanox/nvidia-k8s-ipam
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/cloud-native/network-operator:v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/ib-sriov-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/maintenance-operator:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/maintenance-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/network-operator-init-container:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/network-operator-init-container
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/network-operator:v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/ovs-cni-plugin:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/ovs-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/rdma-cni:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/rdma-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/sriov-cni:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/sriov-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/sriov-network-device-plugin
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/sriov-network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator-config-daemon:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/sriov-network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/sriov-network-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/k8s-rdma-shared-dev-plugin
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/ib-kubernetes
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/ipoib-cni
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/whereabouts:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/whereabouts
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/nic-configuration-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator-daemon:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/nic-configuration-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v25.7.0
+    sources:
+      - url: https://github.com/Mellanox/spectrum-x-operator
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
+    sources:
+      - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.1.0-25.07-0.9.7.0-0-5.15.0-151-generic-ubuntu22.04-amd64
+    sources:
+      - url: nvcr.io/nvidia/mellanox/doca-driver
+        ref: ${image_tag}
         license_path: LICENSE
