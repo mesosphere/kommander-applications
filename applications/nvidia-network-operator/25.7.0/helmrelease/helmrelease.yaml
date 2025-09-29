@@ -32,6 +32,6 @@ spec:
   releaseName: nvidia-network-operator
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-network-operator-25.7.0-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
 ---

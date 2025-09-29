@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    installCRDs: true
+
+    priorityClassName: dkp-critical-priority
+    image:
+      repository: ghcr.io/external-secrets/external-secrets
+      favour: "distroless"
+
+    # Use cert manager for webhook TLS.
+    certController:
+      create: false
+
+    webhook:
+      image:
+        repository: ghcr.io/external-secrets/external-secrets
+        favour: "distroless"
+      priorityClassName: dkp-critical-priority
+      create: true
+      certManager:
+        enabled: true
+        cert:
+          create: true
+          issuerRef:
+            kind: ClusterIssuer
+            name: kommander-ca
+
+    serviceMonitor:
+      enabled: true
+      additionalLabels: {}
+
+    grafanaDashboard:
+      enabled: true

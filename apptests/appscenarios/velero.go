@@ -61,17 +61,20 @@ func (v velero) Upgrade(ctx context.Context, env *environment.Env) error {
 }
 
 func (v velero) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults configmaps first
-	defaultKustomization := filepath.Join(appPath, "defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	preInstallPath := filepath.Join(appPath, "pre-install")
-	err = env.ApplyYAML(ctx, preInstallPath, map[string]string{
+	err := env.ApplyYAML(ctx, preInstallPath, map[string]string{
+		"releaseName":              "app-deployment-name",
 		"releaseNamespace":         kommanderNamespace,
 		"kubetoolsImageRepository": kubetoolsImageRepository,
 		"kubetoolsImageTag":        kubetoolsImageTag,
@@ -82,6 +85,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 
 	postInstallPath := filepath.Join(appPath, "post-install")
 	err = env.ApplyYAML(ctx, postInstallPath, map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -105,6 +109,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 
 	veleroPath := filepath.Join(appPath, "helmrelease")
 	err = env.ApplyYAML(ctx, veleroPath, map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -113,6 +118,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 
 	grafanaDashboardsPath := filepath.Join(appPath, "grafana-dashboards")
 	err = env.ApplyKustomizations(ctx, grafanaDashboardsPath, map[string]string{
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

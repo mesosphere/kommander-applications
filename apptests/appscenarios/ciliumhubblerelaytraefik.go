@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -53,16 +54,19 @@ func (c ciliumHubbleRelayTraefik) InstallDependency(ctx context.Context, env *en
 
 func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults config maps first
-	defaultKustomizations := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomizations, map[string]string{
-		"releaseNamespace":   kommanderNamespace,
-		"workspaceNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"releaseNamespace":   kommanderNamespace,
+			"workspaceNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
 	}
 	// apply the rest of kustomizations
-	err = env.ApplyKustomizations(ctx, appPath, map[string]string{
+	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
+		"releaseName":        "app-deployment-name",
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,
 	})

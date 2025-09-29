@@ -34,5 +34,5 @@ spec:
   releaseName: prometheus-adapter
   valuesFrom:
     - kind: ConfigMap
-      name: prometheus-adapter-4.14.2-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}

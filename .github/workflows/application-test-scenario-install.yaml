@@ -60,4 +60,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: support-bundle-${{ inputs.apps }}-install
-        path: apptests/support-bundle.tar.gz
+        path: apptests/appscenarios/support-bundle.tar.gz
