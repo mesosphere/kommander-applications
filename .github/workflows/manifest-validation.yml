@@ -24,6 +24,8 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
+          enable-cache: 'false'
+          refresh-cli: 'true'
 
       - name: Run tests
         run: devbox run -- "GOOS=linux GOARCH=amd64 make validate-manifests"
