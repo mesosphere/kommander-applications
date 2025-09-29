@@ -35,6 +35,7 @@ additional_crds:
   - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketclaims.objectstorage.k8s.io.yaml
   - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketclasses.objectstorage.k8s.io.yaml
   - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_buckets.objectstorage.k8s.io.yaml
+  - https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/refs/heads/master/deployment/helm/node-feature-discovery/crds/nfd-api-crds.yaml
 
 # set values for substitution variables (e.g. ${releaseNamespace}) in the resources
 substitution_vars:
