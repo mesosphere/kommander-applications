@@ -42,6 +42,8 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
+          enable-cache: 'false'
+          refresh-cli: 'true'
 
       - name: Check for Flux update
         env:
