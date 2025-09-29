@@ -32,5 +32,5 @@ spec:
   releaseName: nvidia-gpu-operator
   valuesFrom:
     - kind: ConfigMap
-      name: nvidia-gpu-operator-25.3.3-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}

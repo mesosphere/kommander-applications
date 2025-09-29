@@ -37,4 +37,4 @@ spec:
   targetNamespace: istio-system
   valuesFrom:
     - kind: ConfigMap
-      name: istio-1.23.4-config-defaults
+      name: ${releaseName}-config-defaults

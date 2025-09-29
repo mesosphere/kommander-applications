@@ -32,5 +32,5 @@ spec:
   releaseName: vgpu-token-operator
   valuesFrom:
     - kind: ConfigMap
-      name: vgpu-token-operator-1.0.7-config-defaults
+      name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}

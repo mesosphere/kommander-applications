@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-storage-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  # Overrides for kubecost to create cosi resources.
+  primary-cosi-values.yaml: |
+    ---
+    cosiBucketKit:
+      enabled: true
+      bucketClaims:
+        - name: cosi-kubecost # Max length should be less than 26 chars.
+          namespace: ${releaseNamespace}
+          annotations:
+            helm.sh/resource-policy: keep
+          bucketClassName: cosi-ceph-nkp
+          protocols:
+            - s3
+      bucketAccesses:
+        - name: cosi-kubecost
+          namespace: ${releaseNamespace}
+          annotations:
+            helm.sh/resource-policy: keep
+          bucketAccessClassName: cosi-ceph-nkp
+          bucketClaimName: cosi-kubecost
+          protocol: s3
+          credentialsSecretName: federated-store
+      transformations:
+        priorityClassName: dkp-high-priority
+        kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+        kubecost:
+          enabled: true

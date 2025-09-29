@@ -11,7 +11,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/mtls-proxy/mtls-proxy-0.1.8.tgz
+      chart: ./applications/kommander/charts/mtls-proxy/mtls-proxy-0.1.8.tgz
       sourceRef:
         kind: GitRepository
         name: management
