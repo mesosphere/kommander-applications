@@ -260,12 +260,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/vmware-tanzu/velero
-  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.19.5
+  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.18.1
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
         url: https://github.com/knative/operator
-  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.19.5
+  - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.18.1
     sources:
       - license_path: LICENSE
         ref: knative-${image_tag}
