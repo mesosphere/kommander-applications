@@ -29,8 +29,8 @@ data:
       ui:
         image:
           registry: ghcr.io
-          repository: opencost/opencost-ui
-          tag: "1.117.3"
+          repository: mesosphere/dkp-container-images/opencost/opencost-ui
+          tag: "1.117.6"
         enabled: true
         ingress:
           enabled: true
@@ -48,7 +48,7 @@ data:
         image:
           registry: ghcr.io
           repository: opencost/opencost
-          tag: "1.117.3"
+          tag: "1.117.6"
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
         apiIngress:
