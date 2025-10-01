@@ -71,7 +71,6 @@ data:
               - /dkp/kommander/monitoring/query
               - /dkp/kubecost/frontend # TODO: removes this in 2.17
               - /dkp/kubecost/grafana # TODO: removes this in 2.17
-              - /dkp/opencost/frontend
               - /dkp/kubernetes
               - /dkp/prometheus
       - # Create stripprefix middleware for kubetunnel exposed services.
