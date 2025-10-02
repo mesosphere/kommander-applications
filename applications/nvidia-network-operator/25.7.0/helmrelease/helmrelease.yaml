@@ -34,4 +34,3 @@ spec:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
   targetNamespace: ${releaseNamespace}
----
