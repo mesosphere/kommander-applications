@@ -27,4 +27,5 @@ patches:
     name: git-operator-git-webserver
 images:
   - name: bitnami/kubectl
+    newName: bitnamilegacy/kubectl
     newTag: 1.32.3
