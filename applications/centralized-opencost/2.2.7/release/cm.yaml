@@ -32,7 +32,7 @@ data:
         image:
           registry: ghcr.io
           repository: opencost/opencost
-          tag: "1.117.3"
+          tag: "1.117.6"
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
