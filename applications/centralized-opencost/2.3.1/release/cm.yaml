@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-opencost-2.2.7-config-defaults
+  name: centralized-opencost-2.3.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
