@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/external-secrets/charts/external-secrets"
   ref:
-    tag: 0.18.1
+    tag: 0.20.1
   layerSelector:
     mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
     operation: extract
