@@ -3,6 +3,8 @@ displayName: OpenCost
 description: OpenCost provides cost monitoring and resource optimization for Kubernetes workloads.
 category:
   - monitoring
+requiredDependencies:
+  - kube-prometheus-stack
 type: nkp-core-platform
 scope:
   - workspace
