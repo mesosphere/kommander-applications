@@ -32,4 +32,4 @@ spec:
   releaseName: logging-operator
   valuesFrom:
     - kind: ConfigMap
-      name: logging-operator-6.0.3-config-defaults
+      name: ${releaseName}-config-defaults
