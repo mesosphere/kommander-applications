@@ -1,7 +1,7 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 category:
   - monitoring
-requiredDependencies:
+dependencies:
   - kube-prometheus-stack
   - thanos
 type: internal
