@@ -51,4 +51,3 @@ data:
         sriovDevicePlugin: nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
         resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
         webhook: nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
----
