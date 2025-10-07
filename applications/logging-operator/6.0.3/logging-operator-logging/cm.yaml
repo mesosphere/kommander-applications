@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${releaseName}-config-defaults
+  name: ${releaseName}-logging-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
