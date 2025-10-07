@@ -1,0 +1,61 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: nkp-flux-2-16-1
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "${ociRegistryURL:=oci://ghcr.io}/fluxcd-community/charts/flux2"
+  ref:
+    tag: 2.16.1
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kommander-flux
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: nkp-flux-2-16-1
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+  uninstall:
+    deletionPropagation: orphan
+    keepHistory: true
+  releaseName: ${releaseName}
+  targetNamespace: ${releaseNamespace}
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: HTTP_PROXY
+                  value: ${httpProxy:-""}
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: HTTPS_PROXY
+                  value: ${httpsProxy:-""}
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: NO_PROXY
+                  value: ${noProxy:-""}
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: kommander-flux-overrides
+      optional: true
