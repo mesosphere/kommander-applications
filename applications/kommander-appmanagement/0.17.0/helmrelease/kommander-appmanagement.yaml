@@ -34,7 +34,7 @@ spec:
   releaseName: kommander-appmanagement
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: -config-defaults
     - kind: ConfigMap
       name: kommander-appmanagement-overrides
       optional: true
