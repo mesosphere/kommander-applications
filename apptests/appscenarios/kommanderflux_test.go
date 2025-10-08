@@ -1,16 +1,19 @@
 package appscenarios
 
 import (
-	"fmt"
-	"os"
-	"time"
+    "fmt"
+    "os"
+    "path/filepath"
+    "time"
 
-	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
+    . "github.com/onsi/ginkgo/v2"
+    . "github.com/onsi/gomega"
 
-	appsv1 "k8s.io/api/apps/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
+    "github.com/mesosphere/kommander-applications/apptests/constants"
+
+    appsv1 "k8s.io/api/apps/v1"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
@@ -39,7 +42,12 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 
 		It("should install successfully with default config", func() {
 			kf = kommanderFlux{}
-			err := kf.Install(ctx, env)
+            // Ensure Flux CRDs exist before applying HelmRelease manifests
+            appPath, err := absolutePathTo(constants.Flux)
+            Expect(err).To(BeNil())
+            err = env.ApplyYAMLWithoutSubstitutions(ctx, filepath.Join(appPath, "templates"))
+            Expect(err).To(BeNil())
+            err = kf.Install(ctx, env)
 			Expect(err).To(BeNil())
 
 			// Check the status of the flux deployments
@@ -93,7 +101,12 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 
 		It("should install the previous version successfully", func() {
 			kf = kommanderFlux{}
-			err := kf.InstallPreviousVersion(ctx, env)
+            // Ensure Flux CRDs exist for the previous version before applying its HelmRelease
+            appPath, err := getkAppsUpgradePath(kf.Name())
+            Expect(err).To(BeNil())
+            err = env.ApplyYAMLWithoutSubstitutions(ctx, filepath.Join(appPath, "templates"))
+            Expect(err).To(BeNil())
+            err = kf.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
 			// Check the status of the flux deployments
