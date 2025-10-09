@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -8,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/opencost/charts/opencost"
   ref:
-    tag: 2.3.0
+    tag: 2.3.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -47,4 +46,4 @@ data:
   dashboardLink: "/dkp/opencost/frontend/"
   docsLink: "https://opencost.io/docs/"
   # From: https://github.com/opencost/opencost-helm-chart/blob/opencost-2.3.0/charts/opencost/Chart.yaml#L12
-  version: "2.3.0"
+  version: 2.3.1
