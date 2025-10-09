@@ -5,8 +5,8 @@
 nkp_cli_version := "v0.0.0-dev.0"
 
 # Get Go environment variables
-goos := env_var_or_default("GOOS", "linux")
-goarch := env_var_or_default("GOARCH", "amd64")
+goos := `go env GOOS`
+goarch := `go env GOARCH`
 
 # Binary paths
 nkp_cli_bin := ".local/bin/nkp"
