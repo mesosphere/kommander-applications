@@ -19,9 +19,9 @@ spec:
     - namespace: ${releaseNamespace}
       name: kube-prometheus-stack
   chartRef:
-      kind: OCIRepository
-      name: prometheus-adapter
-      namespace: ${releaseNamespace}
+    kind: OCIRepository
+    name: prometheus-adapter
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
