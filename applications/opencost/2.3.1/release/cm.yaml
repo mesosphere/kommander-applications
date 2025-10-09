@@ -49,6 +49,7 @@ data:
           registry: ghcr.io
           repository: opencost/opencost
           tag: "1.117.6"
+        clusterIdConfigmap: opencost-cluster-info-configmap
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
         apiIngress:
