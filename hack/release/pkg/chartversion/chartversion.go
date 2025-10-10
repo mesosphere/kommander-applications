@@ -48,6 +48,7 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		subVars := map[string]string{
 			"kommanderChartVersion": chartVersion,
 			"releaseNamespace":      "${releaseNamespace}",
+			"releaseName":           "${releaseName}",
 		}
 		updatedFile, err := parsedFile.Execute(func(s string) string {
 			return subVars[s]
