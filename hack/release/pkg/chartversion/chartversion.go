@@ -49,6 +49,7 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 			"kommanderChartVersion": chartVersion,
 			"releaseNamespace":      "${releaseNamespace}",
 			"releaseName":           "${releaseName}",
+			"appName":               "${appName}", // TODO(takirala): Drop releaseName and just use appName once we migrate to it.
 		}
 		updatedFile, err := parsedFile.Execute(func(s string) string {
 			return subVars[s]
