@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/istio/1.23.4/helmrelease
+  path: ./applications/istio/1.25.1/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
