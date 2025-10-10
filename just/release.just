@@ -1,3 +1,4 @@
+set unstable
 # Recipes for releasing various artifacts related to kommander-applications
 
 git_tag := env_var_or_default("GIT_TAG", "v0.0.0")
@@ -42,10 +43,14 @@ release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-b
       echo "Skipping publish"
     fi
 
-release-platform-collection-artifact: install-tools
+[script]
+release-platform-collection-artifact publish="true": install-tools
   {{nkp_cli_bin}} create catalog-collection-artifact --repo-dir {{ justfile_directory() }} --collection-tag {{ git_tag }} --collection-annotations com.nutanix.nkp.catalog.artifact-type=platform-catalog-collection --collection-annotations org.opencontainers.image.source=https://github.com/mesosphere/kommander-applications -o {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar
-  {{nkp_cli_bin}} push bundle --bundle {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar --to-registry {{ registry }}/{{ org_name }}
-  rm {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar
+  if {{ publish }}; then
+    {{nkp_cli_bin}} push bundle --bundle {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar --to-registry {{ registry }}/{{ org_name }}
+  else
+    echo "Skipping publish"
+  fi
 
 _prepare-archive dir: (_prepare-files-for-a-bundle dir)
     tar -cvzf {{ justfile_directory() }}/{{ archive_name }} -C {{ dir }} .
