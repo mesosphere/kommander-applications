@@ -425,7 +425,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v1.6.0
+  - container_image: ghcr.io/fluxcd/source-controller:v1.6.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
