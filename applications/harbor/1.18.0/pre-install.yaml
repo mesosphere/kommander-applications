@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./applications/harbor/1.17.2/pre-install
+  path: ./applications/harbor/1.18.0/pre-install
   dependsOn:
     - name: ncr-system-namespace
   sourceRef:

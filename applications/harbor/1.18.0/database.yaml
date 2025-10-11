@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/harbor/1.17.2/database
+  path: ./applications/harbor/1.18.0/database
   dependsOn:
     - name: ncr-system-namespace
     - name: cloudnative-pg
