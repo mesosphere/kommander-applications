@@ -1,0 +1,824 @@
+﻿2025-10-11T23:16:36.2252968Z Current runner version: '2.328.0'
+2025-10-11T23:16:36.2275828Z ##[group]Runner Image Provisioner
+2025-10-11T23:16:36.2276625Z Hosted Compute Agent
+2025-10-11T23:16:36.2277242Z Version: 20250912.392
+2025-10-11T23:16:36.2277826Z Commit: d921fda672a98b64f4f82364647e2f10b2267d0b
+2025-10-11T23:16:36.2278539Z Build Date: 2025-09-12T15:23:14Z
+2025-10-11T23:16:36.2279075Z ##[endgroup]
+2025-10-11T23:16:36.2279685Z ##[group]Operating System
+2025-10-11T23:16:36.2280213Z Ubuntu
+2025-10-11T23:16:36.2280679Z 24.04.3
+2025-10-11T23:16:36.2281246Z LTS
+2025-10-11T23:16:36.2281753Z ##[endgroup]
+2025-10-11T23:16:36.2282231Z ##[group]Runner Image
+2025-10-11T23:16:36.2283132Z Image: ubuntu-24.04
+2025-10-11T23:16:36.2283666Z Version: 20250929.60.1
+2025-10-11T23:16:36.2284659Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250929.60/images/ubuntu/Ubuntu2404-Readme.md
+2025-10-11T23:16:36.2286360Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250929.60
+2025-10-11T23:16:36.2287303Z ##[endgroup]
+2025-10-11T23:16:36.2289785Z ##[group]GITHUB_TOKEN Permissions
+2025-10-11T23:16:36.2292012Z Actions: write
+2025-10-11T23:16:36.2292958Z Attestations: write
+2025-10-11T23:16:36.2293495Z Checks: write
+2025-10-11T23:16:36.2293992Z Contents: write
+2025-10-11T23:16:36.2294520Z Deployments: write
+2025-10-11T23:16:36.2295202Z Discussions: write
+2025-10-11T23:16:36.2295745Z Issues: write
+2025-10-11T23:16:36.2296286Z Metadata: read
+2025-10-11T23:16:36.2296795Z Models: read
+2025-10-11T23:16:36.2297251Z Packages: write
+2025-10-11T23:16:36.2297796Z Pages: write
+2025-10-11T23:16:36.2298282Z PullRequests: write
+2025-10-11T23:16:36.2298865Z RepositoryProjects: write
+2025-10-11T23:16:36.2299388Z SecurityEvents: write
+2025-10-11T23:16:36.2300090Z Statuses: write
+2025-10-11T23:16:36.2300607Z ##[endgroup]
+2025-10-11T23:16:36.2302775Z Secret source: Actions
+2025-10-11T23:16:36.2303865Z Prepare workflow directory
+2025-10-11T23:16:36.2634684Z Prepare all required actions
+2025-10-11T23:16:36.2673116Z Getting action download info
+2025-10-11T23:16:36.6159529Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-10-11T23:16:36.7913062Z Download action repository 'actions/setup-go@v5' (SHA:d35c59abb061a4a6fb18e82ac0862c26744d6ab5)
+2025-10-11T23:16:37.1957767Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-10-11T23:16:37.3868842Z Uses: mesosphere/kommander-applications/.github/workflows/application-test-scenario-install.yaml@refs/pull/4116/merge (2f32e9cb116d669e118c30b16c081f69bc3c4efd)
+2025-10-11T23:16:37.3875465Z ##[group] Inputs
+2025-10-11T23:16:37.3876083Z   apps: kommander-flux
+2025-10-11T23:16:37.3876657Z   version_ref: john-test3
+2025-10-11T23:16:37.3877236Z ##[endgroup]
+2025-10-11T23:16:37.3878095Z Complete job name: trigger-install-tests-pr (kommander-flux) / run-test-scenario
+2025-10-11T23:16:37.4616233Z ##[group]Run actions/checkout@v4
+2025-10-11T23:16:37.4617185Z with:
+2025-10-11T23:16:37.4617662Z   ref: john-test3
+2025-10-11T23:16:37.4618244Z   repository: mesosphere/kommander-applications
+2025-10-11T23:16:37.4619123Z   token: ***
+2025-10-11T23:16:37.4619653Z   ssh-strict: true
+2025-10-11T23:16:37.4620142Z   ssh-user: git
+2025-10-11T23:16:37.4620657Z   persist-credentials: true
+2025-10-11T23:16:37.4621250Z   clean: true
+2025-10-11T23:16:37.4621765Z   sparse-checkout-cone-mode: true
+2025-10-11T23:16:37.4622401Z   fetch-depth: 1
+2025-10-11T23:16:37.4623115Z   fetch-tags: false
+2025-10-11T23:16:37.4623625Z   show-progress: true
+2025-10-11T23:16:37.4624148Z   lfs: false
+2025-10-11T23:16:37.4624621Z   submodules: false
+2025-10-11T23:16:37.4625124Z   set-safe-directory: true
+2025-10-11T23:16:37.4625970Z ##[endgroup]
+2025-10-11T23:16:37.5729338Z Syncing repository: mesosphere/kommander-applications
+2025-10-11T23:16:37.5732679Z ##[group]Getting Git version info
+2025-10-11T23:16:37.5734606Z Working directory is '/home/runner/work/kommander-applications/kommander-applications'
+2025-10-11T23:16:37.5737202Z [command]/usr/bin/git version
+2025-10-11T23:16:37.5804409Z git version 2.51.0
+2025-10-11T23:16:37.5830794Z ##[endgroup]
+2025-10-11T23:16:37.5846748Z Temporarily overriding HOME='/home/runner/work/_temp/6edc2081-1604-4b63-815b-c88a2103ba00' before making global git config changes
+2025-10-11T23:16:37.5849738Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-11T23:16:37.5853261Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kommander-applications/kommander-applications
+2025-10-11T23:16:37.5907321Z Deleting the contents of '/home/runner/work/kommander-applications/kommander-applications'
+2025-10-11T23:16:37.5910471Z ##[group]Initializing the repository
+2025-10-11T23:16:37.5916000Z [command]/usr/bin/git init /home/runner/work/kommander-applications/kommander-applications
+2025-10-11T23:16:37.6007562Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-10-11T23:16:37.6009315Z hint: is subject to change. To configure the initial branch name to use in all
+2025-10-11T23:16:37.6010607Z hint: of your new repositories, which will suppress this warning, call:
+2025-10-11T23:16:37.6011994Z hint:
+2025-10-11T23:16:37.6013010Z hint: 	git config --global init.defaultBranch <name>
+2025-10-11T23:16:37.6014262Z hint:
+2025-10-11T23:16:37.6015413Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-10-11T23:16:37.6017391Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-10-11T23:16:37.6018966Z hint:
+2025-10-11T23:16:37.6019706Z hint: 	git branch -m <name>
+2025-10-11T23:16:37.6020559Z hint:
+2025-10-11T23:16:37.6021721Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-10-11T23:16:37.6024540Z Initialized empty Git repository in /home/runner/work/kommander-applications/kommander-applications/.git/
+2025-10-11T23:16:37.6028399Z [command]/usr/bin/git remote add origin https://github.com/mesosphere/kommander-applications
+2025-10-11T23:16:37.6063459Z ##[endgroup]
+2025-10-11T23:16:37.6064862Z ##[group]Disabling automatic garbage collection
+2025-10-11T23:16:37.6068262Z [command]/usr/bin/git config --local gc.auto 0
+2025-10-11T23:16:37.6097028Z ##[endgroup]
+2025-10-11T23:16:37.6098417Z ##[group]Setting up auth
+2025-10-11T23:16:37.6104903Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-11T23:16:37.6135887Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-11T23:16:37.6446590Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-11T23:16:37.6477531Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-11T23:16:37.6698709Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-10-11T23:16:37.6733862Z ##[endgroup]
+2025-10-11T23:16:37.6735295Z ##[group]Fetching the repository
+2025-10-11T23:16:37.6744782Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/john-test3*:refs/remotes/origin/john-test3* +refs/tags/john-test3*:refs/tags/john-test3*
+2025-10-11T23:16:38.1407742Z From https://github.com/mesosphere/kommander-applications
+2025-10-11T23:16:38.1410021Z  * [new branch]      john-test3 -> origin/john-test3
+2025-10-11T23:16:38.1435825Z ##[endgroup]
+2025-10-11T23:16:38.1437772Z ##[group]Determining the checkout info
+2025-10-11T23:16:38.1443877Z [command]/usr/bin/git branch --list --remote origin/john-test3
+2025-10-11T23:16:38.1466209Z   origin/john-test3
+2025-10-11T23:16:38.1472842Z ##[endgroup]
+2025-10-11T23:16:38.1476286Z [command]/usr/bin/git sparse-checkout disable
+2025-10-11T23:16:38.1515534Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-10-11T23:16:38.1542423Z ##[group]Checking out the ref
+2025-10-11T23:16:38.1545245Z [command]/usr/bin/git checkout --progress --force -B john-test3 refs/remotes/origin/john-test3
+2025-10-11T23:16:38.2024353Z Switched to a new branch 'john-test3'
+2025-10-11T23:16:38.2028363Z branch 'john-test3' set up to track 'origin/john-test3'.
+2025-10-11T23:16:38.2038050Z ##[endgroup]
+2025-10-11T23:16:38.2078468Z [command]/usr/bin/git log -1 --format=%H
+2025-10-11T23:16:38.2100558Z 6bce931b7194fe4de8efaaa7af8e2044c4bb48d8
+2025-10-11T23:16:38.2430093Z ##[group]Run actions/setup-go@v5
+2025-10-11T23:16:38.2431931Z with:
+2025-10-11T23:16:38.2433811Z   go-version-file: apptests/go.mod
+2025-10-11T23:16:38.2435741Z   check-latest: false
+2025-10-11T23:16:38.2437699Z   token: ***
+2025-10-11T23:16:38.2439230Z   cache: true
+2025-10-11T23:16:38.2440696Z ##[endgroup]
+2025-10-11T23:16:38.4073865Z Setup go version spec 1.23.0
+2025-10-11T23:16:38.4093798Z Attempting to download 1.23.0...
+2025-10-11T23:16:38.8367526Z matching 1.23.0...
+2025-10-11T23:16:38.8427690Z Acquiring 1.23.0 from https://github.com/actions/go-versions/releases/download/1.23.0-10380775229/go-1.23.0-linux-x64.tar.gz
+2025-10-11T23:16:40.1388831Z Extracting Go...
+2025-10-11T23:16:40.1505348Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/7fe8c572-12ab-49cc-b07b-9f0b785fb6a2 -f /home/runner/work/_temp/a2d26755-6d05-46fc-bb30-6046a1fb984e
+2025-10-11T23:16:41.8142087Z Successfully extracted go to /home/runner/work/_temp/7fe8c572-12ab-49cc-b07b-9f0b785fb6a2
+2025-10-11T23:16:41.8143490Z Adding to the cache ...
+2025-10-11T23:16:46.3125044Z Successfully cached go to /opt/hostedtoolcache/go/1.23.0/x64
+2025-10-11T23:16:46.3127443Z Added go to the path
+2025-10-11T23:16:46.3129970Z Successfully set up Go version 1.23.0
+2025-10-11T23:16:46.3340241Z [command]/opt/hostedtoolcache/go/1.23.0/x64/bin/go env GOMODCACHE
+2025-10-11T23:16:46.3370245Z [command]/opt/hostedtoolcache/go/1.23.0/x64/bin/go env GOCACHE
+2025-10-11T23:16:46.3400330Z /home/runner/go/pkg/mod
+2025-10-11T23:16:46.3414643Z /home/runner/.cache/go-build
+2025-10-11T23:16:46.3443941Z ##[warning]Restore cache failed: Dependencies file is not found in /home/runner/work/kommander-applications/kommander-applications. Supported file pattern: go.sum
+2025-10-11T23:16:46.3470719Z go version go1.23.0 linux/amd64
+2025-10-11T23:16:46.3470926Z 
+2025-10-11T23:16:46.3471263Z ##[group]go env
+2025-10-11T23:16:46.4735209Z GO111MODULE=''
+2025-10-11T23:16:46.4735652Z GOARCH='amd64'
+2025-10-11T23:16:46.4736034Z GOBIN=''
+2025-10-11T23:16:46.4736366Z GOCACHE='/home/runner/.cache/go-build'
+2025-10-11T23:16:46.4736828Z GOENV='/home/runner/.config/go/env'
+2025-10-11T23:16:46.4737242Z GOEXE=''
+2025-10-11T23:16:46.4737532Z GOEXPERIMENT=''
+2025-10-11T23:16:46.4737843Z GOFLAGS=''
+2025-10-11T23:16:46.4738133Z GOHOSTARCH='amd64'
+2025-10-11T23:16:46.4738419Z GOHOSTOS='linux'
+2025-10-11T23:16:46.4738628Z GOINSECURE=''
+2025-10-11T23:16:46.4738845Z GOMODCACHE='/home/runner/go/pkg/mod'
+2025-10-11T23:16:46.4739112Z GONOPROXY=''
+2025-10-11T23:16:46.4739305Z GONOSUMDB=''
+2025-10-11T23:16:46.4739493Z GOOS='linux'
+2025-10-11T23:16:46.4739700Z GOPATH='/home/runner/go'
+2025-10-11T23:16:46.4739967Z GOPRIVATE=''
+2025-10-11T23:16:46.4740219Z GOPROXY='https://proxy.golang.org,direct'
+2025-10-11T23:16:46.4740540Z GOROOT='/opt/hostedtoolcache/go/1.23.0/x64'
+2025-10-11T23:16:46.4740812Z GOSUMDB='sum.golang.org'
+2025-10-11T23:16:46.4741021Z GOTMPDIR=''
+2025-10-11T23:16:46.4741193Z GOTOOLCHAIN='auto'
+2025-10-11T23:16:46.4741502Z GOTOOLDIR='/opt/hostedtoolcache/go/1.23.0/x64/pkg/tool/linux_amd64'
+2025-10-11T23:16:46.4741831Z GOVCS=''
+2025-10-11T23:16:46.4742001Z GOVERSION='go1.23.0'
+2025-10-11T23:16:46.4742194Z GODEBUG=''
+2025-10-11T23:16:46.4742365Z GOTELEMETRY='local'
+2025-10-11T23:16:46.4742910Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+2025-10-11T23:16:46.4743191Z GCCGO='gccgo'
+2025-10-11T23:16:46.4743367Z GOAMD64='v1'
+2025-10-11T23:16:46.4743534Z AR='ar'
+2025-10-11T23:16:46.4743700Z CC='gcc'
+2025-10-11T23:16:46.4744076Z CXX='g++'
+2025-10-11T23:16:46.4744250Z CGO_ENABLED='1'
+2025-10-11T23:16:46.4744437Z GOMOD='/dev/null'
+2025-10-11T23:16:46.4744616Z GOWORK=''
+2025-10-11T23:16:46.4744802Z CGO_CFLAGS='-O2 -g'
+2025-10-11T23:16:46.4744995Z CGO_CPPFLAGS=''
+2025-10-11T23:16:46.4745191Z CGO_CXXFLAGS='-O2 -g'
+2025-10-11T23:16:46.4745412Z CGO_FFLAGS='-O2 -g'
+2025-10-11T23:16:46.4745717Z CGO_LDFLAGS='-O2 -g'
+2025-10-11T23:16:46.4745928Z PKG_CONFIG='pkg-config'
+2025-10-11T23:16:46.4746729Z GOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build1742217313=/tmp/go-build -gno-record-gcc-switches'
+2025-10-11T23:16:46.4747253Z 
+2025-10-11T23:16:46.4747626Z ##[endgroup]
+2025-10-11T23:16:46.4930848Z ##[group]Run go install github.com/onsi/ginkgo/v2/ginkgo
+2025-10-11T23:16:46.4931316Z [36;1mgo install github.com/onsi/ginkgo/v2/ginkgo[0m
+2025-10-11T23:16:46.4973374Z shell: /usr/bin/bash -e {0}
+2025-10-11T23:16:46.4973644Z ##[endgroup]
+2025-10-11T23:16:46.5072712Z go: downloading go1.24.2 (linux/amd64)
+2025-10-11T23:16:51.6459065Z go: downloading github.com/onsi/ginkgo/v2 v2.21.0
+2025-10-11T23:16:51.7759755Z go: downloading github.com/go-task/slim-sprig/v3 v3.0.0
+2025-10-11T23:16:51.7788711Z go: downloading golang.org/x/tools v0.28.0
+2025-10-11T23:16:51.7874164Z go: downloading github.com/google/pprof v0.0.0-20241029153458-d1b30febd7db
+2025-10-11T23:17:05.4749182Z ##[group]Run ginkgo --v --label-filter="install && (kommander-flux)"
+2025-10-11T23:17:05.4749655Z [36;1mginkgo --v --label-filter="install && (kommander-flux)"[0m
+2025-10-11T23:17:05.4782164Z shell: /usr/bin/bash -e {0}
+2025-10-11T23:17:05.4782390Z env:
+2025-10-11T23:17:05.4782796Z   SKIP_CLUSTER_TEARDOWN: true
+2025-10-11T23:17:05.4783023Z ##[endgroup]
+2025-10-11T23:18:44.1708879Z go: downloading github.com/fluxcd/helm-controller/api v1.0.1
+2025-10-11T23:18:44.1709903Z go: downloading github.com/open-policy-agent/frameworks/constraint v0.0.0-20240411024313-c2efb00269a8
+2025-10-11T23:18:44.1710882Z go: downloading github.com/traefik/traefik/v2 v2.11.20
+2025-10-11T23:18:44.1711433Z go: downloading k8s.io/api v0.32.3
+2025-10-11T23:18:44.1711930Z go: downloading k8s.io/apiextensions-apiserver v0.32.3
+2025-10-11T23:18:44.1712452Z go: downloading k8s.io/apimachinery v0.32.3
+2025-10-11T23:18:44.1713091Z go: downloading k8s.io/client-go v0.32.3
+2025-10-11T23:18:44.1713671Z go: downloading sigs.k8s.io/controller-runtime v0.20.1
+2025-10-11T23:18:44.1714253Z go: downloading github.com/fluxcd/pkg/apis/meta v1.10.0
+2025-10-11T23:18:44.1714781Z go: downloading github.com/onsi/gomega v1.35.1
+2025-10-11T23:18:44.1715278Z go: downloading github.com/stretchr/testify v1.10.0
+2025-10-11T23:18:44.1715783Z go: downloading sigs.k8s.io/yaml v1.4.0
+2025-10-11T23:18:44.1716363Z go: downloading github.com/fluxcd/cli-utils v0.36.0-flux.9
+2025-10-11T23:18:44.1716905Z go: downloading github.com/fluxcd/flux2/v2 v2.3.0
+2025-10-11T23:18:44.1717508Z go: downloading github.com/fluxcd/kustomize-controller/api v1.3.0
+2025-10-11T23:18:44.1718110Z go: downloading github.com/fluxcd/pkg/runtime v0.49.1
+2025-10-11T23:18:44.1718680Z go: downloading github.com/fluxcd/pkg/ssa v0.41.1
+2025-10-11T23:18:44.1719249Z go: downloading github.com/fluxcd/source-controller/api v1.5.0
+2025-10-11T23:18:44.1719804Z go: downloading k8s.io/cli-runtime v0.32.3
+2025-10-11T23:18:44.1720253Z go: downloading k8s.io/klog/v2 v2.130.1
+2025-10-11T23:18:44.1720725Z go: downloading sigs.k8s.io/kustomize/api v0.18.0
+2025-10-11T23:18:44.1721229Z go: downloading github.com/drone/envsubst v1.0.3
+2025-10-11T23:18:44.1721782Z go: downloading github.com/mittwald/go-helm-client v0.12.13
+2025-10-11T23:18:44.1722422Z go: downloading inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
+2025-10-11T23:18:44.1723257Z go: downloading github.com/fluxcd/pkg/apis/kustomize v1.5.0
+2025-10-11T23:18:44.1724209Z go: downloading github.com/gogo/protobuf v1.3.2
+2025-10-11T23:18:44.1724837Z go: downloading k8s.io/utils v0.0.0-20241104100929-3ea5e8cea738
+2025-10-11T23:18:44.1725419Z go: downloading github.com/google/gofuzz v1.2.0
+2025-10-11T23:18:44.1726297Z go: downloading github.com/distribution/reference v0.6.0
+2025-10-11T23:18:44.1726863Z go: downloading github.com/docker/cli v27.3.1+incompatible
+2025-10-11T23:18:44.1727465Z go: downloading github.com/docker/docker v27.1.1+incompatible
+2025-10-11T23:18:44.1727997Z go: downloading sigs.k8s.io/kind v0.24.0
+2025-10-11T23:18:44.1728474Z go: downloading github.com/go-logr/logr v1.4.2
+2025-10-11T23:18:44.1728959Z go: downloading github.com/google/go-cmp v0.6.0
+2025-10-11T23:18:44.1729599Z go: downloading github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+2025-10-11T23:18:44.1730439Z go: downloading github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
+2025-10-11T23:18:44.1731102Z go: downloading golang.org/x/net v0.34.0
+2025-10-11T23:18:44.1731615Z go: downloading github.com/evanphx/json-patch/v5 v5.9.0
+2025-10-11T23:18:44.1732240Z go: downloading github.com/evanphx/json-patch v5.7.0+incompatible
+2025-10-11T23:18:44.1733268Z go: downloading github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822
+2025-10-11T23:18:44.1733929Z go: downloading k8s.io/kubectl v0.31.1
+2025-10-11T23:18:44.1734473Z go: downloading github.com/cyphar/filepath-securejoin v0.2.5
+2025-10-11T23:18:44.1735059Z go: downloading github.com/fluxcd/pkg/kustomize v1.11.0
+2025-10-11T23:18:44.1735866Z go: downloading github.com/fluxcd/pkg/tar v0.7.0
+2025-10-11T23:18:44.1736434Z go: downloading github.com/hashicorp/go-cleanhttp v0.5.2
+2025-10-11T23:18:44.1736975Z go: downloading sigs.k8s.io/kustomize/kyaml v0.18.1
+2025-10-11T23:18:44.1737492Z go: downloading golang.org/x/sync v0.10.0
+2025-10-11T23:18:44.1738038Z go: downloading sigs.k8s.io/structured-merge-diff/v4 v4.4.2
+2025-10-11T23:18:44.1738638Z go: downloading github.com/fluxcd/pkg/apis/acl v0.6.0
+2025-10-11T23:18:44.1739184Z go: downloading github.com/google/uuid v1.6.0
+2025-10-11T23:18:44.1739693Z go: downloading github.com/spf13/cobra v1.8.1
+2025-10-11T23:18:44.1740191Z go: downloading github.com/spf13/pflag v1.0.5
+2025-10-11T23:18:44.1740734Z go: downloading gopkg.in/evanphx/json-patch.v4 v4.12.0
+2025-10-11T23:18:44.1741340Z go: downloading go4.org/intern v0.0.0-20230525184215-6c62f75575cb
+2025-10-11T23:18:44.1741875Z go: downloading golang.org/x/term v0.28.0
+2025-10-11T23:18:44.1742313Z go: downloading helm.sh/helm/v3 v3.15.4
+2025-10-11T23:18:44.1743049Z go: downloading sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3
+2025-10-11T23:18:44.1743596Z go: downloading gopkg.in/inf.v0 v0.9.1
+2025-10-11T23:18:44.1744107Z go: downloading github.com/opencontainers/go-digest v1.0.0
+2025-10-11T23:18:44.1744641Z go: downloading github.com/pkg/errors v0.9.1
+2025-10-11T23:18:44.1745160Z go: downloading github.com/docker/go-connections v0.5.0
+2025-10-11T23:18:44.1745700Z go: downloading github.com/docker/go-units v0.5.0
+2025-10-11T23:18:44.1746238Z go: downloading github.com/moby/docker-image-spec v1.3.1
+2025-10-11T23:18:44.1746785Z go: downloading github.com/opencontainers/image-spec v1.1.0
+2025-10-11T23:18:44.1747486Z go: downloading go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.54.0
+2025-10-11T23:18:44.1748289Z go: downloading go.opentelemetry.io/otel/trace v1.29.0
+2025-10-11T23:18:44.1748839Z go: downloading golang.org/x/sys v0.29.0
+2025-10-11T23:18:44.1749316Z go: downloading go.opentelemetry.io/otel v1.29.0
+2025-10-11T23:18:44.1749789Z go: downloading gopkg.in/yaml.v3 v3.0.1
+2025-10-11T23:18:44.1750363Z go: downloading k8s.io/kube-openapi v0.0.0-20241105132330-32ad38e42d3f
+2025-10-11T23:18:44.1750961Z go: downloading github.com/traefik/paerser v0.2.1
+2025-10-11T23:18:44.1751461Z go: downloading github.com/go-acme/lego/v4 v4.21.0
+2025-10-11T23:18:44.1752035Z go: downloading github.com/patrickmn/go-cache v2.1.0+incompatible
+2025-10-11T23:18:44.1756204Z go: downloading github.com/sirupsen/logrus v1.9.3
+2025-10-11T23:18:44.1756772Z go: downloading github.com/gorilla/mux v1.8.1
+2025-10-11T23:18:44.1757276Z go: downloading github.com/golang/protobuf v1.5.4
+2025-10-11T23:18:44.1757952Z go: downloading github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49
+2025-10-11T23:18:44.1758953Z go: downloading golang.org/x/time v0.8.0
+2025-10-11T23:18:44.1759486Z go: downloading github.com/fxamacker/cbor/v2 v2.7.0
+2025-10-11T23:18:44.1760002Z go: downloading golang.org/x/oauth2 v0.24.0
+2025-10-11T23:18:44.1760607Z go: downloading k8s.io/component-base v0.32.3
+2025-10-11T23:18:44.1761124Z go: downloading github.com/json-iterator/go v1.1.12
+2025-10-11T23:18:44.1761823Z go: downloading github.com/liggitt/tabwriter v0.0.0-20181228230101-89fcab3d43de
+2025-10-11T23:18:44.1762718Z go: downloading github.com/moby/term v0.5.0
+2025-10-11T23:18:44.1763200Z go: downloading golang.org/x/text v0.21.0
+2025-10-11T23:18:44.1763862Z go: downloading github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79
+2025-10-11T23:18:44.1764646Z go: downloading github.com/peterbourgon/diskv v2.0.1+incompatible
+2025-10-11T23:18:44.1765234Z go: downloading k8s.io/apiserver v0.32.3
+2025-10-11T23:18:44.1765911Z go: downloading go4.org/unsafe/assume-no-moving-gc v0.0.0-20230525183740-e7c30c78aeb2
+2025-10-11T23:18:44.1766681Z go: downloading github.com/Masterminds/semver/v3 v3.2.1
+2025-10-11T23:18:44.1767228Z go: downloading github.com/Masterminds/sprig/v3 v3.2.3
+2025-10-11T23:18:44.1767753Z go: downloading github.com/gosuri/uitable v0.0.4
+2025-10-11T23:18:44.1768533Z go: downloading github.com/containerd/containerd v1.7.20
+2025-10-11T23:18:44.1769069Z go: downloading oras.land/oras-go v1.2.5
+2025-10-11T23:18:44.1769604Z go: downloading github.com/mitchellh/copystructure v1.2.0
+2025-10-11T23:18:44.1770185Z go: downloading github.com/xeipuuv/gojsonschema v1.2.0
+2025-10-11T23:18:44.1771050Z go: downloading github.com/docker/docker-credential-helpers v0.8.0
+2025-10-11T23:18:44.1771717Z go: downloading github.com/felixge/httpsnoop v1.0.4
+2025-10-11T23:18:44.1772326Z go: downloading go.opentelemetry.io/otel/metric v1.29.0
+2025-10-11T23:18:44.1773137Z go: downloading github.com/go-openapi/jsonreference v0.21.0
+2025-10-11T23:18:44.1773758Z go: downloading github.com/go-openapi/swag v0.23.0
+2025-10-11T23:18:44.1774323Z go: downloading github.com/cenkalti/backoff/v4 v4.3.0
+2025-10-11T23:18:44.1774945Z go: downloading gomodules.xyz/jsonpatch/v2 v2.4.0
+2025-10-11T23:18:44.1775530Z go: downloading github.com/prometheus/client_golang v1.20.3
+2025-10-11T23:18:44.1776140Z go: downloading google.golang.org/protobuf v1.35.2
+2025-10-11T23:18:44.1776686Z go: downloading github.com/x448/float16 v0.8.4
+2025-10-11T23:18:44.1777217Z go: downloading github.com/alessio/shellescape v1.4.2
+2025-10-11T23:18:44.1777777Z go: downloading github.com/pelletier/go-toml v1.9.5
+2025-10-11T23:18:44.1778305Z go: downloading github.com/mattn/go-isatty v0.0.20
+2025-10-11T23:18:44.1778833Z go: downloading github.com/chai2010/gettext-go v1.0.2
+2025-10-11T23:18:44.1779406Z go: downloading github.com/MakeNowJust/heredoc v1.0.0
+2025-10-11T23:18:44.1779973Z go: downloading github.com/mitchellh/go-wordwrap v1.0.1
+2025-10-11T23:18:44.1780529Z go: downloading github.com/russross/blackfriday/v2 v2.1.0
+2025-10-11T23:18:44.1781275Z go: downloading github.com/exponent-io/jsonpath v0.0.0-20210407135951-1de76d718b3f
+2025-10-11T23:18:44.1781947Z go: downloading github.com/blang/semver/v4 v4.0.0
+2025-10-11T23:18:44.1782441Z go: downloading github.com/go-errors/errors v1.5.1
+2025-10-11T23:18:44.1783372Z go: downloading github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+2025-10-11T23:18:44.1784115Z go: downloading github.com/modern-go/reflect2 v1.0.2
+2025-10-11T23:18:44.1784899Z go: downloading github.com/monochromegane/go-gitignore v0.0.0-20200626010858-205db1a8cc00
+2025-10-11T23:18:44.1785656Z go: downloading github.com/xlab/treeprint v1.2.0
+2025-10-11T23:18:44.1786183Z go: downloading github.com/miekg/dns v1.1.62
+2025-10-11T23:18:44.1786693Z go: downloading github.com/google/btree v1.1.3
+2025-10-11T23:18:44.1787206Z go: downloading github.com/google/cel-go v0.22.0
+2025-10-11T23:18:44.1787719Z go: downloading github.com/fatih/color v1.16.0
+2025-10-11T23:18:44.1788230Z go: downloading github.com/BurntSushi/toml v1.4.0
+2025-10-11T23:18:44.1789014Z go: downloading github.com/gobwas/glob v0.2.3
+2025-10-11T23:18:44.1789569Z go: downloading github.com/hashicorp/go-multierror v1.1.1
+2025-10-11T23:18:44.1790149Z go: downloading golang.org/x/crypto v0.32.0
+2025-10-11T23:18:44.1790695Z go: downloading github.com/Masterminds/squirrel v1.5.4
+2025-10-11T23:18:44.1791284Z go: downloading github.com/jmoiron/sqlx v1.3.5
+2025-10-11T23:18:44.1791773Z go: downloading github.com/lib/pq v1.10.9
+2025-10-11T23:18:44.1792303Z go: downloading github.com/rubenv/sql-migrate v1.6.0
+2025-10-11T23:18:44.1793108Z go: downloading github.com/Masterminds/goutils v1.1.1
+2025-10-11T23:18:44.1793658Z go: downloading github.com/huandu/xstrings v1.5.0
+2025-10-11T23:18:44.1794237Z go: downloading github.com/imdario/mergo v0.3.16
+2025-10-11T23:18:44.1794831Z go: downloading github.com/shopspring/decimal v1.4.0
+2025-10-11T23:18:44.1795375Z go: downloading github.com/spf13/cast v1.7.0
+2025-10-11T23:18:44.1795991Z go: downloading github.com/docker/distribution v2.8.3+incompatible
+2025-10-11T23:18:44.1796691Z go: downloading github.com/mitchellh/reflectwalk v1.0.2
+2025-10-11T23:18:44.1797489Z go: downloading github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415
+2025-10-11T23:18:44.1798284Z go: downloading github.com/go-openapi/jsonpointer v0.21.0
+2025-10-11T23:18:44.1799052Z go: downloading github.com/mailru/easyjson v0.7.7
+2025-10-11T23:18:44.1799599Z go: downloading github.com/fsnotify/fsnotify v1.8.0
+2025-10-11T23:18:44.1800213Z go: downloading github.com/prometheus/client_model v0.6.1
+2025-10-11T23:18:44.1800915Z go: downloading github.com/klauspost/compress v1.17.11-0.20241004063537-dbd6c381492a
+2025-10-11T23:18:44.1801633Z go: downloading github.com/prometheus/common v0.55.0
+2025-10-11T23:18:44.1802330Z go: downloading github.com/google/safetext v0.0.0-20230106111101-7156a760e523
+2025-10-11T23:18:44.1803322Z go: downloading github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
+2025-10-11T23:18:44.1803976Z go: downloading github.com/containerd/errdefs v0.1.0
+2025-10-11T23:18:44.1804527Z go: downloading github.com/containerd/log v0.1.0
+2025-10-11T23:18:44.1805086Z go: downloading github.com/containerd/platforms v0.2.1
+2025-10-11T23:18:44.1805585Z go: downloading cel.dev/expr v0.18.0
+2025-10-11T23:18:44.1806299Z go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20241118233622-e639e219e697
+2025-10-11T23:18:44.1807263Z go: downloading github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+2025-10-11T23:18:44.1808003Z go: downloading github.com/stoewer/go-strcase v1.3.0
+2025-10-11T23:18:44.1808642Z go: downloading github.com/prometheus/procfs v0.15.1
+2025-10-11T23:18:44.1809198Z go: downloading github.com/mattn/go-runewidth v0.0.15
+2025-10-11T23:18:44.1809761Z go: downloading github.com/mattn/go-colorable v0.1.13
+2025-10-11T23:18:44.1810356Z go: downloading github.com/hashicorp/errwrap v1.1.0
+2025-10-11T23:18:44.1811026Z go: downloading github.com/lann/builder v0.0.0-20180802200727-47ae307949d0
+2025-10-11T23:18:44.1811656Z go: downloading github.com/go-gorp/gorp/v3 v3.1.0
+2025-10-11T23:18:44.1812160Z go: downloading github.com/moby/locker v1.0.1
+2025-10-11T23:18:44.1813007Z go: downloading github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb
+2025-10-11T23:18:44.1813724Z go: downloading github.com/go-logr/stdr v1.2.2
+2025-10-11T23:18:44.1814259Z go: downloading github.com/josharian/intern v1.0.0
+2025-10-11T23:18:44.1814804Z go: downloading github.com/beorn7/perks v1.0.1
+2025-10-11T23:18:44.1815339Z go: downloading github.com/cespare/xxhash/v2 v2.3.0
+2025-10-11T23:18:44.1815944Z go: downloading github.com/emicklei/go-restful/v3 v3.12.0
+2025-10-11T23:18:44.1816510Z go: downloading github.com/gorilla/websocket v1.5.1
+2025-10-11T23:18:44.1817035Z go: downloading github.com/go-jose/go-jose/v4 v4.0.4
+2025-10-11T23:18:44.1817557Z go: downloading google.golang.org/grpc v1.67.1
+2025-10-11T23:18:44.1818083Z go: downloading github.com/antlr4-go/antlr/v4 v4.13.0
+2025-10-11T23:18:44.1818890Z go: downloading google.golang.org/genproto/googleapis/rpc v0.0.0-20241209162323-e6fa225c2576
+2025-10-11T23:18:44.1819898Z go: downloading github.com/rivo/uniseg v0.4.4
+2025-10-11T23:18:44.1820534Z go: downloading github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0
+2025-10-11T23:18:44.1821259Z go: downloading golang.org/x/exp v0.0.0-20241210194714-1829a127f884
+2025-10-11T23:18:44.1821943Z go: downloading github.com/moby/spdystream v0.5.0
+2025-10-11T23:18:44.1822670Z go: downloading github.com/docker/go-metrics v0.0.1
+2025-10-11T23:18:44.1823353Z go: downloading github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f
+2025-10-11T23:18:44.1823819Z 
+2025-10-11T23:18:44.2022003Z Running Suite: Application Test Suite - /home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios
+2025-10-11T23:18:44.2023201Z =============================================================================================================================
+2025-10-11T23:18:44.2023935Z Random Seed: [1m1760224625[0m
+2025-10-11T23:18:44.2024192Z 
+2025-10-11T23:18:44.2024416Z Will run [1m3[0m of [1m119[0m specs
+2025-10-11T23:18:44.2024909Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2025412Z [0m[1m[BeforeSuite] [0m
+2025-10-11T23:18:44.2026435Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/suite_test.go:30[0m
+2025-10-11T23:18:44.2725335Z [38;5;10m[BeforeSuite] PASSED [0.070 seconds][0m
+2025-10-11T23:18:44.2726211Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2733489Z [38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m
+2025-10-11T23:18:44.2736408Z [38;5;11mP [PENDING][0m
+2025-10-11T23:18:44.2738031Z [0mCilium Hubble Relay Traefik Tests [38;5;243mCilium Hubble Relay Traefik Upgrade Test [38;5;11m[1mshould install Cilium Hubble Relay Traefik dependencies[0m [38;5;204m[cilium-hubble-relay-traefik, upgrade][0m
+2025-10-11T23:18:44.2740175Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/ciliumhubblerelaytraefik_test.go:97[0m
+2025-10-11T23:18:44.2741289Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2741843Z [38;5;11mP [PENDING][0m
+2025-10-11T23:18:44.2743411Z [0mCilium Hubble Relay Traefik Tests [38;5;243mCilium Hubble Relay Traefik Upgrade Test [38;5;11m[1mshould install previous version successfully with default config[0m [38;5;204m[cilium-hubble-relay-traefik, upgrade][0m
+2025-10-11T23:18:44.2745283Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/ciliumhubblerelaytraefik_test.go:101[0m
+2025-10-11T23:18:44.2746281Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2746752Z [38;5;11mP [PENDING][0m
+2025-10-11T23:18:44.2748173Z [0mCilium Hubble Relay Traefik Tests [38;5;243mCilium Hubble Relay Traefik Upgrade Test [38;5;11m[1mshould forward requests to Hubble Relay before upgrade[0m [38;5;204m[cilium-hubble-relay-traefik, upgrade][0m
+2025-10-11T23:18:44.2750145Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/ciliumhubblerelaytraefik_test.go:132[0m
+2025-10-11T23:18:44.2751128Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2751406Z [38;5;11mP [PENDING][0m
+2025-10-11T23:18:44.2752334Z [0mCilium Hubble Relay Traefik Tests [38;5;243mCilium Hubble Relay Traefik Upgrade Test [38;5;11m[1mshould upgrade successfully[0m [38;5;204m[cilium-hubble-relay-traefik, upgrade][0m
+2025-10-11T23:18:44.2754297Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/ciliumhubblerelaytraefik_test.go:136[0m
+2025-10-11T23:18:44.2755059Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2755447Z [38;5;11mP [PENDING][0m
+2025-10-11T23:18:44.2756410Z [0mCilium Hubble Relay Traefik Tests [38;5;243mCilium Hubble Relay Traefik Upgrade Test [38;5;11m[1mshould forward requests to Hubble Relay after upgrade[0m [38;5;204m[cilium-hubble-relay-traefik, upgrade][0m
+2025-10-11T23:18:44.2757804Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/ciliumhubblerelaytraefik_test.go:156[0m
+2025-10-11T23:18:44.2758539Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2760770Z [38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m
+2025-10-11T23:18:44.2762291Z [38;5;243m------------------------------[0m
+2025-10-11T23:18:44.2763406Z [0mKommander-flux Tests [38;5;243mInstalling kommander-flux [0m[1mshould install successfully with default config[0m [38;5;204m[kommander-flux, install][0m
+2025-10-11T23:18:44.2764670Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:40[0m
+2025-10-11T23:18:47.3049179Z Creating cluster "kommanderapptest" ...
+2025-10-11T23:18:47.3050126Z  • Ensuring node image (kindest/node:v1.31.0) 🖼  ...
+2025-10-11T23:18:57.1666103Z  ✓ Ensuring node image (kindest/node:v1.31.0) 🖼
+2025-10-11T23:18:57.1666592Z  • Preparing nodes 📦 📦   ...
+2025-10-11T23:19:00.7806965Z  ✓ Preparing nodes 📦 📦 
+2025-10-11T23:19:00.8247114Z  • Writing configuration 📜  ...
+2025-10-11T23:19:01.0627750Z  ✓ Writing configuration 📜
+2025-10-11T23:19:01.0628333Z  • Starting control-plane 🕹️  ...
+2025-10-11T23:19:12.5285343Z  ✓ Starting control-plane 🕹️
+2025-10-11T23:19:12.5285871Z  • Installing CNI 🔌  ...
+2025-10-11T23:19:12.8786508Z  ✓ Installing CNI 🔌
+2025-10-11T23:19:12.8787025Z  • Installing StorageClass 💾  ...
+2025-10-11T23:19:13.2155053Z  ✓ Installing StorageClass 💾
+2025-10-11T23:19:13.2747118Z  • Joining worker nodes 🚜  ...
+2025-10-11T23:19:20.6390445Z  ✓ Joining worker nodes 🚜
+2025-10-11T23:19:21.0184132Z [controller-runtime] log.SetLogger(...) was never called; logs will not be displayed.
+2025-10-11T23:19:21.0185298Z Detected at:
+2025-10-11T23:19:21.0188890Z 	>  goroutine 80 [running]:
+2025-10-11T23:19:21.0189518Z 	>  runtime/debug.Stack()
+2025-10-11T23:19:21.0190443Z 	>  	/home/runner/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.24.2.linux-amd64/src/runtime/debug/stack.go:26 +0x5e
+2025-10-11T23:19:21.0193785Z 	>  sigs.k8s.io/controller-runtime/pkg/log.eventuallyFulfillRoot()
+2025-10-11T23:19:21.0194881Z 	>  	/home/runner/go/pkg/mod/sigs.k8s.io/controller-runtime@v0.20.1/pkg/log/log.go:60 +0xcd
+2025-10-11T23:19:21.0195852Z 	>  sigs.k8s.io/controller-runtime/pkg/log.(*delegatingLogSink).WithName(0xc0003e2580, {0x3e18538, 0x14})
+2025-10-11T23:19:21.0196862Z 	>  	/home/runner/go/pkg/mod/sigs.k8s.io/controller-runtime@v0.20.1/pkg/log/deleg.go:147 +0x3e
+2025-10-11T23:19:21.0198456Z 	>  github.com/go-logr/logr.Logger.WithName({{0x425ef68, 0xc0003e2580}, 0x0}, {0x3e18538?, 0x5?})
+2025-10-11T23:19:21.0199841Z 	>  	/home/runner/go/pkg/mod/github.com/go-logr/logr@v1.4.2/logr.go:345 +0x36
+2025-10-11T23:19:21.0200734Z 	>  sigs.k8s.io/controller-runtime/pkg/client.newClient(0x1?, {0x0, 0xc000521f10, {0x0, 0x0}, 0x0, 0x0})
+2025-10-11T23:19:21.0201847Z 	>  	/home/runner/go/pkg/mod/sigs.k8s.io/controller-runtime@v0.20.1/pkg/client/client.go:118 +0xdb
+2025-10-11T23:19:21.0203233Z 	>  sigs.k8s.io/controller-runtime/pkg/client.New(0x4255be0?, {0x0, 0xc000521f10, {0x0, 0x0}, 0x0, 0x0})
+2025-10-11T23:19:21.0204382Z 	>  	/home/runner/go/pkg/mod/sigs.k8s.io/controller-runtime@v0.20.1/pkg/client/client.go:98 +0x55
+2025-10-11T23:19:21.0205671Z 	>  github.com/mesosphere/kommander-applications/apptests/environment.(*Env).Provision(0xc00070e7b0, {0x4255be0, 0x5e0f100})
+2025-10-11T23:19:21.0207131Z 	>  	/home/runner/work/kommander-applications/kommander-applications/apptests/environment/environment.go:71 +0xc8
+2025-10-11T23:19:21.0208216Z 	>  github.com/mesosphere/kommander-applications/appscenarios.SetupKindCluster()
+2025-10-11T23:19:21.0209380Z 	>  	/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/suite_test.go:60 +0x75
+2025-10-11T23:19:21.0210505Z 	>  github.com/mesosphere/kommander-applications/appscenarios.init.func6.1()
+2025-10-11T23:19:21.0212274Z 	>  	/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:18 +0x17
+2025-10-11T23:19:21.0213443Z 	>  github.com/onsi/ginkgo/v2/internal.extractBodyFunction.func3({0x5b50700?, 0x0?})
+2025-10-11T23:19:21.0214037Z 	>  	/home/runner/go/pkg/mod/github.com/onsi/ginkgo/v2@v2.21.0/internal/node.go:472 +0x13
+2025-10-11T23:19:21.0214525Z 	>  github.com/onsi/ginkgo/v2/internal.(*Suite).runNode.func3()
+2025-10-11T23:19:21.0215017Z 	>  	/home/runner/go/pkg/mod/github.com/onsi/ginkgo/v2@v2.21.0/internal/suite.go:894 +0x7b
+2025-10-11T23:19:21.0215546Z 	>  created by github.com/onsi/ginkgo/v2/internal.(*Suite).runNode in goroutine 72
+2025-10-11T23:19:21.0216413Z 	>  	/home/runner/go/pkg/mod/github.com/onsi/ginkgo/v2@v2.21.0/internal/suite.go:881 +0xd7b
+2025-10-11T23:19:24.5299657Z creating 1 resource(s)
+2025-10-11T23:19:24.5531962Z creating 22 resource(s)
+2025-10-11T23:19:24.7236655Z beginning wait for 22 resources with timeout of 5m0s
+2025-10-11T23:19:24.8140716Z Deployment is not ready: metallb-system/metallb-controller. 0 out of 1 expected pods are ready
+2025-10-11T23:19:26.7526554Z Deployment is not ready: metallb-system/metallb-controller. 0 out of 1 expected pods are ready
+2025-10-11T23:19:28.7654933Z Deployment is not ready: metallb-system/metallb-controller. 0 out of 1 expected pods are ready
+2025-10-11T23:19:30.7459754Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:32.7530471Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:34.7527846Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:36.7729461Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:38.7463603Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:40.7469149Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:42.7498555Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:44.7497390Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:46.7723986Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:48.7476057Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:50.7457302Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:52.7475443Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:54.7472985Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:56.7468560Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:19:58.7496844Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:00.7473151Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:02.7476451Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:04.7503348Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:06.7464820Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:08.7477878Z DaemonSet is not ready: metallb-system/metallb-speaker. 0 out of 1 expected pods are ready
+2025-10-11T23:20:10.7656305Z release installed successfully: metallb/metallb-0.13.7
+2025-10-11T23:20:11.1381491Z   [38;5;9m[FAILED][0m in [It] - /home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:43 [38;5;243m@ 10/11/25 23:20:11.137[0m
+2025-10-11T23:20:11.1383580Z [38;5;9m• [FAILED] [86.864 seconds][0m
+2025-10-11T23:20:11.1385575Z [0mKommander-flux Tests [38;5;243mInstalling kommander-flux [38;5;9m[1m[It] should install successfully with default config[0m [38;5;204m[kommander-flux, install][0m
+2025-10-11T23:20:11.1387573Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:40[0m
+2025-10-11T23:20:11.1388591Z 
+2025-10-11T23:20:11.1389604Z   [38;5;9m[FAILED] Expected
+2025-10-11T23:20:11.1390128Z       <*fmt.wrapError | 0xc0014e0780>: 
+2025-10-11T23:20:11.1405462Z       could not patch the kustomization resources for path: /home/runner/work/kommander-applications/kommander-applications/applications/kommander-flux/2.6.2 :no matches for kind "HelmRelease" in version "helm.toolkit.fluxcd.io/v2"
+2025-10-11T23:20:11.1407139Z       {
+2025-10-11T23:20:11.1409640Z           msg: "could not patch the kustomization resources for path: /home/runner/work/kommander-applications/kommander-applications/applications/kommander-flux/2.6.2 :no matches for kind \"HelmRelease\" in version \"helm.toolkit.fluxcd.io/v2\"",
+2025-10-11T23:20:11.1411467Z           err: <*meta.NoKindMatchError | 0xc001338200>{
+2025-10-11T23:20:11.1412074Z               GroupKind: {
+2025-10-11T23:20:11.1413231Z                   Group: "helm.toolkit.fluxcd.io",
+2025-10-11T23:20:11.1413924Z                   Kind: "HelmRelease",
+2025-10-11T23:20:11.1414363Z               },
+2025-10-11T23:20:11.1414827Z               SearchedVersions: ["v2"],
+2025-10-11T23:20:11.1415197Z           },
+2025-10-11T23:20:11.1415481Z       }
+2025-10-11T23:20:11.1416031Z   to be nil[0m
+2025-10-11T23:20:11.1417619Z   [38;5;9mIn [1m[It][0m[38;5;9m at: [1m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:43[0m [38;5;243m@ 10/11/25 23:20:11.137[0m
+2025-10-11T23:20:11.1418934Z [38;5;243m------------------------------[0m
+2025-10-11T23:20:11.1419424Z [38;5;14mS [SKIPPED] [0.000 seconds][0m
+2025-10-11T23:20:11.1420639Z [0mKommander-flux Tests [38;5;243mInstalling kommander-flux [38;5;14m[1m[It] should install base kustomizations[0m [38;5;204m[kommander-flux, install][0m
+2025-10-11T23:20:11.1422315Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:65[0m
+2025-10-11T23:20:11.1423668Z 
+2025-10-11T23:20:11.1424333Z   [38;5;14m[SKIPPED] Spec skipped because an earlier spec in an ordered container failed[0m
+2025-10-11T23:20:11.1426283Z   [38;5;14mIn [1m[It][0m[38;5;14m at: [1m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:65[0m [38;5;243m@ 10/11/25 23:20:11.137[0m
+2025-10-11T23:20:11.1427538Z [38;5;243m------------------------------[0m
+2025-10-11T23:20:11.1428440Z [38;5;14mS [SKIPPED] [0.000 seconds][0m
+2025-10-11T23:20:11.1429782Z [0mKommander-flux Tests [38;5;243mInstalling kommander-flux [38;5;14m[1m[It] should have a PriorityClass configured on all 4 deployments[0m [38;5;204m[kommander-flux, install][0m
+2025-10-11T23:20:11.1431588Z [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:70[0m
+2025-10-11T23:20:11.1433141Z 
+2025-10-11T23:20:11.1433802Z   [38;5;14m[SKIPPED] Spec skipped because an earlier spec in an ordered container failed[0m
+2025-10-11T23:20:11.1435686Z   [38;5;14mIn [1m[It][0m[38;5;14m at: [1m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:70[0m [38;5;243m@ 10/11/25 23:20:11.137[0m
+2025-10-11T23:20:11.1437112Z [38;5;243m------------------------------[0m
+2025-10-11T23:20:11.1438098Z [38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m[38;5;14mS[0m
+2025-10-11T23:20:11.1438628Z 
+2025-10-11T23:20:11.1438880Z [38;5;9m[1mSummarizing 1 Failure:[0m
+2025-10-11T23:20:11.1440622Z   [38;5;9m[FAIL][0m [0mKommander-flux Tests [38;5;243mInstalling kommander-flux [38;5;9m[1m[It] should install successfully with default config[0m [38;5;204m[kommander-flux, install][0m
+2025-10-11T23:20:11.1443102Z   [38;5;243m/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/kommanderflux_test.go:43[0m
+2025-10-11T23:20:11.1443933Z 
+2025-10-11T23:20:11.1444247Z [38;5;9m[1mRan 1 of 119 Specs in 86.936 seconds[0m
+2025-10-11T23:20:11.1445219Z [38;5;9m[1mFAIL![0m -- [38;5;10m[1m0 Passed[0m | [38;5;9m[1m1 Failed[0m | [38;5;11m[1m5 Pending[0m | [38;5;14m[1m113 Skipped[0m
+2025-10-11T23:20:11.1473107Z --- FAIL: TestApplications (86.94s)
+2025-10-11T23:20:11.1473559Z FAIL
+2025-10-11T23:20:11.1805005Z 
+2025-10-11T23:20:11.1805495Z Ginkgo ran 1 suite in 3m5.683817806s
+2025-10-11T23:20:11.1805870Z 
+2025-10-11T23:20:11.1805999Z Test Suite Failed
+2025-10-11T23:20:11.1820890Z ##[error]Process completed with exit code 1.
+2025-10-11T23:20:11.1859657Z ##[group]Run curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
+2025-10-11T23:20:11.1860649Z [36;1mcurl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -[0m
+2025-10-11T23:20:11.1861385Z [36;1m./support-bundle --interactive=false --output=support-bundle.tar.gz support-bundle.yaml[0m
+2025-10-11T23:20:11.1895662Z shell: /usr/bin/bash -e {0}
+2025-10-11T23:20:11.1895895Z ##[endgroup]
+2025-10-11T23:20:11.2021699Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2025-10-11T23:20:11.2023473Z                                  Dload  Upload   Total   Spent    Left  Speed
+2025-10-11T23:20:11.2023838Z 
+2025-10-11T23:20:11.3685122Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-10-11T23:20:11.3685636Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-10-11T23:20:11.4675717Z 
+2025-10-11T23:20:11.4676396Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2025-10-11T23:20:11.5258147Z LICENSE
+2025-10-11T23:20:11.5258509Z README.md
+2025-10-11T23:20:11.5258833Z support-bundle
+2025-10-11T23:20:12.0504138Z 
+2025-10-11T23:20:12.3179412Z  66 30.0M   66 20.0M    0     0  23.6M      0  0:00:01 --:--:--  0:00:01 23.6M
+2025-10-11T23:20:12.3184945Z 100 30.0M  100 30.0M    0     0  26.9M      0  0:00:01  0:00:01 --:--:-- 37.3M
+2025-10-11T23:20:58.5831603Z {
+2025-10-11T23:20:58.5832040Z     "analyzerResults": [
+2025-10-11T23:20:58.5833757Z         {
+2025-10-11T23:20:58.5834553Z             "name": "check.installed.ekco.version.for.critical.fixes",
+2025-10-11T23:20:58.5835243Z             "labels": {
+2025-10-11T23:20:58.5835762Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5836847Z                 "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5837958Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5838541Z             },
+2025-10-11T23:20:58.5838905Z             "insight": {
+2025-10-11T23:20:58.5839755Z                 "name": "check.installed.ekco.version.for.critical.fixes",
+2025-10-11T23:20:58.5840386Z                 "labels": {
+2025-10-11T23:20:58.5841120Z                     "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5842391Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5843235Z                 },
+2025-10-11T23:20:58.5844115Z                 "primary": "Check installed EKCO version for critical fixes",
+2025-10-11T23:20:58.5844928Z                 "detail": "No matching files",
+2025-10-11T23:20:58.5845516Z                 "severity": "warn"
+2025-10-11T23:20:58.5845904Z             },
+2025-10-11T23:20:58.5846320Z             "severity": "warn",
+2025-10-11T23:20:58.5846836Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5847231Z         },
+2025-10-11T23:20:58.5847530Z         {
+2025-10-11T23:20:58.5848002Z             "name": "container.runtime",
+2025-10-11T23:20:58.5848460Z             "labels": {
+2025-10-11T23:20:58.5848967Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5849699Z                 "iconKey": "kubernetes_container_runtime",
+2025-10-11T23:20:58.5851071Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/container-runtime.svg?w=23\u0026h=16"
+2025-10-11T23:20:58.5851780Z             },
+2025-10-11T23:20:58.5852116Z             "insight": {
+2025-10-11T23:20:58.5852774Z                 "name": "container.runtime",
+2025-10-11T23:20:58.5853240Z                 "labels": {
+2025-10-11T23:20:58.5854028Z                     "iconKey": "kubernetes_container_runtime",
+2025-10-11T23:20:58.5855603Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/container-runtime.svg?w=23\u0026h=16"
+2025-10-11T23:20:58.5856365Z                 },
+2025-10-11T23:20:58.5857225Z                 "primary": "Container Runtime",
+2025-10-11T23:20:58.5858197Z                 "detail": "A supported container runtime is present on all nodes",
+2025-10-11T23:20:58.5858887Z                 "severity": "debug"
+2025-10-11T23:20:58.5859284Z             },
+2025-10-11T23:20:58.5859702Z             "severity": "debug",
+2025-10-11T23:20:58.5860174Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5860527Z         },
+2025-10-11T23:20:58.5860792Z         {
+2025-10-11T23:20:58.5861598Z             "name": "pod.kommander.flux.flux.oci.mirror.b7947d9fc.v9hff.status",
+2025-10-11T23:20:58.5862220Z             "labels": {
+2025-10-11T23:20:58.5862896Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5863398Z                 "iconKey": "",
+2025-10-11T23:20:58.5863858Z                 "iconUri": ""
+2025-10-11T23:20:58.5864217Z             },
+2025-10-11T23:20:58.5864575Z             "insight": {
+2025-10-11T23:20:58.5865573Z                 "name": "pod.kommander.flux.flux.oci.mirror.b7947d9fc.v9hff.status",
+2025-10-11T23:20:58.5866245Z                 "labels": {
+2025-10-11T23:20:58.5866756Z                     "iconKey": "",
+2025-10-11T23:20:58.5867260Z                     "iconUri": ""
+2025-10-11T23:20:58.5867627Z                 },
+2025-10-11T23:20:58.5868511Z                 "primary": "Pod kommander-flux/flux-oci-mirror-b7947d9fc-v9hff status",
+2025-10-11T23:20:58.5869358Z                 "detail": "Status: ContainerCreating",
+2025-10-11T23:20:58.5869901Z                 "severity": "error"
+2025-10-11T23:20:58.5870247Z             },
+2025-10-11T23:20:58.5870629Z             "severity": "error",
+2025-10-11T23:20:58.5871058Z             "analyzerSpec": "",
+2025-10-11T23:20:58.5871626Z             "error": "Status: ContainerCreating",
+2025-10-11T23:20:58.5872116Z             "involvedObject": {
+2025-10-11T23:20:58.5872826Z                 "kind": "Pod",
+2025-10-11T23:20:58.5873752Z                 "namespace": "kommander-flux",
+2025-10-11T23:20:58.5874607Z                 "name": "flux-oci-mirror-b7947d9fc-v9hff",
+2025-10-11T23:20:58.5875228Z                 "apiVersion": "v1"
+2025-10-11T23:20:58.5875614Z             }
+2025-10-11T23:20:58.5875885Z         },
+2025-10-11T23:20:58.5876129Z         {
+2025-10-11T23:20:58.5876765Z             "name": "kommander.flux.flux.oci.mirror.deployment.status",
+2025-10-11T23:20:58.5877297Z             "labels": {
+2025-10-11T23:20:58.5877821Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5878576Z                 "iconKey": "kubernetes_deployment_status",
+2025-10-11T23:20:58.5879979Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/deployment-status.svg?w=17\u0026h=17"
+2025-10-11T23:20:58.5880640Z             },
+2025-10-11T23:20:58.5880970Z             "insight": {
+2025-10-11T23:20:58.5881753Z                 "name": "kommander.flux.flux.oci.mirror.deployment.status",
+2025-10-11T23:20:58.5882359Z                 "labels": {
+2025-10-11T23:20:58.5883304Z                     "iconKey": "kubernetes_deployment_status",
+2025-10-11T23:20:58.5884778Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/deployment-status.svg?w=17\u0026h=17"
+2025-10-11T23:20:58.5885497Z                 },
+2025-10-11T23:20:58.5886356Z                 "primary": "kommander-flux/flux-oci-mirror Deployment Status",
+2025-10-11T23:20:58.5887669Z                 "detail": "The deployment kommander-flux/flux-oci-mirror has 0/1 replicas",
+2025-10-11T23:20:58.5888430Z                 "severity": "error"
+2025-10-11T23:20:58.5888821Z             },
+2025-10-11T23:20:58.5889243Z             "severity": "error",
+2025-10-11T23:20:58.5889728Z             "analyzerSpec": "",
+2025-10-11T23:20:58.5890653Z             "error": "The deployment kommander-flux/flux-oci-mirror has 0/1 replicas"
+2025-10-11T23:20:58.5891220Z         },
+2025-10-11T23:20:58.5891490Z         {
+2025-10-11T23:20:58.5891898Z             "name": "node.status.check",
+2025-10-11T23:20:58.5892339Z             "labels": {
+2025-10-11T23:20:58.5892978Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5893903Z                 "iconKey": "kubernetes_node_resources",
+2025-10-11T23:20:58.5895212Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/node-resources.svg?w=16\u0026h=18"
+2025-10-11T23:20:58.5895981Z             },
+2025-10-11T23:20:58.5896452Z             "insight": {
+2025-10-11T23:20:58.5896945Z                 "name": "node.status.check",
+2025-10-11T23:20:58.5897816Z                 "labels": {
+2025-10-11T23:20:58.5898611Z                     "iconKey": "kubernetes_node_resources",
+2025-10-11T23:20:58.5900423Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/node-resources.svg?w=16\u0026h=18"
+2025-10-11T23:20:58.5901140Z                 },
+2025-10-11T23:20:58.5901700Z                 "primary": "Node status check",
+2025-10-11T23:20:58.5902411Z                 "detail": "All nodes are online.",
+2025-10-11T23:20:58.5903286Z                 "severity": "debug"
+2025-10-11T23:20:58.5903686Z             },
+2025-10-11T23:20:58.5904009Z             "severity": "debug",
+2025-10-11T23:20:58.5904301Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5904518Z         },
+2025-10-11T23:20:58.5904680Z         {
+2025-10-11T23:20:58.5905041Z             "name": "https.replicated.app.host.health.check",
+2025-10-11T23:20:58.5905364Z             "labels": {
+2025-10-11T23:20:58.5905675Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5906077Z                 "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5906935Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5907329Z             },
+2025-10-11T23:20:58.5907552Z             "insight": {
+2025-10-11T23:20:58.5907992Z                 "name": "https.replicated.app.host.health.check",
+2025-10-11T23:20:58.5908330Z                 "labels": {
+2025-10-11T23:20:58.5908743Z                     "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5909978Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5910586Z                 },
+2025-10-11T23:20:58.5911040Z                 "primary": "https://replicated.app host health check",
+2025-10-11T23:20:58.5911693Z                 "detail": "https://replicated.app host is healthy",
+2025-10-11T23:20:58.5912169Z                 "severity": "debug"
+2025-10-11T23:20:58.5912409Z             },
+2025-10-11T23:20:58.5913633Z             "severity": "debug",
+2025-10-11T23:20:58.5914091Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5914439Z         },
+2025-10-11T23:20:58.5914696Z         {
+2025-10-11T23:20:58.5915219Z             "name": "check.for.default.storage.class",
+2025-10-11T23:20:58.5915701Z             "labels": {
+2025-10-11T23:20:58.5916204Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5916878Z                 "iconKey": "kubernetes_storage_class",
+2025-10-11T23:20:58.5918052Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/storage-class.svg?w=12\u0026h=12"
+2025-10-11T23:20:58.5918487Z             },
+2025-10-11T23:20:58.5918709Z             "insight": {
+2025-10-11T23:20:58.5919111Z                 "name": "check.for.default.storage.class",
+2025-10-11T23:20:58.5919437Z                 "labels": {
+2025-10-11T23:20:58.5920049Z                     "iconKey": "kubernetes_storage_class",
+2025-10-11T23:20:58.5921036Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/storage-class.svg?w=12\u0026h=12"
+2025-10-11T23:20:58.5921470Z                 },
+2025-10-11T23:20:58.5921862Z                 "primary": "Check for default storage class",
+2025-10-11T23:20:58.5922300Z                 "detail": "Default storage class found",
+2025-10-11T23:20:58.5922906Z                 "severity": "debug"
+2025-10-11T23:20:58.5923146Z             },
+2025-10-11T23:20:58.5923386Z             "severity": "debug",
+2025-10-11T23:20:58.5923658Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5923879Z         },
+2025-10-11T23:20:58.5924038Z         {
+2025-10-11T23:20:58.5924741Z             "name": "check.for.pvcs.using.more.than.80.storage.in.the.entire.cluster",
+2025-10-11T23:20:58.5925154Z             "labels": {
+2025-10-11T23:20:58.5925466Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5925777Z                 "iconKey": "",
+2025-10-11T23:20:58.5926056Z                 "iconUri": ""
+2025-10-11T23:20:58.5926278Z             },
+2025-10-11T23:20:58.5926483Z             "insight": {
+2025-10-11T23:20:58.5927068Z                 "name": "check.for.pvcs.using.more.than.80.storage.in.the.entire.cluster",
+2025-10-11T23:20:58.5927477Z                 "labels": {
+2025-10-11T23:20:58.5927786Z                     "iconKey": "",
+2025-10-11T23:20:58.5928092Z                     "iconUri": ""
+2025-10-11T23:20:58.5928328Z                 },
+2025-10-11T23:20:58.5928894Z                 "primary": "Check for PVCs using more than 80% storage in the entire cluster",
+2025-10-11T23:20:58.5929488Z                 "detail": "No PVCs are using more than 80% of storage",
+2025-10-11T23:20:58.5929858Z                 "severity": "debug"
+2025-10-11T23:20:58.5930089Z             },
+2025-10-11T23:20:58.5930325Z             "severity": "debug",
+2025-10-11T23:20:58.5930592Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5930797Z         },
+2025-10-11T23:20:58.5930953Z         {
+2025-10-11T23:20:58.5931205Z             "name": "event.oom.check",
+2025-10-11T23:20:58.5931479Z             "labels": {
+2025-10-11T23:20:58.5931781Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5932147Z                 "iconKey": "kubernetes_event",
+2025-10-11T23:20:58.5933042Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/kubernetes.svg?w=16\u0026h=16"
+2025-10-11T23:20:58.5933453Z             },
+2025-10-11T23:20:58.5933658Z             "insight": {
+2025-10-11T23:20:58.5933976Z                 "name": "event.oom.check",
+2025-10-11T23:20:58.5934263Z                 "labels": {
+2025-10-11T23:20:58.5934804Z                     "iconKey": "kubernetes_event",
+2025-10-11T23:20:58.5935605Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/kubernetes.svg?w=16\u0026h=16"
+2025-10-11T23:20:58.5936013Z                 },
+2025-10-11T23:20:58.5936331Z                 "primary": "event-oom-check",
+2025-10-11T23:20:58.5936755Z                 "detail": "No OOMKilling event detected",
+2025-10-11T23:20:58.5937103Z                 "severity": "debug"
+2025-10-11T23:20:58.5937330Z             },
+2025-10-11T23:20:58.5937569Z             "severity": "debug",
+2025-10-11T23:20:58.5937836Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5938045Z         },
+2025-10-11T23:20:58.5938207Z         {
+2025-10-11T23:20:58.5938521Z             "name": "coredns.nameserver.configuration",
+2025-10-11T23:20:58.5938823Z             "labels": {
+2025-10-11T23:20:58.5939117Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5939520Z                 "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5940159Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5940520Z             },
+2025-10-11T23:20:58.5940727Z             "insight": {
+2025-10-11T23:20:58.5941125Z                 "name": "coredns.nameserver.configuration",
+2025-10-11T23:20:58.5941442Z                 "labels": {
+2025-10-11T23:20:58.5941840Z                     "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5942919Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5943569Z                 },
+2025-10-11T23:20:58.5943984Z                 "primary": "CoreDNS nameserver configuration",
+2025-10-11T23:20:58.5944525Z                 "detail": "CoreDNS found valid nameserver configuration",
+2025-10-11T23:20:58.5944914Z                 "severity": "debug"
+2025-10-11T23:20:58.5945140Z             },
+2025-10-11T23:20:58.5945375Z             "severity": "debug",
+2025-10-11T23:20:58.5945652Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5945859Z         },
+2025-10-11T23:20:58.5946033Z         {
+2025-10-11T23:20:58.5946498Z             "name": "coredns.nameserver.configuration",
+2025-10-11T23:20:58.5946824Z             "labels": {
+2025-10-11T23:20:58.5947122Z                 "desiredPosition": "1",
+2025-10-11T23:20:58.5947521Z                 "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5948169Z                 "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5948543Z             },
+2025-10-11T23:20:58.5948756Z             "insight": {
+2025-10-11T23:20:58.5949146Z                 "name": "coredns.nameserver.configuration",
+2025-10-11T23:20:58.5949466Z                 "labels": {
+2025-10-11T23:20:58.5949861Z                     "iconKey": "kubernetes_text_analyze",
+2025-10-11T23:20:58.5950573Z                     "iconUri": "https://troubleshoot.sh/images/analyzer-icons/text-analyze.svg"
+2025-10-11T23:20:58.5950944Z                 },
+2025-10-11T23:20:58.5951502Z                 "primary": "CoreDNS nameserver configuration",
+2025-10-11T23:20:58.5952051Z                 "detail": "CoreDNS found valid nameserver configuration",
+2025-10-11T23:20:58.5952442Z                 "severity": "debug"
+2025-10-11T23:20:58.5953057Z             },
+2025-10-11T23:20:58.5953292Z             "severity": "debug",
+2025-10-11T23:20:58.5953571Z             "analyzerSpec": ""
+2025-10-11T23:20:58.5953779Z         }
+2025-10-11T23:20:58.5953939Z     ],
+2025-10-11T23:20:58.5954535Z     "archivePath": "/home/runner/work/kommander-applications/kommander-applications/apptests/appscenarios/support-bundle.tar.gz"
+2025-10-11T23:20:58.5955062Z }
+2025-10-11T23:20:58.6010500Z ##[group]Run actions/upload-artifact@v4
+2025-10-11T23:20:58.6010789Z with:
+2025-10-11T23:20:58.6010992Z   name: support-bundle-kommander-flux-install
+2025-10-11T23:20:58.6011296Z   path: apptests/appscenarios/support-bundle.tar.gz
+2025-10-11T23:20:58.6011568Z   if-no-files-found: warn
+2025-10-11T23:20:58.6011941Z   compression-level: 6
+2025-10-11T23:20:58.6012127Z   overwrite: false
+2025-10-11T23:20:58.6012314Z   include-hidden-files: false
+2025-10-11T23:20:58.6012913Z ##[endgroup]
+2025-10-11T23:20:58.8403087Z With the provided path, there will be 1 file uploaded
+2025-10-11T23:20:58.8408856Z Artifact name is valid!
+2025-10-11T23:20:58.8410058Z Root directory input is valid!
+2025-10-11T23:20:58.9919062Z Beginning upload of artifact content to blob storage
+2025-10-11T23:20:59.1985153Z Uploaded bytes 298608
+2025-10-11T23:20:59.2314996Z Finished uploading artifact content to blob storage!
+2025-10-11T23:20:59.2319050Z SHA256 digest of uploaded artifact zip is 435ba43aa98aae921845c63ee0a1da4d8835de7305507eacba16ad726981a07d
+2025-10-11T23:20:59.2321682Z Finalizing artifact upload
+2025-10-11T23:20:59.3152375Z Artifact support-bundle-kommander-flux-install.zip successfully finalized. Artifact ID 4246087352
+2025-10-11T23:20:59.3153865Z Artifact support-bundle-kommander-flux-install has been successfully uploaded! Final size is 298608 bytes. Artifact ID is 4246087352
+2025-10-11T23:20:59.3161765Z Artifact download URL: https://github.com/mesosphere/kommander-applications/actions/runs/18435983340/artifacts/4246087352
+2025-10-11T23:20:59.3306656Z Post job cleanup.
+2025-10-11T23:20:59.4331185Z [command]/usr/bin/git version
+2025-10-11T23:20:59.4378681Z git version 2.51.0
+2025-10-11T23:20:59.4427213Z Temporarily overriding HOME='/home/runner/work/_temp/efea9211-e838-462b-9e1c-0055ab4fecbe' before making global git config changes
+2025-10-11T23:20:59.4428521Z Adding repository directory to the temporary git global config as a safe directory
+2025-10-11T23:20:59.4434389Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/kommander-applications/kommander-applications
+2025-10-11T23:20:59.4473981Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-10-11T23:20:59.4509258Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-10-11T23:20:59.4766410Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-10-11T23:20:59.4790800Z http.https://github.com/.extraheader
+2025-10-11T23:20:59.4804782Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-10-11T23:20:59.4838729Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-10-11T23:20:59.5200412Z Cleaning up orphan processes
