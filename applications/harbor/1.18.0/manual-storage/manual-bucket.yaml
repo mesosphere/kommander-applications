@@ -1,40 +1,43 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cluster
+  name: harbor-copy-secret
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://ghcr.io/mesosphere/charts/cluster"
+  url: "oci://ghcr.io/mesosphere/charts/harbor-copy-secret"
   ref:
-    tag: 0.3.1
+    tag: 0.1.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: harbor-database
+  name: harbor-copy-secret
   namespace: ${releaseNamespace}
 spec:
   chartRef:
     kind: OCIRepository
-    name: cluster
+    name: harbor-copy-secret
     namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 30
-  timeout: 5m0s
-  releaseName: harbor-database
-  targetNamespace: ncr-system
+  releaseName: harbor-copy-secret
+  targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-database-config-defaults
+      name: ${releaseName}-storage-config-defaults
+      valuesKey: harbor-copy-secret-values.yaml
     - kind: ConfigMap
-      name: harbor-database-overrides
+      name: harbor-config-overrides
+      optional: true
+    - kind: ConfigMap
+      name: harbor-overrides
       optional: true
