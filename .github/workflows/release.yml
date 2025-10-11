@@ -67,8 +67,16 @@ jobs:
           GIT_TAG: ${{ env.GIT_TAG }}
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
-          git config --global  user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           devbox run -- just release-server
+
+      - name: Release kommander applications collection artifact
+        env:
+          GIT_TAG: ${{ env.GIT_TAG }}
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          devbox run -- just release-platform-collection-artifact
 
   send_message:
     runs-on: ubuntu-latest

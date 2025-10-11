@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: centralized-opencost-2.3.1-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    priorityClassName: dkp-high-priority
+    service:
+      enabled: true
+      labels:
+        prometheus.kommander.d2iq.io/select: "true"
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+    opencost:
+      selectorLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+      prometheus:
+        internal:
+          enabled: true
+          namespaceName: ${releaseNamespace}
+          serviceName: thanos-query
+          port: 10902
+      dataRetention:
+        dailyResolutionDays: 14
+
+      ui:
+        enabled: false
+
+      # backend
+      exporter:
+        image:
+          registry: ghcr.io
+          repository: opencost/opencost
+          tag: "1.117.6"
+        extraEnv:
+          PROM_CLUSTER_ID_LABEL: "cluster"
+          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+        apiIngress:
+          enabled: false
+        replicas: 1
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "55Mi"
+          limits:
+            memory: "1Gi"
+        persistence:
+          enabled: true
+          storageClass: "nutanix-volume"
+          accessMode: ReadWriteOnce
+          size: 10Gi
+
+      metrics:
+        kubeStateMetrics:
+          emitKsmV1Metrics: false
+          emitKsmV1MetricsOnly: false
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"

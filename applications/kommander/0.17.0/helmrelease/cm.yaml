@@ -69,6 +69,8 @@ data:
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
       - "kubecost"
+      - "opencost"
+      - "centralized-opencost"
       - "centralized-grafana"
       - "karma"
       - "karma-traefik"
@@ -96,7 +98,6 @@ data:
     managementApps: # List of apps that are specific to management cluster. Used for platform expansion workflow (exclusively).
     - "centralized-grafana"
     - "centralized-opencost"
-    - "chartmuseum"
     - "dex"
     - "dex-k8s-authenticator"
     - "nkp-insights-management"
@@ -120,6 +121,7 @@ data:
         - "traefik"
         - "kubernetes-dashboard"
         - "kubecost"
+        - "opencost"
         - "kube-prometheus-stack"
         - "prometheus-adapter"
         - "prometheus-thanos-traefik"
