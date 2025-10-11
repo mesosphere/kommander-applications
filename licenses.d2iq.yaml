@@ -430,6 +430,21 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
+  - container_image: ghcr.io/fluxcd/flux-cli:v2.6.2
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/fluxcd/flux2
+  - container_image: ghcr.io/fluxcd/image-automation-controller:v0.41.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/fluxcd/image-automation-controller
+  - container_image: ghcr.io/fluxcd/image-reflector-controller:v0.35.2
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/fluxcd/image-reflector-controller
   - container_image: ghcr.io/helm/chartmuseum:v0.16.3
     sources:
       - license_path: LICENSE
