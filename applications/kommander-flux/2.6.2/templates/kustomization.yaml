@@ -20,3 +20,4 @@ resources:
 - v1_serviceaccount_kustomize-controller.yaml
 - v1_serviceaccount_helm-controller.yaml
 - v1_serviceaccount_notification-controller.yaml
+- v1_service_source-controller.yaml

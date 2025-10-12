@@ -4,6 +4,7 @@ metadata:
   name: source-controller
   namespace: kommander-flux
   labels:
+    app: source-controller
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
   annotations:
@@ -17,6 +18,7 @@ spec:
   template:
     metadata:
       labels:
+        app: source-controller
         app.kubernetes.io/name: source-controller
         app.kubernetes.io/instance: kommander-flux
     spec:
