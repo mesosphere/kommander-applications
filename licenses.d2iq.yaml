@@ -430,6 +430,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
+  - container_image: ghcr.io/fluxcd/source-controller:v1.6.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/fluxcd/source-controller
   - container_image: ghcr.io/fluxcd/flux-cli:v2.6.2
     sources:
       - license_path: LICENSE
