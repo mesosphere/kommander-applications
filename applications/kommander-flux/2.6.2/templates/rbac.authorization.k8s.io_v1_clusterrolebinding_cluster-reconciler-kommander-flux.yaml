@@ -17,3 +17,9 @@ subjects:
 - kind: ServiceAccount
   name: helm-controller
   namespace: kommander-flux
+- kind: ServiceAccount
+  name: source-controller
+  namespace: kommander-flux
+- kind: ServiceAccount
+  name: notification-controller
+  namespace: kommander-flux

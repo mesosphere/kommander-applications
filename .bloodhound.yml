@@ -9,6 +9,7 @@ k8s_versions:
 paths:
   - applications/kommander/0.17.0/dynamic-helmreleases
   - common/kommander-operator
+  - applications/kommander-flux/2.6.2/templates
 
 # use strict validation (reject unknown fields in resources)
 strict: true

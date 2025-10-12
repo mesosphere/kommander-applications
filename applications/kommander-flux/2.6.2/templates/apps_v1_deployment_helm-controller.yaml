@@ -26,6 +26,11 @@ spec:
         - name: manager
           image: ghcr.io/fluxcd/helm-controller:v1.3.0
           imagePullPolicy: IfNotPresent
+          args:
+            - --watch-all-namespaces=true
+            - --log-level=info
+            - --http-bind-address=:9090
+            - --concurrent=20
           ports:
             - containerPort: 9090
               name: http-prom
