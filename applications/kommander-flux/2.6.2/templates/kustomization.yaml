@@ -4,6 +4,10 @@ resources:
 - apiextensions.k8s.io_v1_customresourcedefinition_helmcharts.source.toolkit.fluxcd.io.yaml
 - apiextensions.k8s.io_v1_customresourcedefinition_helmreleases.helm.toolkit.fluxcd.io.yaml
 - apiextensions.k8s.io_v1_customresourcedefinition_ocirepositories.source.toolkit.fluxcd.io.yaml
+- apps_v1_deployment_helm-controller.yaml
+- apps_v1_deployment_kustomize-controller.yaml
+- apps_v1_deployment_notification-controller.yaml
+- apps_v1_deployment_source-controller.yaml
 - v1_namespace_kommander-flux.yaml
 - v1_resourcequota_critical-pods-kommander-flux.yaml
 - networking.k8s.io_v1_networkpolicy_allow-source.yaml
@@ -12,3 +16,9 @@ resources:
 - rbac.authorization.k8s.io_v1_clusterrole_flux-view-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_cluster-reconciler-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_crd-controller-kommander-flux.yaml
+- v1_service_notification-controller.yaml
+- v1_service_source-controller.yaml
+- v1_serviceaccount_helm-controller.yaml
+- v1_serviceaccount_kustomize-controller.yaml
+- v1_serviceaccount_notification-controller.yaml
+- v1_serviceaccount_source-controller.yaml
