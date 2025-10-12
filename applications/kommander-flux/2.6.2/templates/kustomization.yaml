@@ -12,3 +12,7 @@ resources:
 - rbac.authorization.k8s.io_v1_clusterrole_flux-view-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_cluster-reconciler-kommander-flux.yaml
 - rbac.authorization.k8s.io_v1_clusterrolebinding_crd-controller-kommander-flux.yaml
+- apps_v1_deployment_source-controller.yaml
+- apps_v1_deployment_kustomize-controller.yaml
+- apps_v1_deployment_helm-controller.yaml
+- apps_v1_deployment_notification-controller.yaml

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: source-controller
+  namespace: kommander-flux
+  labels:
+    app.kubernetes.io/instance: kommander-flux
+    app.kubernetes.io/part-of: flux
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: source-controller
+      app.kubernetes.io/instance: kommander-flux
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: source-controller
+        app.kubernetes.io/instance: kommander-flux
+    spec:
+      serviceAccountName: source-controller
+      containers:
+        - name: manager
+          image: ghcr.io/fluxcd/source-controller:v1.6.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+              name: http-prom
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 9090
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
