@@ -22,6 +22,13 @@ spec:
     spec:
       priorityClassName: "dkp-critical-priority"
       serviceAccountName: helm-controller
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: manager
           image: ghcr.io/fluxcd/helm-controller:v1.3.0

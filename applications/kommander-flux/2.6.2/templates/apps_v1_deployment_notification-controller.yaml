@@ -22,6 +22,13 @@ spec:
     spec:
       priorityClassName: "dkp-critical-priority"
       serviceAccountName: notification-controller
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: manager
           image: ghcr.io/fluxcd/notification-controller:v1.6.0

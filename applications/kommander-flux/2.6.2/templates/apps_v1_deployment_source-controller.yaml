@@ -24,6 +24,16 @@ spec:
     spec:
       priorityClassName: "dkp-critical-priority"
       serviceAccountName: source-controller
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: cache
+          emptyDir: {}
       containers:
         - name: manager
           image: ghcr.io/fluxcd/source-controller:v1.6.1
@@ -37,6 +47,9 @@ spec:
             - containerPort: 9090
               name: http-prom
           # No explicit readinessProbe to avoid flakiness during bootstrap
+          volumeMounts:
+            - name: cache
+              mountPath: /data
           resources:
             requests:
               cpu: 100m
