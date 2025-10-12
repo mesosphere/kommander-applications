@@ -16,3 +16,7 @@ resources:
 - apps_v1_deployment_kustomize-controller.yaml
 - apps_v1_deployment_helm-controller.yaml
 - apps_v1_deployment_notification-controller.yaml
+- v1_serviceaccount_source-controller.yaml
+- v1_serviceaccount_kustomize-controller.yaml
+- v1_serviceaccount_helm-controller.yaml
+- v1_serviceaccount_notification-controller.yaml

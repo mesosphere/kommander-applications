@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kustomize-controller
+  name: helm-controller
   namespace: kommander-flux
   labels:
     app.kubernetes.io/instance: kommander-flux
@@ -12,19 +12,19 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: kustomize-controller
+      app.kubernetes.io/name: helm-controller
       app.kubernetes.io/instance: kommander-flux
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: kustomize-controller
+        app.kubernetes.io/name: helm-controller
         app.kubernetes.io/instance: kommander-flux
     spec:
       priorityClassName: "dkp-critical-priority"
-      serviceAccountName: kustomize-controller
+      serviceAccountName: helm-controller
       containers:
         - name: manager
-          image: ghcr.io/fluxcd/kustomize-controller:v1.6.0
+          image: ghcr.io/fluxcd/helm-controller:v1.3.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9090

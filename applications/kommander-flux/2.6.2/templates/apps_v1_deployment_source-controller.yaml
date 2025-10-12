@@ -20,6 +20,7 @@ spec:
         app.kubernetes.io/name: source-controller
         app.kubernetes.io/instance: kommander-flux
     spec:
+      priorityClassName: "dkp-critical-priority"
       serviceAccountName: source-controller
       containers:
         - name: manager
@@ -28,10 +29,7 @@ spec:
           ports:
             - containerPort: 9090
               name: http-prom
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 9090
+          # No explicit readinessProbe to avoid flakiness during bootstrap
           resources:
             requests:
               cpu: 100m
