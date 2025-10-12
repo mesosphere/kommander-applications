@@ -47,7 +47,7 @@ release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-b
 release-platform-collection-artifact publish="true": install-tools
   {{nkp_cli_bin}} create catalog-collection-artifact --repo-dir {{ justfile_directory() }} --collection-tag {{ git_tag }} --collection-annotations com.nutanix.nkp.catalog.artifact-type=platform-catalog-collection --collection-annotations org.opencontainers.image.source=https://github.com/mesosphere/kommander-applications -o {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar
   if {{ publish }}; then
-    {{nkp_cli_bin}} push bundle --bundle {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar --to-registry {{ registry }}/{{ org_name }}
+    {{nkp_cli_bin}} push bundle --bundle {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar --to-registry {{ registry }}/{{ org_name }} --to-registry-username "${DOCKER_USERNAME}" --to-registry-password "${DOCKER_PASSWORD}"
   else
     echo "Skipping publish"
   fi
