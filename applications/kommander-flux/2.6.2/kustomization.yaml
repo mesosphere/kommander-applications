@@ -8,6 +8,10 @@ patches:
   - path: patch-proxy-env-vars.yaml
     target:
       kind: Deployment
+  - path: patch-source-controller-readiness.yaml
+    target:
+      kind: Deployment
+      name: source-controller
   - path: patch-source-ctrl-network-policy.yaml
     target:
       group: networking.k8s.io
