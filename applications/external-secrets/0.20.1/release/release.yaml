@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/external-secrets/charts/external-secrets"
   ref:
-    tag: 0.18.1
+    tag: 0.20.1
   layerSelector:
     mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
     operation: extract
@@ -36,7 +36,7 @@ spec:
   releaseName: external-secrets
   valuesFrom:
     - kind: ConfigMap
-      name: external-secrets-0.18.1-config-defaults
+      name: external-secrets-0.20.1-config-defaults
     - kind: ConfigMap
       name: external-secrets-overrides
       optional: true
