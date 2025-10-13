@@ -1,0 +1,5 @@
+istio/install-cni:{{ .Values.global.istio.tag }}
+istio/pilot:{{ .Values.global.istio.tag }}
+istio/proxyv2:{{ .Values.global.istio.tag }}
+{{ .Values.global.image }}:{{ .Values.global.tag }}
+

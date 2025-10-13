@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    global:
+      # D2iQ specific global values for kubectl image
+      image: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
+      tag: ${kubetoolsImageTag:=1.33.2}
+      priorityClassName: "dkp-critical-priority"
+      
+      # Istio global values shared across all subcharts
+      istio:
+        hub: docker.io/istio
+        tag: 1.23.6
+        imagePullPolicy: IfNotPresent
+        istioNamespace: istio2-system
+    
+    base:
+    
+    cni:
+      namespace: kube-system
+      priorityClassName: "dkp-critical-priority"
+
+    istiod:
+      priorityClassName: "dkp-critical-priority"
+      pilot:
+        replicaCount: 2
+
+    ingressgateway:
+      name: istio-ingressgateway
+      namespace: istio2-gateway-ns
+      priorityClassName: "dkp-critical-priority"
+      replicaCount: 2
+      labels:
+        istio: istio2-ingressgateway
+    
+    prometheus-operator:
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
+
