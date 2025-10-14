@@ -68,7 +68,6 @@ data:
           tag: ${kommanderLicensingControllerWebhookImageTag}
           repository: ${kommanderLicensingControllerWebhookImageRepository}
       defaultEnterpriseApps:
-      - "kubecost"
       - "opencost"
       - "centralized-opencost"
       - "centralized-grafana"
@@ -120,7 +119,6 @@ data:
         - "gateway-api-crds"
         - "traefik"
         - "kubernetes-dashboard"
-        - "kubecost"
         - "opencost"
         - "kube-prometheus-stack"
         - "prometheus-adapter"

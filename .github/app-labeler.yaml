@@ -130,10 +130,6 @@ applications/kube-prometheus-stack:
 - changed-files:
   - any-glob-to-any-file:
     - applications/kube-prometheus-stack/**
-applications/kubecost:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/kubecost/**
 applications/kubefed:
 - changed-files:
   - any-glob-to-any-file:

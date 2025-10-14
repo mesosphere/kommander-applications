@@ -47,7 +47,6 @@ spec:
 # for handling HTTPS requests to Ceph Object Store on the same port from
 # external clients such as:
 # - Velero CLI running external to K8S Clusters (management and attached).
-# - Kubecost pods running internal to K8S Clusters (attached only).
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
