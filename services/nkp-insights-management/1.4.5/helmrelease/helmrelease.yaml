@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: mesosphere.github.io-nkp-insights-charts-management
         namespace: kommander-flux
-      version: v1.4.5
+      version: 1.4.5
   dependsOn:
     - name: kubefed
       namespace: ${releaseNamespace}
