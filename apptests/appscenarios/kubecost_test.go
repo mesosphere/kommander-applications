@@ -17,6 +17,10 @@ import (
 )
 
 var _ = Describe("Kubecost Tests", Label("kubecost"), func() {
+	BeforeEach(func() {
+		Skip("Skipping Kubecost tests as it is removed, this should be refactored for OpenCost and re-enabled")
+	})
+
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupKindCluster()
 		Expect(err).To(BeNil())
