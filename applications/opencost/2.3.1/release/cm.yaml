@@ -63,7 +63,8 @@ data:
             memory: "1Gi"
         persistence:
           enabled: true
-          storageClass: "nutanix-volume"
+          # use the default storage class
+          storageClass: ""
           accessMode: ReadWriteOnce
           size: 10Gi
 
