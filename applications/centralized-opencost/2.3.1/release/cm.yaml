@@ -5,6 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
+    # TODO: revisit the loglevel before 2.17 GA
+    loglevel: debug
     priorityClassName: dkp-high-priority
     service:
       enabled: true
