@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-1.4.4-d2iq-defaults
+  name: nkp-insights-1.4.5-d2iq-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -139,6 +139,7 @@ data:
       eventsTTL: 168h
       insightsTTL: 168h
       logLevel: INFO
+      maxWritesBetweenChecks: 200
       rejectedAlertsTTL: 168h
       resolutionAggregatesTTL: 10000h
       resources:
@@ -149,11 +150,12 @@ data:
           cpu: 100m
           memory: 64Mi
       schedule: '@every 37m'
+      ttlStepFactor: 0.8
     image:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: v1.4.4
+      tag: 1.4.5
     initdb:
       resources:
         limits:
