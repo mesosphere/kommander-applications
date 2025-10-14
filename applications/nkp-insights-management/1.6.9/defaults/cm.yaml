@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nkp-insights-management-1.6.8-config-defaults
+  name: nkp-insights-management-1.6.9-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -30,7 +30,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: 1.6.8
+      tag: 1.6.9
     insightsCRIngress:
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
