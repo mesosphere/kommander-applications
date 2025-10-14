@@ -21,3 +21,4 @@ spec:
     substitute:
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
+      workspaceNamespace: ${workspaceNamespace}
