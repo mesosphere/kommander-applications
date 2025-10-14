@@ -64,8 +64,6 @@ data:
             memory: "1Gi"
         persistence:
           enabled: true
-          # use the default storage class
-          storageClass: ""
           accessMode: ReadWriteOnce
           size: 10Gi
 
