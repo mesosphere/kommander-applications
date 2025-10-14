@@ -1,1 +1,1 @@
-ghcr.io/mesosphere/kommander-applications-server:v2.14.3-dev
+ghcr.io/mesosphere/kommander-applications-server:v2.14.3-rc.3
