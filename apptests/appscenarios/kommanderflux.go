@@ -65,8 +65,8 @@ func (r kommanderFlux) Upgrade(ctx context.Context, env *environment.Env) error 
 }
 
 func (r kommanderFlux) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply the kustomization for the helmrelease
-	releasePath := filepath.Join(appPath, "/")
+    // Apply only the HelmRelease/OCIRepository kustomization to avoid reapplying controller templates
+    releasePath := filepath.Join(appPath, "/helmrelease")
 	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
