@@ -82,10 +82,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
-        with:
-          args: >-
-            validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml
-            --check-sources --check-sources-skip-gh-org mesosphere --output-format=github
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          docker run --rm \
+            -e GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
+            -v "$PWD:/workspace" -w /workspace \
+            mesosphere/dkp-licenses-cli:licenses-v0.0.13 \
+            validate container-images-mapping \
+              --input=images.txt \
+              --mapping-file=licenses.d2iq.yaml \
+              --check-sources \
+              --check-sources-skip-gh-org mesosphere \
+              --output-format=github
