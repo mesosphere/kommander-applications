@@ -17,20 +17,22 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: flux2
+    name: nkp-flux
     namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
-    strategy: RetryOnFailure
-    retryInterval: 5m
+    remediation:
+      retries: 30
     createNamespace: true
   upgrade:
     crds: CreateReplace
-    strategy: RetryOnFailure
-    retryInterval: 5m
-  releaseName: kommander-flux
-  targetNamespace: kommander-flux
+    remediation:
+      retries: 30
+  uninstall:
+    deletionPropagation: orphan
+  releaseName: ${releaseName}
+  targetNamespace: ${releaseNamespace}
   postRenderers:
     - kustomize:
         patches:
@@ -56,7 +58,7 @@ spec:
                   value: ${noProxy:-""}
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-flux-2.6.2-config-defaults
+      name: ${releaseName}-config-defaults
     - kind: ConfigMap
       name: kommander-flux-overrides
       optional: true
