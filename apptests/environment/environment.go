@@ -171,15 +171,13 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 // This ensures Flux controllers and CRDs are installed on the cluster before applying kustomizations.
 func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
 	// Ensure namespace exists prior to applying rendered manifests
-	for _, ns := range []string{kommanderFluxNamespace} {
-		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
-		if _, err := e.K8sClient.Clientset().
-			CoreV1().
-			Namespaces().
-			Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
-			if !apierrors.IsAlreadyExists(err) {
-				return err
-			}
+	namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: kommanderFluxNamespace}}
+	if _, err := e.K8sClient.Clientset().
+		CoreV1().
+		Namespaces().
+		Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+		if !apierrors.IsAlreadyExists(err) {
+			return err
 		}
 	}
 
@@ -190,14 +188,7 @@ func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
 	}
 	opt := &helmclient.KubeConfClientOptions{
 		Options: &helmclient.Options{
-			Namespace:        kommanderFluxNamespace,
-			RepositoryCache:  "/tmp/.helmcache",
-			RepositoryConfig: "/tmp/.helmrepo",
-			Debug:            true,
-			Linting:          false,
-			DebugLog: func(format string, v ...interface{}) {
-				fmt.Printf(format+"\n", v...)
-			},
+			Namespace: kommanderFluxNamespace,
 		},
 		KubeConfig: kubeconfigBytes,
 	}
