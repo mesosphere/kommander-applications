@@ -220,7 +220,15 @@ func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
         Wait:            true,
         Timeout:         timeout,
     }
-    if _, err := hclient.InstallOrUpgradeChart(ctx, &chartSpec, nil); err != nil {
+    values := map[string]interface{}{
+        "imageAutomationController": map[string]interface{}{
+            "create": false,
+        },
+        "imageReflectorController": map[string]interface{}{
+            "create": false,
+        },
+    }
+    if _, err := hclient.InstallOrUpgradeChart(ctx, &chartSpec, values); err != nil {
         return err
     }
 
