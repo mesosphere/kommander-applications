@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.6.2
+    app.kubernetes.io/version: v2.6.1
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
   name: flux-edit-kommander-flux
