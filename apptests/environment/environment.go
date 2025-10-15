@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+    "os/exec"
 	"path/filepath"
 	"time"
 
@@ -163,6 +164,55 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// InstallFluxFromOCI renders the Flux chart from an OCI registry using Helm and applies it.
+// This ensures Flux controllers and CRDs are installed on the cluster before applying kustomizations.
+func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
+    // Ensure namespace exists prior to applying rendered manifests
+    for _, ns := range []string{kommanderFluxNamespace} {
+        namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
+        if _, err := e.K8sClient.Clientset().
+            CoreV1().
+            Namespaces().
+            Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+            return err
+        }
+    }
+
+    // Render Flux chart manifests using Helm OCI
+    helmCmd := exec.CommandContext(
+        ctx,
+        "helm",
+        "template",
+        "flux2",
+        "oci://ghcr.io/fluxcd-community/charts/flux2",
+        "--version", "2.16.1",
+        "--namespace", kommanderFluxNamespace,
+        "--include-crds",
+        "--no-hooks",
+    )
+    // Enable OCI support for older Helm versions
+    helmCmd.Env = append(os.Environ(), "HELM_EXPERIMENTAL_OCI=1")
+
+    rendered, err := helmCmd.Output()
+    if err != nil {
+        return fmt.Errorf("helm template for flux OCI chart failed: %w", err)
+    }
+
+    // Apply the rendered manifests
+    if err := e.ApplyYAMLFileRaw(ctx, rendered, nil); err != nil {
+        return err
+    }
+
+    // Wait for Flux deployments to be ready
+    waitCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+    defer cancel()
+    if err := waitForFluxDeploymentsReady(waitCtx, e.K8sClient); err != nil {
+        return err
+    }
+
+    return nil
 }
 
 // RunScriptAllNode runs a script on all nodes in the cluster using Docker

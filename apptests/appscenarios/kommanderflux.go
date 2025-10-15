@@ -23,6 +23,11 @@ func (r kommanderFlux) Install(ctx context.Context, env *environment.Env) error 
 		return err
 	}
 
+    // Install Flux controllers and CRDs via Helm OCI before applying kustomizations
+    if err := env.InstallFluxFromOCI(ctx); err != nil {
+        return err
+    }
+
 	err = r.install(ctx, env, appPath)
 	if err != nil {
 		return err
