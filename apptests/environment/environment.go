@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"time"
 
@@ -21,6 +20,7 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	"github.com/mesosphere/kommander-applications/apptests/kustomize"
+	helmclient "github.com/mittwald/go-helm-client"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -176,32 +176,50 @@ func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
 			CoreV1().
 			Namespaces().
 			Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
-			return err
+			if !apierrors.IsAlreadyExists(err) {
+				return err
+			}
 		}
 	}
 
-	// Render Flux chart manifests using Helm OCI
-	helmCmd := exec.CommandContext(
-		ctx,
-		"helm",
-		"template",
-		"flux2",
-		"oci://ghcr.io/fluxcd-community/charts/flux2",
-		"--version", "2.16.1",
-		"--namespace", kommanderFluxNamespace,
-		"--include-crds",
-		"--no-hooks",
-	)
-	// Enable OCI support for older Helm versions
-	helmCmd.Env = append(os.Environ(), "HELM_EXPERIMENTAL_OCI=1")
-
-	rendered, err := helmCmd.Output()
+	// Install Helm chart from OCI using Helm SDK (no external binary dependency)
+	kubeconfigBytes, err := os.ReadFile(e.Cluster.KubeconfigFilePath())
 	if err != nil {
-		return fmt.Errorf("helm template for flux OCI chart failed: %w", err)
+		return err
+	}
+	opt := &helmclient.KubeConfClientOptions{
+		Options: &helmclient.Options{
+			Namespace:        kommanderFluxNamespace,
+			RepositoryCache:  "/tmp/.helmcache",
+			RepositoryConfig: "/tmp/.helmrepo",
+			Debug:            true,
+			Linting:          false,
+			DebugLog: func(format string, v ...interface{}) {
+				fmt.Printf(format+"\n", v...)
+			},
+		},
+		KubeConfig: kubeconfigBytes,
+	}
+	hclient, err := helmclient.NewClientFromKubeConf(opt)
+	if err != nil {
+		return err
 	}
 
-	// Apply the rendered manifests
-	if err := e.ApplyYAMLFileRaw(ctx, rendered, nil); err != nil {
+	timeout := 5 * time.Minute
+	if deadline, ok := ctx.Deadline(); ok {
+		timeout = time.Until(deadline)
+	}
+	chartSpec := helmclient.ChartSpec{
+		ReleaseName:     "kommander-flux",
+		ChartName:       "oci://ghcr.io/fluxcd-community/charts/flux2",
+		Version:         "2.16.1",
+		Namespace:       kommanderFluxNamespace,
+		CreateNamespace: true,
+		UpgradeCRDs:     true,
+		Wait:            true,
+		Timeout:         timeout,
+	}
+	if _, err := hclient.InstallOrUpgradeChart(ctx, &chartSpec, nil); err != nil {
 		return err
 	}
 
