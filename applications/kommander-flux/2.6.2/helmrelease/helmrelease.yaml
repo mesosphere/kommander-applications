@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: flux2
+  name: nkp-flux
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -22,13 +22,13 @@ spec:
   interval: 15s
   install:
     crds: CreateReplace
-    remediation:
-      retries: 30
+    strategy: RetryOnFailure
+    retryInterval: 5m
     createNamespace: true
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 30
+    strategy: RetryOnFailure
+    retryInterval: 5m
   releaseName: kommander-flux
   targetNamespace: kommander-flux
   postRenderers:
