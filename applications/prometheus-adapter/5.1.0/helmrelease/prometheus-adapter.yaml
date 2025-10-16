@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/prometheus-adapter"
   ref:
-    tag: 4.14.1
+    tag: 5.1.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -19,9 +19,9 @@ spec:
     - namespace: ${releaseNamespace}
       name: kube-prometheus-stack
   chartRef:
-      kind: OCIRepository
-      name: prometheus-adapter
-      namespace: ${releaseNamespace}
+    kind: OCIRepository
+    name: prometheus-adapter
+    namespace: ${releaseNamespace}
   interval: 15s
   install:
     crds: CreateReplace
