@@ -9,6 +9,10 @@ data:
       enabled: false
     driver:
       enabled: false
+      manager:
+        image: k8s-driver-manager
+        repository: nvcr.io/nvidia/cloud-native
+        version: v0.8.1
     devicePlugin:
       config:
         # Create a ConfigMap (default: false)
