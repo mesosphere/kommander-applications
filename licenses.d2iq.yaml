@@ -503,6 +503,11 @@ resources:
         ref: main
         directory: /ubuntu22.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.8.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/NVIDIA/k8s-driver-manager
   - container_image: quay.io/ceph/ceph:v19.2.2
     sources:
       - license_path: COPYING
