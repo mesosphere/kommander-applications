@@ -713,37 +713,37 @@ resources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.13.2
+  - container_image: goharbor/harbor-core:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-exporter:v2.13.2
+  - container_image: goharbor/harbor-exporter:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-jobservice:v2.13.2
+  - container_image: goharbor/harbor-jobservice:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-portal:v2.13.2
+  - container_image: goharbor/harbor-portal:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-registryctl:v2.13.2
+  - container_image: goharbor/harbor-registryctl:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/registry-photon:v2.13.2
+  - container_image: goharbor/registry-photon:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/trivy-adapter-photon:v2.13.2
+  - container_image: goharbor/trivy-adapter-photon:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
