@@ -1,7 +1,6 @@
 open-kommander-pr:
 - changed-files:
   - any-glob-to-any-file:
-    - applications/centralized-kubecost/**
     - applications/cert-manager/**
     - applications/chartmuseum/**
     - applications/external-dns/**
@@ -13,7 +12,6 @@ open-kommander-pr:
     - applications/kiali/**
     - applications/kube-oidc-proxy/**
     - applications/kube-prometheus-stack/**
-    - applications/kubecost/**
     - applications/logging-operator/**
     - applications/nvidia-gpu-operator/**
     - applications/project-grafana-logging/**
@@ -31,7 +29,6 @@ open-kommander-pr:
 do-not-merge/testing:
 - changed-files:
   - any-glob-to-any-file:
-    - applications/centralized-kubecost/**
     - applications/cert-manager/**
     - applications/chartmuseum/**
     - applications/external-dns/**
@@ -43,7 +40,6 @@ do-not-merge/testing:
     - applications/kiali/**
     - applications/kube-oidc-proxy/**
     - applications/kube-prometheus-stack/**
-    - applications/kubecost/**
     - applications/logging-operator/**
     - applications/nvidia-gpu-operator/**
     - applications/project-grafana-logging/**
