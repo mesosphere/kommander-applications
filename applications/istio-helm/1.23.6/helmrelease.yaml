@@ -22,4 +22,3 @@ spec:
       caIssuerName: ${caIssuerName}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
-
