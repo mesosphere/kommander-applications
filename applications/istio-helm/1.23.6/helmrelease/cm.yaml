@@ -8,27 +8,27 @@ data:
     # Shared global values for all Istio components
     global:
       priorityClassName: "dkp-critical-priority"
-      
+
       # Istio global values shared across all subcharts
       istio:
         hub: docker.io/istio
         tag: 1.23.6
         imagePullPolicy: IfNotPresent
         istioNamespace: istio2-system
-    
+
     # Base component configuration
     base:
-    
+
     # CNI component configuration
     cni:
       priorityClassName: "dkp-critical-priority"
-    
+
     # Istiod component configuration
     istiod:
       priorityClassName: "dkp-critical-priority"
       pilot:
         replicaCount: 2
-    
+
     prometheus-operator:
       serviceMonitor:
         labels:
@@ -37,7 +37,7 @@ data:
     security:
       enabled: true
       issuerName: kommander-ca
-    
+
     # Gateway component configuration
     gateway:
       name: istio2-ingressgateway
