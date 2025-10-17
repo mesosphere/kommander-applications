@@ -5,10 +5,8 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
+    # Shared global values for all Istio components
     global:
-      # D2iQ specific global values for kubectl image
-      image: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
-      tag: ${kubetoolsImageTag:=1.33.2}
       priorityClassName: "dkp-critical-priority"
       
       # Istio global values shared across all subcharts
@@ -18,27 +16,32 @@ data:
         imagePullPolicy: IfNotPresent
         istioNamespace: istio2-system
     
+    # Base component configuration
     base:
     
+    # CNI component configuration
     cni:
-      namespace: kube-system
       priorityClassName: "dkp-critical-priority"
-
+    
+    # Istiod component configuration
     istiod:
       priorityClassName: "dkp-critical-priority"
       pilot:
         replicaCount: 2
-
-    ingressgateway:
-      name: istio-ingressgateway
-      namespace: istio2-gateway-ns
-      priorityClassName: "dkp-critical-priority"
-      replicaCount: 2
-      labels:
-        istio: istio2-ingressgateway
     
     prometheus-operator:
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
 
+    security:
+      enabled: true
+      issuerName: kommander-ca
+    
+    # Gateway component configuration
+    gateway:
+      name: istio2-ingressgateway
+      priorityClassName: "dkp-critical-priority"
+      replicaCount: 2
+      labels:
+        istio: istio2-ingressgateway
