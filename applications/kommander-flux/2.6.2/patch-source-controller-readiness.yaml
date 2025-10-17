@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: source-controller
+spec:
+  template:
+    spec:
+      containers:
+        - name: manager
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
