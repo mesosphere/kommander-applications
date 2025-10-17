@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: external-secrets
+  name: external-secrets-0.20.1
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -21,7 +21,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: external-secrets
+    name: external-secrets-0.20.1
     namespace: ${releaseNamespace}
   interval: 15s
   install:
