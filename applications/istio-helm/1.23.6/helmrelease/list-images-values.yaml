@@ -1,0 +1,3 @@
+install-cni: true
+proxyv2: false
+pilot: true
