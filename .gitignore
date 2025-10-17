@@ -17,6 +17,7 @@
 bloodhound
 images.txt
 images.yaml
+all_images.yaml
 
 # apptest working directory
 apptests/.work/

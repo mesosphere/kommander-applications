@@ -12,10 +12,10 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
-  - container_image: ghcr.io/mesosphere/dkp-container-images/docker.io/fluent/fluent-bit:3.2.5-d2iq.0
+  - container_image: ghcr.io/fluent/fluent-bit:4.0.3
     sources:
       - license_path: LICENSE
-        ref: v${image_tag%-d2iq.0}
+        ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
   - container_image: docker.io/aquasec/kube-bench:v0.11.1
     sources:
@@ -94,7 +94,7 @@ resources:
       - license_path: LICENSE
         ref: 3.9.1
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v3.4.0
+  - container_image: docker.io/library/traefik:v3.5.3
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -200,7 +200,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.144.0
+  - container_image: docker.io/mesosphere/kommander:17.147.0
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -435,18 +435,18 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/helm/chartmuseum
-  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:5.4.0
+  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
     sources:
       - ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory: /images/config-reloader
-  - container_image: ghcr.io/kube-logging/logging-operator:5.4.0
+  - container_image: ghcr.io/kube-logging/logging-operator:6.0.3
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:5.4.0
+  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:6.0.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -462,12 +462,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.3
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.4
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.3
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -503,6 +503,11 @@ resources:
         ref: main
         directory: /ubuntu22.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.8.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/NVIDIA/k8s-driver-manager
   - container_image: quay.io/ceph/ceph:v20.1.1
     sources:
       - license_path: COPYING
@@ -548,12 +553,12 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/TremoloSecurity/kube-oidc-proxy
-  - container_image: quay.io/kiali/kiali-operator:v2.14.0
+  - container_image: quay.io/kiali/kiali-operator:v2.17.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/kiali/kiali-operator
-  - container_image: quay.io/kiali/kiali:v2.14.0-distro
+  - container_image: quay.io/kiali/kiali:v2.17.0-distro
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distro}
@@ -616,7 +621,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:5.4.0-full
+  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:6.0.3-full
     sources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
@@ -658,10 +663,10 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: LICENSE
-  - container_image: registry.k8s.io/external-dns/external-dns:v0.18.0
+  - container_image: registry.k8s.io/external-dns/external-dns:v0.19.0
     sources:
       - url: https://github.com/kubernetes-sigs/external-dns
-        ref: v0.18.0
+        ref: v0.19.0
         license_path: LICENSE.md
   - container_image: docker.io/library/busybox:1
     sources:
@@ -703,7 +708,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.26.0
+  - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.27.0
     sources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
         ref: v${image_tag}
@@ -713,37 +718,37 @@ resources:
       - url: https://github.com/cloudnative-pg/postgres-containers
         ref: main
         license_path: LICENSE
-  - container_image: goharbor/harbor-core:v2.13.2
+  - container_image: goharbor/harbor-core:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-exporter:v2.13.2
+  - container_image: goharbor/harbor-exporter:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-jobservice:v2.13.2
+  - container_image: goharbor/harbor-jobservice:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-portal:v2.13.2
+  - container_image: goharbor/harbor-portal:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/harbor-registryctl:v2.13.2
+  - container_image: goharbor/harbor-registryctl:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/registry-photon:v2.13.2
+  - container_image: goharbor/registry-photon:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: goharbor/trivy-adapter-photon:v2.13.2
+  - container_image: goharbor/trivy-adapter-photon:v2.14.0
     sources:
       - url: https://github.com/goharbor/harbor
         ref: ${image_tag}
@@ -768,7 +773,7 @@ resources:
       - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/external-secrets/external-secrets:v0.18.1
+  - container_image: ghcr.io/external-secrets/external-secrets:v0.20.2
     sources:
       - url: https://github.com/external-secrets/external-secrets
         ref: ${image_tag}
@@ -792,134 +797,4 @@ resources:
     sources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/multus-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
-    sources:
-      - url: https://github.com/k8snetworkplumbingwg/network-resources-injector
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/plugins:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/k8snetworkplumbingwg-plugins
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: ghcr.io/mellanox/nic-feature-discovery:v0.0.1
-    sources:
-      - url: https://github.com/Mellanox/nic-feature-discovery
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
-    sources:
-      - url: https://github.com/Mellanox/nvidia-k8s-ipam
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/network-operator:v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/network-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/ib-sriov-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/maintenance-operator:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/maintenance-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/network-operator-init-container:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/network-operator-init-container
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/network-operator:v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/network-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/ovs-cni-plugin:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/ovs-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/rdma-cni:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/rdma-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/sriov-cni:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/sriov-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/sriov-network-device-plugin
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/sriov-network-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator-config-daemon:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/sriov-network-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/sriov-network-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/k8s-rdma-shared-dev-plugin
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/ib-kubernetes
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/ipoib-cni
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/whereabouts:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/whereabouts
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/nic-configuration-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator-daemon:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/nic-configuration-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v25.7.0
-    sources:
-      - url: https://github.com/Mellanox/spectrum-x-operator
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
-    sources:
-      - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.1.0-25.07-0.9.7.0-0-5.15.0-151-generic-ubuntu22.04-amd64
-    sources:
-      - url: nvcr.io/nvidia/mellanox/doca-driver
-        ref: ${image_tag}
         license_path: LICENSE

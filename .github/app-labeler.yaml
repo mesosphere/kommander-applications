@@ -170,10 +170,6 @@ applications/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:
     - applications/nvidia-gpu-operator/**
-applications/nvidia-network-operator:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/nvidia-network-operator/**
 applications/opencost:
 - changed-files:
   - any-glob-to-any-file:
