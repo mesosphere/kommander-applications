@@ -16,6 +16,9 @@ spec:
     namespace: kommander-flux
   timeout: 1m
   postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
     substitute:
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
