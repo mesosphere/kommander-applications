@@ -11,7 +11,7 @@ spec:
   retryInterval: 1m
   path: ./applications/kommander-flux/2.6.2/helmrelease
   dependsOn:
-    - name: templates
+    - name: kommander-flux-templates
   sourceRef:
     kind: GitRepository
     name: management
