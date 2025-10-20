@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -8,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/gatekeeper"
   ref:
-    tag: 3.19.2
+    tag: 3.20.1
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -52,8 +51,8 @@ spec:
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true
-    # workspace overrides will override any other values above
-    # cluster specific overrides will override workspace overrides
+      # workspace overrides will override any other values above
+      # cluster specific overrides will override workspace overrides
   postRenderers:
     - kustomize:
         # Remove the hardcoded namespaceSelectors until https://d2iq.atlassian.net/browse/D2IQ-92439 is resolved.
