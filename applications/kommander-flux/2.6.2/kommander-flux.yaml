@@ -16,7 +16,7 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 1m
+  timeout: 5m
   postBuild:
     substitute:
       releaseName: ${releaseName}
@@ -24,3 +24,8 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: substitution-vars
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: ${releaseName}
+      namespace: ${releaseNamespace}
