@@ -50,8 +50,6 @@ data:
           requests:
             cpu: 200m
             memory: 256Mi
-      annotations:
-        configmap.reloader.stakater.com/reload: "kubecost-grafana-datasource"
       ingress:
         enabled: true
         annotations:
