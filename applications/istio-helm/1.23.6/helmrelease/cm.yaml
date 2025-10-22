@@ -14,7 +14,7 @@ data:
         hub: docker.io/istio
         tag: 1.23.6
         imagePullPolicy: IfNotPresent
-        istioNamespace: istio2-system
+        istioNamespace: istio-helm-system
 
     # Base component configuration
     base:
@@ -40,8 +40,8 @@ data:
 
     # Gateway component configuration
     gateway:
-      name: istio2-ingressgateway
+      name: istio-helm-ingressgateway
       priorityClassName: "dkp-critical-priority"
       replicaCount: 2
       labels:
-        istio: istio2-ingressgateway
+        istio: istio-helm-ingressgateway
