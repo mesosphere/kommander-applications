@@ -6,7 +6,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "9.3.1"
+      "version": "10.1.2"
     },
     {
       "type": "panel",
@@ -126,7 +126,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.1",
+      "pluginVersion": "10.1.2",
       "targets": [
         {
           "datasource": {
