@@ -5,7 +5,7 @@ kind: Kustomization
   #
   # Also see federation/pkg/controllers/federated-manifests-workspace/prerequisites/
 resources:
-- ../1.17.2/
+- ../1.18.2/
 patches:
 - patch: |
     - op: replace
