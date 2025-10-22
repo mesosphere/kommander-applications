@@ -10,8 +10,6 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./applications/kommander-flux/2.6.2/helmrelease
-  dependsOn:
-    - name: templates
   sourceRef:
     kind: GitRepository
     name: management
