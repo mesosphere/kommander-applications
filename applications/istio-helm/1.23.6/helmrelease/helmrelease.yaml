@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: istio-helm-base
+  name: ${releaseName}-base
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -15,7 +15,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: istio-helm-cni
+  name: ${releaseName}-cni
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -27,7 +27,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: istio-helm-istiod
+  name: ${releaseName}-istiod
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -39,7 +39,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: istio-helm-gateway
+  name: ${releaseName}-gateway
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -51,7 +51,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: istio-helm-base
+  name: ${releaseName}-base
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
@@ -59,7 +59,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: istio-helm-base
+    name: ${releaseName}-base
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -71,8 +71,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: istio-helm-base
-  targetNamespace: istio-helm-system
+  releaseName: ${releaseName}-base
+  targetNamespace: istio2-system
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
@@ -81,15 +81,15 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: istio-helm-cni
+  name: ${releaseName}-cni
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: istio-helm-base
+    - name: ${releaseName}-base
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: istio-helm-cni
+    name: ${releaseName}-cni
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -98,7 +98,7 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: istio-helm-cni
+  releaseName: ${releaseName}-cni
   targetNamespace: kube-system
   valuesFrom:
     - kind: ConfigMap
@@ -108,15 +108,15 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: istio-helm-istiod
+  name: ${releaseName}-istiod
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: istio-helm-cni
+    - name: ${releaseName}-cni
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: istio-helm-istiod
+    name: ${releaseName}-istiod
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -125,8 +125,8 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: istio-helm-istiod
-  targetNamespace: istio-helm-system
+  releaseName: ${releaseName}-istiod
+  targetNamespace: ${releaseName}-system
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
@@ -135,15 +135,15 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: istio-helm-gateway
+  name: ${releaseName}-gateway
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: istio-helm-istiod
+    - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: istio-helm-gateway
+    name: ${releaseName}-gateway
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -152,8 +152,8 @@ spec:
   upgrade:
     remediation:
       retries: 30
-  releaseName: istio-helm-gateway
-  targetNamespace: istio-helm-gateway-ns
+  releaseName: ${releaseName}-gateway
+  targetNamespace: ${releaseName}-gateway-ns
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
