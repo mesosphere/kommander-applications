@@ -72,7 +72,7 @@ spec:
     remediation:
       retries: 30
   releaseName: ${releaseName}-base
-  targetNamespace: istio2-system
+  targetNamespace: ${releaseName}-system
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
