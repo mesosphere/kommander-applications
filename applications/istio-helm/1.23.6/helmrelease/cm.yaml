@@ -21,11 +21,9 @@ data:
 
     # CNI component configuration
     cni:
-      priorityClassName: "dkp-critical-priority"
 
     # Istiod component configuration
     istiod:
-      priorityClassName: "dkp-critical-priority"
       pilot:
         replicaCount: 2
 
@@ -41,7 +39,6 @@ data:
     # Gateway component configuration
     gateway:
       name: istio-helm-ingressgateway
-      priorityClassName: "dkp-critical-priority"
       replicaCount: 2
       labels:
         istio: istio-helm-ingressgateway
