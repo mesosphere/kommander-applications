@@ -86,6 +86,10 @@ applications/istio:
 - changed-files:
   - any-glob-to-any-file:
     - applications/istio/**
+applications/istio-helm:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/istio-helm/**
 applications/jaeger:
 - changed-files:
   - any-glob-to-any-file:

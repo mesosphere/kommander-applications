@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    # Shared global values for all Istio components
+    global:
+      priorityClassName: "dkp-critical-priority"
+
+      # Istio global values shared across all subcharts
+      istio:
+        hub: docker.io/istio
+        tag: 1.23.6
+        imagePullPolicy: IfNotPresent
+        istioNamespace: istio-helm-system
+
+    # Base component configuration
+    base:
+
+    # CNI component configuration
+    cni:
+
+    # Istiod component configuration
+    istiod:
+      pilot:
+        replicaCount: 2
+
+    prometheus-operator:
+      serviceMonitor:
+        labels:
+          prometheus.kommander.d2iq.io/select: "true"
+
+    security:
+      enabled: true
+      issuerName: kommander-ca
+
+    # Gateway component configuration
+    gateway:
+      name: istio-helm-ingressgateway
+      replicaCount: 2
+      labels:
+        istio: istio-helm-ingressgateway
