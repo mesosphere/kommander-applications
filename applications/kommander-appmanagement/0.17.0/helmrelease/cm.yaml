@@ -15,8 +15,8 @@ data:
         manager:
           replicas: "${kommanderAppManagementReplicas}"
           image:
-            tag: "test11"
-            repository: "johnliu666/kommander2-appmanagement"
+            tag: "${kommanderAppManagementImageTag}"
+            repository: "${kommanderAppManagementImageRepository}"
             pullPolicy: IfNotPresent
     kubetools:
       image:
