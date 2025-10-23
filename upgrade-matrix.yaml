@@ -30,36 +30,42 @@ upgrades:
       to: v2.14.3-dev
       k8sversion: "1.31"
     - from: v2.14.0
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.31"
     - from: v2.14.1
       to: v2.14.3-dev
       k8sversion: "1.31"
     - from: v2.14.1
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.31"
     - from: v2.14.2
       to: v2.14.3-dev
       k8sversion: "1.31"
     - from: v2.14.2
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.31"
     - from: v2.14.3-dev
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.31"
     - from: v2.15.0
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.32"
     - from: v2.15.0
       to: v2.16.1-dev
       k8sversion: "1.32"
     - from: v2.15.1
-      to: v2.15.2-dev
+      to: v2.15.3-dev
       k8sversion: "1.32"
     - from: v2.15.1
       to: v2.16.1-dev
       k8sversion: "1.32"
-    - from: v2.15.2-dev
+    - from: v2.15.2
+      to: v2.15.3-dev
+      k8sversion: "1.32"
+    - from: v2.15.2
+      to: v2.16.1-dev
+      k8sversion: "1.32"
+    - from: v2.15.3-dev
       to: v2.16.1-dev
       k8sversion: "1.32"
     - from: v2.16.0
