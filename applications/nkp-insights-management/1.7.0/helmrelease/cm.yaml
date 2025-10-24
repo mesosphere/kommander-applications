@@ -17,6 +17,30 @@ data:
           cpu: 100m
           memory: 64Mi
       webhookURL: http://kube-prometheus-stack-alertmanager.kommander.svc:9093/api/v2/alerts
+    authServer:
+      authCacheTTL: 1m
+      livenessProbe:
+        failureThreshold: 15
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 5
+      logLevel: INFO
+      readinessProbe:
+        failureThreshold: 3
+        initialDelaySeconds: 3
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      replicas: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1024Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      serviceAccountTokenTTL: 1h
     cleanup:
       logLevel: INFO
       resources:
@@ -30,11 +54,12 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: 1.6.8
+      tag: 1.7.0
     insightsCRIngress:
+      disableV1: false
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
-    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+    kubectlImage: bitnamilegacy/kubectl:1.33.2
     managementCM:
       backendTokenTTL: 1h
       insightsTTL: 72h
