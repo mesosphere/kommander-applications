@@ -23,8 +23,13 @@ spec:
   install:
     crds: CreateReplace
     createNamespace: true
+    remediation:
+      retries: 30
   upgrade:
     crds: CreateReplace
+    remediation:
+      retries: 30
+      strategy: rollback
   uninstall:
     deletionPropagation: orphan
     keepHistory: true
