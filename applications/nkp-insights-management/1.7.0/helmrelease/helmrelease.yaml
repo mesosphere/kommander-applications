@@ -1,3 +1,4 @@
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -8,3 +9,31 @@ spec:
   ref:
     tag: 1.7.0
   url: oci://ghcr.io/mesosphere/charts/nkp-insights-management
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nkp-insights-management
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: nkp-insights-management
+    namespace: ${releaseNamespace}
+  dependsOn:
+    - name: kubefed
+      namespace: ${releaseNamespace}
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  interval: 15s
+  releaseName: nkp-insights-management
+  targetNamespace: ${releaseNamespace}
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-config-defaults
