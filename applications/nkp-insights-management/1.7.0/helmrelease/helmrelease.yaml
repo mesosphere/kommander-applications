@@ -26,4 +26,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
-
