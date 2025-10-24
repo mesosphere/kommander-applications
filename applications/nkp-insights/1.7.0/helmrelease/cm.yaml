@@ -146,6 +146,7 @@ data:
       eventsTTL: 168h
       insightsTTL: 168h
       logLevel: INFO
+      maxWritesBetweenChecks: 200
       rejectedAlertsTTL: 168h
       resolutionAggregatesTTL: 10000h
       resources:
@@ -156,11 +157,12 @@ data:
           cpu: 100m
           memory: 64Mi
       schedule: '@every 37m'
+      ttlStepFactor: 0.8
     image:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.6.8
+      tag: 1.7.0
     initdb:
       resources:
         limits:
