@@ -18,12 +18,18 @@ data:
 
     # Base component configuration
     base:
+      # Default revision for automatic sidecar injection
+      # Workloads without explicit revision label will use this
+      defaultRevision: "istio-helm"
 
     # CNI component configuration
     cni:
+      revision: "istio-helm"
 
     # Istiod component configuration
     istiod:
+      # Control plane revision
+      revision: "istio-helm"
       pilot:
         replicaCount: 2
 
@@ -38,7 +44,22 @@ data:
 
     # Gateway component configuration
     gateway:
+      revision: "istio-helm"
       name: istio-helm-ingressgateway
       replicaCount: 2
       labels:
         istio: istio-helm-ingressgateway
+      service:
+        ports:
+          - port: 15021
+            targetPort: 15021
+            protocol: TCP
+            name: status-port
+          - port: 80
+            targetPort: 8080
+            protocol: TCP
+            name: http2
+          - port: 443
+            targetPort: 8443
+            protocol: TCP
+            name: https
