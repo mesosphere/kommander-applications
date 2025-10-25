@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: kommander-flux
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.6.1
+    app.kubernetes.io/version: v2.6.2
   name: critical-pods-kommander-flux
   namespace: kommander-flux
 spec:

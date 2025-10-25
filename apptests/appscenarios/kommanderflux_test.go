@@ -50,7 +50,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 					return err
 				}
 
-				Expect(deploymentList.Items).To(HaveLen(4))
+				Expect(deploymentList.Items).To(HaveLen(6))
 				Expect(err).To(BeNil())
 
 				for _, deployment := range deploymentList.Items {
@@ -80,7 +80,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			deploymentList = &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(4))
+			Expect(deploymentList.Items).To(HaveLen(6))
 
 			for _, deployment := range deploymentList.Items {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).ToNot(BeNil())
