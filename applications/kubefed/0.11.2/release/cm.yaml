@@ -36,9 +36,9 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: metrics
       postInstallJob:
-        repository: bitnamilegacy
+        repository: docker.io/mesosphere
         image: kubectl
-        tag: ${kubetoolsImageTag:=1.33.2}
+        tag: ${kubetoolsImageTag:=1.34.1}
       webhook:
         annotations:
           secret.reloader.stakater.com/reload: "kubefed-root-ca"
