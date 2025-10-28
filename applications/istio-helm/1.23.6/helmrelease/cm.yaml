@@ -63,3 +63,7 @@ data:
             targetPort: 8443
             protocol: TCP
             name: https
+
+    # Ztunnel component configuration
+    ztunnel:
+      enabled: false
