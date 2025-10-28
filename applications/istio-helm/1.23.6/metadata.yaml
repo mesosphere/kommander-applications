@@ -39,13 +39,13 @@ overview: |-
   Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
 
   ## Ambient Mode Support
-  
+
   This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure, reducing operational complexity and resource overhead.
-  
+
   ### Enabling Ambient Mode
-  
+
   To enable ambient mode, you need to configure three components via ConfigMap overrides in `cm.yaml`:
-  
+
   1. **Enable CNI Ambient Mode**:
   ```yaml
   cni:
@@ -54,7 +54,7 @@ overview: |-
       ambient:
         enabled: true
   ```
-  
+
   2. **Enable Istiod Ambient Mode**:
   ```yaml
   istiod:
@@ -66,7 +66,7 @@ overview: |-
         PILOT_ENABLE_HBONE: true
         CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,kube-system/ztunnel"
   ```
-  
+
   3. **Enable Ztunnel**:
   ```yaml
   ztunnel:
@@ -75,16 +75,16 @@ overview: |-
       - name: ISTIOD_ADDR
         value: istiod-istio-helm.istio-helm-system.svc:15012
   ```
-  
+
   ### Enrolling Workloads in Ambient Mode
-  
+
   After enabling ambient mode, label namespaces to enroll them:
   ```bash
   kubectl label namespace <namespace-name> istio.io/dataplane-mode=ambient
   ```
-  
+
   **Note**: Until ztunnel is enabled, ambient mode will not be active. All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
-  
+
   ## More Information
   - [istio.io](https://istio.io/)
   - [Istio Documentation](https://istio.io/latest/docs/)
