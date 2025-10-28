@@ -1,2 +1,2 @@
 hooks:
-  kubectlImage: "bitnamilegacy/kubectl:1.33.2"
+  kubectlImage: "docker.io/mesosphere/kubectl:v1.34.1"
