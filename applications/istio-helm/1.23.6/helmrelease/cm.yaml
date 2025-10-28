@@ -8,13 +8,12 @@ data:
     # Shared global values for all Istio components
     global:
       priorityClassName: "dkp-critical-priority"
-
-      # Istio global values shared across all subcharts
-      istio:
-        hub: docker.io/istio
-        tag: 1.23.6
-        imagePullPolicy: IfNotPresent
-        istioNamespace: istio-helm-system
+      
+      # Global values: used by CNI/Istiod templates as fallback
+      hub: docker.io/istio
+      tag: 1.23.6
+      imagePullPolicy: IfNotPresent
+      istioNamespace: istio-helm-system
 
     # Base component configuration
     base:
@@ -65,5 +64,10 @@ data:
             name: https
 
     # Ztunnel component configuration
+    # IMPORTANT: Ztunnel templates use .Values.ztunnel.* directly (no global fallback)
     ztunnel:
       enabled: false
+      hub: docker.io/istio
+      tag: 1.23.6
+      imagePullPolicy: IfNotPresent
+      istioNamespace: istio-helm-system
