@@ -9,7 +9,7 @@ data:
     cosiBucketKit:
       enabled: true
       transformations:
-        kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=1.34.1}
+        kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1}
       bucketClasses: # Cluster scoped resource
         - name: cosi-ceph-nkp
           driverName: rook-ceph.ceph.objectstorage.k8s.io
