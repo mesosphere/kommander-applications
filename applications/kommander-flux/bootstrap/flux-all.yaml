@@ -14416,7 +14416,7 @@ spec:
       app: helm-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14453,7 +14453,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
@@ -14496,7 +14496,7 @@ spec:
       app: image-automation-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14533,7 +14533,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
@@ -14578,7 +14578,7 @@ spec:
       app: image-reflector-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14615,7 +14615,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
@@ -14664,7 +14664,7 @@ spec:
       app: kustomize-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14701,7 +14701,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
@@ -14746,7 +14746,7 @@ spec:
       app: notification-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14789,7 +14789,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
@@ -14834,7 +14834,7 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -14877,7 +14877,7 @@ spec:
           httpGet:
             path: /
             port: http
-        resources: 
+        resources:
           limits: {}
           requests:
             cpu: 100m
