@@ -8,7 +8,7 @@ data:
     # Shared global values for all Istio components
     global:
       priorityClassName: "dkp-critical-priority"
-      
+
       # Global values: used by CNI/Istiod templates as fallback
       hub: docker.io/istio
       tag: 1.23.6
