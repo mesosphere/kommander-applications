@@ -21,5 +21,5 @@ const (
 
 	// Velero constants
 	kubetoolsImageRepository = "docker.io/mesosphere/kubectl:v1.34.1"
-	kubetoolsImageTag        = "1.34.1"
+	kubetoolsImageTag        = "v1.34.1"
 )

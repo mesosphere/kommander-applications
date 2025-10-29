@@ -27,4 +27,4 @@ patches:
     name: git-operator-git-webserver
 images:
   - name: docker.io/mesosphere/kubectl
-    newTag: 1.34.1
+    newTag: v1.34.1
