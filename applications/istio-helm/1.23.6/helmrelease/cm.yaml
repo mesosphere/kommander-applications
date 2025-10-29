@@ -8,8 +8,6 @@ data:
     # Shared global values for all Istio components
     global:
       priorityClassName: "dkp-critical-priority"
-
-      # Global values: used by CNI/Istiod templates as fallback
       hub: docker.io/istio
       tag: 1.23.6
       imagePullPolicy: IfNotPresent
@@ -17,8 +15,7 @@ data:
 
     # Base component configuration
     base:
-      # Default revision for automatic sidecar injection
-      # Workloads without explicit revision label will use this
+      # Default revision for automatic sidecar injection and workloads without explicit revision label will use this
       defaultRevision: "istio-helm"
 
     # CNI component configuration
@@ -27,7 +24,6 @@ data:
 
     # Istiod component configuration
     istiod:
-      # Control plane revision
       revision: "istio-helm"
       pilot:
         replicaCount: 2
@@ -64,7 +60,6 @@ data:
             name: https
 
     # Ztunnel component configuration
-    # IMPORTANT: Ztunnel templates use .Values.ztunnel.* directly (no global fallback)
     ztunnel:
       enabled: false
       hub: docker.io/istio
