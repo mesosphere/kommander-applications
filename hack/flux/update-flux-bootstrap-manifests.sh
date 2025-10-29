@@ -17,7 +17,7 @@ FLUX_DIR="$REPO_ROOT/applications/kommander-flux"
 BOOTSTRAP_DIR="$FLUX_DIR/bootstrap"
 
 # Find the latest version directory
-LATEST_VERSION=$(ls -1 "$FLUX_DIR" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+LATEST_VERSION=$(find "$FLUX_DIR" -mindepth 1 -maxdepth 1 -type d ! -name bootstrap -printf "%f\n")
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not find a version directory in $FLUX_DIR"
     exit 1
@@ -25,8 +25,6 @@ fi
 
 VERSION_DIR="$FLUX_DIR/$LATEST_VERSION"
 HELMRELEASE_DIR="$VERSION_DIR/helmrelease"
-TEMPLATES_DIR="$VERSION_DIR/templates"
-MIRROR_DIR="$VERSION_DIR/mirror"
 
 echo "Using version directory: $LATEST_VERSION"
 
