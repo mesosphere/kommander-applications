@@ -14,10 +14,10 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 FLUX_DIR="$REPO_ROOT/applications/kommander-flux"
-BOOTSTRAP_DIR="$FLUX_DIR/bootstrap"
+BOOTSTRAP_DIR="$FLUX_DIR"
 
 # Find the latest version directory
-LATEST_VERSION=$(find "$FLUX_DIR" -mindepth 1 -maxdepth 1 -type d ! -name bootstrap -printf "%f\n")
+LATEST_VERSION=$(find "$FLUX_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not find a version directory in $FLUX_DIR"
     exit 1
@@ -83,9 +83,6 @@ if [ ! -s "$TEMP_VALUES" ]; then
     echo "" > "$TEMP_VALUES"
 fi
 
-# Ensure bootstrap directory exists
-mkdir -p "$BOOTSTRAP_DIR"
-
 # Run helm template
 echo "Running helm template..."
 helm template flux2 "$CHART_URL" \
@@ -93,7 +90,7 @@ helm template flux2 "$CHART_URL" \
   --namespace kommander-flux \
   --include-crds --no-hooks \
   -f "$TEMP_VALUES" \
-  > "$BOOTSTRAP_DIR/flux-all.yaml"
+  > "$BOOTSTRAP_DIR/bootstrap-flux.yaml"
 
 echo "Generated flux-all.yaml"
 
@@ -104,10 +101,11 @@ KUSTOMIZATION_FILE="$BOOTSTRAP_DIR/kustomization.yaml"
 cat > "$KUSTOMIZATION_FILE" <<EOF
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: kommander-flux
 resources:
-  - flux-all.yaml
-  - ../${LATEST_VERSION}/templates
-  - ../${LATEST_VERSION}/mirror
+  - bootstrap-flux.yaml
+  - ./${LATEST_VERSION}/templates
+  - ./${LATEST_VERSION}/mirror
 EOF
 
-echo "Done! Generated flux-all.yaml and updated bootstrap kustomization."
+echo "Done! Generated bootstrap-flux.yaml and updated bootstrap kustomization."
