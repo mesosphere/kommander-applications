@@ -5,4 +5,3 @@ metadata:
   labels:
     # Enable Istio sidecar injection with specific revision
     istio.io/rev: istio-helm
-

@@ -19,4 +19,3 @@ spec:
     substitute:
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
-
