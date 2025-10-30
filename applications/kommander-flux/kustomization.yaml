@@ -3,5 +3,26 @@ kind: Kustomization
 namespace: kommander-flux
 resources:
   - bootstrap-flux.yaml
-  - ./2.6.2/templates
-  - ./2.6.2/mirror
+  - ./2.6.2
+patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: nkp-flux-2-16-1
+        namespace: ${releaseNamespace}
+  - patch: |-
+      $patch: delete
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: kommander-flux
+        namespace: ${releaseNamespace}
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: ${releaseName}-config-defaults
+        namespace: ${releaseNamespace}

@@ -17,7 +17,7 @@ FLUX_DIR="$REPO_ROOT/applications/kommander-flux"
 BOOTSTRAP_DIR="$FLUX_DIR"
 
 # Find the latest version directory
-LATEST_VERSION=$(find "$FLUX_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
+LATEST_VERSION=$(find "${REPO_ROOT}/applications/kommander-flux" -maxdepth 1 -type d -exec basename {} \; | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not find a version directory in $FLUX_DIR"
     exit 1
@@ -104,8 +104,29 @@ kind: Kustomization
 namespace: kommander-flux
 resources:
   - bootstrap-flux.yaml
-  - ./${LATEST_VERSION}/templates
-  - ./${LATEST_VERSION}/mirror
+  - ./${LATEST_VERSION}
+patches:
+  - patch: |-
+      \$patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: nkp-flux-2-16-1
+        namespace: \${releaseNamespace}
+  - patch: |-
+      \$patch: delete
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: kommander-flux
+        namespace: \${releaseNamespace}
+  - patch: |-
+      \$patch: delete
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: \${releaseName}-config-defaults
+        namespace: \${releaseNamespace}
 EOF
 
 echo "Done! Generated bootstrap-flux.yaml and updated bootstrap kustomization."
