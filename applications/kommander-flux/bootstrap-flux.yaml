@@ -14431,6 +14431,7 @@ spec:
         - --log-level=info
         - --log-encoding=json
         - --enable-leader-election
+        - --feature-gates=OOMWatch=true
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
@@ -14454,10 +14455,12 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 2000m
+            memory: 2Gi
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 500m
+            memory: 250Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -14470,11 +14473,16 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      priorityClassName: "system-cluster-critical"
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
       - emptyDir: {}
         name: temp
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 # Source: flux2/templates/image-automation-controller.yaml
 apiVersion: apps/v1
@@ -14702,10 +14710,12 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 2500m
+            memory: 1Gi
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 250m
+            memory: 150Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -14718,6 +14728,7 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      priorityClassName: "system-cluster-critical"
       securityContext:
         fsGroup: 1337
       serviceAccountName: kustomize-controller
@@ -14725,6 +14736,8 @@ spec:
       volumes:
       - emptyDir: {}
         name: temp
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 # Source: flux2/templates/notification-controller.yaml
 apiVersion: apps/v1
@@ -14790,7 +14803,9 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 1000m
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 64Mi
@@ -14806,11 +14821,16 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      priorityClassName: "system-cluster-critical"
+      securityContext:
+        fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
       - emptyDir: {}
         name: temp
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 # Source: flux2/templates/source-controller.yaml
 apiVersion: apps/v1
@@ -14856,6 +14876,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: TUF_ROOT
+          value: /tmp/.sigstore
         image: ghcr.io/fluxcd/source-controller:v1.6.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -14878,10 +14900,12 @@ spec:
             path: /
             port: http
         resources:
-          limits: {}
+          limits:
+            cpu: 2000m
+            memory: 1Gi
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 250m
+            memory: 100Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -14896,6 +14920,7 @@ spec:
           name: data
         - mountPath: /tmp
           name: tmp
+      priorityClassName: "system-cluster-critical"
       securityContext:
         fsGroup: 1337
       serviceAccountName: source-controller
@@ -14905,3 +14930,5 @@ spec:
         name: data
       - emptyDir: {}
         name: tmp
+      nodeSelector:
+        kubernetes.io/os: linux

@@ -8,8 +8,61 @@ data:
     ---
     policies:
       create: true
-    sourceController:
+    helmController:
       resources:
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 250Mi
+      container:
+        additionalArgs:
+        - --feature-gates=OOMWatch=true
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    kustomizeController:
+      resources:
+        limits:
+          cpu: 2500m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 150Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    notificationController:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
         requests:
           cpu: 100m
           memory: 64Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    sourceController:
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 100Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+      extraEnv:
+      - name: TUF_ROOT
+        value: /tmp/.sigstore
