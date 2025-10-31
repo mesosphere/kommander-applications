@@ -35,6 +35,18 @@ spec:
   ref:
     tag: 1.23.6
 ---
+# OCIRepository for istio-helm-ztunnel
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: ${releaseName}-ztunnel
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel"
+  ref:
+    tag: 1.23.6
+---
 # OCIRepository for istio-helm-gateway
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
@@ -131,7 +143,36 @@ spec:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
 ---
-# HelmRelease for istio-helm-gateway (depends on istiod)
+# HelmRelease for istio-helm-ztunnel (depends on gateway namespace and istiod, optional for ambient mode)
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ${releaseName}-ztunnel
+  namespace: ${releaseNamespace}
+spec:
+  dependsOn:
+    - name: ${releaseName}-gateway-namespace
+      namespace: ${releaseNamespace}
+    - name: ${releaseName}-istiod
+      namespace: ${releaseNamespace}
+  chartRef:
+    kind: OCIRepository
+    name: ${releaseName}-ztunnel
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+  upgrade:
+    remediation:
+      retries: 30
+  releaseName: ${releaseName}-ztunnel
+  targetNamespace: ${releaseName}-gateway-ns
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-config-defaults
+---
+# HelmRelease for istio-helm-gateway (depends on istiod and gateway namespace)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -139,6 +180,8 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
+    - name: ${releaseName}-gateway-namespace
+      namespace: ${releaseNamespace}
     - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:

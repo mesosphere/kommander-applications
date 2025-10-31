@@ -38,8 +38,56 @@ overview: |-
   ### Automatic Traffic Metrics and Logging
   Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
 
+  ## Ambient Mode Support
+
+  This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure, reducing operational complexity and resource overhead.
+
+  ### Enabling Ambient Mode
+
+  To enable ambient mode, you need to configure three components via ConfigMap overrides in `cm.yaml`:
+
+  1. **Enable CNI Ambient Mode**:
+  ```yaml
+  cni:
+    profile: ambient
+    cni:
+      ambient:
+        enabled: true
+  ```
+
+  2. **Enable Istiod Ambient Mode**:
+  ```yaml
+  istiod:
+    profile: ambient
+    pilot:
+      env:
+        PILOT_ENABLE_AMBIENT: true
+        PILOT_ENABLE_AMBIENT_CONTROLLERS: true
+        PILOT_ENABLE_HBONE: true
+        CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,kube-system/ztunnel"
+  ```
+
+  3. **Enable Ztunnel**:
+  ```yaml
+  ztunnel:
+    enabled: true
+    env:
+      - name: ISTIOD_ADDR
+        value: istiod-istio-helm.istio-helm-system.svc:15012
+  ```
+
+  ### Enrolling Workloads in Ambient Mode
+
+  After enabling ambient mode, label namespaces to enroll them:
+  ```bash
+  kubectl label namespace <namespace-name> istio.io/dataplane-mode=ambient
+  ```
+
+  **Note**: Until ztunnel is enabled, ambient mode will not be active. All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+
   ## More Information
   - [istio.io](https://istio.io/)
   - [Istio Documentation](https://istio.io/latest/docs/)
+  - [Istio Ambient Mesh](https://istio.io/latest/docs/ambient/)
   - [Istio - GitHub](https://github.com/istio/community)
 icon: PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEgyNFYyNEgwVjBaIiBmaWxsPSIjREFEREUyIi8+CjxwYXRoIGQ9Ik0wIDBIMjRWMjRIMFYwWiIgZmlsbD0iIzQ2NkJCMCIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE4LjIxNDMgMTguNjY2N0wxMC43ODEyIDE3LjgzMzNWMkwxOC4yMTQzIDE4LjY2NjdaTTUgMTguNjY2N0w5Ljk1NTM2IDE3LjgzMzNWOC42NjY2N0w1IDE4LjY2NjdaTTUgMTkuNUgxOC4yMTQzTDkuOTU1MzYgMjJMNSAxOS41WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==
