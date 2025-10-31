@@ -65,7 +65,7 @@ spec:
       priorityClassName: dkp-high-priority
       containers:
         - name: create-opencost-cluster-info-configmap
-          image: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1}"
+          image: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}"
           command:
             - bash
             - -c

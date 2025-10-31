@@ -19,4 +19,4 @@ spec:
     substitute:
       releaseNamespace: ${releaseNamespace}
       kubetoolsImageRepository: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}
-      kubetoolsImageTag: ${kubetoolsImageTag:=v1.34.1}
+      kubetoolsImageTag: ${kubetoolsImageTag:=v1.34.1-alpine}

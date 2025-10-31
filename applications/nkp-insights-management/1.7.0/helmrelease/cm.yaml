@@ -59,7 +59,7 @@ data:
       disableV1: false
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
-    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1}
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
     managementCM:
       backendTokenTTL: 1h
       insightsTTL: 72h
