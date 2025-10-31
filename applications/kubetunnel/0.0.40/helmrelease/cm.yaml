@@ -17,7 +17,7 @@ data:
     hooks:
       kubectlImage:
         repository: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}"
-        tag: "${kubetoolsImageTag:=v1.34.1}"
+        tag: "${kubetoolsImageTag:=v1.34.1-alpine}"
     controller:
       manager:
         resources:
