@@ -112,4 +112,3 @@ jobs:
         if: steps.check.outputs.skip == 'true'
         run: |
           echo "Kubefed version already up-to-date, no bump or PR required."
-
