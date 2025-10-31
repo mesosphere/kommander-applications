@@ -1,0 +1,115 @@
+name: Auto Bump Kubefed Chart
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run in dry-run mode (no git push or PR)"
+        required: false
+        default: "true"
+  push:
+    branches:
+      - kubefedauto
+    paths:
+      - "applications/kubefed/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    name: Bump Kubefed Version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Detect latest Kubefed version and repository
+        id: detect
+        run: |
+          echo "Fetching Kubefed repositories..."
+          helm repo add kubefed https://kubefed.github.io/helm-charts || echo "Repo already exists."
+          helm repo update
+
+          REPO_NAME=$(helm repo list | grep kubefed | head -n1 | awk '{print $1}')
+          echo " Detected repository: ${REPO_NAME}"
+
+          LATEST_VERSION=$(helm search repo ${REPO_NAME}/kubefed --versions -o yaml | grep 'version:' | head -n1 | awk '{print $2}')
+          echo "Detected latest Kubefed version: ${LATEST_VERSION}"
+
+          echo "repo=${REPO_NAME}" >> "$GITHUB_OUTPUT"
+          echo "version=${LATEST_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Check if version already exists
+        id: check
+        run: |
+          VERSION="${{ steps.detect.outputs.version }}"
+          if [ -d "applications/kubefed/${VERSION}" ]; then
+            echo "Kubefed ${VERSION} already exists. No bump needed."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "🚀 New version detected: ${VERSION}"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download and validate new chart
+        if: steps.check.outputs.skip != 'true'
+        run: |
+          REPO="${{ steps.detect.outputs.repo }}"
+          VERSION="${{ steps.detect.outputs.version }}"
+
+          echo "⬇️ Downloading Kubefed ${VERSION} from repo ${REPO}..."
+          mkdir -p "applications/kubefed/${VERSION}"
+
+          helm pull ${REPO}/kubefed --version "${VERSION}" --untar --untardir "applications/kubefed/${VERSION}"
+
+          echo "🧹 Running Helm lint..."
+          helm lint "applications/kubefed/${VERSION}/kubefed"
+
+          echo "🧩 Running Helm template validation..."
+          helm template test "applications/kubefed/${VERSION}/kubefed" >/dev/null
+
+      - name: Commit, push, and create PR
+        if: steps.check.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.detect.outputs.version }}
+          DRY_RUN=${{ github.event.inputs.dry_run }}
+          echo "Dry-run mode: ${DRY_RUN}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add applications/kubefed/${VERSION}
+          git diff --cached
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "⚙️ Dry-run mode enabled. Skipping commit and PR creation."
+            exit 0
+          fi
+
+          git commit -m "feat: test pr for kubefed new version ${VERSION}" || echo "No changes to commit"
+          git push origin HEAD:kubefedauto
+
+          echo "🏷️ Creating pull request from kubefedauto → kubefedtest..."
+          gh pr create \
+            --base kubefedtest \
+            --head kubefedauto \
+            --title "feat: test pr for kubefed new version ${VERSION}" \
+            --body "Automated PR to bump Kubefed chart to version ${VERSION}."
+
+      - name: Summary Output
+        if: steps.check.outputs.skip == 'true'
+        run: |
+          echo "Kubefed version already up-to-date, no bump or PR required."
+
