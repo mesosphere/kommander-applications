@@ -32,6 +32,10 @@ data:
         requests:
           cpu: 250m
           memory: 150Mi
+      container:
+        additionalArgs:
+        - --no-remote-bases=true
+        - --concurrent=15
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
