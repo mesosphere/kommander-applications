@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "${ociRegistryURL:=oci://ghcr.io}/fluxcd-community/charts/flux2"
+  url: oci://ghcr.io/fluxcd-community/charts/flux2
   ref:
     tag: 2.16.1
 ---
@@ -28,8 +28,8 @@ spec:
   uninstall:
     deletionPropagation: orphan
     keepHistory: true
-  releaseName: ${releaseName}
-  targetNamespace: ${releaseNamespace}
+  releaseName: kommander-flux
+  targetNamespace: kommander-flux
   postRenderers:
     - kustomize:
         patches:
@@ -55,7 +55,7 @@ spec:
                   value: ${noProxy:-""}
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: kommander-flux-2.6.2-config-defaults
     - kind: ConfigMap
       name: kommander-flux-overrides
       optional: true
