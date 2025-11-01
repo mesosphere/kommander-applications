@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: nkp-flux-2-16-1
+  name: nkp-flux-2.16.1
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: nkp-flux-2-16-1
+    name: nkp-flux-2.16.1
     namespace: ${releaseNamespace}
   interval: 15s
   install:
