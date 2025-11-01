@@ -10,7 +10,13 @@ readonly LATEST_FLUX_CHART_VERSION
 LATEST_FLUX_VERSION="$(gh api -X GET "repos/fluxcd-community/helm-charts/contents/charts/flux2/Chart.yaml?ref=flux2-${LATEST_FLUX_CHART_VERSION}" --jq '.content' | base64 -d | yq eval '.appVersion' -)"
 [ -z "$LATEST_FLUX_VERSION" ] && { echo "Error: Could not determine latest Flux version from Chart.yaml"; exit 1; }
 readonly LATEST_FLUX_VERSION
-CURRENT_FLUX_VERSION=$(ls -1d "${REPO_ROOT}/applications/kommander-flux"/[0-9]*.[0-9]*.[0-9]* 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+$' | head -1)
+CURRENT_FLUX_VERSION=""
+for dir in "${REPO_ROOT}"/applications/kommander-flux/[0-9]*.[0-9]*.[0-9]*; do
+    if [ -d "$dir" ]; then
+        CURRENT_FLUX_VERSION=$(basename "$dir" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+$')
+        break
+    fi
+done
 [ -z "$CURRENT_FLUX_VERSION" ] && { echo "Error: Could not determine current Flux version"; exit 1; }
 readonly CURRENT_FLUX_VERSION
 
@@ -61,10 +67,13 @@ function generate_bootstrap_manifests() {
     local helmrelease_dir="$version_dir/helmrelease"
     local helmrelease_file="$helmrelease_dir/helmrelease.yaml"
     local cm_file="$helmrelease_dir/cm.yaml"
-    local version=$(basename "$version_dir")
-    local chart_url=$(yq eval 'select(.kind == "OCIRepository") | .spec.url' "$helmrelease_file")
+    local version
+    version=$(basename "$version_dir")
+    local chart_url
+    chart_url=$(yq eval 'select(.kind == "OCIRepository") | .spec.url' "$helmrelease_file")
 
-    local temp_values=$(mktemp)
+    local temp_values
+    temp_values=$(mktemp)
     trap 'rm -f "$temp_values" 2>/dev/null' RETURN
 
     echo "Chart URL: $chart_url"
@@ -90,7 +99,8 @@ function generate_bootstrap_manifests() {
 
     # Update bootstrap kustomization.yaml
     local kustomization_file="$bootstrap_dir/kustomization.yaml"
-    local ocirepo_name=$(yq eval 'select(.kind == "OCIRepository") | .metadata.name' "$helmrelease_file" 2>/dev/null)
+    local ocirepo_name
+    ocirepo_name=$(yq eval 'select(.kind == "OCIRepository") | .metadata.name' "$helmrelease_file" 2>/dev/null)
 
     cat > "$kustomization_file" <<EOF
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -138,7 +148,8 @@ function create_pr() {
     git push --set-upstream origin "${branch_name}"
 
     git fetch origin main
-    local pr=$(gh pr create --base main --fill --head "${branch_name}" -t "${commit_msg}" -l ready-for-review -l ok-to-test -l slack-notify -l update-licenses)
+    local pr
+    pr=$(gh pr create --base main --fill --head "${branch_name}" -t "${commit_msg}" -l ready-for-review -l ok-to-test -l slack-notify -l update-licenses)
     echo "${pr} is created"
 }
 
@@ -147,7 +158,8 @@ function update_flux() {
     check_remote_branch "kommander-applications" "${branch_name}"
     git checkout -b "${branch_name}"
 
-    local version_dir=$(update_version_directory)
+    local version_dir
+    version_dir=$(update_version_directory)
     update_ocirepository_and_helmrelease "$version_dir" "$LATEST_FLUX_VERSION"
     generate_bootstrap_manifests "$version_dir" "$LATEST_FLUX_CHART_VERSION"
     create_pr "$branch_name" "$LATEST_FLUX_VERSION"
