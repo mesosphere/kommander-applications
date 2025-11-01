@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kubernetes-dashboard"
   ref:
-    tag: 7.13.0
+    tag: 7.14.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -86,4 +86,4 @@ data:
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/"
   # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for dashboard-web image version
-  version: "1.7.0"
+  version: 7.14.0
