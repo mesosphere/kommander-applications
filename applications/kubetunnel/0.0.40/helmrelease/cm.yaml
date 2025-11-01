@@ -16,8 +16,8 @@ data:
       selfSigned: true
     hooks:
       kubectlImage:
-        repository: "${kubetoolsImageRepository:=bitnamilegacy/kubectl}"
-        tag: "${kubetoolsImageTag:=1.33.2}"
+        repository: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}"
+        tag: "${kubetoolsImageTag:=v1.34.1-alpine}"
     controller:
       manager:
         resources:

@@ -59,7 +59,7 @@ data:
       disableV1: false
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
-    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
     managementCM:
       backendTokenTTL: 1h
       insightsTTL: 72h
