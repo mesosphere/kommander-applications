@@ -20,8 +20,10 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	"github.com/mesosphere/kommander-applications/apptests/kustomize"
+	helmclient "github.com/mittwald/go-helm-client"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
@@ -159,6 +161,64 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 
 	err = waitForFluxDeploymentsReady(ctx, e.K8sClient)
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// InstallFluxFromOCI renders the Flux chart from an OCI registry using Helm and applies it.
+// This ensures Flux controllers and CRDs are installed on the cluster before applying kustomizations.
+func (e *Env) InstallFluxFromOCI(ctx context.Context) error {
+	// Ensure namespace exists prior to applying rendered manifests
+	namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: kommanderFluxNamespace}}
+	if _, err := e.K8sClient.Clientset().
+		CoreV1().
+		Namespaces().
+		Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+		if !apierrors.IsAlreadyExists(err) {
+			return err
+		}
+	}
+
+	// Install Helm chart from OCI using Helm SDK (no external binary dependency)
+	kubeconfigBytes, err := os.ReadFile(e.Cluster.KubeconfigFilePath())
+	if err != nil {
+		return err
+	}
+	opt := &helmclient.KubeConfClientOptions{
+		Options: &helmclient.Options{
+			Namespace: kommanderFluxNamespace,
+		},
+		KubeConfig: kubeconfigBytes,
+	}
+	hclient, err := helmclient.NewClientFromKubeConf(opt)
+	if err != nil {
+		return err
+	}
+
+	timeout := 5 * time.Minute
+	if deadline, ok := ctx.Deadline(); ok {
+		timeout = time.Until(deadline)
+	}
+	chartSpec := helmclient.ChartSpec{
+		ReleaseName:     "kommander-flux",
+		ChartName:       "oci://ghcr.io/fluxcd-community/charts/flux2",
+		Version:         "2.16.1",
+		Namespace:       kommanderFluxNamespace,
+		CreateNamespace: true,
+		UpgradeCRDs:     true,
+		Wait:            true,
+		Timeout:         timeout,
+	}
+	if _, err := hclient.InstallOrUpgradeChart(ctx, &chartSpec, nil); err != nil {
+		return err
+	}
+
+	// Wait for Flux deployments to be ready
+	waitCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+	defer cancel()
+	if err := waitForFluxDeploymentsReady(waitCtx, e.K8sClient); err != nil {
 		return err
 	}
 
