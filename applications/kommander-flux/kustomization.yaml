@@ -3,14 +3,14 @@ kind: Kustomization
 namespace: kommander-flux
 resources:
   - bootstrap-flux.yaml
-  - ./2.6.2
+  - ./2.7.2
 patches:
   - patch: |-
       $patch: delete
       apiVersion: source.toolkit.fluxcd.io/v1
       kind: OCIRepository
       metadata:
-        name: nkp-flux-2-16-1
+        name: nkp-flux-2.17.0
         namespace: ${releaseNamespace}
   - patch: |-
       $patch: delete
@@ -24,5 +24,5 @@ patches:
       apiVersion: v1
       kind: ConfigMap
       metadata:
-        name: kommander-flux-2.6.2-config-defaults
+        name: kommander-flux-2.7.2-config-defaults
         namespace: ${releaseNamespace}
