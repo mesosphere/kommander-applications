@@ -1,6 +1,4 @@
-# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Floki-distributed
----
-apiVersion: source.toolkit.fluxcd.io/v1
+# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Floki-distributedapiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: ${releaseName}-${appVersion}-chart
