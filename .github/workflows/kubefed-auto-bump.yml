@@ -67,7 +67,7 @@ jobs:
           REPO="${{ steps.detect.outputs.repo }}"
           VERSION="${{ steps.detect.outputs.version }}"
 
-          echo "⬇️ Downloading Kubefed ${VERSION} from repo ${REPO}..."
+          echo "Downloading Kubefed ${VERSION} from repo ${REPO}..."
           mkdir -p "applications/kubefed/${VERSION}"
 
           helm pull ${REPO}/kubefed --version "${VERSION}" --untar --untardir "applications/kubefed/${VERSION}"
@@ -75,7 +75,7 @@ jobs:
           echo "🧹 Running Helm lint..."
           helm lint "applications/kubefed/${VERSION}/kubefed"
 
-          echo "🧩 Running Helm template validation..."
+          echo " Running Helm template validation..."
           helm template test "applications/kubefed/${VERSION}/kubefed" >/dev/null
 
       - name: Commit, push, and create PR
@@ -94,14 +94,14 @@ jobs:
           git diff --cached
 
           if [ "$DRY_RUN" = "true" ]; then
-            echo "⚙️ Dry-run mode enabled. Skipping commit and PR creation."
+            echo "Dry-run mode enabled. Skipping commit and PR creation."
             exit 0
           fi
 
           git commit -m "feat: test pr for kubefed new version ${VERSION}" || echo "No changes to commit"
           git push origin HEAD:kubefedauto
 
-          echo "🏷️ Creating pull request from kubefedauto → kubefedtest..."
+          echo " Creating pull request from kubefedauto → kubefedtest..."
           gh pr create \
             --base kubefedtest \
             --head kubefedauto \
