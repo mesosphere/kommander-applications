@@ -5,13 +5,15 @@ resources:
   - ./helmrelease
   - ./mirror
 patches:
+  - path: patch-crd-controller-cluster-role.yaml
+    target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: ClusterRole
+      name: crd-controller
   - path: patch-proxy-env-vars.yaml
     target:
       kind: Deployment
-  - path: patch-source-controller-readiness.yaml
-    target:
-      kind: Deployment
-      name: source-controller
   - path: patch-source-ctrl-network-policy.yaml
     target:
       group: networking.k8s.io

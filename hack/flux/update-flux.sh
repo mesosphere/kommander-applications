@@ -31,7 +31,7 @@ function update_version_directory() {
     local version_dir="$REPO_ROOT/applications/kommander-flux/$LATEST_FLUX_VERSION"
     local current_version_dir="$REPO_ROOT/applications/kommander-flux/$CURRENT_FLUX_VERSION"
 
-    if [ -d "$current_version_dir" ] && [ "$CURRENT_FLUX_VERSION" != "$LATEST_FLUX_VERSION" ]; then
+    if [ -d "$current_version_dir" ]; then
         mv "$current_version_dir" "$version_dir"
     fi
     echo "$version_dir"
@@ -43,34 +43,29 @@ function update_ocirepository_and_helmrelease() {
 
     local ocirepo_name="nkp-flux-${LATEST_FLUX_CHART_VERSION}"
 
-    local helmrelease_file="$version_dir/helmrelease/helmrelease.yaml"
-    local cm_file="$version_dir/helmrelease/cm.yaml"
-
+    pushd "$version_dir/helmrelease" >/dev/null
     # Update OCIRepository
-    yq eval-all -i '(select(.kind == "OCIRepository") | .spec.ref.tag) = "'"${LATEST_FLUX_CHART_VERSION}"'"' "$helmrelease_file"
-    yq eval-all -i '(select(.kind == "OCIRepository") | .metadata.name) = "'"${ocirepo_name}"'"' "$helmrelease_file"
-    echo "Updated OCIRepository after name update"
-    cat "$helmrelease_file"
+    yq eval-all -i '(select(.kind == "OCIRepository") | .spec.ref.tag) = "'"${LATEST_FLUX_CHART_VERSION}"'"' helmrelease.yaml
+    yq eval-all -i '(select(.kind == "OCIRepository") | .metadata.name) = "'"${ocirepo_name}"'"' helmrelease.yaml
     # Update HelmRelease
-    yq eval-all -i '(select(.kind == "HelmRelease") | .spec.chartRef.name) = "'"${ocirepo_name}"'"' "$helmrelease_file"
-    yq eval-all -i '(select(.kind == "HelmRelease") | .spec.valuesFrom[0].name) = "kommander-flux-'"${version}"'-config-defaults"' "$helmrelease_file"
-    echo "Updated HelmRelease after name update"
-    cat "$helmrelease_file"
+    yq eval-all -i '(select(.kind == "HelmRelease") | .spec.chartRef.name) = "'"${ocirepo_name}"'"' helmrelease.yaml
+    yq eval-all -i '(select(.kind == "HelmRelease") | .spec.valuesFrom[0].name) = "kommander-flux-'"${version}"'-config-defaults"' helmrelease.yaml
     # Update ConfigMap
-    yq eval -i ".metadata.name = \"kommander-flux-${version}-config-defaults\"" "$cm_file"
+    yq eval -i ".metadata.name = \"kommander-flux-${version}-config-defaults\"" cm.yaml
+    popd >/dev/null
 }
 
 function generate_bootstrap_manifests() {
     local version_dir="$1"
     local chart_version="$2"
     local bootstrap_dir="$REPO_ROOT/applications/kommander-flux"
-    local helmrelease_dir="$version_dir/helmrelease"
-    local helmrelease_file="$helmrelease_dir/helmrelease.yaml"
-    local cm_file="$helmrelease_dir/cm.yaml"
     local version
     version=$(basename "$version_dir")
     local chart_url
-    chart_url=$(yq eval 'select(.kind == "OCIRepository") | .spec.url' "$helmrelease_file")
+
+    pushd "$version_dir/helmrelease" >/dev/null
+    chart_url=$(yq eval 'select(.kind == "OCIRepository") | .spec.url' helmrelease.yaml)
+    popd >/dev/null
 
     local temp_values
     temp_values=$(mktemp)
@@ -80,58 +75,34 @@ function generate_bootstrap_manifests() {
     echo "Version: $version"
 
     # Extract values from cm.yaml
-    yq eval '.data."values.yaml"' "$cm_file" > "$temp_values"
+    pushd "$version_dir/helmrelease" >/dev/null
+    yq eval '.data."values.yaml"' cm.yaml > "$temp_values"
+    popd >/dev/null
     if [ ! -s "$temp_values" ]; then
-        echo "Warning: Could not extract values from $cm_file"
+        echo "Warning: Could not extract values from $version_dir/helmrelease/cm.yaml"
         echo "" > "$temp_values"
     fi
 
     # Run helm template
     echo "Running helm template..."
+    pushd "$bootstrap_dir" >/dev/null
     helm template flux2 "$chart_url" \
         --version "$chart_version" \
         --namespace kommander-flux \
         --include-crds --no-hooks \
         -f "$temp_values" \
-        > "$bootstrap_dir/bootstrap-flux.yaml"
+        > bootstrap-flux.yaml
+    popd >/dev/null
 
     echo "Generated bootstrap-flux.yaml"
 
     # Update bootstrap kustomization.yaml
-    local kustomization_file="$bootstrap_dir/kustomization.yaml"
-    local ocirepo_name
-    ocirepo_name=$(yq eval 'select(.kind == "OCIRepository") | .metadata.name' "$helmrelease_file" 2>/dev/null)
-
-    cat > "$kustomization_file" <<EOF
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: kommander-flux
-resources:
-  - bootstrap-flux.yaml
-  - ./${version}
-patches:
-  - patch: |-
-      \$patch: delete
-      apiVersion: source.toolkit.fluxcd.io/v1
-      kind: OCIRepository
-      metadata:
-        name: ${ocirepo_name}
-        namespace: \${releaseNamespace}
-  - patch: |-
-      \$patch: delete
-      apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      metadata:
-        name: kommander-flux
-        namespace: \${releaseNamespace}
-  - patch: |-
-      \$patch: delete
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: kommander-flux-${version}-config-defaults
-        namespace: \${releaseNamespace}
-EOF
+    pushd "$bootstrap_dir" >/dev/null
+    local temp_file
+    temp_file=$(mktemp)
+    sed "s|./${CURRENT_FLUX_VERSION}|./${version}|g" kustomization.yaml > "$temp_file"
+    mv "$temp_file" kustomization.yaml
+    popd >/dev/null
 
     echo "Updated bootstrap kustomization.yaml"
 }
@@ -148,9 +119,7 @@ function create_pr() {
     git push --set-upstream origin "${branch_name}"
 
     git fetch origin main
-    local pr
-    pr=$(gh pr create --base main --fill --head "${branch_name}" -t "${commit_msg}" -l ready-for-review -l ok-to-test -l slack-notify -l update-licenses)
-    echo "${pr} is created"
+    echo "$(gh pr create --base main --fill --head "${branch_name}" -t "${commit_msg}" -l ready-for-review -l ok-to-test -l slack-notify -l update-licenses) is created"
 }
 
 function update_flux() {

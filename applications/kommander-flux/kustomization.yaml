@@ -5,24 +5,29 @@ resources:
   - bootstrap-flux.yaml
   - ./2.6.2
 patches:
-  - patch: |-
-      $patch: delete
+  - path: ./2.6.2/patch-proxy-env-vars.yaml
+    target:
+      kind: Deployment
+  - path: ./2.6.2/patch-crd-controller-cluster-role.yaml
+    target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: ClusterRole
+      name: crd-controller
+  # Exclude All OCIRepositories and HelmReleases (there is only one of each for now)
+  - target:
+      kind: OCIRepository
+    patch: |-
       apiVersion: source.toolkit.fluxcd.io/v1
       kind: OCIRepository
       metadata:
-        name: nkp-flux-2-16-1
-        namespace: ${releaseNamespace}
-  - patch: |-
+        name: not-used-in-a-patch
       $patch: delete
+  - target:
+      kind: HelmRelease
+    patch: |-
       apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
       metadata:
-        name: kommander-flux
-        namespace: ${releaseNamespace}
-  - patch: |-
+        name: not-used-in-a-patch
       $patch: delete
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: kommander-flux-2.6.2-config-defaults
-        namespace: ${releaseNamespace}
