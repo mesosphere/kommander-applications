@@ -53,6 +53,28 @@ spec:
                 value:
                   name: NO_PROXY
                   value: ${noProxy:-""}
+          - target:
+              group: rbac.authorization.k8s.io
+              version: v1
+              kind: ClusterRole
+              name: crd-controller
+            patch: |
+              - op: add
+                path: /rules/-
+                value:
+                  apiGroups:
+                    - ""
+                  resources:
+                    - serviceaccounts/token
+                  verbs:
+                    - create
+              - op: add
+                path: /rules/-
+                value:
+                  nonResourceURLs:
+                    - /livez/ping
+                  verbs:
+                    - head
   valuesFrom:
     - kind: ConfigMap
       name: kommander-flux-2.6.2-config-defaults

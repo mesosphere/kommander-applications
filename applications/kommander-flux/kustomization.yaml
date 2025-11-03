@@ -8,12 +8,29 @@ patches:
   - path: ./2.6.2/patch-proxy-env-vars.yaml
     target:
       kind: Deployment
-  - path: ./2.6.2/patch-crd-controller-cluster-role.yaml
-    target:
+  # TODO(takirala): Add this patch into HelmRelease post renders as well.
+  - target:
       group: rbac.authorization.k8s.io
       version: v1
       kind: ClusterRole
       name: crd-controller
+    patch: |-
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups:
+            - ""
+          resources:
+            - serviceaccounts/token
+          verbs:
+            - create
+      - op: add
+        path: /rules/-
+        value:
+          nonResourceURLs:
+            - /livez/ping
+          verbs:
+            - head
   # Exclude All OCIRepositories and HelmReleases (there is only one of each for now)
   - target:
       kind: OCIRepository

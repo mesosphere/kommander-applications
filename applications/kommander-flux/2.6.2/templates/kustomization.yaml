@@ -4,3 +4,11 @@ resources:
 - networking.k8s.io_v1_networkpolicy_allow-source.yaml
 - v1_namespace_kommander-flux.yaml
 - v1_resourcequota_critical-pods-kommander-flux.yaml
+patches:
+  - path: patch-source-ctrl-network-policy.yaml
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: NetworkPolicy
+      name: allow-source
+      namespace: kommander-flux
