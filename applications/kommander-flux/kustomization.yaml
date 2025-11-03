@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kommander-flux
+resources:
+  - bootstrap-flux.yaml
+  - ./2.6.2
+patches:
+  - path: ./2.6.2/patch-proxy-env-vars.yaml
+    target:
+      kind: Deployment
+  # TODO(takirala): Add this patch into HelmRelease post renders as well.
+  - target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: ClusterRole
+      name: crd-controller
+    patch: |-
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups:
+            - ""
+          resources:
+            - serviceaccounts/token
+          verbs:
+            - create
+      - op: add
+        path: /rules/-
+        value:
+          nonResourceURLs:
+            - /livez/ping
+          verbs:
+            - head
+  # Exclude All OCIRepositories and HelmReleases (there is only one of each for now)
+  - target:
+      kind: OCIRepository
+    patch: |-
+      apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: not-used-in-a-patch
+      $patch: delete
+  - target:
+      kind: HelmRelease
+    patch: |-
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: not-used-in-a-patch
+      $patch: delete
