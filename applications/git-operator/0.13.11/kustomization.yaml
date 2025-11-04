@@ -26,5 +26,5 @@ patches:
     kind: Certificate
     name: git-operator-git-webserver
 images:
-  - name: docker.io/mesosphere/kubectl
-    newTag: v1.34.1-alpine
+  - name: bitnamilegacy/kubectl
+    newTag: 1.33.2
