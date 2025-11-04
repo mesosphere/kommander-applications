@@ -450,6 +450,9 @@ data:
       priorityClassName: "dkp-critical-priority"
       persistence:
         enabled: true
+      # https://github.com/grafana/helm-charts/issues/3801
+      deploymentStrategy:
+        type: Recreate
       initChownData:
         image:
           registry: docker.io
