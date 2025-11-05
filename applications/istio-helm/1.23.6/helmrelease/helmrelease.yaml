@@ -84,7 +84,7 @@ spec:
     remediation:
       retries: 30
   releaseName: ${releaseName}-base
-  targetNamespace: ${releaseName}-system
+  targetNamespace: istio-helm-system
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
@@ -138,7 +138,7 @@ spec:
     remediation:
       retries: 30
   releaseName: ${releaseName}-istiod
-  targetNamespace: ${releaseName}-system
+  targetNamespace: istio-helm-system
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
@@ -167,7 +167,7 @@ spec:
     remediation:
       retries: 30
   releaseName: ${releaseName}-ztunnel
-  targetNamespace: ${releaseName}-gateway-ns
+  targetNamespace: istio-helm-gateway-ns
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
@@ -196,7 +196,7 @@ spec:
     remediation:
       retries: 30
   releaseName: ${releaseName}-gateway
-  targetNamespace: ${releaseName}-gateway-ns
+  targetNamespace: istio-helm-gateway-ns
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
