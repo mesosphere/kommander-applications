@@ -13,7 +13,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/rook-ceph-cluster/1.18.6/objectbucketclaims
+  path: ./applications/rook-ceph-cluster/1.18.4/objectbucketclaims
   sourceRef:
     kind: GitRepository
     name: management
