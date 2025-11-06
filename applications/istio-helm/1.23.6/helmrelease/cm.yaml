@@ -26,7 +26,11 @@ data:
     istiod:
       revision: "istio-helm"
       pilot:
-        replicaCount: 2
+        autoscaleEnabled: true
+        autoscaleMin: 2
+        autoscaleMax: 2
+        cni:
+          enabled: true
 
     prometheus-operator:
       serviceMonitor:
@@ -41,7 +45,10 @@ data:
     gateway:
       revision: "istio-helm"
       name: istio-helm-ingressgateway
-      replicaCount: 2
+      autoscaling:
+        enabled: true
+        minReplicas: 2
+        maxReplicas: 2
       labels:
         istio: istio-helm-ingressgateway
       service:
