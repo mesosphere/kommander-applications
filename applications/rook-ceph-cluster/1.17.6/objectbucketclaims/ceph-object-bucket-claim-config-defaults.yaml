@@ -6,7 +6,7 @@ metadata:
 data:
   values.yaml: |
     ---
-    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
+    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
     dkp:
       # The name of the bucket is important here as rook creates
       # a ConfigMap and Secret with same name as bucket.
