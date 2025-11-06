@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kommander-ui"
   ref:
-    tag: 17.154.1
+    tag: 17.155.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
