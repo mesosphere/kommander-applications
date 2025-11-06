@@ -655,6 +655,11 @@ resources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0${image_tag//v1/}; ref=${ref//-alpine/}
         license_path: LICENSE
+  - container_image: bitnamilegacy/kubectl:1.33.2
+    sources:
+      - url: https://github.com/kubernetes/kubectl
+        ref: v0${image_tag#1}
+        license_path: LICENSE
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
     sources:
       - url: https://github.com/kubernetes/ingress-nginx

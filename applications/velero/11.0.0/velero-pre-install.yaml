@@ -18,5 +18,5 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
-      kubetoolsImageRepository: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}
-      kubetoolsImageTag: ${kubetoolsImageTag:=v1.34.1-alpine}
+      kubetoolsImageRepository: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
+      kubetoolsImageTag: ${kubetoolsImageTag:=1.33.2}
