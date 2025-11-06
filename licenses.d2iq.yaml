@@ -245,16 +245,16 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.18.4
+  - container_image: docker.io/rook/ceph:v1.17.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
-  - container_image: quay.io/cephcsi/ceph-csi-operator:v0.4.1
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/ceph/ceph-csi-operator
+#  - container_image: quay.io/cephcsi/ceph-csi-operator:v0.4.1
+#    sources:
+#      - license_path: LICENSE
+#        ref: ${image_tag}
+#        url: https://github.com/ceph/ceph-csi-operator
   - container_image: docker.io/velero/velero-plugin-for-aws:v1.13.0
     sources:
       - license_path: LICENSE
