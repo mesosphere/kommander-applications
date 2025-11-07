@@ -88,6 +88,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: istio-helm-config-overrides
+      optional: true
 ---
 # HelmRelease for istio-helm-cni (depends on base)
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -115,6 +118,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: istio-helm-config-overrides
+      optional: true
 ---
 # HelmRelease for istio-helm-istiod (depends on cni)
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -142,6 +148,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: istio-helm-config-overrides
+      optional: true
 ---
 # HelmRelease for istio-helm-ztunnel (depends on gateway namespace and istiod, optional for ambient mode)
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -151,8 +160,6 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: ${releaseName}-gateway-namespace
-      namespace: ${releaseNamespace}
     - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:
@@ -171,6 +178,9 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: istio-helm-config-overrides
+      optional: true
 ---
 # HelmRelease for istio-helm-gateway (depends on istiod and gateway namespace)
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -180,8 +190,6 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: ${releaseName}-gateway-namespace
-      namespace: ${releaseNamespace}
     - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:
@@ -200,3 +208,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-config-defaults
+    - kind: ConfigMap
+      name: istio-helm-config-overrides
+      optional: true

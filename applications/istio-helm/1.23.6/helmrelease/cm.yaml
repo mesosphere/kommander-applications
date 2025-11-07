@@ -73,3 +73,4 @@ data:
       tag: 1.23.6
       imagePullPolicy: IfNotPresent
       istioNamespace: istio-helm-system
+      revision: "istio-helm"
