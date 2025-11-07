@@ -9,6 +9,7 @@ spec:
   path: ./applications/ai-navigator-app/0.5.2/helmrelease
   postBuild:
     substitute:
+      appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
   prune: true

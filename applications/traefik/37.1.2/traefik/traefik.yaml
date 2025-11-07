@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -20,7 +20,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -35,7 +35,7 @@ spec:
   releaseName: kommander-traefik
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: traefik-overrides
       optional: true

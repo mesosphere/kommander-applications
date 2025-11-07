@@ -9,6 +9,7 @@ spec:
   path: ./applications/ai-navigator-cluster-info-agent/0.4.2/helmrelease
   postBuild:
     substitute:
+      appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
   prune: true

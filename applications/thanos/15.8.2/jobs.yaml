@@ -17,4 +17,5 @@ spec:
     namespace: kommander-flux
   postBuild:
     substitute:
+      appVersion: ${appVersion}
       releaseNamespace: ${releaseNamespace}

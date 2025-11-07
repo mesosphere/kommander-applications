@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-api
+  name: ${releaseName}-${appVersion}-api
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-api
+    name: ${releaseName}-${appVersion}-api
     namespace: ${releaseNamespace}
   interval: 15s
   releaseName: ai-navigator-cluster-info-api
@@ -30,4 +30,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults

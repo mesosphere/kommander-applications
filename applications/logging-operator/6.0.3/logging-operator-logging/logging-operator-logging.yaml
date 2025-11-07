@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-logging
+  name: ${releaseName}-${appVersion}-logging
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -20,7 +20,7 @@ spec:
       name: logging-operator
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-logging
+    name: ${releaseName}-${appVersion}-logging
     namespace: ${releaseNamespace}
   interval: 15s
   install:

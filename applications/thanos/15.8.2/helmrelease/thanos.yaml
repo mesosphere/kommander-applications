@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -32,7 +32,7 @@ spec:
   releaseName: thanos
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate

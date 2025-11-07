@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -28,7 +28,7 @@ spec:
       name: kommander
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -42,7 +42,7 @@ spec:
   releaseName: dex-k8s-authenticator
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: dex-k8s-authenticator-overrides
       optional: true

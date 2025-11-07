@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 10m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -34,7 +34,7 @@ spec:
   releaseName: kube-prometheus-stack
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: kube-prometheus-stack-mgmt-overrides
       optional: true

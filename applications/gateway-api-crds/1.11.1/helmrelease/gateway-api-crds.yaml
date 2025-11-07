@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -21,8 +21,8 @@ spec:
   interval: 6h
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults

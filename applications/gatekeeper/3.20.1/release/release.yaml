@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-source
+  name: ${releaseName}-${appVersion}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -12,7 +12,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${appName}-${releaseName}-proxy-mutations
+  name: ${releaseName}-${appVersion}-proxy-mutations
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -28,7 +28,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-source
+    name: ${releaseName}-${appVersion}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -43,7 +43,7 @@ spec:
   releaseName: kommander-gatekeeper
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       valuesKey: controller-synced-values.yaml # only `controller-synced-values.yaml` from this ConfigMap is owned by kommmander controllers. `values.yaml` is still meant for human consumption.
@@ -93,7 +93,7 @@ spec:
       name: gatekeeper
   chartRef:
     kind: OCIRepository
-    name: ${appName}-${releaseName}-proxy-mutations
+    name: ${releaseName}-${appVersion}-proxy-mutations
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -108,7 +108,7 @@ spec:
   releaseName: gatekeeper-proxy-mutations
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: gatekeeper-overrides
       optional: true

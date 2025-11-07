@@ -9,6 +9,7 @@ spec:
   path: ./applications/nkp-insights/1.7.0/helmrelease
   postBuild:
     substitute:
+      appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
   prune: true
