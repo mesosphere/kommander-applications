@@ -75,6 +75,7 @@ func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath s
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":         "app-version-gatekeeper",
 			"releaseNamespace":   kommanderNamespace,
 			"workspaceNamespace": kommanderNamespace,
 		})
@@ -84,7 +85,7 @@ func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath s
 	}
 	substMap := map[string]string{
 		"releaseName":      "app-deployment-name",
-		"appName":          "app-name",
+		"appVersion":       "app-version",
 		"releaseNamespace": kommanderNamespace,
 	}
 	// apply the gatekeeper HelmReleases

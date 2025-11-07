@@ -47,6 +47,7 @@ func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":         "app-version" + filepath.Base(appPath),
 			"releaseNamespace":   kommanderNamespace,
 			"workspaceNamespace": kommanderNamespace,
 		})
@@ -56,7 +57,7 @@ func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.
 	}
 	// apply the rest of kustomizations
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"appName":            "app-name" + filepath.Base(appPath),
+		"appVersion":         "app-version" + filepath.Base(appPath),
 		"releaseName":        "app-deployment-name" + filepath.Base(appPath),
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,

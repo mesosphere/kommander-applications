@@ -50,6 +50,7 @@ func (r reloader) install(ctx context.Context, env *environment.Env, appPath str
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":       "app-version-reloader",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -58,7 +59,7 @@ func (r reloader) install(ctx context.Context, env *environment.Env, appPath str
 	}
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
 		"releaseName":      "app-deployment-name",
-		"appName":          "app-name",
+		"appVersion":       "app-version",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

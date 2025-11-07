@@ -64,6 +64,7 @@ func (r certManager) install(ctx context.Context, env *environment.Env, appPath 
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":       "app-version-cert-manager",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -93,7 +94,7 @@ func (r certManager) install(ctx context.Context, env *environment.Env, appPath 
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 		"releaseName":      "app-deployment-name",
-		"appName":          "app-name",
+		"appVersion":       "app-version",
 	})
 	if err != nil {
 		return err
