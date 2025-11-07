@@ -11917,6 +11917,8 @@ spec:
         - --log-encoding=json
         - --enable-leader-election
         - --feature-gates=OOMWatch=true
+        - --feature-gates=AdditiveCELDependencyCheck=true
+        - --feature-gates=DisableChartDigestTracking=true
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
