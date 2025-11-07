@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ${releaseName}-gateway-namespace
+  name: istio-helm-gateway-namespace
   namespace: ${releaseNamespace}
 spec:
   force: false

@@ -151,8 +151,6 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: ${releaseName}-gateway-namespace
-      namespace: ${releaseNamespace}
     - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:
@@ -180,8 +178,6 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   dependsOn:
-    - name: ${releaseName}-gateway-namespace
-      namespace: ${releaseNamespace}
     - name: ${releaseName}-istiod
       namespace: ${releaseNamespace}
   chartRef:
