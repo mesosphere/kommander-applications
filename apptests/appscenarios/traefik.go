@@ -106,6 +106,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		}
 		// Install gateway-api-crds
 		err = env.ApplyKustomizations(ctx, gatewayCRDsPath, map[string]string{
+			"appName":          "app-name-gateway-api-crds",
 			"releaseName":      "gateway-api-crds",
 			"releaseNamespace": kommanderNamespace,
 		})
@@ -117,6 +118,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 		for _, dir := range []string{"crds", "traefik"} {
 			subDir := filepath.Join(appPath, dir)
 			err := env.ApplyKustomizations(ctx, subDir, map[string]string{
+				"appName":            "app-name-gateway" + dir,
 				"releaseName":        "app-deployment-name",
 				"releaseNamespace":   kommanderNamespace,
 				"workspaceNamespace": kommanderNamespace,
@@ -129,6 +131,7 @@ func (t traefik) install(ctx context.Context, env *environment.Env, appPath stri
 
 	// If the `traefik` directory doesn't exist, apply the default (root) kustomizations
 	return env.ApplyKustomizations(ctx, appPath, map[string]string{
+		"appName":            "app-name-traefik",
 		"releaseName":        "app-deployment-name",
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,

@@ -17,6 +17,8 @@ spec:
   timeout: 1m
   postBuild:
     substitute:
+      appName: ${appName}
+      releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
       kubetoolsImageRepository: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
       kubetoolsImageTag: ${kubetoolsImageTag:=1.33.2}

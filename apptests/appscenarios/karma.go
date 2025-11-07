@@ -65,7 +65,8 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 		}
 	}
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseName":        "app-deployment-name",
+		"appName":            "app-name" + filepath.Base(appPath),
+		"releaseName":        "app-deployment-name" + filepath.Base(appPath),
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,
 	})

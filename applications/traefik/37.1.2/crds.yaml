@@ -17,6 +17,7 @@ spec:
   timeout: 1m
   postBuild:
     substitute:
+      appName: ${appName}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
     substituteFrom:
