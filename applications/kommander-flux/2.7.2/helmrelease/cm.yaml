@@ -23,6 +23,9 @@ data:
       container:
         additionalArgs:
         - --feature-gates=OOMWatch=true
+        - --feature-gates=AdditiveCELDependencyCheck=true
+        - --feature-gates=DisableChartDigestTracking=true
+        # - --feature-gates=AdoptLegacyReleases=true # TODO(takirala): Do we have a use case for this?
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
