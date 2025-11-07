@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cluster
+  name: ${appName}-${releaseName}-database
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cluster
+    name: ${appName}-${releaseName}-database
     namespace: ${releaseNamespace}
   interval: 15s
   install:

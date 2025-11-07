@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: harbor-cosi-bucket-kit
+  name: ${appName}-${releaseName}-cosi-bucket-kit
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: harbor-cosi-bucket-kit
+    name: ${appName}-${releaseName}-cosi-bucket-kit
     namespace: ${releaseNamespace}
   interval: 15s
   install:
