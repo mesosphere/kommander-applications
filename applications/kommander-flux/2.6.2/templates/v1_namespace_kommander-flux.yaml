@@ -4,9 +4,6 @@ metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/ssa: Merge
   labels:
-    app.kubernetes.io/instance: kommander-flux
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.6.2
     pod-security.kubernetes.io/warn: restricted
     pod-security.kubernetes.io/warn-version: latest
   name: kommander-flux

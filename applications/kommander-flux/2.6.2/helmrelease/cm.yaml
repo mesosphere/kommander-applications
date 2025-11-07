@@ -6,6 +6,10 @@ metadata:
 data:
   values.yaml: |
     ---
+    installCRDs: true
+    crds:
+      annotations:
+        "helm.sh/resource-policy": keep
     policies:
       create: true
     helmController:

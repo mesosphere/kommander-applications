@@ -55,6 +55,18 @@ function update_ocirepository_and_helmrelease() {
     popd >/dev/null
 }
 
+function update_kustomization_yaml_files() {
+    local version_dir="$1"
+    local version="$2"
+
+    pushd "$version_dir/templates" >/dev/null
+    # Update kustomization.yaml
+    yq eval -i '.labels[0].pairs."app.kubernetes.io/version" = "v'"${LATEST_FLUX_VERSION}"'"' kustomization.yaml
+    # Update ConfigMap
+    yq eval -i ".metadata.name = \"kommander-flux-${version}-config-defaults\"" cm.yaml
+    popd >/dev/null
+}
+
 function generate_bootstrap_manifests() {
     local version_dir="$1"
     local chart_version="$2"
@@ -130,6 +142,7 @@ function update_flux() {
     local version_dir
     version_dir=$(update_version_directory)
     update_ocirepository_and_helmrelease "$version_dir" "$LATEST_FLUX_VERSION"
+    update_kustomization_yaml_files "$version_dir" "$LATEST_FLUX_VERSION"
     generate_bootstrap_manifests "$version_dir" "$LATEST_FLUX_CHART_VERSION"
     create_pr "$branch_name" "$LATEST_FLUX_VERSION"
 }
