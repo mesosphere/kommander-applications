@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -euox pipefail
 IFS=$'\n\t'
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
@@ -62,29 +62,34 @@ function update_kustomization_yaml_files() {
     pushd "$version_dir/templates" >/dev/null
     # Update kustomization.yaml
     yq eval -i '.labels[0].pairs."app.kubernetes.io/version" = "v'"${LATEST_FLUX_VERSION}"'"' kustomization.yaml
-    # Update ConfigMap
-    yq eval -i ".metadata.name = \"kommander-flux-${version}-config-defaults\"" cm.yaml
     popd >/dev/null
 }
 
 function generate_bootstrap_manifests() {
     local version_dir="$1"
-    local chart_version="$2"
     local bootstrap_dir="$REPO_ROOT/applications/kommander-flux"
     local version
     version=$(basename "$version_dir")
     local chart_url
+    local chart_version
 
     pushd "$version_dir/helmrelease" >/dev/null
     chart_url=$(yq eval 'select(.kind == "OCIRepository") | .spec.url' helmrelease.yaml)
+    chart_version=$(yq eval 'select(.kind == "OCIRepository") | .spec.ref.tag' helmrelease.yaml)
     popd >/dev/null
+
+    if [ -z "$chart_version" ]; then
+        echo "Error: Could not determine chart version from OCIRepository in $version_dir/helmrelease/helmrelease.yaml"
+        exit 1
+    fi
 
     local temp_values
     temp_values=$(mktemp)
-    trap 'rm -f "$temp_values" 2>/dev/null' RETURN
+    trap 'if [ -n "${temp_values:-}" ]; then rm -f "$temp_values" 2>/dev/null; fi' RETURN
 
     echo "Chart URL: $chart_url"
-    echo "Version: $version"
+    echo "Chart Version: $chart_version"
+    echo "Flux Version: $version"
 
     # Extract values from cm.yaml
     pushd "$version_dir/helmrelease" >/dev/null
@@ -135,25 +140,56 @@ function create_pr() {
 }
 
 function update_flux() {
+    local is_local="${1:-false}"
     local branch_name="flux-update/${LATEST_FLUX_VERSION}"
-    check_remote_branch "kommander-applications" "${branch_name}"
-    git checkout -b "${branch_name}"
+
+    if [ "$is_local" != "true" ]; then
+        check_remote_branch "kommander-applications" "${branch_name}"
+        git checkout -b "${branch_name}"
+    fi
 
     local version_dir
     version_dir=$(update_version_directory)
     update_ocirepository_and_helmrelease "$version_dir" "$LATEST_FLUX_VERSION"
     update_kustomization_yaml_files "$version_dir" "$LATEST_FLUX_VERSION"
-    generate_bootstrap_manifests "$version_dir" "$LATEST_FLUX_CHART_VERSION"
-    create_pr "$branch_name" "$LATEST_FLUX_VERSION"
+    generate_bootstrap_manifests "$version_dir"
+
+    if [ "$is_local" != "true" ]; then
+        create_pr "$branch_name" "$LATEST_FLUX_VERSION"
+    fi
 }
 
 # Main execution - only run if script is executed directly (not sourced)
 if [ "${BASH_SOURCE[0]}" = "${0}" ] && [ -z "${_SOURCING_FUNCTIONS_ONLY:-}" ]; then
-    if [ "${CURRENT_FLUX_VERSION}" == "${LATEST_FLUX_VERSION}" ]; then
-        echo "Flux version is up to date - nothing to do"
-        exit 0
-    fi
+    # If arguments are provided and first arg is a function name, call that function
+    if [ $# -gt 0 ] && [ "${1:-}" != "--local" ]; then
+        func_name="$1"
+        shift  # Remove function name from arguments
+        # Check if the function exists
+        if declare -f "$func_name" > /dev/null; then
+            # Call the function with remaining arguments
+            "$func_name" "$@"
+        else
+            echo "Error: Function '$func_name' not found"
+            echo "Available functions:"
+            declare -F | awk '{print $3}' | grep -v '^_'
+            exit 1
+        fi
+    else
+        # Default behavior: run update_flux
+        if [ "${CURRENT_FLUX_VERSION}" == "${LATEST_FLUX_VERSION}" ]; then
+            echo "Flux version is up to date - nothing to do"
+            exit 0
+        fi
 
-    echo "Updating flux version from ${CURRENT_FLUX_VERSION} to ${LATEST_FLUX_VERSION}"
-    update_flux
+        # Check if running locally (--local flag or LOCAL=true env var)
+        is_local="false"
+        if [ "${1:-}" = "--local" ] || [ "${LOCAL:-false}" = "true" ]; then
+            is_local="true"
+            echo "Running in local mode - skipping branch checks and PR creation"
+        fi
+
+        echo "Updating flux version from ${CURRENT_FLUX_VERSION} to ${LATEST_FLUX_VERSION}"
+        update_flux "$is_local"
+    fi
 fi
