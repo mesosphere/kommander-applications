@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: rook-ceph-cluster-prereq-jobs-v1.17.6
+  name: grafana-loki-pre-install
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/rook-ceph-cluster/1.17.6/pre-install
+  path: ./applications/grafana-loki/0.80.5/grafana-loki-pre-install-jobs
   sourceRef:
     kind: GitRepository
     name: management
@@ -18,5 +18,3 @@ spec:
   postBuild:
     substitute:
       releaseNamespace: ${releaseNamespace}
-      # Update the following version whenever ceph-cluster service is bumped.
-      desiredCephOperatorVersion: 1.17.6

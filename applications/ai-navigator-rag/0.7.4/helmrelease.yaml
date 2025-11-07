@@ -1,20 +1,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grafana-loki-pre-install
+  name: ai-navigator-rag-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: true
-  prune: true
-  wait: true
+  force: false
   interval: 6h
+  path: ./applications/ai-navigator-rag/0.7.4/helmrelease
+  postBuild:
+    substitute:
+      releaseName: ${releaseName}
+      releaseNamespace: ${releaseNamespace}
+  prune: true
   retryInterval: 1m
-  path: ./applications/grafana-loki/0.80.4/grafana-loki-pre-install-jobs
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
   timeout: 1m
-  postBuild:
-    substitute:
-      releaseNamespace: ${releaseNamespace}
+  wait: true

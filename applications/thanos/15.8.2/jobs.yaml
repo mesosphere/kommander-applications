@@ -1,17 +1,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kube-federation-system-namespace
+  name: thanos-jobs
   namespace: ${releaseNamespace}
 spec:
-  force: false
-  prune: false
+  force: true
+  prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
   timeout: 1m
-  path: ./applications/kubefed/0.11.2/kube-federation-system-namespace
+  path: ./applications/thanos/15.8.2/jobs
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
+  postBuild:
+    substitute:
+      releaseNamespace: ${releaseNamespace}

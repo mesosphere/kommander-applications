@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/kubefed/0.11.2/release
+  path: ./applications/kubefed/0.11.3/release
   dependsOn:
     - name: kube-federation-system-namespace
   sourceRef:

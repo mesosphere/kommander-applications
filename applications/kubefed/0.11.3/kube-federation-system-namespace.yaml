@@ -1,21 +1,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ai-navigator-app-helmrelease
+  name: kube-federation-system-namespace
   namespace: ${releaseNamespace}
 spec:
   force: false
+  prune: false
+  wait: true
   interval: 6h
-  path: ./applications/ai-navigator-app/0.5.1/helmrelease
-  postBuild:
-    substitute:
-      releaseName: ${releaseName}
-      releaseNamespace: ${releaseNamespace}
-  prune: true
   retryInterval: 1m
+  timeout: 1m
+  path: ./applications/kubefed/0.11.3/kube-federation-system-namespace
   sourceRef:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 1m
-  wait: true
