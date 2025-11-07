@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ai-navigator-cluster-info-api
+  name: ${appName}-${releaseName}-api
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ai-navigator-cluster-info-api
+    name: ${appName}-${releaseName}-api
     namespace: ${releaseNamespace}
   interval: 15s
   releaseName: ai-navigator-cluster-info-api
