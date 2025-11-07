@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kommander-flux-2.6.2-config-defaults
+  name: kommander-flux-2.7.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |

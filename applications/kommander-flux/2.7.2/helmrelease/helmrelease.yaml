@@ -1,13 +1,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: nkp-flux-2.16.1
+  name: nkp-flux-2.17.1
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
   url: oci://ghcr.io/fluxcd-community/charts/flux2
   ref:
-    tag: 2.16.1
+    tag: 2.17.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: nkp-flux-2.16.1
+    name: nkp-flux-2.17.1
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -84,7 +84,7 @@ spec:
                     - head
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-flux-2.6.2-config-defaults
+      name: kommander-flux-2.7.2-config-defaults
     - kind: ConfigMap
       name: kommander-flux-overrides
       optional: true
