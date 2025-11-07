@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: gatekeeper
+  name: ${appName}-${releaseName}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -12,7 +12,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: gatekeeper-proxy-mutations
+  name: ${appName}-${releaseName}-proxy-mutations
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -28,7 +28,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: gatekeeper
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -93,7 +93,7 @@ spec:
       name: gatekeeper
   chartRef:
     kind: OCIRepository
-    name: gatekeeper-proxy-mutations
+    name: ${appName}-${releaseName}-proxy-mutations
     namespace: ${releaseNamespace}
   interval: 15s
   install:
