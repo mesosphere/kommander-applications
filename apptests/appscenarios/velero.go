@@ -86,6 +86,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 	postInstallPath := filepath.Join(appPath, "post-install")
 	err = env.ApplyYAML(ctx, postInstallPath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -110,6 +111,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 	veleroPath := filepath.Join(appPath, "helmrelease")
 	err = env.ApplyYAML(ctx, veleroPath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -119,6 +121,7 @@ func (v velero) install(ctx context.Context, env *environment.Env, appPath strin
 	grafanaDashboardsPath := filepath.Join(appPath, "grafana-dashboards")
 	err = env.ApplyKustomizations(ctx, grafanaDashboardsPath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

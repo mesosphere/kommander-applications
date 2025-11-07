@@ -76,6 +76,7 @@ func (r externalDns) install(ctx context.Context, env *environment.Env, appPath 
 	releasePath := filepath.Join(appPath, "/")
 	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

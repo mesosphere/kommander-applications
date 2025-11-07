@@ -124,6 +124,7 @@ func (r rookCeph) createBuckets(ctx context.Context, env *environment.Env, appPa
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 	})
 	if err != nil {
 		return err
@@ -188,6 +189,7 @@ func (r rookCeph) install(ctx context.Context, env *environment.Env, appPath str
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

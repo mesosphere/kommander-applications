@@ -93,6 +93,7 @@ func (r certManager) install(ctx context.Context, env *environment.Env, appPath 
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 	})
 	if err != nil {
 		return err

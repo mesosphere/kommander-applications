@@ -84,6 +84,7 @@ func (g gatekeeper) install(ctx context.Context, env *environment.Env, appPath s
 	}
 	substMap := map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	}
 	// apply the gatekeeper HelmReleases

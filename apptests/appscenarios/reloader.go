@@ -58,6 +58,7 @@ func (r reloader) install(ctx context.Context, env *environment.Env, appPath str
 	}
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appName":          "app-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
