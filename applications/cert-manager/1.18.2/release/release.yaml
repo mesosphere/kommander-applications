@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cert-manager
+  name: ${appName}-${releaseName}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -13,7 +13,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cert-manager-crds
+  name: ${appName}-${releaseName}-crds
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -29,7 +29,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cert-manager
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -55,7 +55,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cert-manager-crds
+    name: ${appName}-${releaseName}-crds
     namespace: ${releaseNamespace}
   interval: 15s
   install:
