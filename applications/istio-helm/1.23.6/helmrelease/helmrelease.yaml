@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-base
+  name: ${appName}-${releaseName}-base
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -15,7 +15,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-cni
+  name: ${appName}-${releaseName}-cni
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -27,7 +27,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-istiod
+  name: ${appName}-${releaseName}-istiod
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -39,7 +39,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-ztunnel
+  name: ${appName}-${releaseName}-ztunnel
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -51,7 +51,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-gateway
+  name: ${appName}-${releaseName}-gateway
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -71,7 +71,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-base
+    name: ${appName}-${releaseName}-base
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -104,7 +104,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-cni
+    name: ${appName}-${releaseName}-cni
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -134,7 +134,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-istiod
+    name: ${appName}-${releaseName}-istiod
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -164,7 +164,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-ztunnel
+    name: ${appName}-${releaseName}-ztunnel
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -194,7 +194,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-gateway
+    name: ${appName}-${releaseName}-gateway
     namespace: ${releaseNamespace}
   interval: 15s
   install:
