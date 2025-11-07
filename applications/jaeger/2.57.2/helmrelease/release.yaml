@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: jaeger-operator
+  name: ${appName}-${releaseName}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: jaeger-operator
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   # The main reason behind this dependency is to wait until
   # the istio-system namespace is actually created

@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kommander-ui
+  name: ${appName}-${releaseName}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -21,7 +21,7 @@ spec:
       name: kommander
   chartRef:
     kind: OCIRepository
-    name: kommander-ui
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   interval: 15s
   install:

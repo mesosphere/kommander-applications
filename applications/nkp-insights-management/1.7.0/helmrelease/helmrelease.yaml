@@ -7,7 +7,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: nkp-insights-management
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   dependsOn:
     - name: kubefed

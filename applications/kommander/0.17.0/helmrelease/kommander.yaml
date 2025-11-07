@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kommander-chart
+  name: ${appName}-${releaseName}-source
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -23,7 +23,7 @@ spec:
       name: kubefed
   chartRef:
     kind: OCIRepository
-    name: kommander-chart
+    name: ${appName}-${releaseName}-source
     namespace: ${releaseNamespace}
   interval: 15s
   # Kommander is quite a big chart and it may need some more time than
