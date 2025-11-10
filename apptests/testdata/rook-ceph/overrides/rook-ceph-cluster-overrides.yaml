@@ -65,9 +65,8 @@ data:
         spec:
           metadataPool:
             metadataPool:
-              pgNum: 8
-              pgpNum: 8
-              pgNumMin: 8
+              replicated:
+                size: 1
           dataPool:
             replicated:
               size: 1
