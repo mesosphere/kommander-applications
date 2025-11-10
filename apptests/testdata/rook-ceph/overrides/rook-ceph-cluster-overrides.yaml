@@ -64,8 +64,10 @@ data:
       - name: dkp-object-store
         spec:
           metadataPool:
-            replicated:
-              size: 1
+            metadataPool:
+              pgNum: 8
+              pgpNum: 8
+              pgNumMin: 8
           dataPool:
             replicated:
               size: 1
