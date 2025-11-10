@@ -64,9 +64,8 @@ data:
       - name: dkp-object-store
         spec:
           metadataPool:
-            metadataPool:
-              replicated:
-                size: 1
+            replicated:
+              size: 1
           dataPool:
             replicated:
               size: 1
