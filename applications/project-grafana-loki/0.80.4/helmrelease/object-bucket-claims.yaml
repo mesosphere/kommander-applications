@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-object-bucket-claim
+  name: ${releaseName}-${appVersion}-object-bucket-claim
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-object-bucket-claim
+    name: ${releaseName}-${appVersion}-object-bucket-claim
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -32,7 +32,7 @@ spec:
   releaseName: project-loki-object-bucket-claims
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: project-grafana-loki-overrides
       optional: true

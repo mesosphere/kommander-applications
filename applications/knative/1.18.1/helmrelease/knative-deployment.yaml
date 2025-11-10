@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: knative
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -21,7 +21,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: knative
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -35,7 +35,7 @@ spec:
   releaseName: knative-deploy
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: knative-config-overrides
       optional: true

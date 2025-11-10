@@ -42,21 +42,12 @@ func (c ciliumHubbleRelayTraefik) InstallPreviousVersion(ctx context.Context, en
 	return err
 }
 
-func (c ciliumHubbleRelayTraefik) InstallDependency(ctx context.Context, env *environment.Env, depAppName string) error {
-	appPath, err := absolutePathTo(depAppName)
-	if err != nil {
-		return err
-	}
-	err = c.install(ctx, env, appPath)
-
-	return err
-}
-
 func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults config maps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":         "app-version" + filepath.Base(appPath),
 			"releaseNamespace":   kommanderNamespace,
 			"workspaceNamespace": kommanderNamespace,
 		})
@@ -66,7 +57,8 @@ func (c ciliumHubbleRelayTraefik) install(ctx context.Context, env *environment.
 	}
 	// apply the rest of kustomizations
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseName":        "app-deployment-name",
+		"appVersion":         "app-version" + filepath.Base(appPath),
+		"releaseName":        "app-deployment-name" + filepath.Base(appPath),
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,
 	})

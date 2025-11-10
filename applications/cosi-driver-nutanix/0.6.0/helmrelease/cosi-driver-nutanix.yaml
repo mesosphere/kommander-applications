@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: cosi-driver-nutanix
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1h0m0s
@@ -17,7 +17,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: cosi-driver-nutanix
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -31,7 +31,7 @@ spec:
   releaseName: cosi-driver-nutanix
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
   targetNamespace: ${releaseNamespace}
   postRenderers:
     - kustomize:

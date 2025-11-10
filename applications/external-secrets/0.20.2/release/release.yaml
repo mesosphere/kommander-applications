@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: external-secrets
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -20,7 +20,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: external-secrets
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -35,7 +35,7 @@ spec:
   releaseName: external-secrets
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: external-secrets-overrides
       optional: true

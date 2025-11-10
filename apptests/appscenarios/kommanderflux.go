@@ -67,6 +67,7 @@ func (r kommanderFlux) install(ctx context.Context, env *environment.Env, appPat
 	releasePath := filepath.Join(appPath, "/")
 	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appVersion":       "app-version",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

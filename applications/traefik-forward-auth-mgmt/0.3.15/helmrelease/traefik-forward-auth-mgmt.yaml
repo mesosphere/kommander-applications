@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-traefik-forward-auth
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -24,7 +24,7 @@ spec:
       name: kommander
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-traefik-forward-auth
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -38,7 +38,7 @@ spec:
   releaseName: traefik-forward-auth-mgmt
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: traefik-forward-auth-mgmt-overrides
       optional: true

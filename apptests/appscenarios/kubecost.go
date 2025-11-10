@@ -69,6 +69,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":         "app-version-kubecost",
 			"releaseNamespace":   kommanderNamespace,
 			"workspaceNamespace": kommanderNamespace,
 		})
@@ -89,6 +90,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 		prereqs := filepath.Join(appPath, "/pre-install")
 		err = env.ApplyKustomizations(ctx, prereqs, map[string]string{
 			"releaseName":      "app-deployment-name",
+			"appVersion":       "app-version",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -98,6 +100,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 		// apply the kustomization for the helmrelease
 		err = env.ApplyKustomizations(ctx, helmReleasePath, map[string]string{
 			"releaseName":      "app-deployment-name",
+			"appVersion":       "app-version",
 			"releaseNamespace": kommanderNamespace,
 		})
 		if err != nil {
@@ -109,6 +112,7 @@ func (r kubeCost) install(ctx context.Context, env *environment.Env, appPath str
 	// apply the helmrelease which is at the "/" path up to 2.13.x
 	return env.ApplyKustomizations(ctx, filepath.Join(appPath, "/"), map[string]string{
 		"releaseName":      "app-deployment-name",
+		"appVersion":       "app-version",
 		"releaseNamespace": kommanderNamespace,
 	})
 }

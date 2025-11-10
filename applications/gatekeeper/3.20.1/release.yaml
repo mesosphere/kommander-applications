@@ -19,6 +19,7 @@ spec:
   postBuild:
     # The var values which are specified in-line with substitute take precedence over the ones in substituteFrom.
     substitute:
+      appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
     substituteFrom:

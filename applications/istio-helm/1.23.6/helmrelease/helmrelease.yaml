@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-base
+  name: ${releaseName}-${appVersion}-base
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -15,7 +15,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-cni
+  name: ${releaseName}-${appVersion}-cni
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -27,7 +27,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-istiod
+  name: ${releaseName}-${appVersion}-istiod
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -39,7 +39,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-ztunnel
+  name: ${releaseName}-${appVersion}-ztunnel
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -51,7 +51,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-gateway
+  name: ${releaseName}-${appVersion}-gateway
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -71,7 +71,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-base
+    name: ${releaseName}-${appVersion}-base
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -87,7 +87,7 @@ spec:
   targetNamespace: istio-helm-system
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: istio-helm-config-overrides
       optional: true
@@ -104,7 +104,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-cni
+    name: ${releaseName}-${appVersion}-cni
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -117,7 +117,7 @@ spec:
   targetNamespace: kube-system
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: istio-helm-config-overrides
       optional: true
@@ -134,7 +134,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-istiod
+    name: ${releaseName}-${appVersion}-istiod
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -147,7 +147,7 @@ spec:
   targetNamespace: istio-helm-system
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: istio-helm-config-overrides
       optional: true
@@ -164,7 +164,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-ztunnel
+    name: ${releaseName}-${appVersion}-ztunnel
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -177,7 +177,7 @@ spec:
   targetNamespace: istio-helm-gateway-ns
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: istio-helm-config-overrides
       optional: true
@@ -194,7 +194,7 @@ spec:
       namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-gateway
+    name: ${releaseName}-${appVersion}-gateway
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -207,7 +207,7 @@ spec:
   targetNamespace: istio-helm-gateway-ns
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
       name: istio-helm-config-overrides
       optional: true

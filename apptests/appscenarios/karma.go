@@ -57,6 +57,7 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 	defaultKustomization := filepath.Join(appPath, "/defaults")
 	if _, err := os.Stat(defaultKustomization); err == nil {
 		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":         "app-version" + filepath.Base(appPath),
 			"releaseNamespace":   kommanderNamespace,
 			"workspaceNamespace": kommanderNamespace,
 		})
@@ -65,7 +66,8 @@ func (k karma) install(ctx context.Context, env *environment.Env, appPath string
 		}
 	}
 	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
-		"releaseName":        "app-deployment-name",
+		"appVersion":         "app-version" + filepath.Base(appPath),
+		"releaseName":        "app-deployment-name" + filepath.Base(appPath),
 		"releaseNamespace":   kommanderNamespace,
 		"workspaceNamespace": kommanderNamespace,
 	})
