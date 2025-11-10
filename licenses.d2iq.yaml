@@ -200,7 +200,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.161.0
+  - container_image: docker.io/mesosphere/kommander:17.161.1
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -410,37 +410,37 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v1.3.0
+  - container_image: ghcr.io/fluxcd/helm-controller:v1.4.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.6.0
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.7.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
         url: https://github.com/fluxcd/kustomize-controller
-  - container_image: ghcr.io/fluxcd/notification-controller:v1.6.0
+  - container_image: ghcr.io/fluxcd/notification-controller:v1.7.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v1.6.1
+  - container_image: ghcr.io/fluxcd/source-controller:v1.7.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
-  - container_image: ghcr.io/fluxcd/flux-cli:v2.6.2
+  - container_image: ghcr.io/fluxcd/flux-cli:v2.7.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/flux2
-  - container_image: ghcr.io/fluxcd/image-automation-controller:v0.41.1
+  - container_image: ghcr.io/fluxcd/image-automation-controller:v1.0.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/image-automation-controller
-  - container_image: ghcr.io/fluxcd/image-reflector-controller:v0.35.2
+  - container_image: ghcr.io/fluxcd/image-reflector-controller:v1.0.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
