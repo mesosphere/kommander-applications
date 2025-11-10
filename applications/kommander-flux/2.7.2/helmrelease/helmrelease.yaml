@@ -27,11 +27,15 @@ spec:
       # deleting and retrying won't work so we can just as well not retry to begin with.
       retries: 0
       remediateLastFailure: false
+    # Flux pre-check job reaches out to GH API to check for latest releases. There is no need for this.
+    disableHooks: true
   upgrade:
     crds: CreateReplace
     remediation:
       retries: 0
       remediateLastFailure: false
+    # Flux pre-check job reaches out to GH API to check for latest releases. There is no need for this.
+    disableHooks: true
   uninstall:
     deletionPropagation: orphan
     keepHistory: true
