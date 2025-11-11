@@ -53,7 +53,7 @@ spec:
           # If we use an image that is also used in k-apps then our tooling might exclude this image from tar by assuming
           # its one of the default images of kind-airgapped tooling (like calico etc.,).
           # TODO: we can make this better
-          image: docker.io/mesosphere/kubectl:1.28.5-alpine
+          image: docker.io/mesosphere/kubectl:v1.34.1-alpine
           command:
             - /bin/bash
             - -c
