@@ -13,4 +13,4 @@ data:
       targetSecretName: "harbor-s3-credentials"
       reloader: true
 
-      kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+      kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}

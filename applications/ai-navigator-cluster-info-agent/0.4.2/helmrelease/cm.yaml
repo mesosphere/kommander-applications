@@ -23,7 +23,7 @@ data:
       persistence:
         size: 8Gi
     priorityClassName: dkp-high-priority
-    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
   agent-values.yaml: |-
     ---
     collector:
