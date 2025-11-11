@@ -36,7 +36,7 @@ data:
         labels:
           servicemonitor.kommander.mesosphere.io/path: metrics
       postInstallJob:
-        repository: bitnamilegacy
+        repository: docker.io/mesosphere
         image: kubectl
         tag: ${kubetoolsImageTag:=v1.34.1-alpine}
       webhook:
