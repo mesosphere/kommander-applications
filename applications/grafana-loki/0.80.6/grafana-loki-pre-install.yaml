@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/grafana-loki/0.80.5/grafana-loki-pre-install-jobs
+  path: ./applications/grafana-loki/0.80.6/grafana-loki-pre-install-jobs
   sourceRef:
     kind: GitRepository
     name: management
@@ -17,5 +17,4 @@ spec:
   timeout: 1m
   postBuild:
     substitute:
-      appVersion: ${appVersion}
       releaseNamespace: ${releaseNamespace}
