@@ -21,4 +21,4 @@ spec:
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
       # Update the following version whenever ceph-cluster service is bumped.
-      desiredCephOperatorVersion: 1.17.6
+      desiredCephOperatorVersion: v1.17.6
