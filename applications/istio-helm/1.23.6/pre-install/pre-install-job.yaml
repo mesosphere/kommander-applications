@@ -76,26 +76,26 @@ spec:
               echo() {
                 command echo $(date) "$@"
               }
-              
+
               # Configuration
               CHECK_INTERVAL=60
-              
+
               echo "=========================================="
               echo "istio-helm Pre-Installation Check"
               echo "=========================================="
               echo ""
-              
+
               # Loop until condition is met or timeout
               while true; do
-                
+
                 echo "Checking pre-install conditions..."
-                
+
                 # Check if ztunnel (ambient mode) is being enabled
                 echo "Checking if ambient mode (ztunnel) is being enabled..."
                 ZTUNNEL_ENABLED=$(kubectl get configmap istio-helm-config-overrides -n ${releaseNamespace} -o jsonpath='{.data.values\.yaml}' 2>/dev/null | grep -A 1 "^ztunnel:" | grep "enabled:" | awk '{print $2}' || echo "false")
-                
+
                 echo "ztunnel.enabled = $ZTUNNEL_ENABLED"
-                
+
                 if [ "$ZTUNNEL_ENABLED" != "true" ]; then
                   echo ""
                   echo "Ambient mode is not enabled."
@@ -104,11 +104,11 @@ spec:
                   echo "=========================================="
                   exit 0
                 fi
-                
+
                 echo ""
                 echo " Ambient mode (ztunnel) is enabled."
                 echo " Checking for conflicting legacy Istio installation..."
-                
+
                 # Check if istio-system namespace exists
                 if kubectl get namespace istio-system >/dev/null 2>&1; then
                   echo ""
@@ -132,7 +132,7 @@ spec:
                   echo "Waiting $CHECK_INTERVAL seconds before checking again..."
                   echo "=========================================="
                   echo ""
-                  
+
                   sleep $CHECK_INTERVAL
                   continue  # Loop back and check again
                 fi
