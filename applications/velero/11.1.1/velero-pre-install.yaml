@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/velero/11.0.0/pre-install
+  path: ./applications/velero/11.1.1/pre-install
   sourceRef:
     kind: GitRepository
     name: management
