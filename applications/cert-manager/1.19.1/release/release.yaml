@@ -19,7 +19,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/cert-manager-crds"
   ref:
-    tag: v1.19.1
+    tag: 1.19.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
