@@ -472,12 +472,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.3.4
+  - container_image: nvcr.io/nvidia/cloud-native/gpu-operator-validator:v25.10.0
     sources:
       - license_path: validator/LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.3.4
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.10.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
