@@ -65,7 +65,7 @@ spec:
       priorityClassName: dkp-critical-priority
       containers:
         - name: check-old-istio
-          image: "${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}"
+          image: "${kubetoolsImageRepository:=mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}"
           command:
             - bash
             - -c
