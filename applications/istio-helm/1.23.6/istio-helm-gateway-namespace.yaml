@@ -10,6 +10,9 @@ spec:
   interval: 6h
   retryInterval: 1m
   path: ./applications/istio-helm/1.23.6/istio-helm-gateway-namespace
+  dependsOn:
+   - name: ${releaseName}-pre-install
+     namespace: ${releaseNamespace}
   sourceRef:
     kind: GitRepository
     name: management
