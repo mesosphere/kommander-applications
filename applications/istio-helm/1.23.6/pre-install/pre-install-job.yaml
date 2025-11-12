@@ -1,0 +1,145 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: istio-helm-pre-install
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: istio-helm-pre-install-role
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: istio-helm-pre-install-rolebinding
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: istio-helm-pre-install-role
+subjects:
+  - kind: ServiceAccount
+    name: istio-helm-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: istio-helm-pre-install-clusterrole
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: istio-helm-pre-install-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: istio-helm-pre-install-clusterrole
+subjects:
+  - kind: ServiceAccount
+    name: istio-helm-pre-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: istio-helm-pre-install
+  namespace: ${releaseNamespace}
+spec:
+  template:
+    metadata:
+      name: istio-helm-pre-install
+    spec:
+      serviceAccountName: istio-helm-pre-install
+      restartPolicy: OnFailure
+      priorityClassName: dkp-critical-priority
+      containers:
+        - name: check-old-istio
+          image: "${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}"
+          command:
+            - bash
+            - -c
+            - |
+              set -o nounset
+              set -o pipefail
+
+              echo() {
+                command echo $(date) "$@"
+              }
+              
+              # Configuration
+              CHECK_INTERVAL=60
+              
+              echo "=========================================="
+              echo "istio-helm Pre-Installation Check"
+              echo "=========================================="
+              echo ""
+              
+              # Loop until condition is met or timeout
+              while true; do
+                
+                echo "Checking pre-install conditions..."
+                
+                # Check if ztunnel (ambient mode) is being enabled
+                echo "Checking if ambient mode (ztunnel) is being enabled..."
+                ZTUNNEL_ENABLED=$(kubectl get configmap istio-helm-config-overrides -n ${releaseNamespace} -o jsonpath='{.data.values\.yaml}' 2>/dev/null | grep -A 1 "^ztunnel:" | grep "enabled:" | awk '{print $2}' || echo "false")
+                
+                echo "ztunnel.enabled = $ZTUNNEL_ENABLED"
+                
+                if [ "$ZTUNNEL_ENABLED" != "true" ]; then
+                  echo ""
+                  echo "Ambient mode is not enabled."
+                  echo "istio-helm can coexist with legacy Istio installation."
+                  echo "Skipping legacy Istio conflict check."
+                  echo "=========================================="
+                  exit 0
+                fi
+                
+                echo ""
+                echo " Ambient mode (ztunnel) is enabled."
+                echo " Checking for conflicting legacy Istio installation..."
+                
+                # Check if istio-system namespace exists
+                if kubectl get namespace istio-system >/dev/null 2>&1; then
+                  echo ""
+                  echo "Legacy Istio (istio-system namespace) is still present!"
+                  echo ""
+                  echo "Ambient mode (ztunnel) cannot coexist with legacy Istio installation due to CNI and network policy conflicts."
+                  echo ""
+                  echo "ACTION REQUIRED:"
+                  echo "----------------"
+                  echo "Option 1: Disable ambient mode in istio-helm configuration, refer UI for disabling steps."
+                  echo ""
+                  echo "Option 2: Migrate from legacy Istio to istio-helm with ambient mode"
+                  echo "  1. Uninstall the old Istio application"
+                  echo "  2. Remove the istio-system namespace"
+                  echo "  3. Ensure all Istio-related resources are cleaned up"
+                  echo "  4. Then this check will automatically succeed"
+                  echo ""
+                  echo "For migration guidance, refer to:"
+                  echo "- NKP 2.17 Release Notes"
+                  echo ""
+                  echo "Waiting $CHECK_INTERVAL seconds before checking again..."
+                  echo "=========================================="
+                  echo ""
+                  
+                  sleep $CHECK_INTERVAL
+                  continue  # Loop back and check again
+                fi
+
+                echo ""
+                echo "No legacy Istio installation found."
+                echo "Cluster is ready for istio-helm with ambient mode."
+                echo "=========================================="
+                exit 0
+              done
