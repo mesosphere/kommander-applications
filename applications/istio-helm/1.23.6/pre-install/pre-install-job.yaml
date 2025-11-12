@@ -73,6 +73,10 @@ spec:
               set -o nounset
               set -o pipefail
 
+              echo() {
+                command echo $(date) "$@"
+              }
+
               CHECK_INTERVAL=60
 
               echo "Istio-Helm Pre-Installation Check"
