@@ -9,7 +9,7 @@
     "fluxcd":          "latest",
     "github-cli":      "latest",
     "gitlint":         "latest",
-    "go":              "1.22",
+    "go":              "1.25",
     "gojq":            "latest",
     "golangci-lint":   "latest",
     "just":            "latest",
