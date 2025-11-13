@@ -20,5 +20,5 @@ spec:
       appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
-      kubetoolsImageRepository: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}
-      kubetoolsImageTag: ${kubetoolsImageTag:=1.33.2}
+      kubetoolsImageRepository: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}
+      kubetoolsImageTag: ${kubetoolsImageTag:=v1.34.1-alpine}

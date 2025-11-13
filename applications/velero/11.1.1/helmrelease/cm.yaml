@@ -7,6 +7,8 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    # This job upgrades the CRDs.
+    upgradeCRDs: false
     resources:
       # these are from the chart defaults
       # except memory limit, which the default 512Mi can be short when it's during a restoration run
@@ -55,7 +57,7 @@ data:
             name: plugins
     kubectl:
       image:
-        repository: bitnamilegacy/kubectl
+        repository: docker.io/mesosphere/kubectl
         # If we don't override the version here, upstream chart will pull an image dynamically based on k8s cluster version.
         # which makes it harder to build airgapped tar bundles. So to make bundle collection predictable, we override the tag here.
-        tag: "${kubetoolsImageTag:=1.33.2}"
+        tag: "${kubetoolsImageTag:=v1.34.1-alpine}"
