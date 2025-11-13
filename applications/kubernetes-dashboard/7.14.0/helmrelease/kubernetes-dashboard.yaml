@@ -86,4 +86,4 @@ data:
   dashboardLink: "/dkp/kubernetes/"
   docsLink: "https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/"
   # Check https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard/ for dashboard-web image version
-  version: 7.14.0
+  version: "1.7.0"
