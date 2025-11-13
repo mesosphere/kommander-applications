@@ -43,7 +43,7 @@ data:
         tag: 6.0.3-full
       resources:
         limits:
-          memory: 800Mi
+          memory: 750Mi
           cpu: 1000m
         requests:
           memory: 100Mi
