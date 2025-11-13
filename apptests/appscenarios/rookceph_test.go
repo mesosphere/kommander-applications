@@ -103,7 +103,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			deploymentList = &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(2))
+			Expect(deploymentList.Items).To(HaveLen(1))
 			Expect(err).To(BeNil())
 
 			for _, deployment := range deploymentList.Items {

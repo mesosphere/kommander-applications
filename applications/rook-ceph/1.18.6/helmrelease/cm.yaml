@@ -35,6 +35,7 @@ data:
       enableRBDSnapshotter: false
       enableCSIEncryption: false
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
+      disableCsiDriver: "false"
 
     monitoring:
       enabled: false
