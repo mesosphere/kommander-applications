@@ -74,7 +74,7 @@ resources:
       - license_path: LICENSE
         ref: api/v${image_tag}
         url: https://github.com/kubernetes/dashboard
-  - container_image: docker.io/kubernetesui/dashboard-auth:1.3.0
+  - container_image: docker.io/kubernetesui/dashboard-auth:1.4.0
     sources:
       - license_path: LICENSE
         ref: auth/v${image_tag}
