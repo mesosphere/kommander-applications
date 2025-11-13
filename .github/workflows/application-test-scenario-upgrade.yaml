@@ -53,6 +53,7 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version-file: 'apptests/go.mod'
+        check-latest: true
 
     - name: Install Ginkgo
       working-directory: apptests/appscenarios
