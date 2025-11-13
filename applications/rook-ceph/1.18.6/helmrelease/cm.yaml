@@ -26,6 +26,8 @@ data:
 
     logLevel: DEBUG
 
+    disableCsiDriver: true
+
     csi:
       enableRbdDriver: false
       enableCephfsDriver: false
@@ -35,7 +37,6 @@ data:
       enableRBDSnapshotter: false
       enableCSIEncryption: false
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
-      disableCsiDriver: true
 
     monitoring:
       enabled: false
