@@ -1,0 +1,136 @@
+name: Update Images CVE
+
+on:
+  schedule:
+    # Run every Monday at 12:00 UTC
+    - cron: '0 12 * * MON'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-images-cve:
+    name: Update Container Images for CVE Fixes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release skopeo jq
+
+      - name: Install Trivy
+        run: |
+          # Install Trivy using the official installation script
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Verify installations
+        run: |
+          echo "Verifying required binaries are installed..."
+          trivy --version
+          skopeo --version
+          jq --version
+          python3 --version
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Run CVE update script
+        id: update
+        run: |
+          python3 hack/update-images-cve.py
+          # Check if licenses.d2iq.yaml was modified
+          if git diff --quiet licenses.d2iq.yaml; then
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+            echo "No changes detected in licenses.d2iq.yaml"
+          else
+            echo "changes=true" >> "$GITHUB_OUTPUT"
+            echo "Changes detected in licenses.d2iq.yaml"
+            git diff licenses.d2iq.yaml
+          fi
+
+      - name: Configure Git
+        if: steps.update.outputs.changes == 'true'
+        run: |
+          git config user.name d2iq-mergebot
+          git config user.email ci-mergebot@d2iq.com
+          git config user.signingKey ${{ secrets.GPG_KEY_ID }}
+
+      - name: Create branch and commit changes
+        if: steps.update.outputs.changes == 'true'
+        id: commit
+        run: |
+          BRANCH_NAME="autobump_cve_$(date +%Y%m%d_%H%M%S)"
+          echo "branch_name=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
+          git checkout -b "$BRANCH_NAME"
+          git add licenses.d2iq.yaml
+          git commit -S -m "Update container images to fix CVEs"
+
+      - name: Push changes
+        if: steps.update.outputs.changes == 'true'
+        run: |
+          git push origin "${{ steps.commit.outputs.branch_name }}"
+
+      - name: Create Pull Request
+        if: steps.update.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME="${{ steps.commit.outputs.branch_name }}"
+          # Check if PR already exists for this branch
+          if gh pr list --head "$BRANCH_NAME" --base main --json number --jq 'length' | grep -q '^[1-9]'; then
+            echo "PR already exists for branch $BRANCH_NAME"
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH_NAME" \
+              --title "chore: update container images to fix CVEs" \
+              --body "## Automated CVE Update
+
+          This PR was automatically created by the weekly CVE update workflow.
+
+          ### What changed?
+          - Updated container image tags in \`licenses.d2iq.yaml\` to newer versions that address CVE vulnerabilities
+          - Only images with improved CVE scores were updated
+
+          ### How it works?
+          The workflow:
+          1. Scans all container images in \`licenses.d2iq.yaml\` for CVEs using Trivy
+          2. Checks for newer versions without CVEs or with lower CVSS scores
+          3. Updates images only when the latest version has a lower highest CVSS score than the current version
+
+          ### Review Notes
+          Please review the changes carefully before merging. The script only updates images when the latest version has a lower CVSS score, but you may want to verify:
+          - Compatibility with your environment
+          - Any breaking changes in the newer versions
+          - Test the updated images in a staging environment
+
+          ---
+          *This PR was created automatically by [update-images-cve workflow](.github/workflows/update-images-cve.yml)*"
+          fi
+
+      - name: Summary
+        if: steps.update.outputs.changes != 'true'
+        run: |
+          echo "No CVE updates needed. All images are up-to-date or no fixes available."
