@@ -29,6 +29,7 @@ data:
     disableCsiDriver: true
 
     csi:
+      rookUseCsiOperator: false
       enableRbdDriver: false
       enableCephfsDriver: false
       enableCSIHostNetwork: false
