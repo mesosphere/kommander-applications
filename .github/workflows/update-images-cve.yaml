@@ -1,9 +1,6 @@
 name: Update Images CVE
 
 on:
-  schedule:
-    # Run every Monday at 12:00 UTC
-    - cron: '0 12 * * MON'
   workflow_dispatch: {}
 
 permissions:
