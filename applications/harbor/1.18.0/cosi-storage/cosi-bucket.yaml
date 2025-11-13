@@ -1,0 +1,43 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: ${releaseName}-${appVersion}-cosi-bucket-kit
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/mesosphere/charts/cosi-bucket-kit"
+  ref:
+    tag: 0.0.8
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor-cosi-storage
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: ${releaseName}-${appVersion}-cosi-bucket-kit
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: harbor-cosi-storage
+  targetNamespace: ncr-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-cosi-config-defaults
+      valuesKey: harbor-cosi-values.yaml
+    - kind: ConfigMap
+      name: harbor-config-overrides
+      optional: true
+    - kind: ConfigMap
+      name: harbor-overrides
+      optional: true

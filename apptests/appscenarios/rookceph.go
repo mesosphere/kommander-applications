@@ -3,6 +3,7 @@ package appscenarios
 import (
 	"context"
 	"fmt"
+	"os"
 	"path/filepath"
 
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
@@ -58,13 +59,16 @@ func (r rookCeph) CreateBucketPreReqsPreviousVersion(ctx context.Context, env *e
 func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env, appPath string, err error) error {
 	// Apply defaults configmaps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err = env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":       "app-version-rook-ceph-cluster",
+			"releaseName":      "rook-ceph-cluster",
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
 	}
-
 	// Apply overrides configmap
 	testDataPath, err := getTestDataDir()
 	if err != nil {
@@ -80,8 +84,9 @@ func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env,
 	// Create the buckets
 	objBucketClaimsPath := filepath.Join(appPath, "/objectbucketclaims")
 	err = env.ApplyKustomizations(ctx, objBucketClaimsPath, map[string]string{
-		"releaseNamespace": kommanderNamespace,
+		"appVersion":       "app-version-rook-ceph-cluster",
 		"releaseName":      "rook-ceph-cluster",
+		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
 		return err
@@ -90,6 +95,8 @@ func (r rookCeph) createBucketPreReqs(ctx context.Context, env *environment.Env,
 	// apply the kustomizations for pre-install
 	preInstallPath := filepath.Join(appPath, "/pre-install")
 	err = env.ApplyYAML(ctx, preInstallPath, map[string]string{
+		"appVersion":       "app-version-rook-ceph-cluster",
+		"releaseName":      "rook-ceph-cluster",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -121,6 +128,8 @@ func (r rookCeph) createBuckets(ctx context.Context, env *environment.Env, appPa
 	releasePath := filepath.Join(appPath, "/helmrelease")
 	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
 		"releaseNamespace": kommanderNamespace,
+		"releaseName":      "app-deployment-name",
+		"appVersion":       "app-version",
 	})
 	if err != nil {
 		return err
@@ -128,6 +137,8 @@ func (r rookCeph) createBuckets(ctx context.Context, env *environment.Env, appPa
 
 	dashboardsPath := filepath.Join(appPath, "/grafana-dashboards")
 	err = env.ApplyKustomizations(ctx, dashboardsPath, map[string]string{
+		"appVersion":       "app-version-rook-ceph-cluster",
+		"releaseName":      "rook-ceph-cluster",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
@@ -174,15 +185,20 @@ func (r rookCeph) Upgrade(ctx context.Context, env *environment.Env) error {
 func (r rookCeph) install(ctx context.Context, env *environment.Env, appPath string) error {
 	// apply defaults configmaps first
 	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":       "app-version-rook-ceph-cluster",
+			"releaseName":      "rook-ceph-cluster",
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
 	}
-
 	releasePath := filepath.Join(appPath, "/helmrelease")
-	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"appVersion":       "app-version",
+		"releaseName":      "app-deployment-name",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {

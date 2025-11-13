@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: chartmuseum
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: chartmuseum
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -33,7 +33,7 @@ spec:
   targetNamespace: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
-      name: chartmuseum-3.10.4-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

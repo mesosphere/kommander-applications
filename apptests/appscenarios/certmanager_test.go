@@ -478,7 +478,7 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should should upgrade the Root CA successfully", func() {
+		It("should upgrade the Root CA successfully", func() {
 			err := cm.UpgradeRootCA(ctx, env)
 			Expect(err).To(BeNil())
 

@@ -13,9 +13,9 @@ import (
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 var (
-	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/kommander.yaml")
-	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/kommander-appmanagement.yaml")
-	kommanderOperatorDefaultsCMPath        = "./common/kommander-operator/defaults/cm.yaml"
+	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
+	kommanderOperatorDefaultsCMPath        = "./common/kommander-operator/cm.yaml"
 	filesContainingKommanderVersion        = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
@@ -48,6 +48,8 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		subVars := map[string]string{
 			"kommanderChartVersion": chartVersion,
 			"releaseNamespace":      "${releaseNamespace}",
+			"releaseName":           "${releaseName}",
+			"appVersion":            "${appVersion}",
 		}
 		updatedFile, err := parsedFile.Execute(func(s string) string {
 			return subVars[s]

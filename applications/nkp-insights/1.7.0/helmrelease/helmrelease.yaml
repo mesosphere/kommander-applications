@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nkp-insights
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: ${releaseName}-${appVersion}-chart
+    namespace: ${releaseNamespace}
+  install:
+    remediation:
+      retries: 30
+  interval: 15s
+  releaseName: nkp-insights
+  targetNamespace: ${releaseNamespace}
+  upgrade:
+    remediation:
+      retries: 30
+      strategy: uninstall
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-${appVersion}-config-defaults

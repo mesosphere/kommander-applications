@@ -29,9 +29,11 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
+          enable-cache: 'false'
+          refresh-cli: 'true'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/kommander-applications
           aws-region: us-west-2
@@ -65,8 +67,16 @@ jobs:
           GIT_TAG: ${{ env.GIT_TAG }}
         run: |
           git config --global user.name "${GITHUB_ACTOR}"
-          git config --global  user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           devbox run -- just release-server
+
+      - name: Release kommander applications collection artifact
+        env:
+          GIT_TAG: ${{ env.GIT_TAG }}
+        run: |
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          devbox run -- just release-platform-collection-artifact
 
   send_message:
     runs-on: ubuntu-latest

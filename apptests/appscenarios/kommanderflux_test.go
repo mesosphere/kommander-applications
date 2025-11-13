@@ -50,7 +50,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 					return err
 				}
 
-				Expect(deploymentList.Items).To(HaveLen(4))
+				Expect(deploymentList.Items).To(HaveLen(6))
 				Expect(err).To(BeNil())
 
 				for _, deployment := range deploymentList.Items {
@@ -67,7 +67,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			Expect(err).To(BeNil())
 		})
 
-		It("should have a PriorityClass configured on all 4 deployments", func() {
+		It("should have a PriorityClass configured on all 6 deployments", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app.kubernetes.io/instance": kf.Name(),
@@ -80,7 +80,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			deploymentList = &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(4))
+			Expect(deploymentList.Items).To(HaveLen(6))
 
 			for _, deployment := range deploymentList.Items {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).ToNot(BeNil())

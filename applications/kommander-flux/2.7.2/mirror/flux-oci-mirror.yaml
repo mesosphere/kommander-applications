@@ -1,0 +1,107 @@
+apiVersion: v1
+data:
+  ca.crt: ""
+kind: Secret
+metadata:
+  name: flux-oci-mirror-config
+stringData:
+  config.yaml: |
+    listen_addr: ":8443"
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flux-oci-mirror
+spec:
+  ports:
+    - name: proxy
+      port: 8443
+      protocol: TCP
+      targetPort: proxy
+  selector:
+    app: flux-oci-mirror
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flux-oci-mirror
+  name: flux-oci-mirror
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flux-oci-mirror
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: flux-oci-mirror
+    spec:
+      containers:
+        - args:
+            - -config-dir
+            - /config
+          image: mesosphere/flux-oci-mirror:v0.3.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            tcpSocket:
+              port: 8443
+          name: flux-oci-mirror
+          ports:
+            - containerPort: 8443
+              name: proxy
+          readinessProbe:
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            tcpSocket:
+              port: 8443
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /config
+              name: flux-oci-mirror-config
+            - mountPath: /config/proxy-ca
+              name: proxy-ca
+      restartPolicy: Always
+      volumes:
+        - name: flux-oci-mirror-config
+          secret:
+            secretName: flux-oci-mirror-config
+        - name: proxy-ca
+          secret:
+            secretName: flux-oci-mirror-ca-secret
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: flux-oci-mirror-ca
+spec:
+  commonName: flux-oci-mirror
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: flux-oci-mirror-self-signed
+  secretName: flux-oci-mirror-ca-secret
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: flux-oci-mirror-self-signed
+spec:
+  selfSigned: {}
+
+---

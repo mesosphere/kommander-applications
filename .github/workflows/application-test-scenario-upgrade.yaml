@@ -50,7 +50,7 @@ jobs:
         ref: ${{ inputs.from_version_ref }}
 
     - name: Set up Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version-file: 'apptests/go.mod'
 
@@ -77,4 +77,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: support-bundle-${{ inputs.apps }}-upgrade-${{ inputs.from_version_ref }}
-        path: apptests/support-bundle.tar.gz
+        path: apptests/appscenarios/support-bundle.tar.gz

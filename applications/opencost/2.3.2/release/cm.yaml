@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    priorityClassName: dkp-high-priority
+    service:
+      enabled: true
+      labels:
+        prometheus.kommander.d2iq.io/select: "true"
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http"
+    opencost:
+      selectorLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+      prometheus:
+        internal:
+          enabled: true
+          namespaceName: ${releaseNamespace}
+          serviceName: kube-prometheus-stack-prometheus
+          port: 9090
+
+      dataRetention:
+        dailyResolutionDays: 14
+
+      # frontend
+      ui:
+        image:
+          registry: ghcr.io
+          repository: mesosphere/dkp-container-images/opencost/opencost-ui
+          tag: "1.117.6"
+        uiPath: /dkp/opencost/frontend
+        enabled: true
+        ingress:
+          enabled: true
+          ingressClassName: "kommander-traefik"
+          annotations:
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-forwardauth@kubernetescrd"
+          hosts:
+            - host: ""
+              paths:
+                - /dkp/opencost/frontend
+
+      # backend
+      exporter:
+        image:
+          registry: ghcr.io
+          repository: opencost/opencost
+          tag: "1.117.6"
+        clusterIdConfigmap: opencost-cluster-info-configmap
+        extraEnv:
+          PROM_CLUSTER_ID_LABEL: "cluster"
+        apiIngress:
+          enabled: false
+        replicas: 1
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "55Mi"
+          limits:
+            memory: "1Gi"
+        persistence:
+          enabled: true
+          accessMode: ReadWriteOnce
+          size: 10Gi
+
+      metrics:
+        kubeStateMetrics:
+          emitKsmV1Metrics: false
+          emitKsmV1MetricsOnly: false
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus.kommander.d2iq.io/select: "true"

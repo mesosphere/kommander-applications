@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    priorityClassName: dkp-high-priority
+    # Allow to use official external DNS image
+    global:
+      security:
+        allowInsecureImages: true
+    image:
+      registry: registry.k8s.io
+      repository: external-dns/external-dns
+      tag: v0.19.0
+      pullPolicy: IfNotPresent
+    service:
+      labels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+    metrics:
+      enabled: true

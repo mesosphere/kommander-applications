@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-flux-2.7.2-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ---
+    installCRDs: true
+    crds:
+      annotations:
+        "helm.sh/resource-policy": keep
+    policies:
+      create: true
+    helmController:
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 250Mi
+      container:
+        additionalArgs:
+        - --feature-gates=OOMWatch=true
+        - --feature-gates=AdditiveCELDependencyCheck=true
+        - --feature-gates=DisableChartDigestTracking=true
+        # - --feature-gates=AdoptLegacyReleases=true # TODO(takirala): Do we have a use case for this?
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    kustomizeController:
+      resources:
+        limits:
+          cpu: 2500m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 150Mi
+      container:
+        additionalArgs:
+        - --no-remote-bases=true
+        - --concurrent=15
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    notificationController:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    sourceController:
+      resources:
+        limits:
+          cpu: 2000m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 100Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+      extraEnv:
+      - name: TUF_ROOT
+        value: /tmp/.sigstore

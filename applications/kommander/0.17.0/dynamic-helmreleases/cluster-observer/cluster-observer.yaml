@@ -11,7 +11,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/cluster-observer/cluster-observer-1.4.1.tgz
+      chart: ./applications/kommander/charts/cluster-observer/cluster-observer-1.5.1.tgz
       sourceRef:
         kind: GitRepository
         name: management

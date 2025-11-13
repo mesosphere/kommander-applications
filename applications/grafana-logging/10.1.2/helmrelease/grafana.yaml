@@ -1,0 +1,98 @@
+# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Fgrafana
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: ${releaseName}-${appVersion}-chart
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/grafana/helm-charts/grafana"
+  ref:
+    tag: 10.1.2
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana-logging
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: ${releaseName}-${appVersion}-chart
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  releaseName: grafana-logging
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-${appVersion}-config-defaults
+  targetNamespace: ${releaseNamespace}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-logging-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "grafana-logging"
+data:
+  name: "Grafana Logging"
+  dashboardLink: "/dkp/logging/grafana"
+  docsLink: "https://grafana.com/docs/"
+  # Check https://artifacthub.io/packages/helm/grafana/grafana/8.15.0 for app version
+  version: "11.6.1"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-grafana-logging-edit
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+  - nonResourceURLs:
+      - /dkp/logging/grafana
+      - /dkp/logging/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-grafana-logging-admin
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+rules:
+  - nonResourceURLs:
+      - /dkp/logging/grafana
+      - /dkp/logging/grafana/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-grafana-logging-view
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+  - nonResourceURLs:
+      - /dkp/logging/grafana
+      - /dkp/logging/grafana/*
+    verbs:
+      - get
+      - head

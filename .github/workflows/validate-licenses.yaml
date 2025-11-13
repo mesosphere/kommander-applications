@@ -14,7 +14,7 @@ on:
       - main
 jobs:
   check-license-yaml:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-large
     name: Check licenses.d2iq.yaml
     steps:
       - name: Checkout code
@@ -31,16 +31,17 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
+          enable-cache: 'false'
+          refresh-cli: 'true'
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image list
-        run: |
-          export PATH=${PWD}/.local/bin:$PATH
-          devbox run -- make list-images
-          echo "printing contents of images.yaml"
-          cat images.yaml
-          yq '.applications[].images[]' images.yaml | sort | uniq | grep -v "oci://" > images.txt
-          echo "printing contents of images.txt"
-          cat images.txt
+        run: devbox run make list-images && cat images.txt
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
@@ -74,14 +75,21 @@ jobs:
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"
             git push --force-with-lease
+            gh pr close "$PR_URL"
+            gh pr reopen "$PR_URL"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
-        with:
-          args: >-
-            validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml
-            --check-sources --check-sources-skip-gh-org mesosphere --output-format=github
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          docker run --rm \
+            -e GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
+            -v "$PWD:/workspace" -w /workspace \
+            mesosphere/dkp-licenses-cli:licenses-v0.0.13 \
+            validate container-images-mapping \
+              --input=images.txt \
+              --mapping-file=licenses.d2iq.yaml \
+              --check-sources \
+              --check-sources-skip-gh-org mesosphere \
+              --output-format=github

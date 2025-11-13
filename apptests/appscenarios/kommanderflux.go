@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+	"fmt"
 	"path/filepath"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -23,7 +24,8 @@ func (r kommanderFlux) Install(ctx context.Context, env *environment.Env) error 
 		return err
 	}
 
-	err = r.install(ctx, env, appPath)
+	// Bootstrap flux from applications/kommander-flux dir
+	err = r.install(ctx, env, filepath.Join(appPath, ".."))
 	if err != nil {
 		return err
 	}
@@ -60,18 +62,12 @@ func (r kommanderFlux) Upgrade(ctx context.Context, env *environment.Env) error 
 }
 
 func (r kommanderFlux) install(ctx context.Context, env *environment.Env, appPath string) error {
-	// apply defaults configmaps first
-	defaultKustomization := filepath.Join(appPath, "/defaults")
-	err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
-		"releaseNamespace": kommanderNamespace,
-	})
-	if err != nil {
-		return err
-	}
-
+	fmt.Println("Installing application from path", appPath)
 	// apply the kustomization for the helmrelease
 	releasePath := filepath.Join(appPath, "/")
-	err = env.ApplyKustomizations(ctx, releasePath, map[string]string{
+	err := env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"releaseName":      "app-deployment-name",
+		"appVersion":       "app-version",
 		"releaseNamespace": kommanderNamespace,
 	})
 	if err != nil {
