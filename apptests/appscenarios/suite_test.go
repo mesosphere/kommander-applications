@@ -20,11 +20,11 @@ import (
 )
 
 var (
-	env                  *environment.Env
-	ctx                  context.Context
-	network              *docker.NetworkResource
-	k8sClient            genericClient.Client
-	restClientV1Pods     rest.Interface
+	env              *environment.Env
+	ctx              context.Context
+	network          *docker.NetworkResource
+	k8sClient        genericClient.Client
+	restClientV1Pods rest.Interface
 )
 
 var _ = BeforeSuite(func() {
@@ -79,7 +79,14 @@ func SetupKindCluster() error {
 		return err
 	}
 
-	restClientV1Pods, err = apiutil.RESTClientForGVK(gvk, false, env.K8sClient.Config(), serializer.NewCodecFactory(flux.NewScheme()), httpClient)
+	restClientV1Pods, err = apiutil.RESTClientForGVK(
+		gvk,
+		false,
+		false,
+		env.K8sClient.Config(),
+		serializer.NewCodecFactory(flux.NewScheme()),
+		httpClient,
+	)
 	if err != nil {
 		return err
 	}
