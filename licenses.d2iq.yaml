@@ -250,11 +250,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/rook/rook
-  - container_image: quay.io/cephcsi/ceph-csi-operator:v0.4.1
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/ceph/ceph-csi-operator
   - container_image: docker.io/velero/velero-plugin-for-aws:v1.13.1
     sources:
       - license_path: LICENSE
