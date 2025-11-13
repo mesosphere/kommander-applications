@@ -44,19 +44,15 @@ overview: |-
 
   ### Enabling Ambient Mode
 
-  To enable ambient mode, you need to configure three components via ConfigMap overrides in `cm.yaml`:
+  To enable ambient mode, you need to configure three components via ConfigMap overrides:
 
-  1. **Enable CNI Ambient Mode**:
   ```yaml
   cni:
     profile: ambient
     cni:
       ambient:
         enabled: true
-  ```
 
-  2. **Enable Istiod Ambient Mode**:
-  ```yaml
   istiod:
     profile: ambient
     pilot:
@@ -65,10 +61,7 @@ overview: |-
         PILOT_ENABLE_AMBIENT_CONTROLLERS: true
         PILOT_ENABLE_HBONE: true
         CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,kube-system/ztunnel"
-  ```
 
-  3. **Enable Ztunnel**:
-  ```yaml
   ztunnel:
     enabled: true
     env:
@@ -84,6 +77,20 @@ overview: |-
   ```
 
   **Note**: Until ztunnel is enabled, ambient mode will not be active. All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+
+  ### Disabling Ambient Mode
+
+  To disable ambient mode, you need to revert back the ConfigMap overrides:
+
+  ```yaml
+  cni:
+    cni:
+      ambient:
+        enabled: false
+
+  ztunnel:
+    enabled: false
+  ```
 
   ## More Information
   - [istio.io](https://istio.io/)
