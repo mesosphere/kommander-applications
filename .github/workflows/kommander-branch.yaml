@@ -90,41 +90,13 @@ jobs:
 
       - name: Create Pull Request
         if: steps.update.outputs.changes == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          BRANCH_NAME="${{ steps.commit.outputs.branch_name }}"
-          # Check if PR already exists for this branch
-          if gh pr list --head "$BRANCH_NAME" --base main --json number --jq 'length' | grep -q '^[1-9]'; then
-            echo "PR already exists for branch $BRANCH_NAME"
-          else
-            gh pr create \
-              --base main \
-              --head "$BRANCH_NAME" \
-              --title "chore: update container images to fix CVEs" \
-              --body "## Automated CVE Update
-
-          This PR was automatically created by the weekly CVE update workflow.
-
-          ### What changed?
-          - Updated container image tags in \`licenses.d2iq.yaml\` to newer versions that address CVE vulnerabilities
-          - Only images with improved CVE scores were updated
-
-          ### How it works?
-          The workflow:
-          1. Scans all container images in \`licenses.d2iq.yaml\` for CVEs using Trivy
-          2. Checks for newer versions without CVEs or with lower CVSS scores
-          3. Updates images only when the latest version has a lower highest CVSS score than the current version
-
-          ### Review Notes
-          Please review the changes carefully before merging. The script only updates images when the latest version has a lower CVSS score, but you may want to verify:
-          - Compatibility with your environment
-          - Any breaking changes in the newer versions
-          - Test the updated images in a staging environment
-
-          ---
-          *This PR was created automatically by [update-images-cve workflow](.github/workflows/update-images-cve.yml)*"
-          fi
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.commit.outputs.branch_name }}
+          title: "Auto Update Container Images to fix CVEs"
+          body: "Automated weekly CVE update"
+          labels: "automation,security"
 
       - name: Summary
         if: steps.update.outputs.changes != 'true'

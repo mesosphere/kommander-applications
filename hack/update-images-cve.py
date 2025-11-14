@@ -44,7 +44,7 @@ def parse_image_reference(image_ref: str) -> Tuple[str, str, Optional[str]]:
 
     # Determine registry and repository
     parts = image_part.split('/', 1)
-    if '.' in parts[0] or ':' in parts[0]:
+    if '.' in parts[0] or ':' in parts[0]: # . for domain, : for port
         registry = parts[0]
         repository = parts[1]
     else:
@@ -103,7 +103,6 @@ def get_cvss_score(vulnerability: Dict) -> float:
     # Try CVSS v3 first (most common)
     cvss = vulnerability.get('CVSS', {})
     if isinstance(cvss, dict):
-        # Try different CVSS sources (nvd, redhat, etc.)
         for source in ['nvd', 'redhat', 'ghsa', 'bitnami']:
             if source in cvss:
                 v3_score = cvss[source].get('V3Score')
