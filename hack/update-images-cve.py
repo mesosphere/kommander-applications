@@ -6,7 +6,7 @@ This script:
 1. Extracts all container_image entries from licenses.d2iq.yaml
 2. Excludes images with dynamic tags (containing ${...})
 3. Scans each image for CVEs using Trivy
-4. Checks for newer versions without CVEs
+4. Checks for newer versions and if having better CVSS score, proceed to update the image tag
 5. Updates the YAML file with fixed versions
 
 Prerequisites:
@@ -14,8 +14,6 @@ Prerequisites:
       Install from: https://aquasecurity.github.io/trivy/latest/getting-started/installation/
     - skopeo must be installed and available in PATH
       Install from: https://github.com/containers/skopeo
-    - jq must be installed and available in PATH (optional, for JSON parsing fallback)
-      Install from: https://stedolan.github.io/jq/
     - Docker registry access (for checking available tags)
 
 Usage:
@@ -31,7 +29,6 @@ from typing import Dict, List, Optional, Tuple
 
 
 def is_dynamic_tag(tag: str) -> bool:
-    """Check if a tag contains dynamic variables."""
     return bool(re.search(r'\$\{[^}]+\}', tag))
 
 
@@ -195,7 +192,9 @@ def is_valid_tag(tag: str) -> bool:
       tag.startswith('x86_64') or
       tag.startswith('windows') or
       tag.startswith('arm') or
-      tag.startswith('aarch64')
+      tag.startswith('aarch64') or
+      tag.find('-beta') != -1 or
+      tag.find('-debug') != -1
     )
 
 
@@ -311,7 +310,6 @@ def get_latest_tag(registry: str, repository: str, current_tag: Optional[str] = 
 
     Prerequisites:
         - skopeo binary must be installed and available in PATH
-        - jq binary is optional (used as fallback for JSON parsing)
 
     Returns the first tag that matches the 'latest' tag digest, or the highest version tag if latest not found.
     """
@@ -364,20 +362,8 @@ def get_latest_tag(registry: str, repository: str, current_tag: Optional[str] = 
                 all_tags = data.get('Tags', [])
                 print(f" Received {len(all_tags)} tags")
             except json.JSONDecodeError:
-                # Try using jq as fallback
-                try:
-                    jq_result = subprocess.run(
-                        ['jq', '-r', '.Tags[]'],
-                        input=result.stdout,
-                        capture_output=True,
-                        text=True,
-                        timeout=10
-                    )
-                    if jq_result.returncode == 0:
-                        all_tags = [tag.strip() for tag in jq_result.stdout.strip().split('\n') if tag.strip()]
-                except (FileNotFoundError, subprocess.TimeoutExpired):
-                    print(f"    Warning: Failed to parse tags output and jq not available")
-                    return None
+                print(f"    Warning: Failed to parse tags output as JSON: {result.stderr}")
+                return None
         except subprocess.TimeoutExpired:
             print(f"    Warning: Timeout while listing tags")
             return None
@@ -459,71 +445,51 @@ def get_latest_tag(registry: str, repository: str, current_tag: Optional[str] = 
 
 
 def extract_images_from_yaml(yaml_content: str) -> List[Dict]:
-    """Extract container_image entries from YAML content."""
+    """Extract container_image entries from YAML content using simple line-by-line parsing."""
     images = []
+    lines = yaml_content.split('\n')
 
-    # Match container_image entries with flexible indentation
-    # Pattern matches:
-    # - Optional leading whitespace
-    # - Optional dash(es) with optional spaces (handles "-", "-  -", etc.)
-    # - "container_image:" followed by image reference
-    # - Optional sources block (lines with indentation, stopping at next list item)
-    # The pattern stops when it encounters a line with same indentation followed by "-"
-    pattern = r'^(\s*)(-+\s*)?container_image: ([^\n]+)\n((?:(?!^\1-)[^\n]*\n)*)'
+    for i, line in enumerate(lines):
+        # Look for container_image line
+        match = re.match(r'^(\s*)(-+\s*)container_image:\s+(.+)$', line)
+        if match:
+            indent = match.group(1)
+            dash_part = match.group(2) or ''
+            image_ref = match.group(3).strip()
 
-    for match in re.finditer(pattern, yaml_content, re.MULTILINE):
-        indent = match.group(1)  # Original indentation
-        dash_part = match.group(2) or ''  # Optional dash part (may be "-  -" or "-")
-        image_ref = match.group(3).strip()
-        sources_block = match.group(4)
+            # Skip dynamic tags
+            if is_dynamic_tag(image_ref):
+                continue
 
-        if is_dynamic_tag(image_ref):
-            continue
-
-        full_match = match.group(0)
-
-        images.append({
-            'image_ref': image_ref,
-            'full_match': full_match,
-            'original_indent': indent,
-            'start': match.start(),
-            'end': match.end(),
-            'sources_block': sources_block
-        })
+            images.append({
+                'image_ref': image_ref,
+                'original_indent': indent,
+                'dash_format': dash_part,
+                'line_number': i + 1,
+                'original_line': line
+            })
 
     return images
 
 
-def update_image_tag_in_content(content: str, old_image_ref: str, new_image_ref: str, match_info: Dict) -> str:
-    """Update an image reference in the YAML content, preserving original indentation."""
-    # Extract the original block
-    old_block = match_info['full_match']
-    original_indent = match_info.get('original_indent', '  ')  # Default to 2 spaces
+def update_image_tag_in_content(content: str, old_image_ref: str, new_image_ref: str) -> str:
+    """Update an image reference in the YAML content using simple regex replace.
 
-    # Preserve original indentation and ensure single dash
-    # Replace the image reference while maintaining the original indentation
-    lines = old_block.split('\n')
-    if lines:
-        # Update the first line (container_image line)
-        first_line = lines[0]
-        # Extract just the image reference part
-        if 'container_image:' in first_line:
-            # Replace the image reference while preserving original indentation
-            normalized_first_line = f"{original_indent}- container_image: {new_image_ref}"
-            lines[0] = normalized_first_line
-        # Join lines back together - this preserves trailing newline if last element is empty
-        new_block = '\n'.join(lines)
-        # If original block ended with newline and join didn't preserve it (last line not empty),
-        # add it back. Otherwise, join() already preserved it when last element is empty string.
-        if old_block.endswith('\n') and not new_block.endswith('\n'):
-            new_block += '\n'
-    else:
-        new_block = old_block.replace(old_image_ref, new_image_ref)
+    This preserves all formatting (indentation, dash format, trailing whitespace)
+    and only replaces exact matches of the old_image_ref.
+    """
+    # Pattern captures:
+    # \1 = leading whitespace (indentation)
+    # \2 = dash format (-, - , -  -, etc.)
+    # \3 = trailing whitespace (if any)
+    # Only matches exact old_image_ref
+    pattern = rf'^(\s*)(-+\s*)container_image:\s+{re.escape(old_image_ref)}(\s*)$'
+    replacement = rf'\1\2container_image: {new_image_ref}\3'
 
-    # Replace in content
-    content = content[:match_info['start']] + new_block + content[match_info['end']:]
+    # Replace all occurrences (though each image:tag should be unique)
+    updated_content = re.sub(pattern, replacement, content, flags=re.MULTILINE)
 
-    return content
+    return updated_content
 
 
 def main():
@@ -573,7 +539,6 @@ def main():
             updates.append({
                 'image_ref': image_ref,
                 'vulnerabilities': vulnerabilities,
-                'match_info': img_info,
                 'registry': registry,
                 'repository': repository,
                 'current_tag': tag,
@@ -622,7 +587,6 @@ def main():
                 'image_ref': image_ref,
                 'new_image_ref': new_image_ref,
                 'vulnerabilities': vulnerabilities,
-                'match_info': img_info,
                 'registry': registry,
                 'repository': repository,
                 'current_tag': tag,
@@ -633,7 +597,6 @@ def main():
             updates.append({
                 'image_ref': image_ref,
                 'vulnerabilities': vulnerabilities,
-                'match_info': img_info,
                 'registry': registry,
                 'repository': repository,
                 'current_tag': tag,
@@ -682,13 +645,11 @@ def main():
         for update in updates_to_apply:
             old_image_ref = update['image_ref']
             new_image_ref = update['new_image_ref']
-            match_info = update['match_info']
 
             updated_content = update_image_tag_in_content(
                 updated_content,
                 old_image_ref,
-                new_image_ref,
-                match_info
+                new_image_ref
             )
             print(f"  Updated: {old_image_ref} → {new_image_ref}")
 

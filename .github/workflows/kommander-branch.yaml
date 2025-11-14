@@ -27,7 +27,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget apt-transport-https gnupg lsb-release skopeo jq
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release skopeo
 
       - name: Install Trivy
         run: |
@@ -42,7 +42,6 @@ jobs:
           echo "Verifying required binaries are installed..."
           trivy --version
           skopeo --version
-          jq --version
           python3 --version
 
       - name: Import GPG key
