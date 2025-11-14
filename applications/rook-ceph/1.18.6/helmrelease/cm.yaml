@@ -27,6 +27,7 @@ data:
     logLevel: DEBUG
 
     csi:
+      rookUseCsiOperator: false
       enableRbdDriver: false
       enableCephfsDriver: false
       enableCSIHostNetwork: false
@@ -34,6 +35,7 @@ data:
       enableNFSSnapshotter: false
       enableRBDSnapshotter: false
       enableCSIEncryption: false
+      disableCsiDriver: true
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
 
     monitoring:
