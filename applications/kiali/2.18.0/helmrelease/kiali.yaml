@@ -29,7 +29,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-    createNamespace: true
   releaseName: kiali
   valuesFrom:
     - kind: ConfigMap

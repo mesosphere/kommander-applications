@@ -32,7 +32,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-    createNamespace: true
   releaseName: jaeger
   targetNamespace: istio-system
   valuesFrom:
