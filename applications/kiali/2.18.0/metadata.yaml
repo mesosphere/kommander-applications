@@ -3,7 +3,7 @@ displayName: Kiali
 description: Management console for an Istio-based service mesh. Requires Prometheus, Istio, and Jaeger.
 category:
   - service-mesh
-requiredDependencies:
+dependencies:
   - istio
 type: nkp-core-platform
 scope:
@@ -32,6 +32,30 @@ overview: |-
 
   ### Integration for Distributed Tracing with Jaeger
   Follow requests with Jaeger distributed tracing to monitor and troubleshoot complex microservices environments.
+
+  ## Configuration for istio-helm
+
+  By default, Kiali is configured to work with Istio Operator installation (istio-system namespace). If you're using istio-helm instead, you need to create a ConfigMap override to point Kiali to the correct Istio namespace and components.
+
+  ### Configuring Kiali for istio-helm-system
+
+  ```yaml
+  cr:
+    spec:
+      istio_namespace: istio-helm-system
+      external_services:
+        istio:
+          component_status:
+            components:
+            - app_label: "istiod"
+              is_core: true
+              is_proxy: false
+              namespace: istio-helm-system
+            - app_label: "istio-helm-ingressgateway"
+              is_core: true
+              is_proxy: true
+              namespace: istio-helm-gateway-ns
+  ```
 
   ## More Information
   - [kiali.io](https://kiali.io/)

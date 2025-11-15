@@ -199,11 +199,11 @@ spec:
   install:
     remediation:
       retries: 30
-      disableSchemaValidation: true
+    disableSchemaValidation: true
   upgrade:
     remediation:
       retries: 30
-      disableSchemaValidation: true
+    disableSchemaValidation: true
   releaseName: ${releaseName}-gateway
   targetNamespace: istio-helm-gateway-ns
   valuesFrom:

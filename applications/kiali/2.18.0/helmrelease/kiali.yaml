@@ -15,11 +15,6 @@ metadata:
   name: kiali
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    # Istio is a hard dependency for Kiali
-    # https://kiali.io/documentation/latest/architecture/
-    - name: istio
-      namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-chart
@@ -29,6 +24,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
+    createNamespace: true
   upgrade:
     crds: CreateReplace
     remediation:
