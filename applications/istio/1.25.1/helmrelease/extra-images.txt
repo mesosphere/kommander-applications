@@ -1,0 +1,4 @@
+istio/install-cni:{{ .Values.istioOperator.tag }}
+istio/operator:{{ .Values.istioOperator.tag }}
+istio/pilot:{{ .Values.istioOperator.tag }}
+istio/proxyv2:{{ .Values.istioOperator.tag }}
