@@ -72,7 +72,7 @@ jobs:
         run: |
           git config user.name d2iq-mergebot
           git config user.email ci-mergebot@d2iq.com
-          git config user.signingKey ${{ secrets.GPG_KEY_ID }}
+          git config user.signingKey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
           git config commit.gpgsign true
           git config gpg.format ssh
           BRANCH="autobump_cve_$(date +%Y%m%d_%H%M%S)"
