@@ -63,6 +63,8 @@ _cleanup:
 
 _prepare-files-for-a-bundle output_dir:
     rsync --quiet --archive --recursive --files-from={{ include_file }} --exclude-from={{ exclude_file }} {{ justfile_directory() }} {{ output_dir }}
+    # Remove ai-navigator app references from kommander config for airgapped bundles
+    find {{ output_dir }}/applications/kommander -name "cm.yaml" -exec sed -i '/- "ai-navigator[^"]*"/d' {} \;
 
 _prepare-files-for-full-bundle full_output_dir:
 	rsync --quiet --archive --recursive --files-from={{ include_file }} {{ justfile_directory() }}/ {{ full_output_dir }}/
