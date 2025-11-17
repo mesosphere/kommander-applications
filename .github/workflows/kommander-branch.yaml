@@ -98,6 +98,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          author: "d2iq-mergebot <ci-mergebot@d2iq.com>"
+          committer: "d2iq-mergebot <ci-mergebot@d2iq.com>"
           base: main
           branch: ${{ steps.genbranch.outputs.branch_name }}
           add-paths: licenses.d2iq.yaml
