@@ -30,7 +30,8 @@ data:
         image:
           registry: ghcr.io
           repository: mesosphere/dkp-container-images/opencost/opencost-ui
-          tag: "1.117.6"
+          # to avoid upstream default tag that comes with a SHA
+          tag: "1.118.0"
         uiPath: /dkp/opencost/frontend
         enabled: true
         ingress:
@@ -49,7 +50,8 @@ data:
         image:
           registry: ghcr.io
           repository: opencost/opencost
-          tag: "1.117.6"
+          # to avoid upstream default tag that comes with a SHA
+          tag: "1.118.0"
         clusterIdConfigmap: opencost-cluster-info-configmap
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"

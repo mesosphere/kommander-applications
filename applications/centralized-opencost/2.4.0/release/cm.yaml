@@ -32,7 +32,8 @@ data:
         image:
           registry: ghcr.io
           repository: opencost/opencost
-          tag: "1.117.6"
+          # to avoid upstream default tag that comes with a SHA
+          tag: "1.118.0"
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
