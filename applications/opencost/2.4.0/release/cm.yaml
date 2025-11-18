@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: centralized-opencost-config-defaults
+  name: ${releaseName}-${appVersion}-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |-
@@ -19,23 +19,42 @@ data:
         internal:
           enabled: true
           namespaceName: ${releaseNamespace}
-          serviceName: thanos-query
-          port: 10902
+          serviceName: kube-prometheus-stack-prometheus
+          port: 9090
+
       dataRetention:
         dailyResolutionDays: 14
 
+      # frontend
       ui:
-        enabled: false
+        image:
+          registry: ghcr.io
+          repository: mesosphere/dkp-container-images/opencost/opencost-ui
+          # to avoid upstream default tag that comes with a SHA
+          tag: "1.118.0"
+        uiPath: /dkp/opencost/frontend
+        enabled: true
+        ingress:
+          enabled: true
+          ingressClassName: "kommander-traefik"
+          annotations:
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-forwardauth@kubernetescrd"
+          hosts:
+            - host: ""
+              paths:
+                - /dkp/opencost/frontend
 
       # backend
       exporter:
         image:
           registry: ghcr.io
           repository: opencost/opencost
-          tag: "1.117.6"
+          # to avoid upstream default tag that comes with a SHA
+          tag: "1.118.0"
+        clusterIdConfigmap: opencost-cluster-info-configmap
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
-          CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
         apiIngress:
           enabled: false
         replicas: 1

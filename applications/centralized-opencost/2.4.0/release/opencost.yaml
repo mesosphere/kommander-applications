@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/opencost/charts/opencost"
   ref:
-    tag: 2.3.2
+    tag: 2.4.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
