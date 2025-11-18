@@ -162,7 +162,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.7.0
+      tag: 1.7.1
     initdb:
       resources:
         limits:
@@ -298,6 +298,8 @@ data:
               cpu: 100m
               memory: 64Mi
       enabled: true
+      failedJobsHistoryLimit: 1
+      jobBackoffLimit: 2
       launcher:
         baseEvaluationTimeout: 1m
         daemonSetRemovalDelay: 0s
@@ -315,11 +317,13 @@ data:
     nova:
       baseEvaluationTimeout: 1m
       enabled: true
+      failedJobsHistoryLimit: 1
       helmRepositoryURLs: []
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/nova
         tag: v3.11
+      jobBackoffLimit: 2
       resources:
         limits:
           cpu: 100m
@@ -350,10 +354,12 @@ data:
     pluto:
       baseEvaluationTimeout: 1m
       enabled: true
+      failedJobsHistoryLimit: 1
       image:
         pullPolicy: IfNotPresent
         repository: us-docker.pkg.dev/fairwinds-ops/oss/pluto
         tag: v5.21.9
+      jobBackoffLimit: 2
       resources:
         limits:
           cpu: 100m
@@ -405,10 +411,12 @@ data:
           tagNotSpecified: danger
           tlsSettingsMissing: warning
       enabled: true
+      failedJobsHistoryLimit: 1
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/polaris
         tag: 9.4.1
+      jobBackoffLimit: 2
       resources:
         limits:
           cpu: 100m
@@ -485,9 +493,11 @@ data:
       envSecret:
         enabled: false
         name: nkp-insights-trivy-env
+      failedJobsHistoryLimit: 1
       image:
         imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20250707T225137Z
         pullPolicy: IfNotPresent
+      jobBackoffLimit: 2
       resources:
         limits:
           cpu: 200m
