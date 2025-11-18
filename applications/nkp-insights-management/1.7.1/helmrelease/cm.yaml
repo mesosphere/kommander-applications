@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${releaseName}-${appVersion}-config-defaults
+  name: nkp-insights-management-1.7.1-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -54,12 +54,12 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: 1.7.0
+      tag: 1.7.1
     insightsCRIngress:
       disableV1: false
       globalRateLimitAverageQPS: 100
       globalRateLimitBurst: 100
-    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
+    kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
     managementCM:
       backendTokenTTL: 1h
       insightsTTL: 72h

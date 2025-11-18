@@ -1,11 +1,10 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-${appVersion}-chart
+  name: nkp-insights-management-1.7.1
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
   ref:
-    tag: 1.7.0
+    tag: 1.7.1
   url: oci://ghcr.io/mesosphere/charts/nkp-insights-management
