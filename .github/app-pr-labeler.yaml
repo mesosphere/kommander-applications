@@ -2,7 +2,6 @@ open-kommander-pr:
 - changed-files:
   - any-glob-to-any-file:
     - applications/cert-manager/**
-    - applications/chartmuseum/**
     - applications/external-dns/**
     - applications/fluent-bit/**
     - applications/gatekeeper/**
@@ -30,7 +29,6 @@ do-not-merge/testing:
 - changed-files:
   - any-glob-to-any-file:
     - applications/cert-manager/**
-    - applications/chartmuseum/**
     - applications/external-dns/**
     - applications/fluent-bit/**
     - applications/gatekeeper/**

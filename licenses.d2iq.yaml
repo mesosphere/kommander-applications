@@ -445,11 +445,6 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/image-reflector-controller
-  - container_image: ghcr.io/helm/chartmuseum:v0.16.3
-    sources:
-      - license_path: LICENSE
-        ref: ${image_tag}
-        url: https://github.com/helm/chartmuseum
   - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
     sources:
       - ref: ${image_tag}

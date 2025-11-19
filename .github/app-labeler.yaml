@@ -22,10 +22,6 @@ applications/cert-manager:
 - changed-files:
   - any-glob-to-any-file:
     - applications/cert-manager/**
-applications/chartmuseum:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/chartmuseum/**
 applications/cilium-hubble-relay-traefik:
 - changed-files:
   - any-glob-to-any-file:
