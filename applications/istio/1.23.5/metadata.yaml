@@ -1,6 +1,6 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
-displayName: Istio Service Mesh
-description: Open source service mesh that layers transparently onto existing distributed applications. Requires Prometheus.
+displayName: Istio Service Mesh (Deprecated)
+description: "[DEPRECATED] Open source service mesh - Use istio-helm instead. This Istio Operator installation will be removed in NKP 2.18."
 category:
   - service-mesh
 requiredDependencies:
@@ -17,6 +17,14 @@ licensing:
   - Essential
   - Enterprise
 overview: |-
+  # DEPRECATION NOTICE
+
+  **The Istio Operator installation method is deprecated and will be removed in NKP 2.18.**
+
+  We strongly recommend using the `istio-helm` application for all new deployments. For existing installations, please plan to migrate to `istio-helm` before upgrading to NKP 2.18.
+
+  ---
+
   # Overview
   Istio is an open platform for providing a uniform way to integrate microservices, manage traffic flow across microservices, enforce policies and aggregate telemetry data. Istio's control plane provides an abstraction layer over the underlying cluster management platform, such as Kubernetes, Mesos, etc. A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. To use Istio, Prometheus needs to be deployed.
 
