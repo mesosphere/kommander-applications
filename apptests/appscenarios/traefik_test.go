@@ -110,14 +110,14 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 				Namespace: kommanderNamespace,
 			})
 			Expect(err).To(BeNil())
-			Expect(middlewareList.Items).To(HaveLen(4))
+			Expect(middlewareList.Items).To(HaveLen(5))
 			Expect(middlewareList.Items).To(WithTransform(func(mwList []traefikv1a1.Middleware) []string {
 				var names []string
 				for _, mw := range mwList {
 					names = append(names, mw.Name)
 				}
 				return names
-			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full")))
+			}, ContainElements("stripprefixes", "stripprefixes-kubetunnel", "forwardauth", "forwardauth-full", "forwardauth-grafana")))
 		})
 
 		It("should create dashboard ingress route", func() {
