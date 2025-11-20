@@ -16,9 +16,6 @@ metadata:
   name: knative-operator
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: istio
-      namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-operator
