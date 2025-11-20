@@ -2,7 +2,7 @@ schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Knative
 description: Kubernetes-based platform to build, deploy, and manage modern serverless workloads
 dependencies:
-  - istio
+  - istio-helm
 category:
   - general
 type: nkp-core-platform

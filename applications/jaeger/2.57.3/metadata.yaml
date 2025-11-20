@@ -4,7 +4,7 @@ description: Distributed tracing system used for monitoring and troubleshooting 
 category:
   - service-mesh
 dependencies:
-  - istio
+  - istio-helm
 type: nkp-core-platform
 scope:
   - workspace
