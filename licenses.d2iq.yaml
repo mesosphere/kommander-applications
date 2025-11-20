@@ -518,6 +518,12 @@ resources:
         ref: main
         directory: /ubuntu22.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
+  - container_image: nvcr.io/nvidia/driver:570-6.8.0-64-generic-ubuntu24.04
+    sources:
+      - license_path: LICENSE
+        ref: main
+        directory: /ubuntu24.04/precompiled
+        url: https://github.com/NVIDIA/gpu-driver-container
   - container_image: nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.8.1
     sources:
       - license_path: LICENSE
