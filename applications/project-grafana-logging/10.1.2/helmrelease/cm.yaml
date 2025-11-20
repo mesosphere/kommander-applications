@@ -22,7 +22,7 @@ data:
         kubernetes.io/ingress.class: kommander-traefik
         ingress.kubernetes.io/auth-response-headers: X-Forwarded-User
         traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-simple@kubernetescrd"
+        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-grafana@kubernetescrd"
       hosts: [""]
       path: /dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana
       pathType: ImplementationSpecific

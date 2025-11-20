@@ -106,7 +106,7 @@ data:
         apiVersion: traefik.io/v1alpha1
         kind: Middleware
         metadata:
-          name: forwardauth-simple
+          name: forwardauth-grafana
           namespace: ${releaseNamespace}
         spec:
           forwardAuth:
