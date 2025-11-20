@@ -91,9 +91,8 @@ data:
               - /dkp/tunnel/[^/]+/[^/]+/kubeconfig
               # <route_prefix>/<namespace>/<connector_name>/tunnel-server
               - /dkp/tunnel/[^/]+/[^/]+/tunnel-server
-      - # Used by components such as kube-prometheus-stack's Grafana
-        # that rely on X-Forwarded-User but break when `Authorization:` header
-        # is set as well. See https://jira.d2iq.com/browse/D2IQ-77423.
+      - # Used by components that rely on X-Forwarded-User but break when `Authorization:` header
+        # is set as well.
         apiVersion: traefik.io/v1alpha1
         kind: Middleware
         metadata:
@@ -107,6 +106,18 @@ data:
               - X-Forwarded-User
               - Impersonate-User
               - Impersonate-Group
+      - # Used by Grafana when impersonation headers cause issues
+        apiVersion: traefik.io/v1alpha1
+        kind: Middleware
+        metadata:
+          name: forwardauth-grafana
+          namespace: ${releaseNamespace}
+        spec:
+          forwardAuth:
+            address: http://${tfaName}.${releaseNamespace}.svc.cluster.local:4181/
+            trustForwardHeader: true
+            authResponseHeaders:
+              - X-Forwarded-User
       - # Used by apps such as Kubernetes-Dashboard and Kiali
         # that obtain the K8S API Bearer token via
         # the `Authorization:` header and Impersonate the user.
