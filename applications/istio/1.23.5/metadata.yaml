@@ -1,6 +1,6 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Istio Service Mesh (Deprecated)
-description: "[DEPRECATED] Open source service mesh - Use istio-helm instead. This Istio Operator installation will be removed in NKP 2.18."
+description: "[DEPRECATED] Open source service mesh - Use Istio-Helm Service Mesh instead. This Istio Operator installation will be removed in future releases."
 category:
   - service-mesh
 requiredDependencies:
@@ -19,9 +19,9 @@ licensing:
 overview: |-
   # DEPRECATION NOTICE
 
-  **The Istio Operator installation method is deprecated and will be removed in NKP 2.18.**
+  ### The Istio Operator installation method is deprecated and will be removed in future releases.
 
-  We strongly recommend using the `istio-helm` application for all new deployments. For existing installations, please plan to migrate to `istio-helm` before upgrading to NKP 2.18.
+  We strongly recommend using the `Istio-Helm Service Mesh` application for all new deployments. For existing installations, please plan to migrate to `Istio-Helm Service Mesh` before upgrading to future releases.
 
   ---
 
