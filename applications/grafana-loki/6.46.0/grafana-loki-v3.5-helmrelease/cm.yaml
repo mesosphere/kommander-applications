@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-v3.5-config-defaults # name change to avoid conflict witht he old loki default configmap
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ## New loki values
