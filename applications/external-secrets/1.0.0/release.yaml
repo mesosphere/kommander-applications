@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/external-secrets/0.20.2/release
+  path: ./applications/external-secrets/1.0.0/release
   dependsOn:
     - name: external-secrets-namespace
   sourceRef:
