@@ -1,25 +1,26 @@
----
+# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Floki-distributedapiVersion: source.toolkit.fluxcd.io/v1
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-${appVersion}-object-bucket-claim
+  name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://ghcr.io/mesosphere/charts/object-bucket-claim"
+  url: "oci://ghcr.io/grafana/helm-charts/loki-distributed"
   ref:
-    tag: 0.1.11
+    tag: 0.80.6
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: project-loki-object-bucket-claims
+  name: project-grafana-loki
   namespace: ${releaseNamespace}
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-${appVersion}-object-bucket-claim
+    name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
+  timeout: 15m
   interval: 15s
   install:
     crds: CreateReplace
@@ -29,11 +30,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: project-loki-object-bucket-claims
+  releaseName: project-grafana-loki
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
-    - kind: ConfigMap
-      name: project-grafana-loki-overrides
-      optional: true
-  targetNamespace: ${releaseNamespace}
