@@ -30,6 +30,3 @@ spec:
     - kind: ConfigMap
       name: traefik-crd-overrides
       optional: true
-    - kind: ConfigMap
-      name: ${releaseName}-config-overrides
-      optional: true
