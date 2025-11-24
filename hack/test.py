@@ -38,7 +38,7 @@ def main():
     with open(licenses_file) as f:
         content = f.read()
 
-    old_image_ref = 'docker.io/grafana/grafana:12.1.0'
+    old_image_ref = 'docker.io/grafana/grafana:12.2.0'
     new_image_ref = 'docker.io/grafana/grafana:12.2.1'
 
     # Check if old image ref exists
