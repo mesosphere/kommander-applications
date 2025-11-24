@@ -1,0 +1,45 @@
+schema: "catalog.nkp.nutanix.com/v1/application-user-inputs"
+groups:
+  - name: gatewayAPIConfig
+    label: Gateway API Configuration
+    description: Configure Gateway API CRDs installation settings
+    collapse: true
+    fields:
+      - name: gatewayAPI
+        label: Enable Gateway API CRDs
+        type: boolean
+        description: Enable installation of Gateway API Custom Resource Definitions (stable)
+        required: false
+        default: true
+        disableWhen:
+          - type: field
+            name: gatewayAPIExperimental
+            operator: equals
+            value: true
+            message: "Cannot enable both Gateway API and Gateway API Experimental. They are mutually exclusive."
+
+      - name: gatewayAPIExperimental
+        label: Enable Gateway API Experimental CRDs
+        type: boolean
+        description: Enable installation of Gateway API Experimental Custom Resource Definitions
+        required: false
+        default: false
+        disableWhen:
+          - type: field
+            name: gatewayAPI
+            operator: equals
+            value: true
+            message: "Cannot enable both Gateway API and Gateway API Experimental. They are mutually exclusive."
+
+resources:
+  - template: |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: gateway-api-crds-config-defaults
+        namespace: ${releaseNamespace}
+      data:
+        values.yaml: |
+          gatewayAPI: {{ gatewayAPIConfig.gatewayAPI }}
+          gatewayAPIExperimental: {{ gatewayAPIConfig.gatewayAPIExperimental }}
+
