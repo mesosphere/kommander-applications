@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
@@ -70,14 +71,13 @@ jobs:
         id: genbranch
         if: steps.update.outputs.changes == 'true'
         run: |
+          # Use the branch that triggered the workflow as the base.
+          # This branch is expected to be rebased on main.
           git config user.name d2iq-mergebot
           git config user.email ci-mergebot@d2iq.com
-          # Commit signing configuration (GPG key import, commit.gpgsign, etc.)
-          # is handled by the 'Import GPG key' step above. We intentionally do
-          # not override it here to avoid breaking git commits run by
-          # peter-evans/create-pull-request.
           BRANCH="autobump_cve_$(date +%Y%m%d_%H%M%S)"
           echo "branch_name=$BRANCH" >> "$GITHUB_OUTPUT"
+
 
       # - name: Create branch and commit changes
       #   if: steps.update.outputs.changes == 'true'
