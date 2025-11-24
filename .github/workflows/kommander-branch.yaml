@@ -72,9 +72,10 @@ jobs:
         run: |
           git config user.name d2iq-mergebot
           git config user.email ci-mergebot@d2iq.com
-          git config user.signingKey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
-          git config commit.gpgsign true
-          git config gpg.format ssh
+          # Commit signing configuration (GPG key import, commit.gpgsign, etc.)
+          # is handled by the 'Import GPG key' step above. We intentionally do
+          # not override it here to avoid breaking git commits run by
+          # peter-evans/create-pull-request.
           BRANCH="autobump_cve_$(date +%Y%m%d_%H%M%S)"
           echo "branch_name=$BRANCH" >> "$GITHUB_OUTPUT"
 
