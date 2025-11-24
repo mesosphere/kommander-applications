@@ -1,6 +1,6 @@
 schema: "catalog.nkp.nutanix.com/v1/application-user-inputs"
 groups:
-  - name: gatewayAPIConfig
+  - name: config
     label: Gateway API Configuration
     description: Configure Gateway API CRDs installation settings
     collapse: true
@@ -40,6 +40,5 @@ resources:
         namespace: ${releaseNamespace}
       data:
         values.yaml: |
-          gatewayAPI: {{ gatewayAPIConfig.gatewayAPI }}
-          gatewayAPIExperimental: {{ gatewayAPIConfig.gatewayAPIExperimental }}
-
+          gatewayAPI: {{ gatewayAPI }}
+          gatewayAPIExperimental: {{ gatewayAPIExperimental }}
