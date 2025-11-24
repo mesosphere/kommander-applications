@@ -52,4 +52,5 @@ data:
       tls: []
     deploymentAnnotations:
       configmap.reloader.stakater.com/reload: "traefik-forward-auth-mgmt-configmap"
+      secret.reloader.stakater.com/reload: "traefik-forward-auth-mgmt-ca-certificate"
     addonsInitializer: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.8.0}"
