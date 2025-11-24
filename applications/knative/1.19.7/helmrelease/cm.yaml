@@ -39,19 +39,19 @@ data:
         spec:
           # The version of Knative Serving to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#install-knative-serving
-          version: "1.19.3"
+          version: "1.19.7"
           registry:
             override:
               # Pin serving images to specific tagged versions
-              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.3
-              activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.19.3
-              autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.19.3
-              autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.19.3
-              controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.19.3
-              queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.19.3
-              webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.19.3
-              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.19.3
-              QUEUE_SIDECAR_IMAGE: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.19.3
+              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.7
+              activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.19.7
+              autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.19.7
+              autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.19.7
+              controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.19.7
+              queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.19.7
+              webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.19.7
+              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.19.7
+              QUEUE_SIDECAR_IMAGE: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.19.7
           config:
             deployment:
               registriesSkippingTagResolving: "gcr.io"
@@ -89,28 +89,28 @@ data:
               maxUnavailable: 1
           # The version of Knative Eventing to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
-          version: "1.19.3"
+          version: "1.19.7"
           registry:
             override:
               # Pin eventing images to specific tagged versions
-              mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.19.3
-              mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.19.3
-              eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.19.3
-              imc-controller/controller: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.19.3
-              imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.3
-              job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.19.3
-              mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.3
-              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.3
-              eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.3
-              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.3
-              APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.19.3
+              mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.19.7
+              mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.19.7
+              eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.19.7
+              imc-controller/controller: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.19.7
+              imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.7
+              job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.19.7
+              mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.7
+              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.7
+              eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.7
+              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.7
+              APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.19.7
               AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.19.0
               AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.19.0
               AWS_S3_SOURCE: gcr.io/knative-releases/aws-s3-source:v1.19.0
               AWS_SNS_SINK: gcr.io/knative-releases/aws-sns-sink:v1.19.0
               AWS_SQS_SINK: gcr.io/knative-releases/aws-sqs-sink:v1.19.0
               AWS_SQS_SOURCE: gcr.io/knative-releases/aws-sqs-source:v1.19.0
-              DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.3
+              DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.7
               LOG_SINK: gcr.io/knative-releases/log-sink:v1.19.0
               TIMER_SOURCE: gcr.io/knative-releases/timer-source:v1.19.0
               TRANSFORM_JSONATA: gcr.io/knative-releases/timer-source:v1.19.0
