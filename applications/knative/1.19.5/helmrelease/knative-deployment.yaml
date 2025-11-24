@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/knative"
   ref:
-    tag: 1.19.7
+    tag: 1.19.5
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
