@@ -32,11 +32,11 @@ groups:
             message: "Cannot enable both Gateway API and Gateway API Experimental. They are mutually exclusive."
 
 resources:
-  - template: |
+  - template:
       apiVersion: v1
       kind: ConfigMap
       metadata:
-        name: gateway-api-crds-config-defaults
+        name: ${releaseName}-config-overrides
         namespace: ${releaseNamespace}
       data:
         values.yaml: |
