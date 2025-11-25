@@ -36,7 +36,7 @@ resources:
       apiVersion: v1
       kind: ConfigMap
       metadata:
-        name: ${releaseName}-config-overrides
+        name: gateway-api-crds-config-overrides
         namespace: ${releaseNamespace}
       data:
         values.yaml: |
