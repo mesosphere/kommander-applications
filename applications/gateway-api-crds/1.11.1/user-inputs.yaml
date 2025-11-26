@@ -3,7 +3,7 @@ groups:
   - name: config
     label: Gateway API Configuration
     description: Configure Gateway API CRDs installation settings
-    collapse: true
+    collapse: false
     fields:
       - name: gatewayAPI
         label: Enable Gateway API CRDs
@@ -32,12 +32,11 @@ groups:
             message: "Cannot enable both Gateway API and Gateway API Experimental. They are mutually exclusive."
 
 resources:
-  - template: |
+  - template:
       apiVersion: v1
       kind: ConfigMap
       metadata:
-        name: gateway-api-crds-config-defaults
-        namespace: ${releaseNamespace}
+        name: gateway-api-crds-config-overrides
       data:
         values.yaml: |
           gatewayAPI: {{ gatewayAPI }}
