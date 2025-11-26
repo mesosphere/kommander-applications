@@ -2,13 +2,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: ${releaseName}-${appVersion}-chart
+  name: nkp-pulse-workspace-0.3.0
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace"
+  url: "${ociRegistryURL:=oci://ghcr.io}/mesosphere/charts/nkp-pulse-workspace"
   ref:
-    tag: 0.2.11
+    tag: 0.3.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -18,7 +18,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-${appVersion}-chart
+    name: nkp-pulse-workspace-0.3.0
     namespace: ${releaseNamespace}
   interval: 15s
   releaseName: nkp-pulse-workspace
@@ -28,4 +28,13 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-${appVersion}-config-defaults
+      name: nkp-pulse-workspace-0.3.0-config-defaults
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nkp-pulse-workspace-0.3.0-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    kubectlImage: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=1.34.1}"
