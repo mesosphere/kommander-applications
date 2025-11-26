@@ -13,6 +13,9 @@ rules:
   - apiGroups: [""]
     resources: ["configmaps"]
     verbs: ["get", "list"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -23,28 +26,6 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: istio-helm-pre-install-role
-subjects:
-  - kind: ServiceAccount
-    name: istio-helm-pre-install
-    namespace: ${releaseNamespace}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: istio-helm-pre-install-clusterrole
-rules:
-  - apiGroups: [""]
-    resources: ["namespaces"]
-    verbs: ["get", "list"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: istio-helm-pre-install-clusterrolebinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: istio-helm-pre-install-clusterrole
 subjects:
   - kind: ServiceAccount
     name: istio-helm-pre-install
@@ -85,7 +66,7 @@ spec:
               while true; do
 
                 echo "Checking if ambient mode (ztunnel) is being enabled..."
-                ZTUNNEL_ENABLED=$(kubectl get configmap istio-helm-config-overrides -n ${releaseNamespace} -o jsonpath='{.data.values\.yaml}' 2>/dev/null | grep -A 1 "^ztunnel:" | grep "enabled:" | awk '{print $2}' || echo "false")
+                ZTUNNEL_ENABLED=$(kubectl get configmap istio-helm-config-overrides -n ${releaseNamespace} -o jsonpath='{.data.values\.yaml}' 2>/dev/null | grep -A 1 "^ztunnel:" | grep "enabled:" | awk '{print $2}' || command echo "false")
                 echo "ztunnel.enabled = $ZTUNNEL_ENABLED"
 
                 if [ "$ZTUNNEL_ENABLED" != "true" ]; then
@@ -97,11 +78,11 @@ spec:
                 fi
 
                 echo "Ambient mode (ztunnel) is enabled."
-                echo "Checking for conflicting Istio Operatorinstallation..."
+                echo "Checking for conflicting Istio Operator installation..."
 
-                if kubectl get namespace istio-system >/dev/null 2>&1; then
+                if kubectl get helmrelease istio -n ${releaseNamespace} >/dev/null 2>&1; then
                   echo ""
-                  echo "Legacy Istio (istio-system namespace) is still present!"
+                  echo "Legacy Istio deployment is still present!"
                   echo "Ambient mode (ztunnel) cannot coexist with Istio Operator installation due to CNI and network policy conflicts."
                   echo ""
                   echo "ACTION REQUIRED:"
