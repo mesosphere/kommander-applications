@@ -2,7 +2,7 @@ schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: Gateway API CRDs
 description: Installs the Kubernetes Gateway API Custom Resource Definitions (CRDs) for managing network ingress and routing in Kubernetes clusters.
 category:
-  - general
+  - "API Gateway"
 type: nkp-core-platform
 scope:
   - workspace
