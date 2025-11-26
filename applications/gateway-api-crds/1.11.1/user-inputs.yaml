@@ -3,7 +3,7 @@ groups:
   - name: config
     label: Gateway API Configuration
     description: Configure Gateway API CRDs installation settings
-    collapse: true
+    collapse: false
     fields:
       - name: gatewayAPI
         label: Enable Gateway API CRDs
