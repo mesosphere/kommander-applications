@@ -18,11 +18,11 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/stretchr/testify v1.11.1
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
-	k8s.io/api v0.34.1
-	k8s.io/apiextensions-apiserver v0.34.1
-	k8s.io/apimachinery v0.34.1
+	k8s.io/api v0.34.2
+	k8s.io/apiextensions-apiserver v0.34.2
+	k8s.io/apimachinery v0.34.2
 	k8s.io/cli-runtime v0.34.1
-	k8s.io/client-go v0.34.1
+	k8s.io/client-go v0.34.2
 	k8s.io/klog/v2 v2.130.1
 	sigs.k8s.io/controller-runtime v0.22.2
 	sigs.k8s.io/kind v0.24.0
@@ -163,8 +163,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.5.1 // indirect
 	helm.sh/helm/v3 v3.19.0 // indirect
-	k8s.io/apiserver v0.34.1 // indirect
-	k8s.io/component-base v0.34.1 // indirect
+	k8s.io/apiserver v0.34.2 // indirect
+	k8s.io/component-base v0.34.2 // indirect
 	k8s.io/kube-openapi v0.0.0-20250710124328-f3f2b991d03b // indirect
 	k8s.io/kubectl v0.34.1 // indirect
 	k8s.io/utils v0.0.0-20250820121507-0af2bda4dd1d // indirect
