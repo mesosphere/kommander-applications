@@ -32,6 +32,50 @@ def is_dynamic_tag(tag: str) -> bool:
     return bool(re.search(r'\$\{[^}]+\}', tag))
 
 
+def is_valid_tag(tag: str) -> bool:
+    """
+    Check if a tag is valid (not a digest-based or platform-specific tag).
+    Returns True if tag is valid, False otherwise.
+    """
+    return not (
+      tag.startswith('sha256') or
+      tag.startswith('x86_64') or
+      tag.startswith('windows') or
+      tag.startswith('arm') or
+      tag.startswith('aarch64') or
+      tag.find('-beta') != -1 or
+      tag.find('-alpha') != -1 or
+      tag.find('-debug') != -1
+    )
+
+
+def matches_version_pattern(tag: str) -> bool:
+    """
+    Check if a tag matches the pattern [v]X[.Y][.Z][-s] where:
+    - v is optional 'v' prefix
+    - X is a required number
+    - .Y is optional dot followed by number
+    - .Z is optional dot followed by number
+    - -s is optional dash followed by non-empty string
+    """
+    pattern = r'^(v?\d+(\.\d+)?(\.\d+)?(-.+)?)$'
+    return bool(re.match(pattern, tag))
+
+
+def get_severity_from_cvss_score(score: float) -> str:
+    """Convert CVSS score to severity level."""
+    if score >= 9.0:
+        return 'CRITICAL'
+    elif score >= 7.0:
+        return 'HIGH'
+    elif score >= 4.0:
+        return 'MEDIUM'
+    elif score >= 0.1:
+        return 'LOW'
+    else:
+        return 'UNKNOWN'
+
+
 def parse_image_reference(image_ref: str) -> Tuple[str, str, Optional[str]]:
     """Parse a Docker image reference into registry, repository, and tag."""
     if ':' in image_ref:
@@ -39,12 +83,13 @@ def parse_image_reference(image_ref: str) -> Tuple[str, str, Optional[str]]:
         image_part = parts[0]
         tag = parts[1]
     else:
+        print(f"Warning: Invalid image reference: {image_ref}")
         image_part = image_ref
         tag = None
 
-    # Determine registry and repository
     parts = image_part.split('/', 1)
-    if '.' in parts[0] or ':' in parts[0]: # . for domain, : for port
+    # '.' for domain (docker.io), ':' for port (custom-registry8080)
+    if '.' in parts[0] or ':' in parts[0]:
         registry = parts[0]
         repository = parts[1]
     else:
@@ -95,60 +140,6 @@ def scan_image_cves(image_ref: str) -> Tuple[bool, List[Dict]]:
         return False, []
 
 
-def get_cvss_score(vulnerability: Dict) -> float:
-    """
-    Extract CVSS score from Trivy vulnerability data.
-    Returns CVSS score (0.0-10.0) or None if not available.
-    """
-    # Try CVSS v3 first (most common)
-    cvss = vulnerability.get('CVSS', {})
-    if isinstance(cvss, dict):
-        for source in ['nvd', 'redhat', 'ghsa', 'bitnami']:
-            if source in cvss:
-                v3_score = cvss[source].get('V3Score')
-                if v3_score is not None:
-                    return float(v3_score)
-                v2_score = cvss[source].get('V2Score')
-                if v2_score is not None:
-                    return float(v2_score)
-
-    # Fallback: check if score is directly in CVSS
-    if isinstance(cvss, dict):
-        v3_score = cvss.get('V3Score')
-        if v3_score is not None:
-            return float(v3_score)
-        v2_score = cvss.get('V2Score')
-        if v2_score is not None:
-            return float(v2_score)
-
-    return None
-
-
-def get_highest_cve_score(vulnerabilities: List[Dict]) -> float:
-    """
-    Get the highest CVSS score from vulnerabilities.
-    Returns the highest CVSS score (0.0-10.0), or falls back to severity mapping.
-    """
-    if not vulnerabilities:
-        return 0.0
-
-    max_score = 0.0
-    for vuln in vulnerabilities:
-        # Try to get CVSS score first
-        cvss_score = get_cvss_score(vuln)
-        if cvss_score is not None:
-            if cvss_score > max_score:
-                max_score = cvss_score
-        else:
-            # Fallback to severity mapping if CVSS not available
-            severity = vuln.get('Severity', 'UNKNOWN')
-            score = get_severity_score(severity)
-            if score > max_score:
-                max_score = score
-
-    return max_score
-
-
 def get_severity_score(severity: str) -> float:
     """
     Map severity level to CVSS-equivalent score (0-10 scale).
@@ -164,50 +155,48 @@ def get_severity_score(severity: str) -> float:
     return severity_scores.get(severity.upper(), 1.0)
 
 
-def get_severity_from_cvss_score(score: float) -> str:
-    """Convert CVSS score to severity level."""
-    if score >= 9.0:
-        return 'CRITICAL'
-    elif score >= 7.0:
-        return 'HIGH'
-    elif score >= 4.0:
-        return 'MEDIUM'
-    elif score >= 0.1:
-        return 'LOW'
-    else:
-        return 'UNKNOWN'
+def get_cvss_score(vulnerability: Dict) -> float:
+    # Try CVSS v3 first (most common)
+    cvss = vulnerability.get('CVSS', {})
+    if isinstance(cvss, dict):
+        for source in ['nvd', 'redhat', 'ghsa', 'bitnami']:
+            if source in cvss:
+                v3_score = cvss[source].get('V3Score')
+                if v3_score is not None:
+                    return float(v3_score)
+                v2_score = cvss[source].get('V2Score')
+                if v2_score is not None:
+                    return float(v2_score)
+        # Fallback1: check if score is directly in CVSS
+        v3_score = cvss.get('V3Score')
+        if v3_score is not None:
+            return float(v3_score)
+        v2_score = cvss.get('V2Score')
+        if v2_score is not None:
+            return float(v2_score)
+        # Fallback2: Enum of Severity
+        severity = vulnerability.get('Severity', 'UNKNOWN')
+        score = get_severity_score(severity)
+        return score
+    return None
 
 
-def is_valid_tag(tag: str) -> bool:
+def get_highest_cve_score(vulnerabilities: List[Dict]) -> float:
     """
-    Check if a tag is valid (not a digest-based or platform-specific tag).
-    Filters out tags that start with 'sha256', 'x86_64', or 'windows'.
-    Returns True if tag is valid, False otherwise.
+    Get the highest CVSS score from vulnerabilities.
+    Returns the highest CVSS score (0.0-10.0), or falls back to severity mapping.
     """
-    # Exclude sha256-prefixed tags (digest-based tags)
-    # Exclude x86_64 and windows platform-specific tags
-    return not (
-      tag.startswith('sha256') or
-      tag.startswith('x86_64') or
-      tag.startswith('windows') or
-      tag.startswith('arm') or
-      tag.startswith('aarch64') or
-      tag.find('-beta') != -1 or
-      tag.find('-debug') != -1
-    )
+    if not vulnerabilities:
+        return 0.0
 
+    max_score = 0.0
+    for vuln in vulnerabilities:
+        # Try to get CVSS score first
+        cvss_score = get_cvss_score(vuln)
+        if cvss_score is not None and cvss_score > max_score:
+            max_score = cvss_score
 
-def matches_version_pattern(tag: str) -> bool:
-    """
-    Check if a tag matches the pattern [v]X[.Y][.Z][-s] where:
-    - v is optional 'v' prefix
-    - X is a required number
-    - .Y is optional dot followed by number
-    - .Z is optional dot followed by number
-    - -s is optional dash followed by non-empty string
-    """
-    pattern = r'^(v?\d+(\.\d+)?(\.\d+)?(-.+)?)$'
-    return bool(re.match(pattern, tag))
+    return max_score
 
 
 def extract_version_numbers(tag: str) -> Optional[List[int]]:
@@ -457,16 +446,14 @@ def extract_images_from_yaml(yaml_content: str) -> List[Dict]:
             image_ref = match.group(3).strip()
 
             # Skip dynamic tags
-            if is_dynamic_tag(image_ref):
-                continue
-
-            images.append({
-                'image_ref': image_ref,
-                'original_indent': indent,
-                'dash_format': dash_part,
-                'line_number': i + 1,
-                'original_line': line
-            })
+            if not is_dynamic_tag(image_ref):
+                images.append({
+                    'image_ref': image_ref,
+                    'original_indent': indent,
+                    'dash_format': dash_part,
+                    'line_number': i + 1,
+                    'original_line': line
+                })
 
     return images
 
