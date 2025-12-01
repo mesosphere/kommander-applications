@@ -529,17 +529,17 @@ resources:
       - license_path: COPYING
         ref: ${image_tag}
         url: https://github.com/ceph/ceph
-  - container_image: quay.io/fairwinds/nova:v3.11
+  - container_image: quay.io/fairwinds/nova:v3.11.9
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/nova
-  - container_image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.21.9
+  - container_image: us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.22.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
         url: https://github.com/FairwindsOps/pluto
-  - container_image: quay.io/fairwinds/polaris:9.4.1
+  - container_image: quay.io/fairwinds/polaris:10.1.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.0}
