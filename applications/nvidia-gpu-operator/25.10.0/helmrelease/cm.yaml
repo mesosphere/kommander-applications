@@ -12,38 +12,38 @@ data:
       manager:
         image: k8s-driver-manager
         repository: nvcr.io/nvidia/cloud-native
-        version: v0.8.1
+        version: v0.9.0
     devicePlugin:
       config:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      version: v0.17.3
+      version: v0.18.0
     toolkit:
       # toolkit needs to be set on per OS
       # see: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#bare-metal-passthrough-with-default-configurations-on-centos
       # this comment explains the dependency on the hosts
       # version of libc.so
       # https://github.com/NVIDIA/gpu-operator/issues/72#issuecomment-742023528
-      version: v1.17.8-ubuntu20.04
+      version: v1.18.0
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.17.3
+      version: v0.18.0
     dcgm:
       enabled: true
-      version: 4.2.3-1-ubuntu22.04
+      version: 4.4.1
     dcgmExporter:
       enabled: true
       serviceMonitor:
         enabled: true
         additionalLabels:
           prometheus.kommander.d2iq.io/select: "true"
-      version: 4.2.3-4.1.3-ubuntu22.04
+      version: 4.4.1-4.6.0
     validator:
       repository: nvcr.io/nvidia/cloud-native
-      version: v25.3.4
+      version: v25.10.0
     operator:
       repository: nvcr.io/nvidia
       version: v25.10.0
@@ -51,4 +51,4 @@ data:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
-      version: v0.12.2-ubuntu20.04
+      version: v0.13.0
