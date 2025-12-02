@@ -1,5 +1,4 @@
-# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Floki-distributed
----
+# Source: https://github.com/grafana/helm-charts/pkgs/container/helm-charts%2Floki-distributedapiVersion: source.toolkit.fluxcd.io/v1
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -9,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/grafana/helm-charts/loki-distributed"
   ref:
-    tag: 0.80.3
+    tag: 0.80.6
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
