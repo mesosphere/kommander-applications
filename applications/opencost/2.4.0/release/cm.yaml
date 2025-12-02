@@ -33,6 +33,7 @@ data:
           # to avoid upstream default tag that comes with a SHA
           tag: "1.118.0"
         uiPath: /dkp/opencost/frontend
+        useIPv6: false
         enabled: true
         ingress:
           enabled: true
