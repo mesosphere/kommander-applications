@@ -5,6 +5,7 @@ category:
   - logging
 dependencies:
   - rook-ceph-cluster
+  - logging-operator
 type: nkp-core-platform
 scope:
   - workspace
@@ -32,6 +33,9 @@ overview: |-
 
   ### Good Fit for Kubernetes
   An especially good fit for storing Kubernetes Pod logs. Metadata such as Pod labels is automatically scraped and indexed.
+
+  ### Send log data to Loki
+  There are a number of different clients available to send log data to Loki. NKP provides logging-operator as default application to send log data to Loki.
 
   ## More Information
   - [grafana.com](https://grafana.com)
