@@ -10,7 +10,7 @@ data:
     # using tag 4.1.1 as it contains fix for few CVEs i.e CVE-2025-12969, CVE-2025-12977
     image:
       # Pull from docker hub rather than cr.fluentbit.io to avoid rate limiting.
-      repository: docker.io/fluent/fluent-bit
+      repository: ghcr.io/fluent/fluent-bit
       tag: 4.1.1
 
     priorityClassName: "dkp-critical-priority"
