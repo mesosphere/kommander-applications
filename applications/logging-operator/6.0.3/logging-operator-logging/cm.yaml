@@ -86,8 +86,9 @@ data:
       image:
         # Explicitly specify the version here. This should be updated when logging-operator is upgraded.
         # Also, update the image in fluent-bit configuration if the image is upgraded here.
-        repository: ghcr.io/fluent/fluent-bit
-        tag: 4.0.3
+        # using tag 4.1.1 as it contains fix for few CVEs i.e CVE-2025-12969, CVE-2025-12977
+        repository: docker.io/fluent/fluent-bit
+        tag: 4.1.1
       podPriorityClassName: dkp-critical-priority
       resources:
         limits:
