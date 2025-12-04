@@ -7,12 +7,7 @@ ignore:
   - docker.io/mesosphere/flux-oci-mirror:v0.3.0
 
 resources:
-  - container_image: docker.io/fluent/fluent-bit:4.0.5
-    sources:
-      - license_path: LICENSE
-        ref: v${image_tag}
-        url: https://github.com/fluent/fluent-bit
-  - container_image: ghcr.io/fluent/fluent-bit:4.0.3
+  - container_image: ghcr.io/fluent/fluent-bit:4.1.1
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
