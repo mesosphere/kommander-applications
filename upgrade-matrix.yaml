@@ -1,31 +1,4 @@
 upgrades:
-    - from: v2.13.0
-      to: v2.13.4-dev
-      k8sversion: "1.30"
-    - from: v2.13.0
-      to: v2.14.3-dev
-      k8sversion: "1.30"
-    - from: v2.13.1
-      to: v2.13.4-dev
-      k8sversion: "1.30"
-    - from: v2.13.1
-      to: v2.14.3-dev
-      k8sversion: "1.30"
-    - from: v2.13.2
-      to: v2.13.4-dev
-      k8sversion: "1.30"
-    - from: v2.13.2
-      to: v2.14.3-dev
-      k8sversion: "1.30"
-    - from: v2.13.3
-      to: v2.13.4-dev
-      k8sversion: "1.30"
-    - from: v2.13.3
-      to: v2.14.3-dev
-      k8sversion: "1.30"
-    - from: v2.13.4-dev
-      to: v2.14.3-dev
-      k8sversion: "1.30"
     - from: v2.14.0
       to: v2.14.3-dev
       k8sversion: "1.31"
@@ -83,3 +56,6 @@ upgrades:
     - from: v2.16.2-dev
       to: v2.17.0-dev
       k8sversion: "1.33"
+    - from: v2.17.0-dev
+      to: v2.18.0-dev
+      k8sversion: "1.34"
