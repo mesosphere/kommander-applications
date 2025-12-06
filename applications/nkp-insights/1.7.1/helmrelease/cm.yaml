@@ -322,7 +322,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/nova
-        tag: v3.11.9
+        tag: v3.11
       jobBackoffLimit: 2
       resources:
         limits:
@@ -358,7 +358,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: us-docker.pkg.dev/fairwinds-ops/oss/pluto
-        tag: v5.22.6
+        tag: v5.21.9
       jobBackoffLimit: 2
       resources:
         limits:
@@ -415,7 +415,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/polaris
-        tag: 10.1.2
+        tag: 9.4.1
       jobBackoffLimit: 2
       resources:
         limits:
