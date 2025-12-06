@@ -34,9 +34,15 @@ data:
           repository: opencost/opencost
           # to avoid upstream default tag that comes with a SHA
           tag: "1.118.0"
+        cloudProviderApiKey: "to-be-replaced-by-a-valid-api-key-in-google-cloud"
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
           CURRENT_CLUSTER_ID_FILTER_ENABLED: "false"
+        extraVolumeMounts:
+        # Mount /var/configs as writable volume
+        - name: config-volume
+          mountPath: /var/configs
+          readOnly: false
         apiIngress:
           enabled: false
         replicas: 1
@@ -59,3 +65,7 @@ data:
           enabled: true
           additionalLabels:
             prometheus.kommander.d2iq.io/select: "true"
+    extraVolumes:
+      # Add writable volume at root level
+      - name: config-volume
+        emptyDir: {}
