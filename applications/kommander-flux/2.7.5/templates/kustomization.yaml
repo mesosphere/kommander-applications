@@ -5,7 +5,7 @@ labels:
     pairs:
       app.kubernetes.io/instance: kommander-flux
       app.kubernetes.io/part-of: flux
-      app.kubernetes.io/version: v2.7.2
+      app.kubernetes.io/version: v2.7.5
 resources:
   - networking.k8s.io_v1_networkpolicy_allow-source.yaml
   - v1_namespace_kommander-flux.yaml

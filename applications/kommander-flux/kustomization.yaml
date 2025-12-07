@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: kommander-flux
 resources:
   - bootstrap-flux.yaml
-  - ./2.7.2
+  - ./2.7.5
 patches:
-  - path: ./2.7.2/patch-proxy-env-vars.yaml
+  - path: ./2.7.5/patch-proxy-env-vars.yaml
     target:
       kind: Deployment
   # TODO(takirala): Add this patch into HelmRelease post renders as well.
