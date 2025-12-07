@@ -405,37 +405,37 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v1.4.2
+  - container_image: ghcr.io/fluxcd/helm-controller:v1.4.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/helm-controller
-  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.7.1
+  - container_image: ghcr.io/fluxcd/kustomize-controller:v1.7.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-d2iq.1}
         url: https://github.com/fluxcd/kustomize-controller
-  - container_image: ghcr.io/fluxcd/notification-controller:v1.7.3
+  - container_image: ghcr.io/fluxcd/notification-controller:v1.7.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/notification-controller
-  - container_image: ghcr.io/fluxcd/source-controller:v1.7.2
+  - container_image: ghcr.io/fluxcd/source-controller:v1.7.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
-  - container_image: ghcr.io/fluxcd/flux-cli:v2.7.2
+  - container_image: ghcr.io/fluxcd/flux-cli:v2.7.5
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/flux2
-  - container_image: ghcr.io/fluxcd/image-automation-controller:v1.0.2
+  - container_image: ghcr.io/fluxcd/image-automation-controller:v1.0.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/image-automation-controller
-  - container_image: ghcr.io/fluxcd/image-reflector-controller:v1.0.2
+  - container_image: ghcr.io/fluxcd/image-reflector-controller:v1.0.4
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
