@@ -40,6 +40,12 @@ data:
           # The version of Knative Serving to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#install-knative-serving
           version: "1.19.5"
+          # Upstream ships with 80% minAvailable and that would block node drains when only 1 pod is running.
+          podDisruptionBudgets:
+            - name: activator-pdb
+              maxUnavailable: 1
+            - name: webhook-pdb
+              maxUnavailable: 1
           registry:
             override:
               # Pin serving images to specific tagged versions
