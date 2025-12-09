@@ -77,3 +77,15 @@ data:
       extraEnv:
       - name: TUF_ROOT
         value: /tmp/.sigstore
+    imageAutomationController:
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    imageReflectorController:
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337

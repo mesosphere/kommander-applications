@@ -12000,6 +12000,7 @@ spec:
 
     spec:
       automountServiceAccountToken: true
+      priorityClassName: system-cluster-critical
       containers:
       - args:
         - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
@@ -12083,6 +12084,7 @@ spec:
 
     spec:
       automountServiceAccountToken: true
+      priorityClassName: system-cluster-critical
       containers:
       - args:
         - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
