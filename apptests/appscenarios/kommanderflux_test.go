@@ -86,48 +86,6 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
 			}
 		})
-
-		It("should have image-automation-controller deployment with correct PriorityClass", func() {
-			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/instance":   kf.Name(),
-					"app.kubernetes.io/component":  "image-automation-controller",
-				},
-			})
-			Expect(err).To(BeNil())
-			listOptions := &ctrlClient.ListOptions{
-				LabelSelector: selector,
-			}
-			deploymentList = &appsv1.DeploymentList{}
-			err = k8sClient.List(ctx, deploymentList, listOptions)
-			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(1))
-
-			deployment := deploymentList.Items[0]
-			Expect(deployment.Name).To(Equal("image-automation-controller"))
-			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
-		})
-
-		It("should have image-reflector-controller deployment with correct PriorityClass", func() {
-			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/instance":   kf.Name(),
-					"app.kubernetes.io/component":  "image-reflector-controller",
-				},
-			})
-			Expect(err).To(BeNil())
-			listOptions := &ctrlClient.ListOptions{
-				LabelSelector: selector,
-			}
-			deploymentList = &appsv1.DeploymentList{}
-			err = k8sClient.List(ctx, deploymentList, listOptions)
-			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(1))
-
-			deployment := deploymentList.Items[0]
-			Expect(deployment.Name).To(Equal("image-reflector-controller"))
-			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
-		})
 	})
 
 	Describe("Upgrading komander-flux", Ordered, Label("upgrade"), func() {
@@ -199,48 +157,6 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			for _, deployment := range deploymentList.Items {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
 			}
-		})
-
-		It("should have image-automation-controller deployment with correct PriorityClass after upgrade", func() {
-			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/instance":   kf.Name(),
-					"app.kubernetes.io/component":  "image-automation-controller",
-				},
-			})
-			Expect(err).To(BeNil())
-			listOptions := &ctrlClient.ListOptions{
-				LabelSelector: selector,
-			}
-			deploymentList := &appsv1.DeploymentList{}
-			err = k8sClient.List(ctx, deploymentList, listOptions)
-			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(1))
-
-			deployment := deploymentList.Items[0]
-			Expect(deployment.Name).To(Equal("image-automation-controller"))
-			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
-		})
-
-		It("should have image-reflector-controller deployment with correct PriorityClass after upgrade", func() {
-			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/instance":   kf.Name(),
-					"app.kubernetes.io/component":  "image-reflector-controller",
-				},
-			})
-			Expect(err).To(BeNil())
-			listOptions := &ctrlClient.ListOptions{
-				LabelSelector: selector,
-			}
-			deploymentList := &appsv1.DeploymentList{}
-			err = k8sClient.List(ctx, deploymentList, listOptions)
-			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(1))
-
-			deployment := deploymentList.Items[0]
-			Expect(deployment.Name).To(Equal("image-reflector-controller"))
-			Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
 		})
 	})
 })
