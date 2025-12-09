@@ -30,7 +30,7 @@ data:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
-        fsGroup: 1337
+        fsGroup: 65534
     kustomizeController:
       resources:
         limits:
@@ -47,7 +47,7 @@ data:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
-        fsGroup: 1337
+        fsGroup: 65534
     notificationController:
       resources:
         limits:
@@ -60,7 +60,7 @@ data:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
-        fsGroup: 1337
+        fsGroup: 65534
     sourceController:
       resources:
         limits:
@@ -73,7 +73,7 @@ data:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
-        fsGroup: 1337
+        fsGroup: 65534
       extraEnv:
       - name: TUF_ROOT
         value: /tmp/.sigstore
