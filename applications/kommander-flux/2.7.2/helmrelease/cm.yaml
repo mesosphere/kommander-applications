@@ -77,3 +77,25 @@ data:
       extraEnv:
       - name: TUF_ROOT
         value: /tmp/.sigstore
+    imageAutomationController:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
+    imageReflectorController:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      priorityClassName: system-cluster-critical
+      podSecurityContext:
+        fsGroup: 1337
