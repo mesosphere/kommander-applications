@@ -78,6 +78,7 @@ data:
       - name: TUF_ROOT
         value: /tmp/.sigstore
     imageAutomationController:
+      enabled: true
       resources:
         limits:
           cpu: 1000m
@@ -89,6 +90,7 @@ data:
       podSecurityContext:
         fsGroup: 1337
     imageReflectorController:
+      enabled: true
       resources:
         limits:
           cpu: 1000m
