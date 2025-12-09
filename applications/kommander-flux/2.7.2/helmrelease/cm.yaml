@@ -85,8 +85,6 @@ data:
         requests:
           cpu: 100m
           memory: 64Mi
-      nodeSelector:
-        kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
         fsGroup: 1337
@@ -98,8 +96,6 @@ data:
         requests:
           cpu: 100m
           memory: 64Mi
-      nodeSelector:
-        kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
       podSecurityContext:
         fsGroup: 1337
