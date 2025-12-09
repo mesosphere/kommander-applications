@@ -67,7 +67,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			Expect(err).To(BeNil())
 		})
 
-		It("should have PriorityClassName 'system-cluster-critical' configured on all 6 deployments",
+		It("should have PriorityClassName 'system-cluster-critical' configured on all deployments",
 			func() {
 				selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 					MatchLabels: map[string]string{
@@ -140,7 +140,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
-		It("should have PriorityClass 'system-cluster-critical' configured on all 6 deployments after upgrade", func() {
+		It("should have PriorityClass 'system-cluster-critical' configured on all deployments after upgrade", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app.kubernetes.io/instance": kf.Name(),
@@ -153,7 +153,7 @@ var _ = Describe("Kommander-flux Tests", Label("kommander-flux"), func() {
 			deploymentList := &appsv1.DeploymentList{}
 			err = k8sClient.List(ctx, deploymentList, listOptions)
 			Expect(err).To(BeNil())
-			Expect(deploymentList.Items).To(HaveLen(6))
+			Expect(deploymentList.Items).To(HaveLen(4))
 
 			for _, deployment := range deploymentList.Items {
 				Expect(deployment.Spec.Template.Spec.PriorityClassName).To(Equal("system-cluster-critical"))
