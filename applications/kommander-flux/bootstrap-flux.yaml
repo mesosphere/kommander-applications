@@ -12000,6 +12000,7 @@ spec:
 
     spec:
       automountServiceAccountToken: true
+      priorityClassName: system-cluster-critical
       containers:
       - args:
         - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
@@ -12030,7 +12031,9 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 1000m
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 64Mi
@@ -12083,6 +12086,7 @@ spec:
 
     spec:
       automountServiceAccountToken: true
+      priorityClassName: system-cluster-critical
       containers:
       - args:
         - --events-addr=http://notification-controller.$(RUNTIME_NAMESPACE).svc.cluster.local.
@@ -12113,7 +12117,9 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 1000m
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 64Mi
