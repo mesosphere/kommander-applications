@@ -14,11 +14,11 @@ spec:
   interval: 15s
   releaseName: nkp-insights
   targetNamespace: ${releaseNamespace}
+  timeout: 10m
   upgrade:
     remediation:
       retries: 30
       strategy: uninstall
-  timeout: 10m
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
