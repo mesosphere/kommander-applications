@@ -18,6 +18,7 @@ spec:
     remediation:
       retries: 30
       strategy: uninstall
+  timeout: 10m
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
