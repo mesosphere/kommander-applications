@@ -3,7 +3,7 @@ ignore:
   - docker.io/library/alpine:3.20.3
 
 resources:
-  - container_image: docker.io/fluent/fluent-bit:3.2.4
+  - container_image: ghcr.io/fluent/fluent-bit:4.1.1
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
