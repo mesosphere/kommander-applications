@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kommander-appmanagement-0.16.1-config-defaults
+  name: kommander-appmanagement-0.16.2-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
