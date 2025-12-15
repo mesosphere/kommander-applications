@@ -162,7 +162,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.7.2
+      tag: 1.7.3
     initdb:
       resources:
         limits:
@@ -495,7 +495,7 @@ data:
         name: nkp-insights-trivy-env
       failedJobsHistoryLimit: 1
       image:
-        imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20251209T033119Z
+        imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20251215T180012Z
         pullPolicy: IfNotPresent
       jobBackoffLimit: 2
       resources:
