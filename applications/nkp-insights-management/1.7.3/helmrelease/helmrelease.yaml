@@ -6,7 +6,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: ${releaseName}-${appVersion}
+    name: nkp-insights-management-1.7.3
     namespace: ${releaseNamespace}
   dependsOn:
     - name: kubefed
@@ -24,4 +24,4 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-${appVersion}-config-defaults
+      name: nkp-insights-management-1.7.3-config-defaults
