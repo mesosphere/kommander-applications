@@ -6,7 +6,7 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: nkp-insights-1.7.3
+    name: ${releaseName}-${appVersion}
     namespace: ${releaseNamespace}
   install:
     remediation:
@@ -21,4 +21,4 @@ spec:
       strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
-      name: nkp-insights-1.7.3-config-defaults
+      name: ${releaseName}-${appVersion}-config-defaults
