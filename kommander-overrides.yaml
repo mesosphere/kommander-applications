@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-overrides
+  namespace: kommander
+data:
+  values.yaml: |
+    catalogCollections:
+    - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-nutanix-product-catalog/collection
+      catalogName: nkp-nutanix-product-catalog
+      extraLabels: {}
+      tag: "john-test"
