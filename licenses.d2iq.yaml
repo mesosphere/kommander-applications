@@ -345,6 +345,16 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.19.5
         url: https://github.com/knative/eventing
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.19.6
+    sources:
+      - license_path: LICENSE
+        ref: release-1.19
+        url: https://github.com/knative/net-istio
+  - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.19.6
+    sources:
+      - license_path: LICENSE
+        ref: release-1.19
+        url: https://github.com/knative/net-istio
   - container_image: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
     sources:
       - license_path: LICENSE
