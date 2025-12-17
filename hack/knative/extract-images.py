@@ -628,7 +628,7 @@ def get_available_versions(component, has_patch=True):
 def get_yaml_files_from_github_dir(repo_path, version, subpath=""):
     """Get list of YAML files from a GitHub directory."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{repo_path}/{version}"
-    
+
     if subpath:
         api_url += f"/{subpath}"
 
