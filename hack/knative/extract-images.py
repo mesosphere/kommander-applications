@@ -847,9 +847,6 @@ def main():
     else:
         print("No ingress kourier files found")
 
-
-
-
     # Write results to file - use Path for proper directory resolution
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent.parent
