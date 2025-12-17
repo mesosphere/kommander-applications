@@ -14,8 +14,8 @@ gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.19.5
 gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.5
 gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.5
 gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.5
-gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.19.6
-gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.19.6
+gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:ae990d5171b291ba4ea36ede3d97664c420a8581d659706a696d9fffdc257aac
+gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:f82ac6fe0d8c3607f206d0a858c4653c07a6ef254cfcf0dd15106a6cead38a2b
 gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
 gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.19.5
 gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.19.5
