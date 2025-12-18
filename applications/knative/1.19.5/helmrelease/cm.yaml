@@ -49,6 +49,11 @@ data:
           registry:
             override:
               # Pin serving images to specific tagged versions
+              envoy/envoy: docker.io/envoyproxy/envoy:v1.34-latest
+              net-contour-controller/controller: gcr.io/knative-releases/knative.dev/net-contour/cmd/controller:v1.19.6
+              net-istio-controller/controller: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.19.6
+              net-istio-webhook/webhook: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.19.6
+              kourier/kourier: gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier:v1.19.6
               storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
               activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.19.5
               autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.19.5
@@ -108,7 +113,6 @@ data:
               mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.5
               pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.5
               eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.5
-              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
               APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.19.5
               AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.19.0
               AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.19.0
@@ -119,4 +123,4 @@ data:
               DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.5
               LOG_SINK: gcr.io/knative-releases/log-sink:v1.19.0
               TIMER_SOURCE: gcr.io/knative-releases/timer-source:v1.19.0
-              TRANSFORM_JSONATA: gcr.io/knative-releases/timer-source:v1.19.0
+              TRANSFORM_JSONATA: gcr.io/knative-releases/transform-jsonata:v1.19.0

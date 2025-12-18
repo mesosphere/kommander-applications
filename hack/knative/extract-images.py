@@ -442,6 +442,10 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
             if container_context not in eventing_keys:
                 eventing_overrides.append(override_entry)
                 eventing_keys.add(container_context)
+        elif component == "ingress":
+            if container_context not in serving_keys:
+                serving_overrides.append(override_entry)
+                serving_keys.add(container_context)
 
     # Process environment variable images
     for env_name, image in sorted(all_env_var_images.items()):
@@ -602,7 +606,7 @@ def validate_version_exists(component, version):
     except Exception:
         return False
 
-def get_available_versions(component):
+def get_available_versions(component, has_patch=True):
     """Get list of available versions for a component."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{component}"
 
@@ -610,19 +614,23 @@ def get_available_versions(component):
     if not content:
         return []
 
+    matchExpression = r'^\d+\.\d+\.\d+$' if has_patch else r'^\d+\.\d+$'
     try:
         folders = json.loads(content)
         versions = []
         for folder in folders:
-            if folder['type'] == 'dir' and re.match(r'^\d+\.\d+\.\d+$', folder['name']):
+            if folder['type'] == 'dir' and re.match(matchExpression, folder['name']):
                 versions.append(folder['name'])
         return sorted(versions, key=lambda x: [int(i) for i in x.split('.')])
     except Exception:
         return []
 
-def get_yaml_files_from_github_dir(repo_path, version):
+def get_yaml_files_from_github_dir(repo_path, version, subpath=""):
     """Get list of YAML files from a GitHub directory."""
     api_url = f"https://api.github.com/repos/knative/operator/contents/cmd/operator/kodata/{repo_path}/{version}"
+
+    if subpath:
+        api_url += f"/{subpath}"
 
     content = run_curl(api_url)
     if not content:
@@ -694,16 +702,19 @@ def main():
     parser = argparse.ArgumentParser(description='Extract Docker images from KNative operator manifests')
     parser.add_argument('--eventing-version', required=True, help='KNative eventing version (e.g., 1.18.1)')
     parser.add_argument('--serving-version', required=True, help='KNative serving version (e.g., 1.18.1)')
+    parser.add_argument('--ingress-version', required=True, help='KNative ingress version (e.g., 1.18)')
     parser.add_argument('--k-apps-version', help='Kommander applications version for output directory (defaults to serving_version)')
     args = parser.parse_args()
 
     eventing_version = args.eventing_version
     serving_version = args.serving_version
+    ingress_version = args.ingress_version
     k_apps_version = getattr(args, 'k_apps_version') or serving_version
 
     print(f"Extracting Docker images from KNative operator manifests")
     print(f"Eventing version: {eventing_version}")
     print(f"Serving version: {serving_version}")
+    print(f"Ingress version: {ingress_version}")
     print(f"K-apps version: {k_apps_version}")
     print("=" * 70)
 
@@ -711,6 +722,7 @@ def main():
     print("Validating versions...")
     eventing_exists = validate_version_exists("knative-eventing", eventing_version)
     serving_exists = validate_version_exists("knative-serving", serving_version)
+    ingress_exists = validate_version_exists("ingress", ingress_version)
 
     errors = []
     warnings = []
@@ -728,6 +740,13 @@ def main():
         errors.append(f"❌ KNative serving version {serving_version} does not exist!")
         errors.append(f"   Available serving versions: {', '.join(available_serving[-5:] if available_serving else ['none'])}")
         errors.append(f"   Latest available: {latest_serving}")
+
+    if not ingress_exists:
+        available_ingress = get_available_versions("ingress", has_patch=False)
+        latest_ingress = available_ingress[-1] if available_ingress else "unknown"
+        errors.append(f"❌ KNative ingress version {ingress_version} does not exist!")
+        errors.append(f"   Available ingress versions: {', '.join(available_ingress[-4:] if available_ingress else ['none'])}")
+        errors.append(f"   Latest available: {latest_ingress}")
 
     # Check for version mismatches (common issue)
     if eventing_exists and serving_exists:
@@ -788,6 +807,45 @@ def main():
         all_env_only_images.update(serving_env_only)
     else:
         print("No knative-serving files found")
+
+    # Process ingress contour
+    print("\nFetching ingress contour file list...")
+    ingress_files_contour = get_yaml_files_from_github_dir("ingress", ingress_version, "contour")
+    if ingress_files_contour:
+        print(f"Found {len(ingress_files_contour)} ingress contour files")
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_contour, "ingress", ingress_version)
+        all_images.update(ingress_images)
+        all_env_var_images.update(ingress_env_vars)
+        all_component_images.update(ingress_component_images)
+        all_env_only_images.update(ingress_env_only)
+    else:
+        print("No ingress contour files found")
+
+    # Process ingress istio
+    print("\nFetching ingress istio file list...")
+    ingress_files_istio = get_yaml_files_from_github_dir("ingress", ingress_version, "istio")
+    if ingress_files_istio:
+        print(f"Found {len(ingress_files_istio)} ingress istio files")
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_istio, "ingress", ingress_version)
+        all_images.update(ingress_images)
+        all_env_var_images.update(ingress_env_vars)
+        all_component_images.update(ingress_component_images)
+        all_env_only_images.update(ingress_env_only)
+    else:
+        print("No ingress istio files found")
+
+    # Process ingress kourier
+    print("\nFetching ingress kourier file list...")
+    ingress_files_kourier = get_yaml_files_from_github_dir("ingress", ingress_version, "kourier")
+    if ingress_files_kourier:
+        print(f"Found {len(ingress_files_kourier)} ingress kourier files")
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_kourier, "ingress", ingress_version)
+        all_images.update(ingress_images)
+        all_env_var_images.update(ingress_env_vars)
+        all_component_images.update(ingress_component_images)
+        all_env_only_images.update(ingress_env_only)
+    else:
+        print("No ingress kourier files found")
 
     # Write results to file - use Path for proper directory resolution
     script_dir = Path(__file__).parent
