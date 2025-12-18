@@ -113,6 +113,7 @@ data:
               mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.5
               pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.5
               eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.5
+              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
               APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.19.5
               AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.19.0
               AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.19.0
