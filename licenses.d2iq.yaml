@@ -350,6 +350,21 @@ resources:
       - license_path: LICENSE
         ref: release-1.19
         url: https://github.com/knative/net-istio
+  - container_image: gcr.io/knative-releases/knative.dev/net-contour/cmd/controller:v1.19.6
+    sources:
+      - license_path: LICENSE
+        ref: release-1.19
+        url: https://github.com/knative/net-contour
+  - container_image: gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier:v1.19.6
+    sources:
+      - license_path: LICENSE
+        ref: release-1.19
+        url: https://github.com/knative/net-kourier
+  - container_image: docker.io/envoyproxy/envoy:v1.34-latest
+    sources:
+      - license_path: LICENSE
+        ref: v1.34.0
+        url: https://github.com/envoyproxy/envoy
   - container_image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.19.6
     sources:
       - license_path: LICENSE
