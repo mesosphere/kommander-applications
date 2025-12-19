@@ -1,0 +1,59 @@
+name: Create and Publish DocaOfed Driver
+
+on:
+  workflow_dispatch:
+    inputs:
+        linux_distro:
+            description: 'The Linux distribution to publish the DocaOfed driver for'
+            required: true
+            type: string
+        arch:
+            description: 'The architecture to publish the DocaOfed driver for'
+            required: true
+            type: string
+        base_image:
+            description: 'The base image to publish the DocaOfed driver for'
+            required: true
+            type: string
+        kernel_version:
+            description: 'The kernel version to publish the DocaOfed driver for'
+            required: true
+            type: string
+        doca_version:
+            description: 'The Doca version to publish the DocaOfed driver for'
+            required: true
+            type: string
+        ofed_version:
+            description: 'The OFED version to publish the DocaOfed driver for'
+            required: true
+            type: string
+
+jobs:
+   create-publish-docaofed-driver:
+    runs-on:
+      - self-hosted-ncn-docker-medium
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install NIX
+      uses: cachix/install-nix-action@v31
+
+    - name: Install devbox
+      uses: jetify-com/devbox-install-action@v0.13.0
+      with:
+        enable-cache: true
+        skip-nix-installation: true
+
+    - name: Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create and publish doca-ofed driver
+      run: devbox run -- just publish-doca-ofed-driver ghcr.io/nutanix-cloud-native ${{ inputs.linux_distro }} ${{ inputs.arch }} ${{ inputs.base_image }} ${{ inputs.kernel_version }} ${{ inputs.doca_version }} ${{ inputs.ofed_version }}
