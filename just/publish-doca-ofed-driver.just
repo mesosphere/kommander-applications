@@ -1,4 +1,5 @@
 # Steps: create a dir -> download the dockerfiles -> create driver container image -> tag the image for registry upload -> push the image
+# reference: https://docs.nvidia.com/networking/display/kubernetes25100/advanced/doca-drivers.html#precompiled-container-build-instructions-for-nvidia-doca-ofed-driver-container
 
 # Config
 DOCA_BUILD_REPO   := "Mellanox/doca-driver-build"
@@ -17,9 +18,7 @@ _download-artifact artifact: _ensure-dir
       -O "{{ DOCABUILDER_DIR }}/{{ artifact }}"
 
 # Download DOCA build artifacts into doca-builder/
-download-doca-artifacts: (_download-artifact "RHEL_Dockerfile") \
-                         (_download-artifact "Ubuntu_Dockerfile") \
-                         (_download-artifact "SLES_Dockerfile") \
+download-doca-artifacts: (_download-artifact "Ubuntu_Dockerfile") \
                          (_download-artifact "entrypoint.sh") \
                          (_download-artifact "dtk_nic_driver_build.sh")
     @echo "Download complete. Setting executable permissions..."
@@ -28,9 +27,7 @@ download-doca-artifacts: (_download-artifact "RHEL_Dockerfile") \
 # Map Linux distribution to Dockerfile name
 _dockerfile-for distro:
     @case "{{ distro }}" in \
-        rhcos4.16) echo "RHEL_Dockerfile" ;; \
         ubuntu22.04|ubuntu24.04) echo "Ubuntu_Dockerfile" ;; \
-        sles15.5) echo "SLES_Dockerfile" ;; \
         *) echo "ERROR: Unsupported Linux distribution: {{ distro }}" >&2; exit 1 ;; \
     esac
 

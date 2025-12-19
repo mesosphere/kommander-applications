@@ -6,27 +6,39 @@ on:
         linux_distro:
             description: 'The Linux distribution to publish the DocaOfed driver for'
             required: true
-            type: string
+            type: choice
+            options:
+              - ubuntu22.04
+              - ubuntu24.04
+            default: ubuntu22.04
         arch:
             description: 'The architecture to publish the DocaOfed driver for'
             required: true
-            type: string
+            type: choice
+            options:
+              - x86_64
+              - aarch64
+            default: x86_64
         base_image:
             description: 'The base image to publish the DocaOfed driver for'
             required: true
             type: string
+            default: ubuntu:22.04
         kernel_version:
             description: 'The kernel version to publish the DocaOfed driver for'
             required: true
             type: string
+            default: 5.15.0-139-generic
         doca_version:
             description: 'The Doca version to publish the DocaOfed driver for'
             required: true
             type: string
+            default: 3.2.0
         ofed_version:
             description: 'The OFED version to publish the DocaOfed driver for'
             required: true
             type: string
+            default: 25.10-1.2.8.0
 
 jobs:
    create-publish-docaofed-driver:
@@ -56,4 +68,4 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create and publish doca-ofed driver
-      run: devbox run -- just publish-doca-ofed-driver ghcr.io/nutanix-cloud-native ${{ inputs.linux_distro }} ${{ inputs.arch }} ${{ inputs.base_image }} ${{ inputs.kernel_version }} ${{ inputs.doca_version }} ${{ inputs.ofed_version }}
+      run: devbox run -- just publish-doca-ofed-driver ghcr.io/mesosphere ${{ inputs.linux_distro }} ${{ inputs.arch }} ${{ inputs.base_image }} ${{ inputs.kernel_version }} ${{ inputs.doca_version }} ${{ inputs.ofed_version }}
