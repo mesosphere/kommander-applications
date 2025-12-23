@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    nfd:
+      enabled: false
+      deployNodeFeatureRules: true
+    upgradeCRDs: true
+    sriovNetworkOperator:
+      enabled: false
+    nicConfigurationOperator:
+      enabled: false
+    maintenanceOperator:
+      enabled: false
+    nic-configuration-operator-chart:
+      operator:
+        image:
+          repository: nvcr.io/nvidia/mellanox
+          name: nic-configuration-operator
+          tag: network-operator-v25.7.0
+      configDaemon:
+        image:
+          repository: nvcr.io/nvidia/mellanox
+          name: nic-configuration-operator-daemon
+          tag: network-operator-v25.7.0
+    maintenance-operator-chart:
+      operatorConfig:
+        deploy: false
+      operator:
+        image:
+          repository: nvcr.io/nvidia/mellanox
+          name: maintenance-operator
+          tag: network-operator-v25.7.0
+    ofedDriver:
+      initContainer:
+        enable: true
+        repository: nvcr.io/nvidia/mellanox
+        image: network-operator-init-container
+        version: network-operator-v25.7.0
+    sriov-network-operator:
+      images:
+        operator: nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v25.7.0
+        sriovConfigDaemon: nvcr.io/nvidia/mellanox/sriov-network-operator-config-daemon:network-operator-v25.7.0
+        sriovCni: nvcr.io/nvidia/mellanox/sriov-cni:network-operator-v25.7.0
+        ibSriovCni: nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v25.7.0
+        ovsCni: nvcr.io/nvidia/mellanox/ovs-cni-plugin:network-operator-v25.7.0
+        rdmaCni: nvcr.io/nvidia/mellanox/rdma-cni:network-operator-v25.7.0
+        sriovDevicePlugin: nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v25.7.0
+        resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+        webhook: nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v25.7.0
