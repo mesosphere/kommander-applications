@@ -31,9 +31,17 @@ _dockerfile-for distro:
         *) echo "ERROR: Unsupported Linux distribution: {{ distro }}" >&2; exit 1 ;; \
     esac
 
+# Normalize architecture name (x86_64 -> amd64, aarch64 -> arm64)
+_normalize-arch arch:
+    @case "{{ arch }}" in \
+        x86_64) echo "amd64" ;; \
+        aarch64) echo "arm64" ;; \
+        *) echo "{{ arch }}" ;; \
+    esac
+
 # Generate image tag
 _image-tag doca_version ofed_version kernel_version linux_distro arch:
-    @echo "doca{{ doca_version }}-{{ ofed_version }}-0-{{ kernel_version }}-{{ linux_distro }}-{{ arch }}"
+    @echo "doca{{ doca_version }}-{{ ofed_version }}-0-{{ kernel_version }}-{{ linux_distro }}-$(just _normalize-arch '{{ arch }}')"
 
 # Build DOCA-OFED Docker image (downloads artifacts first)
 build-doca-image registry linux_distro arch base_image kernel_version doca_version ofed_version: download-doca-artifacts
