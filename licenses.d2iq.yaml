@@ -827,12 +827,12 @@ resources:
       - url: https://github.com/Mellanox/k8snetworkplumbingwg-plugins
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/mellanox/nic-feature-discovery:v0.0.1
+  - container_image: nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v25.10.0
     sources:
       - url: https://github.com/Mellanox/nic-feature-discovery
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/mellanox/nvidia-k8s-ipam:v0.2.0
+  - container_image: nvcr.io/nvidia/mellanox/nvidia-k8s-ipam:network-operator-v25.10.0
     sources:
       - url: https://github.com/Mellanox/nvidia-k8s-ipam
         ref: ${image_tag}
@@ -912,12 +912,7 @@ resources:
       - url: https://github.com/Mellanox/ipoib-cni
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/whereabouts:network-operator-v25.10.0
-    sources:
-      - url: https://github.com/Mellanox/whereabouts
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.10.0
+  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.7.0
     sources:
       - url: https://github.com/Mellanox/nic-configuration-operator
         ref: ${image_tag}
@@ -935,10 +930,5 @@ resources:
   - container_image: nvcr.io/nvidia/doca/doca_telemetry:1.22.5-doca3.1.0-host
     sources:
       - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
-        ref: ${image_tag}
-        license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.1.0-25.07-0.9.7.0-0-5.15.0-151-generic-ubuntu22.04-amd64
-    sources:
-      - url: nvcr.io/nvidia/mellanox/doca-driver
         ref: ${image_tag}
         license_path: LICENSE
