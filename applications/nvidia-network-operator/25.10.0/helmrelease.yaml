@@ -5,7 +5,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 6h
-  path: ./applications/nvidia-network-operator/25.7.0/helmrelease
+  path: ./applications/nvidia-network-operator/25.10.0/helmrelease
   prune: true
   retryInterval: 1m0s
   sourceRef:
