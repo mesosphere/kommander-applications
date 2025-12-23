@@ -912,7 +912,7 @@ resources:
       - url: https://github.com/Mellanox/ipoib-cni
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.7.0
+  - container_image: nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.10.0
     sources:
       - url: https://github.com/Mellanox/nic-configuration-operator
         ref: ${image_tag}
