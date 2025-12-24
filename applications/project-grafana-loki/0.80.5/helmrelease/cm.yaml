@@ -196,7 +196,7 @@ data:
         # As of 0.48.4, chart maintainers are still using 1.19-alpine.
         #registry: docker.io
         #repository: nginxinc/nginx-unprivileged
-        tag: 1.28.0-alpine
+        tag: 1.29.2-alpine
       verboseLogging: false
       nginxConfig:
         httpSnippet: |-
