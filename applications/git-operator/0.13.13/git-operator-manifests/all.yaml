@@ -926,7 +926,7 @@ spec:
         app.kubernetes.io/name: git-operator
     spec:
       containers:
-      - image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
+      - image: docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

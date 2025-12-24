@@ -682,7 +682,7 @@ resources:
         ref: controller-v1.11.2
         license_path: LICENSE
         directory: /images/kube-webhook-certgen/rootfs
-  - container_image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
+  - container_image: docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
     sources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
