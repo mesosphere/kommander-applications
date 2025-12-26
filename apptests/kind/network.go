@@ -118,3 +118,46 @@ func WithKindExperimentalDockerNetwork(networkName string, run func() error) err
 
 	return run()
 }
+
+// CreateClusterInNetwork creates a kind cluster in the specified docker network.
+// It uses the KIND_EXPERIMENTAL_DOCKER_NETWORK environment variable to configure
+// the network for the cluster.
+func CreateClusterInNetwork(ctx context.Context, clusterName, networkName string) (*Cluster, error) {
+	var cluster *Cluster
+	err := WithKindExperimentalDockerNetwork(networkName, func() error {
+		var err error
+		cluster, err = CreateCluster(ctx, clusterName)
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
+	return cluster, nil
+}
+
+// AttachClusterToNetwork connects all cluster nodes to the provided network.
+// This function can be used to connect an existing cluster to an additional network,
+// enabling communication between clusters on different networks.
+func AttachClusterToNetwork(ctx context.Context, c *Cluster, networkName string) error {
+	nodes, err := c.ListNodeNames(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to list nodes for cluster %q: %w", c.Name(), err)
+	}
+
+	dapi, err := docker.NewAPI()
+	if err != nil {
+		return fmt.Errorf("could not create docker api: %w", err)
+	}
+
+	// Connect each cluster node to the provided network
+	for _, node := range nodes {
+		err := dapi.ConnectToNetwork(ctx, networkName, node)
+		if err != nil {
+			return fmt.Errorf(
+				"failed to connect cluster %q node %q to network %q: %w",
+				c.Name(), node, networkName, err,
+			)
+		}
+	}
+	return nil
+}
