@@ -25,6 +25,10 @@ var (
 	network          *docker.NetworkResource
 	k8sClient        genericClient.Client
 	restClientV1Pods rest.Interface
+	// Multi-cluster test variables
+	multiEnv            *environment.MultiClusterEnv
+	managementK8sClient genericClient.Client
+	workloadK8sClient   genericClient.Client
 )
 
 var _ = BeforeSuite(func() {
@@ -91,5 +95,55 @@ func SetupKindCluster() error {
 		return err
 	}
 
+	return nil
+}
+
+// SetupMultiCluster provisions a multi-cluster environment with management and workload clusters.
+// This function should be called in BeforeEach(OncePerOrdered, ...) for tests labeled with "multicluster".
+func SetupMultiCluster() error {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	multiEnv = environment.NewMultiClusterEnv()
+	err := multiEnv.Provision(ctx)
+	if err != nil {
+		return err
+	}
+
+	err = multiEnv.ManagementEnv.InstallLatestFlux(ctx)
+	if err != nil {
+		return err
+	}
+
+	err = multiEnv.WorkloadEnv.InstallLatestFlux(ctx)
+	if err != nil {
+		return err
+	}
+
+	managementK8sClient, err = genericClient.New(
+		multiEnv.ManagementEnv.K8sClient.Config(),
+		genericClient.Options{Scheme: flux.NewScheme()},
+	)
+	if err != nil {
+		return err
+	}
+
+	workloadK8sClient, err = genericClient.New(
+		multiEnv.WorkloadEnv.K8sClient.Config(),
+		genericClient.Options{Scheme: flux.NewScheme()},
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// TeardownMultiCluster destroys the multi-cluster environment.
+// This function should be called in AfterEach(OncePerOrdered, ...) for tests labeled with "multicluster".
+func TeardownMultiCluster() error {
+	if multiEnv != nil {
+		return multiEnv.Destroy(ctx)
+	}
 	return nil
 }
