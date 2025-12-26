@@ -15,3 +15,12 @@ type AppScenario interface {
 	InstallPreviousVersion(ctx context.Context, env *environment.Env) error
 	Upgrade(ctx context.Context, env *environment.Env) error
 }
+
+// MultiClusterAppScenario defines the behavior for multi-cluster application test scenarios.
+// It extends AppScenario with support for testing applications across management and attached clusters.
+type MultiClusterAppScenario interface {
+	Name() string
+	Install(ctx context.Context, env *environment.MultiClusterEnv) error
+	InstallPreviousVersion(ctx context.Context, env *environment.MultiClusterEnv) error
+	Upgrade(ctx context.Context, env *environment.MultiClusterEnv) error
+}
