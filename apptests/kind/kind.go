@@ -3,12 +3,13 @@ package kind
 
 import (
 	"context"
+	"embed"
+	"fmt"
 	"io"
 	"log"
 	"os"
-
-	"embed"
 	"path/filepath"
+	"strings"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
@@ -163,6 +164,59 @@ func (c *Cluster) KubeconfigFilePath() string {
 
 func (c *Cluster) Name() string {
 	return c.name
+}
+
+// KubeconfigForPeers generates a kubeconfig file that can be used by other containers
+// on the same Docker network to access this cluster. It replaces the localhost server
+// address with the control-plane container name.
+func (c *Cluster) KubeconfigForPeers() (string, error) {
+	// Read the original kubeconfig
+	kubeconfigData, err := os.ReadFile(c.kubeconfigFilePath)
+	if err != nil {
+		return "", fmt.Errorf("failed to read kubeconfig: %w", err)
+	}
+
+	// The control-plane node name follows the pattern: <cluster-name>-control-plane
+	controlPlaneHost := fmt.Sprintf("%s-control-plane", c.name)
+
+	// Replace 127.0.0.1 or localhost with the control-plane container name
+	// Kind uses port 6443 internally on the control-plane container
+	kubeconfigStr := string(kubeconfigData)
+	// Match patterns like https://127.0.0.1:XXXXX or https://localhost:XXXXX
+	// and replace with the control-plane container address
+	kubeconfigStr = replaceServerAddress(kubeconfigStr, controlPlaneHost)
+
+	// Create a temporary file for the peer kubeconfig
+	peerKubeconfigFile, err := os.CreateTemp("", "*-peer-kubeconfig")
+	if err != nil {
+		return "", fmt.Errorf("failed to create peer kubeconfig file: %w", err)
+	}
+	defer peerKubeconfigFile.Close()
+
+	if _, err := peerKubeconfigFile.WriteString(kubeconfigStr); err != nil {
+		return "", fmt.Errorf("failed to write peer kubeconfig: %w", err)
+	}
+
+	return peerKubeconfigFile.Name(), nil
+}
+
+// replaceServerAddress replaces the server address in kubeconfig with the peer-accessible address.
+func replaceServerAddress(kubeconfig, controlPlaneHost string) string {
+	// Kind clusters expose the API server on port 6443 inside the container
+	// The kubeconfig typically has something like: server: https://127.0.0.1:XXXXX
+	// We need to replace it with: server: https://<control-plane-container>:6443
+
+	// Use a simple string replacement approach
+	// Find the server line and replace the host:port
+	lines := strings.Split(kubeconfig, "\n")
+	for i, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "server:") {
+			// Replace the server URL with the peer-accessible one
+			lines[i] = fmt.Sprintf("    server: https://%s:6443", controlPlaneHost)
+		}
+	}
+	return strings.Join(lines, "\n")
 }
 
 // Extracts the embedded files to file system

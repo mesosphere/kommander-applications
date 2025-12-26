@@ -20,7 +20,6 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	"github.com/mesosphere/kommander-applications/apptests/kustomize"
-	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -146,13 +145,20 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 		}
 	}
 
+	kubeconfigPath := e.Cluster.KubeconfigFilePath()
+	kubeconfigArgs := genericclioptions.NewConfigFlags(true)
+	kubeconfigArgs.KubeConfig = &kubeconfigPath
+
 	components := []string{"source-controller", "kustomize-controller", "helm-controller"}
 	err := flux.Install(ctx, flux.Options{
-		KubeconfigArgs:    genericclioptions.NewConfigFlags(true),
+		KubeconfigArgs:    kubeconfigArgs,
 		KubeclientOptions: new(runclient.Options),
 		Namespace:         kommanderFluxNamespace,
 		Components:        components,
 	})
+	if err != nil {
+		return err
+	}
 
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
 	defer cancel()
@@ -226,45 +232,36 @@ func waitForFluxDeploymentsReady(ctx context.Context, typedClient *typedclient.C
 		manifestgen.InstanceLabelKey: kommanderFluxNamespace,
 	})
 
-	deployments, err := typedClient.Clientset().AppsV1().
-		Deployments(kommanderFluxNamespace).
-		List(ctx, metav1.ListOptions{
-			LabelSelector: selector.String(),
-		})
-	if err != nil {
-		return err
-	}
-	if len(deployments.Items) == 0 {
-		return fmt.Errorf(
-			"no flux conrollers found in the namespace: %s with the label selector %s",
-			kommanderFluxNamespace, selector.String())
-	}
+	// areAllDeploymentsReady is a condition function that lists deployments and checks if all are ready
+	areAllDeploymentsReady := func(ctx context.Context) (done bool, err error) {
+		deployments, err := typedClient.Clientset().AppsV1().
+			Deployments(kommanderFluxNamespace).
+			List(ctx, metav1.ListOptions{
+				LabelSelector: selector.String(),
+			})
+		if err != nil {
+			return false, err
+		}
 
-	// isDeploymentReady is a condition function that checks a single deployment readiness
-	isDeploymentReady := func(ctx context.Context, deployment appsv1.Deployment) wait.ConditionWithContextFunc {
-		return func(ctx context.Context) (done bool, err error) {
-			deploymentObj, err := typedClient.Clientset().AppsV1().
-				Deployments(deployment.Namespace).
-				Get(ctx, deployment.Name, metav1.GetOptions{})
-			if err != nil {
-				return false, err
-			}
-			if deploymentObj.Generation > deploymentObj.Status.ObservedGeneration {
+		// If no deployments found yet, keep waiting
+		if len(deployments.Items) == 0 {
+			return false, nil
+		}
+
+		// Check if all deployments are ready
+		for _, deployment := range deployments.Items {
+			if deployment.Generation > deployment.Status.ObservedGeneration {
 				return false, nil
 			}
-
-			return deploymentObj.Status.ReadyReplicas == deploymentObj.Status.Replicas, nil
+			if deployment.Status.ReadyReplicas != deployment.Status.Replicas {
+				return false, nil
+			}
 		}
+
+		return true, nil
 	}
 
-	for _, deployment := range deployments.Items {
-		err = wait.PollUntilContextCancel(ctx, pollInterval, false, isDeploymentReady(ctx, deployment))
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
+	return wait.PollUntilContextCancel(ctx, pollInterval, false, areAllDeploymentsReady)
 }
 
 func (e *Env) SetCluster(cluster *kind.Cluster) {
