@@ -20,6 +20,6 @@ const (
 	dkpCriticalPriority           = "dkp-critical-priority"
 
 	// Velero constants
-	kubetoolsImageRepository = "docker.io/mesosphere/kubectl:v1.34.1-alpine"
-	kubetoolsImageTag        = "v1.34.1-alpine"
+	kubetoolsImageRepository = "docker.io/mesosphere/kubectl:v1.35.0-alpine"
+	kubetoolsImageTag        = "v1.35.0-alpine"
 )
