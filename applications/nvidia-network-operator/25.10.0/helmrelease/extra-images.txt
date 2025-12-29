@@ -1,5 +1,5 @@
 nvcr.io/nvidia/mellanox/network-operator:v{{ .Chart.Version }}
-nvcr.io/nvidia/mellanox/network-operator-init-container:{{ .Values.ofedDriver.initContainer.version }}
+nvcr.io/nvidia/mellanox/network-operator-init-container:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nvidia-k8s-ipam:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/plugins:network-operator-v{{ .Chart.Version }}
@@ -9,15 +9,15 @@ nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/doca/doca_telemetry:1.22.5-doca3.1.0-host
 nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v{{ .Chart.Version }}
-{{ index .Values "sriov-network-operator" "images" "operator" }}
-{{ index .Values "sriov-network-operator" "images" "sriovConfigDaemon" }}
-{{ index .Values "sriov-network-operator" "images" "sriovCni" }}
-{{ index .Values "sriov-network-operator" "images" "ibSriovCni" }}
-{{ index .Values "sriov-network-operator" "images" "ovsCni" }}
-{{ index .Values "sriov-network-operator" "images" "rdmaCni" }}
-{{ index .Values "sriov-network-operator" "images" "sriovDevicePlugin" }}
+nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/sriov-network-operator-config-daemon:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/sriov-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/ovs-cni-plugin:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/rdma-cni:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v{{ .Chart.Version }}
+nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v{{ .Chart.Version }}
 {{ index .Values "sriov-network-operator" "images" "resourcesInjector" }}
-{{ index .Values "sriov-network-operator" "images" "webhook" }}
-nvcr.io/nvidia/mellanox/maintenance-operator:{{ index .Values "maintenance-operator-chart" "operator" "image" "tag" }}
+nvcr.io/nvidia/mellanox/maintenance-operator:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nic-configuration-operator-daemon:network-operator-v{{ .Chart.Version }}
