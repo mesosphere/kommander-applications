@@ -117,7 +117,7 @@ data:
       enabled: false
       transformations:
         priorityClassName: dkp-high-priority
-        kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
+        kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.0-alpine}
         harbor:
           enabled: true
           cmName: harbor-cosi-overrides
@@ -131,4 +131,4 @@ data:
       targetSecretName: "harbor-s3-credentials"
       reloader: true
 
-      kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
+      kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.0-alpine}

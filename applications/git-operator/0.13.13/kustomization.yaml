@@ -27,4 +27,4 @@ patches:
     name: git-operator-git-webserver
 images:
   - name: docker.io/mesosphere/kubectl
-    newTag: v1.34.1-alpine
+    newTag: v1.35.0-alpine
