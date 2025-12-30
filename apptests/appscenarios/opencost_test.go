@@ -5,12 +5,26 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+
+	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
 var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost"), func() {
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupMultiCluster()
-		Expect(err).To(BeNil())
+		Expect(err).To(Not(HaveOccurred()))
+
+		err = multiEnv.InstallLatestFlux(ctx)
+		Expect(err).To(Not(HaveOccurred()))
+
+		err = multiEnv.InstallLatestFluxOnWorkload(ctx)
+		Expect(err).To(Not(HaveOccurred()))
+
+		err = multiEnv.ApplyKommanderPriorityClasses(ctx, environment.ManagementClusterTarget)
+		Expect(err).To(Not(HaveOccurred()))
+
+		err = multiEnv.ApplyKommanderPriorityClasses(ctx, environment.WorkloadClusterTarget)
+		Expect(err).To(Not(HaveOccurred()))
 	})
 
 	AfterEach(OncePerOrdered, func() {
