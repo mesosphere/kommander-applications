@@ -5,20 +5,20 @@ import (
 	"context"
 	"fmt"
 
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
+
 	typedclient "github.com/mesosphere/kommander-applications/apptests/client"
 	"github.com/mesosphere/kommander-applications/apptests/docker"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	"github.com/mesosphere/kommander-applications/apptests/net"
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 const (
-	DefaultMultiClusterSubnet = "172.18.0.0/16"
-	ManagementClusterName     = "management"
-	WorkloadClusterName       = "workload"
+	ManagementClusterName = "management"
+	WorkloadClusterName   = "workload"
 )
 
 // MultiClusterEnv holds the configuration and state for multi-cluster testing environments.
