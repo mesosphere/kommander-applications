@@ -45,6 +45,16 @@ const (
 	WorkloadClusterName = "workload"
 )
 
+// ClusterTarget specifies which cluster to target for operations.
+type ClusterTarget int
+
+const (
+	// ManagementClusterTarget targets the management cluster (default).
+	ManagementClusterTarget ClusterTarget = iota
+	// WorkloadClusterTarget targets the workload cluster.
+	WorkloadClusterTarget
+)
+
 // Env holds the configuration and state for application specific testings.
 // It contains the Kubernetes client, and the kind cluster.
 // In multi-cluster mode, the K8sClient, Client, Cluster are used for the management cluster.
@@ -338,14 +348,15 @@ func (e *Env) RunScriptOnAllNode(ctx context.Context, script string) error {
 
 // ApplyKommanderBaseKustomizations applies the base Kustomizations from the common directory in the catalog. This
 // creates the HelmRepositories and installs the dkp priority classes.
-func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context, targets ...ClusterTarget) error {
 	kustomizePath, err := absolutePathToBase()
 	if err != nil {
 		return err
 	}
 
 	// apply base Kustomizations
-	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil, targets...)
 	if err != nil {
 		return err
 	}
@@ -354,7 +365,8 @@ func (e *Env) ApplyKommanderBaseKustomizations(ctx context.Context) error {
 }
 
 // ApplyKommanderPriorityClasses applies the priority classes only from the base resources.
-func (e *Env) ApplyKommanderPriorityClasses(ctx context.Context) error {
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyKommanderPriorityClasses(ctx context.Context, targets ...ClusterTarget) error {
 	kustomizePath, err := absolutePathToBase()
 	if err != nil {
 		return err
@@ -364,7 +376,7 @@ func (e *Env) ApplyKommanderPriorityClasses(ctx context.Context) error {
 	kustomizePath = filepath.Join(kustomizePath, "../priority-classes")
 
 	// apply priority classes
-	err = e.ApplyKustomizations(ctx, kustomizePath, nil)
+	err = e.ApplyKustomizations(ctx, kustomizePath, nil, targets...)
 	if err != nil {
 		return err
 	}
@@ -420,9 +432,23 @@ func (e *Env) SetClient(client genericClient.Client) {
 	e.Client = client
 }
 
+func (e *Env) ClientFor(target ClusterTarget) genericClient.Client {
+	if target == WorkloadClusterTarget {
+		return e.WorkloadClient
+	}
+	return e.Client
+}
+
 // ApplyKustomizations applies the kustomizations located in the given path and does variable substitution.
-func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitutions map[string]string) error {
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitutions map[string]string, targets ...ClusterTarget) error {
 	log.SetLogger(klog.NewKlogr())
+
+	target := ManagementClusterTarget
+	if len(targets) > 0 {
+		target = targets[0]
+	}
+	client := e.ClientFor(target)
 
 	if path == "" {
 		return fmt.Errorf("requirement argument: path is not specified")
@@ -453,7 +479,7 @@ func (e *Env) ApplyKustomizations(ctx context.Context, path string, substitution
 			return fmt.Errorf("could not decode kustomization for path: %s :%w", path, err)
 		}
 
-		err = e.Client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
+		err = client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
 		if err != nil {
 			return fmt.Errorf("could not patch the kustomization resources for path: %s :%w", path, err)
 		}
@@ -482,8 +508,15 @@ func absolutePathToBase() (string, error) {
 }
 
 // ApplyYAML applies the YAML manifests located in the given directory and does variable substitution.
-func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[string]string) error {
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[string]string, targets ...ClusterTarget) error {
 	log.SetLogger(klog.NewKlogr())
+
+	target := ManagementClusterTarget
+	if len(targets) > 0 {
+		target = targets[0]
+	}
+	client := e.ClientFor(target)
 
 	if path == "" {
 		return fmt.Errorf("requirement argument: path is not specified")
@@ -500,7 +533,7 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, e.Client, path, substitutions, true)
+		err = applyYAMLFile(ctx, client, path, substitutions, true)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -515,8 +548,15 @@ func (e *Env) ApplyYAML(ctx context.Context, path string, substitutions map[stri
 }
 
 // ApplyYAMLWithoutSubstitutions applies the YAML manifests located in the given directory as is and does not do variable substitution.
-func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) error {
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string, targets ...ClusterTarget) error {
 	log.SetLogger(klog.NewKlogr())
+
+	target := ManagementClusterTarget
+	if len(targets) > 0 {
+		target = targets[0]
+	}
+	client := e.ClientFor(target)
 
 	if path == "" {
 		return fmt.Errorf("requirement argument: path is not specified")
@@ -528,7 +568,7 @@ func (e *Env) ApplyYAMLWithoutSubstitutions(ctx context.Context, path string) er
 			return nil
 		}
 
-		err = applyYAMLFile(ctx, e.Client, path, nil, false)
+		err = applyYAMLFile(ctx, client, path, nil, false)
 		if err != nil {
 			return fmt.Errorf("could not apply the YAML file for path: %s :%w", path, err)
 		}
@@ -587,9 +627,15 @@ func applyYAMLFile(ctx context.Context, client genericClient.Client, path string
 	return nil
 }
 
-// ApplyYAMLFileRaw applies the YAML file provided to the primary/management cluster.
-func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string) error {
-	return applyYAMLFileRawToClient(ctx, e.Client, file, substitutions)
+// ApplyYAMLFileRaw applies the YAML file provided to the specified cluster.
+// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
+func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string, targets ...ClusterTarget) error {
+	target := ManagementClusterTarget
+	if len(targets) > 0 {
+		target = targets[0]
+	}
+	client := e.ClientFor(target)
+	return applyYAMLFileRawToClient(ctx, client, file, substitutions)
 }
 
 // applyYAMLFileRawToClient applies the YAML file to the specified client.

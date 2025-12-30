@@ -111,18 +111,6 @@ func SetupMultiCluster() error {
 		return err
 	}
 
-	// Install Flux on management cluster
-	err = multiEnv.InstallLatestFlux(ctx)
-	if err != nil {
-		return err
-	}
-
-	// Install Flux on workload cluster
-	err = multiEnv.InstallLatestFluxOnWorkload(ctx)
-	if err != nil {
-		return err
-	}
-
 	managementK8sClient, err = genericClient.New(
 		multiEnv.K8sClient.Config(),
 		genericClient.Options{Scheme: flux.NewScheme()},
