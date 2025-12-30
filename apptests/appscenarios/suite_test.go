@@ -26,9 +26,10 @@ var (
 	k8sClient        genericClient.Client
 	restClientV1Pods rest.Interface
 	// Multi-cluster test variables
-	multiEnv            *environment.MultiClusterEnv
-	managementK8sClient genericClient.Client
-	workloadK8sClient   genericClient.Client
+	multiEnv                 *environment.MultiClusterEnv
+	managementK8sClient      genericClient.Client
+	workloadK8sClient        genericClient.Client
+	workloadRestClientV1Pods rest.Interface
 )
 
 var _ = BeforeSuite(func() {
@@ -135,6 +136,42 @@ func SetupMultiCluster() error {
 	if err != nil {
 		return err
 	}
+
+	// Get a REST client for making http requests to pods
+	gvk := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Pod",
+	}
+
+	mgmtHttpClient, err := rest.HTTPClientFor(multiEnv.ManagementEnv.K8sClient.Config())
+	if err != nil {
+		return err
+	}
+
+	restClientV1Pods, err = apiutil.RESTClientForGVK(
+		gvk,
+		false,
+		false,
+		multiEnv.ManagementEnv.K8sClient.Config(),
+		serializer.NewCodecFactory(flux.NewScheme()),
+		mgmtHttpClient,
+	)
+	if err != nil {
+		return err
+	}
+
+	workloadK8sClient, err := rest.HTTPClientFor(multiEnv.WorkloadEnv.K8sClient.Config())
+	if err != nil {
+		return err
+	}
+	workloadRestClientV1Pods, err = apiutil.RESTClientForGVK(gvk,
+		false,
+		false,
+		multiEnv.WorkloadEnv.K8sClient.Config(),
+		serializer.NewCodecFactory(flux.NewScheme()),
+		workloadK8sClient,
+	)
 
 	return nil
 }
