@@ -25,8 +25,8 @@ var (
 	network          *docker.NetworkResource
 	k8sClient        genericClient.Client
 	restClientV1Pods rest.Interface
-	// Multi-cluster test variables
-	multiEnv                 *environment.MultiClusterEnv
+	// Multi-cluster test variables (uses the same Env struct with workload fields populated)
+	multiEnv                 *environment.Env
 	managementK8sClient      genericClient.Client
 	workloadK8sClient        genericClient.Client
 	workloadRestClientV1Pods rest.Interface
@@ -105,24 +105,26 @@ func SetupMultiCluster() error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	multiEnv = environment.NewMultiClusterEnv()
-	err := multiEnv.Provision(ctx)
+	multiEnv = &environment.Env{}
+	err := multiEnv.ProvisionMultiCluster(ctx)
 	if err != nil {
 		return err
 	}
 
-	err = multiEnv.ManagementEnv.InstallLatestFlux(ctx)
+	// Install Flux on management cluster
+	err = multiEnv.InstallLatestFlux(ctx)
 	if err != nil {
 		return err
 	}
 
-	err = multiEnv.WorkloadEnv.InstallLatestFlux(ctx)
+	// Install Flux on workload cluster
+	err = multiEnv.InstallLatestFluxOnWorkload(ctx)
 	if err != nil {
 		return err
 	}
 
 	managementK8sClient, err = genericClient.New(
-		multiEnv.ManagementEnv.K8sClient.Config(),
+		multiEnv.K8sClient.Config(),
 		genericClient.Options{Scheme: flux.NewScheme()},
 	)
 	if err != nil {
@@ -130,7 +132,7 @@ func SetupMultiCluster() error {
 	}
 
 	workloadK8sClient, err = genericClient.New(
-		multiEnv.WorkloadEnv.K8sClient.Config(),
+		multiEnv.WorkloadK8sClient.Config(),
 		genericClient.Options{Scheme: flux.NewScheme()},
 	)
 	if err != nil {
@@ -144,7 +146,7 @@ func SetupMultiCluster() error {
 		Kind:    "Pod",
 	}
 
-	mgmtHttpClient, err := rest.HTTPClientFor(multiEnv.ManagementEnv.K8sClient.Config())
+	mgmtHttpClient, err := rest.HTTPClientFor(multiEnv.K8sClient.Config())
 	if err != nil {
 		return err
 	}
@@ -153,7 +155,7 @@ func SetupMultiCluster() error {
 		gvk,
 		false,
 		false,
-		multiEnv.ManagementEnv.K8sClient.Config(),
+		multiEnv.K8sClient.Config(),
 		serializer.NewCodecFactory(flux.NewScheme()),
 		mgmtHttpClient,
 	)
@@ -161,16 +163,16 @@ func SetupMultiCluster() error {
 		return err
 	}
 
-	workloadK8sClient, err := rest.HTTPClientFor(multiEnv.WorkloadEnv.K8sClient.Config())
+	workloadHttpClient, err := rest.HTTPClientFor(multiEnv.WorkloadK8sClient.Config())
 	if err != nil {
 		return err
 	}
 	workloadRestClientV1Pods, err = apiutil.RESTClientForGVK(gvk,
 		false,
 		false,
-		multiEnv.WorkloadEnv.K8sClient.Config(),
+		multiEnv.WorkloadK8sClient.Config(),
 		serializer.NewCodecFactory(flux.NewScheme()),
-		workloadK8sClient,
+		workloadHttpClient,
 	)
 
 	return nil
@@ -180,7 +182,7 @@ func SetupMultiCluster() error {
 // This function should be called in AfterEach(OncePerOrdered, ...) for tests labeled with "multicluster".
 func TeardownMultiCluster() error {
 	if multiEnv != nil {
-		return multiEnv.Destroy(ctx)
+		return multiEnv.DestroyMultiCluster(ctx)
 	}
 	return nil
 }

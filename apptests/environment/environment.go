@@ -15,11 +15,6 @@ import (
 	"github.com/drone/envsubst"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
 	runclient "github.com/fluxcd/pkg/runtime/client"
-	typedclient "github.com/mesosphere/kommander-applications/apptests/client"
-	"github.com/mesosphere/kommander-applications/apptests/docker"
-	"github.com/mesosphere/kommander-applications/apptests/flux"
-	"github.com/mesosphere/kommander-applications/apptests/kind"
-	"github.com/mesosphere/kommander-applications/apptests/kustomize"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -30,24 +25,45 @@ import (
 	"k8s.io/klog/v2"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+
+	typedclient "github.com/mesosphere/kommander-applications/apptests/client"
+	"github.com/mesosphere/kommander-applications/apptests/docker"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
+	"github.com/mesosphere/kommander-applications/apptests/kind"
+	"github.com/mesosphere/kommander-applications/apptests/kustomize"
+	"github.com/mesosphere/kommander-applications/apptests/net"
 )
 
 const (
 	kommanderFluxNamespace = "kommander-flux"
 	kommanderNamespace     = "kommander"
 	pollInterval           = 2 * time.Second
+
+	// ManagementClusterName is the default name for the management cluster in multi-cluster setups.
+	ManagementClusterName = "management"
+	// WorkloadClusterName is the default name for the workload cluster in multi-cluster setups.
+	WorkloadClusterName = "workload"
 )
 
 // Env holds the configuration and state for application specific testings.
 // It contains the Kubernetes client, and the kind cluster.
+// In multi-cluster mode, the K8sClient, Client, Cluster are used for the management cluster.
 type Env struct {
-	// K8sClient is a reference to the Kubernetes client
-	// This client is used to interact with the cluster built during the execution of the application specific testing.
+	// K8sClient is a reference to the Kubernetes client for the management cluster.
 	K8sClient *typedclient.Client
 	Client    genericClient.Client
-	// Cluster is a dedicated instance of a kind cluster created for running an application specific test.
+	// Cluster is a dedicated instance of a kind cluster (management cluster)
 	Cluster *kind.Cluster
 	Network *docker.NetworkResource
+
+	// used in multi-cluster test
+	WorkloadK8sClient *typedclient.Client
+	WorkloadClient    genericClient.Client
+	WorkloadCluster   *kind.Cluster
+
+	subnet      *net.Subnet
+	networkName string
+	subnetCIDR  string
 }
 
 //go:embed calico.yaml
@@ -102,6 +118,94 @@ func (e *Env) Destroy(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// MultiClusterOption is a functional option for configuring multi-cluster provisioning.
+type MultiClusterOption func(*Env)
+
+// ProvisionMultiCluster creates and configures both management and workload clusters on a shared Docker network.
+// The existing Env fields (K8sClient, Client, Cluster) are used for the management cluster.
+// The workload cluster fields (WorkloadK8sClient, WorkloadClient, WorkloadCluster) are populated for the workload cluster.
+func (e *Env) ProvisionMultiCluster(ctx context.Context, opts ...MultiClusterOption) error {
+	// Apply default network name
+	e.networkName = kind.GetDockerNetworkName()
+
+	// Apply options
+	for _, opt := range opts {
+		opt(e)
+	}
+
+	if err := e.setupMultiClusterNetwork(ctx); err != nil {
+		return fmt.Errorf("failed to setup network: %w", err)
+	}
+
+	if err := e.provisionManagementCluster(ctx); err != nil {
+		return fmt.Errorf("failed to provision management cluster: %w", err)
+	}
+
+	if err := e.provisionWorkloadCluster(ctx); err != nil {
+		return fmt.Errorf("failed to provision workload cluster: %w", err)
+	}
+
+	return nil
+}
+
+// DestroyMultiCluster cleans up both clusters and the shared network.
+func (e *Env) DestroyMultiCluster(ctx context.Context) error {
+	var errs []error
+
+	// Delete the workload cluster first
+	if e.WorkloadCluster != nil {
+		if err := e.WorkloadCluster.Delete(ctx); err != nil {
+			errs = append(errs, fmt.Errorf("failed to delete workload cluster: %w", err))
+		}
+	}
+
+	// Delete the management cluster
+	if e.Cluster != nil {
+		if err := e.Cluster.Delete(ctx); err != nil {
+			errs = append(errs, fmt.Errorf("failed to delete management cluster: %w", err))
+		}
+	}
+
+	// Delete the Docker network
+	if e.networkName != "" {
+		if err := kind.EnsureNetworkIsDeleted(ctx, e.networkName); err != nil {
+			errs = append(errs, fmt.Errorf("failed to delete network: %w", err))
+		}
+	}
+
+	if len(errs) > 0 {
+		return fmt.Errorf("errors during cleanup: %v", errs)
+	}
+
+	return nil
+}
+
+// WorkloadKubeconfigPath returns the kubeconfig path for the workload cluster.
+func (e *Env) WorkloadKubeconfigPath() string {
+	if e.WorkloadCluster == nil {
+		return ""
+	}
+	return e.WorkloadCluster.KubeconfigFilePath()
+}
+
+// WorkloadKubeconfigForPeers returns a kubeconfig that can be used by containers
+// on the same Docker network to access the workload cluster.
+func (e *Env) WorkloadKubeconfigForPeers() (string, error) {
+	if e.WorkloadCluster == nil {
+		return "", fmt.Errorf("workload cluster is not provisioned")
+	}
+	return e.WorkloadCluster.KubeconfigForPeers()
+}
+
+// KubeconfigForPeers returns a kubeconfig that can be used by containers
+// on the same Docker network to access the management cluster.
+func (e *Env) KubeconfigForPeers() (string, error) {
+	if e.Cluster == nil {
+		return "", fmt.Errorf("management cluster is not provisioned")
+	}
+	return e.Cluster.KubeconfigForPeers()
 }
 
 // provisionEnv creates a kind cluster, a Kubernetes client, and installs metallb and calico components on the cluster.
@@ -164,6 +268,50 @@ func (e *Env) InstallLatestFlux(ctx context.Context) error {
 	defer cancel()
 
 	err = waitForFluxDeploymentsReady(ctx, e.K8sClient)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// InstallLatestFluxOnWorkload installs the latest version flux components on the workload cluster.
+// This method is used in multi-cluster setups to install Flux on the workload cluster.
+func (e *Env) InstallLatestFluxOnWorkload(ctx context.Context) error {
+	if e.WorkloadK8sClient == nil || e.WorkloadCluster == nil {
+		return fmt.Errorf("workload cluster is not provisioned")
+	}
+
+	// creating the necessary namespaces
+	for _, ns := range []string{kommanderFluxNamespace} {
+		namespaces := corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
+		if _, err := e.WorkloadK8sClient.Clientset().
+			CoreV1().
+			Namespaces().
+			Create(ctx, &namespaces, metav1.CreateOptions{}); err != nil {
+			return err
+		}
+	}
+
+	kubeconfigPath := e.WorkloadCluster.KubeconfigFilePath()
+	kubeconfigArgs := genericclioptions.NewConfigFlags(true)
+	kubeconfigArgs.KubeConfig = &kubeconfigPath
+
+	components := []string{"source-controller", "kustomize-controller", "helm-controller"}
+	err := flux.Install(ctx, flux.Options{
+		KubeconfigArgs:    kubeconfigArgs,
+		KubeclientOptions: new(runclient.Options),
+		Namespace:         kommanderFluxNamespace,
+		Components:        components,
+	})
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+	defer cancel()
+
+	err = waitForFluxDeploymentsReady(ctx, e.WorkloadK8sClient)
 	if err != nil {
 		return err
 	}
@@ -439,8 +587,13 @@ func applyYAMLFile(ctx context.Context, client genericClient.Client, path string
 	return nil
 }
 
-// ApplyYAMLFileRaw applies the YAML file provided
+// ApplyYAMLFileRaw applies the YAML file provided to the primary/management cluster.
 func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string) error {
+	return applyYAMLFileRawToClient(ctx, e.Client, file, substitutions)
+}
+
+// applyYAMLFileRawToClient applies the YAML file to the specified client.
+func applyYAMLFileRawToClient(ctx context.Context, client genericClient.Client, file []byte, substitutions map[string]string) error {
 	var err error
 	log.SetLogger(klog.NewKlogr())
 
@@ -472,7 +625,7 @@ func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions m
 			return fmt.Errorf("could not decode yaml file : %w", err)
 		}
 
-		err = e.Client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
+		err = client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))
 		if err != nil {
 			return fmt.Errorf("could not patch the resources for path :%w", err)
 		}
