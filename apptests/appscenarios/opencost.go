@@ -2,6 +2,7 @@ package appscenarios
 
 import (
 	"context"
+
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 	"github.com/mesosphere/kommander-applications/apptests/scenarios"
