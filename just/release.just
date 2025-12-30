@@ -8,7 +8,7 @@ org_name := "mesosphere"
 repository := org_name / "kommander-applications"
 include_file := justfile_directory() / ".include-airgapped"
 exclude_file := justfile_directory() / ".exclude-airgapped"
-git_operator_version := env("GIT_OPERATOR_VERSION", "latest")
+git_operator_version := env("", "latest")
 server_repository := registry / org_name / "kommander-applications-server"
 
 s3_path := "dkp" / git_tag
