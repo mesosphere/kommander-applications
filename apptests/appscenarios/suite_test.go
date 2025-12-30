@@ -8,15 +8,17 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/mesosphere/kommander-applications/apptests/docker"
-	"github.com/mesosphere/kommander-applications/apptests/environment"
-	"github.com/mesosphere/kommander-applications/apptests/flux"
-	"github.com/mesosphere/kommander-applications/apptests/kind"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/client-go/rest"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
+
+	"github.com/mesosphere/kommander-applications/apptests/docker"
+	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
+	"github.com/mesosphere/kommander-applications/apptests/kind"
 )
 
 var (
@@ -29,6 +31,7 @@ var (
 	multiEnv                 *environment.Env
 	workloadK8sClient        genericClient.Client
 	workloadRestClientV1Pods rest.Interface
+	workspaceNS              *corev1.Namespace
 )
 
 var _ = BeforeSuite(func() {

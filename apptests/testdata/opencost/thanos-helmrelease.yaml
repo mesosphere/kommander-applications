@@ -1,0 +1,37 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: ${releaseName}-${appVersion}-chart
+  namespace: ${namespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/mesosphere/charts/thanos"
+  ref:
+    tag: 17.3.1
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: ${namespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: ${releaseName}-${appVersion}-chart
+    namespace: ${namespace}
+  interval: 15s
+  install:
+    crds: CreateReplace
+    timeout: 10m0s
+    remediation:
+      retries: 30
+  upgrade:
+    crds: CreateReplace
+    timeout: 10m0s
+    remediation:
+      retries: 30
+  releaseName: thanos
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-${appVersion}-config-defaults
+  targetNamespace: ${namespace}
