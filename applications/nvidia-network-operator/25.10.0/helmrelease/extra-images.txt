@@ -1,4 +1,4 @@
-nvcr.io/nvidia/mellanox/network-operator:v{{ .Chart.Version }}
+nvcr.io/nvidia/cloud-native/network-operator:v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/network-operator-init-container:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v{{ .Chart.Version }}
 nvcr.io/nvidia/mellanox/nvidia-k8s-ipam:network-operator-v{{ .Chart.Version }}
