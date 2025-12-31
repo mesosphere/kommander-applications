@@ -932,4 +932,3 @@ resources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0.34.1
         license_path: LICENSE
-
