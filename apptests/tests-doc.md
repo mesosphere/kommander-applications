@@ -43,8 +43,8 @@ You might run into issue with kube-proxy, metallb and cilium pods in workload cl
 Run the following commands in your terminal:
 
 ```bash
-sysctl -w fs.inotify.max_user_watches=524288
-sysctl -w fs.inotify.max_user_instances=512
+# modify docker VM's ulimit
+docker run --privileged --pid=host alpine:latest nsenter -t 1 -m -u -n -i -- sysctl -w fs.inotify.max_user_instances=512 && docker run --privileged --pid=host alpine:latest nsenter -t 1 -m -u -n -i -- sysctl -w fs.inotify.max_user_watches=524288
 ```
 
 ## Test Cases
