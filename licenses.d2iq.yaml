@@ -932,8 +932,4 @@ resources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0.34.1
         license_path: LICENSE
-  - container_image: docker.io/nginxinc/nginx-unprivileged:1.28.0-alpine
-    sources:
-      - url: https://github.com/nginx/nginx
-        ref: release-${image_tag%-alpine}
-        license_path: LICENSE
+
