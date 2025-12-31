@@ -27,7 +27,7 @@ data:
     ####################################################################
 
     # this is used in object-bucket-claims overrides
-    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.34.1-alpine}
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.0-alpine}
 
     loki:
       ingesterFullname: loki-ingester

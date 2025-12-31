@@ -21,4 +21,4 @@ spec:
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
       kubetoolsImageRepository: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}
-      kubetoolsImageTag: ${kubetoolsImageTag:=v1.34.1-alpine}
+      kubetoolsImageTag: ${kubetoolsImageTag:=v1.35.0-alpine}
