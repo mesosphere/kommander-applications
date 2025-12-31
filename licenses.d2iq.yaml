@@ -936,4 +936,4 @@ resources:
     sources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
-        license_path: LICENSE       
+        license_path: LICENSE
