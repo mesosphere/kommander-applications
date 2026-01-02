@@ -9,8 +9,8 @@ data:
     # overriding the default image tag to be consistent with logging-operator
     image:
       # Pull from docker hub rather than cr.fluentbit.io to avoid rate limiting.
-      repository: docker.io/fluent/fluent-bit
-      tag: 4.0.5
+      repository: ghcr.io/fluent/fluent-bit
+      tag: 4.1.1
 
     priorityClassName: "dkp-critical-priority"
     resources:
