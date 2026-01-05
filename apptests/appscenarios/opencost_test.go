@@ -115,7 +115,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				},
 			}
 			Eventually(func() error {
-				err := managementK8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				if err != nil {
 					return err
 				}
@@ -140,7 +140,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(func() ([]corev1.Pod, error) {
-				err := managementK8sClient.List(ctx, podList, &ctrlClient.ListOptions{
+				err := k8sClient.List(ctx, podList, &ctrlClient.ListOptions{
 					Namespace:     kommanderNamespace,
 					LabelSelector: selector,
 				})
@@ -167,7 +167,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				res := restClientV1Pods.Get().
 					Resource("pods").
 					Namespace(thanosQueryPod.Namespace).
-					Name(thanosQueryPod.Name + ":10902").
+					Name(thanosQueryPod.Name+":10902").
 					SubResource("proxy").
 					Suffix("/api/v1/query").
 					Param("query", "up").
@@ -221,6 +221,8 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 
 			// Verify we have at least one store (the workload cluster's Prometheus sidecar)
 			Expect(string(body)).To(ContainSubstring("success"))
+			// we expose workload prometheus via nodeport service
+			Expect(string(body)).To(ContainSubstring(openCost.workloadNodeIP))
 		})
 
 	})
