@@ -2,13 +2,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: kommander-ui-17.118.15
+  name: kommander-ui-17.118.16
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kommander-ui"
   ref:
-    tag: 17.118.15
+    tag: 17.118.16
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -21,7 +21,7 @@ spec:
       name: kommander
   chartRef:
     kind: OCIRepository
-    name: kommander-ui-17.118.15
+    name: kommander-ui-17.118.16
     namespace: ${releaseNamespace}
   interval: 15s
   install:
@@ -34,7 +34,7 @@ spec:
       retries: 30
   valuesFrom:
     - kind: ConfigMap
-      name: kommander-ui-17.118.15-config-defaults
+      name: kommander-ui-17.118.16-config-defaults
     - kind: ConfigMap
       name: kommander-ui-overrides
       optional: true
