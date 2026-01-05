@@ -20,6 +20,7 @@ spec:
     name: nkp-flux-2.17.1
     namespace: ${releaseNamespace}
   interval: 15s
+  timeout: 20m # This is equivalent to CLI Core App Upgrade timeout.
   install:
     crds: CreateReplace
     remediation:
