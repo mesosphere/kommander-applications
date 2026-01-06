@@ -27,7 +27,6 @@ var (
 	restClientV1Pods rest.Interface
 	// Multi-cluster test variables (uses the same Env struct with workload fields populated)
 	multiEnv                 *environment.Env
-	managementK8sClient      genericClient.Client
 	workloadK8sClient        genericClient.Client
 	workloadRestClientV1Pods rest.Interface
 )
@@ -111,7 +110,7 @@ func SetupMultiCluster() error {
 		return err
 	}
 
-	managementK8sClient, err = genericClient.New(
+	k8sClient, err = genericClient.New(
 		multiEnv.K8sClient.Config(),
 		genericClient.Options{Scheme: flux.NewScheme()},
 	)

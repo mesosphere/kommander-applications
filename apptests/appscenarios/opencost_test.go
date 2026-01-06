@@ -39,7 +39,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost"), func() {
 	Describe("test", Ordered, Label("install"), func() {
 		It("should setup multi-cluster environment", func() {
 			Expect(multiEnv).ToNot(BeNil())
-			Expect(managementK8sClient).ToNot(BeNil())
+			Expect(k8sClient).ToNot(BeNil())
 			Expect(workloadK8sClient).ToNot(BeNil())
 		})
 	})
