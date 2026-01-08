@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"inet.af/netaddr"
@@ -110,5 +111,16 @@ func (n *NetworkResource) Subnet() (*net.Subnet, error) {
 		return nil, ErrMissingSubnetConfig
 	}
 
-	return net.ParseSubnet(ipamConfigs[0].Subnet)
+	for _, config := range ipamConfigs {
+		prefix, err := netaddr.ParseIPPrefix(config.Subnet)
+		if err != nil {
+			continue
+		}
+		if prefix.IP().Is4() {
+			return net.ParseSubnet(config.Subnet)
+		}
+	}
+
+	// TODO: handle dual-stack networks
+	return nil, errors.New("no IPv4 subnet found")
 }
