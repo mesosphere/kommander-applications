@@ -16,5 +16,5 @@ data:
         repository: "docker.io/mesosphere/ai-navigator-rag"
       tag: "0.8.0-rc.1"
     sidecar:
-      # TODO: Temporarily point to the external endpoint until AI Nav V2 is supported by Kommander UI 
+      # TODO: Temporarily point to the external endpoint until AI Nav V2 is supported by Kommander UI
       chatbotURL: "https://chatbot.api.d2iq.com/v1/chat"
