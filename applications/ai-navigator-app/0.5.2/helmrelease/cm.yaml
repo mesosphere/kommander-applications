@@ -5,18 +5,16 @@ metadata:
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
-    ---
-    priorityClassName: dkp-high-priority
+    openai:
+      apiEndpoint: ""
+    postgresql:
+      priorityClassName: "dkp-critical-priority"
+    auth:
+      enabled: false
     image:
-      registry: docker.io
-      repository: mesosphere/ai-navigator-app
-      pullPolicy: IfNotPresent
-    chatbotURL: "https://chatbot.api.d2iq.com/v1/chat"
-    authorizerURL: "https://auth.api.d2iq.com"
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 300m
-        memory: 256Mi
+      rag:
+        repository: "docker.io/mesosphere/ai-navigator-rag"
+      tag: "0.8.0-rc.1"
+    sidecar:
+      # TODO: Temporarily point to the external endpoint until AI Nav V2 is supported by Kommander UI 
+      chatbotURL: "https://chatbot.api.d2iq.com/v1/chat"
