@@ -4,6 +4,8 @@ const (
 	CertManager              = "cert-manager"
 	Karma                    = "karma"
 	KubeCost                 = "kubecost"
+	OpenCost                 = "opencost"
+	CentralizedOpenCost      = "centralized-opencost"
 	Reloader                 = "reloader"
 	Traefik                  = "traefik"
 	KarmaTraefik             = "karma-traefik"
