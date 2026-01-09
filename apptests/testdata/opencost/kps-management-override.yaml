@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-prometheus-stack-mgmt-overrides
+  namespace: ${namespace}
+data:
+  values.yaml: |
+    ---
+    prometheus:
+      prometheusSpec:
+        # Use emptyDir instead of PVC for Kind cluster testing
+        storageSpec:
+          emptyDir:
+            medium: ""
+            sizeLimit: "1Gi"
+    # Grafana: disable persistence (uses emptyDir by default when disabled)
+    grafana:
+      persistence:
+        enabled: false
