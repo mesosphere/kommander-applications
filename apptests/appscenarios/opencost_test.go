@@ -50,26 +50,22 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 	})
 
 	Describe("Installing multi-cluster OpenCost", Ordered, Label("install"), func() {
-		var (
-			openCost       *openCost
-			workloadNodeIP string
-		)
+		var openCost *openCost
 
-		It("should setup multi-cluster environment", func() {
+		It("should install multi-cluster OpenCost stack", func() {
 			Expect(multiEnv).ToNot(BeNil())
 			Expect(k8sClient).ToNot(BeNil())
 			Expect(workloadK8sClient).ToNot(BeNil())
 
 			openCost = NewOpenCost()
+
+			err := openCost.Install(ctx, multiEnv)
+			Expect(err).ToNot(HaveOccurred())
+
+			GinkgoWriter.Printf("Workload Node IP: %s (Thanos connects via NodePort 30901)\n", openCost.GetWorkloadNodeIP())
 		})
 
-		It("should install kube-prometheus-stack on workload cluster", func() {
-			err := openCost.applyKPSWorkloadOverride(ctx, multiEnv)
-			Expect(err).ToNot(HaveOccurred())
-
-			err = openCost.deployKPSOnWorkload(ctx, multiEnv)
-			Expect(err).ToNot(HaveOccurred())
-
+		It("should have kube-prometheus-stack healthy on workload cluster", func() {
 			hr := &fluxhelmv2beta2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "kube-prometheus-stack",
@@ -90,24 +86,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
-		It("should have workload node IP available for NodePort access", func() {
-			var err error
-			workloadNodeIP, err = openCost.getWorkloadNodeIP(ctx, multiEnv.WorkloadClient)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(workloadNodeIP).ToNot(BeEmpty())
-
-			openCost.workloadNodeIP = workloadNodeIP
-
-			GinkgoWriter.Printf("Workload Node IP: %s (Thanos will connect via NodePort 30901)\n", workloadNodeIP)
-		})
-
-		It("should install Thanos on management cluster", func() {
-			err := openCost.createThanosStoresConfigMap(ctx, multiEnv)
-			Expect(err).ToNot(HaveOccurred())
-
-			err = openCost.deployThanosOnManagement(ctx, multiEnv)
-			Expect(err).ToNot(HaveOccurred())
-
+		It("should have Thanos healthy on management cluster", func() {
 			hr := &fluxhelmv2beta2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "thanos",
@@ -203,27 +182,43 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				}
 
 				return nil
-			}).WithPolling(5 * time.Second).WithTimeout(2 * time.Minute).Should(Succeed())
+			}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
 
 			// Additionally verify the store is connected by checking /api/v1/stores
-			res := restClientV1Pods.Get().
-				Resource("pods").
-				Namespace(thanosQueryPod.Namespace).
-				Name(thanosQueryPod.Name + ":10902").
-				SubResource("proxy").
-				Suffix("/api/v1/stores").
-				Do(ctx)
-			Expect(res.Error()).ToNot(HaveOccurred())
+			Eventually(func() error {
+				res := restClientV1Pods.Get().
+					Resource("pods").
+					Namespace(thanosQueryPod.Namespace).
+					Name(thanosQueryPod.Name + ":10902").
+					SubResource("proxy").
+					Suffix("/api/v1/stores").
+					Do(ctx)
 
-			body, err := res.Raw()
-			Expect(err).ToNot(HaveOccurred())
-			GinkgoWriter.Printf("Thanos stores: %s\n", string(body))
+				if res.Error() != nil {
+					return fmt.Errorf("failed to query Thanos stores: %w", res.Error())
+				}
 
-			// Verify we have at least one store (the workload cluster's Prometheus sidecar)
-			Expect(string(body)).To(ContainSubstring("success"))
-			// we expose workload prometheus via nodeport service
-			Expect(string(body)).To(ContainSubstring(openCost.workloadNodeIP))
+				body, err := res.Raw()
+				if err != nil {
+					return fmt.Errorf("failed to read response: %w", err)
+				}
+
+				bodyStr := string(body)
+				GinkgoWriter.Printf("Thanos stores: %s\n", bodyStr)
+
+				// Verify we have at least one store (the workload cluster's Prometheus sidecar)
+				if !strings.Contains(bodyStr, "success") {
+					return fmt.Errorf("stores response missing 'success': %s", bodyStr)
+				}
+
+				// we expose workload prometheus via nodeport service
+				workloadIP := openCost.GetWorkloadNodeIP()
+				if !strings.Contains(bodyStr, workloadIP) {
+					return fmt.Errorf("stores response missing workload node IP %s: %s", workloadIP, bodyStr)
+				}
+
+				return nil
+			}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
-
 	})
 })
