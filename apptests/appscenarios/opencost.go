@@ -6,11 +6,14 @@ import (
 	"os"
 	"path/filepath"
 
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	corev1 "k8s.io/api/core/v1"
-	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
+	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/mesosphere/kommander-applications/apptests/scenarios"
 )
 
@@ -86,7 +89,7 @@ func (o *openCost) applyKPSWorkloadOverride(ctx context.Context, env *environmen
 
 	return env.ApplyYAMLFileRaw(ctx, content, map[string]string{
 		"namespace": workspaceNSName,
-	}, environment.WorkloadClusterTarget)
+	}, environment.WithTarget(environment.WorkloadClusterTarget))
 }
 
 // deployKPSOnWorkload deploys kube-prometheus-stack on the workload cluster.
@@ -112,7 +115,7 @@ func (o *openCost) deployKPSOnWorkload(ctx context.Context, env *environment.Env
 
 // getWorkloadNodeIP gets the internal IP of the workload cluster node.
 // This IP is routable from the management cluster since both Kind clusters share the same Docker network.
-func (o *openCost) getWorkloadNodeIP(ctx context.Context, client genericClient.Client) (string, error) {
+func (o *openCost) getWorkloadNodeIP(ctx context.Context, client ctrlClient.Client) (string, error) {
 	nodeList := &corev1.NodeList{}
 	if err := client.List(ctx, nodeList); err != nil {
 		return "", fmt.Errorf("failed to list nodes: %w", err)
@@ -192,13 +195,13 @@ func (o *openCost) createThanosStoresConfigMap(ctx context.Context, env *environ
 
 // deployThanosOnManagement deploys Thanos on the management cluster with TLS disabled.
 func (o *openCost) deployThanosOnManagement(ctx context.Context, env *environment.Env) error {
-	testDataPath, err := getTestDataDir()
+	appPath, err := absolutePathTo(constants.Thanos)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get Thanos app path: %w", err)
 	}
 
-	// Apply the custom Thanos config defaults (TLS disabled)
-	configPath := filepath.Join(testDataPath, "opencost", "thanos-config-defaults.yaml")
+	// Apply the production config defaults from applications/thanos
+	configPath := filepath.Join(appPath, "helmrelease", "cm.yaml")
 	configContent, err := os.ReadFile(configPath)
 	if err != nil {
 		return fmt.Errorf("failed to read Thanos config: %w", err)
@@ -207,25 +210,82 @@ func (o *openCost) deployThanosOnManagement(ctx context.Context, env *environmen
 	if err := env.ApplyYAMLFileRaw(ctx, configContent, map[string]string{
 		"releaseName":      "thanos",
 		"appVersion":       "app-version",
-		"namespace":        kommanderNamespace,
 		"releaseNamespace": kommanderNamespace,
 	}); err != nil {
 		return fmt.Errorf("failed to apply Thanos config: %w", err)
 	}
 
-	// Apply the custom HelmRelease (without Certificate resource)
-	helmReleasePath := filepath.Join(testDataPath, "opencost", "thanos-helmrelease.yaml")
+	// Apply the override ConfigMap to disable TLS for testing
+	testDataPath, err := getTestDataDir()
+	if err != nil {
+		return err
+	}
+
+	overridePath := filepath.Join(testDataPath, "opencost", "thanos-overrides.yaml")
+	overrideContent, err := os.ReadFile(overridePath)
+	if err != nil {
+		return fmt.Errorf("failed to read Thanos overrides: %w", err)
+	}
+
+	if err := env.ApplyYAMLFileRaw(ctx, overrideContent, map[string]string{
+		"namespace": kommanderNamespace,
+	}); err != nil {
+		return fmt.Errorf("failed to apply Thanos overrides: %w", err)
+	}
+
+	// Apply the production HelmRelease, skipping Certificate and ClusterRole resources
+	// Certificate requires cert-manager/ClusterIssuer which we don't have in the test environment
+	helmReleasePath := filepath.Join(appPath, "helmrelease", "thanos.yaml")
 	helmReleaseContent, err := os.ReadFile(helmReleasePath)
 	if err != nil {
 		return fmt.Errorf("failed to read Thanos HelmRelease: %w", err)
 	}
 
-	return env.ApplyYAMLFileRaw(ctx, helmReleaseContent, map[string]string{
+	if err := env.ApplyYAMLFileRaw(ctx, helmReleaseContent, map[string]string{
 		"releaseName":      "thanos",
 		"appVersion":       "app-version",
-		"namespace":        kommanderNamespace,
 		"releaseNamespace": kommanderNamespace,
+	}, environment.WithKindsToSkip([]string{"Certificate", "ClusterRole"})); err != nil {
+		return fmt.Errorf("failed to apply Thanos HelmRelease: %w", err)
+	}
+
+	return o.patchThanosHelmReleaseWithOverride(ctx, env)
+}
+
+// patchThanosHelmReleaseWithOverride patches the Thanos HelmRelease to include the override ConfigMap.
+func (o *openCost) patchThanosHelmReleaseWithOverride(ctx context.Context, env *environment.Env) error {
+	hr := &fluxhelmv2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.String(),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "thanos",
+			Namespace: kommanderNamespace,
+		},
+	}
+
+	client, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{
+		Scheme: flux.NewScheme(),
 	})
+	if err != nil {
+		return fmt.Errorf("could not create the generic client: %w", err)
+	}
+
+	if err := client.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr); err != nil {
+		return fmt.Errorf("could not get the HelmRelease: %w", err)
+	}
+
+	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2.ValuesReference{
+		Kind: "ConfigMap",
+		Name: "thanos-overrides",
+	})
+
+	if err := client.Update(ctx, hr); err != nil {
+		return fmt.Errorf("could not update the HelmRelease: %w", err)
+	}
+
+	return nil
 }
 
 // deployCentralizedOpenCost deploys Centralized OpenCost on the management cluster.

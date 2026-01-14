@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -66,7 +66,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 		})
 
 		It("should have kube-prometheus-stack healthy on workload cluster", func() {
-			hr := &fluxhelmv2beta2.HelmRelease{
+			hr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "kube-prometheus-stack",
 					Namespace: workspaceNSName,
@@ -87,7 +87,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 		})
 
 		It("should have kube-prometheus-stack healthy on management cluster", func() {
-			hr := &fluxhelmv2beta2.HelmRelease{
+			hr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "kube-prometheus-stack",
 					Namespace: kommanderNamespace,
@@ -108,7 +108,7 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 		})
 
 		It("should have Thanos healthy on management cluster", func() {
-			hr := &fluxhelmv2beta2.HelmRelease{
+			hr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "thanos",
 					Namespace: kommanderNamespace,

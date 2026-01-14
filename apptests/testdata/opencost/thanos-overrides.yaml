@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thanos-overrides
+  namespace: ${namespace}
+data:
+  values.yaml: |
+    ---
+    # Override values to disable TLS for testing
+    query:
+      priorityClassName: "dkp-high-priority"
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 2
+          memory: 1024Mi
+      extraFlags:
+        - "--store.sd-interval=30s"
+        - "--store.sd-files=/conf/sd/stores.yaml"
+        - "--web.prefix-header=X-Forwarded-Prefix"
+        # TLS disabled for testing - no --grpc-client-tls-* flags
+      extraVolumes: []
+      extraVolumeMounts: []
+      commonAnnotations: {}
+      commonLabels: {}
+      ingress:
+        enabled: false
