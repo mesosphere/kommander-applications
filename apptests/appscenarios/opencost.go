@@ -16,13 +16,10 @@ import (
 
 const workspaceNSName = "workspace-1"
 
-// openCost implements multi-cluster OpenCost deployment scenario.
-// This deploys:
-// - Workload cluster: kube-prometheus-stack (with NodePort) + opencost
-// - Management cluster: thanos (pointing to workload) + centralized-opencost
 type openCost struct {
 	// workloadNodeIP stores the Node IP of the workload cluster for Thanos to connect via NodePort
-	workloadNodeIP string
+	workloadNodeIP       string
+	managementServiceUrl string
 }
 
 var _ scenarios.AppScenario = (*openCost)(nil)
@@ -36,8 +33,9 @@ func (o *openCost) Name() string {
 }
 
 // Install deploys the multi-cluster OpenCost setup including all prerequisites.
-// Workload cluster: KPS (with Thanos sidecar) + OpenCost
-// Management cluster: Thanos (connecting to workload KPS) + Centralized OpenCost
+// This deploys:
+// - Management cluster: thanos (pointing to mgmt and workload KPS) + kube-prometheus-stack + centralized-opencost
+// - Workload cluster: kube-prometheus-stack (with NodePort) + opencost
 // TODO: refactor this to call thanos and KPS structs once they are implemented
 func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
 	if err := o.deployKPSOnWorkload(ctx, env); err != nil {
@@ -53,6 +51,7 @@ func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
 		return fmt.Errorf("failed to get workload node IP: %w", err)
 	}
 	o.workloadNodeIP = nodeIP
+	o.managementServiceUrl = "kube-prometheus-stack-prometheus.kommander.svc.cluster.local"
 
 	if err := o.createThanosStoresConfigMap(ctx, env); err != nil {
 		return fmt.Errorf("failed to create Thanos stores ConfigMap: %w", err)
@@ -134,7 +133,6 @@ func (o *openCost) getWorkloadNodeIP(ctx context.Context, client genericClient.C
 
 // deployKPSOnManagement deploys kube-prometheus-stack on the management cluster.
 func (o *openCost) deployKPSOnManagement(ctx context.Context, env *environment.Env) error {
-	// Apply KPS override ConfigMap (emptyDir instead of PVC for Kind testing)
 	if err := o.applyKPSManagementOverride(ctx, env); err != nil {
 		return fmt.Errorf("failed to apply KPS management override: %w", err)
 	}
@@ -186,8 +184,9 @@ func (o *openCost) createThanosStoresConfigMap(ctx context.Context, env *environ
 	}
 
 	return env.ApplyYAMLFileRaw(ctx, content, map[string]string{
-		"namespace":      kommanderNamespace,
-		"workloadNodeIP": o.workloadNodeIP,
+		"namespace":            kommanderNamespace,
+		"workloadNodeIP":       o.workloadNodeIP,
+		"managementServiceUrl": o.managementServiceUrl,
 	})
 }
 
@@ -250,4 +249,10 @@ func (o *openCost) deployCentralizedOpenCost(ctx context.Context, env *environme
 // This can be used by tests to verify connectivity via NodePort.
 func (o *openCost) GetWorkloadNodeIP() string {
 	return o.workloadNodeIP
+}
+
+// GetManagementServiceUrl returns the service URL of the management cluster's Prometheus.
+// This can be used by tests to verify the management Prometheus is registered as a Thanos store.
+func (o *openCost) GetManagementServiceUrl() string {
+	return o.managementServiceUrl
 }

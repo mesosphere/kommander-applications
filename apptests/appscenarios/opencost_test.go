@@ -86,6 +86,27 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
+		It("should have kube-prometheus-stack healthy on management cluster", func() {
+			hr := &fluxhelmv2beta2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "kube-prometheus-stack",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("kube-prometheus-stack HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+		})
+
 		It("should have Thanos healthy on management cluster", func() {
 			hr := &fluxhelmv2beta2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
@@ -215,6 +236,12 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				workloadIP := openCost.GetWorkloadNodeIP()
 				if !strings.Contains(bodyStr, workloadIP) {
 					return fmt.Errorf("stores response missing workload node IP %s: %s", workloadIP, bodyStr)
+				}
+
+				// verify management prometheus is also in the stores
+				managementServiceUrl := openCost.GetManagementServiceUrl()
+				if !strings.Contains(bodyStr, managementServiceUrl) {
+					return fmt.Errorf("stores response missing management service URL %s: %s", managementServiceUrl, bodyStr)
 				}
 
 				return nil

@@ -6,13 +6,20 @@ metadata:
 data:
   values.yaml: |
     ---
-    prometheus:
-      prometheusSpec:
-        # Use emptyDir instead of PVC for Kind cluster testing
-        storageSpec:
-          emptyDir:
-            medium: ""
-            sizeLimit: "1Gi"
+    prometheusSpec:
+      # Ensure Thanos sidecar is enabled
+      thanos:
+        objectStorageConfig: {}
+      # Override storage to use smaller PVC (1Gi) for Kind cluster testing
+      storageSpec:
+        volumeClaimTemplate:
+          metadata:
+            name: db
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 1Gi
     # Grafana: disable persistence (uses emptyDir by default when disabled)
     grafana:
       persistence:

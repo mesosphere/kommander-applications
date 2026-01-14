@@ -6,4 +6,5 @@ metadata:
 data:
   stores.yaml: |
     - targets:
+      - ${managementServiceUrl}:10901
       - ${workloadNodeIP}:30901
