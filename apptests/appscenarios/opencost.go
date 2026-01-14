@@ -20,9 +20,33 @@ import (
 const workspaceNSName = "workspace-1"
 
 type openCost struct {
-	// workloadNodeIP stores the Node IP of the workload cluster for Thanos to connect via NodePort
-	workloadNodeIP       string
 	managementServiceUrl string
+	managementClusterID  string
+	// workloadNodeIP stores the Node IP of the workload cluster for Thanos to connect via NodePort
+	workloadNodeIP    string
+	workloadClusterID string
+}
+
+// GetWorkloadNodeIP returns the Node IP of the workload cluster.
+// This can be used by tests to verify connectivity via NodePort.
+func (o *openCost) GetWorkloadNodeIP() string {
+	return o.workloadNodeIP
+}
+
+// GetManagementServiceUrl returns the service URL of the management cluster's Prometheus.
+// This can be used by tests to verify the management Prometheus is registered as a Thanos store.
+func (o *openCost) GetManagementServiceUrl() string {
+	return o.managementServiceUrl
+}
+
+// GetManagementClusterID returns the cluster ID of the management cluster.
+func (o *openCost) GetManagementClusterID() string {
+	return o.managementClusterID
+}
+
+// GetWorkloadClusterID returns the cluster ID of the workload cluster.
+func (o *openCost) GetWorkloadClusterID() string {
+	return o.workloadClusterID
 }
 
 var _ scenarios.AppScenario = (*openCost)(nil)
@@ -56,11 +80,36 @@ func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
 	o.workloadNodeIP = nodeIP
 	o.managementServiceUrl = "kube-prometheus-stack-prometheus.kommander.svc.cluster.local"
 
+	// populate cluster IDs
+	managementClusterID, err := o.getClusterID(ctx, env.Client)
+	if err != nil {
+		return fmt.Errorf("failed to get management cluster ID: %w", err)
+	}
+	o.managementClusterID = managementClusterID
+
+	workloadClusterID, err := o.getClusterID(ctx, env.WorkloadClient)
+	if err != nil {
+		return fmt.Errorf("failed to get workload cluster ID: %w", err)
+	}
+	o.workloadClusterID = workloadClusterID
+
 	if err := o.createThanosStoresConfigMap(ctx, env); err != nil {
 		return fmt.Errorf("failed to create Thanos stores ConfigMap: %w", err)
 	}
 	if err := o.deployThanosOnManagement(ctx, env); err != nil {
 		return fmt.Errorf("failed to deploy Thanos on management cluster: %w", err)
+	}
+
+	if err := o.deployCentralizedOpenCost(ctx, env); err != nil {
+		return fmt.Errorf("failed to deploy Centralized OpenCost: %w", err)
+	}
+
+	if err := o.deployOpenCost(ctx, env, environment.ManagementClusterTarget); err != nil {
+		return fmt.Errorf("failed to deploy OpenCost on management cluster: %w", err)
+	}
+
+	if err := o.deployOpenCost(ctx, env, environment.WorkloadClusterTarget); err != nil {
+		return fmt.Errorf("failed to deploy OpenCost on workload cluster: %w", err)
 	}
 
 	return nil
@@ -305,14 +354,67 @@ func (o *openCost) deployCentralizedOpenCost(ctx context.Context, env *environme
 	})
 }
 
-// GetWorkloadNodeIP returns the Node IP of the workload cluster.
-// This can be used by tests to verify connectivity via NodePort.
-func (o *openCost) GetWorkloadNodeIP() string {
-	return o.workloadNodeIP
+// deployOpenCostPreInstall applies the OpenCost pre-install job to create cluster-info-configmap.
+func (o *openCost) deployOpenCostPreInstall(ctx context.Context, env *environment.Env, target environment.ClusterTarget) error {
+	appPath, err := absolutePathTo(constants.OpenCost)
+	if err != nil {
+		return err
+	}
+
+	preInstallPath := filepath.Join(appPath, "pre-install")
+	if _, err := os.Stat(preInstallPath); os.IsNotExist(err) {
+		// Pre-install directory doesn't exist, skip
+		return nil
+	}
+
+	// Determine namespace based on target cluster
+	namespace := kommanderNamespace
+	if target == environment.WorkloadClusterTarget {
+		namespace = workspaceNSName
+	}
+
+	return env.ApplyKustomizations(ctx, preInstallPath, map[string]string{
+		"releaseName":      "opencost",
+		"appVersion":       "app-version",
+		"releaseNamespace": namespace,
+		// bitnami/kubectl supports arm64
+		"kubetoolsImageRepository": "bitnami/kubectl",
+		"kubetoolsImageTag":        "1.31.4",
+	}, target)
 }
 
-// GetManagementServiceUrl returns the service URL of the management cluster's Prometheus.
-// This can be used by tests to verify the management Prometheus is registered as a Thanos store.
-func (o *openCost) GetManagementServiceUrl() string {
-	return o.managementServiceUrl
+// deployOpenCost deploys OpenCost on the specified cluster.
+func (o *openCost) deployOpenCost(ctx context.Context, env *environment.Env, target environment.ClusterTarget) error {
+	if err := o.deployOpenCostPreInstall(ctx, env, target); err != nil {
+		return fmt.Errorf("failed to deploy OpenCost pre-install on workload cluster: %w", err)
+	}
+
+	appPath, err := absolutePathTo(constants.OpenCost)
+	if err != nil {
+		return err
+	}
+
+	// Determine namespace based on target cluster
+	namespace := kommanderNamespace
+	if target == environment.WorkloadClusterTarget {
+		namespace = workspaceNSName
+	}
+
+	// Apply the release directory
+	releasePath := filepath.Join(appPath, "release")
+	return env.ApplyKustomizations(ctx, releasePath, map[string]string{
+		"releaseName":        "opencost",
+		"appVersion":         "app-version",
+		"releaseNamespace":   namespace,
+		"workspaceNamespace": namespace,
+	}, target)
+}
+
+// getClusterID retrieves the cluster ID by getting the UID of the kube-system namespace.
+func (o *openCost) getClusterID(ctx context.Context, client genericClient.Client) (string, error) {
+	ns := &corev1.Namespace{}
+	if err := client.Get(ctx, genericClient.ObjectKey{Name: "kube-system"}, ns); err != nil {
+		return "", fmt.Errorf("failed to get kube-system namespace: %w", err)
+	}
+	return string(ns.UID), nil
 }

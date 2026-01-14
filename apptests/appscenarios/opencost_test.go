@@ -1,6 +1,7 @@
 package appscenarios
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -15,10 +16,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
-var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster"), func() {
+var _ = Describe("Multi-Cluster OpenCost Tests", Label(constants.OpenCost), func() {
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupMultiCluster()
 		Expect(err).To(Not(HaveOccurred()))
@@ -243,6 +245,175 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				if !strings.Contains(bodyStr, managementServiceUrl) {
 					return fmt.Errorf("stores response missing management service URL %s: %s", managementServiceUrl, bodyStr)
 				}
+
+				return nil
+			}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
+		})
+
+		It("should have centralized-opencost healthy on management cluster", func() {
+			hr := &fluxhelmv2beta2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "centralized-opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("centralized-opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("centralized-opencost HelmRelease is ready on management cluster")
+		})
+
+		It("should have opencost healthy on workload cluster", func() {
+			hr := &fluxhelmv2beta2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: workspaceNSName,
+				},
+			}
+			Eventually(func() error {
+				err := workloadK8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on workload cluster")
+		})
+
+		It("should have opencost healthy on management cluster", func() {
+			hr := &fluxhelmv2beta2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on management cluster")
+		})
+
+		It("should query centralized-opencost allocation API", func() {
+			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
+				MatchLabels: map[string]string{
+					"app.kubernetes.io/name":     "opencost",
+					"app.kubernetes.io/instance": "centralized-opencost",
+				},
+			})
+			Expect(err).ToNot(HaveOccurred())
+
+			// Query the /model/allocation API endpoint
+			// OpenCost exporter runs on port 9003
+			Eventually(func() error {
+				// Re-discover pod on each attempt in case it restarted
+				podList := &corev1.PodList{}
+				if err := k8sClient.List(ctx, podList, &ctrlClient.ListOptions{
+					Namespace:     kommanderNamespace,
+					LabelSelector: selector,
+				}); err != nil {
+					return fmt.Errorf("failed to list pods: %w", err)
+				}
+
+				var runningPod *corev1.Pod
+				for i := range podList.Items {
+					pod := &podList.Items[i]
+					if pod.Status.Phase == corev1.PodRunning {
+						// Check if all containers are ready
+						allReady := true
+						for _, cs := range pod.Status.ContainerStatuses {
+							if !cs.Ready {
+								allReady = false
+								break
+							}
+						}
+						if allReady && len(pod.Status.ContainerStatuses) > 0 {
+							runningPod = pod
+							break
+						}
+					}
+				}
+				if runningPod == nil {
+					return fmt.Errorf("no ready centralized-opencost pod found")
+				}
+
+				// Use a timeout context for each request attempt to prevent hanging
+				reqCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+				defer cancel()
+
+				GinkgoWriter.Printf("Querying centralized-opencost pod %s allocation API...\n", runningPod.Name)
+				res := restClientV1Pods.Get().
+					Resource("pods").
+					Namespace(runningPod.Namespace).
+					Name(runningPod.Name+":9003").
+					SubResource("proxy").
+					Suffix("/allocation").
+					Param("window", "1d").
+					Param("aggregate", "cluster").
+					Param("accumulate", "true").
+					Do(reqCtx)
+
+				if res.Error() != nil {
+					GinkgoWriter.Printf("Query error: %v\n", res.Error())
+					return fmt.Errorf("failed to query centralized-opencost: %w", res.Error())
+				}
+
+				var statusCode int
+				res.StatusCode(&statusCode)
+				if statusCode != 200 {
+					return fmt.Errorf("unexpected status code: %d", statusCode)
+				}
+
+				body, err := res.Raw()
+				if err != nil {
+					return fmt.Errorf("failed to read response: %w", err)
+				}
+
+				bodyStr := string(body)
+				GinkgoWriter.Printf("Centralized OpenCost /model/allocation response:\n%s\n", bodyStr)
+
+				// Verify the response contains expected fields
+				if !strings.Contains(bodyStr, "code") {
+					return fmt.Errorf("response missing 'code' field: %s", bodyStr)
+				}
+
+				// Verify both management and workload cluster IDs are present in the response
+				managementClusterID := openCost.GetManagementClusterID()
+				if !strings.Contains(bodyStr, managementClusterID) {
+					return fmt.Errorf("response missing management cluster ID %s: %s", managementClusterID, bodyStr)
+				}
+
+				workloadClusterID := openCost.GetWorkloadClusterID()
+				if !strings.Contains(bodyStr, workloadClusterID) {
+					return fmt.Errorf("response missing workload cluster ID %s: %s", workloadClusterID, bodyStr)
+				}
+
+				GinkgoWriter.Printf("Found both cluster IDs - Management: %s, Workload: %s\n", managementClusterID, workloadClusterID)
 
 				return nil
 			}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
