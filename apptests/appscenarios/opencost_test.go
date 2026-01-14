@@ -320,57 +320,18 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label(constants.OpenCost), func
 		})
 
 		It("should query centralized-opencost allocation API", func() {
-			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/name":     "opencost",
-					"app.kubernetes.io/instance": "centralized-opencost",
-				},
-			})
-			Expect(err).ToNot(HaveOccurred())
-
-			// Query the /model/allocation API endpoint
-			// OpenCost exporter runs on port 9003
+			// Query the /allocation API endpoint via Service proxy
+			// This is more reliable than pod proxy as it doesn't require containerPorts declaration
 			Eventually(func() error {
-				// Re-discover pod on each attempt in case it restarted
-				podList := &corev1.PodList{}
-				if err := k8sClient.List(ctx, podList, &ctrlClient.ListOptions{
-					Namespace:     kommanderNamespace,
-					LabelSelector: selector,
-				}); err != nil {
-					return fmt.Errorf("failed to list pods: %w", err)
-				}
-
-				var runningPod *corev1.Pod
-				for i := range podList.Items {
-					pod := &podList.Items[i]
-					if pod.Status.Phase == corev1.PodRunning {
-						// Check if all containers are ready
-						allReady := true
-						for _, cs := range pod.Status.ContainerStatuses {
-							if !cs.Ready {
-								allReady = false
-								break
-							}
-						}
-						if allReady && len(pod.Status.ContainerStatuses) > 0 {
-							runningPod = pod
-							break
-						}
-					}
-				}
-				if runningPod == nil {
-					return fmt.Errorf("no ready centralized-opencost pod found")
-				}
-
 				// Use a timeout context for each request attempt to prevent hanging
 				reqCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
 				defer cancel()
 
-				GinkgoWriter.Printf("Querying centralized-opencost pod %s allocation API...\n", runningPod.Name)
-				res := restClientV1Pods.Get().
-					Resource("pods").
-					Namespace(runningPod.Namespace).
-					Name(runningPod.Name+":9003").
+				GinkgoWriter.Printf("Querying centralized-opencost service allocation API...\n")
+				res := restClientV1Services.Get().
+					Resource("services").
+					Namespace(kommanderNamespace).
+					Name("centralized-opencost:9003").
 					SubResource("proxy").
 					Suffix("/allocation").
 					Param("window", "1d").
