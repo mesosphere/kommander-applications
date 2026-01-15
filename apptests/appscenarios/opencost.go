@@ -25,6 +25,11 @@ type openCost struct {
 	// workloadNodeIP stores the Node IP of the workload cluster for Thanos to connect via NodePort
 	workloadNodeIP    string
 	workloadClusterID string
+	// Version paths for upgrade testing
+	openCostPathCurrVersion            string
+	openCostPathPrevVersion            string
+	centralizedOpenCostPathCurrVersion string
+	centralizedOpenCostPathPrevVersion string
 }
 
 // GetWorkloadNodeIP returns the Node IP of the workload cluster.
@@ -52,25 +57,34 @@ func (o *openCost) GetWorkloadClusterID() string {
 var _ scenarios.AppScenario = (*openCost)(nil)
 
 func NewOpenCost() *openCost {
-	return &openCost{}
+	openCostPath, _ := absolutePathTo(constants.OpenCost)
+	openCostPrevPath, _ := getkAppsUpgradePath(constants.OpenCost)
+	centralizedOpenCostPath, _ := absolutePathTo(constants.CentralizedOpenCost)
+	centralizedOpenCostPrevPath, _ := getkAppsUpgradePath(constants.CentralizedOpenCost)
+
+	return &openCost{
+		openCostPathCurrVersion:            openCostPath,
+		openCostPathPrevVersion:            openCostPrevPath,
+		centralizedOpenCostPathCurrVersion: centralizedOpenCostPath,
+		centralizedOpenCostPathPrevVersion: centralizedOpenCostPrevPath,
+	}
 }
 
 func (o *openCost) Name() string {
 	return constants.OpenCost
 }
 
-// Install deploys the multi-cluster OpenCost setup including all prerequisites.
-// This deploys:
-// - Management cluster: thanos (pointing to mgmt and workload KPS) + kube-prometheus-stack + centralized-opencost
-// - Workload cluster: kube-prometheus-stack (with NodePort) + opencost
-// TODO: refactor this to call thanos and KPS structs once they are implemented
-func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
+// InstallPrerequisites installs the OpenCost prerequisites:
+// - KPS on workload and management clusters
+// - Thanos on management cluster
+// - Populates cluster IDs and node IPs
+func (o *openCost) InstallPrerequisites(ctx context.Context, env *environment.Env) error {
 	if err := o.deployKPSOnWorkload(ctx, env); err != nil {
 		return fmt.Errorf("failed to deploy KPS on workload cluster: %w", err)
 	}
 
 	if err := o.deployKPSOnManagement(ctx, env); err != nil {
-		return fmt.Errorf("failed to deploy KPS on workload management cluster: %w", err)
+		return fmt.Errorf("failed to deploy KPS on management cluster: %w", err)
 	}
 
 	nodeIP, err := o.getWorkloadNodeIP(ctx, env.WorkloadClient)
@@ -100,27 +114,42 @@ func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
 		return fmt.Errorf("failed to deploy Thanos on management cluster: %w", err)
 	}
 
-	if err := o.deployCentralizedOpenCost(ctx, env); err != nil {
+	return nil
+}
+
+// Install deploys the current version of OpenCost components.
+// Call InstallPrerequisites before this if prerequisites are not already installed.
+func (o *openCost) Install(ctx context.Context, env *environment.Env) error {
+	return o.install(ctx, env, o.openCostPathCurrVersion, o.centralizedOpenCostPathCurrVersion)
+}
+
+// InstallPreviousVersion deploys the previous version of OpenCost components.
+// Call InstallPrerequisites before this if prerequisites are not already installed.
+func (o *openCost) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
+	return o.install(ctx, env, o.openCostPathPrevVersion, o.centralizedOpenCostPathPrevVersion)
+}
+
+// Upgrade deploys the current version of OpenCost components.
+// This is an alias for Install, used after InstallPreviousVersion to test the upgrade path.
+func (o *openCost) Upgrade(ctx context.Context, env *environment.Env) error {
+	return o.install(ctx, env, o.openCostPathCurrVersion, o.centralizedOpenCostPathCurrVersion)
+}
+
+// install deploys OpenCost components using the specified paths.
+func (o *openCost) install(ctx context.Context, env *environment.Env, openCostPath, centralizedOpenCostPath string) error {
+	if err := o.deployCentralizedOpenCostWithPath(ctx, env, centralizedOpenCostPath); err != nil {
 		return fmt.Errorf("failed to deploy Centralized OpenCost: %w", err)
 	}
 
-	if err := o.deployOpenCost(ctx, env, environment.ManagementClusterTarget); err != nil {
+	if err := o.deployOpenCostWithPath(ctx, env, environment.ManagementClusterTarget, openCostPath); err != nil {
 		return fmt.Errorf("failed to deploy OpenCost on management cluster: %w", err)
 	}
 
-	if err := o.deployOpenCost(ctx, env, environment.WorkloadClusterTarget); err != nil {
+	if err := o.deployOpenCostWithPath(ctx, env, environment.WorkloadClusterTarget, openCostPath); err != nil {
 		return fmt.Errorf("failed to deploy OpenCost on workload cluster: %w", err)
 	}
 
 	return nil
-}
-
-func (o *openCost) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
-	return fmt.Errorf("InstallPreviousVersion is not implemented for multi-cluster OpenCost")
-}
-
-func (o *openCost) Upgrade(ctx context.Context, env *environment.Env) error {
-	return fmt.Errorf("Upgrade is not implemented for multi-cluster OpenCost")
 }
 
 // applyKPSWorkloadOverride applies the KPS override ConfigMap on the workload cluster.
@@ -339,11 +368,11 @@ func (o *openCost) patchThanosHelmReleaseWithOverride(ctx context.Context, env *
 
 // deployCentralizedOpenCost deploys Centralized OpenCost on the management cluster.
 func (o *openCost) deployCentralizedOpenCost(ctx context.Context, env *environment.Env) error {
-	appPath, err := absolutePathTo(constants.CentralizedOpenCost)
-	if err != nil {
-		return err
-	}
+	return o.deployCentralizedOpenCostWithPath(ctx, env, o.centralizedOpenCostPathCurrVersion)
+}
 
+// deployCentralizedOpenCostWithPath deploys Centralized OpenCost on the management cluster using the specified app path.
+func (o *openCost) deployCentralizedOpenCostWithPath(ctx context.Context, env *environment.Env, appPath string) error {
 	// Apply the release directory
 	releasePath := filepath.Join(appPath, "release")
 	return env.ApplyKustomizations(ctx, releasePath, map[string]string{
@@ -356,11 +385,11 @@ func (o *openCost) deployCentralizedOpenCost(ctx context.Context, env *environme
 
 // deployOpenCostPreInstall applies the OpenCost pre-install job to create cluster-info-configmap.
 func (o *openCost) deployOpenCostPreInstall(ctx context.Context, env *environment.Env, target environment.ClusterTarget) error {
-	appPath, err := absolutePathTo(constants.OpenCost)
-	if err != nil {
-		return err
-	}
+	return o.deployOpenCostPreInstallWithPath(ctx, env, target, o.openCostPathCurrVersion)
+}
 
+// deployOpenCostPreInstallWithPath applies the OpenCost pre-install job using the specified app path.
+func (o *openCost) deployOpenCostPreInstallWithPath(ctx context.Context, env *environment.Env, target environment.ClusterTarget, appPath string) error {
 	preInstallPath := filepath.Join(appPath, "pre-install")
 	if _, err := os.Stat(preInstallPath); os.IsNotExist(err) {
 		// Pre-install directory doesn't exist, skip
@@ -385,13 +414,13 @@ func (o *openCost) deployOpenCostPreInstall(ctx context.Context, env *environmen
 
 // deployOpenCost deploys OpenCost on the specified cluster.
 func (o *openCost) deployOpenCost(ctx context.Context, env *environment.Env, target environment.ClusterTarget) error {
-	if err := o.deployOpenCostPreInstall(ctx, env, target); err != nil {
-		return fmt.Errorf("failed to deploy OpenCost pre-install on workload cluster: %w", err)
-	}
+	return o.deployOpenCostWithPath(ctx, env, target, o.openCostPathCurrVersion)
+}
 
-	appPath, err := absolutePathTo(constants.OpenCost)
-	if err != nil {
-		return err
+// deployOpenCostWithPath deploys OpenCost on the specified cluster using the specified app path.
+func (o *openCost) deployOpenCostWithPath(ctx context.Context, env *environment.Env, target environment.ClusterTarget, appPath string) error {
+	if err := o.deployOpenCostPreInstallWithPath(ctx, env, target, appPath); err != nil {
+		return fmt.Errorf("failed to deploy OpenCost pre-install: %w", err)
 	}
 
 	// Determine namespace based on target cluster
@@ -411,9 +440,9 @@ func (o *openCost) deployOpenCost(ctx context.Context, env *environment.Env, tar
 }
 
 // getClusterID retrieves the cluster ID by getting the UID of the kube-system namespace.
-func (o *openCost) getClusterID(ctx context.Context, client genericClient.Client) (string, error) {
+func (o *openCost) getClusterID(ctx context.Context, client ctrlClient.Client) (string, error) {
 	ns := &corev1.Namespace{}
-	if err := client.Get(ctx, genericClient.ObjectKey{Name: "kube-system"}, ns); err != nil {
+	if err := client.Get(ctx, ctrlClient.ObjectKey{Name: "kube-system"}, ns); err != nil {
 		return "", fmt.Errorf("failed to get kube-system namespace: %w", err)
 	}
 	return string(ns.UID), nil
