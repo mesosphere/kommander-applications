@@ -55,6 +55,29 @@ const (
 	WorkloadClusterTarget
 )
 
+// ApplyOption is a functional option for configuring ApplyYAMLFileRaw behavior.
+type ApplyOption func(*applyConfig)
+
+// applyConfig holds the configuration for ApplyYAMLFileRaw.
+type applyConfig struct {
+	kindsToSkip []string
+	target      ClusterTarget
+}
+
+// WithKindsToSkip returns an ApplyOption that filters out Kubernetes objects with the specified kinds.
+func WithKindsToSkip(kinds []string) ApplyOption {
+	return func(c *applyConfig) {
+		c.kindsToSkip = kinds
+	}
+}
+
+// WithTarget returns an ApplyOption that specifies which cluster to apply resources to.
+func WithTarget(target ClusterTarget) ApplyOption {
+	return func(c *applyConfig) {
+		c.target = target
+	}
+}
+
 // Env holds the configuration and state for application specific testings.
 // It contains the Kubernetes client, and the kind cluster.
 // In multi-cluster mode, the K8sClient, Client, Cluster are used for the management cluster.
@@ -628,20 +651,31 @@ func applyYAMLFile(ctx context.Context, client genericClient.Client, path string
 }
 
 // ApplyYAMLFileRaw applies the YAML file provided to the specified cluster.
-// An optional ClusterTarget can be provided to specify which cluster to apply to (defaults to ManagementClusterTarget).
-func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string, targets ...ClusterTarget) error {
-	target := ManagementClusterTarget
-	if len(targets) > 0 {
-		target = targets[0]
+// Use functional options to configure behavior:
+//   - WithTarget(ClusterTarget) to specify which cluster to apply to (defaults to ManagementClusterTarget)
+//   - WithKindsToSkip([]string) to filter out specific Kubernetes object kinds
+func (e *Env) ApplyYAMLFileRaw(ctx context.Context, file []byte, substitutions map[string]string, opts ...ApplyOption) error {
+	// Apply default config
+	cfg := &applyConfig{
+		target: ManagementClusterTarget,
 	}
-	client := e.ClientFor(target)
-	return applyYAMLFileRawToClient(ctx, client, file, substitutions)
+	for _, opt := range opts {
+		opt(cfg)
+	}
+
+	client := e.ClientFor(cfg.target)
+	return applyYAMLFileRawToClient(ctx, client, file, substitutions, cfg.kindsToSkip)
 }
 
-// applyYAMLFileRawToClient applies the YAML file to the specified client.
-func applyYAMLFileRawToClient(ctx context.Context, client genericClient.Client, file []byte, substitutions map[string]string) error {
+// applyYAMLFileRawToClient applies the YAML file to the specified client, optionally skipping objects with kinds in kindsToSkip.
+func applyYAMLFileRawToClient(ctx context.Context, client genericClient.Client, file []byte, substitutions map[string]string, kindsToSkip []string) error {
 	var err error
 	log.SetLogger(klog.NewKlogr())
+
+	skipSet := make(map[string]struct{}, len(kindsToSkip))
+	for _, kind := range kindsToSkip {
+		skipSet[kind] = struct{}{}
+	}
 
 	// Substitute the environment variables in the YAML file
 	var yml string
@@ -669,6 +703,10 @@ func applyYAMLFileRawToClient(ctx context.Context, client genericClient.Client, 
 		}
 		if err != nil {
 			return fmt.Errorf("could not decode yaml file : %w", err)
+		}
+
+		if _, shouldSkip := skipSet[obj.GetKind()]; shouldSkip {
+			continue
 		}
 
 		err = client.Patch(ctx, &obj, genericClient.Apply, genericClient.ForceOwnership, genericClient.FieldOwner("k-cli"))

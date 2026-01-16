@@ -25,6 +25,7 @@ import (
 
 	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
+	helmv2 "github.com/fluxcd/helm-controller/api/v2"
 	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
 	runclient "github.com/fluxcd/pkg/runtime/client"
@@ -151,6 +152,7 @@ func NewScheme() *apiruntime.Scheme {
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
 	_ = helmv2b2.AddToScheme(scheme)
+	_ = helmv2.AddToScheme(scheme)
 	return scheme
 }
 

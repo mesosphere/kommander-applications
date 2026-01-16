@@ -126,7 +126,7 @@ func (e *Env) createNamespaceWithClient(ctx context.Context, client *typedclient
 	return err
 }
 
-// applyYAMLFileRawWithClient applies the YAML file using a specific client (for workload cluster).
+// applyYAMLFileRawWithClient applies the YAML file using a specific client.
 func (e *Env) applyYAMLFileRawWithClient(ctx context.Context, client genericClient.Client, file []byte, substitutions map[string]string) error {
-	return applyYAMLFileRawToClient(ctx, client, file, substitutions)
+	return applyYAMLFileRawToClient(ctx, client, file, substitutions, []string{})
 }
