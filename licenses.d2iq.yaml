@@ -195,7 +195,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.169.3
+  - container_image: docker.io/mesosphere/kommander:17.169.5
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -611,7 +611,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus/alertmanager:v0.28.1
+  - container_image: quay.io/prometheus/alertmanager:v0.30.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE

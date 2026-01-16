@@ -88,6 +88,7 @@ data:
       - "rook-ceph-cluster"
       - "velero"
       - "cilium-hubble-relay-traefik"
+      - "cloudnative-pg"
       - "ai-navigator-app"
     kommander-ui:
       enabled: false

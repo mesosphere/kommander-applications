@@ -78,6 +78,7 @@ func (o *openCost) Name() string {
 // - KPS on workload and management clusters
 // - Thanos on management cluster
 // - Populates cluster IDs and node IPs
+// TODO: refactor this to call thanos and KPS structs once they are implemented
 func (o *openCost) InstallPrerequisites(ctx context.Context, env *environment.Env) error {
 	if err := o.deployKPSOnWorkload(ctx, env); err != nil {
 		return fmt.Errorf("failed to deploy KPS on workload cluster: %w", err)
