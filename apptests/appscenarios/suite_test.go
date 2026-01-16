@@ -26,7 +26,8 @@ var (
 	ctx              context.Context
 	network          *docker.NetworkResource
 	k8sClient        genericClient.Client
-	restClientV1Pods rest.Interface
+	restClientV1Pods     rest.Interface
+	restClientV1Services rest.Interface
 	// Multi-cluster test variables (uses the same Env struct with workload fields populated)
 	multiEnv                 *environment.Env
 	workloadK8sClient        genericClient.Client
@@ -143,6 +144,24 @@ func SetupMultiCluster() error {
 
 	restClientV1Pods, err = apiutil.RESTClientForGVK(
 		gvk,
+		false,
+		false,
+		multiEnv.K8sClient.Config(),
+		serializer.NewCodecFactory(flux.NewScheme()),
+		mgmtHttpClient,
+	)
+	if err != nil {
+		return err
+	}
+
+	// Get a REST client for making http requests to services
+	serviceGVK := schema.GroupVersionKind{
+		Group:   "",
+		Version: "v1",
+		Kind:    "Service",
+	}
+	restClientV1Services, err = apiutil.RESTClientForGVK(
+		serviceGVK,
 		false,
 		false,
 		multiEnv.K8sClient.Config(),

@@ -1,6 +1,7 @@
 package appscenarios
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
@@ -15,10 +16,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/mesosphere/kommander-applications/apptests/constants"
 	"github.com/mesosphere/kommander-applications/apptests/environment"
 )
 
-var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster"), func() {
+var _ = Describe("Multi-Cluster OpenCost Tests", Label(constants.OpenCost), func() {
 	BeforeEach(OncePerOrdered, func() {
 		err := SetupMultiCluster()
 		Expect(err).To(Not(HaveOccurred()))
@@ -52,14 +54,14 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 	Describe("Installing multi-cluster OpenCost", Ordered, Label("install"), func() {
 		var openCost *openCost
 
-		It("should install multi-cluster OpenCost stack", func() {
+		It("should install prerequisites", func() {
 			Expect(multiEnv).ToNot(BeNil())
 			Expect(k8sClient).ToNot(BeNil())
 			Expect(workloadK8sClient).ToNot(BeNil())
 
 			openCost = NewOpenCost()
 
-			err := openCost.Install(ctx, multiEnv)
+			err := openCost.InstallPrerequisites(ctx, multiEnv)
 			Expect(err).ToNot(HaveOccurred())
 
 			GinkgoWriter.Printf("Workload Node IP: %s (Thanos connects via NodePort 30901)\n", openCost.GetWorkloadNodeIP())
@@ -247,5 +249,314 @@ var _ = Describe("Multi-Cluster OpenCost Tests", Label("opencost", "multicluster
 				return nil
 			}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
+
+		It("should install OpenCost", func() {
+			err := openCost.Install(ctx, multiEnv)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should have centralized-opencost healthy on management cluster", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "centralized-opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("centralized-opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("centralized-opencost HelmRelease is ready on management cluster")
+		})
+
+		It("should have opencost healthy on workload cluster", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: workspaceNSName,
+				},
+			}
+			Eventually(func() error {
+				err := workloadK8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on workload cluster")
+		})
+
+		It("should have opencost healthy on management cluster", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on management cluster")
+		})
+
+		It("should query centralized-opencost allocation API", func() {
+			assertCentralizedOpenCostAllocationAPI(openCost)
+		})
+	})
+
+	Describe("Upgrading multi-cluster OpenCost", Ordered, Label("upgrade"), func() {
+		var openCost *openCost
+
+		It("should install prerequisites", func() {
+			Expect(multiEnv).ToNot(BeNil())
+			Expect(k8sClient).ToNot(BeNil())
+			Expect(workloadK8sClient).ToNot(BeNil())
+
+			openCost = NewOpenCost()
+
+			err := openCost.InstallPrerequisites(ctx, multiEnv)
+			Expect(err).ToNot(HaveOccurred())
+
+			GinkgoWriter.Printf("Workload Node IP: %s (Thanos connects via NodePort 30901)\n", openCost.GetWorkloadNodeIP())
+		})
+
+		It("should install the previous version successfully", func() {
+			err := openCost.InstallPreviousVersion(ctx, multiEnv)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should have centralized-opencost healthy on management cluster (previous version)", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "centralized-opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("centralized-opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("centralized-opencost HelmRelease (previous version) is ready on management cluster")
+		})
+
+		It("should have opencost healthy on workload cluster (previous version)", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: workspaceNSName,
+				},
+			}
+			Eventually(func() error {
+				err := workloadK8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease (previous version) is ready on workload cluster")
+		})
+
+		It("should have opencost healthy on management cluster (previous version)", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease (previous version) is ready on management cluster")
+		})
+
+		It("should upgrade to the current version successfully", func() {
+			err := openCost.Upgrade(ctx, multiEnv)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should have centralized-opencost healthy on management cluster after upgrade", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "centralized-opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("centralized-opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("centralized-opencost HelmRelease is ready on management cluster after upgrade")
+		})
+
+		It("should have opencost healthy on workload cluster after upgrade", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: workspaceNSName,
+				},
+			}
+			Eventually(func() error {
+				err := workloadK8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on workload cluster after upgrade")
+		})
+
+		It("should have opencost healthy on management cluster after upgrade", func() {
+			hr := &fluxhelmv2.HelmRelease{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "opencost",
+					Namespace: kommanderNamespace,
+				},
+			}
+			Eventually(func() error {
+				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+				if err != nil {
+					return err
+				}
+				for _, cond := range hr.Status.Conditions {
+					if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+						return nil
+					}
+				}
+				return fmt.Errorf("opencost HelmRelease not ready yet")
+			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
+
+			GinkgoWriter.Println("opencost HelmRelease is ready on management cluster after upgrade")
+		})
+
+		It("should query centralized-opencost allocation API after upgrade", func() {
+			assertCentralizedOpenCostAllocationAPI(openCost)
+		})
 	})
 })
+
+func assertCentralizedOpenCostAllocationAPI(openCost *openCost) {
+	GinkgoHelper()
+	// Query the /allocation API endpoint via Service proxy
+	// This is more reliable than pod proxy as it doesn't require containerPorts declaration
+	Eventually(func() error {
+		// Use a timeout context for each request attempt to prevent hanging
+		reqCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
+		defer cancel()
+
+		GinkgoWriter.Printf("Querying centralized-opencost service allocation API...\n")
+		res := restClientV1Services.Get().
+			Resource("services").
+			Namespace(kommanderNamespace).
+			Name("centralized-opencost:9003").
+			SubResource("proxy").
+			Suffix("/allocation").
+			Param("window", "1d").
+			Param("aggregate", "cluster").
+			Param("accumulate", "true").
+			Do(reqCtx)
+
+		if res.Error() != nil {
+			GinkgoWriter.Printf("Query error: %v\n", res.Error())
+			return fmt.Errorf("failed to query centralized-opencost: %w", res.Error())
+		}
+
+		var statusCode int
+		res.StatusCode(&statusCode)
+		if statusCode != 200 {
+			return fmt.Errorf("unexpected status code: %d", statusCode)
+		}
+
+		body, err := res.Raw()
+		if err != nil {
+			return fmt.Errorf("failed to read response: %w", err)
+		}
+
+		bodyStr := string(body)
+		GinkgoWriter.Printf("Centralized OpenCost /model/allocation response:\n%s\n", bodyStr)
+
+		// Verify the response contains expected fields
+		if !strings.Contains(bodyStr, "code") {
+			return fmt.Errorf("response missing 'code' field: %s", bodyStr)
+		}
+
+		// Verify both management and workload cluster IDs are present in the response
+		managementClusterID := openCost.GetManagementClusterID()
+		if !strings.Contains(bodyStr, managementClusterID) {
+			return fmt.Errorf("response missing management cluster ID %s: %s", managementClusterID, bodyStr)
+		}
+
+		workloadClusterID := openCost.GetWorkloadClusterID()
+		if !strings.Contains(bodyStr, workloadClusterID) {
+			return fmt.Errorf("response missing workload cluster ID %s: %s", workloadClusterID, bodyStr)
+		}
+
+		GinkgoWriter.Printf("Found both cluster IDs - Management: %s, Workload: %s\n", managementClusterID, workloadClusterID)
+
+		return nil
+	}).WithPolling(5 * time.Second).WithTimeout(10 * time.Minute).Should(Succeed())
+}
