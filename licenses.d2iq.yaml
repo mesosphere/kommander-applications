@@ -787,7 +787,7 @@ resources:
       - url: https://github.com/nutanix-cloud-native/cosi-driver-nutanix
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/external-secrets/external-secrets:v0.20.2
+  - container_image: ghcr.io/external-secrets/external-secrets:v1.2.1
     sources:
       - url: https://github.com/external-secrets/external-secrets
         ref: ${image_tag}
