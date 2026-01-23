@@ -39,12 +39,12 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         ref: ${{ inputs.to_version_ref }}
 
     - name: Checkout previous version of k-apps
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         path: apptests/${{env.UPGRADE_KAPPS_REPO_PATH}}
         ref: ${{ inputs.from_version_ref }}
