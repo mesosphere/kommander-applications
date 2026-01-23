@@ -6,10 +6,6 @@ applications/ai-navigator-cluster-info-agent:
 - changed-files:
   - any-glob-to-any-file:
     - applications/ai-navigator-cluster-info-agent/**
-applications/ai-navigator-rag:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/ai-navigator-rag/**
 applications/centralized-grafana:
 - changed-files:
   - any-glob-to-any-file:

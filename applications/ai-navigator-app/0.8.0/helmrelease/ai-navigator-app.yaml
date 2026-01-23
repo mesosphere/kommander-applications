@@ -7,23 +7,20 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/ai-navigator-rag"
   ref:
-    tag: 0.7.14
+    tag: 0.8.0-dev.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ai-navigator-rag
+  name: ai-navigator-app
   namespace: ${releaseNamespace}
 spec:
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
-  dependsOn:
-    - name: cloudnative-pg
-      namespace: ${releaseNamespace}
   interval: 15s
-  releaseName: ai-navigator-rag
+  releaseName: ai-navigator-app
   targetNamespace: ${releaseNamespace}
   install:
     remediation:
