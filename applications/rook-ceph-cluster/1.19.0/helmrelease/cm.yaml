@@ -8,6 +8,10 @@ data:
     ---
     operatorNamespace: ${releaseNamespace}
     clusterName: dkp-ceph-cluster
+
+    cephVersion:
+      image: quay.io/ceph/ceph:v19.2.3
+      imagePullPolicy: IfNotPresent
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
       # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
