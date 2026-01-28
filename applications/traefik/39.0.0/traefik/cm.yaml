@@ -6,8 +6,6 @@ metadata:
 data:
   values.yaml: |
     ---
-    # Disable anonymous stats
-    globalArguments: []
 
     image:
       repository: traefik
