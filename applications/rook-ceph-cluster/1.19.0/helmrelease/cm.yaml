@@ -18,9 +18,7 @@ data:
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
-      cephVersion:
-        image: quay.io/ceph/ceph:v19.2.3
-        imagePullPolicy: IfNotPresent
+      imagePullPolicy: IfNotPresent
 
       labels:
         monitoring:
