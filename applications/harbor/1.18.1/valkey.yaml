@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: harbor-cosi-storage
+  name: harbor-valkey
   namespace: ${releaseNamespace}
 spec:
   force: false
@@ -9,9 +9,10 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/harbor/1.18.0/cosi-storage
+  path: ./applications/harbor/1.18.1/valkey
   dependsOn:
     - name: ncr-system-namespace
+    - name: harbor-pre-install
   sourceRef:
     kind: GitRepository
     name: management
@@ -24,5 +25,5 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
-      name: harbor-cosi-storage
+      name: harbor-valkey
       namespace: ${releaseNamespace}
