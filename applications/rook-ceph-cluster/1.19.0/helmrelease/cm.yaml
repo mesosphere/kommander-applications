@@ -8,6 +8,7 @@ data:
     ---
     operatorNamespace: ${releaseNamespace}
     clusterName: dkp-ceph-cluster
+
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
       # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
@@ -17,15 +18,12 @@ data:
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
+      imagePullPolicy: IfNotPresent
+
       labels:
         monitoring:
           prometheus.kommander.d2iq.io/select: "true"
       dataDirHostPath: /var/lib/rook
-
-      cephVersion:
-        # This image was patched to fix CVEs. To build new version of the image:
-        # See: https://github.com/mesosphere/dkp-container-images
-        image: quay.io/ceph/ceph:v19.2.2
 
       resources:
         mgr-sidecar:
