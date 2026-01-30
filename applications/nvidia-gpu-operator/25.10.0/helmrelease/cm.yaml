@@ -43,7 +43,7 @@ data:
       version: 4.4.1-4.6.0-ubuntu22.04
     validator:
       repository: nvcr.io/nvidia/cloud-native
-      version: v25.3.4
+      version: v25.10.0
     operator:
       repository: nvcr.io/nvidia
       version: v25.10.0
