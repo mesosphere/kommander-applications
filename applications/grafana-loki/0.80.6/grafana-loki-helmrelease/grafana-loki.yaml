@@ -9,7 +9,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/grafana/helm-charts/loki-distributed"
   ref:
-    tag: 0.80.3
+    tag: 0.80.6
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
