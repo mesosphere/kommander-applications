@@ -138,3 +138,11 @@ data:
       catalogName: nkp-nutanix-product-catalog
       extraLabels: {}
       tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+    loggingStackApps:
+    - fluent-bit
+    - grafana-logging
+    - grafana-loki
+    - logging-operator
+    - project-grafana-logging
+    - project-grafana-loki
+    - project-logging
