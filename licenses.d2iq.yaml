@@ -492,6 +492,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.10.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
