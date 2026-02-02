@@ -465,7 +465,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/image-reflector-controller
-  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
+  - container_image: ghcr.io/kube-logging/logging-operator/config-reloader:6.3.2
     sources:
       - ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
@@ -476,7 +476,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
-  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:6.0.3
+  - container_image: ghcr.io/kube-logging/logging-operator/node-exporter:6.3.2
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -645,7 +645,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/kubernetes-sigs/prometheus-adapter
-  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:6.0.3-full
+  - container_image: ghcr.io/kube-logging/logging-operator/fluentd:6.3.2-full
     sources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
