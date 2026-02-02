@@ -495,7 +495,7 @@ resources:
       - ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory: /images/config-reloader
-  - container_image: ghcr.io/kube-logging/logging-operator:6.0.3
+  - container_image: ghcr.io/kube-logging/logging-operator:6.3.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
