@@ -253,13 +253,13 @@ resources:
       - license_path: LICENSE.thomseddon.md
         ref: ${image_tag}
         url: https://github.com/mesosphere/traefik-forward-auth
-  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.20.1
+  - container_image: docker.io/openpolicyagent/gatekeeper-crds:v3.21.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/openpolicyagent/gatekeeper:v3.20.1
+  - container_image: docker.io/openpolicyagent/gatekeeper:v3.21.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -675,7 +675,7 @@ resources:
       - url: https://github.com/NVIDIA/DCGM
         ref: v${image_tag%-2-ubuntu22.04}
         license_path: LICENSE
-  - container_image: docker.io/curlimages/curl:8.16.0
+  - container_image: docker.io/curlimages/curl:8.18.0
     sources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}

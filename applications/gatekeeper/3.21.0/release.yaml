@@ -10,7 +10,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/gatekeeper/3.20.1/release
+  path: ./applications/gatekeeper/3.21.0/release
   sourceRef:
     kind: GitRepository
     name: management
