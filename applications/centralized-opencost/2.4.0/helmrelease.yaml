@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/centralized-opencost/2.4.0/release
+  path: ./applications/centralized-opencost/2.5.5/release
   sourceRef:
     kind: GitRepository
     name: management

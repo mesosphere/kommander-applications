@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/opencost/2.4.0/pre-install
+  path: ./applications/opencost/2.5.5/pre-install
   sourceRef:
     kind: GitRepository
     name: management
