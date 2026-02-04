@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: centralized-opencost-release
+  name: opencost-release
   namespace: ${releaseNamespace}
 spec:
   force: false
@@ -9,7 +9,10 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/centralized-opencost/2.4.0/release
+  dependsOn:
+    - name: opencost-pre-install
+      namespace: ${releaseNamespace}
+  path: ./applications/opencost/2.5.5/release
   sourceRef:
     kind: GitRepository
     name: management
