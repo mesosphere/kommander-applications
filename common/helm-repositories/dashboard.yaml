@@ -7,4 +7,4 @@ metadata:
 spec:
   interval: 10m
   timeout: 1m
-  url: "${helmMirrorURL:=https://kubernetes.github.io/dashboard}"
+  url: "${helmMirrorURL:=https://raw.githubusercontent.com/kubernetes-retired/dashboard/gh-pages/}"
