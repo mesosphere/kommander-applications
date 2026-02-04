@@ -9,7 +9,7 @@ spec:
       chart: kubernetes-dashboard
       sourceRef:
         kind: HelmRepository
-        name: kubernetes-github-io-dashboard
+        name: kubernetes-github-io-dashboard-retired
         namespace: kommander-flux
       version: 7.10.3
   interval: 15s

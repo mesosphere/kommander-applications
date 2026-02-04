@@ -5,7 +5,7 @@ resources:
   - bitnami.yaml
   - cert-manager.yaml
   - cloudnative-pg.yaml
-  - dashboard.yaml
+  - dashboard-retired.yaml
   - fluent.yaml
   - gatekeeper.yaml
   - grafana.yaml
