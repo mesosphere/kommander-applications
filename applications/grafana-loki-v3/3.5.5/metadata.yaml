@@ -1,5 +1,5 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
-displayName: Grafana Loki (Deprecated)
+displayName: Grafana Loki
 description: Horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus. Requires Logging Operator.
 category:
   - logging
