@@ -13,9 +13,6 @@ data:
       tag: v19.2.3
       imagePullPolicy: IfNotPresent
 
-    cephVersion:
-      imagePullPolicy: IfNotPresent
-
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
       # The name is hardcoded, so if deploying more than one `rook-ceph-custer` then this flag needs to be set to false.
