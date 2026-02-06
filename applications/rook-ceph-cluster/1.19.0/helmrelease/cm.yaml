@@ -8,6 +8,14 @@ data:
     ---
     operatorNamespace: ${releaseNamespace}
     clusterName: dkp-ceph-cluster
+    cephImage:
+      repository: quay.io/ceph/ceph
+      tag: v19.2.3
+      imagePullPolicy: IfNotPresent
+      allowUnsupported: false
+
+    cephVersion:
+      imagePullPolicy: IfNotPresent
 
     toolbox:
       # If needed, enable a toolbox for debugging (creates a pod with ceph CLI)
@@ -18,8 +26,6 @@ data:
 
     # All values below are taken from the CephCluster CRD
     cephClusterSpec:
-      imagePullPolicy: IfNotPresent
-
       labels:
         monitoring:
           prometheus.kommander.d2iq.io/select: "true"
