@@ -12,7 +12,6 @@ data:
       repository: quay.io/ceph/ceph
       tag: v19.2.3
       imagePullPolicy: IfNotPresent
-      allowUnsupported: false
 
     cephVersion:
       imagePullPolicy: IfNotPresent
