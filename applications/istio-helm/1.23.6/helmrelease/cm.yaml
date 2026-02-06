@@ -40,8 +40,6 @@ data:
     security:
       enabled: true
       issuerName: kommander-ca
-      image: docker.io/mesosphere/kubectl
-      tag: v1.34.1-alpine
 
     # Gateway component configuration
     gateway:
