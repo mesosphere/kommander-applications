@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - grafana-loki-v3-pre-install.yaml
   - grafana-loki-v3-helmrelease.yaml
+  - grafana-loki-v3-post-install.yaml
   - grafana-dashboards
   - grafana-dashboards-logging
