@@ -17,6 +17,12 @@ data:
       dnsService: "kube-dns"
       dnsNamespace: "kube-system"
 
+    # Migration config - join existing loki-distributed memberlist ring
+    migrate:
+      fromDistributed:
+        enabled: true
+        memberlistService: grafana-loki-loki-distributed-memberlist
+
     # Loki configuration
     loki:
       annotations:
@@ -66,17 +72,21 @@ data:
         per_stream_rate_limit_burst: 15MB
         # defaults to 30, but ceph components populates 30+ labels that need us to bump this limit.
         max_label_names_per_series: 40
+        # Required for boltdb-shipper/v11 schema - structured metadata only supported in v13/tsdb
+        allow_structured_metadata: false
 
       schemaConfig:
         configs:
+          # Use boltdb-shipper/v11 - same as old loki for unified cluster migration
           - from: "2020-09-07"
-            store: tsdb
+            store: boltdb-shipper
             object_store: s3
-            schema: v13
+            schema: v11
             index:
               prefix: loki_index_
               period: 24h
 
+      # Storage block required by new chart (even for boltdb-shipper)
       storage:
         type: s3
         bucketNames:
@@ -88,11 +98,15 @@ data:
           s3ForcePathStyle: true
           insecure: true
 
+      # Storage config for boltdb-shipper
       storage_config:
-        tsdb_shipper:
-          active_index_directory: /var/loki/tsdb-index
-          cache_location: /var/loki/tsdb-cache
+        boltdb_shipper:
+          active_index_directory: /var/loki/index
+          cache_location: /var/loki/cache
           cache_ttl: 168h
+        aws:
+          s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/dkp-loki"
+          s3forcepathstyle: true
 
       query_range:
         align_queries_with_step: true
@@ -247,8 +261,10 @@ data:
         enabled: false
         grafanaAgent:
           installOperator: false
-      lokiCanary:
-        enabled: false
+
+    # Loki canary configuration
+    lokiCanary:
+      enabled: false
 
     # Test configuration
     test:
