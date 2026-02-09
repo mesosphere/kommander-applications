@@ -14,7 +14,7 @@ require (
 	github.com/fluxcd/pkg/runtime v0.88.0
 	github.com/fluxcd/pkg/ssa v0.60.0
 	github.com/fluxcd/source-controller/api v1.7.3
-	github.com/mittwald/go-helm-client v0.12.13
+	github.com/mittwald/go-helm-client v0.12.19
 	github.com/onsi/gomega v1.38.2
 	github.com/stretchr/testify v1.11.1
 	inet.af/netaddr v0.0.0-20230525184311-b8eac61e914a
