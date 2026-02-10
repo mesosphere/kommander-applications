@@ -48,6 +48,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/proxy
+  - container_image: docker.io/istio/ztunnel:1.23.6
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/istio/istio
   - container_image: docker.io/istio/install-cni:1.23.6-distroless
     sources:
       - license_path: LICENSE
@@ -63,6 +68,11 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
         url: https://github.com/istio/proxy
+  - container_image: docker.io/istio/ztunnel:1.23.6-distroless
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag%-distroless}
+        url: https://github.com/istio/istio
   - container_image: docker.io/jaegertracing/all-in-one:1.70.0
     sources:
       - license_path: LICENSE
