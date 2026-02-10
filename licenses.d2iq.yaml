@@ -28,6 +28,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/grafana/loki
+  - container_image: docker.io/grafana/loki:3.5.5
+    sources:
+      - license_path: LICENSE
+        ref: v${image_tag}
+        url: https://github.com/grafana/loki
   - container_image: docker.io/istio/install-cni:1.23.6
     sources:
       - license_path: LICENSE
