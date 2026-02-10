@@ -78,7 +78,7 @@ data:
       - "nkp-insights-management"
       defaultProApps:
       - "grafana-logging"
-      - "grafana-loki"
+      - "grafana-loki-v3"
       - "kube-prometheus-stack"
       - "kubernetes-dashboard"
       - "kubetunnel"
