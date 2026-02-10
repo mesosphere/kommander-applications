@@ -13,7 +13,7 @@ data:
         datasources:
         - name: Loki
           type: loki
-          url: "http://project-grafana-loki-loki-distributed-gateway"
+          url: "http://grafana-loki-v3-gateway"
           access: proxy
           isDefault: false
     ingress:
@@ -24,7 +24,7 @@ data:
         traefik.ingress.kubernetes.io/router.tls: "true"
         traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-grafana@kubernetescrd"
       hosts: [""]
-      path: /dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana
+      path: /dkp/logging/grafana
       pathType: ImplementationSpecific
 
     sidecar:
@@ -32,11 +32,12 @@ data:
         registry: docker.io
         repository: kiwigrid/k8s-sidecar
         tag: 1.30.7
+
       dashboards:
         enabled: true
-        label: project_grafana_logging_dashboard
-        # only search the namespace in which the sidecar is running
-        searchNamespace: null
+        label: grafana_logging_dashboard
+        searchNamespace: ALL
+
       resources:
         limits:
           memory: 512Mi
@@ -50,7 +51,7 @@ data:
       server:
         protocol: http
         enable_gzip: true
-        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana"
+        root_url: "%(protocol)s://%(domain)s:%(http_port)s/dkp/logging/grafana"
         serve_from_sub_path: true
       auth.proxy:
         enabled: true
@@ -95,7 +96,5 @@ data:
       timeoutSeconds: 30
       failureThreshold: 10
     rbac:
-      enabled: true
-      namespaced: true
       pspUseAppArmor: false
       pspEnabled: false
