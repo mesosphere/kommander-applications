@@ -25,18 +25,6 @@ updates:
       - "ok-to-test"
       - "ready-for-review"
       - "applications/reloader"
-  - package-ecosystem: "gomod"
-    directory: "/magefiles"
-    schedule:
-      interval: "weekly"
-    assignees:
-      - "mesosphere/kommander"
-    reviewers:
-      - "mesosphere/kommander"
-    labels:
-      - "dependencies"
-      - "ok-to-test"
-      - "ready-for-review"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

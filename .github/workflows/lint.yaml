@@ -30,6 +30,4 @@ jobs:
           refresh-cli: 'true'
 
       - name: Run pre-commit
-        env:
-          MAGEFILE_VERBOSE: true
         run: devbox run -- make pre-commit
