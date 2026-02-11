@@ -38,6 +38,15 @@ ginkgo --label-filter="kommander-flux && install" appscenarios
 ginkgo --label-filter="kommander-flux && upgrade" appscenarios
 ```
 
+### Running multi-cluster tests locally
+You might run into issue with kube-proxy, metallb and cilium pods in workload cluster when running it on your mac laptop.
+Run the following commands in your terminal:
+
+```bash
+# modify docker VM's ulimit
+docker run --privileged --pid=host alpine:latest nsenter -t 1 -m -u -n -i -- sysctl -w fs.inotify.max_user_instances=512 && docker run --privileged --pid=host alpine:latest nsenter -t 1 -m -u -n -i -- sysctl -w fs.inotify.max_user_watches=524288
+```
+
 ## Test Cases
 
 | Test Case   | Test Label   | Description                               |
