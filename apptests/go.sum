@@ -243,8 +243,8 @@ github.com/mitchellh/go-wordwrap v1.0.1 h1:TLuKupo69TCn6TQSyGxwI1EblZZEsQ0vMlAFQ
 github.com/mitchellh/go-wordwrap v1.0.1/go.mod h1:R62XHJLzvMFRBbcrT7m7WgmE1eOyTSsCt+hzestvNj0=
 github.com/mitchellh/reflectwalk v1.0.2 h1:G2LzWKi524PWgd3mLHV8Y5k7s6XUvT0Gef6zxSIeXaQ=
 github.com/mitchellh/reflectwalk v1.0.2/go.mod h1:mSTlrgnPZtwu0c4WaC2kGObEpuNDbx0jmZXqmk4esnw=
-github.com/mittwald/go-helm-client v0.12.13 h1:TzoHH3NmlUdgy4cbo2tAuGQTcXkUKdORhZSE/Cq72bA=
-github.com/mittwald/go-helm-client v0.12.13/go.mod h1:BMoJyfs5n2MTe1RmWjTHuRl7b5wXfe6l7Eik1ZaZ0JU=
+github.com/mittwald/go-helm-client v0.12.19 h1:GzwISuYemkgISegXfYzY3i6blRZzfNpp2G5+tBUyzp4=
+github.com/mittwald/go-helm-client v0.12.19/go.mod h1:mlTMyzGOua5rXH4+kFTU/YsE9xxqvwkEW1c5ukM8Cj4=
 github.com/moby/docker-image-spec v1.3.1 h1:jMKff3w6PgbfSa69GfNg+zN/XLhfXJGnEx3Nl2EsFP0=
 github.com/moby/docker-image-spec v1.3.1/go.mod h1:eKmb5VW8vQEh/BAr2yvVNvuiJuY6UIocYsFu/DxxRpo=
 github.com/moby/spdystream v0.5.0 h1:7r0J1Si3QO/kjRitvSLVVFUjxMEb/YLj6S9FF62JBCU=
