@@ -8,6 +8,7 @@ spec:
     - name: grafana-loki-v3-pre-install
   force: true
   prune: true
+  wait: true
   interval: 6h
   retryInterval: 1m
   path: ./applications/grafana-loki-v3/3.5.5/helmrelease
@@ -15,11 +16,12 @@ spec:
     kind: GitRepository
     name: management
     namespace: kommander-flux
-  timeout: 15m
+  timeout: 1m
   postBuild:
     substitute:
       appVersion: ${appVersion}
       releaseNamespace: ${releaseNamespace}
+      releaseName: ${releaseName}
     substituteFrom:
       - kind: ConfigMap
         name: kommander-config-overrides
