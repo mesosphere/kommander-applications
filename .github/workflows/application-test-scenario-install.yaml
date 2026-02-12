@@ -57,7 +57,7 @@ jobs:
 
     - name: Upload support bundle
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: support-bundle-${{ inputs.apps }}-install
         path: apptests/appscenarios/support-bundle.tar.gz
