@@ -239,6 +239,9 @@ data:
       priorityClassName: "dkp-critical-priority"
       image:
         tag: 1.29.2-alpine
+      nginxConfig:
+        # Set max body size for log payloads (default 4M is too small)
+        clientMaxBodySize: 10M
       verboseLogging: false
 
     # Disable components not needed in distributed mode
