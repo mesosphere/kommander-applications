@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/exec"
+	"path/filepath"
 
+	"github.com/mesosphere/dkp-cli-runtime/core/output"
 	"github.com/spf13/cobra"
+
+	catalogtypes "github.com/nutanix-cloud-native/nkp-catalog-cli/pkg/types"
+	"github.com/nutanix-cloud-native/nkp-catalog-cli/pkg/validate"
 
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
@@ -50,12 +54,18 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 
 			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s\n", chartVersionString)
 
-			makeCmd := exec.Command("devbox", "run", "--", "make", "list-images")
-			makeCmd.Dir = kommanderApplicationsRepo
-			makeCmd.Stdout = cmd.OutOrStdout()
-			makeCmd.Stderr = cmd.ErrOrStderr()
-			if err := makeCmd.Run(); err != nil {
-				return fmt.Errorf("make list-images: %w", err)
+			ok, err := validate.Catalog(
+				cmd.Context(),
+				output.NewNonInteractiveShell(cmd.OutOrStdout(), cmd.OutOrStdout(), 4),
+				catalogtypes.ValidDir(kommanderApplicationsRepo),
+				filepath.Join(kommanderApplicationsRepo, ".bloodhound.yaml"),
+				filepath.Join(kommanderApplicationsRepo, "all-images.yaml"),
+			)
+			if err != nil {
+				return fmt.Errorf("failed to validate catalog repo: %w", err)
+			}
+			if !ok {
+				return fmt.Errorf("catalog repo is invalid: %w", err)
 			}
 			return nil
 		},
