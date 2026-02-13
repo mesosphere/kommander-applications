@@ -9,7 +9,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-base"
   ref:
-    tag: 1.23.6
+    tag: 1.23.7
 ---
 # OCIRepository for istio-helm-cni
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -21,7 +21,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-cni"
   ref:
-    tag: 1.23.6
+    tag: 1.23.7
 ---
 # OCIRepository for istio-helm-istiod
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -33,7 +33,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-istiod"
   ref:
-    tag: 1.23.6
+    tag: 1.23.7
 ---
 # OCIRepository for istio-helm-ztunnel
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -45,7 +45,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel"
   ref:
-    tag: 1.23.6
+    tag: 1.23.7
 ---
 # OCIRepository for istio-helm-gateway
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -57,7 +57,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-gateway"
   ref:
-    tag: 1.23.6
+    tag: 1.23.7
 ---
 # HelmRelease for istio-helm-base (first component, no Istio dependencies)
 apiVersion: helm.toolkit.fluxcd.io/v2

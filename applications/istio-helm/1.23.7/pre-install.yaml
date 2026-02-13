@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 10m
   retryInterval: 1m
-  path: ./applications/istio-helm/1.23.6/pre-install
+  path: ./applications/istio-helm/1.23.7/pre-install
   sourceRef:
     kind: GitRepository
     name: management
