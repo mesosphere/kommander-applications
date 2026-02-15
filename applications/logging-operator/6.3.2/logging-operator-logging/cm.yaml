@@ -40,7 +40,7 @@ data:
       image:
         # The image should be updated when logging-operator is upgraded.
         repository: ghcr.io/kube-logging/logging-operator/fluentd
-        tag: 6.0.3-full
+        tag: 6.3.2-full
       resources:
         limits:
           memory: 1Gi
