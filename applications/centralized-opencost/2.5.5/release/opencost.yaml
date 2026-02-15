@@ -1,3 +1,4 @@
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -7,12 +8,12 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/opencost/charts/opencost"
   ref:
-    tag: 2.4.0
+    tag: 2.5.5
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: opencost
+  name: centralized-opencost
   namespace: ${releaseNamespace}
 spec:
   chartRef:
@@ -28,22 +29,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: opencost
+  releaseName: centralized-opencost
   valuesFrom:
     - kind: ConfigMap
-      name: ${releaseName}-${appVersion}-config-defaults
+      name: centralized-opencost-config-defaults
   targetNamespace: ${releaseNamespace}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: opencost-app-dashboard-info
-  namespace: ${releaseNamespace}
-  labels:
-    "kommander.d2iq.io/application": "opencost"
-data:
-  name: "opencost"
-  dashboardLink: "/dkp/opencost/frontend/"
-  docsLink: "https://opencost.io/docs/"
-  # From: https://github.com/opencost/opencost-helm-chart/blob/opencost-2.4.0/charts/opencost/Chart.yaml#L12
-  version: 2.4.0
