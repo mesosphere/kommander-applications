@@ -8,10 +8,10 @@ data:
     ####################################################################
     ## BEGIN NKP specific config overrides                            ##
     ## This is added as a workaround to use the same configmap for    ##
-    ## both project-grafana-loki-v3 & object-bucket-claims helmreleases. ##
+    ## both project-grafana-loki & object-bucket-claims helmreleases. ##
     ####################################################################
     dkp:
-      project-grafana-loki-v3:
+      project-grafana-loki:
         enabled: true
         enableOBCHealthCheck: false
         bucketName: proj-loki-${releaseNamespace}
@@ -127,7 +127,7 @@ data:
           cache_location: /var/loki/cache
           cache_ttl: 168h
         aws:
-          s3: "http://rook-ceph-rgw-dkp-object-store.${workspaceNamespace}.svc:80/proj-loki-v3-${releaseNamespace}"
+          s3: "http://rook-ceph-rgw-dkp-object-store.${workspaceNamespace}.svc:80/proj-loki-${releaseNamespace}"
           s3forcepathstyle: true
 
       query_range:
