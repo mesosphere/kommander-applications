@@ -7,7 +7,7 @@ spec:
   interval: 10m
   url: "oci://ghcr.io/mesosphere/charts/kube-prometheus-stack"
   ref:
-    tag: 78.4.0
+    tag: 81.3.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -50,4 +50,4 @@ data:
   # https://github.com/mesosphere/charts/tree/master/staging/kube-prometheus-stack/charts
   # Then, find the Grafana app version:
   # https://artifacthub.io/packages/helm/grafana/grafana/6.57.2
-  version: "12.2.0"
+  version: "12.3.1"
