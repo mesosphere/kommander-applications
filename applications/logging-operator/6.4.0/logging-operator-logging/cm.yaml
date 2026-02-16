@@ -15,7 +15,7 @@ data:
       - name: loki
         spec:
           loki:
-            url: http://grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local:80
+            url: http://grafana-loki-v3-gateway.${releaseNamespace}.svc.cluster.local:80
             extract_kubernetes_labels: true
             configure_kubernetes_labels: true
             buffer:

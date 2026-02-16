@@ -900,7 +900,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"grafana-loki-loki-distributed-.*\"}[1m])",
+            "expr": "rate(kube_pod_container_status_restarts_total{pod=~\"grafana-loki-v3-.*\"}[1m])",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -991,7 +991,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-loki-distributed-.*\",reason=\"OOMKilled\"}",
+            "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-v3-.*\",reason=\"OOMKilled\"}",
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,
             "refId": "A"
@@ -1002,7 +1002,7 @@
               "uid": "$datasource"
             },
             "editorMode": "code",
-            "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-loki-distributed-.*\",reason=\"Error\"}",
+            "expr": "kube_pod_container_status_terminated_reason{pod=~\"grafana-loki-v3-.*\",reason=\"Error\"}",
             "hide": false,
             "legendFormat": "{{namespace}}/{{pod}}",
             "range": true,

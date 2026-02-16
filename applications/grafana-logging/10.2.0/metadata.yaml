@@ -4,19 +4,21 @@ description: Logging dashboard used to view logs aggregated to Grafana Loki. Req
 category:
   - logging
 dependencies:
-  - project-grafana-loki
+  - grafana-loki-v3
 type: nkp-core-platform
 scope:
-  - project
+  - workspace
 licensing:
+  - Pro
   - Ultimate
+  - Essential
   - Enterprise
 certifications:
   - qualified
   - airgapped
 overview: |-
   # Overview
-  Logging dashboard from Grafana that can be used to view logs aggregated to Grafana Loki. To view logs from the dashboard, Grafana Loki at the workspace level and project level is required to be deployed.
+  Logging dashboard from Grafana that can be used to view logs aggregated to Grafana Loki. To view logs from the dashboard, Grafana Loki at the workspace level is required to be deployed.
 
   ## Key Features
   ### Easy to Use Dashboards
