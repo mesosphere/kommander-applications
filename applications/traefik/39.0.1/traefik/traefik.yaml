@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/traefik/helm/traefik"
   ref:
-    tag: 39.0.0
+    tag: 39.0.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -52,7 +52,7 @@ data:
   dashboardLink: "/dkp/traefik/dashboard/"
   docsLink: "https://doc.traefik.io/traefik"
   # Check https://artifacthub.io/packages/helm/traefik/traefik for app version
-  version: "3.6.7"
+  version: "3.6.8"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
