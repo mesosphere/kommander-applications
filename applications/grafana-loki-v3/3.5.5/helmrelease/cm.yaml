@@ -104,9 +104,6 @@ data:
           active_index_directory: /var/loki/index
           cache_location: /var/loki/cache
           cache_ttl: 168h
-        aws:
-          s3: "http://rook-ceph-rgw-dkp-object-store.${releaseNamespace}.svc:80/dkp-loki"
-          s3forcepathstyle: true
 
       query_range:
         align_queries_with_step: true
