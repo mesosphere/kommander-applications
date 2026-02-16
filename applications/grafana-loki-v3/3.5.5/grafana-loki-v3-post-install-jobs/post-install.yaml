@@ -77,10 +77,6 @@ spec:
               echo "Waiting for Loki querier deployment to be ready..."
               kubectl rollout status deployment/grafana-loki-v3-querier -n ${releaseNamespace} --timeout=10m
 
-              # Give components a moment to fully initialize
-              echo "Waiting 30 seconds for components to fully initialize..."
-              sleep 30
-
               # Generate unique test data
               TIMESTAMP=$(date +%s)000000000
               TEST_JOB="loki-v3-validation-${TIMESTAMP}"
@@ -124,11 +120,6 @@ spec:
                 echo "ERROR: Write operation failed after $MAX_RETRIES attempts"
                 exit 1
               fi
-
-              # Wait a moment for data to be indexed
-              echo ""
-              echo "Waiting 15 seconds for data to be indexed..."
-              sleep 15
 
               echo ""
               echo "=== Testing Read Operation ==="
