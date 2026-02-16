@@ -74,6 +74,10 @@ applications/grafana-loki:
 - changed-files:
   - any-glob-to-any-file:
     - applications/grafana-loki/**
+applications/grafana-loki-v3:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/grafana-loki-v3/**
 applications/harbor:
 - changed-files:
   - any-glob-to-any-file:
@@ -182,6 +186,10 @@ applications/project-grafana-loki:
 - changed-files:
   - any-glob-to-any-file:
     - applications/project-grafana-loki/**
+applications/project-grafana-loki-v3:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/project-grafana-loki-v3/**
 applications/project-logging:
 - changed-files:
   - any-glob-to-any-file:

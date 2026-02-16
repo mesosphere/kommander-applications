@@ -1,5 +1,5 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
-displayName: Grafana Loki (Deprecated)
+displayName: Grafana Loki
 description: Horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus. Requires Logging Operator.
 category:
   - logging
@@ -18,8 +18,6 @@ certifications:
   - qualified
   - airgapped
 overview: |-
-  # Note
-  This Application is Deprecated, and is replaced by a seprate Grafana Loki application.
   # Overview
   Loki is a horizontally-scalable, highly-available, multi-tenant log aggregation system inspired by Prometheus. It is designed to be very cost effective and easy to operate. It does not index the contents of the logs, but rather a set of labels for each log stream. To use Grafana Loki, the Logging Operator application at the workspace level is required to be deployed.
 
