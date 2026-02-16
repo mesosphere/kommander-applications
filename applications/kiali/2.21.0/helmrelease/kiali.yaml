@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kiali-operator"
   ref:
-    tag: 2.18.0
+    tag: 2.21.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -47,7 +47,7 @@ data:
   dashboardLink: "/dkp/kiali"
   docsLink: "https://kiali.io/docs/"
   # Chart version matches app version
-  version: 2.18.0
+  version: 2.21.0
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
