@@ -1,15 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: rook-ceph-cluster-prereq-jobs-v1.18.6
+  name: rook-ceph-helmrelease
   namespace: ${releaseNamespace}
 spec:
-  force: true
+  force: false
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/rook-ceph-cluster/1.18.6/pre-install
+  path: ./applications/rook-ceph/1.19.1/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
@@ -20,5 +20,6 @@ spec:
       appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
-      # Update the following version whenever ceph-cluster service is bumped.
-      desiredCephOperatorVersion: v1.18.6
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
