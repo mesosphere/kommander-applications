@@ -8,10 +8,10 @@ data:
     ####################################################################
     ## BEGIN NKP specific config overrides                            ##
     ## This is added as a workaround to use the same configmap for    ##
-    ## both project-grafana-loki & object-bucket-claims helmreleases. ##
+    ## both project-grafana-loki-v3 & object-bucket-claims helmreleases. ##
     ####################################################################
     dkp:
-      project-grafana-loki:
+      project-grafana-loki-v3:
         enabled: true
         enableOBCHealthCheck: false
         bucketName: proj-loki-${releaseNamespace}
