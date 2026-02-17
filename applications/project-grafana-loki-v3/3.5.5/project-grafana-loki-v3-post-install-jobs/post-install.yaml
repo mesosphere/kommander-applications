@@ -1,0 +1,163 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: project-grafana-loki-v3-post-install
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: project-grafana-loki-v3-post-install
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: project-grafana-loki-v3-post-install
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: project-grafana-loki-v3-post-install
+subjects:
+  - kind: ServiceAccount
+    name: project-grafana-loki-v3-post-install
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: project-grafana-loki-v3-post-install
+  namespace: ${releaseNamespace}
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      name: project-grafana-loki-v3-post-install
+    spec:
+      serviceAccountName: project-grafana-loki-v3-post-install
+      restartPolicy: OnFailure
+      priorityClassName: dkp-critical-priority
+      containers:
+        - name: post-install
+          image: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.0-alpine}"
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+
+              LOKI_GATEWAY="http://project-grafana-loki-v3-gateway.${releaseNamespace}.svc:80"
+              MAX_RETRIES=30
+              RETRY_INTERVAL=5
+
+              echo "=== Project Grafana Loki v3 Post-Install Validation ==="
+              echo "Loki Gateway: $LOKI_GATEWAY"
+
+              # Wait for Loki gateway to be ready
+              echo "Waiting for Loki gateway deployment to be ready..."
+              kubectl rollout status deployment/project-grafana-loki-v3-gateway -n ${releaseNamespace} --timeout=10m
+
+              # Wait for distributor to be ready (needed for writes)
+              echo "Waiting for Loki distributor deployment to be ready..."
+              kubectl rollout status deployment/project-grafana-loki-v3-distributor -n ${releaseNamespace} --timeout=10m
+
+              # Wait for ingester to be ready (needed for writes)
+              echo "Waiting for Loki ingester statefulset to be ready..."
+              kubectl rollout status statefulset/project-grafana-loki-v3-ingester -n ${releaseNamespace} --timeout=10m
+
+              # Wait for querier to be ready (needed for reads)
+              echo "Waiting for Loki querier deployment to be ready..."
+              kubectl rollout status deployment/project-grafana-loki-v3-querier -n ${releaseNamespace} --timeout=10m
+
+              # Generate unique test data
+              TIMESTAMP=$(date +%s)000000000
+              TEST_JOB="project-loki-v3-validation-${TIMESTAMP}"
+              TEST_MESSAGE="project-loki-v3-validation-test-$(date +%s)-${RANDOM}"
+
+              echo ""
+              echo "=== Testing Write Operation ==="
+              echo "Test Job: $TEST_JOB"
+              echo "Test Message: $TEST_MESSAGE"
+
+              # Test write operation with retries
+              WRITE_SUCCESS=false
+              for i in $(seq 1 $MAX_RETRIES); do
+                echo "Write attempt $i of $MAX_RETRIES..."
+
+                HTTP_CODE=$(curl -s -o /tmp/write_response.txt -w "%{http_code}" \
+                  -H "Content-Type: application/json" \
+                  -X POST "$LOKI_GATEWAY/loki/api/v1/push" \
+                  --data-raw "{\"streams\": [{\"stream\": {\"job\": \"$TEST_JOB\"}, \"values\": [[\"$TIMESTAMP\", \"$TEST_MESSAGE\"]]}]}" \
+                  --connect-timeout 10 \
+                  --max-time 30 || echo "000")
+
+                echo "HTTP Response Code: $HTTP_CODE"
+
+                if [ "$HTTP_CODE" = "204" ] || [ "$HTTP_CODE" = "200" ]; then
+                  echo "Write operation successful!"
+                  WRITE_SUCCESS=true
+                  break
+                else
+                  echo "Write failed. Response:"
+                  cat /tmp/write_response.txt 2>/dev/null || echo "(no response body)"
+                  echo ""
+                  if [ $i -lt $MAX_RETRIES ]; then
+                    echo "Retrying in $RETRY_INTERVAL seconds..."
+                    sleep $RETRY_INTERVAL
+                  fi
+                fi
+              done
+
+              if [ "$WRITE_SUCCESS" = "false" ]; then
+                echo "ERROR: Write operation failed after $MAX_RETRIES attempts"
+                exit 1
+              fi
+
+              echo ""
+              echo "=== Testing Read Operation ==="
+
+              # Test read operation with retries
+              READ_SUCCESS=false
+              for i in $(seq 1 $MAX_RETRIES); do
+                echo "Read attempt $i of $MAX_RETRIES..."
+
+                QUERY_RESULT=$(curl -s -G "$LOKI_GATEWAY/loki/api/v1/query_range" \
+                  --data-urlencode "query={job=\"$TEST_JOB\"}" \
+                  --data-urlencode "start=$(( $(date +%s) - 300 ))000000000" \
+                  --data-urlencode "end=$(date +%s)000000000" \
+                  --connect-timeout 10 \
+                  --max-time 30 || echo "{}")
+
+                echo "Query Result: $QUERY_RESULT"
+
+                # Check if the result contains our test message
+                if echo "$QUERY_RESULT" | grep -q "$TEST_MESSAGE"; then
+                  echo "Read operation successful! Test message found in query results."
+                  READ_SUCCESS=true
+                  break
+                else
+                  echo "Test message not found in query results."
+                  if [ $i -lt $MAX_RETRIES ]; then
+                    echo "Retrying in $RETRY_INTERVAL seconds..."
+                    sleep $RETRY_INTERVAL
+                  fi
+                fi
+              done
+
+              if [ "$READ_SUCCESS" = "false" ]; then
+                echo "ERROR: Read operation failed after $MAX_RETRIES attempts"
+                exit 1
+              fi
+
+              echo ""
+              echo "=== Validation Complete ==="
+              echo "Project Grafana Loki v3 is operational - both write and read operations verified successfully!"
+              exit 0

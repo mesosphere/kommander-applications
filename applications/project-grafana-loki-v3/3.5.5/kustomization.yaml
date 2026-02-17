@@ -2,4 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - project-grafana-loki-v3-helmrelease.yaml
+  - project-grafana-loki-v3-post-install.yaml
   - grafana-dashboards-logging
