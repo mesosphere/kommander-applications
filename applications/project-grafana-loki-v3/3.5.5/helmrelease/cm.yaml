@@ -1,0 +1,281 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    ####################################################################
+    ## BEGIN NKP specific config overrides                            ##
+    ## This is added as a workaround to use the same configmap for    ##
+    ## both project-grafana-loki-v3 & object-bucket-claims helmreleases. ##
+    ####################################################################
+    dkp:
+      project-grafana-loki-v3:
+        enabled: true
+        enableOBCHealthCheck: false
+        bucketName: proj-loki-${releaseNamespace}
+        storageClassName: dkp-object-store
+        additionalConfig:
+          # We emit 200MB per workspace per day with audit logs disabled.
+          # We also have a default retention period 7days.
+          # This is NOT definitive but this translates to 200 x 7 ~ at most 1.5G per week per project (since workspace log data is a superset of project log data).
+          # This value can be configured by user during project deployment according to their project needs (e.g.: if a project has lot of noisy user created workloads).
+          maxSize: "5G"
+    ####################################################################
+    ## END of dkp specific config overrides                           ##
+    ####################################################################
+
+    # this is used in object-bucket-claims overrides
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.0-alpine}
+
+    # Loki v3.5.5 configuration in microservice (distributed) mode
+    # Chart version: 6.43.0
+
+    # Deploy in distributed/microservice mode
+    deploymentMode: Distributed
+
+    # Global settings
+    global:
+      clusterDomain: "cluster.local"
+      dnsService: "kube-dns"
+      dnsNamespace: "kube-system"
+
+    # Migration config - join existing project-loki-distributed memberlist ring
+    migrate:
+      fromDistributed:
+        enabled: true
+        memberlistService: project-grafana-loki-loki-distributed-memberlist
+
+    # Loki configuration
+    loki:
+      annotations:
+        secret.reloader.stakater.com/reload: proj-loki-${releaseNamespace}
+
+      auth_enabled: false
+
+      analytics:
+        reporting_enabled: false
+
+      server:
+        http_listen_port: 3100
+        grpc_listen_port: 9095
+        log_level: warn
+        grpc_server_max_recv_msg_size: 10485760
+        grpc_server_max_send_msg_size: 10485760
+
+      commonConfig:
+        replication_factor: 1
+        path_prefix: /var/loki
+
+      memberlist:
+        join_members:
+          - '{{ include "loki.memberlist" . }}'
+
+      ingester:
+        chunk_idle_period: 30m
+        chunk_block_size: 262144
+        chunk_encoding: snappy
+        chunk_retain_period: 1m
+        flush_op_timeout: 10m
+        wal:
+          enabled: true
+          flush_on_shutdown: false
+          checkpoint_duration: 5m
+          replay_memory_ceiling: 4GB
+
+      limits_config:
+        retention_period: 168h
+        reject_old_samples: true
+        reject_old_samples_max_age: 168h
+        max_cache_freshness_per_query: 10m
+        split_queries_by_interval: 15m
+        ingestion_rate_mb: 10
+        ingestion_burst_size_mb: 10
+        per_stream_rate_limit: 10MB
+        per_stream_rate_limit_burst: 15MB
+        # Required for boltdb-shipper/v11 schema - structured metadata only supported in v13/tsdb
+        allow_structured_metadata: false
+
+      schemaConfig:
+        configs:
+          # Use boltdb-shipper/v11 - same as old loki for unified cluster migration
+          - from: "2020-09-07"
+            store: boltdb-shipper
+            object_store: s3
+            schema: v11
+            index:
+              prefix: loki_index_
+              period: 24h
+
+      # Storage block required by new chart (even for boltdb-shipper)
+      storage:
+        type: s3
+        bucketNames:
+          chunks: proj-loki-${releaseNamespace}
+          ruler: proj-loki-${releaseNamespace}
+          admin: proj-loki-${releaseNamespace}
+        s3:
+          endpoint: "http://rook-ceph-rgw-dkp-object-store.${workspaceNamespace}.svc:80"
+          s3ForcePathStyle: true
+          insecure: true
+
+      # Storage config for boltdb-shipper
+      storage_config:
+        boltdb_shipper:
+          active_index_directory: /var/loki/index
+          cache_location: /var/loki/cache
+          cache_ttl: 168h
+
+      query_range:
+        align_queries_with_step: true
+        max_retries: 5
+        cache_results: true
+        results_cache:
+          cache:
+            embedded_cache:
+              enabled: true
+              ttl: 24h
+
+      frontend:
+        log_queries_longer_than: 5s
+        compress_responses: true
+        max_outstanding_per_tenant: 2048
+
+      compactor:
+        retention_enabled: true
+        compaction_interval: 10m
+        retention_delete_delay: 2h
+        working_directory: /var/loki/compactor
+        delete_request_store: s3
+
+      rulerConfig:
+        storage:
+          type: local
+          local:
+            directory: /etc/loki/rules
+        alertmanager_url: http://kube-prometheus-stack-alertmanager.${workspaceNamespace}.svc.cluster.local:9093
+        external_url: ""
+
+    # Enable distributed mode components
+    # Ingester configuration
+    ingester:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      persistence:
+        enabled: true
+        size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Distributor configuration
+    distributor:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Querier configuration
+    querier:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      persistence:
+        enabled: true
+        size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Query Frontend configuration
+    queryFrontend:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Query Scheduler configuration
+    queryScheduler:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+
+    # Index Gateway configuration
+    indexGateway:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      persistence:
+        enabled: true
+        size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Compactor configuration
+    compactor:
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      persistence:
+        enabled: true
+        size: 10Gi
+      extraEnvFrom:
+        - secretRef:
+            name: proj-loki-${releaseNamespace}
+
+    # Ruler configuration
+    ruler:
+      enabled: false
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+
+    # Gateway configuration (nginx-based)
+    gateway:
+      enabled: true
+      replicas: 1
+      priorityClassName: "dkp-critical-priority"
+      image:
+        tag: 1.29.2-alpine
+      nginxConfig:
+        # Set max body size for log payloads (default 4M is too small)
+        clientMaxBodySize: 10M
+      verboseLogging: false
+
+    # Disable components not needed in distributed mode
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
+    singleBinary:
+      replicas: 0
+
+    # Results cache configuration
+    resultsCache:
+      enabled: false
+
+    # Chunks cache configuration
+    chunksCache:
+      enabled: false
+
+    # Monitoring configuration
+    monitoring:
+      dashboards:
+        enabled: false
+      rules:
+        enabled: false
+      serviceMonitor:
+        enabled: false
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
+
+    # Loki canary configuration
+    lokiCanary:
+      enabled: false
+
+    # Test configuration
+    test:
+      enabled: false
