@@ -1,0 +1,514 @@
+applications:
+  - name: ""
+    version: ""
+    images:
+      - oci://<registry-url>/kommander-applications/ai-navigator-app:0.5.2
+      - oci://<registry-url>/kommander-applications/ai-navigator-cluster-info-agent:0.4.2
+      - oci://<registry-url>/kommander-applications/ai-navigator-rag:0.7.14
+      - oci://<registry-url>/kommander-applications/centralized-grafana:78.4.0
+      - oci://<registry-url>/kommander-applications/centralized-opencost:2.4.0
+      - oci://<registry-url>/kommander-applications/cert-manager:1.18.2
+      - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
+      - oci://<registry-url>/kommander-applications/cloudnative-pg:0.27.0
+      - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.2
+      - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
+      - oci://<registry-url>/kommander-applications/dex:2.14.4
+      - oci://<registry-url>/kommander-applications/external-dns:9.0.3
+      - oci://<registry-url>/kommander-applications/external-secrets:1.3.1
+      - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
+      - oci://<registry-url>/kommander-applications/gatekeeper:3.20.1
+      - oci://<registry-url>/kommander-applications/gateway-api-crds:1.14.0
+      - oci://<registry-url>/kommander-applications/git-operator:0.13.14
+      - oci://<registry-url>/kommander-applications/grafana-logging:10.1.2
+      - oci://<registry-url>/kommander-applications/grafana-loki:0.80.5
+      - oci://<registry-url>/kommander-applications/harbor:1.18.1
+      - oci://<registry-url>/kommander-applications/istio-helm:1.23.6
+      - oci://<registry-url>/kommander-applications/istio:1.23.5
+      - oci://<registry-url>/kommander-applications/jaeger:2.57.3
+      - oci://<registry-url>/kommander-applications/karma-traefik:0.0.4
+      - oci://<registry-url>/kommander-applications/karma:2.0.9
+      - oci://<registry-url>/kommander-applications/kiali:2.18.0
+      - oci://<registry-url>/kommander-applications/knative:1.19.5
+      - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
+      - oci://<registry-url>/kommander-applications/kommander-flux:2.7.2
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.172.0
+      - oci://<registry-url>/kommander-applications/kommander:0.18.0
+      - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
+      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:78.4.0
+      - oci://<registry-url>/kommander-applications/kubefed:0.11.3
+      - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
+      - oci://<registry-url>/kommander-applications/kubetunnel:0.0.41
+      - oci://<registry-url>/kommander-applications/logging-operator:6.0.3
+      - oci://<registry-url>/kommander-applications/nkp-insights-management:1.7.3
+      - oci://<registry-url>/kommander-applications/nkp-insights:1.7.3
+      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.3.0
+      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.3.0
+      - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.0
+      - oci://<registry-url>/kommander-applications/nvidia-network-operator:25.10.0
+      - oci://<registry-url>/kommander-applications/opencost:2.4.0
+      - oci://<registry-url>/kommander-applications/project-grafana-logging:10.1.2
+      - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.5
+      - oci://<registry-url>/kommander-applications/project-logging:1.0.4
+      - oci://<registry-url>/kommander-applications/prometheus-adapter:5.2.0
+      - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.4
+      - oci://<registry-url>/kommander-applications/reloader:2.2.7
+      - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.18.6
+      - oci://<registry-url>/kommander-applications/rook-ceph:1.18.6
+      - oci://<registry-url>/kommander-applications/thanos:17.3.1
+      - oci://<registry-url>/kommander-applications/traefik-forward-auth-mgmt:0.3.16
+      - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.16
+      - oci://<registry-url>/kommander-applications/traefik:39.0.0
+      - oci://<registry-url>/kommander-applications/velero:11.1.1
+      - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
+      - docker.io/mesosphere/cluster-observer:1.5.1
+      - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
+      - docker.io/mesosphere/kommander2-core-installer:v2.18.0-dev
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+  - name: centralized-grafana
+    version: 78.4.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:78.4.0
+      - docker.io/grafana/grafana:12.2.0
+      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+  - name: centralized-opencost
+    version: 2.4.0
+    images:
+      - oci://ghcr.io/opencost/charts/opencost:2.4.0
+      - ghcr.io/opencost/opencost:1.118.0
+  - name: cert-manager
+    version: 1.18.2
+    images:
+      - oci://ghcr.io/mesosphere/charts/cert-manager-crds:v1.18.2
+      - oci://ghcr.io/mesosphere/charts/cert-manager:v1.18.2
+      - quay.io/jetstack/cert-manager-cainjector:v1.18.2
+      - quay.io/jetstack/cert-manager-controller:v1.18.2
+      - quay.io/jetstack/cert-manager-startupapicheck:v1.18.2
+      - quay.io/jetstack/cert-manager-webhook:v1.18.2
+  - name: cilium-hubble-relay-traefik
+    version: 0.0.5
+    images:
+      - oci://ghcr.io/mesosphere/charts/cilium-hubble-relay-traefik:0.0.3
+  - name: cloudnative-pg
+    version: 0.27.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/cloudnative-pg:0.27.0
+      - ghcr.io/cloudnative-pg/cloudnative-pg:1.28.0
+  - name: cosi-driver-nutanix
+    version: 0.6.2
+    images:
+      - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
+      - oci://ghcr.io/mesosphere/charts/cosi-driver-nutanix:0.6.0
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v0.2.2
+      - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
+      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+  - name: dex
+    version: 2.14.4
+    images:
+      - oci://ghcr.io/mesosphere/charts/dex:2.14.0
+      - docker.io/mesosphere/dex-controller:v0.16.1
+      - docker.io/mesosphere/dex:v2.42.0-d2iq.0
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - name: dex-k8s-authenticator
+    version: 1.4.7
+    images:
+      - oci://ghcr.io/mesosphere/charts/dex-k8s-authenticator:1.4.3
+      - docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
+  - name: external-dns
+    version: 9.0.3
+    images:
+      - oci://ghcr.io/mesosphere/charts/external-dns:9.0.3
+      - registry.k8s.io/external-dns/external-dns:v0.19.0
+  - name: external-secrets
+    version: 1.3.1
+    images:
+      - oci://ghcr.io/external-secrets/charts/external-secrets:1.3.1
+      - ghcr.io/external-secrets/external-secrets:v1.3.1
+  - name: fluent-bit
+    version: 0.55.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.55.0
+      - ghcr.io/fluent/fluent-bit:4.1.1
+  - name: gatekeeper
+    version: 3.20.1
+    images:
+      - oci://ghcr.io/mesosphere/charts/gatekeeper-proxy-mutations:v0.0.1
+      - oci://ghcr.io/mesosphere/charts/gatekeeper:3.20.1
+      - docker.io/curlimages/curl:8.16.0
+      - docker.io/openpolicyagent/gatekeeper-crds:v3.20.1
+      - docker.io/openpolicyagent/gatekeeper:v3.20.1
+  - name: gateway-api-crds
+    version: 1.14.0
+    images:
+      - oci://ghcr.io/traefik/helm/traefik-crds:1.14.0
+  - name: git-operator
+    version: 0.13.14
+    images:
+      - docker.io/mesosphere/git-operator:v0.13.14
+      - docker.io/mesosphere/gitwebserver:v0.13.14
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - name: grafana-logging
+    version: 10.1.2
+    images:
+      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
+      - docker.io/grafana/grafana:12.2.0
+      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+  - name: grafana-loki
+    version: 0.80.5
+    images:
+      - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.3
+      - docker.io/grafana/loki:2.9.13
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
+  - name: harbor
+    version: 1.18.1
+    images:
+      - oci://ghcr.io/mesosphere/charts/cluster:0.3.1
+      - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.8
+      - oci://ghcr.io/mesosphere/charts/harbor-copy-secret:0.1.0
+      - oci://ghcr.io/mesosphere/charts/harbor:1.18.1
+      - oci://ghcr.io/mesosphere/charts/valkey:3.0.22
+      - docker.io/bitnamilegacy/redis-exporter:1.74.0-debian-12-r3
+      - docker.io/bitnamilegacy/valkey-sentinel:8.1.3-debian-12-r2
+      - docker.io/bitnamilegacy/valkey:8.1.3-debian-12-r2
+      - docker.io/goharbor/harbor-core:v2.14.1
+      - docker.io/goharbor/harbor-exporter:v2.14.1
+      - docker.io/goharbor/harbor-jobservice:v2.14.1
+      - docker.io/goharbor/harbor-portal:v2.14.1
+      - docker.io/goharbor/harbor-registryctl:v2.14.1
+      - docker.io/goharbor/registry-photon:v2.14.1
+      - docker.io/goharbor/trivy-adapter-photon:v2.14.1
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
+  - name: istio
+    version: 1.23.5
+    images:
+      - oci://ghcr.io/mesosphere/charts/istio:1.23.3
+      - docker.io/istio/install-cni:1.23.6
+      - docker.io/istio/operator:1.23.6
+      - docker.io/istio/pilot:1.23.6
+      - docker.io/istio/proxyv2:1.23.6
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+  - name: istio-helm
+    version: 1.23.6
+    images:
+      - oci://ghcr.io/mesosphere/charts/istio-helm-base:1.23.6
+      - oci://ghcr.io/mesosphere/charts/istio-helm-cni:1.23.6
+      - oci://ghcr.io/mesosphere/charts/istio-helm-gateway:1.23.6
+      - oci://ghcr.io/mesosphere/charts/istio-helm-istiod:1.23.6
+      - oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel:1.23.6
+      - docker.io/istio/install-cni:1.23.6
+      - docker.io/istio/install-cni:1.23.6-distroless
+      - docker.io/istio/pilot:1.23.6
+      - docker.io/istio/pilot:1.23.6-distroless
+      - docker.io/istio/proxyv2:1.23.6
+      - docker.io/istio/proxyv2:1.23.6-distroless
+      - docker.io/istio/ztunnel:1.23.6
+      - docker.io/istio/ztunnel:1.23.6-distroless
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+  - name: jaeger
+    version: 2.57.3
+    images:
+      - oci://ghcr.io/mesosphere/charts/jaeger-operator:2.57.0
+      - docker.io/jaegertracing/all-in-one:1.70.0
+      - docker.io/jaegertracing/jaeger-operator:1.61.0
+  - name: karma
+    version: 2.0.9
+    images:
+      - oci://ghcr.io/mesosphere/charts/karma:2.0.3
+      - docker.io/mesosphere/karma:v0.120-ntnx-server-name
+  - name: karma-traefik
+    version: 0.0.4
+    images:
+      - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
+  - name: kiali
+    version: 2.18.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kiali-operator:2.18.0
+      - quay.io/kiali/kiali-operator:v2.18.0
+      - quay.io/kiali/kiali:v2.18.0-distro
+  - name: knative
+    version: 1.19.5
+    images:
+      - oci://ghcr.io/mesosphere/charts/knative-operator:1.19.5
+      - oci://ghcr.io/mesosphere/charts/knative:1.19.5
+      - docker.io/envoyproxy/envoy:v1.34-latest
+      - gcr.io/knative-releases/aws-ddb-streams-source:v1.19.0
+      - gcr.io/knative-releases/aws-s3-sink:v1.19.0
+      - gcr.io/knative-releases/aws-s3-source:v1.19.0
+      - gcr.io/knative-releases/aws-sns-sink:v1.19.0
+      - gcr.io/knative-releases/aws-sqs-sink:v1.19.0
+      - gcr.io/knative-releases/aws-sqs-source:v1.19.0
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.19.5
+      - gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.19.5
+      - gcr.io/knative-releases/knative.dev/net-contour/cmd/controller:v1.19.6
+      - gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.19.6
+      - gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.19.6
+      - gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier:v1.19.6
+      - gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.19.5
+      - gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.19.5
+      - gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.19.5
+      - gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.19.5
+      - gcr.io/knative-releases/log-sink:v1.19.0
+      - gcr.io/knative-releases/timer-source:v1.19.0
+      - gcr.io/knative-releases/transform-jsonata:v1.19.0
+  - name: kommander
+    version: 0.18.0
+    images:
+      - oci://docker.io/mesosphere/kommander-chart:v2.18.0-dev
+      - docker.io/mesosphere/capimate:v0.0.0-dev.0
+      - docker.io/mesosphere/kommander2-federation-authorizedlister:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-federation-controller-manager:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-federation-webhook:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-flux-operator:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-licensing-webhook:v2.18.0-dev
+      - ghcr.io/mesosphere/kommander-applications-server:v2.18.0-dev
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - name: kommander-appmanagement
+    version: 0.18.0
+    images:
+      - oci://docker.io/mesosphere/kommander-appmanagement-chart:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - name: kommander-flux
+    version: 2.7.2
+    images:
+      - oci://ghcr.io/fluxcd-community/charts/flux2:2.17.1
+      - docker.io/mesosphere/flux-oci-mirror:v0.3.0
+      - ghcr.io/fluxcd/flux-cli:v2.7.2
+      - ghcr.io/fluxcd/helm-controller:v1.4.2
+      - ghcr.io/fluxcd/image-automation-controller:v1.0.2
+      - ghcr.io/fluxcd/image-reflector-controller:v1.0.2
+      - ghcr.io/fluxcd/kustomize-controller:v1.7.1
+      - ghcr.io/fluxcd/notification-controller:v1.7.3
+      - ghcr.io/fluxcd/source-controller:v1.7.2
+  - name: kommander-ui
+    version: 17.172.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.172.0
+      - docker.io/mesosphere/kommander:17.172.0
+  - name: kube-oidc-proxy
+    version: 0.3.7
+    images:
+      - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
+      - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
+  - name: kube-prometheus-stack
+    version: 78.4.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:78.4.0
+      - docker.io/grafana/grafana:12.2.0
+      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+      - docker.io/library/busybox:1
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0
+      - quay.io/prometheus-operator/prometheus-operator:v0.86.1
+      - quay.io/prometheus/alertmanager:v0.30.0
+      - quay.io/prometheus/node-exporter:v1.9.1
+      - quay.io/prometheus/prometheus:v3.5.0
+      - quay.io/thanos/thanos:v0.39.2
+      - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
+  - name: kubefed
+    version: 0.11.3
+    images:
+      - oci://ghcr.io/mesosphere/charts/kubefed:0.11.1
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - ghcr.io/mesosphere/kubefed:v0.11.1
+  - name: kubernetes-dashboard
+    version: 7.14.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/kubernetes-dashboard:7.14.0
+      - docker.io/kubernetesui/dashboard-api:1.14.0
+      - docker.io/kubernetesui/dashboard-auth:1.4.0
+      - docker.io/kubernetesui/dashboard-metrics-scraper:1.2.2
+      - docker.io/kubernetesui/dashboard-web:1.7.0
+      - docker.io/library/kong:3.9.1
+  - name: kubetunnel
+    version: 0.0.41
+    images:
+      - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.0.39
+      - docker.io/alpine/curl:8.9.1
+      - docker.io/jpillora/chisel:1.10.1
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - docker.io/mesosphere/kubetunnel-controller:v0.0.39
+      - docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.39
+      - docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.39
+      - docker.io/mesosphere/kubetunnel-webhook:v0.0.39
+  - name: logging-operator
+    version: 6.0.3
+    images:
+      - oci://ghcr.io/kube-logging/helm-charts/logging-operator:6.0.3
+      - oci://ghcr.io/mesosphere/charts/logging-operator-logging:4.2.2
+      - ghcr.io/fluent/fluent-bit:4.1.1
+      - ghcr.io/kube-logging/logging-operator/config-reloader:6.0.3
+      - ghcr.io/kube-logging/logging-operator/fluentd:6.0.3-full
+      - ghcr.io/kube-logging/logging-operator/node-exporter:6.0.3
+      - ghcr.io/kube-logging/logging-operator:6.0.3
+  - name: nkp-insights
+    version: 1.7.3
+    images:
+      - oci://ghcr.io/mesosphere/charts/nkp-insights:1.7.3
+      - docker.io/aquasec/kube-bench:v0.11.1
+      - docker.io/mesosphere/insights:1.7.3
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - docker.io/mesosphere/trivy-bundles:0.64.1-20251215T180012Z
+      - quay.io/fairwinds/nova:v3.11
+      - quay.io/fairwinds/polaris:9.4.1
+      - registry.k8s.io/pause:3.10
+      - us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.21.9
+  - name: nkp-insights-management
+    version: 1.7.3
+    images:
+      - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.7.3
+      - docker.io/mesosphere/insights-management:1.7.3
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+  - name: nvidia-gpu-operator
+    version: 25.10.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/gpu-operator:v25.10.0
+      - nvcr.io/nvidia/cloud-native/dcgm:4.4.1-2-ubuntu22.04
+      - nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.9.0
+      - nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.3-ubuntu20.04
+      - nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
+      - nvcr.io/nvidia/driver:570-6.8.0-64-generic-ubuntu24.04
+      - nvcr.io/nvidia/gpu-operator:v25.10.0
+      - nvcr.io/nvidia/k8s-device-plugin:v0.18.0
+      - nvcr.io/nvidia/k8s/container-toolkit:v1.17.9-ubi8
+      - nvcr.io/nvidia/k8s/container-toolkit:v1.17.9-ubuntu20.04
+      - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
+      - nvcr.io/nvidia/k8s/dcgm-exporter:4.4.1-4.6.0-ubuntu22.04
+  - name: nvidia-network-operator
+    version: 25.10.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/network-operator:25.10.0
+      - ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+      - nvcr.io/nvidia/cloud-native/network-operator:v25.10.0
+      - nvcr.io/nvidia/doca/doca_telemetry:1.22.5-doca3.1.0-host
+      - nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/ipoib-cni:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/k8s-rdma-shared-dev-plugin:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/maintenance-operator:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/network-operator-init-container:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/nic-configuration-operator-daemon:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/nic-configuration-operator:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/nvidia-k8s-ipam:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/ovs-cni-plugin:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/plugins:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/rdma-cni:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/spectrum-x-operator:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/sriov-cni:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/sriov-network-device-plugin:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/sriov-network-operator-config-daemon:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v25.10.0
+      - nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v25.10.0
+  - name: opencost
+    version: 2.4.0
+    images:
+      - oci://ghcr.io/opencost/charts/opencost:2.4.0
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - ghcr.io/mesosphere/dkp-container-images/opencost/opencost-ui:1.118.0
+      - ghcr.io/opencost/opencost:1.118.0
+  - name: project-grafana-logging
+    version: 10.1.2
+    images:
+      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
+      - docker.io/grafana/grafana:12.2.0
+      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+  - name: project-grafana-loki
+    version: 0.80.5
+    images:
+      - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.3
+      - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
+      - docker.io/grafana/loki:2.9.13
+      - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
+  - name: prometheus-adapter
+    version: 5.2.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/prometheus-adapter:5.2.0
+      - registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0
+  - name: prometheus-thanos-traefik
+    version: 0.0.4
+    images:
+      - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
+  - name: reloader
+    version: 2.2.7
+    images:
+      - oci://ghcr.io/mesosphere/charts/reloader:2.2.7
+      - ghcr.io/stakater/reloader:v1.4.12
+  - name: rook-ceph
+    version: 1.18.6
+    images:
+      - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.18.6
+      - docker.io/rook/ceph:v1.18.6
+  - name: rook-ceph-cluster
+    version: 1.18.6
+    images:
+      - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
+      - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
+      - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.18.6
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+      - quay.io/ceph/ceph:v19.2.2
+      - quay.io/ceph/cosi:v0.1.2
+  - name: thanos
+    version: 17.3.1
+    images:
+      - oci://ghcr.io/mesosphere/charts/thanos:17.3.1
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - quay.io/thanos/thanos:v0.39.2
+  - name: traefik
+    version: 39.0.0
+    images:
+      - oci://ghcr.io/traefik/helm/traefik-crds:1.14.0
+      - oci://ghcr.io/traefik/helm/traefik:39.0.0
+      - docker.io/library/traefik:v3.6.7
+  - name: traefik-forward-auth
+    version: 0.3.16
+    images:
+      - oci://ghcr.io/mesosphere/charts/traefik-forward-auth:0.3.10
+      - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
+  - name: traefik-forward-auth-mgmt
+    version: 0.3.16
+    images:
+      - oci://ghcr.io/mesosphere/charts/traefik-forward-auth:0.3.10
+      - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
+      - docker.io/mesosphere/traefik-forward-auth:v3.2.1
+  - name: velero
+    version: 11.1.1
+    images:
+      - oci://ghcr.io/mesosphere/charts/velero:11.1.1
+      - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
+      - docker.io/mesosphere/kubectl:v1.35.0-alpine
+      - docker.io/velero/velero-plugin-for-aws:v1.13.1
+      - docker.io/velero/velero:v1.17.0
+  - name: vgpu-token-operator
+    version: 1.0.8
+    images:
+      - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.7
+      - ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.7
+      - ghcr.io/nutanix-cloud-native/vgpu-token-operator:v1.0.7
