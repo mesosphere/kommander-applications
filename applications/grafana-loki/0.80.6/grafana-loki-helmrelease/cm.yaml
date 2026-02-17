@@ -43,7 +43,7 @@ data:
           flush_op_timeout: 10m
           wal:
             enabled: true
-            flush_on_shutdown: false
+            flush_on_shutdown: true
             checkpoint_duration: 5m
             replay_memory_ceiling: 4GB
             dir: /var/loki/wal

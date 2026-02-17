@@ -15,7 +15,7 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   loki:
-    url: http://project-grafana-loki-loki-distributed-gateway.${releaseNamespace}.svc.cluster.local:80
+    url: http://project-grafana-loki-v3-gateway.${releaseNamespace}.svc.cluster.local:80
     extract_kubernetes_labels: true
     configure_kubernetes_labels: true
     buffer:
