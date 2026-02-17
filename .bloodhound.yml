@@ -3,11 +3,11 @@
 k8s_versions:
   - 1.32.8
   - 1.33.2
-  - 1.34.1
+  - 1.34.3
 
 # paths to load (in that order)
 paths:
-  - applications/kommander/0.17.0/dynamic-helmreleases
+  - applications/kommander/0.17.1/dynamic-helmreleases
   - common/kommander-operator
 
 # use strict validation (reject unknown fields in resources)
