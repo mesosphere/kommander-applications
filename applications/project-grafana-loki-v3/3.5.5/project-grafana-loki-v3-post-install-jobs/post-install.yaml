@@ -56,7 +56,7 @@ spec:
 
               LOKI_GATEWAY="http://project-grafana-loki-v3-gateway.${releaseNamespace}.svc:80"
               MAX_RETRIES=30
-              RETRY_INTERVAL=10
+              RETRY_INTERVAL=5
 
               echo "=== Project Grafana Loki v3 Post-Install Validation ==="
               echo "Loki Gateway: $LOKI_GATEWAY"
