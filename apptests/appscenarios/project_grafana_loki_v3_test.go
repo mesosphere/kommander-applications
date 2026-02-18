@@ -133,9 +133,11 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 		})
 
 		It("should have all pods running and ready", func() {
+			// Pods don't inherit Flux's helm.toolkit.fluxcd.io/name label;
+			// use the Helm chart's app.kubernetes.io/instance label instead.
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"helm.toolkit.fluxcd.io/name": p.Name(),
+					"app.kubernetes.io/instance": p.Name(),
 				},
 			})
 			Expect(err).To(BeNil())
@@ -180,7 +182,7 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 			serviceList := &corev1.ServiceList{}
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"helm.toolkit.fluxcd.io/name": p.Name(),
+					"app.kubernetes.io/instance":  p.Name(),
 					"app.kubernetes.io/component": "gateway",
 				},
 			})
@@ -197,7 +199,7 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 			podList := &corev1.PodList{}
 			podSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"helm.toolkit.fluxcd.io/name": p.Name(),
+					"app.kubernetes.io/instance":  p.Name(),
 					"app.kubernetes.io/component": "gateway",
 				},
 			})
@@ -216,14 +218,14 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 					return fmt.Errorf("no gateway pods found")
 				}
 
-				// Try to access the gateway pod's ready endpoint
+				// Try to access the gateway pod's readiness endpoint (nginx serves "/" on port 8080)
 				ref := net.JoinSchemeNamePort("http", podList.Items[0].Name, "8080")
 				res := restClientV1Pods.Get().
 					Resource("pods").
 					Namespace(podList.Items[0].Namespace).
 					Name(ref).
 					SubResource("proxy").
-					Suffix("/ready").Do(ctx)
+					Suffix("/").Do(ctx)
 
 				return res.Error()
 			}, "2m", "5s").Should(Succeed())
@@ -322,7 +324,7 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 		It("should have all pods running and ready after upgrade", func() {
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"helm.toolkit.fluxcd.io/name": p.Name(),
+					"app.kubernetes.io/instance": p.Name(),
 				},
 			})
 			Expect(err).To(BeNil())
