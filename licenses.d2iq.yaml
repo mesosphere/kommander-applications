@@ -681,7 +681,7 @@ resources:
         ref: curl-${image_tag//./_}
         license_path: COPYING
   # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.31/pkg/controllers/constants.go
-  - container_image: docker.io/alpine/curl:8.9.1
+  - container_image: docker.io/alpine/curl:8.17.0
     sources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}
