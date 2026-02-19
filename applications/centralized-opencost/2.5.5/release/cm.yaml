@@ -33,7 +33,7 @@ data:
           registry: ghcr.io
           repository: opencost/opencost
           # to avoid upstream default tag that comes with a SHA
-          tag: "1.118.0"
+          tag: "1.119.2"
         cloudProviderApiKey: "to-be-replaced-by-a-valid-api-key-in-google-cloud"
         extraEnv:
           PROM_CLUSTER_ID_LABEL: "cluster"
