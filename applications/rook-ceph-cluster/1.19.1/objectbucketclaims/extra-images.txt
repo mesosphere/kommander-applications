@@ -1,2 +1,2 @@
 quay.io/ceph/cosi:v0.1.2
-ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046

@@ -737,7 +737,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
