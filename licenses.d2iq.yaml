@@ -270,7 +270,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: docker.io/rook/ceph:v1.18.6
+  - container_image: docker.io/rook/ceph:v1.19.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -564,7 +564,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-driver-manager
-  - container_image: quay.io/ceph/ceph:v19.2.2
+  - container_image: quay.io/ceph/ceph:v19.2.3
     sources:
       - license_path: COPYING
         ref: ${image_tag}

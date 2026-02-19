@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
@@ -6,14 +5,14 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://ghcr.io/mesosphere/charts/rook-ceph"
+  url: "oci://ghcr.io/mesosphere/charts/rook-ceph-cluster"
   ref:
-    tag: v1.18.6
+    tag: v1.19.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: rook-ceph
+  name: rook-ceph-cluster
   namespace: ${releaseNamespace}
 spec:
   chartRef:
@@ -30,7 +29,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: rook-ceph
+  timeout: 15m
+  releaseName: rook-ceph-cluster
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
