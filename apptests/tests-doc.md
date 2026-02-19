@@ -49,12 +49,14 @@ docker run --privileged --pid=host alpine:latest nsenter -t 1 -m -u -n -i -- sys
 
 ## Test Cases
 
-| Test Case   | Test Label   | Description                               |
-|-------------|--------------|-------------------------------------------|
-| CertManager | cert-manager | Test the CertManager configuration        |
-| Karma       | karma        | Test the Karma configuration              |
-| KubeCost    | kubecost     | Test the KubeCost configuration           |
-| Reloader    | reloader     | Test the Reloader configuration           |
-| Traefik     | traefik      | Test the Traefik configuration            |
-| Karma       | karma        | Test the Karma and Traefik configuration  |
-| Flux        | flux         | Test the Flux configuration               |
+| Test Case                | Test Label                | Description                                      |
+|--------------------------|---------------------------|--------------------------------------------------|
+| CertManager              | cert-manager              | Test the CertManager configuration               |
+| Karma                    | karma                     | Test the Karma configuration                     |
+| KubeCost                 | kubecost                  | Test the KubeCost configuration                  |
+| Reloader                 | reloader                  | Test the Reloader configuration                  |
+| Traefik                  | traefik                   | Test the Traefik configuration                   |
+| Karma                    | karma                     | Test the Karma and Traefik configuration         |
+| Flux                     | flux                      | Test the Flux configuration                      |
+| Grafana Loki v3          | grafana-loki-v3           | Test the Grafana Loki v3 (workspace) config      |
+| Project Grafana Loki v3  | project-grafana-loki-v3   | Test the Grafana Loki v3 (project) config        |

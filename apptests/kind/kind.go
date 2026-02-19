@@ -68,12 +68,11 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 		return nil, err
 	}
 
-	// ExportKubeConfig exports the kubeconfig for the cluster with the given name to the standard output or a file.
-	// This makes it easy for other applications, such as fluxcd, to work with the cluster.
-	err = provider.ExportKubeConfig(name, "", false)
-	if err != nil {
-		return nil, err
-	}
+	// Set KUBECONFIG env so that other tools (kubectl, flux CLI, etc.) can
+	// discover the cluster without relying on Kind's ExportKubeConfig which
+	// has a known bug in v0.24.0 that can panic or produce "file name too
+	// long" errors when resolving the default kubeconfig path.
+	os.Setenv("KUBECONFIG", kubeconfigFile.Name())
 
 	return &Cluster{
 		provider:           provider,

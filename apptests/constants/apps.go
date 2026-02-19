@@ -17,4 +17,6 @@ const (
 	RookCeph                 = "rook-ceph"
 	Velero                   = "velero"
 	CiliumHubbleRelayTraefik = "cilium-hubble-relay-traefik"
+	GrafanaLokiV3            = "grafana-loki-v3"
+	ProjectGrafanaLokiV3     = "project-grafana-loki-v3"
 )
