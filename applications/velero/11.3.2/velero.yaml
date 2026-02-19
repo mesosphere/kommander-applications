@@ -12,7 +12,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/velero/11.1.1/helmrelease
+  path: ./applications/velero/11.3.2/helmrelease
   sourceRef:
     kind: GitRepository
     name: management

@@ -1,18 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: velero-post-install
+  name: velero-pre-install
   namespace: ${releaseNamespace}
 spec:
-  dependsOn:
-    - name: velero-helmrelease
-      namespace: ${releaseNamespace}
-  force: false
+  force: true
   prune: true
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/velero/11.1.1/post-install
+  path: ./applications/velero/11.3.2/pre-install
   sourceRef:
     kind: GitRepository
     name: management
@@ -23,3 +20,5 @@ spec:
       appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
+      kubetoolsImageRepository: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}
+      kubetoolsImageTag: ${kubetoolsImageTag:=v1.35.0-alpine}
