@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://docker.io/mesosphere/kommander-chart"
   ref:
-    tag: "${kommanderChartVersion:=v2.17.1-dev}"
+    tag: "${kommanderChartVersion:=v2.17.1-rc.4}"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
