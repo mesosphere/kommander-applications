@@ -55,7 +55,7 @@ jobs:
     steps:
       # manually trigger ALL scenarios for ALL apps
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Collect apps from local directory
         id: local-apps
         working-directory: applications
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - name: checkout upgrade matrix
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           sparse-checkout: |
             upgrade-matrix.yaml

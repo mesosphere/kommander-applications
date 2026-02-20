@@ -36,7 +36,7 @@ jobs:
     needs: get-kapps-branch-name
     if: success()
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           repository: 'mesosphere/kommander'
           token: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
