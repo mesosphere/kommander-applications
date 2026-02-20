@@ -649,7 +649,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.39.2
+  - container_image: quay.io/thanos/thanos:v0.41.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -681,7 +681,7 @@ resources:
         ref: curl-${image_tag//./_}
         license_path: COPYING
   # See: https://github.com/mesosphere/kubetunnel/blob/v0.0.31/pkg/controllers/constants.go
-  - container_image: docker.io/alpine/curl:8.9.1
+  - container_image: docker.io/alpine/curl:8.17.0
     sources:
       - url: https://github.com/curl/curl
         ref: curl-${image_tag//./_}
@@ -737,7 +737,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
@@ -822,12 +822,12 @@ resources:
       - url: https://github.com/nutanix-cloud-native/vgpu-token-operator
         ref: ${image_tag}
         notice_path: NOTICES
-  - container_image: ghcr.io/opencost/opencost:1.118.0
+  - container_image: ghcr.io/opencost/opencost:1.119.2
     sources:
       - url: https://github.com/opencost/opencost
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/opencost/opencost-ui:1.118.0
+  - container_image: ghcr.io/mesosphere/dkp-container-images/opencost/opencost-ui:1.119.2
     sources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
