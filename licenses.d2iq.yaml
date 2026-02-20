@@ -17,7 +17,7 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/grafana/grafana:12.2.0
+  - container_image: docker.io/grafana/grafana:12.3.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -89,7 +89,7 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/jaegertracing/jaeger-operator
-  - container_image: docker.io/kiwigrid/k8s-sidecar:1.30.7
+  - container_image: docker.io/kiwigrid/k8s-sidecar:1.30.11
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -119,7 +119,7 @@ resources:
       - license_path: LICENSE
         ref: 3.9.1
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v3.6.7
+  - container_image: docker.io/library/traefik:v3.6.8
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -625,7 +625,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.86.1
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.88.1
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -637,7 +637,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/alertmanager
-  - container_image: quay.io/prometheus/node-exporter:v1.9.1
+  - container_image: quay.io/prometheus/node-exporter:v1.10.2
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
