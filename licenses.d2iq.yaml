@@ -649,7 +649,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus/prometheus
-  - container_image: quay.io/thanos/thanos:v0.39.2
+  - container_image: quay.io/thanos/thanos:v0.41.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
