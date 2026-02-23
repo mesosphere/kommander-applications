@@ -7,6 +7,9 @@ data:
   values.yaml: |
     priorityClassName: dkp-high-priority
     allowAdHocKialiImage: true
+    image: # see: https://quay.io/repository/kiali/kiali-operator?tab=tags
+      repo: docker.io/sandhyaraviprince/kiali-operator
+      tag: v2.21.0
     cr:
       create: true
       namespace: ${releaseNamespace}
