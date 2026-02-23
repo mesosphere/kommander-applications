@@ -31,7 +31,7 @@ data:
           registry: ghcr.io
           repository: mesosphere/dkp-container-images/opencost/opencost-ui
           # to avoid upstream default tag that comes with a SHA
-          tag: "1.118.0"
+          tag: "1.119.2"
         uiPath: /dkp/opencost/frontend
         useIPv6: false
         enabled: true
@@ -52,7 +52,7 @@ data:
           registry: ghcr.io
           repository: opencost/opencost
           # to avoid upstream default tag that comes with a SHA
-          tag: "1.118.0"
+          tag: "1.119.2"
         clusterIdConfigmap: opencost-cluster-info-configmap
         cloudProviderApiKey: "to-be-replaced-by-a-valid-api-key-in-google-cloud"
         extraEnv:
