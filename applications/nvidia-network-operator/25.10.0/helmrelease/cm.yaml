@@ -14,5 +14,5 @@ data:
     maintenanceOperator:
       enabled: false
     sriov-network-operator:
-      images:
-        resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+      images:ghcr.io/k8snetworkplumbingwg/network-resources-injector
+        resourcesInjector: :v1.8.0
