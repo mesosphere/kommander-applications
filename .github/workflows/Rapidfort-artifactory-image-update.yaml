@@ -1,0 +1,29 @@
+name: Pull RapidFort Image
+
+on:
+  push:
+    branches: [ "sandy/test-container-images-private" ]
+
+jobs:
+  pull-and-use:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to RapidFort Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.RF_REGISTRY_URL }} # https://us01.rapidfort.com
+          username: ${{ secrets.RF_USERNAME }}
+          password: ${{ secrets.RF_PASSWORD }}
+
+      - name: Pull the hardened image
+        run: |
+          docker pull quay.io/rfcurated/kong:3.9.1-jammy-fips-rfcurated
+
+      - name: Scan or Run Image
+        run: |
+          # Example: Verify the image is present
+          docker images
