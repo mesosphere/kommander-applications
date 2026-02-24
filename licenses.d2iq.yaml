@@ -18,7 +18,7 @@ resources:
       - url: https://github.com/aquasecurity/kube-bench
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: docker.io/grafana/grafana:12.3.1
+  - container_image: docker.io/grafana/grafana:12.3.3
     sources:
       - license_path: LICENSE
         notice_path: NOTICE.md
@@ -646,7 +646,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/prometheus-operator/prometheus-operator
-  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.88.1
+  - container_image: quay.io/prometheus-operator/prometheus-operator:v0.89.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
