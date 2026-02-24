@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/cert-manager/1.18.2/root-ca
+  path: ./applications/cert-manager/1.19.3/root-ca
   sourceRef:
     kind: GitRepository
     name: management
