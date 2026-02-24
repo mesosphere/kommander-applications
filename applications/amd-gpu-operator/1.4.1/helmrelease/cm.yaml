@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    # Default values for AMD GPU Operator (rocm/gpu-operator-charts).
+    # See https://github.com/ROCm/gpu-operator for full options.
+    # targetNamespace is set via HelmRelease targetNamespace (releaseNamespace).
+    crds:
+      defaultCR:
+        install: true
