@@ -69,9 +69,18 @@ spec:
               echo "Waiting for Loki distributor deployment to be ready..."
               kubectl rollout status deployment/project-grafana-loki-v3-distributor -n ${releaseNamespace} --timeout=10m
 
-              # Wait for ingester to be ready (needed for writes)
-              echo "Waiting for Loki ingester statefulset to be ready..."
-              kubectl rollout status statefulset/project-grafana-loki-v3-ingester -n ${releaseNamespace} --timeout=10m
+              # Wait for ingesters to be ready (needed for writes)
+              # In Distributed mode, Loki v3 uses zone-aware ingesters (zone-a, zone-b, zone-c)
+              echo "Waiting for Loki ingester statefulsets to be ready..."
+              INGESTER_STS=$(kubectl get statefulsets -n ${releaseNamespace} -l app.kubernetes.io/component=ingester,app.kubernetes.io/instance=project-grafana-loki-v3 -o jsonpath='{.items[*].metadata.name}')
+              if [ -z "$INGESTER_STS" ]; then
+                echo "ERROR: No ingester statefulsets found"
+                exit 1
+              fi
+              for sts in $INGESTER_STS; do
+                echo "Checking ingester statefulset $sts..."
+                kubectl rollout status statefulset/$sts -n ${releaseNamespace} --timeout=10m
+              done
 
               # Wait for querier to be ready (needed for reads)
               echo "Waiting for Loki querier deployment to be ready..."
@@ -79,8 +88,8 @@ spec:
 
               # Generate unique test data
               TIMESTAMP=$(date +%s)000000000
-              TEST_JOB="project-loki-v3-validation-${TIMESTAMP}"
-              TEST_MESSAGE="project-loki-v3-validation-test-$(date +%s)-${RANDOM}"
+              TEST_JOB="project-loki-v3-validation-$TIMESTAMP"
+              TEST_MESSAGE="project-loki-v3-validation-test-$(date +%s)-$RANDOM"
 
               echo ""
               echo "=== Testing Write Operation ==="
