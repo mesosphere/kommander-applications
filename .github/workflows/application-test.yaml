@@ -21,7 +21,7 @@ jobs:
   setup-pr:
     name: Extract app names from PR Labels
     runs-on:
-      - self-hosted-nutanix-medium
+      - self-hosted-nutanix-small
     if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
 
     outputs:
@@ -46,7 +46,7 @@ jobs:
   setup-all-apps:
     name: Extract app names from local repo
     runs-on:
-      - self-hosted-nutanix-medium
+      - self-hosted-nutanix-small
     if: contains(fromJSON('["workflow_dispatch", "push"]'), github.event_name)
 
     outputs:
@@ -67,7 +67,7 @@ jobs:
   generate-upgrade-versions:
     name: Generate upgrade versions
     runs-on:
-      - self-hosted-nutanix-medium
+      - self-hosted-nutanix-small
     if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.scenario == 'install') }}
     outputs:
       upgrade-versions: ${{ steps.get-matrix.outputs.result }}

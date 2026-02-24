@@ -19,7 +19,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
-    runs-on: self-hosted-nutanix-medium
+    runs-on: self-hosted-nutanix-small
 
     steps:
       - name: Checkout
@@ -48,7 +48,7 @@ jobs:
     needs: generate-matrix
 
     runs-on:
-    - self-hosted-nutanix-medium
+    - self-hosted-nutanix-small
     strategy:
       fail-fast: false
       matrix:

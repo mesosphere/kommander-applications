@@ -16,7 +16,7 @@ on:
 
 jobs:
   automerge:
-    runs-on: self-hosted-nutanix-medium
+    runs-on: self-hosted-nutanix-small
     steps:
     - name: Enable auto-merge for automated chart bump PRs or label
       id: automerge

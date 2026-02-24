@@ -23,7 +23,7 @@ on:
 jobs:
   push-chart:
     runs-on:
-      - self-hosted-nutanix-medium
+      - self-hosted-nutanix-docker-xsmall
 
     steps:
       - name: Checkout repo

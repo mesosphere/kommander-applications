@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     name: Go Test
-    runs-on: self-hosted-nutanix-medium
+    runs-on: self-hosted-nutanix-docker-xsmall
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
