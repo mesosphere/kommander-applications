@@ -179,5 +179,5 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	}(f)
 	updateToVersion := "v1.0.0"
 	err = UpdateChartVersions(tmpDir, updateToVersion)
-	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
+	assert.ErrorContains(t, err, "found > 1 match for path")
 }

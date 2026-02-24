@@ -13,30 +13,33 @@ import (
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 var (
-	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
-	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
-	kommanderOperatorDefaultsCMPath        = "./common/kommander-operator/cm.yaml"
+	kommanderHelmReleasePathPattern         = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern  = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
+	kommanderOperatorDefaultsCMPath         = "./common/kommander-operator/cm.yaml"
+	managementPlaneManifestsPath            = "./common/management-plane/manifests/all.yaml"
+	nkpclusterManifestsPath                = "./common/nkpcluster/manifests/all.yaml"
 	filesContainingKommanderVersion        = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
 		kommanderOperatorDefaultsCMPath,
+		managementPlaneManifestsPath,
+		nkpclusterManifestsPath,
 	}
 )
 
 func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 	chartVersion = fmt.Sprintf(kommanderChartVersionTemplate, chartVersion)
 
-	for _, helmReleasePath := range filesContainingKommanderVersion {
-		// Find the HelmRelease
-		matches, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, helmReleasePath))
+	for _, filePath := range filesContainingKommanderVersion {
+		matches, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, filePath))
 		if err != nil {
 			return err
 		}
 		if len(matches) == 0 {
-			return fmt.Errorf("no matches found for HelmRelease path %s (verify the kommander-applications repo path is correct)", helmReleasePath)
+			return fmt.Errorf("no matches found for path %s (verify the kommander-applications repo path is correct)", filePath)
 		}
 		if len(matches) > 1 {
-			return fmt.Errorf("found > 1 match for HelmRelease path %s (there should only be one match)", helmReleasePath)
+			return fmt.Errorf("found > 1 match for path %s (there should only be one match)", filePath)
 		}
 		helmReleaseFilePath := matches[0]
 
