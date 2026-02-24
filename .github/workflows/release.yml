@@ -14,7 +14,7 @@ permissions:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-medium
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -79,7 +79,7 @@ jobs:
           devbox run -- just release-platform-collection-artifact
 
   send_message:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-medium
     needs:
       - "release"
     if: ${{ always() }}
