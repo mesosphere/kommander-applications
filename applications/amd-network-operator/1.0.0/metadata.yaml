@@ -1,0 +1,24 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+displayName: AMD Network Operator
+description: The AMD Network Operator simplifies deployment and management of AMD AI NICs (AINICs) in Kubernetes and works with the AMD GPU Operator for high-performance networking in AI/ML and HPC workloads.
+category:
+  - general
+type: nkp-core-platform
+scope:
+  - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
+certifications:
+  - qualified
+  - airgapped
+overview: |-
+  # Overview
+  The AMD Network Operator automates NIC discovery and driver management for AMD AI NICs (e.g. AMD Pensando Pollara), with RDMA/RoCE support, Prometheus metrics, and dynamic resource allocation. It can be installed alongside the AMD GPU Operator on the same cluster.
+
+  ## More Information
+  - [AMD Network Operator - Kubernetes (Helm)](https://instinct.docs.amd.com/projects/network-operator/en/main/installation/kubernetes-helm.html)
+  - [AMD Network Operator - GitHub](https://github.com/ROCm/network-operator)
+icon: ""

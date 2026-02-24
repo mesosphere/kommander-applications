@@ -1,0 +1,34 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+displayName: AMD Device Metrics Exporter
+description: Exports Prometheus-format metrics from AMD GPUs (and optionally NICs) for monitoring in HPC and AI environments.
+category:
+  - general
+type: nkp-core-platform
+scope:
+  - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
+certifications:
+  - qualified
+  - airgapped
+overview: |-
+  # Overview
+  AMD Device Metrics Exporter collects telemetry from AMD devices (GPUs and optionally NICs) and exposes it in Prometheus format for integration with monitoring stacks such as Prometheus and Grafana.
+
+  ## Key Features
+  ### GPU and NIC Metrics
+  Configurable monitoring for AMD GPUs and optionally AMD NICs, with metrics suitable for HPC and AI workloads.
+
+  ### Prometheus Integration
+  Native Prometheus format output with optional ServiceMonitor support for seamless integration with Prometheus Operator.
+
+  ### Kubernetes Native
+  Helm-based deployment with DRA (Dynamic Resource Allocation) claim association on Kubernetes 1.34+.
+
+  ## More Information
+  - [AMD Device Metrics Exporter - Kubernetes (Helm)](https://instinct.docs.amd.com/projects/device-metrics-exporter/en/latest/installation/kubernetes-helm.html)
+  - [AMD Device Metrics Exporter - GitHub](https://github.com/ROCm/device-metrics-exporter)
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIHJ4PSIxNiIgZmlsbD0iI0VEMUMyNCIvPjxnIGZpbGw9IndoaXRlIj48cmVjdCB4PSI5MCIgeT0iMTkwIiB3aWR0aD0iMzUiIGhlaWdodD0iNTAiIHJ4PSI0Ii8+PHJlY3QgeD0iMTMyIiB5PSIxNTAiIHdpZHRoPSIzNSIgaGVpZ2h0PSI5MCIgcng9IjQiLz48cmVjdCB4PSIxNzUiIHk9IjExMCIgd2lkdGg9IjM1IiBoZWlnaHQ9IjEzMCIgcng9IjQiLz48L2c+PC9zdmc+

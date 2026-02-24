@@ -1,0 +1,34 @@
+schema: "catalog.nkp.nutanix.com/v1/application-metadata"
+displayName: AMD GPU Operator
+description: The AMD GPU Operator manages AMD GPU resources in a Kubernetes cluster and automates tasks related to bootstrapping GPU nodes (drivers, device plugin, NFD, KMM, metrics).
+category:
+  - general
+type: nkp-core-platform
+scope:
+  - workspace
+licensing:
+  - Pro
+  - Ultimate
+  - Essential
+  - Enterprise
+certifications:
+  - qualified
+  - airgapped
+overview: |-
+  # Overview
+  The AMD GPU Operator uses the operator framework within Kubernetes to automate the management of AMD software components needed to provision GPUs.
+
+  ## Key Features
+  ### Automated GPU Node Bootstrap
+  Manages drivers, device plugin, Node Feature Discovery (NFD), and Kernel Module Manager (KMM) for AMD GPU nodes.
+
+  ### Kubernetes Native
+  Integrates with Kubernetes device plugin API and supports out-of-tree AMD GPU drivers via KMM.
+
+  ### Metrics Integration
+  Includes metrics exporter for Prometheus monitoring of GPU resources.
+
+  ## More Information
+  - [AMD GPU Operator - Kubernetes (Helm)](https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/kubernetes-helm.html)
+  - [AMD GPU Operator - GitHub](https://github.com/ROCm/gpu-operator)
+icon: PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIHJ4PSIxNiIgZmlsbD0iI0VEMUMyNCIvPjxnIGZpbGw9IndoaXRlIj48cmVjdCB4PSI3MCIgeT0iODAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQwIiByeD0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI2Ii8+PHJlY3QgeD0iOTAiIHk9IjEwMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjMwIiByeD0iNCIvPjxyZWN0IHg9IjE3MCIgeT0iMTAwIiB3aWR0aD0iNDAiIGhlaWdodD0iMzAiIHJ4PSI0Ii8+PHJlY3QgeD0iOTAiIHk9IjE1MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI1MCIgcng9IjQiLz48L2c+PC9zdmc+

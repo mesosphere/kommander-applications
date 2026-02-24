@@ -12,6 +12,9 @@ open-kommander-pr:
     - applications/kube-oidc-proxy/**
     - applications/kube-prometheus-stack/**
     - applications/logging-operator/**
+    - applications/amd-device-metrics-exporter/**
+    - applications/amd-gpu-operator/**
+    - applications/amd-network-operator/**
     - applications/nvidia-gpu-operator/**
     - applications/project-grafana-logging/**
     - applications/project-grafana-loki/**
@@ -39,6 +42,9 @@ do-not-merge/testing:
     - applications/kube-oidc-proxy/**
     - applications/kube-prometheus-stack/**
     - applications/logging-operator/**
+    - applications/amd-device-metrics-exporter/**
+    - applications/amd-gpu-operator/**
+    - applications/amd-network-operator/**
     - applications/nvidia-gpu-operator/**
     - applications/project-grafana-logging/**
     - applications/project-grafana-loki/**
