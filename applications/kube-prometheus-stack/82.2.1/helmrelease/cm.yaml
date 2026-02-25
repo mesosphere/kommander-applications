@@ -17,7 +17,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus-operator/prometheus-config-reloader
-          tag: v0.83.0
+          tag: v0.89.0
       admissionWebhooks:
         patch:
           priorityClassName: "dkp-critical-priority"
