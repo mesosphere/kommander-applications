@@ -132,7 +132,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/konvoy2
-  - container_image: docker.io/jpillora/chisel:1.10.1
+  - container_image: docker.io/jpillora/chisel:1.11.3
     sources:
       - license_path: LICENSE
         ref: v${image_tag}
