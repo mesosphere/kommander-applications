@@ -118,3 +118,19 @@ func WithKindExperimentalDockerNetwork(networkName string, run func() error) err
 
 	return run()
 }
+
+// CreateClusterInNetwork creates a kind cluster in the specified docker network.
+// It uses the KIND_EXPERIMENTAL_DOCKER_NETWORK environment variable to configure
+// the network for the cluster.
+func CreateClusterInNetwork(ctx context.Context, clusterName, networkName string) (*Cluster, error) {
+	var cluster *Cluster
+	err := WithKindExperimentalDockerNetwork(networkName, func() error {
+		var err error
+		cluster, err = CreateCluster(ctx, clusterName)
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
+	return cluster, nil
+}
