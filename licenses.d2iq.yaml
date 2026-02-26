@@ -475,11 +475,6 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.21.0
         url: https://github.com/knative/eventing
-  - container_image: docker.io/envoyproxy/envoy:v1.34-latest
-    sources:
-      - license_path: LICENSE
-        ref: v1.34.0
-        url: https://github.com/envoyproxy/envoy
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.19.1
     sources:
       - license_path: LICENSE
