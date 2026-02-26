@@ -1,7 +1,8 @@
 name: Build with RapidFort Curated Images
  
-on: [push, pull_request]
- 
+on: 
+push:
+  branches: [ "sandy/test-container-images-private" ]
 jobs:
   build:
     runs-on: ubuntu-latest
