@@ -10,7 +10,7 @@ on:
 
 jobs:
   label-pr:
-    runs-on: self-hosted-nutanix-small
+    runs-on: self-hosted-nutanix-medium
     permissions:
       contents: read
       pull-requests: write

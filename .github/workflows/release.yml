@@ -79,7 +79,7 @@ jobs:
           devbox run -- just release-platform-collection-artifact
 
   send_message:
-    runs-on: self-hosted-nutanix-small
+    runs-on: self-hosted-nutanix-medium
     needs:
       - "release"
     if: ${{ always() }}

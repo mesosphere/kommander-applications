@@ -35,7 +35,7 @@ jobs:
 
   run-test-scenario:
     runs-on:
-      - self-hosted-nutanix-docker-small
+      - self-hosted-nutanix-docker-medium
 
     steps:
     - name: Checkout code

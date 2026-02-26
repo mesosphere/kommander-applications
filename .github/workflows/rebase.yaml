@@ -9,7 +9,7 @@ jobs:
   rebase:
     name: Rebase
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
-    runs-on: self-hosted-nutanix-small
+    runs-on: self-hosted-nutanix-medium
     steps:
       - name: Checkout code
         uses: actions/checkout@v5

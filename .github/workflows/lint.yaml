@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   pre-commit:
-    runs-on: self-hosted-nutanix-small
+    runs-on: self-hosted-nutanix-medium
 
     steps:
       - name: Checkout
