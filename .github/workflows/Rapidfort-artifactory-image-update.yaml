@@ -13,9 +13,9 @@ jobs:
         env:
           RF_ACCESS_ID: ${{ secrets.RF_ACCESS_ID }}
           RF_SECRET_ACCESS_KEY: ${{ secrets.RF_SECRET_ACCESS_KEY }}
+          RF_CONTAINER_ENGINE: "docker"
         run: |
           # Download and install credential helper
-          export RF_CONTAINER_ENGINE="docker"
           curl -O https://us01.rapidfort.com/cli/docker-credential-rfcurated-$(uname)-$(uname -m).tar.gz
           sudo tar xzf docker-credential-rfcurated-$(uname)-$(uname -m).tar.gz -C /usr/local/bin
           
