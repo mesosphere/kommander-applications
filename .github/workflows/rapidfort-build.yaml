@@ -1,0 +1,31 @@
+name: Build with RapidFort Curated Images
+
+on:
+  push:
+    branches: [ "sandy/test-container-images-private" ]
+
+jobs:
+  pull-and-use:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup RapidFort Credential Helper
+        env:
+          RF_ACCESS_ID: ${{ secrets.RF_ACCESS_ID }}
+          RF_SECRET_ACCESS_KEY: ${{ secrets.RF_SECRET_ACCESS_KEY }}
+          RF_CONTAINER_ENGINE: "docker"
+        run: |
+          # Download and install credential helper
+          curl -O https://us01.rapidfort.com/cli/docker-credential-rfcurated-$(uname)-$(uname -m).tar.gz
+          sudo tar xzf docker-credential-rfcurated-$(uname)-$(uname -m).tar.gz -C /usr/local/bin
+          
+          # Initialize credential helper
+          echo quay.io | docker-credential-rfcurated init
+      
+      - name: Pull Curated Image
+        run: docker pull quay.io/rfcurated/kong:3.9.1-jammy-fips-rfcurated
+      
+      - name: Build Application
+        run: docker build -t myapp:latest .
