@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -46,7 +46,14 @@ func (g grafanaLokiV3) Install(ctx context.Context, env *environment.Env) error 
 	return err
 }
 
+func (g grafanaLokiV3) HasPreviousVersion() bool {
+	return g.appPathPreviousVersion != ""
+}
+
 func (g grafanaLokiV3) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
+	if g.appPathPreviousVersion == "" {
+		return fmt.Errorf("previous version path not available for %s", g.Name())
+	}
 	err := g.install(ctx, env, g.appPathPreviousVersion)
 	return err
 }
@@ -153,10 +160,10 @@ func (g grafanaLokiV3) applyTestOverrides(ctx context.Context, env *environment.
 }
 
 func (g grafanaLokiV3) patchHelmReleaseWithOverrides(ctx context.Context, env *environment.Env) error {
-	hr := &fluxhelmv2beta2.HelmRelease{
+	hr := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      g.Name(),
@@ -176,7 +183,7 @@ func (g grafanaLokiV3) patchHelmReleaseWithOverrides(ctx context.Context, env *e
 		return fmt.Errorf("could not get the HelmRelease: %w", err)
 	}
 
-	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
+	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2.ValuesReference{
 		Kind: "ConfigMap",
 		Name: "grafana-loki-v3-test-overrides",
 	})

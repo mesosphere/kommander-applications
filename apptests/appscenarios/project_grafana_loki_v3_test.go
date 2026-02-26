@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -44,7 +44,7 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 
 	Describe("Project Grafana Loki v3 Install Test", Ordered, Label("install"), func() {
 		var (
-			hr              *fluxhelmv2beta2.HelmRelease
+			hr              *fluxhelmv2.HelmRelease
 			deploymentList  *appsv1.DeploymentList
 			statefulSetList *appsv1.StatefulSetList
 		)
@@ -53,10 +53,10 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 			err := p.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      p.Name(),
@@ -257,17 +257,20 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 
 	Describe("Project Grafana Loki v3 Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
-			hr *fluxhelmv2beta2.HelmRelease
+			hr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install the previous version successfully", func() {
+			if !p.HasPreviousVersion() {
+				Skip("previous version not available - project-grafana-loki-v3 is a new application")
+			}
 			err := p.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      p.Name(),
@@ -292,10 +295,13 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 		})
 
 		It("should upgrade project-grafana-loki-v3 successfully", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			if !p.HasPreviousVersion() {
+				Skip("previous version not available - project-grafana-loki-v3 is a new application")
+			}
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      p.Name(),
@@ -309,7 +315,7 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 			Expect(err).To(BeNil())
 
 			// Check the status of the HelmRelease
-			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
+			Eventually(func() (*fluxhelmv2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				return hr, err
 			}, "10m", pollInterval).Should(And(
@@ -322,6 +328,9 @@ var _ = Describe("Project Grafana Loki v3 Tests", Label("project-grafana-loki-v3
 		})
 
 		It("should have all pods running and ready after upgrade", func() {
+			if !p.HasPreviousVersion() {
+				Skip("previous version not available - project-grafana-loki-v3 is a new application")
+			}
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app.kubernetes.io/instance": p.Name(),
