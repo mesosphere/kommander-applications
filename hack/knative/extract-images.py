@@ -463,7 +463,7 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
     print("\n" + "="*70)
     print("REGISTRY OVERRIDE CONFIGURATION")
     print("="*70)
-    print("Add this to applications/knative/{version}/defaults/cm.yaml:")
+    print("Add this to applications/knative/{version}/helmrelease/cm.yaml:")
     print()
 
     print("For serving section:")
@@ -495,7 +495,7 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
     """Update the cm.yaml file with registry overrides."""
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent.parent
-    cm_file = repo_root / "applications" / "knative" / k_apps_version / "defaults" / "cm.yaml"
+    cm_file = repo_root / "applications" / "knative" / k_apps_version / "helmrelease" / "cm.yaml"
 
     if not cm_file.exists():
         print(f"Warning: {cm_file} does not exist, skipping automatic update")
