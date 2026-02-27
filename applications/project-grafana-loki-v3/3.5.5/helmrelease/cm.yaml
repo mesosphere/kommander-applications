@@ -272,12 +272,7 @@ data:
         grafanaAgent:
           installOperator: false
 
-    # RBAC configuration
-    # Use namespace-scoped RBAC instead of cluster-wide. Project-scoped service
-    # accounts cannot manage cluster-scoped RBAC resources (Gatekeeper enforces
-    # serviceAccountName on all project HelmReleases). Setting namespaced: true
-    # skips ClusterRole/ClusterRoleBinding creation while keeping namespace-scoped
-    # Role/RoleBinding intact.
+    # Project-scoped service accounts cannot manage cluster-scoped RBAC resources
     rbac:
       namespaced: true
 
