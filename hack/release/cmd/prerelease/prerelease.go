@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 
 	"github.com/spf13/cobra"
 
@@ -47,7 +48,15 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
-			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s", chartVersionString)
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s\n", chartVersionString)
+
+			makeCmd := exec.Command("devbox", "run", "--", "make", "list-images")
+			makeCmd.Dir = kommanderApplicationsRepo
+			makeCmd.Stdout = cmd.OutOrStdout()
+			makeCmd.Stderr = cmd.ErrOrStderr()
+			if err := makeCmd.Run(); err != nil {
+				return fmt.Errorf("make list-images: %w", err)
+			}
 			return nil
 		},
 	}
