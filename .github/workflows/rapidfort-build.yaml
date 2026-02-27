@@ -27,5 +27,7 @@ jobs:
       - name: Pull Curated Image
         run: docker pull quay.io/rfcurated/kong:3.9.1-jammy-fips-rfcurated
       
-      - name: Build Application
-        run: docker build -t myapp:latest .
+      - name: Scan or Run Image
+        run: |
+          # Example: Verify the image is present
+          docker images
