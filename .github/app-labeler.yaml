@@ -162,6 +162,18 @@ applications/nkp-pulse-workspace:
 - changed-files:
   - any-glob-to-any-file:
     - applications/nkp-pulse-workspace/**
+applications/amd-device-metrics-exporter:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/amd-device-metrics-exporter/**
+applications/amd-gpu-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/amd-gpu-operator/**
+applications/amd-network-operator:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/amd-network-operator/**
 applications/nvidia-gpu-operator:
 - changed-files:
   - any-glob-to-any-file:

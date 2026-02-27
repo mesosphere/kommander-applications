@@ -559,6 +559,51 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-driver-manager
+  - container_image: docker.io/rocm/device-metrics-exporter:v1.4.2
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/ROCm/device-metrics-exporter
+  - container_image: docker.io/rocm/gpu-operator:v1.4.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/ROCm/gpu-operator
+  - container_image: docker.io/rocm/kernel-module-management-operator:v1.4.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/kernel-module-management
+  - container_image: docker.io/rocm/kernel-module-management-operator:v1.4.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/kernel-module-management
+  - container_image: docker.io/rocm/kernel-module-management-webhook-server:v1.4.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/kernel-module-management
+  - container_image: docker.io/rocm/kernel-module-management-webhook-server:v1.4.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/kernel-module-management
+  - container_image: docker.io/rocm/network-operator:v1.0.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/ROCm/network-operator
+  - container_image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.2.2
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/k8snetworkplumbingwg/multus-cni
+  - container_image: registry.k8s.io/nfd/node-feature-discovery:v0.16.1
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/node-feature-discovery
   - container_image: quay.io/ceph/ceph:v19.2.2
     sources:
       - license_path: COPYING
@@ -711,6 +756,11 @@ resources:
     sources:
       - url: https://github.com/mirror/busybox
         ref: master
+        license_path: LICENSE
+  - container_image: docker.io/library/busybox:1.36
+    sources:
+      - url: https://github.com/mirror/busybox
+        ref: 1_36_0
         license_path: LICENSE
   - container_image: registry.k8s.io/pause:3.10
     sources:
