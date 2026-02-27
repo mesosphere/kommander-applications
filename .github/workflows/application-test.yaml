@@ -21,7 +21,7 @@ jobs:
   setup-pr:
     name: Extract app names from PR Labels
     runs-on:
-      - self-hosted-nutanix-docker-medium
+      - self-hosted-nutanix-docker-xsmall
     if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
 
     outputs:

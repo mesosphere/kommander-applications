@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   get-kapps-branch-name:
-    runs-on: self-hosted-nutanix-medium
+    runs-on: self-hosted-nutanix-small
     if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     outputs:
       branch_name: ${{ steps.branch-name.outputs.branch_name }}

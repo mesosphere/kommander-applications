@@ -8,7 +8,7 @@ on:
 jobs:
   stale:
     name: Close Stale PRs
-    runs-on: self-hosted-nutanix-medium
+    runs-on: self-hosted-nutanix-small
     permissions:
       issues: write
       pull-requests: write
