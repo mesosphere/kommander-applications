@@ -30,6 +30,7 @@ spec:
     remediation:
       retries: 30
   releaseName: project-loki-v3-object-bucket-claims
+  serviceAccountName: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

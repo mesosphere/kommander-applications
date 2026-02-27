@@ -272,6 +272,10 @@ data:
         grafanaAgent:
           installOperator: false
 
+    # Project-scoped service accounts cannot manage cluster-scoped RBAC resources
+    rbac:
+      namespaced: true
+
     # Loki canary configuration
     lokiCanary:
       enabled: false
