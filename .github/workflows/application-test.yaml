@@ -17,6 +17,11 @@ on:
     branches:
       - main
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   setup-pr:
     name: Extract app names from PR Labels

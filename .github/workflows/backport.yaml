@@ -5,10 +5,15 @@ on:
       - closed
   workflow_dispatch: {}
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   backport:
     name: Backport PR
-    runs-on: self-hosted-nutanix-docker-xsmall
+    runs-on: self-hosted-nutanix-small
     if: |
       github.event.pull_request.merged == true
       && contains(github.event.pull_request.labels.*.name, 'auto-backport')

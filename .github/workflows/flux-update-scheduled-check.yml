@@ -4,6 +4,11 @@ on:
     - cron:  '0 12 * * SUN'
   workflow_dispatch: {}
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   flux-schedule-check:
     if: github.ref == 'refs/heads/main'
