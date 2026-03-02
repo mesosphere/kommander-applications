@@ -1,0 +1,101 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-loki-v3-test-overrides
+  namespace: ${namespace}
+data:
+  values.yaml: |
+    # Test overrides for Kind cluster (MinIO for S3, single ingester)
+
+    # Disable migration (no old loki in test)
+    migrate:
+      fromDistributed:
+        enabled: false
+
+    loki:
+      commonConfig:
+        replication_factor: 1
+        path_prefix: /var/loki
+
+      storage:
+        type: s3
+        bucketNames:
+          chunks: loki-chunks
+          ruler: loki-ruler
+          admin: loki-admin
+        s3:
+          endpoint: "http://minio.${namespace}.svc:80"
+          region: us-east-1
+          secretAccessKey: minioadmin
+          accessKeyId: minioadmin
+          s3ForcePathStyle: true
+          insecure: true
+
+      storage_config:
+        aws:
+          endpoint: "http://minio.${namespace}.svc:80"
+          region: us-east-1
+          access_key_id: minioadmin
+          secret_access_key: minioadmin
+          s3forcepathstyle: true
+          insecure: true
+
+      schemaConfig:
+        configs:
+          - from: "2024-04-01"
+            store: tsdb
+            object_store: s3
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
+
+      limits_config:
+        allow_structured_metadata: true
+        retention_period: 168h
+
+    # Single ingester zone to work with 2-node Kind cluster
+    ingester:
+      replicas: 1
+      zoneAwareReplication:
+        enabled: false
+      extraEnvFrom: []
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    # Remove OBC S3 secret references from all components (using inline creds)
+    distributor:
+      extraEnvFrom: []
+
+    querier:
+      extraEnvFrom: []
+
+    queryFrontend:
+      extraEnvFrom: []
+
+    queryScheduler:
+      extraEnvFrom: []
+
+    indexGateway:
+      extraEnvFrom: []
+
+    compactor:
+      extraEnvFrom: []
+
+    ruler:
+      extraEnvFrom: []
+
+    gateway:
+      nginxConfig:
+        clientMaxBodySize: 10M
+
+    # DKP section - disable OBC
+    dkp:
+      grafana-loki-v3:
+        enabled: false
