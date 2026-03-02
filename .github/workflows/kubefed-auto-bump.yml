@@ -20,7 +20,7 @@ permissions:
 jobs:
   bump:
     name: Bump Kubefed Version
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-medium
 
     steps:
       - name: Checkout repository

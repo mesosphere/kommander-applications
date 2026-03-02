@@ -7,10 +7,15 @@ on:
       - main
   pull_request:
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Go Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-xsmall
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
