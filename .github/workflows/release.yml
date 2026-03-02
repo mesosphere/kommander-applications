@@ -14,7 +14,7 @@ permissions:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-xsmall
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -69,7 +69,7 @@ jobs:
           devbox run -- just release-server
 
   send_message:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-xsmall
     needs:
       - "release"
     if: ${{ always() }}

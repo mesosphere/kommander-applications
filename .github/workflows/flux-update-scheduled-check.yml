@@ -8,7 +8,7 @@ jobs:
   flux-schedule-check:
     if: github.ref == 'refs/heads/main'
     name: Flux Update Schedule Check
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

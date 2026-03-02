@@ -21,10 +21,15 @@ on:
         required: true
         type: string
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   run-test-scenario:
     runs-on:
-      - ubuntu-latest
+      - self-hosted-nutanix-docker-medium
 
     steps:
     - name: Checkout code
