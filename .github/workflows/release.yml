@@ -11,11 +11,6 @@ permissions:
   id-token: write
   packages: write
 
-# https://stackoverflow.com/a/72408109/3058839
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   release:
     name: Release

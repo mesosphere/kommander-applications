@@ -8,11 +8,6 @@ on:
       - 'applications/**/*'
   workflow_dispatch: {}
 
-# https://stackoverflow.com/a/72408109/3058839
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   update-app-labels-yaml:
     runs-on: self-hosted-nutanix-small
