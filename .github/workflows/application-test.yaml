@@ -17,11 +17,16 @@ on:
     branches:
       - main
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   setup-pr:
     name: Extract app names from PR Labels
     runs-on:
-      - ubuntu-latest
+      - self-hosted-nutanix-docker-xsmall
     if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
 
     outputs:
@@ -46,7 +51,7 @@ jobs:
   setup-all-apps:
     name: Extract app names from local repo
     runs-on:
-      - ubuntu-latest
+      - self-hosted-nutanix-docker-medium
     if: contains(fromJSON('["workflow_dispatch", "push"]'), github.event_name)
 
     outputs:
@@ -67,7 +72,7 @@ jobs:
   generate-upgrade-versions:
     name: Generate upgrade versions
     runs-on:
-      - ubuntu-latest
+      - self-hosted-nutanix-docker-medium
     if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.scenario == 'install') }}
     outputs:
       upgrade-versions: ${{ steps.get-matrix.outputs.result }}
