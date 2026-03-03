@@ -14,7 +14,7 @@ permissions:
 jobs:
   pre-commit:
     runs-on:
-    - self-hosted-nutanix-small
+    - self-hosted-nutanix-docker-small
 
     steps:
       - name: Checkout
