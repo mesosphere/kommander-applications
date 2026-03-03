@@ -32,6 +32,7 @@ spec:
     remediation:
       retries: 30
   releaseName: project-grafana-loki-v3
+  serviceAccountName: ${releaseNamespace}
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

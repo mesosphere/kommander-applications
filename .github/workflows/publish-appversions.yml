@@ -5,11 +5,16 @@ on:
     types:
       - published
 
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   publish-test:
     name: Publish docs test
     if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-medium
     steps:
       - name: Repository dispatch
         run: |
@@ -23,7 +28,7 @@ jobs:
   publish-tag:
     name: Publish docs with tag
     if: ${{ startsWith(github.ref_name, 'v') }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-medium
     steps:
       - name: Repository dispatch
         run: |

@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -41,7 +41,7 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 	Describe("Reloader Install Test", Ordered, Label("install"), func() {
 		var (
 			r                      *reloader
-			reloaderHr             *fluxhelmv2beta2.HelmRelease
+			reloaderHr             *fluxhelmv2.HelmRelease
 			reloaderDeploymentList *appsv1.DeploymentList
 			reloaderContainer      corev1.Container
 		)
@@ -51,10 +51,10 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 			err := r.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			reloaderHr = &fluxhelmv2beta2.HelmRelease{
+			reloaderHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      r.Name(),
@@ -105,13 +105,12 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 		It("should reload the application", func() {
 			reloaderTestReload(r)
 		})
-
 	})
 
 	Describe("Reloader Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
 			r          *reloader
-			reloaderHr *fluxhelmv2beta2.HelmRelease
+			reloaderHr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install the previous version successfully", func() {
@@ -119,10 +118,10 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 			err := r.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr := &fluxhelmv2beta2.HelmRelease{
+			hr := &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      r.Name(),
@@ -144,7 +143,6 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 				}
 				return fmt.Errorf("helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-
 		})
 
 		It("should upgrade reloader successfully", func() {
@@ -152,10 +150,10 @@ var _ = Describe("Reloader Tests", Label("reloader"), func() {
 			err := r.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			reloaderHr = &fluxhelmv2beta2.HelmRelease{
+			reloaderHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      r.Name(),

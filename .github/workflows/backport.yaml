@@ -8,7 +8,7 @@ on:
 jobs:
   backport:
     name: Backport PR
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-small
     if: |
       github.event.pull_request.merged == true
       && contains(github.event.pull_request.labels.*.name, 'auto-backport')

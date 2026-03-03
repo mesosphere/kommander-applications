@@ -1,0 +1,93 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${namespace}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: ${namespace}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio:RELEASE.2024-01-18T22-51-28Z
+          args:
+            - server
+            - /data
+            - --console-address
+            - ":9001"
+          env:
+            - name: MINIO_ROOT_USER
+              value: "minioadmin"
+            - name: MINIO_ROOT_PASSWORD
+              value: "minioadmin"
+          ports:
+            - containerPort: 9000
+              name: api
+            - containerPort: 9001
+              name: console
+          readinessProbe:
+            httpGet:
+              path: /minio/health/ready
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: ${namespace}
+spec:
+  selector:
+    app: minio
+  ports:
+    - port: 80
+      targetPort: 9000
+      protocol: TCP
+      name: api
+---
+# Job to create the required S3 buckets in MinIO for Loki
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-bucket-create
+  namespace: ${namespace}
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mc
+          image: minio/mc:RELEASE.2024-01-18T07-03-39Z
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Wait for MinIO to be ready
+              until mc alias set myminio http://minio.${namespace}.svc:80 minioadmin minioadmin; do
+                echo "Waiting for MinIO..."
+                sleep 2
+              done
+              # Create buckets required by Loki
+              mc mb --ignore-existing myminio/loki-chunks
+              mc mb --ignore-existing myminio/loki-ruler
+              mc mb --ignore-existing myminio/loki-admin
