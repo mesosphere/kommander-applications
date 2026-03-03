@@ -10,6 +10,10 @@ applications/ai-navigator-rag:
 - changed-files:
   - any-glob-to-any-file:
     - applications/ai-navigator-rag/**
+applications/nkp-mcp-server:
+- changed-files:
+  - any-glob-to-any-file:
+    - applications/nkp-mcp-server/**
 applications/centralized-grafana:
 - changed-files:
   - any-glob-to-any-file:
