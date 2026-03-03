@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     name: Go Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-xsmall
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

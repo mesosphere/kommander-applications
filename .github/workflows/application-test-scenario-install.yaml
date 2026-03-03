@@ -24,7 +24,7 @@ on:
 jobs:
   run-test-scenario:
     runs-on:
-      - ubuntu-latest
+      - self-hosted-nutanix-docker-medium
 
     steps:
     - name: Checkout code

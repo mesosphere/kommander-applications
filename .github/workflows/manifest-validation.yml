@@ -13,8 +13,7 @@ jobs:
     name: Manifest validation
     if: ${{ github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'ok-to-test') }}
     runs-on:
-      - self-hosted
-      - small
+      - self-hosted-nutanix-small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
