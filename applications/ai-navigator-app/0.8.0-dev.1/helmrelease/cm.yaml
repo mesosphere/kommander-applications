@@ -13,4 +13,3 @@ data:
       rag:
         repository: "docker.io/mesosphere/ai-navigator-rag"
       tag: "0.8.0-dev.1"
-
