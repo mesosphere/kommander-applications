@@ -1,0 +1,422 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: loggingstacks.loggingstack.nkp.nutanix.com
+spec:
+  group: loggingstack.nkp.nutanix.com
+  names:
+    kind: LoggingStack
+    listKind: LoggingStackList
+    plural: loggingstacks
+    singular: loggingstack
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.currentPhase
+      name: Phase
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: LoggingStack is the Schema for the loggingstacks API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: LoggingStackSpec defines the desired state of LoggingStack.
+            properties:
+              kommanderClusterRef:
+                description: KommanderClusterRef is a reference to the target KommanderCluster.
+                properties:
+                  name:
+                    description: Name of the KommanderCluster.
+                    type: string
+                required:
+                - name
+                type: object
+              version:
+                description: Version specifies the logging stack version.
+                type: string
+                x-kubernetes-validations:
+                - message: must be a valid semantic version (e.g. v1.2.3, 1.2.3-beta+build)
+                  rule: size(self) == 0 || self.matches('^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
+            required:
+            - kommanderClusterRef
+            - version
+            type: object
+          status:
+            description: LoggingStackStatus defines the observed state of LoggingStack.
+            properties:
+              conditions:
+                description: Conditions represent the latest available observations
+                  of the cluster's state.
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              currentPhase:
+                description: CurrentPhase represents the current phase of the logging
+                  stack deployment.
+                type: string
+              observedGeneration:
+                description: ObservedGeneration is the generation of the resource
+                  that was last observed.
+                format: int64
+                type: integer
+              version:
+                description: Version is the observed logging stack version.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager
+  name: loggingstack-controller-manager
+  namespace: kommander
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager
+  name: loggingstack-controller-manager
+rules:
+- apiGroups:
+  - loggingstack.nkp.nutanix.com
+  resources:
+  - loggingstacks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - loggingstack.nkp.nutanix.com
+  resources:
+  - loggingstacks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - kommander.mesosphere.io
+  resources:
+  - kommanderclusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kommander.mesosphere.io
+  resources:
+  - kommanderclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - appdeployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - appdeployments/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - appdeploymentinstances
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - appdeploymentinstances/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - clusterapps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.kommander.d2iq.io
+  resources:
+  - clusterapps/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - workspaces.kommander.mesosphere.io
+  resources:
+  - projects
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - secrets
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - update
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - ocirepositories
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager
+  name: loggingstack-controller-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: loggingstack-controller-manager
+subjects:
+- kind: ServiceAccount
+  name: loggingstack-controller-manager
+  namespace: kommander
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager-metrics
+    servicemonitor.kommander.mesosphere.io/path: metrics
+  name: loggingstack-controller-manager-metrics
+  namespace: kommander
+spec:
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: loggingstack
+    control-plane: loggingstack-controller-manager
+  name: loggingstack-controller-manager
+  namespace: kommander
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/name: loggingstack
+      control-plane: loggingstack-controller-manager
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/name: loggingstack
+        control-plane: loggingstack-controller-manager
+        kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
+    spec:
+      containers:
+      - args:
+        - --enable-leader-election
+        command:
+        - /loggingstack
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        imagePullPolicy: IfNotPresent
+        name: controller-manager
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 65532
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --ignore-paths=/metrics
+        - --v=10
+        image: quay.io/brancz/kube-rbac-proxy:v0.19.1
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+        - containerPort: 8080
+          name: metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 65532
+      securityContext:
+        runAsUser: 65532
+      serviceAccountName: loggingstack-controller-manager
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - emptyDir: {}
+        name: tmp

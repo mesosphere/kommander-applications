@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
 - ../../../common/base
 - ../../../common/kommander-operator
+- ../../../common/managementplane
+- ../../../common/nkpcluster
+- ../../../common/upgradeplan
+- ../../../common/loggingstack
