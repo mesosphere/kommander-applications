@@ -18,7 +18,7 @@ jobs:
     runs-on: self-hosted-nutanix-docker-xsmall
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install NIX
         uses: cachix/install-nix-action@v31
