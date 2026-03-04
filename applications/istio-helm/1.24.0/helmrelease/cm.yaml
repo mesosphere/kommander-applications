@@ -76,3 +76,7 @@ data:
       imagePullPolicy: IfNotPresent
       istioNamespace: istio-helm-system
       revision: "istio-helm"
+      migration:
+        image: docker.io/mesosphere/kubectl
+        tag: v1.35.0-alpine
+        imagePullPolicy: IfNotPresent
