@@ -10,8 +10,7 @@ jobs:
     name: Publish docs test
     if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on:
-    - self-hosted
-    - small
+    - self-hosted-nutanix-medium
     steps:
       - name: Repository dispatch
         run: |
@@ -26,8 +25,7 @@ jobs:
     name: Publish docs with tag
     if: ${{ startsWith(github.ref_name, 'v') }}
     runs-on:
-    - self-hosted
-    - small
+    - self-hosted-nutanix-medium
     steps:
       - name: Repository dispatch
         run: |

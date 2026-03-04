@@ -14,8 +14,7 @@ permissions:
 jobs:
   pre-commit:
     runs-on:
-    - self-hosted
-    - small
+    - self-hosted-nutanix-docker-medium
 
     steps:
       - name: Checkout
@@ -27,8 +26,9 @@ jobs:
       - name: Install devbox
         uses: jetify-com/devbox-install-action@v0.11.0
         with:
-          enable-cache: true
+          enable-cache: false
           skip-nix-installation: true
+          refresh-cli: 'true'
 
       - name: Run pre-commit
         env:

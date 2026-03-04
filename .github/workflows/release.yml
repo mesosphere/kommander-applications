@@ -15,8 +15,7 @@ jobs:
   release:
     name: Release
     runs-on:
-      - self-hosted
-      - medium
+      - self-hosted-nutanix-docker-small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,8 +72,7 @@ jobs:
 
   send_message:
     runs-on:
-      - self-hosted
-      - small
+      - self-hosted-nutanix-docker-small
     needs:
       - "release"
     if: ${{ always() }}
