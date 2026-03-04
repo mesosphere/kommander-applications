@@ -196,6 +196,11 @@ spec:
               kommanderCluster:
                 description: KommanderCluster is the KommanderCluster specification.
                 properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels are applied to the referenced KommanderCluster.
+                    type: object
                   spec:
                     description: |-
                       Spec is the KommanderCluster specification. This field accepts the entire
@@ -790,6 +795,14 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - kubeadmcontrolplanes
+  verbs:
+  - get
+  - list
   - watch
 - apiGroups:
   - ""
