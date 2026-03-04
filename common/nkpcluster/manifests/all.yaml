@@ -746,6 +746,16 @@ metadata:
   name: nkp-cluster-controller-manager
   namespace: kommander
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook
+  namespace: kommander
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -840,6 +850,34 @@ rules:
   - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook
+rules:
+- apiGroups:
+  - clusters.nkp.nutanix.com
+  resources:
+  - nkpclusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
@@ -854,6 +892,23 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: nkp-cluster-controller-manager
+  namespace: kommander
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nkp-cluster-webhook
+subjects:
+- kind: ServiceAccount
+  name: nkp-cluster-webhook
   namespace: kommander
 ---
 apiVersion: v1
@@ -876,6 +931,27 @@ spec:
     app.kubernetes.io/component: controller-manager
     app.kubernetes.io/name: nkp-cluster
     control-plane: nkp-cluster-controller-manager
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook
+  namespace: kommander
+spec:
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -905,7 +981,7 @@ spec:
       - args:
         - --enable-leader-election
         command:
-        - /nkpcluster
+        - /nkpcluster-controller
         image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
         imagePullPolicy: IfNotPresent
         name: controller-manager
@@ -957,3 +1033,152 @@ spec:
         runAsUser: 65532
       serviceAccountName: nkp-cluster-controller-manager
       terminationGracePeriodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook
+  namespace: kommander
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: webhook
+      app.kubernetes.io/name: nkp-cluster
+      control-plane: nkp-cluster-webhook
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: webhook
+        app.kubernetes.io/name: nkp-cluster
+        control-plane: nkp-cluster-webhook
+    spec:
+      containers:
+      - args:
+        - --tls-cert-dir=/certs/
+        command:
+        - /nkpcluster-webhook
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8443
+            scheme: HTTPS
+        name: webhook
+        ports:
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8443
+            scheme: HTTPS
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /certs
+          name: cert
+          readOnly: true
+      securityContext:
+        runAsUser: 65532
+      serviceAccountName: nkp-cluster-webhook
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: nkp-cluster-webhook-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-webhook-tls
+  namespace: kommander
+spec:
+  commonName: nkp-cluster-webhook
+  dnsNames:
+  - nkp-cluster-webhook.kommander.svc
+  - nkp-cluster-webhook.kommander.svc.cluster.local
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned-issuer
+  secretName: nkp-cluster-webhook-tls
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: kommander/nkp-cluster-webhook-tls
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-defaulting
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: nkp-cluster-webhook
+      namespace: kommander
+      path: /defaults
+  failurePolicy: Fail
+  name: webhook.nkpcluster.kommander.mesosphere.io
+  rules:
+  - apiGroups:
+    - clusters.nkp.nutanix.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - nkpclusters
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: kommander/nkp-cluster-webhook-tls
+  labels:
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/name: nkp-cluster
+    control-plane: nkp-cluster-webhook
+  name: nkp-cluster-validating
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: nkp-cluster-webhook
+      namespace: kommander
+      path: /validations
+  failurePolicy: Ignore
+  name: webhook.nkpcluster.kommander.mesosphere.io
+  rules:
+  - apiGroups:
+    - clusters.nkp.nutanix.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - nkpclusters
+  sideEffects: None
