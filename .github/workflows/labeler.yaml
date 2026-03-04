@@ -16,12 +16,12 @@ jobs:
       pull-requests: write
     steps:
       - name: Add identifying label to PRs updating applications
-        uses: actions/labeler@v5
+        uses: actions/labeler@v6
         with:
           repo-token: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
           configuration-path: ".github/app-labeler.yaml"
       - name: Add labels to automated chart bump PRs
-        uses: actions/labeler@v5
+        uses: actions/labeler@v6
         with:
           repo-token: "${{ secrets.MESOSPHERECI_USER_TOKEN }}"
           configuration-path: ".github/app-pr-labeler.yaml"
