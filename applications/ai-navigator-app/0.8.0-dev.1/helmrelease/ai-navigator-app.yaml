@@ -15,6 +15,9 @@ metadata:
   name: ai-navigator-app
   namespace: ${releaseNamespace}
 spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: ${releaseNamespace}
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-chart
