@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 6h
-  path: ./applications/ai-navigator-app/0.8.0/helmrelease
+  path: ./applications/ai-navigator-app/0.8.0-dev.1/helmrelease
   postBuild:
     substitute:
       appVersion: ${appVersion}
