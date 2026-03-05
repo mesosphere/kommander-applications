@@ -10,7 +10,7 @@ on:
 
 jobs:
   update-app-labels-yaml:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-small
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
