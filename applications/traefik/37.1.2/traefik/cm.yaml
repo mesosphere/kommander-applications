@@ -6,10 +6,12 @@ metadata:
 data:
   values.yaml: |
     ---
+    # Disable anonymous stats
+    globalArguments: []
 
     image:
       repository: traefik
-      tag: v3.6.7
+      tag: v3.5.3
 
     #  imagePullPolicy: Always
     priorityClassName: "dkp-critical-priority"
