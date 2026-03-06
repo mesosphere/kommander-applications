@@ -548,7 +548,7 @@ resources:
         ref: main
         directory: /ubuntu22.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
-  - container_image: nvcr.io/nvidia/driver:570-6.8.0-101-generic-ubuntu24.04
+  - container_image: nvcr.io/nvidia/driver:580-6.8.0-101-generic-ubuntu24.04
     sources:
       - license_path: LICENSE
         ref: main
