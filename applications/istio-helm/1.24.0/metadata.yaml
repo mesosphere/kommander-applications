@@ -64,6 +64,7 @@ overview: |-
 
   ztunnel:
     enabled: true
+    profile: ambient
     env:
       CA_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
       XDS_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
