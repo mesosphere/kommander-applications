@@ -13,11 +13,11 @@ import (
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 var (
-	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
-	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
+	kommanderHelmReleasePathPattern         = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern  = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
 	managementOperatorsKustomizationPattern = "./common/*/flux-kustomization.yaml"
-	kommanderOperatorDefaultsCMPath        = "./common/kommander-operator/manifests/cm.yaml"
-	filesContainingKommanderVersion        = []string{
+	kommanderOperatorDefaultsCMPath         = "./common/kommander-operator/manifests/cm.yaml"
+	filesContainingKommanderVersion         = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
 		kommanderOperatorDefaultsCMPath,
