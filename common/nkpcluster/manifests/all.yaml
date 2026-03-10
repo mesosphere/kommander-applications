@@ -997,7 +997,7 @@ spec:
       - args:
         - --enable-leader-election
         command:
-        - /nkpcluster-controller
+        - /nkpcluster
         image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
         imagePullPolicy: IfNotPresent
         name: controller-manager

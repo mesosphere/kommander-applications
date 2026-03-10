@@ -54,7 +54,7 @@ spec:
                 type: string
                 x-kubernetes-validations:
                 - message: must be a valid semantic version (e.g. v1.2.3, 1.2.3-beta+build)
-                  rule: size(self) == 0 || self.matches('^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
+                  rule: size(self) == 0 || self.matches('^v?(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
             required:
             - version
             type: object
