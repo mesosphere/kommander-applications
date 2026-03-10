@@ -13,10 +13,11 @@ import (
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 var (
-	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
-	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
-	kommanderOperatorDefaultsCMPath        = "./common/kommander-operator/cm.yaml"
-	filesContainingKommanderVersion        = []string{
+	kommanderHelmReleasePathPattern         = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern  = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
+	managementOperatorsKustomizationPattern = "./common/*/flux-kustomization.yaml"
+	kommanderOperatorDefaultsCMPath         = "./common/kommander-operator/manifests/cm.yaml"
+	filesContainingKommanderVersion         = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
 		kommanderOperatorDefaultsCMPath,
@@ -67,5 +68,36 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 			return err
 		}
 	}
+
+	kustomizationPaths, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, managementOperatorsKustomizationPattern))
+	if err != nil {
+		return fmt.Errorf("error finding flux kustomization files: %w", err)
+	}
+
+	for _, fluxKustomizationPath := range kustomizationPaths {
+		// Update the kommanderChartVersion value
+		parsedFile, err := envsubst.ParseFile(fluxKustomizationPath)
+		if err != nil {
+			return err
+		}
+		subVars := map[string]string{
+			"kommanderChartVersion": chartVersion,
+		}
+		updatedFile, err := parsedFile.Execute(func(s string) string {
+			return subVars[s]
+		})
+		if err != nil {
+			return err
+		}
+
+		if !strings.Contains(updatedFile, chartVersion) {
+			return fmt.Errorf("failed to update Kommander chart version")
+		}
+		err = os.WriteFile(fluxKustomizationPath, []byte(updatedFile), 0o644)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

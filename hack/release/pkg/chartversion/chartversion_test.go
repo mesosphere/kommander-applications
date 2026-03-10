@@ -101,6 +101,36 @@ func TestUpdateKommanderOperatorVersion(t *testing.T) {
 	)
 }
 
+func TestUpdateManagementOperatorsVersion(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "prerelease")
+	assert.Nil(t, err)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
+
+	// Make a copy of the current repo state to modify
+	err = cp.Copy(rootDir, tmpDir)
+	assert.Nil(t, err)
+
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
+	assert.Nil(t, err)
+
+	operators := []string{
+		"kommander-operator", "managementplane", "loggingstack", "nkpcluster", "upgradeplan",
+	}
+
+	for _, operator := range operators {
+		content, err := os.ReadFile(filepath.Join(tmpDir, "common", operator, "flux-kustomization.yaml"))
+		require.NoError(t, err)
+
+		assert.Equal(t,
+			1,
+			strings.Count(string(content), updateToVersion),
+		)
+	}
+}
+
 func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
