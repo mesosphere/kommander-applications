@@ -278,6 +278,10 @@ spec:
             required:
             - version
             type: object
+            x-kubernetes-validations:
+            - message: must set at least one of capiClusterRef/capiCluster or kommanderClusterRef/kommanderCluster
+              rule: has(self.capiClusterRef) || has(self.capiCluster) || has(self.kommanderClusterRef)
+                || has(self.kommanderCluster)
           status:
             description: NKPClusterStatus defines the observed state of NKPCluster.
             properties:
