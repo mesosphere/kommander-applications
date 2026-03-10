@@ -1,0 +1,399 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.3
+  name: releases.release.nkp.nutanix.com
+spec:
+  group: release.nkp.nutanix.com
+  names:
+    kind: Release
+    listKind: ReleaseList
+    plural: releases
+    singular: release
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.version
+      name: Version
+      type: string
+    - jsonPath: .status.source.observedGeneration
+      name: Observed generation
+      type: integer
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Release is the schema for the releases API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              hidden:
+                description: Hidden indicates if the release is hidden for UI client.
+                type: boolean
+              providerCompatibility:
+                additionalProperties:
+                  items:
+                    type: string
+                  type: array
+                description: |-
+                  ProviderCompatibility defines the provider-specific compatibility information.
+                  This is a loose schema. Keys are provider-specific (e.g., prismCentral, aos for Nutanix; vsphere, vcenter for VMware). Values are the compatibility information i.e versions for the provider.
+                type: object
+                x-kubernetes-map-type: atomic
+              releaseNotes:
+                description: ReleaseNotes is the release summary in markdown format
+                  describing major features and changes.
+                type: string
+              supportedKubernetesVersions:
+                description: SupportedKubernetesVersions defines the Kubernetes versions
+                  supported by this release.
+                items:
+                  type: string
+                minItems: 1
+                type: array
+              timeline:
+                description: Timelines defines the timelines for the release. This
+                  includes release date, end of life date, and last updated date incase
+                  metadata for this release is updated after the release is published.
+                properties:
+                  endOfLifeDate:
+                    description: EndOfLifeDate is the date when the release will reach
+                      end of life.
+                    format: date-time
+                    type: string
+                  lastUpdatedDate:
+                    description: LastUpdatedDate is the date when the release metadata
+                      was last updated after the release is published.
+                    format: date-time
+                    type: string
+                  releaseDate:
+                    description: ReleaseDate is the date when the release was published.
+                    format: date-time
+                    type: string
+                type: object
+              upgradePaths:
+                description: UpgradePaths defines the upgrade paths from various releases
+                  to this release.
+                items:
+                  properties:
+                    fromVersion:
+                      description: FromVersion is the source version for the upgrade
+                        path.
+                      type: string
+                    isSupported:
+                      default: true
+                      description: IsSupported indicates if the upgrade path is supported.
+                        Defaults to true when omitted.
+                      type: boolean
+                    reason:
+                      description: Reason is the explanation if upgrade is not supported.
+                      type: string
+                  required:
+                  - fromVersion
+                  type: object
+                minItems: 1
+                type: array
+              version:
+                description: Version is the NKP version for the release.
+                type: string
+            required:
+            - supportedKubernetesVersions
+            - upgradePaths
+            - version
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        lastTransitionTime is the last time the condition transitioned from one status to another.
+                        This should be when the underlying condition changed.  If that is not known, then using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        message is a human readable message indicating details about the transition.
+                        This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        observedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: |-
+                        reason contains a programmatic identifier indicating the reason for the condition's last transition.
+                        Producers of specific condition types may define expected values and meanings for this field,
+                        and whether the values are considered a guaranteed API.
+                        The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              source:
+                description: Source tracks the flux kustomization that populates this
+                  Release. This is mostly for auditing purposes.
+                properties:
+                  kind:
+                    description: Kind is the kind of the object that creates this
+                      resource.
+                    type: string
+                  name:
+                    description: Name is the name of the object that creates this
+                      resource.
+                    type: string
+                  namespace:
+                    description: Namespace is the namespace of the object that creates
+                      this resource.
+                    type: string
+                  observedGeneration:
+                    description: ObservedGeneration is the last reconciled generation
+                      of the object that creates this resource.
+                    format: int64
+                    type: integer
+                required:
+                - kind
+                - name
+                - namespace
+                type: object
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager
+  name: release-controller-manager
+  namespace: kommander
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager
+  name: release-controller-manager
+rules:
+- apiGroups:
+  - release.nkp.nutanix.com
+  resources:
+  - releases
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+  - update
+- apiGroups:
+  - release.nkp.nutanix.com
+  resources:
+  - releases
+  - releases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - clusters.nkp.nutanix.com
+  resources:
+  - nkpclusters
+  - nkpclusters/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - ocirepositories
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - kustomize.toolkit.fluxcd.io
+  resources:
+  - kustomizations
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager
+  name: release-controller-manager
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: release-controller-manager
+subjects:
+- kind: ServiceAccount
+  name: release-controller-manager
+  namespace: kommander
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager-metrics
+    servicemonitor.kommander.mesosphere.io/path: metrics
+  name: release-controller-manager-metrics
+  namespace: kommander
+spec:
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager-metrics
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: release
+    control-plane: release-controller-manager
+  name: release-controller-manager
+  namespace: kommander
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: controller-manager
+      app.kubernetes.io/name: release
+      control-plane: release-controller-manager
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: controller-manager
+        app.kubernetes.io/name: release
+        control-plane: release-controller-manager
+    spec:
+      containers:
+      - args:
+        - --release-metadata-oci-url=oci://ghcr.io/kshitij-kumar-ngt/release/manifests
+        - --release-metadata-oci-tag=stable
+        command:
+        - /release-operator
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        imagePullPolicy: IfNotPresent
+        name: controller-manager
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 65532
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --ignore-paths=/metrics
+        - --v=10
+        image: quay.io/brancz/kube-rbac-proxy:v0.19.1
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+        - containerPort: 8080
+          name: metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 32Mi
+      serviceAccountName: release-controller-manager
+      terminationGracePeriodSeconds: 10
