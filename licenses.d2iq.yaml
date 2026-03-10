@@ -641,10 +641,10 @@ resources:
       - url: https://github.com/NVIDIA/cuda-samples
         ref: v12.5
         license_path: LICENSE
-  - container_image: bitnamilegacy/kubectl:1.33.2
+  - container_image: docker.io/mesosphere/kubectl:v1.33.5-alpine
     sources:
       - url: https://github.com/kubernetes/kubectl
-        ref: v0${image_tag#1}
+        ref: v0.33.5
         license_path: LICENSE
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
     sources:
