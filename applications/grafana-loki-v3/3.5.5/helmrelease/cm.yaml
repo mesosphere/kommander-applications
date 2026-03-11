@@ -221,7 +221,7 @@ data:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
       image:
-        tag: 1.29.2-alpine
+        tag: 1.29.5-alpine
       nginxConfig:
         # Set max body size for log payloads (default 4M is too small)
         clientMaxBodySize: 10M
