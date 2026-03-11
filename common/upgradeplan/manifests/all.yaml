@@ -555,8 +555,8 @@ metadata:
 spec:
   commonName: upgradeplan-webhook
   dnsNames:
-  - upgradeplan-webhook.kommander.svc
-  - upgradeplan-webhook.kommander.svc.cluster.local
+  - upgradeplan-webhook.${releaseNamespace:-kommander}.svc
+  - upgradeplan-webhook.${releaseNamespace:-kommander}.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer
