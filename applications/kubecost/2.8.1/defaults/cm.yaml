@@ -284,7 +284,7 @@ data:
           credentialsSecretName: federated-store
       transformations:
         priorityClassName: dkp-high-priority
-        kubectlImage: ${kubetoolsImageRepository:=bitnamilegacy/kubectl}:${kubetoolsImageTag:=1.33.2}
+        kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.33.5-alpine}
         kubecost:
           enabled: true
   # Overrides for kubecost to run in primary mode for multi cluster setup with object storage.
