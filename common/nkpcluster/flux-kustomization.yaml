@@ -4,7 +4,7 @@ metadata:
   name: nkpcluster-operator
   namespace: kommander
   annotations:
-    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev}"
+    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev.7}"
 spec:
   interval: 10m
   sourceRef:
