@@ -41,7 +41,7 @@ data:
       enabled: true
       issuerName: kommander-ca
       image: docker.io/mesosphere/kubectl
-      tag: v1.35.0-alpine
+      tag: v1.35.2-alpine
 
     # Gateway component configuration
     gateway:
@@ -78,5 +78,5 @@ data:
       revision: "istio-helm"
       migration:
         image: docker.io/mesosphere/kubectl
-        tag: v1.35.0-alpine
+        tag: v1.35.2-alpine
         imagePullPolicy: IfNotPresent
