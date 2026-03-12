@@ -1,0 +1,22 @@
+{{- if .Values.webhook.enabled }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+    app.kubernetes.io/component: webhook
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+  name: {{ include "kommander-operator.webhookName" . }}-tls
+  namespace: {{ .Release.Namespace }}
+spec:
+  commonName: {{ include "kommander-operator.webhookName" . }}
+  dnsNames:
+    - {{ include "kommander-operator.webhookName" . }}.{{ .Release.Namespace }}.svc
+    - {{ include "kommander-operator.webhookName" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    kind: {{ .Values.webhook.certIssuer.kind }}
+    name: {{ .Values.webhook.certIssuer.name }}
+  secretName: {{ include "kommander-operator.webhookName" . }}-tls
+{{- end }}

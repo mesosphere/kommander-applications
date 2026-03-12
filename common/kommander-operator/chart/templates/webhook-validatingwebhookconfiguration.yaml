@@ -1,0 +1,35 @@
+{{- if .Values.webhook.enabled }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "kommander-operator.webhookName" . }}-tls
+  labels:
+    app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+    app.kubernetes.io/component: webhook
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+  name: {{ include "kommander-operator.webhookName" . }}
+webhooks:
+  - name: webhook.kommandercore.kommander.mesosphere.io
+    clientConfig:
+      service:
+        name: {{ include "kommander-operator.webhookName" . }}
+        namespace: {{ .Release.Namespace }}
+        path: /validations
+    failurePolicy: Ignore
+    rules:
+      - apiGroups:
+          - dkp.d2iq.io
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - kommandercores
+    sideEffects: None
+    admissionReviewVersions:
+      - v1
+{{- end }}

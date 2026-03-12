@@ -1,0 +1,70 @@
+{{- if .Values.webhook.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+    app.kubernetes.io/component: webhook
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+  name: {{ include "kommander-operator.webhookName" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.webhook.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+      app.kubernetes.io/component: webhook
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+        app.kubernetes.io/component: webhook
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ include "kommander-operator.webhookName" . }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: "{{ .Values.priorityClassName }}"
+      {{- end }}
+      containers:
+        - name: webhook
+          image: "{{ .Values.kommanderoperator.image.repository }}:{{ .Values.kommanderoperator.image.tag }}"
+          imagePullPolicy: {{ .Values.kommanderoperator.image.pullPolicy }}
+          command: ["/kommandercore-webhook"]
+          args:
+            - --tls-cert-dir=/certs/
+          ports:
+            - name: https
+              containerPort: {{ .Values.webhook.port }}
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /certs
+              name: cert
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.webhook.port }}
+              scheme: HTTPS
+              path: /healthz
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.webhook.port }}
+              scheme: HTTPS
+              path: /readyz
+      securityContext:
+        runAsUser: 65532
+      volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: {{ include "kommander-operator.webhookName" . }}-tls
+{{- end }}
