@@ -9,7 +9,7 @@ data:
     priorityClassName: "dkp-critical-priority"
     replicaCount: 1
     image:
-      tag: v3.2.1
+      tag: v3.3.0
     resources:
       requests:
         cpu: 100m
@@ -19,10 +19,10 @@ data:
       type: ClusterIP
       port: 4181
     traefikForwardAuth:
-      enabled: true
+      enabled: false
       # oidcUri, clientID, clientSecret will be overridden by the TFAController
       oidcUri: "https://dex.${releaseNamespace}.svc.cluster.local:8080/dex"
-      clientId: traefik-forward-auth
+      clientId: traefik-forward-auth-kommander
       clientSecret:
         value: "placeholder"
         valueFrom:
@@ -38,19 +38,24 @@ data:
       rbacPassThroughPaths:
         - "/dkp/kiali/"
         - "/dkp/kiali/*"
+      extraConfig: |
+        cookie-name =  _forward_auth_kommander
+        csrf-cookie-name = _forward_auth_csrf_kommander
+        url-path = /_oauth_kommander
+        groups-session-name = _forward_auth_claims_kommander
     ingress:
       enabled: true
       annotations:
         kubernetes.io/ingress.class: kommander-traefik
         ingress.kubernetes.io/protocol: https
+        traefik.ingress.kubernetes.io/router.middlewares: ${releaseNamespace}-forwardauth@kubernetescrd
         traefik.ingress.kubernetes.io/router.tls: "true"
-        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
       paths:
-        - /_oauth
+        - /_oauth_kommander
       hosts:
         - ""
       tls: []
     deploymentAnnotations:
-      configmap.reloader.stakater.com/reload: "traefik-forward-auth-mgmt-configmap"
-      secret.reloader.stakater.com/reload: "traefik-forward-auth-mgmt-ca-certificate"
+      configmap.reloader.stakater.com/reload: "traefik-forward-auth-configmap"
+    initContainers: null
     addonsInitializer: "${initializerImage:=mesosphere/kubeaddons-addon-initializer:v0.8.0}"

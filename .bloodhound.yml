@@ -7,7 +7,7 @@ k8s_versions:
 
 # paths to load (in that order)
 paths:
-  - applications/kommander/0.17.1/dynamic-helmreleases
+  - applications/kommander/0.17.2/dynamic-helmreleases
   - common/kommander-operator
 
 # use strict validation (reject unknown fields in resources)
@@ -28,7 +28,7 @@ additional_crds:
   - https://raw.githubusercontent.com/kubernetes-retired/kubefed/master/charts/kubefed/crds/crds.yaml
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/cert-manager.io_certificates.yaml
   - https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/cert-manager.io_issuers.yaml
-#  - https://raw.githubusercontent.com/rook/rook/master/deploy/olm/assemble/objectbucket.io_objectbucketclaims.yaml
+  #  - https://raw.githubusercontent.com/rook/rook/master/deploy/olm/assemble/objectbucket.io_objectbucketclaims.yaml
   - https://raw.githubusercontent.com/rook/rook/refs/heads/master/deploy/examples/crds.yaml # for rook-ceph-cluster
   - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketaccessclasses.objectstorage.k8s.io.yaml
   - https://raw.githubusercontent.com/mesosphere/charts/refs/heads/master/stable/cosi/crds/apiextensions.k8s.io_v1_customresourcedefinition_bucketaccesses.objectstorage.k8s.io.yaml
