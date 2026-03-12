@@ -1,0 +1,23 @@
+{{- if .Values.webhook.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+    app.kubernetes.io/component: webhook
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+  name: {{ include "kommander-operator.webhookName" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app.kubernetes.io/name: {{ include "kommander-operator.appName" . }}
+    app.kubernetes.io/component: webhook
+{{- end }}

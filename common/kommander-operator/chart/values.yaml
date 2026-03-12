@@ -7,6 +7,14 @@ kommanderoperator:
     tag:
     pullPolicy: IfNotPresent
 
+webhook:
+  enabled: true
+  replicaCount: 1
+  port: 8443
+  certIssuer:
+    kind: ClusterIssuer
+    name: kommander-ca
+
 kubetools:
   image:
     repository: mesosphere/kommander2-kubetools
