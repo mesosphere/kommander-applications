@@ -29,7 +29,7 @@ data:
       ui:
         image:
           registry: ghcr.io
-          repository: mesosphere/dkp-container-images/opencost/opencost-ui
+          repository: nutanix-cloud-native/dkp-container-images/opencost/opencost-ui
           # to avoid upstream default tag that comes with a SHA
           tag: "1.119.2"
         uiPath: /dkp/opencost/frontend
