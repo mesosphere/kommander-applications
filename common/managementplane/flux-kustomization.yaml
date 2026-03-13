@@ -17,3 +17,4 @@ spec:
       - kind: ConfigMap
         name: kommander-vars
   prune: true
+  wait: true
