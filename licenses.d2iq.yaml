@@ -853,7 +853,7 @@ resources:
       - url: https://github.com/opencost/opencost-ui
         ref: v${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/multus-cni:network-operator-v25.10.0
+  - container_image: nvcr.io/nvidia/mellanox/multus-cni:network-operator-v26.1.0
     sources:
       - url: https://github.com/Mellanox/multus-cni
         ref: ${image_tag}
@@ -863,12 +863,12 @@ resources:
       - url: https://github.com/k8snetworkplumbingwg/network-resources-injector
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/plugins:network-operator-v25.10.0
+  - container_image: nvcr.io/nvidia/mellanox/plugins:network-operator-v26.1.0
     sources:
       - url: https://github.com/Mellanox/k8snetworkplumbingwg-plugins
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v25.10.0
+  - container_image: nvcr.io/nvidia/mellanox/nic-feature-discovery:network-operator-v26.1.0
     sources:
       - url: https://github.com/Mellanox/nic-feature-discovery
         ref: ${image_tag}
