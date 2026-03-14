@@ -909,24 +909,10 @@ rules:
   resources:
   - kommanderclusters
   verbs:
+  - create
   - get
   - list
-  - watch
-- apiGroups:
-  - managementplane.nkp.nutanix.com
-  resources:
-  - managementplanes
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - kommander.mesosphere.io
-  resources:
-  - kommanderclusters
-  verbs:
-  - get
-  - list
+  - patch
   - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1221,7 +1207,7 @@ webhooks:
       name: nkp-cluster-webhook
       namespace: kommander
       path: /validations
-  failurePolicy: Ignore
+  failurePolicy: Fail
   name: webhook.nkpcluster.kommander.mesosphere.io
   rules:
   - apiGroups:
@@ -1234,3 +1220,4 @@ webhooks:
     resources:
     - nkpclusters
   sideEffects: None
+  timeoutSeconds: 20
