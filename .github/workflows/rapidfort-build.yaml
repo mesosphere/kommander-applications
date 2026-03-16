@@ -2,11 +2,12 @@ name: Build with RapidFort Curated Images
 
 on:
   push:
-    branches: [ "sandy/rapidfort-test" ]
+    branches: [ "nilay/rapidfort-artifactory-job" ]
+  workflow_dispatch:
 
 jobs:
   pull-and-use:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-nutanix-docker-medium
     
     steps:
       - uses: actions/checkout@v3
@@ -26,6 +27,23 @@ jobs:
       
       - name: Pull Curated Image
         run: docker pull quay.io/rfcurated/kong:3.9.1-jammy-fips-rfcurated
+
+      - name: Tag and Push to Harbor
+        env:
+          HARBOR_NKP_TEST_USERNAME: ${{ secrets.HARBOR_NKP_TEST_USERNAME }}
+          HARBOR_NKP_TEST_SECRET: ${{ secrets.HARBOR_NKP_TEST_SECRET }}
+        run: |
+          SOURCE_IMAGE="quay.io/rfcurated/kong:3.9.1-jammy-fips-rfcurated"
+          # Flatten image path: rfcurated/kong -> rfcurated-kong (slashes to hyphens)
+          PATH_AND_TAG="${SOURCE_IMAGE#*/}"
+          IMAGE_PATH="${PATH_AND_TAG%:*}"
+          TAG="${PATH_AND_TAG##*:}"
+          FLATTENED=$(echo "$IMAGE_PATH" | tr '/' '-')
+          HARBOR_IMAGE="harbor.eng.nutanix.com/nkp-test/${FLATTENED}:${TAG}"
+          echo "Tagging as $HARBOR_IMAGE"
+          docker tag "$SOURCE_IMAGE" "$HARBOR_IMAGE"
+          echo "$HARBOR_NKP_TEST_SECRET" | docker login harbor.eng.nutanix.com -u "$HARBOR_NKP_TEST_USERNAME" --password-stdin
+          docker push "$HARBOR_IMAGE"
       
       - name: Scan or Run Image
         run: |
