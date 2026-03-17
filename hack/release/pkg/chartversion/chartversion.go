@@ -13,21 +13,37 @@ import (
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
 var (
-	kommanderHelmReleasePathPattern         = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
-	kommanderAppMgmtHelmReleasePathPattern  = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
-	managementOperatorsKustomizationPattern = "./common/*/flux-kustomization.yaml"
-	kommanderOperatorDefaultsCMPath         = "./common/kommander-operator/manifests/cm.yaml"
-	filesContainingKommanderVersion         = []string{
+	kommanderHelmReleasePathPattern        = filepath.Join(constants.KommanderAppPath, "*/helmrelease/kommander.yaml")
+	kommanderAppMgmtHelmReleasePathPattern = filepath.Join(constants.KommanderAppMgmtPath, "*/helmrelease/kommander-appmanagement.yaml")
+	helmReleaseFiles                       = []string{
 		kommanderHelmReleasePathPattern,
 		kommanderAppMgmtHelmReleasePathPattern,
+	}
+
+	kommanderOperatorDefaultsCMPath         = "./common/kommander-operator/manifests/cm.yaml"
+	managementOperatorsKustomizationPattern = "./common/*/flux-kustomization.yaml"
+	managementOperatorsManifestsPattern     = "./common/*/manifests/all.yaml"
+	commonFiles                             = []string{
 		kommanderOperatorDefaultsCMPath,
+		managementOperatorsKustomizationPattern,
+		managementOperatorsManifestsPattern,
 	}
 )
 
 func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 	chartVersion = fmt.Sprintf(kommanderChartVersionTemplate, chartVersion)
 
-	for _, helmReleasePath := range filesContainingKommanderVersion {
+	helmReleaseSubVars := map[string]string{
+		"kommanderChartVersion": chartVersion,
+		"releaseNamespace":      "${releaseNamespace}",
+		"releaseName":           "${releaseName}",
+		"appVersion":            "${appVersion}",
+	}
+	commonSubVars := map[string]string{
+		"kommanderChartVersion": chartVersion,
+	}
+
+	for _, helmReleasePath := range helmReleaseFiles {
 		// Find the HelmRelease
 		matches, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, helmReleasePath))
 		if err != nil {
@@ -41,62 +57,44 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 		}
 		helmReleaseFilePath := matches[0]
 
-		// Update the kommanderChartVersion value
-		parsedFile, err := envsubst.ParseFile(helmReleaseFilePath)
-		if err != nil {
-			return err
-		}
-		subVars := map[string]string{
-			"kommanderChartVersion": chartVersion,
-			"releaseNamespace":      "${releaseNamespace}",
-			"releaseName":           "${releaseName}",
-			"appVersion":            "${appVersion}",
-		}
-		updatedFile, err := parsedFile.Execute(func(s string) string {
-			return subVars[s]
-		})
-		if err != nil {
-			return err
-		}
-
-		if !strings.Contains(updatedFile, chartVersion) {
-			return fmt.Errorf("failed to update Kommander HelmRelease chart version")
-		}
-
-		err = os.WriteFile(helmReleaseFilePath, []byte(updatedFile), 0o644)
-		if err != nil {
+		if err = replaceKommanderVersion(helmReleaseFilePath, helmReleaseSubVars); err != nil {
 			return err
 		}
 	}
 
-	kustomizationPaths, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, managementOperatorsKustomizationPattern))
+	for _, filePathPattern := range commonFiles {
+		paths, err := filepath.Glob(filepath.Join(kommanderApplicationsRepo, filePathPattern))
+		if err != nil {
+			return err
+		}
+		for _, filePath := range paths {
+			if err = replaceKommanderVersion(filePath, commonSubVars); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func replaceKommanderVersion(filePath string, subVars map[string]string) error {
+	parsedFile, err := envsubst.ParseFile(filePath)
 	if err != nil {
-		return fmt.Errorf("error finding flux kustomization files: %w", err)
+		return err
+	}
+	updatedFile, err := parsedFile.Execute(func(s string) string {
+		return subVars[s]
+	})
+	if err != nil {
+		return err
 	}
 
-	for _, fluxKustomizationPath := range kustomizationPaths {
-		// Update the kommanderChartVersion value
-		parsedFile, err := envsubst.ParseFile(fluxKustomizationPath)
-		if err != nil {
-			return err
-		}
-		subVars := map[string]string{
-			"kommanderChartVersion": chartVersion,
-		}
-		updatedFile, err := parsedFile.Execute(func(s string) string {
-			return subVars[s]
-		})
-		if err != nil {
-			return err
-		}
+	if !strings.Contains(updatedFile, subVars["kommanderChartVersion"]) {
+		return fmt.Errorf("failed to update Kommander chart version in %s", filePath)
+	}
 
-		if !strings.Contains(updatedFile, chartVersion) {
-			return fmt.Errorf("failed to update Kommander chart version")
-		}
-		err = os.WriteFile(fluxKustomizationPath, []byte(updatedFile), 0o644)
-		if err != nil {
-			return err
-		}
+	if err = os.WriteFile(filePath, []byte(updatedFile), 0o644); err != nil {
+		return err
 	}
 
 	return nil
