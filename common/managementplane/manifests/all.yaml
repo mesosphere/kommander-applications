@@ -140,16 +140,6 @@ metadata:
   name: nkp-management-plane-controller-manager
   namespace: kommander
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook
-  namespace: kommander
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -236,32 +226,6 @@ rules:
   - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook
-rules:
-- apiGroups:
-  - managementplane.nkp.nutanix.com
-  resources:
-  - managementplanes
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - release.nkp.nutanix.com
-  resources:
-  - releases
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
@@ -276,23 +240,6 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: nkp-management-plane-controller-manager
-  namespace: kommander
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: nkp-management-plane-webhook
-subjects:
-- kind: ServiceAccount
-  name: nkp-management-plane-webhook
   namespace: kommander
 ---
 apiVersion: v1
@@ -315,27 +262,6 @@ spec:
     app.kubernetes.io/component: controller-manager
     app.kubernetes.io/name: nkp-management-plane
     control-plane: nkp-management-plane-controller-manager
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook
-  namespace: kommander
-spec:
-  ports:
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: https
-  selector:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -363,7 +289,8 @@ spec:
         kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
     spec:
       containers:
-      - command:
+      - args: []
+        command:
         - /managementplane
         image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
         imagePullPolicy: IfNotPresent
@@ -422,119 +349,3 @@ spec:
       volumes:
       - emptyDir: {}
         name: tmp
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook
-  namespace: kommander
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app.kubernetes.io/component: webhook
-      app.kubernetes.io/name: nkp-management-plane
-      control-plane: nkp-management-plane-webhook
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/component: webhook
-        app.kubernetes.io/name: nkp-management-plane
-        control-plane: nkp-management-plane-webhook
-    spec:
-      containers:
-      - args:
-        - --tls-cert-dir=/certs/
-        command:
-        - /managementplane-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8443
-            scheme: HTTPS
-        name: webhook
-        ports:
-        - containerPort: 8443
-          name: https
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: 8443
-            scheme: HTTPS
-        resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
-          requests:
-            cpu: 200m
-            memory: 256Mi
-        volumeMounts:
-        - mountPath: /certs
-          name: cert
-          readOnly: true
-      securityContext:
-        runAsUser: 65532
-      serviceAccountName: nkp-management-plane-webhook
-      terminationGracePeriodSeconds: 10
-      volumes:
-      - name: cert
-        secret:
-          defaultMode: 420
-          secretName: nkp-management-plane-webhook-tls
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-webhook-tls
-  namespace: kommander
-spec:
-  commonName: nkp-management-plane-webhook.kommander.svc
-  dnsNames:
-  - nkp-management-plane-webhook.kommander.svc
-  - nkp-management-plane-webhook.kommander.svc.cluster.local
-  issuerRef:
-    kind: ClusterIssuer
-    name: selfsigned-issuer
-  secretName: nkp-management-plane-webhook-tls
----
-apiVersion: admissionregistration.k8s.io/v1
-kind: ValidatingWebhookConfiguration
-metadata:
-  annotations:
-    cert-manager.io/inject-ca-from: kommander/nkp-management-plane-webhook-tls
-  labels:
-    app.kubernetes.io/component: webhook
-    app.kubernetes.io/name: nkp-management-plane
-    control-plane: nkp-management-plane-webhook
-  name: nkp-management-plane-validating
-webhooks:
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: nkp-management-plane-webhook
-      namespace: kommander
-      path: /validations
-  failurePolicy: Ignore
-  name: webhook.managementplane.nkp.nutanix.com
-  rules:
-  - apiGroups:
-    - managementplane.nkp.nutanix.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - UPDATE
-    resources:
-    - managementplanes
-  sideEffects: None
