@@ -92,7 +92,9 @@ func TestUpdateKommanderOperatorVersion(t *testing.T) {
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.Nil(t, err)
 
-	content, err := os.ReadFile(filepath.Join(tmpDir, kommanderOperatorDefaultsCMPath))
+	// Read the kommander-operator cm.yaml directly (path moved into manifests)
+	cmPath := filepath.Join(tmpDir, "common", "kommander-operator", "manifests", "cm.yaml")
+	content, err := os.ReadFile(cmPath)
 	require.NoError(t, err)
 
 	assert.Equal(t,
@@ -131,6 +133,32 @@ func TestUpdateManagementOperatorsVersion(t *testing.T) {
 	}
 }
 
+func TestUpdateManagementOperatorManifestsVersion(t *testing.T) {
+	tmpDir, err := os.MkdirTemp("", "prerelease")
+	assert.Nil(t, err)
+	defer func(path string) {
+		_ = os.RemoveAll(path)
+	}(tmpDir)
+
+	// Make a copy of the current repo state to modify
+	err = cp.Copy(rootDir, tmpDir)
+	assert.Nil(t, err)
+
+	updateToVersion := "v1.0.0"
+	err = UpdateChartVersions(tmpDir, updateToVersion)
+	assert.Nil(t, err)
+
+	manifestPaths, err := filepath.Glob(filepath.Join(tmpDir, "common", "*", "manifests", "all.yaml"))
+	assert.Nil(t, err)
+	assert.NotEmpty(t, manifestPaths)
+
+	for _, manifestPath := range manifestPaths {
+		content, err := os.ReadFile(manifestPath)
+		require.NoError(t, err)
+		assert.Contains(t, string(content), updateToVersion)
+	}
+}
+
 func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	tmpDir, err := os.MkdirTemp("", "prerelease")
 	assert.Nil(t, err)
@@ -152,7 +180,7 @@ func TestUpdateChartVersionsPathChanged(t *testing.T) {
 	assert.Nil(t, err)
 
 	err = UpdateChartVersions(tmpDir, updateToVersion)
-	assert.Error(t, err, "expected chart version update to fail as the filename changed")
+	assert.ErrorContains(t, err, "no matches found for HelmRelease path")
 }
 
 func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
