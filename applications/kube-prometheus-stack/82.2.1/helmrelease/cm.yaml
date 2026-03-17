@@ -487,8 +487,8 @@ data:
           searchNamespace: ALL
         datasources:
           enabled: true
-          skipReload: true
-          initDatasources: true
+          skipReload: false
+          initDatasources: false
           searchNamespace: ALL
         resources:
           limits:
