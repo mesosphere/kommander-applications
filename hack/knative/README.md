@@ -7,6 +7,8 @@ Two Python scripts for managing KNative Docker images in Kommander Applications:
 
 ## Prerequisites
 
+- Python 3.7 or newer
+
 ```bash
 # Install required dependency
 pip install docker-image-py
@@ -19,13 +21,14 @@ Downloads KNative operator manifests from GitHub, extracts Docker image referenc
 ### Usage
 
 ```bash
-python3 hack/knative/extract-images.py --eventing-version <version> --serving-version <version> [--k-apps-version <version>]
+python3 hack/knative/extract-images.py --eventing-version <version> --serving-version <version> --ingress-version <version> [--k-apps-version <version>]
 ```
 
 ### Options
 
 - `--eventing-version` (required): KNative eventing version (e.g., 1.18.1)
 - `--serving-version` (required): KNative serving version (e.g., 1.18.1)
+- `--ingress-version` (required): KNative serving version (e.g., 1.18)
 - `--k-apps-version` (optional): Output directory version (defaults to serving version)
 
 ### Version Management
