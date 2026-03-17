@@ -20,7 +20,7 @@ data:
       repository: nvcr.io/nvidia
       version: v0.18.0
     toolkit:
-      version: v1.18.0
+      version: v1.19.0
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
