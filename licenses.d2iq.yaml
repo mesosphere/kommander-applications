@@ -641,10 +641,10 @@ resources:
       - url: https://github.com/kubernetes/kubectl
         ref: v0${image_tag#1}
         license_path: LICENSE
-  - container_image: docker.io/mesosphere/kubectl:1.35.2-alpine
+  - container_image: docker.io/mesosphere/kubectl:v1.35.2-alpine
     sources:
       - url: https://github.com/kubernetes/kubectl
-        ref: v0${image_tag#1}
+        ref: v0${image_tag:2:5}
         license_path: LICENSE
   - container_image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
     sources:
