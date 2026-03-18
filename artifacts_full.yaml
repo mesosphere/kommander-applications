@@ -44,7 +44,7 @@ applications:
       - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.3.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.3.0
-      - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.0
+      - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.1
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:25.10.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
       - oci://<registry-url>/kommander-applications/project-grafana-logging:10.2.0
@@ -356,7 +356,7 @@ applications:
       - quay.io/prometheus/node-exporter:v1.9.1
       - quay.io/prometheus/prometheus:v3.5.0
       - quay.io/thanos/thanos:v0.41.0
-      - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
+      - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
       - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
   - name: kubefed
     version: 0.11.3
@@ -429,19 +429,19 @@ applications:
       - oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace:0.3.0
       - docker.io/mesosphere/nkp-pulse-workspace:0.3.0
   - name: nvidia-gpu-operator
-    version: 25.10.0
+    version: 25.10.1
     images:
-      - oci://ghcr.io/mesosphere/charts/gpu-operator:v25.10.0
-      - nvcr.io/nvidia/cloud-native/dcgm:4.4.1-2-ubuntu22.04
-      - nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.9.0
-      - nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.3-ubuntu20.04
+      - oci://ghcr.io/mesosphere/charts/gpu-operator:v25.10.1
+      - nvcr.io/nvidia/cloud-native/dcgm:4.4.2-1-ubuntu22.04
+      - nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.10.0
+      - nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.14.0
       - nvcr.io/nvidia/driver:535-5.15.0-139-generic-ubuntu22.04
       - nvcr.io/nvidia/driver:580-6.8.0-101-generic-ubuntu24.04
-      - nvcr.io/nvidia/gpu-operator:v25.10.0
-      - nvcr.io/nvidia/k8s-device-plugin:v0.18.0
-      - nvcr.io/nvidia/k8s/container-toolkit:v1.18.0
+      - nvcr.io/nvidia/gpu-operator:v25.10.1
+      - nvcr.io/nvidia/k8s-device-plugin:v0.19.0
+      - nvcr.io/nvidia/k8s/container-toolkit:v1.19.0
       - nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
-      - nvcr.io/nvidia/k8s/dcgm-exporter:4.4.1-4.6.0-ubuntu22.04
+      - nvcr.io/nvidia/k8s/dcgm-exporter:4.5.2-4.8.1-ubuntu22.04
   - name: nvidia-network-operator
     version: 25.10.0
     images:
