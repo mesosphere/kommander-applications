@@ -31,9 +31,35 @@ jobs:
       - name: Check output base-branch-name
         run: echo ${{ steps.base-branch-name.outputs.base_branch_name }}
 
+  validate-licenses-passed:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
+    permissions:
+      actions: read
+    steps:
+      - name: Wait for validate-licenses workflow, then require success
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 45
+          timeout_minutes: 45
+          retry_wait_seconds: 60
+          retry_on_exit_code: 2
+          command: |
+            # Exit 0 = success, 1 = fail (do not retry), 2 = not ready (retry)
+            run=$(gh run list --repo ${{ github.repository }} --workflow validate-licenses.yaml --commit "$HEAD_SHA" --limit 1 --json status,conclusion --jq '.[0] // empty')
+            if [ -z "$run" ]; then echo "No validate-licenses run yet for $HEAD_SHA."; exit 2; fi
+            status=$(echo "$run" | jq -r '.status')
+            conclusion=$(echo "$run" | jq -r '.conclusion // "pending"')
+            if [ "$status" != "completed" ]; then echo "validate-licenses run status: $status."; exit 2; fi
+            if [ "$conclusion" = "success" ]; then echo "validate-licenses passed for $HEAD_SHA"; exit 0; fi
+            echo "::error::Workflow 'Check licenses.d2iq.yaml' (validate-licenses.yaml) completed with conclusion: $conclusion for commit $HEAD_SHA."
+            exit 1
+
   create-kommander-branch:
     runs-on: self-hosted-nutanix-medium
-    needs: get-kapps-branch-name
+    needs: [get-kapps-branch-name, validate-licenses-passed]
     if: contains(github.event.pull_request.labels.*.name, 'open-kommander-pr')
     steps:
       - uses: actions/checkout@v5
