@@ -82,10 +82,12 @@ jobs:
             git commit -S -v -m "build: Updated artifacts_full.yaml"
             git push --force-with-lease
           fi
-          devbox run make list-airgapped-artifacts-yaml
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+
+      - name: List airgapped images
+        run: devbox run make list-airgapped-artifacts-yaml
 
       - name: Update licenses
         id: updateLicenses
