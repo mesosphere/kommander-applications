@@ -21,4 +21,7 @@ generate-artifacts-yaml: $(NKP_CLI_BIN)
 
 .PHONY: validate-artifacts-yaml-in-sync
 validate-artifacts-yaml-in-sync: generate-artifacts-yaml
-	@(cd $(REPO_ROOT) && git diff --quiet HEAD -- $(FULL_BUNDLE_FILE)) || (echo "Error: $(FULL_BUNDLE_FILE) is out of date. Run 'make generate-artifacts-yaml' and commit."; exit 1)
+	@(cd $(REPO_ROOT) && git diff HEAD -- $(FULL_BUNDLE_FILE)) || ( \
+		printf "Error: $(FULL_BUNDLE_FILE) is out of date. Run 'make generate-artifacts-yaml' and commit.\n\n"; \
+		exit 1 \
+	)

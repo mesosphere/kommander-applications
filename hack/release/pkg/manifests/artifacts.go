@@ -23,17 +23,18 @@ func UpdateArtifactsManifest(ctx context.Context, log io.Writer, repo string) er
 	goarch := "amd64" // We publish only amd64 binaries today. Make this dynamic if/when we publish arm etc.
 	url := fmt.Sprintf("%s/nkp_%s_%s_%s.tar.gz", constants.DefaultSourceNKPBase, version, goos, goarch)
 
-	dir, err := os.MkdirTemp("", "nkp-cli-*")
+	parentDir, err := os.MkdirTemp("", "nkp-cli-*")
 	if err != nil {
 		return fmt.Errorf("temp dir: %w", err)
 	}
-
-	_, err = getter.GetFile(ctx, dir, url)
+	defer func() { _ = os.RemoveAll(parentDir) }()
+	// Destination must not exist so go-getter creates it and extracts the .tar.gz into it.
+	extractDir := filepath.Join(parentDir, "extract")
+	_, err = getter.Get(ctx, extractDir, url)
 	if err != nil {
 		return fmt.Errorf("download nkp CLI: %w", err)
 	}
-
-	binaryPath := filepath.Join(dir, "nkp")
+	binaryPath := filepath.Join(extractDir, "nkp")
 
 	configPath := filepath.Join(repo, ".bloodhound.yml")
 	artifactsPath := filepath.Join(repo, nkpArtifactsOutput)
