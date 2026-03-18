@@ -14,8 +14,10 @@
 .envrc
 
 # for updating image licenses
-artifacts_airgapped.yaml
-artifacts_airgapped_images.txt
+bloodhound
+images.txt
+images.yaml
+all_images.yaml
 
 # apptest working directory
 apptests/.work/

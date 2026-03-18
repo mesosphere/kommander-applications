@@ -7,7 +7,6 @@ k8s_versions:
 
 # paths to load (in that order)
 paths:
-  - hack/testdata # loaded to mock runtime dependencies (like kommander-vars ConfigMap) in bloodhound parsing
   - applications/kommander/0.18.0/dynamic-helmreleases
   - common/kommander-operator
 

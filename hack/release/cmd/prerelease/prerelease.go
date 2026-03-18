@@ -9,7 +9,6 @@ import (
 
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
-	"github.com/mesosphere/kommander-applications/hack/release/pkg/manifests"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/updatecapimate"
 )
 
@@ -48,11 +47,7 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
-			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s\n", chartVersionString)
-
-			if err = manifests.UpdateArtifactsManifest(cmd.Context(), cmd.OutOrStdout(), kommanderApplicationsRepo); err != nil {
-				return err
-			}
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s", chartVersionString)
 			return nil
 		},
 	}
