@@ -54,10 +54,6 @@ spec:
           spec:
             description: UpgradePlanSpec defines the desired state of UpgradePlan.
             properties:
-              controlPlaneImage:
-                description: ControlPlaneImage is the name of OS image to use for
-                  control plane machines
-                type: string
               inputs:
                 description: Inputs are unstructured fields used to update the referenced
                   NKPCluster spec.
@@ -118,12 +114,6 @@ spec:
                 - message: must be a non-empty valid semantic version (e.g. v1.2.3,
                     1.2.3-beta+build)
                   rule: size(self) > 0 && self.matches('^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
-              workerVMImages:
-                additionalProperties:
-                  type: string
-                description: WorkerVMImages are the names of OS images to use for
-                  worker pools.
-                type: object
             required:
             - nkpClusterRef
             - version
