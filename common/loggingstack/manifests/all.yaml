@@ -255,6 +255,15 @@ rules:
   - workspaces.kommander.mesosphere.io
   resources:
   - projects
+  - workspaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
   verbs:
   - get
   - list
@@ -278,14 +287,6 @@ rules:
   - watch
   - update
   - patch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
-  - list
-  - watch
 - apiGroups:
   - source.toolkit.fluxcd.io
   resources:
