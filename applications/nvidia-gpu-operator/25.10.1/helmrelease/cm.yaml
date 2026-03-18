@@ -18,14 +18,14 @@ data:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      version: v0.18.0
+      version: v0.19.0
     toolkit:
       version: v1.19.0
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.18.0
+      version: v0.19.0
     dcgm:
       enabled: true
       version: 4.4.2-1-ubuntu22.04
