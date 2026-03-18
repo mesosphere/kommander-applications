@@ -12,7 +12,7 @@ data:
       manager:
         image: k8s-driver-manager
         repository: nvcr.io/nvidia/cloud-native
-        version: v0.9.0
+        version: v0.10.0
     devicePlugin:
       config:
         # Create a ConfigMap (default: false)
@@ -28,19 +28,19 @@ data:
       version: v0.18.0
     dcgm:
       enabled: true
-      version: 4.4.1-2-ubuntu22.04
+      version: 4.4.2-1-ubuntu22.04
     dcgmExporter:
       enabled: true
       serviceMonitor:
         enabled: true
         additionalLabels:
           prometheus.kommander.d2iq.io/select: "true"
-      version: 4.4.1-4.6.0-ubuntu22.04
+      version: 4.5.2-4.8.1-ubuntu22.04
     operator:
       repository: nvcr.io/nvidia
-      version: v25.10.0
+      version: v25.10.1
     migManager:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
       image: k8s-mig-manager
-      version: v0.12.3-ubuntu20.04
+      version: v0.14.0

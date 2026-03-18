@@ -543,12 +543,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/stakater/Reloader
-  - container_image: nvcr.io/nvidia/gpu-operator:v25.10.0
+  - container_image: nvcr.io/nvidia/gpu-operator:v25.10.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/gpu-operator
-  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.18.0
+  - container_image: nvcr.io/nvidia/k8s-device-plugin:v0.19.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -558,12 +558,12 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/nvidia-container-toolkit
-  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.4.1-4.6.0-ubuntu22.04
+  - container_image: nvcr.io/nvidia/k8s/dcgm-exporter:4.5.2-4.8.1-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu22.04}
         url: https://github.com/NVIDIA/dcgm-exporter
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.12.3-ubuntu20.04
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.14.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
@@ -580,7 +580,7 @@ resources:
         ref: main
         directory: /ubuntu24.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
-  - container_image: nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.9.0
+  - container_image: nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.10.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -691,10 +691,10 @@ resources:
       - url: https://github.com/kube-logging/logging-operator
         ref: ${image_tag%-full}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.4.1-2-ubuntu22.04
+  - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.4.2-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
-        ref: v${image_tag%-2-ubuntu22.04}
+        ref: v${image_tag%-1-ubuntu22.04}
         license_path: LICENSE
   - container_image: docker.io/curlimages/curl:8.18.0
     sources:
