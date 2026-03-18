@@ -46,10 +46,47 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Generate artifacts and validate in sync
+      - name: Set git config
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        run: |
+          git config user.email ci-mergebot@d2iq.com
+          git config user.name d2iq-mergebot
+          git config --global user.signingkey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+
+      - name: Import GPG key
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+
+      - name: Validate artifacts_full.yaml is up to date
+        if: |
+          ${{ !contains(github.event.pull_request.labels.*.name, 'update-licenses') }}
         run: devbox run make validate-artifacts-yaml-in-sync
-      - name: Generate airgapped image list
-        run: devbox run make list-airgapped-artifacts-yaml
+
+      - name: Update artifacts_full.yaml
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        run: |
+          devbox run make generate-artifacts-yaml
+          git add artifacts_full.yaml
+          if output=$(git status --porcelain) && [ ! -z "$output" ]; then
+            git commit -S -v -m "build: Updated artifacts_full.yaml"
+            git push --force-with-lease
+          fi
+          devbox run make list-airgapped-artifacts-yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
@@ -62,23 +99,11 @@ jobs:
             --check-sources --check-sources-skip-gh-org mesosphere --update-licenses
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Import GPG key
-        if: |
-          contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          git_user_signingkey: true
+
       - name: Commit and push changes
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
         run: |
-          git config user.email ci-mergebot@d2iq.com
-          git config user.name d2iq-mergebot
-          git config --global user.signingkey ${{ secrets.MERGEBOT_GPG_KEY_ID }}
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
           git add licenses.d2iq.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -S -v -m "build: Updated licenses.d2iq.yaml"

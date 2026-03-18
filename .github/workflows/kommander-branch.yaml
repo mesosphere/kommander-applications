@@ -39,6 +39,7 @@ jobs:
     steps:
       - name: Wait for validate-licenses workflow, then require success
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         uses: nick-fields/retry@v2
         with:
