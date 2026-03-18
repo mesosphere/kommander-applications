@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image list
-        run: devbox run make validate-artifacts-yaml-in-sync && cat artifacts_airgapped_images.txt
+        run: devbox run make validate-artifacts-yaml-in-sync list-airgapped-artifacts-yaml && cat artifacts_airgapped_images.txt
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
