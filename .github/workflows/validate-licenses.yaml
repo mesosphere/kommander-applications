@@ -46,8 +46,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Generate image list
-        run: devbox run make validate-artifacts-yaml-in-sync list-airgapped-artifacts-yaml && cat artifacts_airgapped_images.txt
+      - name: Generate artifacts and validate in sync
+        run: devbox run make validate-artifacts-yaml-in-sync
+      - name: Generate airgapped image list
+        run: devbox run make list-airgapped-artifacts-yaml
       - name: Update licenses
         id: updateLicenses
         continue-on-error: true
