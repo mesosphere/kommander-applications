@@ -64,7 +64,7 @@ data:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
                 kind: Kustomization
-              nameRegexp: ai-navigator-app|ai-navigator-cluster-info-agent|ai-navigator-rag|centralized-grafana|cert-manager|cilium-hubble-relay-traefik|chartmuseum|cloudnative-pg|cosi-driver-nutanix|dex|dex-k8s-authenticator|external-dns|external-secrets|fluent-bit|gatekeeper|gateway-api-crds|git-operator|grafana-logging|grafana-loki|harbor|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-flux|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|nkp-insights|nkp-insights-management|nkp-pulse-management|nkp-pulse-workspace|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|project-logging|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero|vgpu-token-operator|kafka-operator|zookeeper-operator|nutanix-ai|grafana-loki-v3|project-grafana-loki-v3
+              nameRegexp: ai-navigator-app|ai-navigator-cluster-info-agent|ai-navigator-rag|centralized-grafana|cert-manager|cilium-hubble-relay-traefik|chartmuseum|cloudnative-pg|cosi-driver-nutanix|dex|dex-k8s-authenticator|external-dns|external-secrets|fluent-bit|gatekeeper|gateway-api-crds|git-operator|grafana-logging|grafana-loki|harbor|istio|jaeger|karma|karma-traefik|kiali|knative|kommander|kommander-appmanagement|kommander-flux|kommander-ui|kube-oidc-proxy|kube-prometheus-stack|kubecost|kubecost-thanos-traefik|kubefed|kubernetes-dashboard|kubetunnel|logging-operator|nkp-insights|nkp-insights-management|nkp-pulse-management|nkp-pulse-workspace|nvidia-gpu-operator|project-grafana-logging|project-grafana-loki|project-logging|prometheus-adapter|prometheus-thanos-traefik|reloader|rook-ceph|rook-ceph-cluster|thanos|traefik|traefik-forward-auth|traefik-forward-auth-mgmt|velero|vgpu-token-operator|kafka-operator|zookeeper-operator|nutanix-ai
             Kustomization-kommander-non-app:
               groupKind:
                 group: kustomize.toolkit.fluxcd.io
@@ -91,6 +91,9 @@ data:
         replay:
           apiServerService: dkp-insights-replay-troubleshoot-live
       eventExpirationTime: 1h
+      falcoWebhook:
+        expirationTime: 24h
+        rateLimitInterval: 15s
       livenessProbe:
         failureThreshold: 3
         initialDelaySeconds: 60
@@ -158,11 +161,111 @@ data:
           memory: 64Mi
       schedule: '@every 37m'
       ttlStepFactor: 0.8
+    falco:
+      collectors:
+        containerEngine:
+          enabled: true
+        enabled: true
+        kubernetes:
+          enabled: true
+      controller:
+        kind: daemonset
+      driver:
+        kind: modern_ebpf
+        modernEbpf:
+          leastPrivileged: true
+      enabled: false
+      extra:
+        initContainers:
+          - command:
+              - /bin/sh
+              - -c
+              - |
+                echo "Waiting for Insights Backend to be ready..."
+                NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+                BACKEND_URL="http://nkp-insights-backend-deployment:8090/healthz"
+                until wget -q --spider "$BACKEND_URL" 2>/dev/null; do
+                  echo "Insights Backend not ready at $BACKEND_URL, waiting..."
+                  sleep 5
+                done
+                echo "Insights Backend is ready!"
+            image: docker.io/mesosphere/kubectl:v1.34.1-alpine
+            name: wait-for-insights-backend
+            resources:
+              limits:
+                cpu: 50m
+                memory: 64Mi
+              requests:
+                cpu: 10m
+                memory: 16Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 65534
+      falco:
+        config_files: []
+        http_output:
+          echo: false
+          enabled: true
+          keep_alive: true
+          url: http://nkp-insights-backend-deployment:8080/v1/falco
+        json_include_output_fields_property: true
+        json_include_tags_property: true
+        json_output: true
+        log_syslog: false
+        stdout_output:
+          enabled: true
+        syslog_output:
+          enabled: false
+        time_format_iso_8601: true
+      falcoctl:
+        artifact:
+          follow:
+            enabled: false
+          install:
+            enabled: true
+        config:
+          artifact:
+            allowedTypes:
+              - rulesfile
+              - plugin
+            install:
+              pluginsDir: /plugins
+              refs:
+                - ghcr.io/falcosecurity/rules/falco-rules:5
+                - ghcr.io/falcosecurity/plugins/plugin/container:0.4.1
+                - ghcr.io/falcosecurity/plugins/plugin/k8smeta:0.4.0
+              resolveDeps: true
+              rulesfilesDir: /rulesfiles
+        image:
+          pullPolicy: IfNotPresent
+          registry: docker.io
+          repository: falcosecurity/falcoctl
+          tag: 0.12.1
+      image:
+        pullPolicy: IfNotPresent
+        registry: docker.io
+        repository: falcosecurity/falco
+        tag: 0.42.1
+      podPriorityClassName: dkp-critical-priority
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1024Mi
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      scc:
+        create: false
     image:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.7.3
+      tag: 1.8.0-dev.12
     initdb:
       resources:
         limits:
@@ -176,7 +279,7 @@ data:
         image:
           pullPolicy: IfNotPresent
           repository: aquasec/kube-bench
-          tag: v0.11.1
+          tag: v0.14.0
         nodeSubsets:
           all-nodes:
             defaultSetup: nodes-default
@@ -322,7 +425,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/nova
-        tag: v3.11
+        tag: v3.11.9
       jobBackoffLimit: 2
       resources:
         limits:
@@ -358,7 +461,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: us-docker.pkg.dev/fairwinds-ops/oss/pluto
-        tag: v5.21.9
+        tag: v5.22.6
       jobBackoffLimit: 2
       resources:
         limits:
@@ -415,7 +518,7 @@ data:
       image:
         pullPolicy: IfNotPresent
         repository: quay.io/fairwinds/polaris
-        tag: 9.4.1
+        tag: 10.1.2
       jobBackoffLimit: 2
       resources:
         limits:
@@ -495,7 +598,7 @@ data:
         name: nkp-insights-trivy-env
       failedJobsHistoryLimit: 1
       image:
-        imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20251215T180012Z
+        imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20260224T035159Z
         pullPolicy: IfNotPresent
       jobBackoffLimit: 2
       resources:
