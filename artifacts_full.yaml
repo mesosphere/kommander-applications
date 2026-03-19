@@ -45,7 +45,7 @@ applications:
       - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.3.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.3.0
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.1
-      - oci://<registry-url>/kommander-applications/nvidia-network-operator:25.10.0
+      - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
       - oci://<registry-url>/kommander-applications/project-grafana-logging:10.2.0
       - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.5.5
