@@ -515,7 +515,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
       - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.19.2
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20240513-v0.1.0-35-gefb3255
+      - ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
       - quay.io/ceph/ceph:v19.2.3
       - quay.io/ceph/cosi:v0.1.2
   - name: thanos
