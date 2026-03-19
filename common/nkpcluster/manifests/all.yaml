@@ -274,7 +274,7 @@ spec:
                 x-kubernetes-validations:
                 - message: must be a non-empty valid semantic version (e.g. v1.2.3,
                     1.2.3-beta+build)
-                  rule: size(self) > 0 && self.matches('^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
+                  rule: size(self) > 0 && self.matches('^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z-.]+)?(?:\+[0-9A-Za-z-.]+)?$')
             required:
             - version
             type: object
@@ -1020,7 +1020,7 @@ spec:
         - --enable-leader-election
         command:
         - /nkpcluster
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.11}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         resources:
@@ -1100,7 +1100,7 @@ spec:
         - --tls-cert-dir=/certs/
         command:
         - /nkpcluster-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.11}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1150,8 +1150,8 @@ metadata:
 spec:
   commonName: nkp-cluster-webhook
   dnsNames:
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc.cluster.local
+  - nkp-cluster-webhook.kommander.svc
+  - nkp-cluster-webhook.kommander.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer
