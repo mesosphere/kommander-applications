@@ -4,11 +4,15 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/drone/envsubst"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
+
+// kommanderChartVersionDefaultRegex extracts the default value from ${kommanderChartVersion:=v2.18.0-dev}.
+var kommanderChartVersionDefaultRegex = regexp.MustCompile(`\$\{kommanderChartVersion:=([^}]+)\}`)
 
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
@@ -29,6 +33,21 @@ var (
 		managementOperatorsManifestsPattern,
 	}
 )
+
+// GetKommanderChartVersion extracts the current kommander chart version (e.g. v2.18.0-dev)
+// from the repo by reading files that contain ${kommanderChartVersion:=version}.
+func GetKommanderChartVersion(kommanderApplicationsRepo string) (string, error) {
+	cmPath := filepath.Join(kommanderApplicationsRepo, kommanderOperatorDefaultsCMPath)
+	data, err := os.ReadFile(cmPath)
+	if err != nil {
+		return "", fmt.Errorf("read %s: %w", cmPath, err)
+	}
+	matches := kommanderChartVersionDefaultRegex.FindStringSubmatch(string(data))
+	if len(matches) < 2 {
+		return "", fmt.Errorf("could not find kommanderChartVersion default in %s", cmPath)
+	}
+	return matches[1], nil
+}
 
 func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 	chartVersion = fmt.Sprintf(kommanderChartVersionTemplate, chartVersion)
