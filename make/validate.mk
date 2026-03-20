@@ -1,4 +1,4 @@
-SKIP_APPLICATIONS ?= ai-navigator-app,ai-navigator-cluster-info-agent,nkp-pulse-management,nkp-pulse-workspace
+SKIP_APPLICATIONS ?= ai-navigator-app,nkp-pulse-management,nkp-pulse-workspace
 
 FULL_BUNDLE_FILE=artifacts_full.yaml
 AIRGAPPED_BUNDLE_FILE=artifacts_airgapped.yaml
