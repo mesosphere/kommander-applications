@@ -112,7 +112,6 @@ data:
     - "traefik-forward-auth-mgmt"
     - "kubetunnel"
     - "ai-navigator-app"
-    - "ai-navigator-cluster-info-agent"
     attached:
       prerequisites:
         defaultApps:
