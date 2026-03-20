@@ -755,7 +755,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
