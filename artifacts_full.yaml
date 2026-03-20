@@ -117,7 +117,7 @@ applications:
       - docker.io/mesosphere/dex-controller:v0.16.1
       - docker.io/mesosphere/dex:v2.42.0-d2iq.0
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: dex-k8s-authenticator
     version: 1.4.7
     images:
@@ -157,7 +157,7 @@ applications:
       - docker.io/mesosphere/gitwebserver:v0.13.16
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: grafana-logging
     version: 10.2.0
     images:
@@ -301,7 +301,7 @@ applications:
       - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.18.0-dev
       - docker.io/mesosphere/kommander2-licensing-webhook:v2.18.0-dev
       - ghcr.io/mesosphere/kommander-applications-server:v2.18.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-appmanagement
     version: 0.18.0
     images:
@@ -309,7 +309,7 @@ applications:
       - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.18.0-dev
       - docker.io/mesosphere/kommander2-appmanagement:v2.18.0-dev
       - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
     version: 2.7.2
     images:
@@ -340,7 +340,7 @@ applications:
       - docker.io/kiwigrid/k8s-sidecar:1.30.7
       - docker.io/library/busybox:1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
+      - quay.io/brancz/kube-rbac-proxy:v0.21.1
       - quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0
       - quay.io/prometheus-operator/prometheus-operator:v0.86.1
       - quay.io/prometheus/alertmanager:v0.30.0
