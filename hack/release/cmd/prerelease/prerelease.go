@@ -32,7 +32,13 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 
-			err := chartversion.UpdateChartVersions(kommanderApplicationsRepo, chartVersionString)
+			// Get current version before any updates; needed for artifacts_full.yaml replacement.
+			currentChartVersion, err := chartversion.GetKommanderChartVersion(kommanderApplicationsRepo)
+			if err != nil {
+				return err
+			}
+
+			err = chartversion.UpdateChartVersions(kommanderApplicationsRepo, chartVersionString)
 			if err != nil {
 				return err
 			}
@@ -50,9 +56,10 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 
 			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated kommander extra images to %s\n", chartVersionString)
 
-			if err = manifests.UpdateArtifactsManifest(cmd.Context(), cmd.OutOrStdout(), kommanderApplicationsRepo); err != nil {
+			if err = manifests.UpdateArtifactsManifest(kommanderApplicationsRepo, currentChartVersion, chartVersionString); err != nil {
 				return err
 			}
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated artifacts_full.yaml to %s\n", chartVersionString)
 			return nil
 		},
 	}

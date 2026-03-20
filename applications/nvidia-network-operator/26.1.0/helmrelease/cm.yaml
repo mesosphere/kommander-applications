@@ -15,4 +15,4 @@ data:
       enabled: false
     sriov-network-operator:
       images:
-        resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.7.0
+        resourcesInjector: ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.8.0
