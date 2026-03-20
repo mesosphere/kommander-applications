@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/Masterminds/semver/v3 v3.4.0
-	github.com/drone/envsubst v1.0.3
+	github.com/fluxcd/pkg/envsubst v1.5.0
 	github.com/fluxcd/source-controller/api v1.7.4
 	github.com/otiai10/copy v1.14.1
 	github.com/r3labs/diff/v3 v3.0.2
