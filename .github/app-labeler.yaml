@@ -2,10 +2,6 @@ applications/ai-navigator-app:
 - changed-files:
   - any-glob-to-any-file:
     - applications/ai-navigator-app/**
-applications/ai-navigator-cluster-info-agent:
-- changed-files:
-  - any-glob-to-any-file:
-    - applications/ai-navigator-cluster-info-agent/**
 applications/centralized-grafana:
 - changed-files:
   - any-glob-to-any-file:
