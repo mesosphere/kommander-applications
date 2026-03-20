@@ -1150,8 +1150,8 @@ metadata:
 spec:
   commonName: nkp-cluster-webhook
   dnsNames:
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc.cluster.local
+  - nkp-cluster-webhook.kommander.svc
+  - nkp-cluster-webhook.kommander.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer

@@ -301,7 +301,7 @@ applications:
     version: 0.18.0
     images:
       - oci://docker.io/mesosphere/kommander-chart:v2.18.0-dev
-      - docker.io/mesosphere/capimate:v0.0.0-dev.0
+      - docker.io/mesosphere/capimate:v2.18.0-dev
       - docker.io/mesosphere/kommander2-federation-authorizedlister:v2.18.0-dev
       - docker.io/mesosphere/kommander2-federation-controller-manager:v2.18.0-dev
       - docker.io/mesosphere/kommander2-federation-webhook:v2.18.0-dev
