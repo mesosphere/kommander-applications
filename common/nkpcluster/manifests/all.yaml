@@ -1029,7 +1029,7 @@ spec:
         - --enable-leader-election
         command:
         - /nkpcluster
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.12}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         resources:
@@ -1109,7 +1109,7 @@ spec:
         - --tls-cert-dir=/certs/
         command:
         - /nkpcluster-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.12}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1159,8 +1159,8 @@ metadata:
 spec:
   commonName: nkp-cluster-webhook
   dnsNames:
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc
-  - nkp-cluster-webhook.${releaseNamespace:-kommander}.svc.cluster.local
+  - nkp-cluster-webhook.kommander.svc
+  - nkp-cluster-webhook.kommander.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer
