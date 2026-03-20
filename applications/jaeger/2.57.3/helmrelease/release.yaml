@@ -50,7 +50,7 @@ data:
   dashboardLink: "/dkp/jaeger"
   docsLink: "https://www.jaegertracing.io/docs"
   # Check https://artifacthub.io/packages/helm/jaegertracing/jaeger-operator/ for app version
-  version: "1.70.0"
+  version: "1.76.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
