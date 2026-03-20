@@ -354,7 +354,7 @@ applications:
       - quay.io/prometheus-operator/prometheus-operator:v0.86.1
       - quay.io/prometheus/alertmanager:v0.30.0
       - quay.io/prometheus/node-exporter:v1.9.1
-      - quay.io/prometheus/prometheus:v3.5.0
+      - quay.io/prometheus/prometheus:v3.10.0
       - quay.io/thanos/thanos:v0.41.0
       - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
       - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
