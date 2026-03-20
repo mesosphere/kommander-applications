@@ -26,7 +26,7 @@ applications:
       - oci://<registry-url>/kommander-applications/jaeger:2.57.3
       - oci://<registry-url>/kommander-applications/karma-traefik:0.0.4
       - oci://<registry-url>/kommander-applications/karma:2.0.9
-      - oci://<registry-url>/kommander-applications/kiali:2.22.0
+      - oci://<registry-url>/kommander-applications/kiali:2.23.0
       - oci://<registry-url>/kommander-applications/knative:1.21.0
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.7.2
@@ -240,11 +240,11 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
   - name: kiali
-    version: 2.22.0
+    version: 2.23.0
     images:
-      - oci://ghcr.io/mesosphere/charts/kiali-operator:2.22.0
-      - quay.io/kiali/kiali-operator:v2.22.0
-      - quay.io/kiali/kiali:v2.22.0-distro
+      - oci://ghcr.io/mesosphere/charts/kiali-operator:2.23.0
+      - quay.io/kiali/kiali-operator:v2.23.0
+      - quay.io/kiali/kiali:v2.23.0-distro
   - name: knative
     version: 1.21.0
     images:
