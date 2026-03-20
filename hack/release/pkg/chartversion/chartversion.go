@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/drone/envsubst"
+	"github.com/fluxcd/pkg/envsubst"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
@@ -101,8 +101,9 @@ func replaceKommanderVersion(filePath string, subVars map[string]string) error {
 	if err != nil {
 		return err
 	}
-	updatedFile, err := parsedFile.Execute(func(s string) string {
-		return subVars[s]
+	updatedFile, err := parsedFile.Execute(func(s string) (string, bool) {
+		// Match prior drone/envsubst behavior: unset keys expand to empty string.
+		return subVars[s], true
 	})
 	if err != nil {
 		return err

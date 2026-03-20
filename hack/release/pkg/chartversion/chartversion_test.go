@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/drone/envsubst"
+	"github.com/fluxcd/pkg/envsubst"
 	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
 	cp "github.com/otiai10/copy"
 	"github.com/r3labs/diff/v3"
@@ -206,8 +206,8 @@ func TestUpdateChartVersionsVersionFormatChanged(t *testing.T) {
 		"kommanderChartVersion": "foo",
 		"releaseNamespace":      "${releaseNamespace}",
 	}
-	updatedFile, err := parsedFile.Execute(func(s string) string {
-		return subVars[s]
+	updatedFile, err := parsedFile.Execute(func(s string) (string, bool) {
+		return subVars[s], true
 	})
 	assert.Nil(t, err)
 
@@ -238,4 +238,31 @@ func TestUpdateChartVersionsTooManyFiles(t *testing.T) {
 	updateToVersion := "v1.0.0"
 	err = UpdateChartVersions(tmpDir, updateToVersion)
 	assert.ErrorContains(t, err, "found > 1 match for HelmRelease path")
+}
+
+// TestReplaceKommanderVersion_PreservesYamlCelRegexBackslashes guards against
+// whole-file envsubst lexers that drop a backslash from "\\" in literal YAML (the
+// github.com/drone/envsubst bug). github.com/fluxcd/pkg/envsubst only enables
+// backslash escapes inside ${…}, so CEL "\\d" / "\\." outside substitutions stay intact.
+func TestReplaceKommanderVersion_PreservesYamlCelRegexBackslashes(t *testing.T) {
+	tmp := t.TempDir()
+	p := filepath.Join(tmp, "all.yaml")
+	const (
+		oldVer = "${kommanderChartVersion:=v2.0.0-dev}"
+		newVer = "${kommanderChartVersion:=v9.9.9}"
+	)
+	// Raw string: \\ is two backslashes on disk (typical YAML for regex escapes in CEL).
+	content := `rule: size(self) > 0 && self.matches('^v?(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$')
+image: mesosphere/x:` + oldVer + "\n"
+	require.NoError(t, os.WriteFile(p, []byte(content), 0o644))
+
+	subVars := map[string]string{"kommanderChartVersion": newVer}
+	require.NoError(t, replaceKommanderVersion(p, subVars))
+
+	out, err := os.ReadFile(p)
+	require.NoError(t, err)
+	s := string(out)
+	assert.Contains(t, s, newVer)
+	// On-disk YAML must still have two backslashes before "d" (four in a Go "..." literal).
+	assert.Contains(t, s, "[1-9]\\\\d*", "CEL pattern must keep \\\\d, not collapse to \\d")
 }
