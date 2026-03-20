@@ -348,7 +348,7 @@ applications:
       - quay.io/prometheus/prometheus:v3.5.0
       - quay.io/thanos/thanos:v0.41.0
       - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
-      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0
   - name: kubefed
     version: 0.11.3
     images:
