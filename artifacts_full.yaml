@@ -109,7 +109,7 @@ applications:
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v0.2.2
       - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
-      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
   - name: dex
     version: 2.14.4
     images:
