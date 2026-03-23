@@ -17,7 +17,7 @@ applications:
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.16
-      - oci://<registry-url>/kommander-applications/grafana-logging:10.2.0
+      - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.2
@@ -46,7 +46,7 @@ applications:
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.1
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
-      - oci://<registry-url>/kommander-applications/project-grafana-logging:10.2.0
+      - oci://<registry-url>/kommander-applications/project-grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/project-logging:1.1.0
@@ -468,7 +468,7 @@ applications:
       - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.119.2
       - ghcr.io/opencost/opencost:1.119.2
   - name: project-grafana-logging
-    version: 10.2.0
+    version: 11.3.3
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
