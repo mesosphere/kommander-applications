@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/gpu-operator"
   ref:
-    tag: v25.10.1
+    tag: v26.3.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
