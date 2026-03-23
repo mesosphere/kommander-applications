@@ -14,7 +14,7 @@ applications:
       - oci://<registry-url>/kommander-applications/external-dns:9.0.3
       - oci://<registry-url>/kommander-applications/external-secrets:2.1.0
       - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
-      - oci://<registry-url>/kommander-applications/gatekeeper:3.21.0
+      - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.16
       - oci://<registry-url>/kommander-applications/grafana-logging:10.2.0
@@ -139,13 +139,13 @@ applications:
       - oci://ghcr.io/mesosphere/charts/fluent-bit:0.55.0
       - ghcr.io/fluent/fluent-bit:4.2.3
   - name: gatekeeper
-    version: 3.21.0
+    version: 3.22.0
     images:
       - oci://ghcr.io/mesosphere/charts/gatekeeper-proxy-mutations:v0.0.1
-      - oci://ghcr.io/mesosphere/charts/gatekeeper:3.21.0
+      - oci://ghcr.io/mesosphere/charts/gatekeeper:3.22.0
       - docker.io/curlimages/curl:8.18.0
-      - docker.io/openpolicyagent/gatekeeper-crds:v3.21.0
-      - docker.io/openpolicyagent/gatekeeper:v3.21.0
+      - docker.io/openpolicyagent/gatekeeper-crds:v3.22.0
+      - docker.io/openpolicyagent/gatekeeper:v3.22.0
   - name: gateway-api-crds
     version: 1.11.1
     images:
