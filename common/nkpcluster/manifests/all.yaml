@@ -793,6 +793,7 @@ rules:
   - cluster.x-k8s.io
   resources:
   - machines
+  - machinedeployments
   verbs:
   - get
   - list
