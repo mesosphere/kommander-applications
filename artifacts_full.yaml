@@ -12,7 +12,7 @@ applications:
       - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:9.0.3
-      - oci://<registry-url>/kommander-applications/external-secrets:2.0.1
+      - oci://<registry-url>/kommander-applications/external-secrets:2.1.0
       - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
       - oci://<registry-url>/kommander-applications/gatekeeper:3.21.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
@@ -129,10 +129,10 @@ applications:
       - oci://ghcr.io/mesosphere/charts/external-dns:9.0.3
       - registry.k8s.io/external-dns/external-dns:v0.19.0
   - name: external-secrets
-    version: 2.0.1
+    version: 2.1.0
     images:
-      - oci://ghcr.io/external-secrets/charts/external-secrets:2.0.1
-      - ghcr.io/external-secrets/external-secrets:v2.0.1
+      - oci://ghcr.io/external-secrets/charts/external-secrets:2.1.0
+      - ghcr.io/external-secrets/external-secrets:v2.1.0
   - name: fluent-bit
     version: 0.55.0
     images:
