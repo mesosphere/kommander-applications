@@ -161,7 +161,7 @@ applications:
   - name: grafana-logging
     version: 10.2.0
     images:
-      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
+      - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: grafana-loki
@@ -470,7 +470,7 @@ applications:
   - name: project-grafana-logging
     version: 10.2.0
     images:
-      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
+      - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: project-grafana-loki
