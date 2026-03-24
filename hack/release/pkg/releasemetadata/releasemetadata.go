@@ -53,10 +53,16 @@ spec:
   wait: true
 `
 
-const releaseKustomizationTemplate = `apiVersion: kustomize.config.k8s.io/v1beta1
+const releaseKustomizationPreReleaseTemplate = `apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - flux-pre-release-kustomization.yaml
+- flux-kustomization.yaml
+`
+
+const releaseKustomizationDefaultTemplate = `apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
 - flux-kustomization.yaml
 `
 
@@ -70,6 +76,28 @@ metadata:
 spec:
   dependsOn:
     - name: release-operator-config
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  path: ./common/release/manifests
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: kommander-vars
+  prune: true
+  wait: true
+`
+
+const fluxKustomizationDefaultTemplate = `apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: release-operator
+  namespace: "${releaseNamespace:-kommander}"
+  annotations:
+    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev}"
+spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
@@ -115,11 +143,51 @@ func WriteReleaseOperatorConfig(repo, version string) error {
 		},
 		{
 			path:    filepath.Join(repo, releaseKustomizationFile),
-			content: releaseKustomizationTemplate,
+			content: releaseKustomizationPreReleaseTemplate,
 		},
 		{
 			path:    filepath.Join(repo, releaseFluxKustomizationFile),
 			content: fluxKustomizationWithDependsOnTemplate,
+		},
+	}
+
+	for _, f := range files {
+		if err := os.WriteFile(f.path, []byte(f.content), 0o644); err != nil {
+			return fmt.Errorf("write %s: %w", f.path, err)
+		}
+	}
+
+	return nil
+}
+
+// DeleteReleaseOperatorConfig removes all pre-release config files and restores
+// the release operator configuration to its default (production) state. This includes:
+// - Removing common/release/config/ directory
+// - Removing common/release/flux-pre-release-kustomization.yaml
+// - Restoring common/release/kustomization.yaml to default (without flux-pre-release-kustomization.yaml)
+// - Restoring common/release/flux-kustomization.yaml to default (without dependsOn)
+func DeleteReleaseOperatorConfig(repo string) error {
+	configDir := filepath.Join(repo, releaseConfigDir)
+	if err := os.RemoveAll(configDir); err != nil {
+		return fmt.Errorf("remove config directory %s: %w", configDir, err)
+	}
+
+	fluxPreReleasePath := filepath.Join(repo, fluxPreReleaseKustomizationFile)
+	if err := os.Remove(fluxPreReleasePath); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("remove %s: %w", fluxPreReleasePath, err)
+	}
+
+	files := []struct {
+		path    string
+		content string
+	}{
+		{
+			path:    filepath.Join(repo, releaseKustomizationFile),
+			content: releaseKustomizationDefaultTemplate,
+		},
+		{
+			path:    filepath.Join(repo, releaseFluxKustomizationFile),
+			content: fluxKustomizationDefaultTemplate,
 		},
 	}
 

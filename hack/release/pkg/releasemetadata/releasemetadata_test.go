@@ -119,6 +119,77 @@ func TestWriteReleaseOperatorConfig_AllFilesCreated(t *testing.T) {
 	}
 }
 
+func TestDeleteReleaseOperatorConfig(t *testing.T) {
+	tmpDir := t.TempDir()
+	setupBaseFiles(t, tmpDir)
+
+	err := WriteReleaseOperatorConfig(tmpDir, "v2.18.0-dev.12")
+	require.NoError(t, err)
+
+	_, err = os.Stat(filepath.Join(tmpDir, releaseConfigDir))
+	require.NoError(t, err, "config directory should exist after WriteReleaseOperatorConfig")
+
+	err = DeleteReleaseOperatorConfig(tmpDir)
+	require.NoError(t, err)
+
+	t.Run("removes config directory", func(t *testing.T) {
+		_, err := os.Stat(filepath.Join(tmpDir, releaseConfigDir))
+		assert.True(t, os.IsNotExist(err), "config directory should be removed")
+	})
+
+	t.Run("removes flux-pre-release-kustomization.yaml", func(t *testing.T) {
+		_, err := os.Stat(filepath.Join(tmpDir, fluxPreReleaseKustomizationFile))
+		assert.True(t, os.IsNotExist(err), "flux-pre-release-kustomization.yaml should be removed")
+	})
+
+	t.Run("restores release kustomization.yaml to default", func(t *testing.T) {
+		content, err := os.ReadFile(filepath.Join(tmpDir, releaseKustomizationFile))
+		require.NoError(t, err)
+
+		assert.NotContains(t, string(content), "flux-pre-release-kustomization.yaml")
+		assert.Contains(t, string(content), "- flux-kustomization.yaml")
+	})
+
+	t.Run("restores flux-kustomization.yaml to default without dependsOn", func(t *testing.T) {
+		content, err := os.ReadFile(filepath.Join(tmpDir, releaseFluxKustomizationFile))
+		require.NoError(t, err)
+
+		assert.NotContains(t, string(content), "dependsOn:")
+		assert.NotContains(t, string(content), "release-operator-config")
+		assert.Contains(t, string(content), "name: release-operator")
+	})
+}
+
+func TestDeleteReleaseOperatorConfig_Idempotent(t *testing.T) {
+	tmpDir := t.TempDir()
+	setupBaseFiles(t, tmpDir)
+
+	err := DeleteReleaseOperatorConfig(tmpDir)
+	require.NoError(t, err, "should not error when pre-release files don't exist")
+
+	err = DeleteReleaseOperatorConfig(tmpDir)
+	require.NoError(t, err, "should be idempotent")
+}
+
+func TestDeleteReleaseOperatorConfig_RestoresCorrectContent(t *testing.T) {
+	tmpDir := t.TempDir()
+	setupBaseFiles(t, tmpDir)
+
+	err := WriteReleaseOperatorConfig(tmpDir, "v2.18.0-dev.12")
+	require.NoError(t, err)
+
+	err = DeleteReleaseOperatorConfig(tmpDir)
+	require.NoError(t, err)
+
+	kustomizationContent, err := os.ReadFile(filepath.Join(tmpDir, releaseKustomizationFile))
+	require.NoError(t, err)
+	assert.Equal(t, releaseKustomizationDefaultTemplate, string(kustomizationContent))
+
+	fluxKustomizationContent, err := os.ReadFile(filepath.Join(tmpDir, releaseFluxKustomizationFile))
+	require.NoError(t, err)
+	assert.Equal(t, fluxKustomizationDefaultTemplate, string(fluxKustomizationContent))
+}
+
 func setupBaseFiles(t *testing.T, tmpDir string) {
 	t.Helper()
 
@@ -130,29 +201,9 @@ func setupBaseFiles(t *testing.T, tmpDir string) {
 	err = os.MkdirAll(manifestsDir, 0o755)
 	require.NoError(t, err)
 
-	kustomizationContent := `apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- flux-kustomization.yaml
-`
-	err = os.WriteFile(filepath.Join(releaseDir, "kustomization.yaml"), []byte(kustomizationContent), 0o644)
+	err = os.WriteFile(filepath.Join(releaseDir, "kustomization.yaml"), []byte(releaseKustomizationDefaultTemplate), 0o644)
 	require.NoError(t, err)
 
-	fluxKustomizationContent := `apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: release-operator
-  namespace: "${releaseNamespace:-kommander}"
-spec:
-  interval: 10m
-  sourceRef:
-    kind: GitRepository
-    name: management
-    namespace: kommander-flux
-  path: ./common/release/manifests
-  prune: true
-  wait: true
-`
-	err = os.WriteFile(filepath.Join(releaseDir, "flux-kustomization.yaml"), []byte(fluxKustomizationContent), 0o644)
+	err = os.WriteFile(filepath.Join(releaseDir, "flux-kustomization.yaml"), []byte(fluxKustomizationDefaultTemplate), 0o644)
 	require.NoError(t, err)
 }

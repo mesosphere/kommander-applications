@@ -11,6 +11,7 @@ import (
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/appversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/releasemetadata"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/upgradematrix"
 )
 
@@ -68,6 +69,11 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 			if err := extraimages.UpdateExtraImagesVersions(kommanderApplicationsRepo, chartVersion.Original()); err != nil {
 				return err
 			}
+
+			if err := releasemetadata.DeleteReleaseOperatorConfig(kommanderApplicationsRepo); err != nil {
+				return err
+			}
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Cleaned up pre-release config for release-operator\n")
 
 			return nil
 		},
