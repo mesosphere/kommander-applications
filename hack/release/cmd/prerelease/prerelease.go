@@ -10,6 +10,7 @@ import (
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/chartversion"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/extraimages"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/manifests"
+	"github.com/mesosphere/kommander-applications/hack/release/pkg/releasemetadata"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/updatecapimate"
 )
 
@@ -60,6 +61,12 @@ func init() { //nolint:gochecknoinits // Initializing cobra application.
 				return err
 			}
 			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Updated artifacts_full.yaml to %s\n", chartVersionString)
+
+			if err = releasemetadata.WriteReleaseOperatorConfig(kommanderApplicationsRepo, chartVersionString); err != nil {
+				return err
+			}
+			_, _ = fmt.Fprintf(cmd.OutOrStdout(), "Generated release-operator config with version %s\n", chartVersionString)
+
 			return nil
 		},
 	}
