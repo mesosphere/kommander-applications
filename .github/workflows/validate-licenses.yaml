@@ -18,7 +18,7 @@ jobs:
     name: Check licenses.d2iq.yaml
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
@@ -31,6 +31,8 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
+          enable-cache: 'false'
+          refresh-cli: 'true'
 
       - name: Generate image list
         run: |
