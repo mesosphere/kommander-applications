@@ -199,7 +199,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.5.0
+          tag: v3.10.0
         containers:
           - name: config-reloader
             envFrom:
@@ -435,7 +435,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/alertmanager
-          tag: v0.30.0
+          tag: v0.31.1
         logLevel: warn
         resources:
           limits:
@@ -560,7 +560,7 @@ data:
       priorityClassName: "dkp-critical-priority"
       image:
         repository: kube-state-metrics/kube-state-metrics
-        tag: v2.16.0
+        tag: v2.18.0
       metricLabelsAllowlist:
         - pods=[*]
         - namespaces=[*]

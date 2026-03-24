@@ -343,12 +343,12 @@ applications:
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
       - quay.io/prometheus-operator/prometheus-config-reloader:v0.89.0
       - quay.io/prometheus-operator/prometheus-operator:v0.89.0
-      - quay.io/prometheus/alertmanager:v0.30.0
+      - quay.io/prometheus/alertmanager:v0.31.1
       - quay.io/prometheus/node-exporter:v1.10.2
-      - quay.io/prometheus/prometheus:v3.5.0
+      - quay.io/prometheus/prometheus:v3.10.0
       - quay.io/thanos/thanos:v0.41.0
       - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
-      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0
   - name: kubefed
     version: 0.11.3
     images:
