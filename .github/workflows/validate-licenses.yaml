@@ -31,14 +31,6 @@ jobs:
         uses: jetify-com/devbox-install-action@v0.13.0
         with:
           skip-nix-installation: true
-          enable-cache: 'false'
-          refresh-cli: 'true'
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image list
         run: |
