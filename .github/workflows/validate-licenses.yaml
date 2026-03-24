@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   check-license-yaml:
-    runs-on: self-hosted-nutanix-docker-large
+    runs-on: ubuntu-latest
     name: Check licenses.d2iq.yaml
     steps:
       - name: Checkout code
