@@ -40,7 +40,6 @@ applications:
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
       - oci://<registry-url>/kommander-applications/nkp-insights-management:1.7.3
       - oci://<registry-url>/kommander-applications/nkp-insights:1.7.3
-      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.3.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.3.0
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:25.10.1
@@ -403,11 +402,6 @@ applications:
       - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.7.3
       - docker.io/mesosphere/insights-management:1.7.3
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-  - name: nkp-mcp-server
-    version: 0.1.0
-    images:
-      - oci://pullthrough.infra.nkp.sh/mesosphere/nkp-mcp-server:0.0.0-dev.0
-      - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
   - name: nkp-pulse-management
     version: 0.3.0
     images:
