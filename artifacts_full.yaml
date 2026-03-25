@@ -159,7 +159,7 @@ applications:
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: grafana-logging
-    version: 10.2.0
+    version: 11.3.3
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
