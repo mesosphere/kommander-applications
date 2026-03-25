@@ -28,7 +28,7 @@ data:
       version: v0.19.0
     dcgm:
       enabled: true
-      version: 4.4.2-1-ubuntu22.04
+      version: 4.5.2-1-ubuntu22.04
     dcgmExporter:
       enabled: true
       serviceMonitor:
@@ -38,7 +38,7 @@ data:
       version: 4.5.2-4.8.1-ubuntu22.04
     operator:
       repository: nvcr.io/nvidia
-      version: v25.10.1
+      version: v26.3.0
     migManager:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
