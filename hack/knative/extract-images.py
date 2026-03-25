@@ -460,6 +460,17 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
                 eventing_overrides.append(f"              {env_name}: {image}")
                 eventing_keys.add(env_name)
 
+    # Keep parity with serving by ensuring eventing storage migration image is always present.
+    eventing_storage_migration_key = "storage-version-migration-eventing-/migrate"
+    eventing_storage_migration_image = (
+        f"gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v{eventing_version}"
+    )
+    if eventing_storage_migration_key not in eventing_keys:
+        eventing_overrides.append(
+            f"              {eventing_storage_migration_key}: {eventing_storage_migration_image}"
+        )
+        eventing_keys.add(eventing_storage_migration_key)
+
     print("\n" + "="*70)
     print("REGISTRY OVERRIDE CONFIGURATION")
     print("="*70)
