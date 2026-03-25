@@ -694,6 +694,8 @@ resources:
   - container_image: nvcr.io/nvidia/cloud-native/dcgm:4.5.2-1-ubuntu22.04
     sources:
       - url: https://github.com/NVIDIA/DCGM
+        # NOTE: Using older reference version (v4.4.2) as v4.5.2 tag is not available in the repo.
+        # In future, update the ref to "v${image_tag%-1-ubuntu22.04}" if the corresponding tag becomes available.
         ref: v4.4.2
         license_path: LICENSE
   - container_image: docker.io/curlimages/curl:8.18.0
