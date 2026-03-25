@@ -11,7 +11,7 @@ applications:
       - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.2
       - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
       - oci://<registry-url>/kommander-applications/dex:2.14.4
-      - oci://<registry-url>/kommander-applications/external-dns:1.20.0
+      - oci://<registry-url>/kommander-applications/external-dns:9.0.3
       - oci://<registry-url>/kommander-applications/external-secrets:2.1.0
       - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
@@ -102,14 +102,14 @@ applications:
       - oci://ghcr.io/mesosphere/charts/cloudnative-pg:0.27.1
       - ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1
   - name: cosi-driver-nutanix
-    version: 0.6.2
+    version: 0.6.3
     images:
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
       - oci://ghcr.io/mesosphere/charts/cosi-driver-nutanix:0.6.0
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v0.2.2
       - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
-      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
   - name: dex
     version: 2.14.4
     images:
@@ -124,10 +124,10 @@ applications:
       - oci://ghcr.io/mesosphere/charts/dex-k8s-authenticator:1.4.3
       - docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
   - name: external-dns
-    version: 1.20.0
+    version: 9.0.3
     images:
-      - oci://ghcr.io/mesosphere/charts/external-dns:1.20.0
-      - registry.k8s.io/external-dns/external-dns:v0.20.0
+      - oci://ghcr.io/mesosphere/charts/external-dns:9.0.3
+      - registry.k8s.io/external-dns/external-dns:v0.19.0
   - name: external-secrets
     version: 2.1.0
     images:
@@ -228,7 +228,7 @@ applications:
     version: 2.57.3
     images:
       - oci://ghcr.io/mesosphere/charts/jaeger-operator:2.57.0
-      - docker.io/jaegertracing/all-in-one:1.76.0
+      - docker.io/jaegertracing/all-in-one:1.70.0
       - docker.io/jaegertracing/jaeger-operator:1.61.0
   - name: karma
     version: 2.0.9
