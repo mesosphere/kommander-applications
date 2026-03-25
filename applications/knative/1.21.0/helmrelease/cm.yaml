@@ -114,6 +114,7 @@ data:
               pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.21.0
               request-reply/request-reply: gcr.io/knative-releases/knative.dev/eventing/cmd/requestreply:v1.21.0
               eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.21.0
+              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.21.0
               APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.21.0
               AUTH_PROXY_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/auth_proxy:v1.21.0
               AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.21.0
