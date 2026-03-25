@@ -79,7 +79,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
         url: https://github.com/istio/istio
-  - container_image: docker.io/jaegertracing/all-in-one:1.76.0
+  - container_image: docker.io/jaegertracing/all-in-one:1.70.0
     sources:
       - license_path: LICENSE
         notice_path: NOTICE
@@ -730,7 +730,7 @@ resources:
       - url: https://github.com/nginx/nginx
         ref: release-${image_tag%-alpine}
         license_path: LICENSE
-  - container_image: registry.k8s.io/external-dns/external-dns:v0.20.0
+  - container_image: registry.k8s.io/external-dns/external-dns:v0.19.0
     sources:
       - url: https://github.com/kubernetes-sigs/external-dns
         ref: v0.19.0
@@ -755,7 +755,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main

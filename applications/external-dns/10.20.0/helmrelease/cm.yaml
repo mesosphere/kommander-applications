@@ -11,8 +11,9 @@ data:
       security:
         allowInsecureImages: true
     image:
-      repository: registry.k8s.io/external-dns/external-dns
-      tag: v0.20.0
+      registry: registry.k8s.io
+      repository: external-dns/external-dns
+      tag: v0.19.0
       pullPolicy: IfNotPresent
     service:
       labels:
