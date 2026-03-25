@@ -54,7 +54,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights-management
-      tag: 1.7.3
+      tag: 1.8.0-dev.13
     insightsCRIngress:
       disableV1: false
       globalRateLimitAverageQPS: 100
