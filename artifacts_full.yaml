@@ -3,7 +3,7 @@ applications:
     version: ""
     images:
       - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.4
-      - oci://<registry-url>/kommander-applications/centralized-grafana:78.4.0
+      - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.5
       - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.10
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
@@ -33,7 +33,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kommander-ui:17.208.0
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
-      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.10.5
+      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
       - oci://<registry-url>/kommander-applications/kubetunnel:0.0.41
@@ -73,9 +73,9 @@ applications:
       - docker.io/mesosphere/ai-navigator-app:0.7.0
       - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.4
   - name: centralized-grafana
-    version: 82.10.5
+    version: 82.13.5
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.10.5
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: centralized-opencost
@@ -333,9 +333,9 @@ applications:
       - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
       - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
   - name: kube-prometheus-stack
-    version: 82.10.5
+    version: 82.13.5
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.10.5
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.0
       - docker.io/library/busybox:1
