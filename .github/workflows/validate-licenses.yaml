@@ -46,6 +46,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Import GPG key
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'update-licenses')
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+
       - name: Set git config
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
@@ -57,15 +66,6 @@ jobs:
           git config --global url."https://oauth2:${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
-
-      - name: Import GPG key
-        if: |
-          contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          git_user_signingkey: true
 
       - name: Validate artifacts_full.yaml is up to date
         if: |
