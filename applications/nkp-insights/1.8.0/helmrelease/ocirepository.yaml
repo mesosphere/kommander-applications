@@ -6,5 +6,5 @@ metadata:
 spec:
   interval: 1m
   ref:
-    tag: ${appVersion}
-  url: oci://ghcr.io/mesosphere/charts/nkp-insights-management
+    tag: 1.8.0-dev.13
+  url: oci://ghcr.io/mesosphere/charts/nkp-insights
