@@ -199,13 +199,68 @@ spec:
               phase:
                 description: Phase is the current phase of the upgrade.
                 enum:
-                - Validating Inputs
-                - Upgrading Management Plane
-                - Upgrading Kommander
-                - Upgrading Platform Applications
-                - Upgrading Kubernetes and Cluster Infrastructure
+                - ValidatingInputs
+                - UpgradingManagementPlane
+                - UpgradingKommander
+                - UpgradingPlatformApplications
+                - UpgradingKubernetes
                 - Upgraded
                 type: string
+              steps:
+                description: |-
+                  Steps is the ordered list of upgrade steps and their execution state.
+                  The list is treated as atomic: the entire list is replaced on every write.
+                items:
+                  description: UpgradeStep represents a single named step in the upgrade
+                    process.
+                  properties:
+                    description:
+                      description: |-
+                        Description is a human-readable explanation of what this step does.
+                        Immutable after initialization.
+                      type: string
+                    endTime:
+                      description: EndTime is when the step finished executing.
+                      format: date-time
+                      type: string
+                    name:
+                      description: |-
+                        Name is the machine-readable identifier that uniquely identifies the step within the plan.
+                        Immutable after initialization.
+                      type: string
+                    problem:
+                      description: |-
+                        Error is an optional non-terminal message describing a transient error or warning
+                        encountered during the step. It does not affect the step state and can be cleared
+                        by setting it to an empty string.
+                      type: string
+                    startTime:
+                      description: StartTime is when the step began executing.
+                      format: date-time
+                      type: string
+                    state:
+                      allOf:
+                      - enum:
+                        - NotStarted
+                        - Progressing
+                        - Completed
+                      - enum:
+                        - NotStarted
+                        - Progressing
+                        - Completed
+                      description: State is the current execution state of the step.
+                      type: string
+                    title:
+                      description: |-
+                        Title is the human-readable label for the step.
+                        Immutable after initialization.
+                      type: string
+                  required:
+                  - name
+                  - state
+                  type: object
+                type: array
+                x-kubernetes-list-type: atomic
             type: object
         type: object
     served: true
