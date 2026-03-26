@@ -2,7 +2,7 @@
 # Converted from make/tools.mk
 
 # Default versions
-nkp_cli_version := "v0.0.0-dev.0"
+nkp_cli_version := "v2.17.1"
 
 # Get Go environment variables
 goos := `go env GOOS`
