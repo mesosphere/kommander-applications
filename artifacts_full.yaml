@@ -2,7 +2,7 @@ applications:
   - name: ""
     version: ""
     images:
-      - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.4
+      - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.5
       - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.5
       - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.10
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
@@ -66,12 +66,12 @@ applications:
       - docker.io/mesosphere/kommander2-core-installer:v2.18.0-dev
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: ai-navigator-app
-    version: 0.8.0-dev.4
+    version: 0.8.0-dev.5
     images:
-      - oci://ghcr.io/mesosphere/charts/ai-navigator-rag:0.8.0-dev.4
+      - oci://ghcr.io/mesosphere/charts/ai-navigator-rag:0.8.0-dev.5
       - docker.io/library/busybox:1
       - docker.io/mesosphere/ai-navigator-app:0.7.0
-      - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.4
+      - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.5
   - name: centralized-grafana
     version: 82.13.5
     images:
