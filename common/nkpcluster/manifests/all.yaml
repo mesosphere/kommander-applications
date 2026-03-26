@@ -770,6 +770,18 @@ metadata:
   name: nkp-cluster-controller-manager
 rules:
 - apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - clusters.nkp.nutanix.com
   resources:
   - nkpclusters
