@@ -8,7 +8,7 @@ applications:
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/cloudnative-pg:0.27.1
-      - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.2
+      - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.3
       - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:10.20.0
