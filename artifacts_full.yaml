@@ -117,7 +117,7 @@ applications:
       - docker.io/mesosphere/dex-controller:v0.16.1
       - docker.io/mesosphere/dex:v2.42.0-d2iq.0
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: dex-k8s-authenticator
     version: 1.4.7
     images:
@@ -157,7 +157,7 @@ applications:
       - docker.io/mesosphere/gitwebserver:v0.13.16
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
+      - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: grafana-logging
     version: 10.2.0
     images:
