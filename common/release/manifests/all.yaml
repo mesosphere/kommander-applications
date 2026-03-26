@@ -287,6 +287,31 @@ rules:
   - create
   - update
   - patch
+- apiGroups:
+  - kommander.mesosphere.io
+  resources:
+  - kommanderclusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -351,11 +376,21 @@ spec:
         control-plane: release-controller-manager
     spec:
       containers:
-      - args:
-        - --release-metadata-oci-url=oci://ghcr.io/kshitij-kumar-ngt/release/manifests
-        - --release-metadata-oci-tag=stable
-        command:
+      - command:
         - /release-operator
+        env:
+        - name: RELEASE_METADATA_OCI_URL
+          valueFrom:
+            configMapKeyRef:
+              key: releaseMetadataOCIURL
+              name: release-operator-vars
+              optional: true
+        - name: RELEASE_METADATA_OCI_TAG
+          valueFrom:
+            configMapKeyRef:
+              key: releaseMetadataOCITag
+              name: release-operator-vars
+              optional: true
         image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
         imagePullPolicy: IfNotPresent
         name: controller-manager
