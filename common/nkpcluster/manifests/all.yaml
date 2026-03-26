@@ -137,7 +137,7 @@ spec:
 
                       Example usage:
                         import (
-                          capiv1beta1 "sigs.k8s.io/cluster-api/api/v1beta1"
+                          capiv1beta1 "sigs.k8s.io/cluster-api/api/core/v1beta1"
                           "k8s.io/apimachinery/pkg/runtime"
                         )
 
@@ -822,6 +822,14 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resourceNames:
+  - clusters.cluster.x-k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
 - apiGroups:
   - controlplane.cluster.x-k8s.io
   resources:
