@@ -36,6 +36,11 @@ data:
             git-credentials-secret-name: ${kommanderGitCredentialsSecretName}
             age-encryption-secret-name: ${ageEncryptionSecretName}
             age-encryption-secret-key: ${ageEncryptionSecretKey}
+        proxy:
+          image:
+            repository: quay.io/brancz/kube-rbac-proxy
+            tag: v0.21.1
+            pullPolicy: IfNotPresent
     webhook:
       image:
         tag: ${kommanderControllerWebhookImageTag}
