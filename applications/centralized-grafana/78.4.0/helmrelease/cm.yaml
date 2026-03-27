@@ -18,7 +18,7 @@ data:
       image:
         registry: docker.io
         repository: grafana/grafana
-        tag: "12.4.1"  # Specify your desired version here
+        tag: "12.2.0"  # Specify your desired version here
       serviceMonitor:
         labels:
           prometheus.kommander.d2iq.io/select: "true"
@@ -27,7 +27,7 @@ data:
         image:
           registry: docker.io
           repository: kiwigrid/k8s-sidecar
-          tag: 2.5.0
+          tag: 1.30.7
         dashboards:
           enabled: true
           # label that the configmaps with dashboards are marked with
@@ -42,8 +42,8 @@ data:
           # label that the configmaps with datasources are marked with
           label: grafana_datasource_kommander
           searchNamespace: ALL
-          skipReload: false
-          initDatasources: false
+          skipReload: true
+          initDatasources: true
         resources:
           limits:
             memory: 512Mi
