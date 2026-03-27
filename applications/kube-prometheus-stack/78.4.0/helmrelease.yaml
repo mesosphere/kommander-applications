@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: prometheus-adapter-helmrelease
+  name: kube-prometheus-stack-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: false
@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/prometheus-adapter/5.3.0/helmrelease
+  path: ./applications/kube-prometheus-stack/78.4.0/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
@@ -22,3 +22,8 @@ spec:
       appVersion: ${appVersion}
       releaseName: ${releaseName}
       releaseNamespace: ${releaseNamespace}
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: kps-kube-prometheus-stack-operator
+      namespace: ${releaseNamespace}
