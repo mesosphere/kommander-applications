@@ -301,7 +301,6 @@ applications:
       - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.18.0-dev
       - docker.io/mesosphere/kommander2-licensing-webhook:v2.18.0-dev
       - ghcr.io/mesosphere/kommander-applications-server:v2.18.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.19.1
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-appmanagement
     version: 0.18.0
