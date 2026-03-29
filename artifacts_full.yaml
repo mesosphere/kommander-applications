@@ -18,6 +18,7 @@ applications:
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/git-operator:0.13.17
+      - oci://<registry-url>/kommander-applications/grafana-logging:10.2.0
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.2
