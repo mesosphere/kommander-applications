@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       scenario:
-        description: 'The scenario to run, e.g., install or upgrade'
+        description: 'The scenario to run, e.g., install, upgrade, or pdb-drain'
         required: true
         default: 'install'
         type: string
@@ -73,7 +73,7 @@ jobs:
     name: Generate upgrade versions
     runs-on:
       - self-hosted-nutanix-docker-medium
-    if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.scenario == 'install') }}
+    if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.scenario == 'install' || inputs.scenario == 'pdb-drain')) }}
     outputs:
       upgrade-versions: ${{ steps.get-matrix.outputs.result }}
       to_version: ${{ steps.prepare-upgrade-versions.outputs.to_version }}
@@ -207,4 +207,17 @@ jobs:
       apps: ${{ matrix.apps }}
       from_version_ref: ${{ matrix.from }}
       to_version_ref: ${{ needs.generate-upgrade-versions.outputs.to_version }}
+    secrets: inherit
+
+  trigger-tests-pdb-drain:
+    needs: setup-all-apps
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario == 'pdb-drain' }}
+    uses: ./.github/workflows/application-test-scenario-pdb-drain.yaml
+    strategy:
+      fail-fast: false
+      matrix:
+        apps: ${{ fromJson(needs.setup-all-apps.outputs.apps) }}
+    with:
+      version_ref: ${{ github.event.inputs.version_ref }}
+      apps: ${{ matrix.apps }}
     secrets: inherit

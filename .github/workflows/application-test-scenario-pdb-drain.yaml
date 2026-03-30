@@ -1,0 +1,71 @@
+name: Application Specific Test - PDB Drain
+on:
+  workflow_dispatch:
+    inputs:
+      apps:
+        description: 'The ginkgo label filter query of kommander applications to test, e.g. knative'
+        required: true
+        type: string
+      version_ref:
+        description: 'The NKP version(git branch or tag) to run PDB drain test. Using latest version by default e.g., v2.8.0-dev'
+        default: 'main'
+        type: string
+  workflow_call:
+    inputs:
+      apps:
+        description: 'The ginkgo label filter query of kommander applications to test, e.g. knative'
+        required: true
+        type: string
+      version_ref:
+        description: 'The NKP version(git branch or tag) to run PDB drain test. Using latest version by default e.g., v2.8.0-dev'
+        required: true
+        type: string
+
+# https://stackoverflow.com/a/72408109/3058839
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-test-scenario:
+    runs-on:
+      - self-hosted-nutanix-docker-medium
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+      with:
+        ref: ${{ inputs.version_ref }}
+
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version: '1.25.0'
+
+    - name: Install Ginkgo
+      working-directory: apptests/appscenarios
+      run: go install github.com/onsi/ginkgo/v2/ginkgo
+
+    - name: Run PDB Drain Test
+      working-directory: apptests/appscenarios
+      env:
+        SKIP_CLUSTER_TEARDOWN: "true"
+      run: |
+        ginkgo --v --label-filter="pdb-drain && (${{ inputs.apps }})"
+
+    - name: Gather support bundle
+      if: failure()
+      working-directory: apptests/appscenarios
+      run: |
+        curl -L https://github.com/replicatedhq/troubleshoot/releases/latest/download/support-bundle_linux_amd64.tar.gz | tar xzvf -
+        ./support-bundle --interactive=false --output=support-bundle.tar.gz support-bundle.yaml
+
+    - name: Upload support bundle
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: support-bundle-${{ inputs.apps }}-pdb-drain
+        path: apptests/appscenarios/support-bundle.tar.gz
+
+
+
