@@ -970,3 +970,8 @@ resources:
       - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
         ref: ${image_tag}
         license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
+    sources:
+      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
+        ref: ${image_tag}
+        license_path: LICENSE
