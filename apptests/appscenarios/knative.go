@@ -122,6 +122,7 @@ func (k knative) InstallIstioHelmDependency(ctx context.Context, env *environmen
 		"releaseName":      "istio-helm",
 		"appVersion":       "app-version-istio-helm",
 		"releaseNamespace": kommanderNamespace,
+		"caIssuerName":     "kommander-ca",
 	})
 	if err != nil {
 		return fmt.Errorf("failed to apply istio-helm: %w", err)
