@@ -453,7 +453,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 			// Fail early if replicas is 0 - this is the bug we're trying to catch
 			Expect(webhookDeployment.Spec.Replicas).NotTo(BeNil())
-			Expect(*webhookDeployment.Spec.Replicas).To(BeNumerically(">", 0), 
+			Expect(*webhookDeployment.Spec.Replicas).To(BeNumerically(">", 0),
 				"Deployment replicas should not be 0, as PDB with 0 replicas provides no protection")
 		})
 
@@ -596,7 +596,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 					runningPods++
 				}
 			}
-			Expect(runningPods).To(BeNumerically(">=", 2), 
+			Expect(runningPods).To(BeNumerically(">=", 2),
 				"Should maintain at least 2 running pods after drain completes")
 		})
 	})

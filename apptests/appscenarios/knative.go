@@ -129,6 +129,3 @@ func (k knative) InstallIstioHelmDependency(ctx context.Context, env *environmen
 
 	return nil
 }
-
-
-
