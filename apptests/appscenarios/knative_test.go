@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -12,9 +13,12 @@ import (
 	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	policyv1 "k8s.io/api/policy/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/kubernetes"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -187,6 +191,15 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				return nil
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
+
+		It("should not have any container images using digest references", func() {
+			assertNoDigestImages(ctx, "knative-serving")
+			assertNoDigestImages(ctx, "knative-eventing")
+		})
+
+		It("should use a tagged image for queue-proxy sidecar when deploying a Knative Service", func() {
+			assertKnativeServiceQueueProxy(ctx)
+		})
 	})
 
 	Describe("Knative Upgrade Test", Ordered, Label("upgrade"), func() {
@@ -314,6 +327,11 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 					HaveField("Status", Equal(metav1.ConditionTrue)))),
 				),
 			))
+		})
+
+		It("should not have any container images using digest references after upgrade", func() {
+			assertNoDigestImages(ctx, "knative-serving")
+			assertNoDigestImages(ctx, "knative-eventing")
 		})
 	})
 
@@ -584,5 +602,176 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 	})
 })
 
+// assertNoDigestImages verifies that no running pods, deployment specs, job
+// specs, or image-bearing environment variables in the given namespace use
+// digest-based image references (@sha256:...). The Knative operator ships with
+// digest references by default; our cm.yaml registry overrides replace them
+// with tagged versions. A digest reference at runtime means an override was
+// missed and the image will not be available in airgapped environments.
+func assertNoDigestImages(ctx context.Context, namespace string) {
+	GinkgoHelper()
 
+	var digestViolations []string
 
+	// Check all running pods
+	podList := &corev1.PodList{}
+	err := k8sClient.List(ctx, podList, &ctrlClient.ListOptions{
+		Namespace: namespace,
+	})
+	Expect(err).To(BeNil())
+
+	for _, pod := range podList.Items {
+		for _, cs := range pod.Status.ContainerStatuses {
+			if strings.Contains(cs.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("pod/%s container=%s image=%s", pod.Name, cs.Name, cs.Image))
+			}
+		}
+		for _, cs := range pod.Status.InitContainerStatuses {
+			if strings.Contains(cs.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("pod/%s init-container=%s image=%s", pod.Name, cs.Name, cs.Image))
+			}
+		}
+	}
+
+	// Check deployment pod template specs and env vars
+	deploymentList := &appsv1.DeploymentList{}
+	err = k8sClient.List(ctx, deploymentList, &ctrlClient.ListOptions{
+		Namespace: namespace,
+	})
+	Expect(err).To(BeNil())
+
+	for _, deploy := range deploymentList.Items {
+		for _, c := range deploy.Spec.Template.Spec.Containers {
+			if strings.Contains(c.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("deployment/%s container=%s image=%s", deploy.Name, c.Name, c.Image))
+			}
+			// Env vars like QUEUE_SIDECAR_IMAGE, APISERVER_RA_IMAGE, DISPATCHER_IMAGE
+			// carry image refs used to spawn pods at runtime. A digest here means
+			// the override was missed and any workload triggering that image will
+			// fail in airgapped.
+			for _, ev := range c.Env {
+				if strings.HasSuffix(ev.Name, "_IMAGE") && strings.Contains(ev.Value, "@sha256:") {
+					digestViolations = append(digestViolations,
+						fmt.Sprintf("deployment/%s container=%s env=%s value=%s",
+							deploy.Name, c.Name, ev.Name, ev.Value))
+				}
+			}
+		}
+		for _, c := range deploy.Spec.Template.Spec.InitContainers {
+			if strings.Contains(c.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("deployment/%s init-container=%s image=%s", deploy.Name, c.Name, c.Image))
+			}
+		}
+	}
+
+	// Check job pod template specs (storage-version-migration, cleanup jobs)
+	jobList := &batchv1.JobList{}
+	err = k8sClient.List(ctx, jobList, &ctrlClient.ListOptions{
+		Namespace: namespace,
+	})
+	Expect(err).To(BeNil())
+
+	for _, job := range jobList.Items {
+		for _, c := range job.Spec.Template.Spec.Containers {
+			if strings.Contains(c.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("job/%s container=%s image=%s", job.Name, c.Name, c.Image))
+			}
+		}
+		for _, c := range job.Spec.Template.Spec.InitContainers {
+			if strings.Contains(c.Image, "@sha256:") {
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("job/%s init-container=%s image=%s", job.Name, c.Name, c.Image))
+			}
+		}
+	}
+
+	if len(digestViolations) > 0 {
+		GinkgoWriter.Printf("Found %d image(s) using digest references in namespace %s:\n", len(digestViolations), namespace)
+		for _, v := range digestViolations {
+			GinkgoWriter.Printf("  - %s\n", v)
+		}
+	}
+
+	Expect(digestViolations).To(BeEmpty(),
+		fmt.Sprintf("Found %d container image(s) or env var(s) in namespace %s using digest (@sha256:) references instead of tags. "+
+			"These images are missing registry overrides in cm.yaml and will fail in airgapped installs. "+
+			"Run hack/knative/extract-images.py to regenerate overrides.",
+			len(digestViolations), namespace))
+}
+
+// assertKnativeServiceQueueProxy deploys a minimal Knative Service and verifies
+// that the queue-proxy sidecar injected by the controller uses a tagged image,
+// not a digest reference. This is the only way to exercise the QUEUE_SIDECAR_IMAGE
+// override end-to-end, since the sidecar is never created during a bare install.
+func assertKnativeServiceQueueProxy(ctx context.Context) {
+	GinkgoHelper()
+
+	ksvc := &unstructured.Unstructured{}
+	ksvc.SetGroupVersionKind(schema.GroupVersionKind{
+		Group:   "serving.knative.dev",
+		Version: "v1",
+		Kind:    "Service",
+	})
+	ksvc.SetName("image-override-test")
+	ksvc.SetNamespace("knative-serving")
+	err := unstructured.SetNestedMap(ksvc.Object, map[string]interface{}{
+		"template": map[string]interface{}{
+			"spec": map[string]interface{}{
+				"containers": []interface{}{
+					map[string]interface{}{
+						"image": "gcr.io/knative-samples/helloworld-go",
+						"env": []interface{}{
+							map[string]interface{}{
+								"name":  "TARGET",
+								"value": "image-override-test",
+							},
+						},
+					},
+				},
+			},
+		},
+	}, "spec")
+	Expect(err).To(BeNil())
+
+	err = k8sClient.Create(ctx, ksvc)
+	Expect(err).To(BeNil())
+
+	// Wait for the ksvc to create pods with the queue-proxy sidecar
+	var queueProxyImage string
+	Eventually(func() error {
+		podList := &corev1.PodList{}
+		err := k8sClient.List(ctx, podList, &ctrlClient.ListOptions{
+			Namespace: "knative-serving",
+		})
+		if err != nil {
+			return err
+		}
+
+		for _, pod := range podList.Items {
+			if !strings.HasPrefix(pod.Name, "image-override-test-") {
+				continue
+			}
+			for _, c := range pod.Spec.Containers {
+				if c.Name == "queue-proxy" {
+					queueProxyImage = c.Image
+					return nil
+				}
+			}
+		}
+		return fmt.Errorf("no queue-proxy sidecar found on image-override-test pods yet")
+	}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(Succeed())
+
+	GinkgoWriter.Printf("queue-proxy sidecar image: %s\n", queueProxyImage)
+	Expect(queueProxyImage).NotTo(ContainSubstring("@sha256:"),
+		fmt.Sprintf("queue-proxy sidecar is using a digest reference (%s) instead of a tagged image. "+
+			"The QUEUE_SIDECAR_IMAGE override in cm.yaml is missing or incorrect.", queueProxyImage))
+
+	// Clean up
+	err = k8sClient.Delete(ctx, ksvc)
+	Expect(err).To(BeNil())
+}
