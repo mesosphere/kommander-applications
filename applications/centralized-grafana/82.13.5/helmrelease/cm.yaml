@@ -42,8 +42,8 @@ data:
           # label that the configmaps with datasources are marked with
           label: grafana_datasource_kommander
           searchNamespace: ALL
-          skipReload: true
-          initDatasources: true
+          skipReload: false
+          initDatasources: false
         resources:
           limits:
             memory: 512Mi
