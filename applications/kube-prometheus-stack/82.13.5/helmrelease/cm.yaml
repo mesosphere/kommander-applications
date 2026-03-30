@@ -454,10 +454,7 @@ data:
       deploymentStrategy:
         type: Recreate
       initChownData:
-        image:
-          registry: docker.io
-          repository: library/busybox
-          tag: "1"
+        enabled: false
       image:
         registry: docker.io
         repository: grafana/grafana
