@@ -111,9 +111,10 @@ jobs:
                 dkp_ver_majorminor=$(echo ${{ github.base_ref }} | cut -d '-' -f 2)
                 to_version_gh_dkp="v$dkp_ver_majorminor"
               else
-                # TODO: handle stacked PRs
-                echo "triggering app test in stacked PRs are not supported yet"
-                exit 1
+                # Non-standard base branches (for example backport/topic branches)
+                # do not have a stable upgrade matrix target; skip upgrade scenarios.
+                echo "unsupported base branch for upgrade matrix: ${{ github.base_ref }}; skipping upgrade scenarios"
+                to_version_gh_dkp=''
               fi
             fi
             to_version=${{ github.head_ref }}
@@ -133,7 +134,11 @@ jobs:
             fi
           fi
 
-          from_versions=$(echo $upgrade_matrix | jq -c --arg to "$to_version_gh_dkp" 'map(select(.to | startswith($to))) | map(. | .from)')
+          if [[ -z "$to_version_gh_dkp" ]]; then
+            from_versions='[]'
+          else
+            from_versions=$(echo $upgrade_matrix | jq -c --arg to "$to_version_gh_dkp" 'map(select(.to | startswith($to))) | map(. | .from)')
+          fi
 
           echo "from_versions=${from_versions}"
           echo "to_version=${to_version}"
