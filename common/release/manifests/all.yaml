@@ -376,7 +376,9 @@ spec:
         control-plane: release-controller-manager
     spec:
       containers:
-      - command:
+      - args:
+        - --release-metadata-namespace="${releaseNamespace:-kommander}"
+        command:
         - /release-operator
         env:
         - name: RELEASE_METADATA_OCI_URL
