@@ -1,0 +1,10 @@
+schema: catalog.nkp.nutanix.com/v1/catalog-release-spec
+releases:
+  - tagName: ${git_tag}
+    fileName: ${filename}
+    excludeApplicationDefinitions: true
+    collectionAnnotations:
+      com.nutanix.nkp.catalog.artifact-type: platform-catalog-collection
+      org.opencontainers.image.source: https://github.com/mesosphere/kommander-applications
+    constraints:
+      nkpVersion: ${git_tag}
