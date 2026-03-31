@@ -168,14 +168,14 @@ applications:
     version: 0.80.6
     images:
       - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.6
-      - docker.io/grafana/loki:3.7.1
+      - docker.io/grafana/loki:2.9.13
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: grafana-loki-v3
     version: 3.7.1
     images:
       - oci://ghcr.io/mesosphere/charts/loki:6.55.0
-      - docker.io/grafana/loki:3.7.1
+      - docker.io/grafana/loki:3.6.7
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: harbor
@@ -479,14 +479,14 @@ applications:
     images:
       - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.6
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
-      - docker.io/grafana/loki:3.7.1
+      - docker.io/grafana/loki:2.9.13
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: project-grafana-loki-v3
     version: 3.7.1
     images:
       - oci://ghcr.io/mesosphere/charts/loki:6.55.0
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
-      - docker.io/grafana/loki:3.7.1
+      - docker.io/grafana/loki:3.6.7
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: prometheus-adapter
