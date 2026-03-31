@@ -17,8 +17,13 @@ applications:
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.16
+<<<<<<< HEAD
       - oci://<registry-url>/kommander-applications/grafana-logging:10.2.0
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.5.5
+=======
+      - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
+      - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.7.1
+>>>>>>> f1253fc9 (feat: Bump grafana/loki to 3.7.1)
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.2
       - oci://<registry-url>/kommander-applications/istio-helm:1.24.0
@@ -46,8 +51,13 @@ applications:
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
+<<<<<<< HEAD
       - oci://<registry-url>/kommander-applications/project-grafana-logging:10.2.0
       - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.5.5
+=======
+      - oci://<registry-url>/kommander-applications/project-grafana-logging:11.3.3
+      - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.7.1
+>>>>>>> f1253fc9 (feat: Bump grafana/loki to 3.7.1)
       - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/project-logging:1.1.0
       - oci://<registry-url>/kommander-applications/prometheus-adapter:5.2.0
@@ -168,14 +178,14 @@ applications:
     version: 0.80.6
     images:
       - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.6
-      - docker.io/grafana/loki:2.9.13
+      - docker.io/grafana/loki:3.7.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: grafana-loki-v3
-    version: 3.5.5
+    version: 3.7.1
     images:
       - oci://ghcr.io/mesosphere/charts/loki:6.43.0
-      - docker.io/grafana/loki:3.5.5
+      - docker.io/grafana/loki:3.7.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: harbor
@@ -479,14 +489,14 @@ applications:
     images:
       - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.6
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
-      - docker.io/grafana/loki:2.9.13
+      - docker.io/grafana/loki:3.7.1
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: project-grafana-loki-v3
-    version: 3.5.5
+    version: 3.7.1
     images:
       - oci://ghcr.io/mesosphere/charts/loki:6.43.0
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
-      - docker.io/grafana/loki:3.5.5
+      - docker.io/grafana/loki:3.7.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: prometheus-adapter
