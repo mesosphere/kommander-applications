@@ -24,5 +24,5 @@ apptests/.work/
 tmp-kind-hack-scripts/
 
 # ignore intermittent release artifacts
-.releases/release-spec.yaml
+releases/release-spec.yaml
 *.tar
