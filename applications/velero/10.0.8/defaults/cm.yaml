@@ -7,6 +7,8 @@ data:
   values.yaml: |
     ---
     priorityClassName: "dkp-critical-priority"
+    # This job upgrades the CRDs.
+    upgradeCRDs: false
     resources:
       # these are from the chart defaults
       # except memory limit, which the default 512Mi can be short when it's during a restoration run
