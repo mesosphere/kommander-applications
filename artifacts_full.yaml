@@ -174,7 +174,7 @@ applications:
   - name: grafana-loki-v3
     version: 3.7.1
     images:
-      - oci://ghcr.io/mesosphere/charts/loki:6.43.0
+      - oci://ghcr.io/mesosphere/charts/loki:6.4
       - docker.io/grafana/loki:3.7.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
@@ -484,7 +484,7 @@ applications:
   - name: project-grafana-loki-v3
     version: 3.7.1
     images:
-      - oci://ghcr.io/mesosphere/charts/loki:6.43.0
+      - oci://ghcr.io/mesosphere/charts/loki:6.55.0
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
       - docker.io/grafana/loki:3.7.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
