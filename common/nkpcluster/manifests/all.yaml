@@ -275,6 +275,12 @@ spec:
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
+              paused:
+                description: |-
+                  Paused prevents the controller from reconciling the NKPCluster.
+                  This is useful during clusterctl move operations to prevent the controller
+                  from creating a new CAPI Cluster before the moved one arrives.
+                type: boolean
               version:
                 description: Version is the NKP platform version.
                 type: string
