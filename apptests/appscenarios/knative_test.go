@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -50,9 +50,8 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative Install Test", Ordered, Label("install"), func() {
 		var (
-			istioHr       *fluxhelmv2beta2.HelmRelease
-			operatorHr    *fluxhelmv2beta2.HelmRelease
-			deploymentHr  *fluxhelmv2beta2.HelmRelease
+			operatorHr    *fluxhelmv2.HelmRelease
+			deploymentHr  *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -60,30 +59,27 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.InstallIstioHelmDependency(ctx, env)
 			Expect(err).To(BeNil())
 
-			istioHr = &fluxhelmv2beta2.HelmRelease{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-				},
+			// Wait for the istiod HelmRelease (the main control plane component)
+			istioIstiodHr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      "istio-helm",
+					Name:      "istio-helm-istiod",
 					Namespace: kommanderNamespace,
 				},
 			}
 
 			Eventually(func() error {
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioHr), istioHr)
+				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioIstiodHr), istioIstiodHr)
 				if err != nil {
 					return err
 				}
 
-				for _, cond := range istioHr.Status.Conditions {
+				for _, cond := range istioIstiodHr.Status.Conditions {
 					if cond.Status == metav1.ConditionTrue &&
 						cond.Type == apimeta.ReadyCondition {
 						return nil
 					}
 				}
-				return fmt.Errorf("istio-helm helm release not ready yet")
+				return fmt.Errorf("istio-helm-istiod helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
@@ -91,10 +87,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			operatorHr = &fluxhelmv2beta2.HelmRelease{
+			operatorHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-operator",
@@ -117,10 +113,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				return fmt.Errorf("knative-operator helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 
-			deploymentHr = &fluxhelmv2beta2.HelmRelease{
+			deploymentHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-deploy",
@@ -148,7 +144,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			// Check knative-serving deployments
 			servingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app.kubernetes.io/part-of": "knative-serving",
+					"app.kubernetes.io/name": "knative-serving",
 				},
 			})
 			Expect(err).To(BeNil())
@@ -171,7 +167,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			// Check knative-eventing deployments
 			eventingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
 				MatchLabels: map[string]string{
-					"app.kubernetes.io/part-of": "knative-eventing",
+					"app.kubernetes.io/name": "knative-eventing",
 				},
 			})
 			Expect(err).To(BeNil())
@@ -204,38 +200,34 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
-			operatorHr   *fluxhelmv2beta2.HelmRelease
-			deploymentHr *fluxhelmv2beta2.HelmRelease
+			operatorHr   *fluxhelmv2.HelmRelease
+			deploymentHr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install istio-helm as a prerequisite", func() {
 			err := k.InstallIstioHelmDependency(ctx, env)
 			Expect(err).To(BeNil())
 
-			istioHr := &fluxhelmv2beta2.HelmRelease{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-				},
+			istioIstiodHr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      "istio-helm",
+					Name:      "istio-helm-istiod",
 					Namespace: kommanderNamespace,
 				},
 			}
 
 			Eventually(func() error {
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioHr), istioHr)
+				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioIstiodHr), istioIstiodHr)
 				if err != nil {
 					return err
 				}
 
-				for _, cond := range istioHr.Status.Conditions {
+				for _, cond := range istioIstiodHr.Status.Conditions {
 					if cond.Status == metav1.ConditionTrue &&
 						cond.Type == apimeta.ReadyCondition {
 						return nil
 					}
 				}
-				return fmt.Errorf("istio-helm helm release not ready yet")
+				return fmt.Errorf("istio-helm-istiod helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
@@ -243,10 +235,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			operatorHr = &fluxhelmv2beta2.HelmRelease{
+			operatorHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-operator",
@@ -269,10 +261,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				return fmt.Errorf("knative-operator helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 
-			deploymentHr = &fluxhelmv2beta2.HelmRelease{
+			deploymentHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-deploy",
@@ -306,7 +298,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.Upgrade(ctx, env)
 			Expect(err).To(BeNil())
 
-			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
+			Eventually(func() (*fluxhelmv2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(operatorHr), operatorHr)
 				return operatorHr, err
 			}, "5m", pollInterval).Should(And(
@@ -317,7 +309,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				),
 			))
 
-			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
+			Eventually(func() (*fluxhelmv2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(deploymentHr), deploymentHr)
 				return deploymentHr, err
 			}, "5m", pollInterval).Should(And(
@@ -347,30 +339,26 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.InstallIstioHelmDependency(ctx, env)
 			Expect(err).To(BeNil())
 
-			istioHr := &fluxhelmv2beta2.HelmRelease{
-				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
-				},
+			istioIstiodHr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
-					Name:      "istio-helm",
+					Name:      "istio-helm-istiod",
 					Namespace: kommanderNamespace,
 				},
 			}
 
 			Eventually(func() error {
-				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioHr), istioHr)
+				err = k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(istioIstiodHr), istioIstiodHr)
 				if err != nil {
 					return err
 				}
 
-				for _, cond := range istioHr.Status.Conditions {
+				for _, cond := range istioIstiodHr.Status.Conditions {
 					if cond.Status == metav1.ConditionTrue &&
 						cond.Type == apimeta.ReadyCondition {
 						return nil
 					}
 				}
-				return fmt.Errorf("istio-helm helm release not ready yet")
+				return fmt.Errorf("istio-helm-istiod helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
@@ -378,7 +366,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			err := k.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			operatorHr := &fluxhelmv2beta2.HelmRelease{
+			operatorHr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-operator",
 					Namespace: kommanderNamespace,
@@ -400,7 +388,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				return fmt.Errorf("knative-operator helm release not ready yet")
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 
-			deploymentHr := &fluxhelmv2beta2.HelmRelease{
+			deploymentHr := &fluxhelmv2.HelmRelease{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "knative-deploy",
 					Namespace: kommanderNamespace,
@@ -434,7 +422,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			Expect(pdb.Spec.MaxUnavailable.IntVal).To(Equal(int32(1)))
 		})
 
-		It("should verify eventing-webhook has 3 replicas running", func() {
+		It("should verify eventing-webhook has 3 replicas running with pod anti-affinity", func() {
 			webhookDeployment := &appsv1.Deployment{}
 			Eventually(func() error {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
@@ -451,10 +439,31 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				return nil
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
-			// Fail early if replicas is 0 - this is the bug we're trying to catch
 			Expect(webhookDeployment.Spec.Replicas).NotTo(BeNil())
 			Expect(*webhookDeployment.Spec.Replicas).To(BeNumerically(">", 0),
 				"Deployment replicas should not be 0, as PDB with 0 replicas provides no protection")
+
+			affinity := webhookDeployment.Spec.Template.Spec.Affinity
+			Expect(affinity).NotTo(BeNil(), "eventing-webhook deployment should have affinity configured")
+			Expect(affinity.PodAntiAffinity).NotTo(BeNil(), "eventing-webhook should have podAntiAffinity to spread replicas across nodes")
+
+			preferred := affinity.PodAntiAffinity.PreferredDuringSchedulingIgnoredDuringExecution
+			Expect(preferred).NotTo(BeEmpty(), "eventing-webhook should have preferred pod anti-affinity rules")
+
+			foundHostnameRule := false
+			for _, term := range preferred {
+				sel := term.PodAffinityTerm.LabelSelector
+				if sel == nil {
+					continue
+				}
+				if sel.MatchLabels["app"] == "eventing-webhook" &&
+					term.PodAffinityTerm.TopologyKey == "kubernetes.io/hostname" {
+					foundHostnameRule = true
+					break
+				}
+			}
+			Expect(foundHostnameRule).To(BeTrue(),
+				"eventing-webhook should have a preferred anti-affinity rule spreading pods across nodes (topologyKey: kubernetes.io/hostname)")
 		})
 
 		It("should get the worker node name", func() {
@@ -738,8 +747,11 @@ func assertKnativeServiceQueueProxy(ctx context.Context) {
 	}, "spec")
 	Expect(err).To(BeNil())
 
-	err = k8sClient.Create(ctx, ksvc)
-	Expect(err).To(BeNil())
+	// The serving webhook may not be accepting connections yet; retry until
+	// the admission webhook is reachable and the create succeeds.
+	Eventually(func() error {
+		return k8sClient.Create(ctx, ksvc)
+	}).WithPolling(pollInterval).WithTimeout(2 * time.Minute).Should(Succeed())
 
 	// Wait for the ksvc to create pods with the queue-proxy sidecar
 	var queueProxyImage string

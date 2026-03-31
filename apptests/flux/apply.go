@@ -10,6 +10,7 @@ import (
 	"time"
 
 	appsv1 "k8s.io/api/apps/v1"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -147,6 +148,7 @@ func NewScheme() *apiruntime.Scheme {
 	_ = corev1.AddToScheme(scheme)
 	_ = rbacv1.AddToScheme(scheme)
 	_ = appsv1.AddToScheme(scheme)
+	_ = batchv1.AddToScheme(scheme)
 	_ = networkingv1.AddToScheme(scheme)
 	_ = sourcev1b2.AddToScheme(scheme)
 	_ = sourcev1.AddToScheme(scheme)
