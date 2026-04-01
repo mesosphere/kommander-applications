@@ -28,7 +28,7 @@ python3 hack/knative/extract-images.py --eventing-version <version> --serving-ve
 
 - `--eventing-version` (required): KNative eventing version (e.g., 1.18.1)
 - `--serving-version` (required): KNative serving version (e.g., 1.18.1)
-- `--ingress-version` (required): KNative serving version (e.g., 1.18)
+- `--ingress-version` (required): KNative ingress version (e.g., 1.18)
 - `--k-apps-version` (optional): Output directory version (defaults to serving version)
 
 ### Version Management
@@ -49,8 +49,21 @@ python3 hack/knative/extract-images.py --eventing-version <version> --serving-ve
 2. Extracts Docker image references using regex patterns
 3. Converts digest references to tagged versions using Google Container Registry API
 4. Maps images to deployment/container names for registry overrides
-5. Updates applications/knative/{version}/defaults/cm.yaml with registry overrides
-6. Saves all images to applications/knative/{version}/extra-images.txt
+5. Detects images in ConfigMap data sections and generates `spec.config` entries
+6. Updates applications/knative/{version}/helmrelease/cm.yaml with registry overrides and config overrides
+7. Saves all images to applications/knative/{version}/extra-images.txt
+
+### Override mechanisms
+
+The operator uses three distinct override mechanisms in the CR spec:
+
+| Mechanism | Scope | Example |
+|-----------|-------|---------|
+| `registry.override` (container keys) | Container images in Deployments/Jobs | `activator/activator: gcr.io/.../activator:v1.21.0` |
+| `registry.override` (ALL_CAPS keys) | Direct env var values on containers | `APISERVER_RA_IMAGE: gcr.io/.../apiserver_receive_adapter:v1.21.0` |
+| `config.<configmap-name>` | ConfigMap data values | `eventing-integrations-images.aws-s3-source: gcr.io/.../aws-s3-source:v1.21.0` |
+
+The script automatically places each image in the correct section. ConfigMap-stored images (integration sources/sinks, transformations) go into `spec.config`; all others go into `registry.override`.
 
 ### Key features
 
@@ -59,11 +72,13 @@ python3 hack/knative/extract-images.py --eventing-version <version> --serving-ve
 - Prevents duplicate entries
 - Preserves existing configuration sections
 - Special handling for queue-proxy container naming
+- Automatically sets `queue-sidecar-image` in `config.deployment` (the `QUEUE_SIDECAR_IMAGE` registry override only sets an env var on deployments; the controller reads the actual sidecar image from the `config-deployment` ConfigMap's `queue-sidecar-image` field, so both are required)
+- Detects images stored in ConfigMap data (e.g. `eventing-integrations-images`, `eventing-transformations-images`) and generates `spec.config` entries instead of `registry.override` entries, since the operator does not apply registry overrides to ConfigMap data
 
 ### Output files
 
 - `applications/knative/{version}/extra-images.txt` - List of all extracted images
-- `applications/knative/{version}/defaults/cm.yaml` - Updated with registry overrides
+- `applications/knative/{version}/helmrelease/cm.yaml` - Updated with registry overrides and config.deployment overrides
 
 ## update-licenses.py
 
@@ -89,11 +104,16 @@ python3 hack/knative/update-licenses.py <version>
 
 ### Repository mapping
 
+- knative.dev/net-istio/* -> https://github.com/knative/net-istio
+- knative.dev/net-contour/* -> https://github.com/knative/net-contour
+- knative.dev/net-kourier/* -> https://github.com/knative/net-kourier
 - knative.dev/eventing/* -> https://github.com/knative/eventing
 - knative.dev/serving/* -> https://github.com/knative/serving
 - knative.dev/pkg/* -> https://github.com/knative/pkg
 - knative.dev/operator/* -> https://github.com/knative/operator
 - aws-*, timer-source, log-sink, transform-jsonata -> https://github.com/knative/eventing
+
+Images with a different version tag than the global version (e.g., net-istio v1.21.1 when serving is v1.21.0) automatically use their own tag for the git ref.
 
 ## Complete workflow
 
@@ -102,19 +122,28 @@ python3 hack/knative/update-licenses.py <version>
 mv applications/knative/1.18.1 applications/knative/1.19.6
 
 # 2. Extract images and generate registry overrides (use latest available versions)
-python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --k-apps-version 1.19.6
+python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --ingress-version 1.19 --k-apps-version 1.19.6
 
 # 3. Update license file
 python3 hack/knative/update-licenses.py 1.19.6
+
+# 4. Verify the cm.yaml has:
+#    - Registry overrides for all container images and direct env vars
+#    - QUEUE_SIDECAR_IMAGE in registry overrides
+#    - queue-sidecar-image in config.deployment section
+#    - spec.config entries for eventing ConfigMap images
+#      (eventing-integrations-images, eventing-transformations-images)
+#    The operator's registry.override only affects container images and env vars.
+#    Images stored in ConfigMaps require spec.config entries instead.
 ```
 
 ### Example: Version mismatch handling
 ```bash
 # This will fail with clear error message:
-python3 hack/knative/extract-images.py --eventing-version 1.19.6 --serving-version 1.19.6
+python3 hack/knative/extract-images.py --eventing-version 1.19.6 --serving-version 1.19.6 --ingress-version 1.19
 
 # This will work with warning about version mismatch:
-python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --k-apps-version 1.19.6
+python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --ingress-version 1.19 --k-apps-version 1.19.6
 ```
 
 ## Troubleshooting
