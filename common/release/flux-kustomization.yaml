@@ -30,7 +30,7 @@ spec:
               containers:
                 - name: controller-manager
                   args:
-                    - --release-metadata-namespace="kommander"
+                    - "--release-metadata-namespace=${releaseNamespace:-kommander}"
       target:
         kind: Deployment
         name: release-controller-manager
