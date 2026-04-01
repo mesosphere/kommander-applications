@@ -750,7 +750,7 @@ resources:
       - url: https://github.com/kubernetes/kubernetes
         ref: master
         license_path: LICENSE
-  - container_image: quay.io/ceph/cosi:v0.1.2
+  - container_image: quay.io/ceph/cosi:v0.1.4
     sources:
       - url: https://github.com/ceph/ceph-cosi
         ref: ${image_tag}
@@ -765,7 +765,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v20250123-a0e4046
+  - container_image: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v0.2.2
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
