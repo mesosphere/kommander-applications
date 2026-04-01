@@ -210,6 +210,29 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 		})
 
+		It("should create the knative-ingress-gateway in knative-serving (NCN-105488)", func() {
+			gw := &unstructured.Unstructured{}
+			gw.SetGroupVersionKind(schema.GroupVersionKind{
+				Group:   "networking.istio.io",
+				Version: "v1beta1",
+				Kind:    "Gateway",
+			})
+
+			Eventually(func() error {
+				return k8sClient.Get(ctx, ctrlClient.ObjectKey{
+					Name:      "knative-ingress-gateway",
+					Namespace: "knative-serving",
+				}, gw)
+			}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(Succeed(),
+				"knative-ingress-gateway Gateway must exist in knative-serving after install (regression: NCN-105488)")
+
+			// Verify the gateway has the expected server ports configured
+			servers, found, err := unstructured.NestedSlice(gw.Object, "spec", "servers")
+			Expect(err).To(BeNil())
+			Expect(found).To(BeTrue(), "gateway spec.servers should be present")
+			Expect(servers).NotTo(BeEmpty(), "gateway should have at least one server entry")
+		})
+
 		It("should use a tagged image for queue-proxy sidecar when deploying a Knative Service", func() {
 			assertKnativeServiceQueueProxy(ctx)
 		})
