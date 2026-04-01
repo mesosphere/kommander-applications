@@ -379,6 +379,11 @@ spec:
       - command:
         - /release-operator
         env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
         - name: RELEASE_METADATA_OCI_URL
           valueFrom:
             configMapKeyRef:
