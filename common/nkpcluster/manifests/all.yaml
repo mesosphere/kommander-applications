@@ -729,12 +729,12 @@ spec:
                   version.
                 type: string
               phase:
-                description: Phase is the current phase of upgrade/reconciliation.
+                description: Phase is the current phase of reconciliation.
                 enum:
-                - Upgrading Kommander
-                - Upgrading Platform Applications
-                - Upgrading Kubernetes and Cluster Infrastructure
-                - Upgraded
+                - Reconciling Kommander
+                - Reconciling Platform Applications
+                - Reconciling Kubernetes and Cluster Infrastructure
+                - Reconciled
                 type: string
               platformVersion:
                 description: PlatformVersion is the currently observed version of
