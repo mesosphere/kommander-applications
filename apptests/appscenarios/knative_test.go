@@ -140,6 +140,28 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			}).WithPolling(pollInterval).WithTimeout(10 * time.Minute).Should(Succeed())
 		})
 
+		It("should not have any container images using digest references", func() {
+			// Wait for jobs to appear in both namespaces before scanning.
+			// The operator creates storage-version-migration and cleanup jobs
+			// shortly after the CRs are applied. Eventing jobs can be cleaned
+			// up quickly, so we poll early to catch them before they disappear.
+			for _, ns := range []string{"knative-serving", "knative-eventing"} {
+				Eventually(func() int {
+					jobList := &batchv1.JobList{}
+					if err := k8sClient.List(ctx, jobList, &ctrlClient.ListOptions{Namespace: ns}); err != nil {
+						return 0
+					}
+					return len(jobList.Items)
+				}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(
+					BeNumerically(">", 0),
+					fmt.Sprintf("expected at least 1 job in namespace %s", ns),
+				)
+			}
+
+			assertNoDigestImages(ctx, "knative-serving")
+			assertNoDigestImages(ctx, "knative-eventing")
+		})
+
 		It("should have deployments running in knative namespaces", func() {
 			// Check knative-serving deployments
 			servingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
@@ -186,11 +208,6 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				}
 				return nil
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
-		})
-
-		It("should not have any container images using digest references", func() {
-			assertNoDigestImages(ctx, "knative-serving")
-			assertNoDigestImages(ctx, "knative-eventing")
 		})
 
 		It("should use a tagged image for queue-proxy sidecar when deploying a Knative Service", func() {
@@ -684,17 +701,41 @@ func assertNoDigestImages(ctx context.Context, namespace string) {
 	})
 	Expect(err).To(BeNil())
 
+	GinkgoWriter.Printf("[digest-check] found %d job(s) in namespace %s\n", len(jobList.Items), namespace)
 	for _, job := range jobList.Items {
 		for _, c := range job.Spec.Template.Spec.Containers {
+			GinkgoWriter.Printf("[digest-check]   job/%s container=%s image=%s\n", job.Name, c.Name, c.Image)
 			if strings.Contains(c.Image, "@sha256:") {
 				digestViolations = append(digestViolations,
 					fmt.Sprintf("job/%s container=%s image=%s", job.Name, c.Name, c.Image))
 			}
 		}
 		for _, c := range job.Spec.Template.Spec.InitContainers {
+			GinkgoWriter.Printf("[digest-check]   job/%s init-container=%s image=%s\n", job.Name, c.Name, c.Image)
 			if strings.Contains(c.Image, "@sha256:") {
 				digestViolations = append(digestViolations,
 					fmt.Sprintf("job/%s init-container=%s image=%s", job.Name, c.Name, c.Image))
+			}
+		}
+	}
+
+	// Check ConfigMap data values for digest references. The Knative operator
+	// stores integration/source/sink images in ConfigMaps (e.g.
+	// eventing-integrations-images, eventing-transformations-images) and env
+	// vars reference them via valueFrom.configMapKeyRef. The operator's
+	// registry overrides should replace these digests with tagged versions.
+	cmList := &corev1.ConfigMapList{}
+	err = k8sClient.List(ctx, cmList, &ctrlClient.ListOptions{
+		Namespace: namespace,
+	})
+	Expect(err).To(BeNil())
+
+	for _, cm := range cmList.Items {
+		for key, val := range cm.Data {
+			if strings.Contains(val, "@sha256:") {
+				GinkgoWriter.Printf("[digest-check]   configmap/%s key=%s value=%s\n", cm.Name, key, val)
+				digestViolations = append(digestViolations,
+					fmt.Sprintf("configmap/%s key=%s value=%s", cm.Name, key, val))
 			}
 		}
 	}
