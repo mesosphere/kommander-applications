@@ -537,6 +537,7 @@ spec:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 65532
+      priorityClassName: dkp-critical-priority
       securityContext:
         runAsUser: 65532
       serviceAccountName: upgrade-plan-controller-manager
@@ -598,6 +599,7 @@ spec:
         - mountPath: /certs
           name: cert
           readOnly: true
+      priorityClassName: dkp-critical-priority
       securityContext:
         runAsUser: 65532
       serviceAccountName: upgradeplan-webhook

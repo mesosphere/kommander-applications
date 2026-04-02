@@ -414,6 +414,7 @@ spec:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 65532
+      priorityClassName: dkp-critical-priority
       securityContext:
         runAsUser: 65532
       serviceAccountName: loggingstack-controller-manager
