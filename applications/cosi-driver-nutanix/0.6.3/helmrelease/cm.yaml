@@ -18,7 +18,7 @@ data:
         registry: registry.k8s.io
         # keep this in sync with the sidecar that is deployed in CephCOSIDriver to avoid duplicate images in airgapped bundle.
         repository: sig-storage/objectstorage-sidecar
-        tag: v0.2.1
+        tag: v0.2.2
         pullPolicy: IfNotPresent
     image:
       registry: ghcr.io

@@ -8,7 +8,7 @@ applications:
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/cloudnative-pg:0.27.1
-      - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.2
+      - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.3
       - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:10.20.0
@@ -102,14 +102,14 @@ applications:
       - oci://ghcr.io/mesosphere/charts/cloudnative-pg:0.27.1
       - ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1
   - name: cosi-driver-nutanix
-    version: 0.6.2
+    version: 0.6.3
     images:
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
       - oci://ghcr.io/mesosphere/charts/cosi-driver-nutanix:0.6.0
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v0.2.2
       - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
-      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
+      - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
   - name: dex
     version: 2.14.4
     images:
