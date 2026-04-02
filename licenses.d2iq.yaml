@@ -120,7 +120,7 @@ resources:
       - license_path: LICENSE
         ref: 3.9.1
         url: https://github.com/Kong/kong
-  - container_image: docker.io/library/traefik:v3.6.12
+  - container_image: docker.io/library/traefik:v3.6.10
     sources:
       - license_path: LICENSE.md
         ref: ${image_tag}
@@ -226,7 +226,19 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
+<<<<<<< HEAD
   - container_image: docker.io/mesosphere/kommander:17.230.1
+=======
+<<<<<<< HEAD
+  - container_image: docker.io/mesosphere/kommander:17.229.0
+=======
+<<<<<<< HEAD
+  - container_image: docker.io/mesosphere/kommander:17.228.0
+=======
+  - container_image: docker.io/mesosphere/kommander:17.223.0
+>>>>>>> f9ddf1ed (feat: bump grafan/loki to 3.6.7 from 3.5.5)
+>>>>>>> d8f58f7b (feat: bump grafan/loki to 3.6.7 from 3.5.5)
+>>>>>>> aa6b2b49 (feat: bump grafan/loki to 3.6.7 from 3.5.5)
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -755,7 +767,7 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
+  - container_image: registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.1
     sources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
