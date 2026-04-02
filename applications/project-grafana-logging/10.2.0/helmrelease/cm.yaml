@@ -72,7 +72,9 @@ data:
       type: ClusterIP
       port: 3000
       labels:
-        servicemonitor.kommander.mesosphere.io/path: "dkp__logging__grafana__metrics"
+        servicemonitor.kommander.mesosphere.io/path: "dkp__project__logging__grafana__metrics"
+      annotations:
+        prometheus.io/path: "/dkp/workspace/${workspaceNamespace}/project/${releaseNamespace}/logging/grafana/metrics"
 
     resources:
       limits:
