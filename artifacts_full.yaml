@@ -2,8 +2,8 @@ applications:
   - name: ""
     version: ""
     images:
-      - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.5
-      - oci://<registry-url>/kommander-applications/centralized-grafana:78.4.0
+      - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.6
+      - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.5
       - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.10
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
@@ -17,7 +17,7 @@ applications:
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.16
-      - oci://<registry-url>/kommander-applications/grafana-logging:10.2.0
+      - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.2
@@ -30,10 +30,10 @@ applications:
       - oci://<registry-url>/kommander-applications/knative:1.21.0
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.7.2
-      - oci://<registry-url>/kommander-applications/kommander-ui:17.226.2
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.228.0
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
-      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:78.4.0
+      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
       - oci://<registry-url>/kommander-applications/kubetunnel:0.0.41
@@ -46,11 +46,11 @@ applications:
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
-      - oci://<registry-url>/kommander-applications/project-grafana-logging:10.2.0
+      - oci://<registry-url>/kommander-applications/project-grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/project-logging:1.1.0
-      - oci://<registry-url>/kommander-applications/prometheus-adapter:5.2.0
+      - oci://<registry-url>/kommander-applications/prometheus-adapter:5.3.0
       - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.4
       - oci://<registry-url>/kommander-applications/reloader:2.2.8
       - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.1
@@ -66,18 +66,18 @@ applications:
       - docker.io/mesosphere/kommander2-core-installer:v2.18.0-dev
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: ai-navigator-app
-    version: 0.8.0-dev.5
+    version: 0.8.0-dev.6
     images:
-      - oci://ghcr.io/mesosphere/charts/ai-navigator-rag:0.8.0-dev.5
+      - oci://ghcr.io/mesosphere/charts/ai-navigator-rag:0.8.0-dev.6
       - docker.io/library/busybox:1
       - docker.io/mesosphere/ai-navigator-app:0.7.0
-      - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.5
+      - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.6
   - name: centralized-grafana
-    version: 78.4.0
+    version: 82.13.5
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:78.4.0
-      - docker.io/grafana/grafana:12.2.0
-      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
+      - docker.io/grafana/grafana:12.4.1
+      - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: centralized-opencost
     version: 2.5.10
     images:
@@ -159,11 +159,11 @@ applications:
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: grafana-logging
-    version: 10.2.0
+    version: 11.3.3
     images:
-      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
-      - docker.io/grafana/grafana:12.2.0
-      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+      - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
+      - docker.io/grafana/grafana:12.4.1
+      - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: grafana-loki
     version: 0.80.6
     images:
@@ -323,32 +323,32 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.7.3
       - ghcr.io/fluxcd/source-controller:v1.7.2
   - name: kommander-ui
-    version: 17.226.2
+    version: 17.228.0
     images:
-      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.226.2
-      - docker.io/mesosphere/kommander:17.226.2
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.228.0
+      - docker.io/mesosphere/kommander:17.228.0
   - name: kube-oidc-proxy
     version: 0.3.7
     images:
       - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
       - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
   - name: kube-prometheus-stack
-    version: 78.4.0
+    version: 82.13.5
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:78.4.0
-      - docker.io/grafana/grafana:12.2.0
-      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
+      - docker.io/grafana/grafana:12.4.1
+      - docker.io/kiwigrid/k8s-sidecar:2.5.0
       - docker.io/library/busybox:1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
-      - quay.io/prometheus-operator/prometheus-config-reloader:v0.83.0
-      - quay.io/prometheus-operator/prometheus-operator:v0.86.1
-      - quay.io/prometheus/alertmanager:v0.30.0
-      - quay.io/prometheus/node-exporter:v1.9.1
-      - quay.io/prometheus/prometheus:v3.5.0
+      - quay.io/prometheus-operator/prometheus-config-reloader:v0.89.0
+      - quay.io/prometheus-operator/prometheus-operator:v0.89.0
+      - quay.io/prometheus/alertmanager:v0.31.1
+      - quay.io/prometheus/node-exporter:v1.10.2
+      - quay.io/prometheus/prometheus:v3.10.0
       - quay.io/thanos/thanos:v0.41.0
       - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
-      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.16.0
+      - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0
   - name: kubefed
     version: 0.11.3
     images:
@@ -469,11 +469,11 @@ applications:
       - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.119.2
       - ghcr.io/opencost/opencost:1.119.2
   - name: project-grafana-logging
-    version: 10.2.0
+    version: 11.3.3
     images:
-      - oci://ghcr.io/grafana/helm-charts/grafana:10.1.2
-      - docker.io/grafana/grafana:12.2.0
-      - docker.io/kiwigrid/k8s-sidecar:1.30.7
+      - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
+      - docker.io/grafana/grafana:12.4.1
+      - docker.io/kiwigrid/k8s-sidecar:2.5.0
   - name: project-grafana-loki
     version: 0.80.6
     images:
@@ -490,9 +490,9 @@ applications:
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
   - name: prometheus-adapter
-    version: 5.2.0
+    version: 5.3.0
     images:
-      - oci://ghcr.io/mesosphere/charts/prometheus-adapter:5.2.0
+      - oci://ghcr.io/mesosphere/charts/prometheus-adapter:5.3.0
       - registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0
   - name: prometheus-thanos-traefik
     version: 0.0.4

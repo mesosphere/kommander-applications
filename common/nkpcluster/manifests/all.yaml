@@ -908,6 +908,13 @@ metadata:
   name: nkp-cluster-webhook
 rules:
 - apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+- apiGroups:
   - clusters.nkp.nutanix.com
   resources:
   - nkpclusters
