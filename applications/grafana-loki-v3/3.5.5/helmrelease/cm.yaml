@@ -225,6 +225,7 @@ data:
       nginxConfig:
         # Set max body size for log payloads (default 4M is too small)
         clientMaxBodySize: 10M
+        enableIPv6: false
       verboseLogging: false
       service:
         labels:
