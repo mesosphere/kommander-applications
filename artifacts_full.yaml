@@ -156,7 +156,7 @@ applications:
       - docker.io/mesosphere/git-operator:v0.13.18
       - docker.io/mesosphere/gitwebserver:v0.13.18
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
+      - docker.io/nginxinc/nginx-unprivileged:1.29.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
   - name: grafana-logging
     version: 11.3.3
