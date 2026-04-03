@@ -169,11 +169,11 @@ resources:
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/git-operator:v0.13.17
+  - container_image: docker.io/mesosphere/git-operator:v0.13.18
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
-  - container_image: docker.io/mesosphere/gitwebserver:v0.13.17
+  - container_image: docker.io/mesosphere/gitwebserver:v0.13.18
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/git-operator
@@ -476,7 +476,7 @@ resources:
       - license_path: LICENSE
         ref: knative-v1.21.0
         url: https://github.com/knative/eventing
-  - container_image: quay.io/brancz/kube-rbac-proxy:v0.19.1
+  - container_image: quay.io/brancz/kube-rbac-proxy:v0.21.1
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
