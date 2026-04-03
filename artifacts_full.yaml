@@ -368,7 +368,7 @@ applications:
     version: 0.0.41
     images:
       - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.0.39
-      - docker.io/alpine/curl:8.9.1
+      - docker.io/alpine/curl:8.17.0
       - docker.io/jpillora/chisel:1.10.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/mesosphere/kubetunnel-controller:v0.0.39
