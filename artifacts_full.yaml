@@ -16,7 +16,7 @@ applications:
       - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
-      - oci://<registry-url>/kommander-applications/git-operator:0.13.17
+      - oci://<registry-url>/kommander-applications/git-operator:0.13.18
       - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.5.5
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
@@ -151,10 +151,10 @@ applications:
     images:
       - oci://ghcr.io/traefik/helm/traefik-crds:1.11.1
   - name: git-operator
-    version: 0.13.17
+    version: 0.13.18
     images:
-      - docker.io/mesosphere/git-operator:v0.13.17
-      - docker.io/mesosphere/gitwebserver:v0.13.17
+      - docker.io/mesosphere/git-operator:v0.13.18
+      - docker.io/mesosphere/gitwebserver:v0.13.18
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.19.1
