@@ -915,6 +915,13 @@ metadata:
   name: nkp-cluster-webhook
 rules:
 - apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+- apiGroups:
   - clusters.nkp.nutanix.com
   resources:
   - nkpclusters
@@ -1089,7 +1096,7 @@ spec:
         - --logtostderr=true
         - --ignore-paths=/metrics
         - --v=10
-        image: quay.io/brancz/kube-rbac-proxy:v0.21.1
+        image: quay.io/brancz/kube-rbac-proxy:v0.19.1
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
