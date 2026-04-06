@@ -9,20 +9,20 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/loki"
   ref:
-    tag: 6.43.0
+    tag: 6.55.0
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: project-grafana-loki-v3
+  name: grafana-loki-v3
   namespace: ${releaseNamespace}
 spec:
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
-  timeout: 15m
   interval: 15s
+  timeout: 15m
   install:
     crds: CreateReplace
     remediation:
@@ -31,8 +31,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 30
-  releaseName: project-grafana-loki-v3
-  serviceAccountName: ${releaseNamespace}
+  releaseName: grafana-loki-v3
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

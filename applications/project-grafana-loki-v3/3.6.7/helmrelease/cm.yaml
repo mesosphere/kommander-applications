@@ -29,8 +29,8 @@ data:
     # this is used in object-bucket-claims overrides
     kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.2-alpine}
 
-    # Loki v3.5.5 configuration in microservice (distributed) mode
-    # Chart version: 6.43.0
+    # Loki v3.6.7 configuration in microservice (distributed) mode
+    # Chart version: 6.55.0
 
     # Deploy in distributed/microservice mode
     deploymentMode: Distributed

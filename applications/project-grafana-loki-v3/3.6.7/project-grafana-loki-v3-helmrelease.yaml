@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grafana-loki-v3-pre-install
+  name: project-grafana-loki-v3-helmrelease
   namespace: ${releaseNamespace}
 spec:
   force: true
@@ -9,7 +9,7 @@ spec:
   wait: true
   interval: 6h
   retryInterval: 1m
-  path: ./applications/grafana-loki-v3/3.5.5/grafana-loki-v3-pre-install-jobs
+  path: ./applications/project-grafana-loki-v3/3.6.7/helmrelease
   sourceRef:
     kind: GitRepository
     name: management
@@ -19,3 +19,8 @@ spec:
     substitute:
       appVersion: ${appVersion}
       releaseNamespace: ${releaseNamespace}
+      workspaceNamespace: ${workspaceNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: kommander-config-overrides
+        optional: true
