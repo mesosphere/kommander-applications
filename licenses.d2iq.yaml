@@ -8,7 +8,7 @@ ignore:
   - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
 
 resources:
-  - container_image: ghcr.io/fluent/fluent-bit:4.2.3
+  - container_image: ghcr.io/fluent/fluent-bit:5.0.2
     sources:
       - license_path: LICENSE
         ref: v${image_tag}

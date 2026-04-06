@@ -13,7 +13,7 @@ applications:
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:10.20.0
       - oci://<registry-url>/kommander-applications/external-secrets:2.1.0
-      - oci://<registry-url>/kommander-applications/fluent-bit:0.55.0
+      - oci://<registry-url>/kommander-applications/fluent-bit:0.57.2
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.17
@@ -134,10 +134,10 @@ applications:
       - oci://ghcr.io/external-secrets/charts/external-secrets:2.1.0
       - ghcr.io/external-secrets/external-secrets:v2.1.0
   - name: fluent-bit
-    version: 0.55.0
+    version: 0.57.2
     images:
-      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.55.0
-      - ghcr.io/fluent/fluent-bit:4.2.3
+      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.57.2
+      - ghcr.io/fluent/fluent-bit:5.0.2
   - name: gatekeeper
     version: 3.22.0
     images:
@@ -380,7 +380,7 @@ applications:
     images:
       - oci://ghcr.io/kube-logging/helm-charts/logging-operator:6.4.0
       - oci://ghcr.io/mesosphere/charts/logging-operator-logging:4.2.2
-      - ghcr.io/fluent/fluent-bit:4.2.3
+      - ghcr.io/fluent/fluent-bit:5.0.2
       - ghcr.io/kube-logging/logging-operator/config-reloader:6.4.0
       - ghcr.io/kube-logging/logging-operator/fluentd:6.4.0-full
       - ghcr.io/kube-logging/logging-operator/node-exporter:6.4.0
