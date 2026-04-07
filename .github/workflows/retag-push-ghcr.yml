@@ -17,6 +17,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # GITHUB_TOKEN cannot push to another org’s GHCR namespace. Use a PAT from a
+      # user/bot with write:packages (and SSO authorized if the org uses it) on nutanix-cloud-native.
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -38,7 +40,7 @@ jobs:
             echo "Processing $IMAGE"
 
             docker pull bitnamilegacy/$IMAGE
-            docker tag bitnamilegacy/$IMAGE ghcr.io/nutanix-cloud-native/$IMAGE
-            docker push ghcr.io/nutanix-cloud-native/$IMAGE
-            echo "Pushed $IMAGE to ghcr.io/nutanix-cloud-native"
+            docker tag bitnamilegacy/$IMAGE ghcr.io/mesosphere/$IMAGE
+            docker push ghcr.io/mesosphere/$IMAGE
+            echo "Pushed $IMAGE to ghcr.io/mesosphere"
           done
