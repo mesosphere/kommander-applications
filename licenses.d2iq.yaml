@@ -760,11 +760,6 @@ resources:
       - url: https://github.com/kubernetes-sigs/container-object-storage-interface
         ref: main
         license_path: LICENSE
-  - container_image: ghcr.io/nutanix-cloud-native/dkp-container-images/objectstorage-sidecar:v0.2.2
-    sources:
-      - url: https://github.com/kubernetes-sigs/container-object-storage-interface
-        ref: main
-        license_path: LICENSE
   - container_image: ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1
     sources:
       - url: https://github.com/cloudnative-pg/cloudnative-pg
