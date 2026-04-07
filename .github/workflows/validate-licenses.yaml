@@ -45,11 +45,11 @@ jobs:
         continue-on-error: true
         if: |
           contains(github.event.pull_request.labels.*.name, 'update-licenses')
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.15
         with:
           args: >-
             validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml
-            --check-sources --check-sources-skip-gh-org mesosphere --update-licenses
+            --check-sources --check-sources-skip-gh-org aquasecurity --check-sources-skip-gh-org mesosphere --update-licenses
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Import GPG key
@@ -77,10 +77,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
       - name: Run validation
-        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.13
+        uses: docker://mesosphere/dkp-licenses-cli:licenses-v0.0.15
         with:
           args: >-
             validate container-images-mapping --input=images.txt --mapping-file=licenses.d2iq.yaml
-            --check-sources --check-sources-skip-gh-org mesosphere --output-format=github
+            --check-sources --check-sources-skip-gh-org aquasecurity --check-sources-skip-gh-org mesosphere --output-format=github
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
