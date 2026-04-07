@@ -3,3 +3,10 @@ kind: Kustomization
 resources:
 - all.yaml
 namespace: ${releaseNamespace:-kommander}
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: "dkp-critical-priority"
