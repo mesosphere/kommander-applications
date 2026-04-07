@@ -77,7 +77,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: centralized-opencost
     version: 2.5.10
     images:
@@ -163,7 +163,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: grafana-loki
     version: 0.80.6
     images:
@@ -337,7 +337,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
       - docker.io/library/busybox:1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
@@ -473,7 +473,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: project-grafana-loki
     version: 0.80.6
     images:
