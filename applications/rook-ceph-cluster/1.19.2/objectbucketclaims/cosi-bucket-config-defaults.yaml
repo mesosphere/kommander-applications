@@ -33,7 +33,7 @@ data:
             namespace: ${releaseNamespace}
             spec:
               deploymentStrategy: Auto
-              objectProvisionerImage: ghcr.io/mesosphere/dkp-container-images/objectstorage-sidecar:v0.2.2
+              objectProvisionerImage: ghcr.io/nutanix-cloud-native/dkp-container-images/objectstorage-sidecar:v0.2.2
           adminuser:
             enabled: true
             name: cosi-admin
