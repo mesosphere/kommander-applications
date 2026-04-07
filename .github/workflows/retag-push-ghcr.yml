@@ -7,7 +7,7 @@ on:
       - sandy/retag-valkey # branch updated for testing
 
 jobs:
-  push-charts:
+  retag-and-push:
     runs-on: 
       - self-hosted-nutanix-docker-small
     permissions:
