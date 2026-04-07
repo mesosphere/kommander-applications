@@ -10,14 +10,14 @@ data:
       security:
         allowInsecureImages: true
     image:
-      registry: docker.io
-      repository: bitnamilegacy/valkey
+      registry: ghcr.io
+      repository: nutanix-cloud-native/valkey
       tag: 8.1.3-debian-12-r3
     sentinel:
       enabled: true
       image:
-        registry: docker.io
-        repository: bitnamilegacy/valkey-sentinel
+        registry: ghcr.io
+        repository: nutanix-cloud-native/valkey-sentinel
         tag: 8.1.3-debian-12-r3
       primarySet: harbor
     auth:
@@ -43,8 +43,8 @@ data:
     metrics:
       enabled: true
       image:
-        registry: docker.io
-        repository: bitnamilegacy/redis-exporter
+        registry: ghcr.io
+        repository: nutanix-cloud-native/redis-exporter
         tag: 1.76.0-debian-12-r0
       service:
         enabled: true
