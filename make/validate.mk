@@ -24,3 +24,8 @@ generate-artifacts-yaml: $(NKP_CLI_BIN)
 .PHONY: validate-artifacts-yaml-in-sync
 validate-artifacts-yaml-in-sync: generate-artifacts-yaml
 	git diff --exit-code HEAD -- $(REPO_ROOT)/$(FULL_BUNDLE_FILE) || (printf "Error: $(FULL_BUNDLE_FILE) is out of date. Run 'make generate-artifacts-yaml' and commit.\n\n" && exit 1);
+
+# Requires crane and yq on PATH; log in to registries that need auth (Docker Hub, ghcr, nvcr, …).
+.PHONY: validate-upstream-container-images
+validate-upstream-container-images:
+	$(REPO_ROOT)/hack/validate-upstream-container-images.sh

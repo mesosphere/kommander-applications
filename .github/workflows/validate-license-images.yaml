@@ -1,0 +1,73 @@
+name: Validate upstream container images
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "applications/**"
+      - "common/**"
+      - "licenses.d2iq.yaml"
+      - "artifacts_full.yaml"
+      - "hack/validate-upstream-container-images.sh"
+      - ".github/workflows/validate-license-images.yaml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  upstream-image-check:
+    name: Catalog + license images exist upstream
+    runs-on: self-hosted-nutanix-docker-large
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Install yq
+        run: |
+          set -euo pipefail
+          arch="$(uname -m)"
+          case "$arch" in
+            x86_64) yq_arch=amd64 ;;
+            aarch64 | arm64) yq_arch=arm64 ;;
+            *)
+              echo "Unsupported arch: $arch" >&2
+              exit 1
+              ;;
+          esac
+          sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.44.6/yq_linux_${yq_arch}"
+          sudo chmod +x /usr/local/bin/yq
+          yq --version
+
+      - uses: imjasonh/setup-crane@v0.4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to ghcr.io (for private or higher-rate-limit pulls)
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | crane auth login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Optional login to nvcr.io
+        env:
+          NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${NGC_API_KEY:-}" ]]; then
+            echo "${NGC_API_KEY}" | crane auth login nvcr.io -u '$oauthtoken' --password-stdin
+          fi
+
+      - name: Validate registry manifests
+        run: |
+          set -euo pipefail
+          chmod +x hack/validate-upstream-container-images.sh
+          hack/validate-upstream-container-images.sh
