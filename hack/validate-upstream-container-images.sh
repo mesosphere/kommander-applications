@@ -50,7 +50,7 @@ add_ref() {
   if [[ "$raw" == *'<registry-url>'* ]]; then
     return 0
   fi
-  if [[ "$raw" == *'${'* ]] || [[ "$raw" == *'`'* ]]; then
+  if [[ "$raw" == *"\${"* ]] || [[ "$raw" == *"\`"* ]]; then
     return 0
   fi
   local norm="$raw"
@@ -118,7 +118,7 @@ crane_probe() {
 
 export -f crane_probe
 
-mapfile -t results < <(printf '%s\n' "${images[@]}" | xargs -n1 -P"$PARALLEL" bash -c 'crane_probe "$1"' bash)
+mapfile -t results < <(printf '%s\n' "${images[@]}" | xargs -n1 -P"$PARALLEL" bash -c "crane_probe \"\$1\"" bash)
 
 fail_file="$(mktemp)"
 trap 'rm -f "$fail_file"' EXIT
