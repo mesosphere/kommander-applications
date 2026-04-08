@@ -490,7 +490,7 @@ spec:
         - --enable-leader-election
         command:
         - /upgradeplan
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.18}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         resources:
@@ -570,7 +570,7 @@ spec:
         - --tls-cert-dir=/certs/
         command:
         - /upgradeplan-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.18}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -620,8 +620,8 @@ metadata:
 spec:
   commonName: upgradeplan-webhook
   dnsNames:
-  - upgradeplan-webhook.${releaseNamespace:-kommander}.svc
-  - upgradeplan-webhook.${releaseNamespace:-kommander}.svc.cluster.local
+  - upgradeplan-webhook.kommander.svc
+  - upgradeplan-webhook.kommander.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: selfsigned-issuer
