@@ -192,6 +192,25 @@ rules:
   - configmaps
   - secrets
   verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - kubeadmcontrolplanes
+  verbs:
   - get
   - list
   - watch
@@ -208,6 +227,7 @@ rules:
   resources:
   - kustomizations
   verbs:
+  - create
   - get
   - list
   - watch
@@ -235,9 +255,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - kommander.mesosphere.io
+  - clusters.nkp.nutanix.com
   resources:
-  - kommanderclusters
+  - nkpclusters
   verbs:
   - get
   - list
