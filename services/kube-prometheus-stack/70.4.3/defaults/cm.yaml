@@ -80,6 +80,21 @@ data:
             - path: /dkp/logging/grafana/metrics
               port: service
               interval: 30s
+        - name: dkp-service-monitor-dkp-project-logging-grafana-metrics
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "dkp__project__logging__grafana__metrics"
+          namespaceSelector:
+            any: true
+          endpoints:
+            # Service port for project-grafana-logging resolved via the prometheus.io/path annotation on the service.
+            - port: service
+              interval: 30s
+              relabelings:
+                - sourceLabels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+                  action: replace
+                  targetLabel: __metrics_path__
+                  regex: (.+)
         - name: dkp-service-monitor-metrics-http
           selector:
             matchLabels:
