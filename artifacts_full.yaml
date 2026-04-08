@@ -77,7 +77,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: centralized-opencost
     version: 2.5.10
     images:
@@ -163,7 +163,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: grafana-loki
     version: 0.80.6
     images:
@@ -337,7 +337,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
       - docker.io/library/busybox:1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
@@ -345,7 +345,7 @@ applications:
       - quay.io/prometheus-operator/prometheus-operator:v0.89.0
       - quay.io/prometheus/alertmanager:v0.31.1
       - quay.io/prometheus/node-exporter:v1.10.2
-      - quay.io/prometheus/prometheus:v3.10.0
+      - quay.io/prometheus/prometheus:v3.11.0
       - quay.io/thanos/thanos:v0.41.0
       - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.5
       - registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.18.0
@@ -473,7 +473,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/grafana:11.3.3
       - docker.io/grafana/grafana:12.4.1
-      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: project-grafana-loki
     version: 0.80.6
     images:

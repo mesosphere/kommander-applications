@@ -214,7 +214,7 @@ data:
         image:
           registry: quay.io
           repository: prometheus/prometheus
-          tag: v3.10.0
+          tag: v3.11.0
         containers:
           - name: config-reloader
             envFrom:
@@ -492,7 +492,7 @@ data:
         image:
           registry: docker.io
           repository: kiwigrid/k8s-sidecar
-          tag: 2.5.0
+          tag: 2.5.4
         dashboards:
           enabled: true
           label: grafana_dashboard
