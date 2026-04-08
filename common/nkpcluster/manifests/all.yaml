@@ -795,6 +795,7 @@ rules:
   verbs:
   - get
   - list
+  - watch
 - apiGroups:
   - clusters.nkp.nutanix.com
   resources:
@@ -929,6 +930,7 @@ rules:
   verbs:
   - get
   - list
+  - watch
 - apiGroups:
   - clusters.nkp.nutanix.com
   resources:
