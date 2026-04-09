@@ -19,7 +19,8 @@
     "pre-commit":      "latest",
     "rsync":           "latest",
     "yq-go":           "latest",
-    "git":             "latest"
+    "git":             "latest",
+    "go-containerregistry": "latest"
   },
   "shell": {
     "scripts": {

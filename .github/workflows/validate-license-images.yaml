@@ -14,6 +14,8 @@ on:
       - "hack/validate-upstream-container-images.sh"
       - "hack/validate-bloodhound-catalog-images.sh"
       - "make/validate.mk"
+      - "devbox.json"
+      - "devbox.lock"
       - ".github/workflows/validate-license-images.yaml"
   workflow_dispatch: {}
 
@@ -34,34 +36,15 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install nkp CLI (Bloodhound catalog validate)
-        run: |
-          set -euo pipefail
-          mkdir -p .local/bin
-          curl -fsSL "https://s3.amazonaws.com/downloads.mesosphere.io/dkp/${NKP_VERSION}/nkp_${NKP_VERSION}_linux_amd64.tar.gz" |
-            tar xz -O > .local/bin/nkp
-          chmod +x .local/bin/nkp
-      - name: Install Helm (required by nkp validate catalog-repository)
-        uses: azure/setup-helm@v4
-        with:
-          version: v3.16.3
+      - name: Install NIX
+        uses: cachix/install-nix-action@v31
 
-      - name: Install yq
-        run: |
-          set -euo pipefail
-          arch="$(uname -m)"
-          case "$arch" in
-            x86_64) yq_arch=amd64 ;;
-            aarch64 | arm64) yq_arch=arm64 ;;
-            *)
-              echo "Unsupported arch: $arch" >&2
-              exit 1
-              ;;
-          esac
-          sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.44.6/yq_linux_${yq_arch}"
-          sudo chmod +x /usr/local/bin/yq
-          yq --version
-      - uses: imjasonh/setup-crane@v0.4
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          skip-nix-installation: true
+          enable-cache: "false"
+          refresh-cli: "true"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -69,23 +52,47 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Login to ghcr.io (for private or higher-rate-limit pulls)
-        run: |
-          set -euo pipefail
-          echo "${{ secrets.GITHUB_TOKEN }}" | crane auth login ghcr.io -u "${{ github.actor }}" --password-stdin
-      - name: Optional login to nvcr.io
-        env:
-          NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
-        run: |
-          set -euo pipefail
-          if [[ -n "${NGC_API_KEY:-}" ]]; then
-            echo "${NGC_API_KEY}" | crane auth login nvcr.io -u '$oauthtoken' --password-stdin
-          fi
       - name: Bloodhound bundle + registry manifest checks
         env:
-          NKP_BIN: ${{ github.workspace }}/.local/bin/nkp
+          # Public dkp-cli releases work with GITHUB_TOKEN; private assets need a PAT with repo read.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
         run: |
           set -euo pipefail
-          chmod +x hack/validate-upstream-container-images.sh
-          chmod +x hack/validate-bloodhound-catalog-images.sh
-          hack/validate-bloodhound-catalog-images.sh
+          tmp="$(mktemp)"
+          trap 'rm -f "$tmp"' EXIT
+          cat >"$tmp" <<'EOS'
+          set -euo pipefail
+          mkdir -p .local/bin
+          arch="$(uname -m)"
+          case "$arch" in
+            x86_64) pattern='nkp_*_linux_amd64.tar.gz' ;;
+            aarch64 | arm64) pattern='nkp_*_linux_arm64.tar.gz' ;;
+            *)
+              echo "Unsupported arch: $arch" >&2
+              exit 1
+              ;;
+          esac
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+          nkp_dl="${work}/nkp-download"
+          mkdir -p "$nkp_dl"
+          gh release download "${NKP_VERSION}" \
+            --repo mesosphere/dkp-cli \
+            --pattern "$pattern" \
+            --dir "$nkp_dl"
+          shopt -s nullglob
+          tgzs=("${nkp_dl}"/nkp_*_linux_*.tar.gz)
+          if [[ ${#tgzs[@]} -ne 1 ]]; then
+            echo "expected one nkp linux tarball from gh release download, got ${#tgzs[@]}: ${tgzs[*]}" >&2
+            ls -la "$nkp_dl" >&2 || true
+            exit 1
+          fi
+          tar -xzf "${tgzs[0]}" -O > .local/bin/nkp
+          chmod +x .local/bin/nkp
+          echo "${GITHUB_TOKEN}" | crane auth login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+          chmod +x hack/validate-upstream-container-images.sh hack/validate-bloodhound-catalog-images.sh
+          NKP_BIN="${GITHUB_WORKSPACE}/.local/bin/nkp" hack/validate-bloodhound-catalog-images.sh
+          EOS
+          devbox run -- bash "$tmp"
