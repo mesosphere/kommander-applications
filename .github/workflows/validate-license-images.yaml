@@ -54,8 +54,8 @@ jobs:
 
       - name: Bloodhound bundle + registry manifest checks
         env:
-          # Public dkp-cli releases work with GITHUB_TOKEN; private assets need a PAT with repo read.
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # gh release download for mesosphere/dkp-cli needs repo access; GITHUB_TOKEN cannot read other repos.
+          GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
