@@ -1,0 +1,2 @@
+quay.io/ceph/cosi:v0.1.4
+registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2

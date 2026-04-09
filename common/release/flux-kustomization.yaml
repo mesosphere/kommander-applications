@@ -18,3 +18,19 @@ spec:
         name: kommander-vars
   prune: true
   wait: true
+  patches:
+    - patch: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: release-controller-manager
+        spec:
+          template:
+            spec:
+              containers:
+                - name: controller-manager
+                  args:
+                    - "--release-metadata-namespace=${releaseNamespace:-kommander}"
+      target:
+        kind: Deployment
+        name: release-controller-manager

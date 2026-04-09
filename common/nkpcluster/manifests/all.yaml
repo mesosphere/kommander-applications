@@ -729,12 +729,12 @@ spec:
                   version.
                 type: string
               phase:
-                description: Phase is the current phase of upgrade/reconciliation.
+                description: Phase is the current phase of reconciliation.
                 enum:
-                - Upgrading Kommander
-                - Upgrading Platform Applications
-                - Upgrading Kubernetes and Cluster Infrastructure
-                - Upgraded
+                - Reconciling Kommander
+                - Reconciling Platform Applications
+                - Reconciling Kubernetes and Cluster Infrastructure
+                - Reconciled
                 type: string
               platformVersion:
                 description: PlatformVersion is the currently observed version of
@@ -787,6 +787,14 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
   - watch
 - apiGroups:
   - clusters.nkp.nutanix.com
@@ -907,6 +915,22 @@ metadata:
     control-plane: nkp-cluster-webhook
   name: nkp-cluster-webhook
 rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - clusters.nkp.nutanix.com
   resources:
@@ -1082,7 +1106,7 @@ spec:
         - --logtostderr=true
         - --ignore-paths=/metrics
         - --v=10
-        image: quay.io/brancz/kube-rbac-proxy:v0.19.1
+        image: quay.io/brancz/kube-rbac-proxy:v0.21.1
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:

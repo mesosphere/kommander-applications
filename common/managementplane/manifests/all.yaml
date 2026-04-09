@@ -192,6 +192,25 @@ rules:
   - configmaps
   - secrets
   verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - kubeadmcontrolplanes
+  verbs:
   - get
   - list
   - watch
@@ -208,6 +227,7 @@ rules:
   resources:
   - kustomizations
   verbs:
+  - create
   - get
   - list
   - watch
@@ -233,6 +253,14 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - clusters.nkp.nutanix.com
+  resources:
+  - nkpclusters
+  verbs:
+  - get
+  - list
   - watch
 - apiGroups:
   - kommander.mesosphere.io
@@ -400,7 +428,7 @@ spec:
         - --logtostderr=true
         - --ignore-paths=/metrics
         - --v=10
-        image: quay.io/brancz/kube-rbac-proxy:v0.19.1
+        image: quay.io/brancz/kube-rbac-proxy:v0.21.1
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
