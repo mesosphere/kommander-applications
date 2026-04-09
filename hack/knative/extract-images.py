@@ -39,17 +39,14 @@ def is_valid_docker_image(image_str):
     except Exception:
         return False
 
-def configmap_key_to_env_var(config_key):
-    """Convert ConfigMap key to environment variable name format."""
-    # Convert dashes to underscores and make uppercase
-    # aws-ddb-streams-source -> AWS_DDB_STREAMS_SOURCE
-    return config_key.replace('-', '_').upper()
-
 def extract_configmap_images(yaml_content, default_version=None):
-    """Extract image references from ConfigMap data sections only."""
+    """Extract image references from ConfigMap data sections, grouped by ConfigMap name.
+
+    Returns {configmap_name: {data_key: tagged_image}}, e.g.:
+        {"eventing-integrations-images": {"aws-s3-source": "gcr.io/...:v1.21.0", ...}}
+    """
     configmap_images = {}
 
-    # Split into documents and process each one
     yaml_documents = re.split(r'\n---+\n', yaml_content)
 
     for yaml_doc in yaml_documents:
@@ -60,37 +57,39 @@ def extract_configmap_images(yaml_content, default_version=None):
         in_configmap = False
         in_data_section = False
         current_indent = 0
+        cm_name = None
 
         for line in lines:
             stripped = line.strip()
             if not stripped or stripped.startswith('#'):
                 continue
 
-            # Check if this is a ConfigMap
             if stripped.startswith('kind:') and 'ConfigMap' in stripped:
                 in_configmap = True
+                cm_name = None
                 continue
 
-            # Skip if not in a ConfigMap
             if not in_configmap:
                 continue
 
-            # Check if we're entering the data section
+            # Capture ConfigMap metadata.name
+            if cm_name is None and stripped.startswith('name:'):
+                indent = len(line) - len(line.lstrip())
+                if indent <= 4:
+                    cm_name = stripped.split(':', 1)[1].strip()
+
             if stripped == 'data:':
                 in_data_section = True
                 current_indent = len(line) - len(line.lstrip())
                 continue
 
-            # Check if we're still in the data section
             if in_data_section:
                 line_indent = len(line) - len(line.lstrip())
 
-                # If indentation is less than or equal to data section, we've left it
                 if line_indent <= current_indent and stripped:
                     in_data_section = False
                     continue
 
-                # If we're in the data section, look for image references
                 if ':' in stripped and 'gcr.io/' in stripped:
                     try:
                         key, value = stripped.split(':', 1)
@@ -98,9 +97,9 @@ def extract_configmap_images(yaml_content, default_version=None):
                         value = value.strip()
 
                         if is_valid_docker_image(value):
-                            # Do reverse lookup to find actual tag
                             actual_image = reverse_lookup_tag_from_digest(value, default_version)
-                            configmap_images[key] = actual_image
+                            if cm_name:
+                                configmap_images.setdefault(cm_name, {})[key] = actual_image
                     except ValueError:
                         continue
 
@@ -229,16 +228,13 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
             images.add(actual_image)
             print(f"    Found env var image: {env_name} -> {actual_image}")
 
-    # Check for ConfigMap data image patterns (context-aware)
-    configmap_images = extract_configmap_images(yaml_content, default_version)
-    for config_key, actual_image in configmap_images.items():
-        # Convert ConfigMap key to environment variable name
-        env_var_name = configmap_key_to_env_var(config_key)
-        env_var_images[env_var_name] = actual_image
-        env_only_images.add(actual_image)  # Track as env-only
-        # Add to images set but do NOT add to component_images since it's env-only
-        images.add(actual_image)
-        print(f"    Found ConfigMap image: {config_key} -> {env_var_name} -> {actual_image}")
+    # Extract images from ConfigMap data sections, grouped by ConfigMap name.
+    # These are NOT env var overrides; they need spec.config entries instead.
+    configmap_overrides = extract_configmap_images(yaml_content, default_version)
+    for cm_name, entries in configmap_overrides.items():
+        for config_key, actual_image in entries.items():
+            images.add(actual_image)
+            print(f"    Found ConfigMap image: {cm_name}/{config_key} -> {actual_image}")
 
     # Split YAML content by document separators to handle multiple manifests
     # Handle both single and consecutive document separators
@@ -328,7 +324,7 @@ def extract_images_from_yaml(yaml_content, component_name, default_version=None)
 
             i += 1
 
-    return sorted(images), env_var_images, component_images, env_only_images
+    return sorted(images), env_var_images, component_images, env_only_images, configmap_overrides
 
 def generate_container_context(image, current_context, component_name):
     """Generate the container context (deployment/container or job/container) for registry overrides."""
@@ -402,36 +398,38 @@ def generate_fallback_context(image_path, component_name):
     return f"{image_name}/{image_name}"
 
 
-def generate_registry_overrides(all_images, all_env_var_images, all_component_images, all_env_only_images, eventing_version, serving_version):
-    """Generate registry override configuration for cm.yaml using component context."""
+def generate_registry_overrides(all_images, all_env_var_images, all_component_images, all_env_only_images, all_configmap_overrides, eventing_version, serving_version):
+    """Generate registry override and spec.config configuration for cm.yaml."""
     serving_overrides = []
     eventing_overrides = []
+    queue_sidecar_image = None
 
-    # Track override keys to avoid duplicates
+    # Collect all images that live in ConfigMaps so we can exclude them from
+    # the registry.override section (they need spec.config instead).
+    configmap_image_set = set()
+    for entries in all_configmap_overrides.values():
+        configmap_image_set.update(entries.values())
+
     serving_keys = set()
     eventing_keys = set()
 
-    # Process regular images using component context
     for image in sorted(all_images):
         if image not in all_component_images:
-            continue  # Skip images without component context
-
-        # Skip images that only appear as environment variables
+            continue
         if image in all_env_only_images:
-            continue  # This image should only be processed as an environment variable
+            continue
+        if image in configmap_image_set:
+            continue
 
         component_info = all_component_images[image]
         component = component_info["component"]
         container_context = component_info["container_context"]
-
-        # Use the converted tagged image if available, otherwise use the original
         display_image = image
 
-        # Special case for queue-proxy: use just "queue-proxy" instead of "queue-proxy/queue-proxy" or "queue/queue"
         if 'queue' in image and (container_context == "queue-proxy/queue-proxy" or container_context == "queue/queue"):
             container_context = "queue-proxy"
+            queue_sidecar_image = display_image
 
-        # Create override entry
         override_entry = f"              {container_context}: {display_image}"
 
         if component == "knative-serving":
@@ -447,10 +445,12 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
                 serving_overrides.append(override_entry)
                 serving_keys.add(container_context)
 
-    # Process environment variable images
+    # Process environment variable images (direct value env vars only, not
+    # ConfigMap-backed env vars which are handled by spec.config).
     for env_name, image in sorted(all_env_var_images.items()):
-        # Environment variable images use the env var name as the key
-        # Determine component based on image path
+        if env_name == "QUEUE_SIDECAR_IMAGE" and not queue_sidecar_image:
+            queue_sidecar_image = image
+
         if 'knative.dev/serving' in image or ('knative.dev/pkg' in image and 'serving' in env_name.lower()):
             if env_name not in serving_keys:
                 serving_overrides.append(f"              {env_name}: {image}")
@@ -481,18 +481,170 @@ def generate_registry_overrides(all_images, all_env_var_images, all_component_im
     for override in eventing_overrides:
         print(override)
 
+    if all_configmap_overrides:
+        print()
+        print("CONFIGMAP OVERRIDES (eventing spec.config)")
+        print("-" * 40)
+        print("The operator does not apply registry.override to ConfigMap data.")
+        print("These must go in the eventing spec.config section instead:")
+        print("          config:")
+        for cm_name in sorted(all_configmap_overrides):
+            print(f"            {cm_name}:")
+            for key, image in sorted(all_configmap_overrides[cm_name].items()):
+                print(f"              {key}: {image}")
+
     if all_env_var_images:
         print()
-        print("Note: Environment variable images found:")
+        print("Note: Direct env var images found:")
         for env_name, image in sorted(all_env_var_images.items()):
             print(f"  {env_name} -> {image}")
         print("These use the environment variable name as the registry override key.")
 
-    return serving_overrides, eventing_overrides
+    if queue_sidecar_image:
+        print()
+        print("QUEUE-SIDECAR-IMAGE CONFIG OVERRIDE")
+        print("-" * 40)
+        print(f"Add to serving config.deployment section:")
+        print(f'              queue-sidecar-image: "{queue_sidecar_image}"')
+        print()
+        print("Note: The QUEUE_SIDECAR_IMAGE registry override only sets an env var on")
+        print("deployments. The actual sidecar image is read from the config-deployment")
+        print("ConfigMap, which requires this config.deployment override.")
+
+    return serving_overrides, eventing_overrides, queue_sidecar_image
 
 
-def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
-    """Update the cm.yaml file with registry overrides."""
+def update_queue_sidecar_image(content, queue_sidecar_image):
+    """Update or add queue-sidecar-image in the serving config.deployment section."""
+    # Check if queue-sidecar-image already exists and update it
+    pattern = r'(              queue-sidecar-image:\s*)"[^"]*"'
+    if re.search(pattern, content):
+        content = re.sub(pattern, rf'\1"{queue_sidecar_image}"', content)
+        print(f"  Updated existing queue-sidecar-image to: {queue_sidecar_image}")
+        return content
+
+    # Also handle unquoted form
+    pattern_unquoted = r'(              queue-sidecar-image:\s*)\S+'
+    if re.search(pattern_unquoted, content):
+        content = re.sub(pattern_unquoted, rf'\1"{queue_sidecar_image}"', content)
+        print(f"  Updated existing queue-sidecar-image to: {queue_sidecar_image}")
+        return content
+
+    # Not present yet; insert after registriesSkippingTagResolving in the serving config.deployment
+    insert_pattern = r'(              registriesSkippingTagResolving:\s*"[^"]*")'
+    match = re.search(insert_pattern, content)
+    if match:
+        insert_point = match.end()
+        new_line = f'\n              queue-sidecar-image: "{queue_sidecar_image}"'
+        content = content[:insert_point] + new_line + content[insert_point:]
+        print(f"  Added queue-sidecar-image: {queue_sidecar_image}")
+        return content
+
+    print(f"  Warning: Could not find insertion point for queue-sidecar-image")
+    return content
+
+
+def update_eventing_config_overrides(content, configmap_overrides):
+    """Update or insert the eventing spec.config section with ConfigMap overrides.
+
+    The Knative operator does not apply registry.override entries to ConfigMap
+    data values.  Images stored in ConfigMaps (e.g. eventing-integrations-images,
+    eventing-transformations-images) must be overridden via spec.config, which
+    the operator merges into the named ConfigMaps.
+    """
+    if not configmap_overrides:
+        return content
+
+    # Build the config lines to insert
+    config_lines = []
+    for cm_name in sorted(configmap_overrides):
+        config_lines.append(f'            {cm_name}:')
+        for key, image in sorted(configmap_overrides[cm_name].items()):
+            config_lines.append(f'              {key}: {image}')
+    config_block = '\n'.join(config_lines)
+
+    lines = content.split('\n')
+    result_lines = []
+    i = 0
+    in_eventing = False
+    in_eventing_spec = False
+    inserted = False
+
+    while i < len(lines):
+        line = lines[i]
+
+        # Detect the eventing section
+        if re.match(r'    eventing:', line):
+            in_eventing = True
+        elif in_eventing and re.match(r'    [a-zA-Z]', line) and not line.startswith('    eventing'):
+            in_eventing = False
+
+        if in_eventing and re.match(r'        spec:', line):
+            in_eventing_spec = True
+
+        # Look for an existing config: block inside eventing spec
+        if in_eventing_spec and not inserted and re.match(r'          config:', line):
+            result_lines.append(line)
+            i += 1
+            # Skip existing config entries for our ConfigMap names
+            while i < len(lines):
+                next_line = lines[i]
+                indent = len(next_line) - len(next_line.lstrip()) if next_line.strip() else 999
+                if indent <= 10 and next_line.strip():
+                    break
+                # Check if this sub-key is one of our managed ConfigMaps
+                stripped = next_line.strip()
+                cm_match = re.match(r'^(\S[^:]+):', stripped)
+                if cm_match and cm_match.group(1) in configmap_overrides:
+                    # Skip this ConfigMap block (key + its children)
+                    i += 1
+                    while i < len(lines):
+                        child_indent = len(lines[i]) - len(lines[i].lstrip()) if lines[i].strip() else 999
+                        # 14 spaces = child of a config sub-key
+                        if child_indent <= 12 and lines[i].strip():
+                            break
+                        i += 1
+                    continue
+                else:
+                    result_lines.append(next_line)
+                    i += 1
+            # Append our config entries
+            result_lines.append(config_block)
+            inserted = True
+            continue
+
+        # If we're about to leave the eventing spec without having inserted,
+        # inject a new config: section just before leaving.
+        if in_eventing_spec and not inserted:
+            # Detect end of eventing spec by seeing a line at eventing level or above
+            next_is_end = False
+            if line.strip() and not in_eventing:
+                next_is_end = True
+            elif i + 1 < len(lines) and re.match(r'    [a-zA-Z]', lines[i + 1]) and not lines[i + 1].startswith('    eventing'):
+                # Next line leaves eventing; insert before current line
+                pass
+
+            # Check if current line is the last line of eventing spec content
+            if re.match(r'    [a-zA-Z]', line) and not line.startswith('    eventing') and in_eventing:
+                # We've left eventing; insert config before this line
+                result_lines.append('          config:')
+                result_lines.append(config_block)
+                inserted = True
+                in_eventing = False
+
+        result_lines.append(line)
+        i += 1
+
+    # If we still haven't inserted (eventing section ends at EOF), append
+    if not inserted:
+        result_lines.append('          config:')
+        result_lines.append(config_block)
+
+    return '\n'.join(result_lines)
+
+
+def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides, queue_sidecar_image=None, configmap_overrides=None):
+    """Update the cm.yaml file with registry overrides, config.deployment, and ConfigMap overrides."""
     script_dir = Path(__file__).parent
     repo_root = script_dir.parent.parent
     cm_file = repo_root / "applications" / "knative" / k_apps_version / "helmrelease" / "cm.yaml"
@@ -506,7 +658,6 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
     with open(cm_file, 'r') as f:
         content = f.read()
 
-    # Helper function to update registry overrides for a section
     def update_section_registry(content, section_name, overrides, comment):
         lines = content.split('\n')
         result_lines = []
@@ -518,7 +669,6 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
         while i < len(lines):
             line = lines[i]
 
-            # Check if we're entering the target section (serving or eventing)
             if re.match(rf'    {section_name}:', line):
                 in_target_section = True
                 target_section_indent = len(line) - len(line.lstrip())
@@ -526,7 +676,6 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                 i += 1
                 continue
 
-            # Check if we're leaving the target section (next section at same level)
             if in_target_section and line.strip() and len(line) - len(line.lstrip()) <= target_section_indent and not line.startswith('    #'):
                 if not re.match(r'    [a-zA-Z]', line):
                     in_target_section = False
@@ -534,22 +683,18 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                     in_target_section = False
 
             if in_target_section:
-                # Look for registry section start
                 if re.match(r'          registry:', line):
                     in_registry_section = True
                     result_lines.append(line)
                     i += 1
 
-                    # Add override section header
                     if i < len(lines) and re.match(r'            override:', lines[i]):
                         result_lines.append(lines[i])
                         i += 1
 
-                        # Skip existing override entries
                         while i < len(lines) and (re.match(r'              [#]', lines[i]) or re.match(r'              [a-zA-Z_]', lines[i])):
                             i += 1
 
-                        # Add our overrides
                         result_lines.append(f'              # {comment}')
                         for override in overrides:
                             result_lines.append(override)
@@ -557,7 +702,6 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                         in_registry_section = False
                         continue
                     else:
-                        # Add new override section
                         result_lines.append('            override:')
                         result_lines.append(f'              # {comment}')
                         for override in overrides:
@@ -566,7 +710,6 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
                         i += 1
                         continue
 
-                # If we're not in a registry section, just copy the line
                 if not in_registry_section:
                     result_lines.append(line)
             else:
@@ -576,11 +719,14 @@ def update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides):
 
         return '\n'.join(result_lines)
 
-    # Update serving section
     content = update_section_registry(content, "serving", serving_overrides, "Pin serving images to specific tagged versions")
-
-    # Update eventing section
     content = update_section_registry(content, "eventing", eventing_overrides, "Pin eventing images to specific tagged versions")
+
+    if queue_sidecar_image:
+        content = update_queue_sidecar_image(content, queue_sidecar_image)
+
+    if configmap_overrides:
+        content = update_eventing_config_overrides(content, configmap_overrides)
 
     with open(cm_file, 'w') as f:
         f.write(content)
@@ -658,6 +804,7 @@ def download_and_extract_images(files, component_name, default_version=None):
     all_env_var_images = {}
     all_component_images = {}
     all_env_only_images = set()
+    all_configmap_overrides = {}
 
     print(f"\nProcessing {component_name} manifests...")
 
@@ -676,11 +823,13 @@ def download_and_extract_images(files, component_name, default_version=None):
                 yaml_documents = re.split(r'\n---+\n', yaml_content)
                 print(f"    DEBUG: Found {len(yaml_documents)} documents")
 
-            images, env_var_images, component_images, env_only_images = extract_images_from_yaml(yaml_content, component_name, default_version)
+            images, env_var_images, component_images, env_only_images, configmap_overrides = extract_images_from_yaml(yaml_content, component_name, default_version)
             all_images.update(images)
             all_env_var_images.update(env_var_images)
             all_component_images.update(component_images)
             all_env_only_images.update(env_only_images)
+            for cm_name, entries in configmap_overrides.items():
+                all_configmap_overrides.setdefault(cm_name, {}).update(entries)
 
             if images:
                 print(f"    Found {len(images)} images")
@@ -693,10 +842,16 @@ def download_and_extract_images(files, component_name, default_version=None):
                 print(f"    Found {len(env_var_images)} env var images")
                 for env_name, img in env_var_images.items():
                     print(f"      {env_name} -> {img}")
+
+            if configmap_overrides:
+                print(f"    Found {sum(len(v) for v in configmap_overrides.values())} ConfigMap image(s)")
+                for cm_name, entries in configmap_overrides.items():
+                    for key, img in entries.items():
+                        print(f"      {cm_name}/{key} -> {img}")
         else:
             print(f"    Error downloading {file_info['name']}")
 
-    return all_images, all_env_var_images, all_component_images, all_env_only_images
+    return all_images, all_env_var_images, all_component_images, all_env_only_images, all_configmap_overrides
 
 def main():
     parser = argparse.ArgumentParser(description='Extract Docker images from KNative operator manifests')
@@ -781,17 +936,20 @@ def main():
     all_env_var_images = {}
     all_component_images = {}
     all_env_only_images = set()
+    all_configmap_overrides = {}
 
     # Process knative-eventing
     print("Fetching knative-eventing file list...")
     eventing_files = get_yaml_files_from_github_dir("knative-eventing", eventing_version)
     if eventing_files:
         print(f"Found {len(eventing_files)} eventing files")
-        eventing_images, eventing_env_vars, eventing_component_images, eventing_env_only = download_and_extract_images(eventing_files, "knative-eventing", eventing_version)
+        eventing_images, eventing_env_vars, eventing_component_images, eventing_env_only, eventing_cm_overrides = download_and_extract_images(eventing_files, "knative-eventing", eventing_version)
         all_images.update(eventing_images)
         all_env_var_images.update(eventing_env_vars)
         all_component_images.update(eventing_component_images)
         all_env_only_images.update(eventing_env_only)
+        for cm_name, entries in eventing_cm_overrides.items():
+            all_configmap_overrides.setdefault(cm_name, {}).update(entries)
     else:
         print("No knative-eventing files found")
 
@@ -800,11 +958,13 @@ def main():
     serving_files = get_yaml_files_from_github_dir("knative-serving", serving_version)
     if serving_files:
         print(f"Found {len(serving_files)} serving files")
-        serving_images, serving_env_vars, serving_component_images, serving_env_only = download_and_extract_images(serving_files, "knative-serving", serving_version)
+        serving_images, serving_env_vars, serving_component_images, serving_env_only, serving_cm_overrides = download_and_extract_images(serving_files, "knative-serving", serving_version)
         all_images.update(serving_images)
         all_env_var_images.update(serving_env_vars)
         all_component_images.update(serving_component_images)
         all_env_only_images.update(serving_env_only)
+        for cm_name, entries in serving_cm_overrides.items():
+            all_configmap_overrides.setdefault(cm_name, {}).update(entries)
     else:
         print("No knative-serving files found")
 
@@ -813,11 +973,13 @@ def main():
     ingress_files_contour = get_yaml_files_from_github_dir("ingress", ingress_version, "contour")
     if ingress_files_contour:
         print(f"Found {len(ingress_files_contour)} ingress contour files")
-        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_contour, "ingress", ingress_version)
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only, ingress_cm_overrides = download_and_extract_images(ingress_files_contour, "ingress", ingress_version)
         all_images.update(ingress_images)
         all_env_var_images.update(ingress_env_vars)
         all_component_images.update(ingress_component_images)
         all_env_only_images.update(ingress_env_only)
+        for cm_name, entries in ingress_cm_overrides.items():
+            all_configmap_overrides.setdefault(cm_name, {}).update(entries)
     else:
         print("No ingress contour files found")
 
@@ -826,11 +988,13 @@ def main():
     ingress_files_istio = get_yaml_files_from_github_dir("ingress", ingress_version, "istio")
     if ingress_files_istio:
         print(f"Found {len(ingress_files_istio)} ingress istio files")
-        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_istio, "ingress", ingress_version)
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only, istio_cm_overrides = download_and_extract_images(ingress_files_istio, "ingress", ingress_version)
         all_images.update(ingress_images)
         all_env_var_images.update(ingress_env_vars)
         all_component_images.update(ingress_component_images)
         all_env_only_images.update(ingress_env_only)
+        for cm_name, entries in istio_cm_overrides.items():
+            all_configmap_overrides.setdefault(cm_name, {}).update(entries)
     else:
         print("No ingress istio files found")
 
@@ -839,11 +1003,13 @@ def main():
     ingress_files_kourier = get_yaml_files_from_github_dir("ingress", ingress_version, "kourier")
     if ingress_files_kourier:
         print(f"Found {len(ingress_files_kourier)} ingress kourier files")
-        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only = download_and_extract_images(ingress_files_kourier, "ingress", ingress_version)
+        ingress_images, ingress_env_vars, ingress_component_images, ingress_env_only, kourier_cm_overrides = download_and_extract_images(ingress_files_kourier, "ingress", ingress_version)
         all_images.update(ingress_images)
         all_env_var_images.update(ingress_env_vars)
         all_component_images.update(ingress_component_images)
         all_env_only_images.update(ingress_env_only)
+        for cm_name, entries in kourier_cm_overrides.items():
+            all_configmap_overrides.setdefault(cm_name, {}).update(entries)
     else:
         print("No ingress kourier files found")
 
@@ -860,11 +1026,11 @@ def main():
             f.write(f"{image}\n")
 
     # Generate registry overrides configuration
-    serving_overrides, eventing_overrides = generate_registry_overrides(all_images, all_env_var_images, all_component_images, all_env_only_images, eventing_version, serving_version)
+    serving_overrides, eventing_overrides, queue_sidecar_image = generate_registry_overrides(all_images, all_env_var_images, all_component_images, all_env_only_images, all_configmap_overrides, eventing_version, serving_version)
 
     # Optionally update cm.yaml automatically
     try:
-        update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides)
+        update_cm_yaml(k_apps_version, serving_overrides, eventing_overrides, queue_sidecar_image, all_configmap_overrides)
     except Exception as e:
         print(f"Warning: Could not automatically update cm.yaml: {e}")
 
