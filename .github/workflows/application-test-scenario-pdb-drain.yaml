@@ -62,7 +62,7 @@ jobs:
 
     - name: Upload support bundle
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: support-bundle-${{ inputs.apps }}-pdb-drain
         path: apptests/appscenarios/support-bundle.tar.gz
