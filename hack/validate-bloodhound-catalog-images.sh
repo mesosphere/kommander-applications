@@ -3,7 +3,7 @@
 # bundle, then hack/validate-upstream-container-images.sh probes registries (crane).
 #
 # Requires: nkp (NKP_BIN), Helm 3+, yq, crane on PATH.
-# Env: NKP_BIN, SKIP_LICENSES=1 (optional, catalog bundle only)
+# Env: NKP_BIN
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -38,5 +38,4 @@ echo "Bloodhound: nkp validate catalog-repository --config .bloodhound.yml → $
   --artifacts-output "$TMP"
 
 export ARTIFACTS_FILE="$TMP"
-export SKIP_LICENSES="${SKIP_LICENSES:-0}"
 exec "${ROOT}/hack/validate-upstream-container-images.sh"
