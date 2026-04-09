@@ -27,7 +27,7 @@ validate-artifacts-yaml-in-sync: generate-artifacts-yaml
 
 # Requires crane and yq on PATH; log in to registries that need auth (Docker Hub, ghcr, nvcr, …).
 .PHONY: validate-upstream-container-images
-validate-upstream-container-images: ## Probe committed artifacts_full.yaml + licenses + Flux OCI YAML
+validate-upstream-container-images: ## Probe artifacts_full.yaml + licenses.d2iq.yaml (crane)
 	$(REPO_ROOT)/hack/validate-upstream-container-images.sh
 
 # Fresh Bloodhound bundle (temp file) + same registry probes as validate-upstream-container-images.
