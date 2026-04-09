@@ -8,9 +8,12 @@ on:
     paths:
       - "applications/**"
       - "common/**"
+      - ".bloodhound.yml"
       - "licenses.d2iq.yaml"
       - "artifacts_full.yaml"
       - "hack/validate-upstream-container-images.sh"
+      - "hack/validate-bloodhound-catalog-images.sh"
+      - "make/validate.mk"
       - ".github/workflows/validate-license-images.yaml"
   workflow_dispatch: {}
 
@@ -20,13 +23,28 @@ concurrency:
 
 jobs:
   upstream-image-check:
-    name: Catalog + license images exist upstream
+    name: Bloodhound catalog + license images exist upstream
     runs-on: self-hosted-nutanix-docker-large
+    env:
+      # Keep in sync with make/tools.mk NKP_CLI_VERSION
+      NKP_VERSION: v0.0.0-dev.0
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+
+      - name: Install nkp CLI (Bloodhound catalog validate)
+        run: |
+          set -euo pipefail
+          mkdir -p .local/bin
+          curl -fsSL "https://s3.amazonaws.com/downloads.mesosphere.io/dkp/${NKP_VERSION}/nkp_${NKP_VERSION}_linux_amd64.tar.gz" |
+            tar xz -O > .local/bin/nkp
+          chmod +x .local/bin/nkp
+      - name: Install Helm (required by nkp validate catalog-repository)
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.16.3
 
       - name: Install yq
         run: |
@@ -43,7 +61,6 @@ jobs:
           sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.44.6/yq_linux_${yq_arch}"
           sudo chmod +x /usr/local/bin/yq
           yq --version
-
       - uses: imjasonh/setup-crane@v0.4
 
       - name: Login to Docker Hub
@@ -56,7 +73,6 @@ jobs:
         run: |
           set -euo pipefail
           echo "${{ secrets.GITHUB_TOKEN }}" | crane auth login ghcr.io -u "${{ github.actor }}" --password-stdin
-
       - name: Optional login to nvcr.io
         env:
           NGC_API_KEY: ${{ secrets.NGC_API_KEY }}
@@ -65,9 +81,11 @@ jobs:
           if [[ -n "${NGC_API_KEY:-}" ]]; then
             echo "${NGC_API_KEY}" | crane auth login nvcr.io -u '$oauthtoken' --password-stdin
           fi
-
-      - name: Validate registry manifests
+      - name: Bloodhound bundle + registry manifest checks
+        env:
+          NKP_BIN: ${{ github.workspace }}/.local/bin/nkp
         run: |
           set -euo pipefail
           chmod +x hack/validate-upstream-container-images.sh
-          hack/validate-upstream-container-images.sh
+          chmod +x hack/validate-bloodhound-catalog-images.sh
+          hack/validate-bloodhound-catalog-images.sh
