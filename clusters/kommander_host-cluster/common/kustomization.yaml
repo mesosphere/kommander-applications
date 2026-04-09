@@ -8,3 +8,4 @@ resources:
 - ../../../common/upgradeplan
 - ../../../common/loggingstack
 - ../../../common/release
+- operators
