@@ -14,17 +14,14 @@ spec:
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
-    - jsonPath: .spec.version
-      name: Version
+    - jsonPath: .status.platformVersion
+      name: NKP Version
+      type: string
+    - jsonPath: .status.kubernetesVersion
+      name: Kubernetes Version
       type: string
     - jsonPath: .status.phase
       name: Phase
-      type: string
-    - jsonPath: .status.platformVersion
-      name: NKP Platform Version Observed
-      type: string
-    - jsonPath: .status.kubernetesVersion
-      name: Kubernetes Version Observed
       type: string
     - jsonPath: .metadata.creationTimestamp
       name: Age
