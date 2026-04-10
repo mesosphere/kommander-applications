@@ -36,7 +36,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
-      - oci://<registry-url>/kommander-applications/kubetunnel:0.0.41
+      - oci://<registry-url>/kommander-applications/kubetunnel:0.1.0
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
       - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.0
       - oci://<registry-url>/kommander-applications/nkp-insights:1.8.0
@@ -365,16 +365,16 @@ applications:
       - docker.io/kubernetesui/dashboard-web:1.7.0
       - docker.io/library/kong:3.9.1
   - name: kubetunnel
-    version: 0.0.41
+    version: 0.1.0
     images:
-      - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.0.39
+      - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.1.0
       - docker.io/alpine/curl:8.17.0
-      - docker.io/jpillora/chisel:1.10.1
+      - docker.io/jpillora/chisel:1.11.5
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - docker.io/mesosphere/kubetunnel-controller:v0.0.39
-      - docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.0.39
-      - docker.io/mesosphere/kubetunnel-reverse-proxy:v0.0.39
-      - docker.io/mesosphere/kubetunnel-webhook:v0.0.39
+      - docker.io/mesosphere/kubetunnel-controller:v0.1.0
+      - docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.1.0
+      - docker.io/mesosphere/kubetunnel-reverse-proxy:v0.1.0
+      - docker.io/mesosphere/kubetunnel-webhook:v0.1.0
   - name: logging-operator
     version: 6.4.0
     images:
