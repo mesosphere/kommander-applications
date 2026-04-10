@@ -41,8 +41,8 @@ applications:
       - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.0
       - oci://<registry-url>/kommander-applications/nkp-insights:1.8.0
       - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
-      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.3.0
-      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.3.0
+      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.0
+      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.0
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.10
@@ -409,16 +409,16 @@ applications:
       - oci://pullthrough.infra.nkp.sh/mesosphere/nkp-mcp-server:0.0.0-dev.0
       - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
   - name: nkp-pulse-management
-    version: 0.3.0
+    version: 0.4.0
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-pulse-management:0.3.0
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - docker.io/mesosphere/nkp-pulse-management:0.3.0
+      - oci://ghcr.io/mesosphere/charts/nkp-pulse-management:0.4.0
+      - docker.io/mesosphere/kubectl:v1.35.2
+      - docker.io/mesosphere/nkp-pulse-management:0.4.0
   - name: nkp-pulse-workspace
-    version: 0.3.0
+    version: 0.4.0
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace:0.3.0
-      - docker.io/mesosphere/nkp-pulse-workspace:0.3.0
+      - oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace:0.4.0
+      - docker.io/mesosphere/nkp-pulse-workspace:0.4.0
   - name: nvidia-gpu-operator
     version: 26.3.0
     images:
