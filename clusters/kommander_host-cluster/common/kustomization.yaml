@@ -5,6 +5,4 @@ resources:
 - ../../../common/kommander-operator
 - ../../../common/managementplane
 - ../../../common/nkpcluster
-- ../../../common/upgradeplan
 - ../../../common/loggingstack
-- ../../../common/release
