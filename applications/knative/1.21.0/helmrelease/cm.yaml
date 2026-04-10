@@ -66,6 +66,7 @@ data:
           config:
             deployment:
               registriesSkippingTagResolving: "gcr.io"
+              queue-sidecar-image: "gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.21.0"
             istio:
               external-gateways: |
                 - name: knative-ingress-gateway
@@ -84,17 +85,15 @@ data:
           deployments:
             - name: eventing-webhook
               replicas: 3
-              podTemplate:
-                spec:
-                  affinity:
-                    podAntiAffinity:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        - weight: 1
-                          podAffinityTerm:
-                            labelSelector:
-                              matchLabels:
-                                app: eventing-webhook
-                            topologyKey: kubernetes.io/hostname
+              affinity:
+                podAntiAffinity:
+                  preferredDuringSchedulingIgnoredDuringExecution:
+                    - weight: 1
+                      podAffinityTerm:
+                        labelSelector:
+                          matchLabels:
+                            app: eventing-webhook
+                        topologyKey: kubernetes.io/hostname
           podDisruptionBudgets:
             - name: eventing-webhook
               maxUnavailable: 1
@@ -117,15 +116,18 @@ data:
               storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.21.0
               APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.21.0
               AUTH_PROXY_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/auth_proxy:v1.21.0
-              AWS_DDB_STREAMS_SOURCE: gcr.io/knative-releases/aws-ddb-streams-source:v1.21.0
-              AWS_EVENTBRIDGE_SINK: gcr.io/knative-releases/aws-eventbridge-sink:v1.21.0
-              AWS_S3_SINK: gcr.io/knative-releases/aws-s3-sink:v1.21.0
-              AWS_S3_SOURCE: gcr.io/knative-releases/aws-s3-source:v1.21.0
-              AWS_SNS_SINK: gcr.io/knative-releases/aws-sns-sink:v1.21.0
-              AWS_SQS_SINK: gcr.io/knative-releases/aws-sqs-sink:v1.21.0
-              AWS_SQS_SOURCE: gcr.io/knative-releases/aws-sqs-source:v1.21.0
               DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.21.0
-              JSONATA_TRANSFORMER: gcr.io/knative-releases/jsonata-transformer:v1.21.0
-              LOG_SINK: gcr.io/knative-releases/log-sink:v1.21.0
-              TIMER_SOURCE: gcr.io/knative-releases/timer-source:v1.21.0
-              TRANSFORM_JSONATA: gcr.io/knative-releases/transform-jsonata:v1.21.0
+          config:
+            eventing-integrations-images:
+              aws-ddb-streams-source: gcr.io/knative-releases/aws-ddb-streams-source:v1.21.0
+              aws-eventbridge-sink: gcr.io/knative-releases/aws-eventbridge-sink:v1.21.0
+              aws-s3-sink: gcr.io/knative-releases/aws-s3-sink:v1.21.0
+              aws-s3-source: gcr.io/knative-releases/aws-s3-source:v1.21.0
+              aws-sns-sink: gcr.io/knative-releases/aws-sns-sink:v1.21.0
+              aws-sqs-sink: gcr.io/knative-releases/aws-sqs-sink:v1.21.0
+              aws-sqs-source: gcr.io/knative-releases/aws-sqs-source:v1.21.0
+              jsonata-transformer: gcr.io/knative-releases/jsonata-transformer:v1.21.0
+              log-sink: gcr.io/knative-releases/log-sink:v1.21.0
+              timer-source: gcr.io/knative-releases/timer-source:v1.21.0
+            eventing-transformations-images:
+              transform-jsonata: gcr.io/knative-releases/transform-jsonata:v1.21.0

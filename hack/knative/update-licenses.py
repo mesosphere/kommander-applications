@@ -48,7 +48,13 @@ def get_repository_url(image_ref):
     """Determine the appropriate GitHub repository URL for a KNative image."""
     _, repository, _, _ = parse_image_reference(image_ref)
 
-    if 'knative.dev/eventing' in repository:
+    if 'knative.dev/net-istio' in repository:
+        return 'https://github.com/knative/net-istio'
+    elif 'knative.dev/net-contour' in repository:
+        return 'https://github.com/knative/net-contour'
+    elif 'knative.dev/net-kourier' in repository:
+        return 'https://github.com/knative/net-kourier'
+    elif 'knative.dev/eventing' in repository:
         return 'https://github.com/knative/eventing'
     elif 'knative.dev/serving' in repository:
         return 'https://github.com/knative/serving'
@@ -57,13 +63,14 @@ def get_repository_url(image_ref):
     elif 'knative.dev/operator' in repository:
         return 'https://github.com/knative/operator'
     else:
-        # For standalone images like aws-*, timer-source, log-sink, transform-jsonata
+        # For standalone images like aws-*, timer-source, log-sink, jsonata-transformer, transform-jsonata
         return 'https://github.com/knative/eventing'
 
 
 def create_license_entry_text(image_ref, version):
     """Create the text for a license entry."""
     repo_url = get_repository_url(image_ref)
+    _, _, image_tag, _ = parse_image_reference(image_ref)
 
     # For operator images, use ${image_tag} variable instead of hardcoded version
     if 'knative.dev/operator' in image_ref:
@@ -72,6 +79,10 @@ def create_license_entry_text(image_ref, version):
         # pkg repository uses release branches without 'v' prefix and no patch version
         major_minor = '.'.join(version.split('.')[:2])  # e.g., "1.18.1" -> "1.18"
         ref_value = f"release-{major_minor}"
+    elif image_tag and image_tag.startswith('v') and image_tag[1:] != version:
+        # Image has a different version than the global one (e.g., net-istio v1.21.1
+        # when serving is v1.21.0); use the image's own tag for the git ref.
+        ref_value = f"knative-{image_tag}"
     else:
         ref_value = f"knative-v{version}"
 
