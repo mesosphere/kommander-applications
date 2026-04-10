@@ -412,7 +412,7 @@ applications:
     version: 0.4.0
     images:
       - oci://ghcr.io/mesosphere/charts/nkp-pulse-management:0.4.0
-      - docker.io/mesosphere/kubectl:v1.35.2
+      - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/mesosphere/nkp-pulse-management:0.4.0
   - name: nkp-pulse-workspace
     version: 0.4.0
