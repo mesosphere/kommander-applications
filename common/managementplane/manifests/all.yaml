@@ -401,7 +401,7 @@ spec:
       containers:
       - command:
         - /managementplane
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.19}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         resources:
@@ -487,7 +487,7 @@ spec:
         - --tls-cert-dir=/certs/
         command:
         - /managementplane-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.19}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
