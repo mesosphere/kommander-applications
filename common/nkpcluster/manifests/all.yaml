@@ -867,6 +867,15 @@ rules:
   - list
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - update
+  - patch
+- apiGroups:
   - kommander.mesosphere.io
   resources:
   - kommanderclusters
