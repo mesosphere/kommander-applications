@@ -143,7 +143,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/gatekeeper-proxy-mutations:v0.0.1
       - oci://ghcr.io/mesosphere/charts/gatekeeper:3.22.0
-      - docker.io/curlimages/curl:8.18.0
+      - docker.io/curlimages/curl:8.19.0
       - docker.io/openpolicyagent/gatekeeper-crds:v3.22.0
       - docker.io/openpolicyagent/gatekeeper:v3.22.0
   - name: gateway-api-crds
