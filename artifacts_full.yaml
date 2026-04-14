@@ -53,8 +53,8 @@ applications:
       - oci://<registry-url>/kommander-applications/prometheus-adapter:5.3.0
       - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.4
       - oci://<registry-url>/kommander-applications/reloader:2.2.8
-      - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.2
-      - oci://<registry-url>/kommander-applications/rook-ceph:1.19.2
+      - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.3
+      - oci://<registry-url>/kommander-applications/rook-ceph:1.19.3
       - oci://<registry-url>/kommander-applications/thanos:17.3.1
       - oci://<registry-url>/kommander-applications/traefik-forward-auth-mgmt:0.3.17
       - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.17
@@ -504,16 +504,16 @@ applications:
       - oci://ghcr.io/mesosphere/charts/reloader:2.2.8
       - ghcr.io/stakater/reloader:v1.4.13
   - name: rook-ceph
-    version: 1.19.2
+    version: 1.19.3
     images:
-      - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.19.2
-      - docker.io/rook/ceph:v1.19.2
+      - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.19.3
+      - docker.io/rook/ceph:v1.19.3
   - name: rook-ceph-cluster
-    version: 1.19.2
+    version: 1.19.3
     images:
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
-      - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.19.2
+      - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.19.3
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/ceph/ceph:v19.2.3
       - quay.io/ceph/cosi:v0.1.4
