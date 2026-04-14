@@ -36,7 +36,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
-      - oci://<registry-url>/kommander-applications/kubetunnel:0.1.0
+      - oci://<registry-url>/kommander-applications/kubetunnel:0.2.0
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
       - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.0
       - oci://<registry-url>/kommander-applications/nkp-insights:1.8.0
@@ -365,7 +365,7 @@ applications:
       - docker.io/kubernetesui/dashboard-web:1.7.0
       - docker.io/library/kong:3.9.1
   - name: kubetunnel
-    version: 0.1.0
+    version: 0.2.0
     images:
       - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.2.0
       - docker.io/alpine/curl:8.17.0
