@@ -1,16 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-  # The name should be made consistent with one generated
-  # by the KommanderAppDeployment controller.
-  #
-  # Also see federation/pkg/controllers/federated-manifests-workspace/prerequisites/
+# The name should be made consistent with one generated
+# by the KommanderAppDeployment controller.
+#
+# Also see federation/pkg/controllers/federated-manifests-workspace/prerequisites/
 resources:
-- ../1.19.3/
+  - ../1.20.2/
 patches:
-- patch: |
-    - op: replace
-      path: /metadata/name
-      value: cert-manager
-  target:
-    kind: HelmRelease
-    name: cert-manager
+  - patch: |
+      - op: replace
+        path: /metadata/name
+        value: cert-manager
+    target:
+      kind: HelmRelease
+      name: cert-manager
