@@ -24,11 +24,15 @@ spec:
   releaseName: nkp-mcp-server
   targetNamespace: ${releaseNamespace}
   install:
+    serverSideApply: true
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

@@ -26,3 +26,10 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
+
+  install:
+    serverSideApply: true
+  upgrade:
+    serverSideApply: enabled
+  rollback:
+    serverSideApply: enabled

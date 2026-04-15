@@ -22,6 +22,7 @@ spec:
   interval: 15s
   timeout: 20m # This is equivalent to CLI Core App Upgrade timeout.
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       # Flux cannot uninstall itself cleanly. Trying to remediate an installation failure by
@@ -31,12 +32,15 @@ spec:
     # Flux pre-check job reaches out to GH API to check for latest releases. There is no need for this.
     disableHooks: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 0
       remediateLastFailure: false
     # Flux pre-check job reaches out to GH API to check for latest releases. There is no need for this.
     disableHooks: true
+  rollback:
+    serverSideApply: enabled
   uninstall:
     deletionPropagation: orphan
     keepHistory: true

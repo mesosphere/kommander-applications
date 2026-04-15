@@ -24,14 +24,18 @@ spec:
   # the istio-system namespace is actually created
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: jaeger
   targetNamespace: istio-system
   valuesFrom:
