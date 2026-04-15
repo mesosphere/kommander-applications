@@ -29,7 +29,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kiali:2.24.0
       - oci://<registry-url>/kommander-applications/knative:1.21.0
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
-      - oci://<registry-url>/kommander-applications/kommander-flux:2.8.2
+      - oci://<registry-url>/kommander-applications/kommander-flux:2.8.3
       - oci://<registry-url>/kommander-applications/kommander-ui:17.234.1
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
@@ -311,12 +311,12 @@ applications:
       - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
-    version: 2.8.2
+    version: 2.8.3
     images:
-      - oci://ghcr.io/fluxcd-community/charts/flux2:2.18.1
+      - oci://ghcr.io/fluxcd-community/charts/flux2:2.18.2
       - docker.io/mesosphere/flux-oci-mirror:v0.3.0
-      - ghcr.io/fluxcd/flux-cli:v2.8.2
-      - ghcr.io/fluxcd/helm-controller:v1.5.2
+      - ghcr.io/fluxcd/flux-cli:v2.8.3
+      - ghcr.io/fluxcd/helm-controller:v1.5.3
       - ghcr.io/fluxcd/image-automation-controller:v1.1.1
       - ghcr.io/fluxcd/image-reflector-controller:v1.1.1
       - ghcr.io/fluxcd/kustomize-controller:v1.8.2
