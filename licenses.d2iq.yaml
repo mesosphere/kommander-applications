@@ -481,7 +481,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/brancz/kube-rbac-proxy
-  - container_image: ghcr.io/fluxcd/helm-controller:v1.5.2
+  - container_image: ghcr.io/fluxcd/helm-controller:v1.5.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
@@ -501,7 +501,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/fluxcd/source-controller
-  - container_image: ghcr.io/fluxcd/flux-cli:v2.8.2
+  - container_image: ghcr.io/fluxcd/flux-cli:v2.8.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
