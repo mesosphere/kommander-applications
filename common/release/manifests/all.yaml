@@ -391,7 +391,7 @@ spec:
               key: releaseMetadataOCITag
               name: release-operator-vars
               optional: true
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev.21}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         resources:
