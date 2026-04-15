@@ -925,6 +925,7 @@ rules:
   - ""
   resources:
   - namespaces
+  - secrets
   verbs:
   - get
   - list
@@ -980,6 +981,14 @@ rules:
   - get
   - list
   - patch
+  - watch
+- apiGroups:
+  - controlplane.cluster.x-k8s.io
+  resources:
+  - kubeadmcontrolplanes
+  verbs:
+  - get
+  - list
   - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
