@@ -1299,3 +1299,34 @@ webhooks:
     - nkpclusters
   sideEffects: None
   timeoutSeconds: 20
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: nkp-cluster-webhook
+      namespace: kommander
+      path: /validations-child
+  failurePolicy: Ignore
+  name: webhook.nkpcluster.child.kommander.mesosphere.io
+  rules:
+  - apiGroups:
+    - kommander.mesosphere.io
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kommanderclusters
+  - apiGroups:
+    - cluster.x-k8s.io
+    apiVersions:
+    - v1beta1
+    - v1beta2
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - clusters
+  sideEffects: None
+  timeoutSeconds: 20
