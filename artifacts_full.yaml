@@ -4,7 +4,7 @@ applications:
     images:
       - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.7
       - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.6
-      - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.10
+      - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.14
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/cloudnative-pg:0.28.0
@@ -79,10 +79,10 @@ applications:
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: centralized-opencost
-    version: 2.5.10
+    version: 2.5.14
     images:
-      - oci://ghcr.io/opencost/charts/opencost:2.5.10
-      - ghcr.io/opencost/opencost:1.119.2
+      - oci://ghcr.io/opencost/charts/opencost:2.5.14
+      - ghcr.io/opencost/opencost:1.120.0
   - name: cert-manager
     version: 1.19.3
     images:
@@ -466,8 +466,8 @@ applications:
     images:
       - oci://ghcr.io/opencost/charts/opencost:2.5.14
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.119.2
-      - ghcr.io/opencost/opencost:1.119.2
+      - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.120.0
+      - ghcr.io/opencost/opencost:1.120.0
   - name: project-grafana-logging
     version: 11.3.3
     images:
