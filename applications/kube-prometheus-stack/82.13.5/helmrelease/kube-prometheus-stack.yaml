@@ -23,11 +23,15 @@ spec:
   install:
     timeout: 5m0s
     crds: CreateReplace
+    # TODO(takirala): revert after https://github.com/mesosphere/charts/pull/1652/changes
+    serverSideApply: false
     remediation:
       retries: 30
   upgrade:
     timeout: 5m0s
     crds: CreateReplace
+    # TODO(takirala): revert after https://github.com/mesosphere/charts/pull/1652/changes
+    serverSideApply: disabled
     remediation:
       retries: 30
   timeout: 5m0s
