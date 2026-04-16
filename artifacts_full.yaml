@@ -45,7 +45,7 @@ applications:
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.0
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
-      - oci://<registry-url>/kommander-applications/opencost:2.5.10
+      - oci://<registry-url>/kommander-applications/opencost:2.5.14
       - oci://<registry-url>/kommander-applications/project-grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/project-grafana-loki-v3:3.6.7
       - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.6
@@ -462,9 +462,9 @@ applications:
       - nvcr.io/nvidia/mellanox/sriov-network-operator-webhook:network-operator-v26.1.0
       - nvcr.io/nvidia/mellanox/sriov-network-operator:network-operator-v26.1.0
   - name: opencost
-    version: 2.5.10
+    version: 2.5.14
     images:
-      - oci://ghcr.io/opencost/charts/opencost:2.5.10
+      - oci://ghcr.io/opencost/charts/opencost:2.5.14
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.119.2
       - ghcr.io/opencost/opencost:1.119.2
