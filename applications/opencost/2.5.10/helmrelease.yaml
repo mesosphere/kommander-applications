@@ -12,7 +12,7 @@ spec:
   dependsOn:
     - name: opencost-pre-install
       namespace: ${releaseNamespace}
-  path: ./applications/opencost/2.5.10/release
+  path: ./applications/opencost/2.5.14/release
   sourceRef:
     kind: GitRepository
     name: management
