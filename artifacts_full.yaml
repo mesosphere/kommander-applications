@@ -502,7 +502,7 @@ applications:
     version: 2.2.11
     images:
       - oci://ghcr.io/mesosphere/charts/reloader:2.2.11
-      - ghcr.io/stakater/reloader:v1.4.14
+      - ghcr.io/stakater/reloader:v1.4.16
   - name: rook-ceph
     version: 1.19.4
     images:
