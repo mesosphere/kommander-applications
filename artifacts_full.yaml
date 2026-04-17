@@ -33,7 +33,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kommander-ui:17.234.4
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
-      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
+      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
       - oci://<registry-url>/kommander-applications/kubetunnel:0.2.0
@@ -333,9 +333,9 @@ applications:
       - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
       - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
   - name: kube-prometheus-stack
-    version: 82.13.5
+    version: 82.13.6
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.6
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.4
       - docker.io/library/busybox:1
