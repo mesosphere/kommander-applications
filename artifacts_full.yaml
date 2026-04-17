@@ -15,7 +15,7 @@ applications:
       - oci://<registry-url>/kommander-applications/external-secrets:2.3.0
       - oci://<registry-url>/kommander-applications/fluent-bit:0.57.2
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
-      - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
+      - oci://<registry-url>/kommander-applications/gateway-api-crds:1.16.0
       - oci://<registry-url>/kommander-applications/git-operator:0.13.18
       - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
@@ -147,9 +147,9 @@ applications:
       - docker.io/openpolicyagent/gatekeeper-crds:v3.22.0
       - docker.io/openpolicyagent/gatekeeper:v3.22.0
   - name: gateway-api-crds
-    version: 1.11.1
+    version: 1.16.0
     images:
-      - oci://ghcr.io/traefik/helm/traefik-crds:1.11.1
+      - oci://ghcr.io/traefik/helm/traefik-crds:1.16.0
   - name: git-operator
     version: 0.13.18
     images:
