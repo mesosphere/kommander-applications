@@ -30,7 +30,7 @@ applications:
       - oci://<registry-url>/kommander-applications/knative:1.21.0
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
-      - oci://<registry-url>/kommander-applications/kommander-ui:17.234.4
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.234.5
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
@@ -52,7 +52,7 @@ applications:
       - oci://<registry-url>/kommander-applications/project-logging:1.1.0
       - oci://<registry-url>/kommander-applications/prometheus-adapter:5.3.0
       - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.4
-      - oci://<registry-url>/kommander-applications/reloader:2.2.9
+      - oci://<registry-url>/kommander-applications/reloader:2.2.11
       - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.4
       - oci://<registry-url>/kommander-applications/rook-ceph:1.19.4
       - oci://<registry-url>/kommander-applications/thanos:17.3.1
@@ -323,10 +323,10 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.8.3
       - ghcr.io/fluxcd/source-controller:v1.8.2
   - name: kommander-ui
-    version: 17.234.4
+    version: 17.234.5
     images:
-      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.234.4
-      - docker.io/mesosphere/kommander:17.234.4
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.234.5
+      - docker.io/mesosphere/kommander:17.234.5
   - name: kube-oidc-proxy
     version: 0.3.7
     images:
@@ -499,10 +499,10 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
   - name: reloader
-    version: 2.2.9
+    version: 2.2.11
     images:
-      - oci://ghcr.io/mesosphere/charts/reloader:2.2.9
-      - ghcr.io/stakater/reloader:v1.4.14
+      - oci://ghcr.io/mesosphere/charts/reloader:2.2.11
+      - ghcr.io/stakater/reloader:v1.4.16
   - name: rook-ceph
     version: 1.19.4
     images:

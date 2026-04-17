@@ -226,7 +226,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.234.4
+  - container_image: docker.io/mesosphere/kommander:17.234.5
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
@@ -538,7 +538,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/mesosphere/kubefed
-  - container_image: ghcr.io/stakater/reloader:v1.4.14
+  - container_image: ghcr.io/stakater/reloader:v1.4.16
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
