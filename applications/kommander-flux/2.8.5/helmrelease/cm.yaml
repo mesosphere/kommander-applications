@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kommander-flux-2.8.3-config-defaults
+  name: kommander-flux-2.8.5-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -25,7 +25,7 @@ data:
         - --feature-gates=OOMWatch=true
         - --feature-gates=AdditiveCELDependencyCheck=true
         - --feature-gates=DisableChartDigestTracking=true
-        # - --feature-gates=AdoptLegacyReleases=true # TODO(takirala): Do we have a use case for this?
+        - --feature-gates=UseHelm3Defaults=true # TODO(takirala): Drop this in https://github.com/mesosphere/kommander-applications/pull/4786
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical
