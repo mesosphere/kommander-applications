@@ -25,7 +25,6 @@ data:
         - --feature-gates=OOMWatch=true
         - --feature-gates=AdditiveCELDependencyCheck=true
         - --feature-gates=DisableChartDigestTracking=true
-        - --feature-gates=UseHelm3Defaults=true # TODO(takirala): Drop this in https://github.com/mesosphere/kommander-applications/pull/4786
       nodeSelector:
         kubernetes.io/os: linux
       priorityClassName: system-cluster-critical

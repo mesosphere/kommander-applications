@@ -8156,7 +8156,6 @@ spec:
         - --feature-gates=OOMWatch=true
         - --feature-gates=AdditiveCELDependencyCheck=true
         - --feature-gates=DisableChartDigestTracking=true
-        - --feature-gates=UseHelm3Defaults=true
         env:
         - name: RUNTIME_NAMESPACE
           valueFrom:
