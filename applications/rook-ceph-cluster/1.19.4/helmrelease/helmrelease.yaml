@@ -22,11 +22,15 @@ spec:
   interval: 15s
   install:
     crds: CreateReplace
+    # TODO(takirala): revert in https://github.com/mesosphere/kommander-applications/pull/4786
+    serverSideApply: false
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
     crds: CreateReplace
+    # TODO(takirala): revert in https://github.com/mesosphere/kommander-applications/pull/4786
+    serverSideApply: disabled
     remediation:
       retries: 30
   timeout: 15m

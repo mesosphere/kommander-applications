@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 readonly REPO_ROOT
-LATEST_FLUX_CHART_VERSION="$(gh api -X GET "repos/fluxcd-community/helm-charts/tags?per_page=100" --jq '.[] | select(.name | test("^flux2-[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name | sub("^flux2-"; "")' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)"
+LATEST_FLUX_CHART_VERSION="$(gh api -X GET "repos/fluxcd-community/helm-charts/tags?per_page=100" --paginate --jq '.[] | select(.name | test("^flux2-[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name | sub("^flux2-"; "")' | sort -t. -k1,1n -k2,2n -k3,3n | tail -1)"
 [ -z "$LATEST_FLUX_CHART_VERSION" ] && { echo "Error: Could not determine latest Flux chart version"; exit 1; }
 readonly LATEST_FLUX_CHART_VERSION
 LATEST_FLUX_VERSION="$(gh api -X GET "repos/fluxcd-community/helm-charts/contents/charts/flux2/Chart.yaml?ref=flux2-${LATEST_FLUX_CHART_VERSION}" --jq '.content' | base64 -d | yq eval '.appVersion' -)"

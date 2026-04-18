@@ -3,7 +3,7 @@ applications:
     version: ""
     images:
       - oci://<registry-url>/kommander-applications/ai-navigator-app:0.8.0-dev.7
-      - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.5
+      - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.6
       - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.10
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
@@ -29,11 +29,11 @@ applications:
       - oci://<registry-url>/kommander-applications/kiali:2.24.0
       - oci://<registry-url>/kommander-applications/knative:1.21.0
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
-      - oci://<registry-url>/kommander-applications/kommander-flux:2.7.2
+      - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
       - oci://<registry-url>/kommander-applications/kommander-ui:17.234.5
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
-      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.5
+      - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
       - oci://<registry-url>/kommander-applications/kubefed:0.11.3
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
       - oci://<registry-url>/kommander-applications/kubetunnel:0.2.0
@@ -61,7 +61,7 @@ applications:
       - oci://<registry-url>/kommander-applications/traefik:39.0.7
       - oci://<registry-url>/kommander-applications/velero:12.0.0
       - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
-      - docker.io/mesosphere/cluster-observer:1.5.1
+      - docker.io/mesosphere/cluster-observer:1.6.0
       - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
       - docker.io/mesosphere/kommander2-core-installer:v2.18.0-dev
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
@@ -73,9 +73,9 @@ applications:
       - docker.io/mesosphere/ai-navigator-app:0.7.0
       - docker.io/mesosphere/ai-navigator-rag:0.8.0-dev.7
   - name: centralized-grafana
-    version: 82.13.5
+    version: 82.13.6
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.6
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.4
   - name: centralized-opencost
@@ -311,17 +311,17 @@ applications:
       - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
-    version: 2.7.2
+    version: 2.8.5
     images:
-      - oci://ghcr.io/fluxcd-community/charts/flux2:2.17.1
+      - oci://ghcr.io/fluxcd-community/charts/flux2:2.18.3
       - docker.io/mesosphere/flux-oci-mirror:v0.3.0
-      - ghcr.io/fluxcd/flux-cli:v2.7.2
-      - ghcr.io/fluxcd/helm-controller:v1.4.2
-      - ghcr.io/fluxcd/image-automation-controller:v1.0.2
-      - ghcr.io/fluxcd/image-reflector-controller:v1.0.2
-      - ghcr.io/fluxcd/kustomize-controller:v1.7.1
-      - ghcr.io/fluxcd/notification-controller:v1.7.3
-      - ghcr.io/fluxcd/source-controller:v1.7.2
+      - ghcr.io/fluxcd/flux-cli:v2.8.5
+      - ghcr.io/fluxcd/helm-controller:v1.5.3
+      - ghcr.io/fluxcd/image-automation-controller:v1.1.1
+      - ghcr.io/fluxcd/image-reflector-controller:v1.1.1
+      - ghcr.io/fluxcd/kustomize-controller:v1.8.3
+      - ghcr.io/fluxcd/notification-controller:v1.8.3
+      - ghcr.io/fluxcd/source-controller:v1.8.2
   - name: kommander-ui
     version: 17.234.5
     images:
@@ -333,9 +333,9 @@ applications:
       - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
       - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
   - name: kube-prometheus-stack
-    version: 82.13.5
+    version: 82.13.6
     images:
-      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.5
+      - oci://ghcr.io/mesosphere/charts/kube-prometheus-stack:82.13.6
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.4
       - docker.io/library/busybox:1

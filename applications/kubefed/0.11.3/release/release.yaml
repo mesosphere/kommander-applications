@@ -37,3 +37,32 @@ spec:
     - kind: ConfigMap
       name: kubefed-overrides
       optional: true
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: ValidatingWebhookConfiguration
+              name: validations.core.kubefed.io
+            patch: |
+              apiVersion: admissionregistration.k8s.io/v1
+              kind: ValidatingWebhookConfiguration
+              metadata:
+                name: validations.core.kubefed.io
+              webhooks:
+                - name: federatedtypeconfigs.core.kubefed.io
+                  failurePolicy: Ignore
+                - name: kubefedclusters.core.kubefed.io
+                  failurePolicy: Ignore
+                - name: kubefedconfigs.core.kubefed.io
+                  failurePolicy: Ignore
+          - target:
+              kind: MutatingWebhookConfiguration
+              name: mutation.core.kubefed.io
+            patch: |
+              apiVersion: admissionregistration.k8s.io/v1
+              kind: MutatingWebhookConfiguration
+              metadata:
+                name: mutation.core.kubefed.io
+              webhooks:
+                - name: kubefedconfigs.core.kubefed.io
+                  failurePolicy: Ignore

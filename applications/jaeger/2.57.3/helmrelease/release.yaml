@@ -37,6 +37,33 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
+  postRenderers:
+    # This is needed because Helm v4 SSA orders webhook configs before custom resources (helm/helm#30701),
+    # causing install failures when the webhook pod isn't ready yet to validate CRs created in the same install.
+    - kustomize:
+        patches:
+          - target:
+              kind: MutatingWebhookConfiguration
+              name: jaeger-operator-mutating-webhook-configuration
+            patch: |
+              apiVersion: admissionregistration.k8s.io/v1
+              kind: MutatingWebhookConfiguration
+              metadata:
+                name: jaeger-operator-mutating-webhook-configuration
+              webhooks:
+                - name: mjaeger.kb.io
+                  failurePolicy: Ignore
+          - target:
+              kind: ValidatingWebhookConfiguration
+              name: jaeger-operator-validating-webhook-configuration
+            patch: |
+              apiVersion: admissionregistration.k8s.io/v1
+              kind: ValidatingWebhookConfiguration
+              metadata:
+                name: jaeger-operator-validating-webhook-configuration
+              webhooks:
+                - name: vjaeger.kb.io
+                  failurePolicy: Ignore
 ---
 apiVersion: v1
 kind: ConfigMap
