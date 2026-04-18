@@ -21,6 +21,7 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     timeout: 5m0s
     crds: CreateReplace
     # TODO(takirala): revert after https://github.com/mesosphere/charts/pull/1652/changes
@@ -28,12 +29,15 @@ spec:
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     timeout: 5m0s
     crds: CreateReplace
     # TODO(takirala): revert after https://github.com/mesosphere/charts/pull/1652/changes
     serverSideApply: disabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   timeout: 5m0s
   releaseName: kube-prometheus-stack
   valuesFrom:

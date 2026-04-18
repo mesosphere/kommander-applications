@@ -25,14 +25,18 @@ spec:
     # We have this in place to ensure that the cosi-driver-nutanix HelmRelease is installed before creating the BucketClass CR.
     - name: cosi-driver-nutanix
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: cosi-resources-nutanix
   targetNamespace: ${releaseNamespace}
   valuesFrom:

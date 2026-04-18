@@ -14,14 +14,18 @@ spec:
       version: v1.26.0
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: step-certificates
   targetNamespace: ${releaseNamespace}
   valuesFrom:

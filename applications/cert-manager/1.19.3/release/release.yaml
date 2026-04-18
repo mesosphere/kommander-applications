@@ -33,14 +33,18 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: cert-manager
   targetNamespace: cert-manager
   valuesFrom:
@@ -59,13 +63,17 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     remediation:
       retries: 30
     createNamespace: true
     crds: CreateReplace
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
     crds: CreateReplace
+  rollback:
+    serverSideApply: enabled
   releaseName: cert-manager-crds
   targetNamespace: cert-manager
