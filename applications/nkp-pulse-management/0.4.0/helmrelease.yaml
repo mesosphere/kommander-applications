@@ -24,11 +24,16 @@ spec:
   releaseName: nkp-pulse-management
   targetNamespace: ${releaseNamespace}
   upgrade:
+    serverSideApply: enabled
     remediation:
       strategy: uninstall
+  rollback:
+    serverSideApply: enabled
   valuesFrom:
     - kind: ConfigMap
       name: nkp-pulse-management-0.4.0-config-defaults
+  install:
+    serverSideApply: true
 ---
 apiVersion: v1
 kind: ConfigMap
