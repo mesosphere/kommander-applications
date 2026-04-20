@@ -6,11 +6,19 @@ kommanderoperator:
     repository: mesosphere/kommander2-core-installer
     tag:
     pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
 webhook:
   enabled: true
   replicaCount: 1
   port: 8443
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
   certIssuer:
     kind: ClusterIssuer
     name: kommander-ca

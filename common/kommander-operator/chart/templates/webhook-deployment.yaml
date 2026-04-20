@@ -40,12 +40,7 @@ spec:
               containerPort: {{ .Values.webhook.port }}
               protocol: TCP
           resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+            {{- toYaml .Values.webhook.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /certs
               name: cert
