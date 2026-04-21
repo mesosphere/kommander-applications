@@ -6,6 +6,7 @@ ignore:
   #       ref: ${image_tag}
   - docker.io/mesosphere/flux-oci-mirror:v0.3.0
   - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
+  - auto
 
 resources:
   - container_image: ghcr.io/fluent/fluent-bit:5.0.2
