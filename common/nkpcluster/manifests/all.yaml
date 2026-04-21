@@ -911,6 +911,18 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -1037,10 +1049,10 @@ metadata:
   namespace: kommander
 spec:
   ports:
-  - name: https
-    port: 443
+  - name: metrics
+    port: 8080
     protocol: TCP
-    targetPort: https
+    targetPort: metrics
   selector:
     app.kubernetes.io/component: controller-manager
     app.kubernetes.io/name: nkp-cluster
@@ -1095,11 +1107,16 @@ spec:
       - args:
         - --enable-leader-election
         - --bootstrap-mode=false
+        - --metrics-address=0.0.0.0
+        - --metrics-port=8080
         command:
         - /nkpcluster
         image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.18.0-dev}
         imagePullPolicy: IfNotPresent
         name: controller-manager
+        ports:
+        - containerPort: 8080
+          name: metrics
         resources:
           limits:
             cpu: 500m
@@ -1107,35 +1124,6 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 65532
-      - args:
-        - --secure-listen-address=0.0.0.0:8443
-        - --upstream=http://127.0.0.1:8080/
-        - --logtostderr=true
-        - --ignore-paths=/metrics
-        - --v=10
-        image: quay.io/brancz/kube-rbac-proxy:v0.21.1
-        imagePullPolicy: IfNotPresent
-        name: kube-rbac-proxy
-        ports:
-        - containerPort: 8443
-          name: https
-        - containerPort: 8080
-          name: metrics
-        resources:
-          limits:
-            cpu: 100m
-            memory: 64Mi
-          requests:
-            cpu: 50m
-            memory: 32Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
