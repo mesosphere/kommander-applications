@@ -223,6 +223,7 @@ applications:
       - docker.io/istio/proxyv2:1.23.6-distroless
       - docker.io/istio/ztunnel:1.23.6
       - docker.io/istio/ztunnel:1.23.6-distroless
+      - docker.io/library/auto
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: jaeger
     version: 2.57.3
