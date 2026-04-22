@@ -129,18 +129,6 @@ data:
 
     logLevel: DEBUG
 
-    csi:
-      rookUseCsiOperator: false
-      enableRbdDriver: false
-      enableCephfsDriver: false
-      enableCSIHostNetwork: false
-      enableCephfsSnapshotter: false
-      enableNFSSnapshotter: false
-      enableRBDSnapshotter: false
-      enableCSIEncryption: false
-      disableCsiDriver: true
-      rbdFSGroupPolicy: ReadWriteOnceWithFSType
-
     cephBlockPools: []
     cephFileSystems: []
     cephObjectStores:

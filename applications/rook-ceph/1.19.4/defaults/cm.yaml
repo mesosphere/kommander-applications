@@ -27,6 +27,7 @@ data:
     logLevel: DEBUG
 
     csi:
+      rookUseCsiOperator: false
       enableRbdDriver: false
       enableCephfsDriver: false
       enableCSIHostNetwork: false
