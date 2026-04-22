@@ -13,7 +13,7 @@ applications:
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:10.20.0
       - oci://<registry-url>/kommander-applications/external-secrets:2.3.0
-      - oci://<registry-url>/kommander-applications/fluent-bit:0.57.2
+      - oci://<registry-url>/kommander-applications/fluent-bit:0.57.3
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
       - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
       - oci://<registry-url>/kommander-applications/git-operator:0.13.18
@@ -134,9 +134,9 @@ applications:
       - oci://ghcr.io/external-secrets/charts/external-secrets:2.3.0
       - ghcr.io/external-secrets/external-secrets:v2.3.0
   - name: fluent-bit
-    version: 0.57.2
+    version: 0.57.3
     images:
-      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.57.2
+      - oci://ghcr.io/mesosphere/charts/fluent-bit:0.57.3
       - ghcr.io/fluent/fluent-bit:5.0.2
   - name: gatekeeper
     version: 3.22.0
