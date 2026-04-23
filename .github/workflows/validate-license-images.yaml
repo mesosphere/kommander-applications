@@ -1,0 +1,98 @@
+name: Validate upstream container images
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - "applications/**"
+      - "common/**"
+      - ".bloodhound.yml"
+      - "licenses.d2iq.yaml"
+      - "artifacts_full.yaml"
+      - "hack/validate-upstream-container-images.sh"
+      - "hack/validate-bloodhound-catalog-images.sh"
+      - "make/validate.mk"
+      - "devbox.json"
+      - "devbox.lock"
+      - ".github/workflows/validate-license-images.yaml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  upstream-image-check:
+    name: Bloodhound catalog + license images exist upstream
+    runs-on: self-hosted-nutanix-docker-large
+    env:
+      # Keep in sync with make/tools.mk NKP_CLI_VERSION
+      NKP_VERSION: v0.0.0-dev.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v31
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          skip-nix-installation: true
+          enable-cache: "false"
+          refresh-cli: "true"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Bloodhound bundle + registry manifest checks
+        env:
+          # gh release download for mesosphere/dkp-cli needs repo access; GITHUB_TOKEN cannot read other repos.
+          GH_TOKEN: ${{ secrets.MESOSPHERECI_USER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp)"
+          trap 'rm -f "$tmp"' EXIT
+          cat >"$tmp" <<'EOS'
+          set -euo pipefail
+          mkdir -p .local/bin
+          arch="$(uname -m)"
+          case "$arch" in
+            x86_64) pattern='nkp_*_linux_amd64.tar.gz' ;;
+            aarch64 | arm64) pattern='nkp_*_linux_arm64.tar.gz' ;;
+            *)
+              echo "Unsupported arch: $arch" >&2
+              exit 1
+              ;;
+          esac
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+          nkp_dl="${work}/nkp-download"
+          mkdir -p "$nkp_dl"
+          gh release download "${NKP_VERSION}" \
+            --repo mesosphere/dkp-cli \
+            --pattern "$pattern" \
+            --dir "$nkp_dl"
+          shopt -s nullglob
+          tgzs=("${nkp_dl}"/nkp_*_linux_*.tar.gz)
+          if [[ ${#tgzs[@]} -ne 1 ]]; then
+            echo "expected one nkp linux tarball from gh release download, got ${#tgzs[@]}: ${tgzs[*]}" >&2
+            ls -la "$nkp_dl" >&2 || true
+            exit 1
+          fi
+          tar -xzf "${tgzs[0]}" -O > .local/bin/nkp
+          chmod +x .local/bin/nkp
+          echo "${GITHUB_TOKEN}" | crane auth login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+          chmod +x hack/validate-upstream-container-images.sh hack/validate-bloodhound-catalog-images.sh
+          NKP_BIN="${GITHUB_WORKSPACE}/.local/bin/nkp" hack/validate-bloodhound-catalog-images.sh
+          EOS
+          devbox run -- bash "$tmp"
