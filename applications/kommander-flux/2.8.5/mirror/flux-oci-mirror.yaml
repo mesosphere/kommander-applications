@@ -1,4 +1,15 @@
 apiVersion: v1
+data:
+  ca.crt: ""
+kind: Secret
+metadata:
+  name: flux-oci-mirror-config
+stringData:
+  config.yaml: |
+    listen_addr: ":8443"
+type: Opaque
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: flux-oci-mirror
@@ -70,7 +81,6 @@ spec:
         - name: flux-oci-mirror-config
           secret:
             secretName: flux-oci-mirror-config
-            optional: true
         - name: proxy-ca
           secret:
             secretName: flux-oci-mirror-ca-secret
