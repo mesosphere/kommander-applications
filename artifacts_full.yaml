@@ -316,7 +316,7 @@ applications:
       - oci://ghcr.io/fluxcd-community/charts/flux2:2.18.3
       - docker.io/mesosphere/flux-oci-mirror:v0.3.0
       - ghcr.io/fluxcd/flux-cli:v2.8.5
-      - ghcr.io/fluxcd/helm-controller:v1.5.3
+      - ghcr.io/fluxcd/helm-controller:v1.5.4
       - ghcr.io/fluxcd/image-automation-controller:v1.1.1
       - ghcr.io/fluxcd/image-reflector-controller:v1.1.1
       - ghcr.io/fluxcd/kustomize-controller:v1.8.3

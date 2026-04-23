@@ -13,6 +13,7 @@ data:
     policies:
       create: true
     helmController:
+      tag: v1.5.4 # TODO(takirala): drop this override when bumping to a newer version of flux.
       resources:
         limits:
           cpu: 2000m
