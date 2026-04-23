@@ -22,6 +22,7 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: false
     crds: CreateReplace
     remediation:
       retries: 30
