@@ -58,7 +58,7 @@ applications:
       - oci://<registry-url>/kommander-applications/thanos:17.3.1
       - oci://<registry-url>/kommander-applications/traefik-forward-auth-mgmt:0.3.17
       - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.17
-      - oci://<registry-url>/kommander-applications/traefik:39.0.7
+      - oci://<registry-url>/kommander-applications/traefik:39.0.8
       - oci://<registry-url>/kommander-applications/velero:12.0.0
       - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
       - docker.io/mesosphere/cluster-observer:1.6.0
@@ -525,10 +525,10 @@ applications:
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/thanos/thanos:v0.41.0
   - name: traefik
-    version: 39.0.7
+    version: 39.0.8
     images:
       - oci://ghcr.io/traefik/helm/traefik-crds:1.11.1
-      - oci://ghcr.io/traefik/helm/traefik:39.0.7
+      - oci://ghcr.io/traefik/helm/traefik:39.0.8
       - docker.io/library/traefik:v3.6.12
   - name: traefik-forward-auth
     version: 0.3.17
