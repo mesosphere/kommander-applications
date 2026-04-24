@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -54,7 +54,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 	Describe("Installing Rook Ceph", Ordered, Label("install"), func() {
 		var (
 			rc             rookCeph
-			hr             *fluxhelmv2beta2.HelmRelease
+			hr             *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -63,10 +63,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err := rc.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      rc.Name(),
@@ -146,10 +146,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "rook-ceph-cluster",
@@ -174,10 +174,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 		})
 
 		It("should create storage buckets", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "object-bucket-claims",
@@ -234,7 +234,7 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 	Describe("Upgrading Rook Ceph", Ordered, Label("upgrade"), func() {
 		var (
 			rc rookCeph
-			hr *fluxhelmv2beta2.HelmRelease
+			hr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install the previous version successfully", func() {
@@ -242,10 +242,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err := rc.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      rc.Name(),
@@ -304,10 +304,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err = rc.CreateBucketsPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "rook-ceph-cluster",
@@ -332,10 +332,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 		})
 
 		It("should create storage buckets", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "object-bucket-claims",
@@ -401,10 +401,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err := rc.Upgrade(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      rc.Name(),
@@ -464,10 +464,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "rook-ceph-cluster",
@@ -492,10 +492,10 @@ var _ = Describe("Rook Ceph Tests", Label("rook-ceph", "rook-ceph-cluster"), fun
 		})
 
 		It("should reconcile storage buckets after upgrade", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "object-bucket-claims",

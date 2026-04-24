@@ -13,7 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 )
 
@@ -44,7 +44,7 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 
 	Describe("GateKeeper Install Test", Ordered, Label("install"), func() {
 		var (
-			gateKeeperHr             *fluxhelmv2beta2.HelmRelease
+			gateKeeperHr             *fluxhelmv2.HelmRelease
 			gateKeeperDeploymentList *appsv1.DeploymentList
 			gateKeeperContainer      corev1.Container
 		)
@@ -53,10 +53,10 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			err := gk.Install(ctx, env)
 			Expect(err).ToNot(HaveOccurred())
 
-			gateKeeperHr = &fluxhelmv2beta2.HelmRelease{
+			gateKeeperHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      gk.Name(),
@@ -122,7 +122,7 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 
 	Describe("GateKeeper Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
-			gateKeeperHr *fluxhelmv2beta2.HelmRelease
+			gateKeeperHr *fluxhelmv2.HelmRelease
 			projectNS    *corev1.Namespace
 		)
 
@@ -130,10 +130,10 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			err := gk.InstallPreviousVersion(ctx, env)
 			Expect(err).ToNot(HaveOccurred())
 
-			gateKeeperHr = &fluxhelmv2beta2.HelmRelease{
+			gateKeeperHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      gk.Name(),
@@ -200,17 +200,17 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 
 func ensureConstraintEnforced(projectNS string) {
 	By("should require service account name defined in HelmRelease in Project")
-	hr1 := &fluxhelmv2beta2.HelmRelease{
+	hr1 := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "hr-to-be-rejected",
 			Namespace: projectNS, // we are treating this as a project NS
 		},
-		Spec: fluxhelmv2beta2.HelmReleaseSpec{
-			ChartRef: &fluxhelmv2beta2.CrossNamespaceSourceReference{
+		Spec: fluxhelmv2.HelmReleaseSpec{
+			ChartRef: &fluxhelmv2.CrossNamespaceSourceReference{
 				Kind:      "HelmChart",
 				Name:      "external-dns",
 				Namespace: projectNS,

@@ -14,7 +14,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	corev1 "k8s.io/api/core/v1"
@@ -49,7 +49,7 @@ var _ = Describe("Cilium Hubble Relay Traefik Tests", Label(constants.CiliumHubb
 	})
 
 	Describe("Cilium Hubble Relay Traefik Install Test", Ordered, Label("install"), func() {
-		var ciliumHubbleRelayHR *fluxhelmv2beta2.HelmRelease
+		var ciliumHubbleRelayHR *fluxhelmv2.HelmRelease
 
 		It("should install Cilium Hubble Relay Traefik dependencies", func() {
 			installCiliumHubbleRelayTraefikDependencies()
@@ -59,10 +59,10 @@ var _ = Describe("Cilium Hubble Relay Traefik Tests", Label(constants.CiliumHubb
 			err := c.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			ciliumHubbleRelayHR = &fluxhelmv2beta2.HelmRelease{
+			ciliumHubbleRelayHR = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      c.Name(),
@@ -92,7 +92,7 @@ var _ = Describe("Cilium Hubble Relay Traefik Tests", Label(constants.CiliumHubb
 	})
 
 	PDescribe("Cilium Hubble Relay Traefik Upgrade Test", Ordered, Label("upgrade"), func() {
-		var ciliumHubbleRelayHR *fluxhelmv2beta2.HelmRelease
+		var ciliumHubbleRelayHR *fluxhelmv2.HelmRelease
 
 		It("should install Cilium Hubble Relay Traefik dependencies", func() {
 			installCiliumHubbleRelayTraefikDependencies()
@@ -102,10 +102,10 @@ var _ = Describe("Cilium Hubble Relay Traefik Tests", Label(constants.CiliumHubb
 			err := c.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			ciliumHubbleRelayHR = &fluxhelmv2beta2.HelmRelease{
+			ciliumHubbleRelayHR = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      c.Name(),
@@ -165,10 +165,10 @@ func installCiliumHubbleRelayTraefikDependencies() {
 	err := cm.Install(ctx, env)
 	Expect(err).To(BeNil())
 
-	hr := &fluxhelmv2beta2.HelmRelease{
+	hr := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      constants.CertManager,
@@ -192,10 +192,10 @@ func installCiliumHubbleRelayTraefikDependencies() {
 	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 	By("Verifying that cert-manager CRDs are installed")
-	certManagerCrds := &fluxhelmv2beta2.HelmRelease{
+	certManagerCrds := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "cert-manager-crds",
@@ -229,10 +229,10 @@ func installCiliumHubbleRelayTraefikDependencies() {
 	err = tfk.Install(ctx, env)
 	Expect(err).To(BeNil())
 
-	hr = &fluxhelmv2beta2.HelmRelease{
+	hr = &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tfk.Name(),

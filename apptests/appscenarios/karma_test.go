@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	"github.com/mesosphere/kommander-applications/apptests/constants"
 	appsv1 "k8s.io/api/apps/v1"
@@ -54,7 +54,7 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 
 	Describe("Karma Install Test", Ordered, Label("install"), func() {
 		var (
-			karmaHr             *fluxhelmv2beta2.HelmRelease
+			karmaHr             *fluxhelmv2.HelmRelease
 			karmaDeploymentList *appsv1.DeploymentList
 			karmaContainer      corev1.Container
 		)
@@ -68,10 +68,10 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 			err := k.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			karmaHr = &fluxhelmv2beta2.HelmRelease{
+			karmaHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      k.Name(),
@@ -215,7 +215,7 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 
 	Describe("Karma Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
-			karmaHr *fluxhelmv2beta2.HelmRelease
+			karmaHr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install karma dependencies successfully", func() {
@@ -226,10 +226,10 @@ var _ = Describe("Karma Tests", Label("karma"), func() {
 			err := k.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			karmaHr = &fluxhelmv2beta2.HelmRelease{
+			karmaHr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      k.Name(),
@@ -327,10 +327,10 @@ func installKarmaDependencies(k *karma) {
 	err := cm.Install(ctx, env)
 	Expect(err).To(BeNil())
 
-	hr := &fluxhelmv2beta2.HelmRelease{
+	hr := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      constants.CertManager,
@@ -354,10 +354,10 @@ func installKarmaDependencies(k *karma) {
 	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 	By("Installing cert-manager crds successfully")
-	certManagerCrds := &fluxhelmv2beta2.HelmRelease{
+	certManagerCrds := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "cert-manager-crds",
@@ -391,10 +391,10 @@ func installKarmaDependencies(k *karma) {
 	err = tfk.Install(ctx, env)
 	Expect(err).To(BeNil())
 
-	hr = &fluxhelmv2beta2.HelmRelease{
+	hr = &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      tfk.Name(),
@@ -421,10 +421,10 @@ func installKarmaDependencies(k *karma) {
 	err = k.InstallDependency(ctx, env, constants.KarmaTraefik)
 	Expect(err).To(BeNil())
 
-	hr = &fluxhelmv2beta2.HelmRelease{
+	hr = &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      constants.KarmaTraefik,
