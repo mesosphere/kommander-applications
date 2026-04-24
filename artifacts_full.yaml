@@ -21,7 +21,7 @@ applications:
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.3
-      - oci://<registry-url>/kommander-applications/istio-helm:1.24.0
+      - oci://<registry-url>/kommander-applications/istio-helm:1.29.2
       - oci://<registry-url>/kommander-applications/istio:1.23.5
       - oci://<registry-url>/kommander-applications/jaeger:2.57.3
       - oci://<registry-url>/kommander-applications/karma-traefik:0.0.4
@@ -208,13 +208,13 @@ applications:
       - docker.io/istio/proxyv2:1.23.6
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: istio-helm
-    version: 1.24.0
+    version: 1.29.2
     images:
-      - oci://ghcr.io/mesosphere/charts/istio-helm-base:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-cni:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-gateway:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-istiod:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel:1.24.0
+      - oci://ghcr.io/mesosphere/charts/istio-helm-base:1.29.2
+      - oci://ghcr.io/mesosphere/charts/istio-helm-cni:1.29.2
+      - oci://ghcr.io/mesosphere/charts/istio-helm-gateway:1.29.2
+      - oci://ghcr.io/mesosphere/charts/istio-helm-istiod:1.29.2
+      - oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel:1.29.2
       - docker.io/istio/install-cni:1.23.6
       - docker.io/istio/install-cni:1.23.6-distroless
       - docker.io/istio/pilot:1.23.6
@@ -223,6 +223,7 @@ applications:
       - docker.io/istio/proxyv2:1.23.6-distroless
       - docker.io/istio/ztunnel:1.23.6
       - docker.io/istio/ztunnel:1.23.6-distroless
+      - docker.io/library/auto
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: jaeger
     version: 2.57.3
