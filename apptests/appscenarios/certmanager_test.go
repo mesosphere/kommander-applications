@@ -8,7 +8,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -43,7 +43,7 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 
 		var (
 			cm             certManager
-			hr, hrCrds     *fluxhelmv2beta2.HelmRelease
+			hr, hrCrds     *fluxhelmv2.HelmRelease
 			ns             *corev1.Namespace
 			rq             *corev1.ResourceQuota
 			deploymentList *appsv1.DeploymentList
@@ -56,10 +56,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 			err := cm.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      cm.Name(),
@@ -85,10 +85,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 		})
 
 		It("should install crds successfully", func() {
-			hrCrds = &fluxhelmv2beta2.HelmRelease{
+			hrCrds = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "cert-manager-crds",
@@ -234,10 +234,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 			err := cm.InstallStepCertificates(ctx, env)
 			Expect(err).To(BeNil())
 
-			hrCrds = &fluxhelmv2beta2.HelmRelease{
+			hrCrds = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "step-certificates",
@@ -379,7 +379,7 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 	Describe("Upgrading cert-manager", Ordered, Label("cert-manager", "upgrade"), func() {
 		var (
 			cm certManager
-			hr *fluxhelmv2beta2.HelmRelease
+			hr *fluxhelmv2.HelmRelease
 		)
 
 		It("should install the previous version successfully", func() {
@@ -387,10 +387,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 			err := cm.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      cm.Name(),
@@ -450,10 +450,10 @@ var _ = Describe("Cert-manager Tests", Ordered, Label("cert-manager"), func() {
 			err := cm.Upgrade(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      cm.Name(),

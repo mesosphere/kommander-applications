@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -55,7 +55,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 		var (
 			v              velero
 			rc             rookCeph
-			hr             *fluxhelmv2beta2.HelmRelease
+			hr             *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -64,10 +64,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err := rc.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      rc.Name(),
@@ -125,10 +125,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "rook-ceph-cluster",
@@ -153,10 +153,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 		})
 
 		It("should create storage buckets", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "object-bucket-claims",
@@ -185,10 +185,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err := v.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      v.Name(),
@@ -436,7 +436,7 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 		var (
 			v              velero
 			rc             rookCeph
-			hr             *fluxhelmv2beta2.HelmRelease
+			hr             *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -445,10 +445,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err := rc.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      rc.Name(),
@@ -507,10 +507,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err = rc.CreateBuckets(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "rook-ceph-cluster",
@@ -535,10 +535,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 		})
 
 		It("should create storage buckets", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "object-bucket-claims",
@@ -567,10 +567,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err := v.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      v.Name(),
@@ -808,10 +808,10 @@ var _ = Describe("Velero Local Backup Tests", Label("velero"), func() {
 			err := v.Upgrade(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      v.Name(),

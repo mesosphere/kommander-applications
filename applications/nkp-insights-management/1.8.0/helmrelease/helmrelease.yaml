@@ -12,6 +12,7 @@ spec:
     - name: kubefed
       namespace: ${releaseNamespace}
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
@@ -19,9 +20,12 @@ spec:
   releaseName: nkp-insights-management
   targetNamespace: ${releaseNamespace}
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

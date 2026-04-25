@@ -20,15 +20,19 @@ spec:
     name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   install:
+    serverSideApply: true
     crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 30
   interval: 15s
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: nvidia-network-operator
   valuesFrom:
     - kind: ConfigMap

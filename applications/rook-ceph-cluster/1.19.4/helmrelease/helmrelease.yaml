@@ -21,18 +21,18 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
-    # TODO(takirala): revert in https://github.com/mesosphere/kommander-applications/pull/4786
-    serverSideApply: false
     remediation:
       retries: 30
     createNamespace: true
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
-    # TODO(takirala): revert in https://github.com/mesosphere/kommander-applications/pull/4786
-    serverSideApply: disabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   timeout: 15m
   releaseName: rook-ceph-cluster
   valuesFrom:

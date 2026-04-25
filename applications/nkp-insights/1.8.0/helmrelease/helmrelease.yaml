@@ -9,6 +9,7 @@ spec:
     name: ${releaseName}-${appVersion}
     namespace: ${releaseNamespace}
   install:
+    serverSideApply: true
     remediation:
       retries: 30
   interval: 15s
@@ -16,9 +17,12 @@ spec:
   targetNamespace: ${releaseNamespace}
   timeout: 10m
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
       strategy: uninstall
+  rollback:
+    serverSideApply: enabled
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults

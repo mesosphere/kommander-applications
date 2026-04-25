@@ -75,13 +75,17 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: ${releaseName}-base
   targetNamespace: istio-helm-system
   valuesFrom:
@@ -107,11 +111,15 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: ${releaseName}-cni
   targetNamespace: kube-system
   valuesFrom:
@@ -137,11 +145,15 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: ${releaseName}-istiod
   targetNamespace: istio-helm-system
   valuesFrom:
@@ -167,11 +179,15 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: ${releaseName}-ztunnel
   targetNamespace: istio-helm-gateway-ns
   valuesFrom:
@@ -197,13 +213,17 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     remediation:
       retries: 30
     disableSchemaValidation: true
   upgrade:
+    serverSideApply: enabled
     remediation:
       retries: 30
     disableSchemaValidation: true
+  rollback:
+    serverSideApply: enabled
   releaseName: ${releaseName}-gateway
   targetNamespace: istio-helm-gateway-ns
   valuesFrom:

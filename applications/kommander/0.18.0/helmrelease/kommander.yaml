@@ -31,13 +31,17 @@ spec:
   # the chance of the installation not timing out.
   timeout: 10m
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: kommander
   valuesFrom:
     - kind: ConfigMap

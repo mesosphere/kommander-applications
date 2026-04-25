@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -211,10 +211,10 @@ func (r rookCeph) install(ctx context.Context, env *environment.Env, appPath str
 // applyRookCephOverrideCM applies the overrides configmap to the rook-ceph-cluster HelmRelease. This provides smaller
 // sized buckets and single replicas for the test environment.
 func (r rookCeph) applyRookCephOverrideCM(ctx context.Context, env *environment.Env, cmName string) error {
-	hr := &fluxhelmv2beta2.HelmRelease{
+	hr := &fluxhelmv2.HelmRelease{
 		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2beta2.HelmReleaseKind,
-			APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "rook-ceph-cluster",
@@ -234,7 +234,7 @@ func (r rookCeph) applyRookCephOverrideCM(ctx context.Context, env *environment.
 		return fmt.Errorf("could not get the HelmRelease: %w", err)
 	}
 
-	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2beta2.ValuesReference{
+	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2.ValuesReference{
 		Kind: "ConfigMap",
 		Name: "rook-ceph-cluster-overrides",
 	})

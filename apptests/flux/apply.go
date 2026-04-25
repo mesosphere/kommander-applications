@@ -27,14 +27,12 @@ import (
 	"github.com/fluxcd/cli-utils/pkg/kstatus/polling"
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen/kustomization"
 	helmv2 "github.com/fluxcd/helm-controller/api/v2"
-	helmv2b2 "github.com/fluxcd/helm-controller/api/v2beta2"
 	kustomizev1 "github.com/fluxcd/kustomize-controller/api/v1"
 	runclient "github.com/fluxcd/pkg/runtime/client"
 	"github.com/fluxcd/pkg/ssa"
 	"github.com/fluxcd/pkg/ssa/normalize"
 	ssautils "github.com/fluxcd/pkg/ssa/utils"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
-	sourcev1b2 "github.com/fluxcd/source-controller/api/v1beta2"
 )
 
 // Apply is the equivalent of 'kubectl apply --server-side -f'.
@@ -150,10 +148,8 @@ func NewScheme() *apiruntime.Scheme {
 	_ = appsv1.AddToScheme(scheme)
 	_ = batchv1.AddToScheme(scheme)
 	_ = networkingv1.AddToScheme(scheme)
-	_ = sourcev1b2.AddToScheme(scheme)
 	_ = sourcev1.AddToScheme(scheme)
 	_ = kustomizev1.AddToScheme(scheme)
-	_ = helmv2b2.AddToScheme(scheme)
 	_ = helmv2.AddToScheme(scheme)
 	return scheme
 }

@@ -23,11 +23,15 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
+  rollback:
+    serverSideApply: enabled
   releaseName: velero
   valuesFrom:
     - kind: ConfigMap

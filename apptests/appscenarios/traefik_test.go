@@ -20,7 +20,7 @@ import (
 	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
-	fluxhelmv2beta2 "github.com/fluxcd/helm-controller/api/v2beta2"
+	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
 	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 )
@@ -52,7 +52,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 
 	Describe("Traefik Install Test", Ordered, Label("install"), func() {
 		var (
-			hr             *fluxhelmv2beta2.HelmRelease
+			hr             *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 			podList        *corev1.PodList
 		)
@@ -61,10 +61,10 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			err := t.Install(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      t.Name(),
@@ -139,7 +139,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 
 	Describe("Traefik Upgrade Test", Ordered, Label("upgrade"), func() {
 		var (
-			hr      *fluxhelmv2beta2.HelmRelease
+			hr      *fluxhelmv2.HelmRelease
 			podList *corev1.PodList
 		)
 
@@ -147,10 +147,10 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 			err := t.InstallPreviousVersion(ctx, env)
 			Expect(err).To(BeNil())
 
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      t.Name(),
@@ -176,10 +176,10 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 		})
 
 		It("should upgrade traefik successfully", func() {
-			hr = &fluxhelmv2beta2.HelmRelease{
+			hr = &fluxhelmv2.HelmRelease{
 				TypeMeta: metav1.TypeMeta{
-					Kind:       fluxhelmv2beta2.HelmReleaseKind,
-					APIVersion: fluxhelmv2beta2.GroupVersion.Version,
+					Kind:       fluxhelmv2.HelmReleaseKind,
+					APIVersion: fluxhelmv2.GroupVersion.Version,
 				},
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      t.Name(),
@@ -226,7 +226,7 @@ var _ = Describe("Traefik Tests", Label("traefik"), func() {
 
 			// Check the status of the HelmReleases
 			By("waiting for HR to get upgraded")
-			Eventually(func() (*fluxhelmv2beta2.HelmRelease, error) {
+			Eventually(func() (*fluxhelmv2.HelmRelease, error) {
 				err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
 				return hr, err
 			}, "1m", pollInterval).Should(And(

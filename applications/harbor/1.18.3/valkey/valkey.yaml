@@ -21,13 +21,17 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   timeout: 10m0s
   releaseName: harbor-valkey
   targetNamespace: ncr-system

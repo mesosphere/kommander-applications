@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
-	sourcev1beta2 "github.com/fluxcd/source-controller/api/v1beta2"
+	sourcev1 "github.com/fluxcd/source-controller/api/v1"
 	"github.com/mesosphere/kommander-applications/apptests/flux"
 	"github.com/stretchr/testify/assert"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -76,10 +76,10 @@ func TestApplyKustomizations(t *testing.T) {
 	assert.NoError(t, err)
 
 	// assert that following HelmRepository (as an example) is created
-	hr := &sourcev1beta2.HelmRepository{
+	hr := &sourcev1.HelmRepository{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "source.toolkit.fluxcd.io",
-			APIVersion: "v1beta2",
+			APIVersion: "v1",
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "vmware-tanzu.github.io",

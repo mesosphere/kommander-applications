@@ -8,7 +8,6 @@ patches:
   - path: ./2.8.5/patch-proxy-env-vars.yaml
     target:
       kind: Deployment
-  # TODO(takirala): Add this patch into HelmRelease post renders as well.
   - target:
       group: rbac.authorization.k8s.io
       version: v1
