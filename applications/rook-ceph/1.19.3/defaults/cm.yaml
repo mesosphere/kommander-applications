@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rook-ceph-1.17.6-config-defaults
+  name: rook-ceph-1.19.3-config-defaults
   namespace: ${releaseNamespace}
 data:
   values.yaml: |
@@ -27,6 +27,7 @@ data:
     logLevel: DEBUG
 
     csi:
+      rookUseCsiOperator: false
       enableRbdDriver: false
       enableCephfsDriver: false
       enableCSIHostNetwork: false
