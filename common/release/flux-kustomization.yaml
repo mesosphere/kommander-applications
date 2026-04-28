@@ -2,9 +2,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: release-operator
-  namespace: "${releaseNamespace:-kommander}"
+  namespace: "kommander"
   annotations:
-    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev}"
+    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev.29}"
 spec:
   interval: 10m
   sourceRef:
@@ -30,7 +30,7 @@ spec:
               containers:
                 - name: controller-manager
                   args:
-                    - "--release-metadata-namespace=${releaseNamespace:-kommander}"
+                    - "--release-metadata-namespace=kommander"
       target:
         kind: Deployment
         name: release-controller-manager
