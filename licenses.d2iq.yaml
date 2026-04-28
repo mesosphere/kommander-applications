@@ -967,6 +967,6 @@ resources:
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
     sources:
-      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
+      - url: https://github.com/Mellanox/doca-driver-build
         ref: ${image_tag}
         license_path: LICENSE
