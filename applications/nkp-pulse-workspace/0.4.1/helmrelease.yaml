@@ -24,11 +24,16 @@ spec:
   releaseName: nkp-pulse-workspace
   targetNamespace: ${releaseNamespace}
   upgrade:
+    serverSideApply: enabled
     remediation:
       strategy: uninstall
+  rollback:
+    serverSideApply: enabled
   valuesFrom:
     - kind: ConfigMap
       name: nkp-pulse-workspace-0.4.1-config-defaults
+  install:
+    serverSideApply: true
 ---
 apiVersion: v1
 kind: ConfigMap
