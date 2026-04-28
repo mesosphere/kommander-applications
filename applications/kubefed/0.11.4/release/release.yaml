@@ -22,7 +22,7 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
-    disableTakeOwnership: true # This is needed cuz kubefed controller-manager races with helm-controller for ownership of a KubefedConfig resource created from helm chart.
+    serverSideApply: false
     crds: CreateReplace
     remediation:
       retries: 30
