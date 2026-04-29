@@ -466,7 +466,6 @@ applications:
     images:
       - oci://ghcr.io/opencost/charts/opencost:2.5.14
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.120.0
       - ghcr.io/opencost/opencost:1.120.0
   - name: project-grafana-logging
     version: 11.3.3
