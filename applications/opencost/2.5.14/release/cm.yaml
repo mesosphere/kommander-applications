@@ -29,10 +29,10 @@ data:
       ui:
         image:
           registry: ghcr.io
-          repository: nutanix-cloud-native/dkp-container-images/opencost/opencost-ui
+          repository: opencost/opencost
           # to avoid upstream default tag that comes with a SHA
           tag: "1.120.0"
-        uiPath: /dkp/opencost/frontend
+        uiPath: /
         useIPv6: false
         enabled: true
         ingress:
@@ -40,7 +40,7 @@ data:
           ingressClassName: "kommander-traefik"
           annotations:
             traefik.ingress.kubernetes.io/router.tls: "true"
-            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-forwardauth@kubernetescrd"
+            traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth@kubernetescrd"
           hosts:
             - host: ""
               paths:

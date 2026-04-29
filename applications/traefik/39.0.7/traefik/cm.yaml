@@ -71,6 +71,7 @@ data:
               - /dkp/kommander/monitoring/query
               - /dkp/kubernetes
               - /dkp/prometheus
+              - /dkp/opencost/frontend
       - # Create stripprefix middleware for kubetunnel exposed services.
         # This expects that every TunnelGateway will be launched with
         # `urlPathPrefix: /dkp/tunnel` configuration.
