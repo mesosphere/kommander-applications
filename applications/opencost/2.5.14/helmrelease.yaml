@@ -10,6 +10,8 @@ spec:
   interval: 6h
   retryInterval: 1m
   dependsOn:
+    - name: kube-prometheus-stack
+      namespace: ${releaseNamespace}
     - name: opencost-pre-install
       namespace: ${releaseNamespace}
   path: ./applications/opencost/2.5.14/release
