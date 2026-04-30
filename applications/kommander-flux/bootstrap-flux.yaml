@@ -8138,7 +8138,7 @@ spec:
       app: helm-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8178,7 +8178,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits:
             cpu: 2000m
             memory: 2Gi
@@ -8199,14 +8199,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector: 
+      nodeSelector:
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/image-automation-controller.yaml
@@ -8229,7 +8229,7 @@ spec:
       app: image-automation-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8266,7 +8266,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8287,7 +8287,7 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
@@ -8315,7 +8315,7 @@ spec:
       app: image-reflector-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8352,7 +8352,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8375,7 +8375,7 @@ spec:
         - mountPath: /data
           name: data
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
@@ -8405,7 +8405,7 @@ spec:
       app: kustomize-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8444,7 +8444,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits:
             cpu: 2500m
             memory: 1Gi
@@ -8465,14 +8465,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector: 
+      nodeSelector:
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/notification-controller.yaml
@@ -8495,7 +8495,7 @@ spec:
       app: notification-controller
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8538,7 +8538,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources: 
+        resources:
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8559,14 +8559,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector: 
+      nodeSelector:
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/source-controller.yaml
@@ -8591,7 +8591,7 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations: 
+      annotations:
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8636,7 +8636,7 @@ spec:
           httpGet:
             path: /
             port: http
-        resources: 
+        resources:
           limits:
             cpu: 2000m
             memory: 1Gi
@@ -8659,7 +8659,7 @@ spec:
         - mountPath: /tmp
           name: tmp
       priorityClassName: "system-cluster-critical"
-      securityContext: 
+      securityContext:
         fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
@@ -8668,5 +8668,5 @@ spec:
         name: data
       - emptyDir: {}
         name: tmp
-      nodeSelector: 
+      nodeSelector:
         kubernetes.io/os: linux
