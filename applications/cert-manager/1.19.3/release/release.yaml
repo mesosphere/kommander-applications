@@ -50,6 +50,10 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
+    # this is needed to support NAI
+    - kind: ConfigMap
+      name: cert-manager-gateway-api-override
+      optional: true
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
