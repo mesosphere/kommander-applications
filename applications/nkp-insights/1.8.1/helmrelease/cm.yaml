@@ -273,7 +273,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.8.0-dev.13
+      tag: 1.8.1
     initdb:
       resources:
         limits:
@@ -489,6 +489,32 @@ data:
             cpu: 100m
             memory: 64Mi
     polaris:
+      allowResourceAccess:
+        default_acme.cert-manager.io:
+          apiGroups:
+            - acme.cert-manager.io
+          resources:
+            - '*'
+        default_ceph.rook.io:
+          apiGroups:
+            - ceph.rook.io
+          resources:
+            - '*'
+        default_logging.banzaicloud.io:
+          apiGroups:
+            - logging.banzaicloud.io
+          resources:
+            - '*'
+        default_postgresql.cnpg.io:
+          apiGroups:
+            - postgresql.cnpg.io
+          resources:
+            - '*'
+        default_velero.io:
+          apiGroups:
+            - velero.io
+          resources:
+            - '*'
       baseEvaluationTimeout: 5m
       config:
         checks:
@@ -609,6 +635,9 @@ data:
         imageFull: docker.io/mesosphere/trivy-bundles:0.64.1-20260324T034955Z
         pullPolicy: IfNotPresent
       jobBackoffLimit: 2
+      namespaceSecretAccess:
+        enabled: false
+        resourceNames: []
       resources:
         limits:
           cpu: 200m
