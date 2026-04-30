@@ -38,8 +38,8 @@ applications:
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
       - oci://<registry-url>/kommander-applications/kubetunnel:0.2.0
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
-      - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.0
-      - oci://<registry-url>/kommander-applications/nkp-insights:1.8.0
+      - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.1
+      - oci://<registry-url>/kommander-applications/nkp-insights:1.8.1
       - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
       - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.1
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.1
@@ -386,11 +386,11 @@ applications:
       - ghcr.io/kube-logging/logging-operator/node-exporter:6.4.0
       - ghcr.io/kube-logging/logging-operator:6.4.0
   - name: nkp-insights
-    version: 1.8.0
+    version: 1.8.1
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-insights:1.8.0-dev.13
+      - oci://ghcr.io/mesosphere/charts/nkp-insights:1.8.1
       - docker.io/aquasec/kube-bench:v0.14.0
-      - docker.io/mesosphere/insights:1.8.0-dev.13
+      - docker.io/mesosphere/insights:1.8.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/mesosphere/trivy-bundles:0.64.1-20260324T034955Z
       - quay.io/fairwinds/nova:v3.11.9
@@ -398,10 +398,10 @@ applications:
       - registry.k8s.io/pause:3.10
       - us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.22.6
   - name: nkp-insights-management
-    version: 1.8.0
+    version: 1.8.1
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.8.0-dev.13
-      - docker.io/mesosphere/insights-management:1.8.0-dev.13
+      - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.8.1
+      - docker.io/mesosphere/insights-management:1.8.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: nkp-mcp-server
     version: 0.1.0

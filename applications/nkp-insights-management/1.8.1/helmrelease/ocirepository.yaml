@@ -6,5 +6,5 @@ metadata:
 spec:
   interval: 1m
   ref:
-    tag: 1.8.0-dev.13
+    tag: 1.8.1
   url: oci://ghcr.io/mesosphere/charts/nkp-insights-management
