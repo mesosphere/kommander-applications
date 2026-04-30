@@ -4,7 +4,7 @@ ignore:
   #   sources:
   #     - url: https://github.com/nutanix-cloud-native/flux-oci-mirror
   #       ref: ${image_tag}
-  - docker.io/mesosphere/flux-oci-mirror:v0.3.0
+  - docker.io/mesosphere/flux-oci-mirror:v0.3.1
   - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
 
 resources:
