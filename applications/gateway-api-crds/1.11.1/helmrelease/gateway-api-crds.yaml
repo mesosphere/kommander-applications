@@ -26,9 +26,6 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
-    - kind: ConfigMap
-      name: gateway-api-crds-config-overrides
-      optional: true
   install:
     serverSideApply: true
   upgrade:
