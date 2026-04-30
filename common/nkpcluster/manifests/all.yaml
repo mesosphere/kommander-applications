@@ -794,6 +794,14 @@ rules:
   - list
   - watch
 - apiGroups:
+  - kubetunnel.d2iq.io
+  resources:
+  - tunnelconnectors
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - clusters.nkp.nutanix.com
   resources:
   - nkpclusters
