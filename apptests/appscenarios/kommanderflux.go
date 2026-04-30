@@ -39,7 +39,8 @@ func (r kommanderFlux) InstallPreviousVersion(ctx context.Context, env *environm
 		return err
 	}
 
-	err = r.install(ctx, env, appPath)
+	// Bootstrap flux from applications/kommander-flux dir
+	err = r.install(ctx, env, filepath.Join(appPath, ".."))
 	if err != nil {
 		return err
 	}

@@ -88,7 +88,7 @@ data:
       priorityClassName: system-cluster-critical
       podSecurityContext:
         fsGroup: 1337
-    imageReflectorController:
+    imageReflectionController:
       resources:
         limits:
           cpu: 1000m

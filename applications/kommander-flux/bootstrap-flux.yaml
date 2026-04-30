@@ -8353,7 +8353,9 @@ spec:
             path: /readyz
             port: healthz
         resources:
-          limits: {}
+          limits:
+            cpu: 1000m
+            memory: 1Gi
           requests:
             cpu: 100m
             memory: 64Mi
@@ -8372,6 +8374,7 @@ spec:
           name: temp
         - mountPath: /data
           name: data
+      priorityClassName: "system-cluster-critical"
       securityContext:
         fsGroup: 1337
       serviceAccountName: image-reflector-controller
