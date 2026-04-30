@@ -137,3 +137,4 @@ data:
       catalogName: nkp-nutanix-product-catalog
       extraLabels: {}
       tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+      airgappedDiscovery: true
