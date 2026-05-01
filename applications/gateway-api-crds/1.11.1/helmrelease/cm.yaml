@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,3 +11,17 @@ data:
     traefik: false
     hub: false
     deleteOnUninstall: false
+---
+# now the cert-manager k-app's HelmRelease has an optional valuesFrom pointing to this ConfigMap
+# once this k-app is ready, the cert-manager HelmRelease eventually reconciles to pick up this ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cert-manager-gateway-api-crds-${releaseNamespace}-overrides
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |-
+    config:
+      apiVersion: controller.config.cert-manager.io/v1alpha1
+      kind: ControllerConfiguration
+      enableGatewayAPI: true
