@@ -149,7 +149,7 @@ applications:
   - name: gateway-api-crds
     version: 1.17.0
     images:
-      - oci://ghcr.io/traefik/helm/traefik-crds:1.11.1
+      - oci://ghcr.io/traefik/helm/traefik-crds:1.17.0
   - name: git-operator
     version: 0.13.18
     images:
