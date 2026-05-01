@@ -12,8 +12,8 @@ data:
     hub: false
     deleteOnUninstall: false
 ---
-# this is needed to support NAI
-# https://jira.nutanix.com/browse/NCN-112584
+# now the cert-manager k-app's HelmRelease has an optional valuesFrom pointing to this ConfigMap
+# once this k-app is ready, the cert-manager HelmRelease eventually reconciles to pick up this ConfigMap
 apiVersion: v1
 kind: ConfigMap
 metadata:
