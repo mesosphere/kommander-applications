@@ -9,7 +9,7 @@ data:
     priorityClassName: "dkp-high-priority"
     image:
       repository: mesosphere/dex-k8s-authenticator
-      tag: v1.4.5-d2iq
+      tag: v1.4.6-d2iq
     env:
       ENABLE_MULTI_TENANCY: "true"
     ingress:
