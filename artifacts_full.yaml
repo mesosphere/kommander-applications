@@ -15,7 +15,7 @@ applications:
       - oci://<registry-url>/kommander-applications/external-secrets:2.3.0
       - oci://<registry-url>/kommander-applications/fluent-bit:0.57.2
       - oci://<registry-url>/kommander-applications/gatekeeper:3.22.0
-      - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.1
+      - oci://<registry-url>/kommander-applications/gateway-api-crds:1.11.2
       - oci://<registry-url>/kommander-applications/git-operator:0.13.18
       - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
@@ -24,7 +24,7 @@ applications:
       - oci://<registry-url>/kommander-applications/istio-helm:1.24.0
       - oci://<registry-url>/kommander-applications/istio:1.23.5
       - oci://<registry-url>/kommander-applications/jaeger:2.57.3
-      - oci://<registry-url>/kommander-applications/karma-traefik:0.0.4
+      - oci://<registry-url>/kommander-applications/karma-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/karma:2.0.9
       - oci://<registry-url>/kommander-applications/kiali:2.24.0
       - oci://<registry-url>/kommander-applications/knative:1.21.0
@@ -32,7 +32,7 @@ applications:
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
       - oci://<registry-url>/kommander-applications/kommander-ui:17.234.16
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
-      - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.7
+      - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.8
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
       - oci://<registry-url>/kommander-applications/kubefed:0.11.4
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.0
@@ -51,7 +51,7 @@ applications:
       - oci://<registry-url>/kommander-applications/project-grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/project-logging:1.1.0
       - oci://<registry-url>/kommander-applications/prometheus-adapter:5.3.0
-      - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.4
+      - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/reloader:2.2.11
       - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.4
       - oci://<registry-url>/kommander-applications/rook-ceph:1.19.4
@@ -147,7 +147,7 @@ applications:
       - docker.io/openpolicyagent/gatekeeper-crds:v3.22.0
       - docker.io/openpolicyagent/gatekeeper:v3.22.0
   - name: gateway-api-crds
-    version: 1.11.1
+    version: 1.11.2
     images:
       - oci://ghcr.io/traefik/helm/traefik-crds:1.11.1
   - name: git-operator
@@ -236,7 +236,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/karma:2.0.3
       - docker.io/mesosphere/karma:v0.120-ntnx-server-name
   - name: karma-traefik
-    version: 0.0.4
+    version: 0.0.5
     images:
       - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
   - name: kiali
@@ -328,7 +328,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/kommander-ui:17.234.16
       - docker.io/mesosphere/kommander:17.234.16
   - name: kube-oidc-proxy
-    version: 0.3.7
+    version: 0.3.8
     images:
       - oci://ghcr.io/mesosphere/charts/kube-oidc-proxy:0.3.4
       - ghcr.io/mesosphere/dkp-container-images/kube-oidc-proxy:1.0.9
@@ -495,7 +495,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/prometheus-adapter:5.3.0
       - registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.12.0
   - name: prometheus-thanos-traefik
-    version: 0.0.4
+    version: 0.0.5
     images:
       - oci://ghcr.io/mesosphere/charts/thanos-traefik:0.0.2
   - name: reloader
