@@ -9,7 +9,7 @@ applications:
       - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/cloudnative-pg:0.28.0
       - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.3
-      - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.7
+      - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.8
       - oci://<registry-url>/kommander-applications/dex:2.14.4
       - oci://<registry-url>/kommander-applications/external-dns:10.20.0
       - oci://<registry-url>/kommander-applications/external-secrets:2.3.0
@@ -119,10 +119,10 @@ applications:
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: dex-k8s-authenticator
-    version: 1.4.7
+    version: 1.4.8
     images:
       - oci://ghcr.io/mesosphere/charts/dex-k8s-authenticator:1.4.3
-      - docker.io/mesosphere/dex-k8s-authenticator:v1.4.5-d2iq
+      - docker.io/mesosphere/dex-k8s-authenticator:v1.4.6-d2iq
   - name: external-dns
     version: 10.20.0
     images:
