@@ -977,6 +977,14 @@ rules:
   - patch
   - watch
 - apiGroups:
+  - cluster.x-k8s.io
+  resources:
+  - clusterclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - release.nkp.nutanix.com
   resources:
   - releases
