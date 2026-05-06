@@ -39,7 +39,8 @@ data:
         spec:
           # The version of Knative Serving to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#install-knative-serving
-          version: "1.20.3"
+          # 1.20.2 is the highest 1.20.x patch shipped in the v1.21.0 knative-operator's kodata.
+          version: "1.20.2"
           # Upstream ships with 80% minAvailable and that would block node drains when only 1 pod is running.
           podDisruptionBudgets:
             - name: activator-pdb
@@ -54,17 +55,19 @@ data:
               net-istio-controller/controller: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v1.20.4
               net-istio-webhook/webhook: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v1.20.4
               kourier/kourier: gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier:v1.20.1
-              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.20.3
-              activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.20.3
-              autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.20.3
-              autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.20.3
-              controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.20.3
-              webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.20.3
-              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.20.3
+              storage-version-migration-serving-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.20.2
+              activator/activator: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v1.20.2
+              autoscaler-hpa/autoscaler-hpa: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa:v1.20.2
+              autoscaler/autoscaler: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v1.20.2
+              controller/controller: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v1.20.2
+              webhook/webhook: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v1.20.2
+              cleanup-serving-/cleanup: gcr.io/knative-releases/knative.dev/serving/pkg/cleanup/cmd/cleanup:v1.20.2
+              queue-proxy: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.2
+              QUEUE_SIDECAR_IMAGE: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.2
           config:
             deployment:
               registriesSkippingTagResolving: "gcr.io"
-              queue-sidecar-image: "gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.3"
+              queue-sidecar-image: "gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.2"
             istio:
               external-gateways: |
                 - name: knative-ingress-gateway
@@ -97,26 +100,28 @@ data:
               maxUnavailable: 1
           # The version of Knative Eventing to install - you can upgrade one version at a time
           # See https://knative.dev/docs/install/operator/knative-with-operators/#installing-a-specific-version-of-eventing
-          version: "1.20.3"
+          # 1.20.1 is the highest 1.20.x patch shipped in the v1.21.0 knative-operator's kodata.
+          version: "1.20.1"
           registry:
             override:
               # Pin eventing images to specific tagged versions
-              mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.20.3
-              mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.20.3
-              eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.20.3
-              imc-controller/controller: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.20.3
-              imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.20.3
-              job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.20.3
-              mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.20.3
-              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.20.3
-              request-reply/request-reply: gcr.io/knative-releases/knative.dev/eventing/cmd/requestreply:v1.20.3
-              eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.20.3
-              APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.20.3
-              AUTH_PROXY_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/auth_proxy:v1.20.3
-              DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.20.3
+              mt-broker-filter/filter: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/filter:v1.20.1
+              mt-broker-ingress/ingress: gcr.io/knative-releases/knative.dev/eventing/cmd/broker/ingress:v1.20.1
+              eventing-controller/eventing-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v1.20.1
+              imc-controller/controller: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_controller:v1.20.1
+              imc-dispatcher/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.20.1
+              job-sink/job-sink: gcr.io/knative-releases/knative.dev/eventing/cmd/jobsink:v1.20.1
+              mt-broker-controller/mt-broker-controller: gcr.io/knative-releases/knative.dev/eventing/cmd/mtchannel_broker:v1.20.1
+              pingsource-mt-adapter/dispatcher: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v1.20.1
+              request-reply/request-reply: gcr.io/knative-releases/knative.dev/eventing/cmd/requestreply:v1.20.1
+              eventing-webhook/eventing-webhook: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v1.20.1
+              storage-version-migration-eventing-/migrate: gcr.io/knative-releases/knative.dev/pkg/apiextensions/storageversion/cmd/migrate:v1.20.1
+              APISERVER_RA_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter:v1.20.1
+              AUTH_PROXY_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/auth_proxy:v1.20.1
+              DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.20.1
           config:
             config-deployment:
-              queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.3
+              queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.2
             eventing-integrations-images:
               aws-ddb-streams-source: gcr.io/knative-releases/aws-ddb-streams-source:v1.20.0
               aws-eventbridge-sink: gcr.io/knative-releases/aws-eventbridge-sink:v1.20.0
