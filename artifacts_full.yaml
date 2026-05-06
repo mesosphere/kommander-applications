@@ -248,8 +248,8 @@ applications:
   - name: knative
     version: 1.20.3
     images:
-      - oci://ghcr.io/mesosphere/charts/knative-operator:1.20.3
-      - oci://ghcr.io/mesosphere/charts/knative:1.20.3
+      - oci://ghcr.io/mesosphere/charts/knative-operator:1.21.0
+      - oci://ghcr.io/mesosphere/charts/knative:1.21.0
       - docker.io/envoyproxy/envoy:v1.34-latest
       - gcr.io/knative-releases/aws-ddb-streams-source:v1.20.0
       - gcr.io/knative-releases/aws-eventbridge-sink:v1.20.0
