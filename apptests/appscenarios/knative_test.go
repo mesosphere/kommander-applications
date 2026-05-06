@@ -50,8 +50,8 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative Install Test", Ordered, Label("install"), func() {
 		var (
-			operatorHr    *fluxhelmv2.HelmRelease
-			deploymentHr  *fluxhelmv2.HelmRelease
+			operatorHr     *fluxhelmv2.HelmRelease
+			deploymentHr   *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -152,7 +152,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 						return 0
 					}
 					return len(jobList.Items)
-				}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(
+				}).WithPolling(pollInterval).WithTimeout(3*time.Minute).Should(
 					BeNumerically(">", 0),
 					fmt.Sprintf("expected at least 1 job in namespace %s", ns),
 				)
@@ -223,7 +223,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 					Name:      "knative-ingress-gateway",
 					Namespace: "knative-serving",
 				}, gw)
-			}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(Succeed(),
+			}).WithPolling(pollInterval).WithTimeout(3*time.Minute).Should(Succeed(),
 				"knative-ingress-gateway Gateway must exist in knative-serving after install (regression: NCN-105488)")
 
 			// Verify the gateway has the expected server ports configured
@@ -243,6 +243,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			operatorHr   *fluxhelmv2.HelmRelease
 			deploymentHr *fluxhelmv2.HelmRelease
 		)
+
+		It("should only upgrade by one Knative minor version", func() {
+			Expect(k.ValidateUpgradeVersionStep()).To(Succeed())
+		})
 
 		It("should install istio-helm as a prerequisite", func() {
 			err := k.InstallIstioHelmDependency(ctx, env)
@@ -369,10 +373,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative PDB Drain Resilience Test", Ordered, Label("pdb-drain"), func() {
 		var (
-			clientset     *kubernetes.Clientset
-			workerNode    string
-			pdb           *policyv1.PodDisruptionBudget
-			webhookPods   *corev1.PodList
+			clientset   *kubernetes.Clientset
+			workerNode  string
+			pdb         *policyv1.PodDisruptionBudget
+			webhookPods *corev1.PodList
 		)
 
 		It("should install istio-helm as a prerequisite", func() {

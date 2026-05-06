@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	corev1 "k8s.io/api/core/v1"
@@ -52,6 +54,69 @@ func (k knative) InstallPreviousVersion(ctx context.Context, env *environment.En
 func (k knative) Upgrade(ctx context.Context, env *environment.Env) error {
 	err := k.install(ctx, env, k.appPathCurrentVersion)
 	return err
+}
+
+func (k knative) ValidateUpgradeVersionStep() error {
+	previous, err := parseKnativeVersionFromPath(k.appPathPreviousVersion)
+	if err != nil {
+		return fmt.Errorf("parse previous Knative version: %w", err)
+	}
+
+	current, err := parseKnativeVersionFromPath(k.appPathCurrentVersion)
+	if err != nil {
+		return fmt.Errorf("parse current Knative version: %w", err)
+	}
+
+	if current.major != previous.major {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: major version changes are not allowed", previous, current)
+	}
+	if current.minor < previous.minor {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: downgrade is not allowed", previous, current)
+	}
+	if current.minor-previous.minor > 1 {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: Knative only supports one minor version upgrade at a time", previous, current)
+	}
+
+	return nil
+}
+
+type knativeVersion struct {
+	major int
+	minor int
+	patch int
+	raw   string
+}
+
+func (v knativeVersion) String() string {
+	return v.raw
+}
+
+func parseKnativeVersionFromPath(path string) (knativeVersion, error) {
+	version := strings.TrimPrefix(filepath.Base(filepath.Clean(path)), "v")
+	parts := strings.Split(version, ".")
+	if len(parts) != 3 {
+		return knativeVersion{}, fmt.Errorf("expected semantic version directory, got %q", filepath.Base(path))
+	}
+
+	major, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse major version %q: %w", parts[0], err)
+	}
+	minor, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse minor version %q: %w", parts[1], err)
+	}
+	patch, err := strconv.Atoi(parts[2])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse patch version %q: %w", parts[2], err)
+	}
+
+	return knativeVersion{
+		major: major,
+		minor: minor,
+		patch: patch,
+		raw:   version,
+	}, nil
 }
 
 func (k knative) install(ctx context.Context, env *environment.Env, appPath string) error {
