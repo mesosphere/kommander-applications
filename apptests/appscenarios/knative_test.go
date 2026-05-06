@@ -164,18 +164,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 		It("should have deployments running in knative namespaces", func() {
 			// Check knative-serving deployments
-			servingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/name": "knative-serving",
-				},
-			})
-			Expect(err).To(BeNil())
-
 			deploymentList = &appsv1.DeploymentList{}
 			Eventually(func() error {
 				err := k8sClient.List(ctx, deploymentList, &ctrlClient.ListOptions{
-					LabelSelector: servingSelector,
-					Namespace:     "knative-serving",
+					Namespace: "knative-serving",
 				})
 				if err != nil {
 					return err
@@ -187,18 +179,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 			// Check knative-eventing deployments
-			eventingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/name": "knative-eventing",
-				},
-			})
-			Expect(err).To(BeNil())
-
 			deploymentList = &appsv1.DeploymentList{}
 			Eventually(func() error {
 				err := k8sClient.List(ctx, deploymentList, &ctrlClient.ListOptions{
-					LabelSelector: eventingSelector,
-					Namespace:     "knative-eventing",
+					Namespace: "knative-eventing",
 				})
 				if err != nil {
 					return err
