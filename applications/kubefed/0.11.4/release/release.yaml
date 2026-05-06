@@ -22,16 +22,18 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
-    serverSideApply: false
+    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   targetNamespace: kube-federation-system
   upgrade:
-    disableTakeOwnership: true # This is needed cuz kubefed controller-manager races with helm-controller for ownership of a KubefedConfig resource created from helm chart.
+    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
+  rollback:
+    serverSideApply: enabled
   releaseName: kubefed
   valuesFrom:
     - kind: ConfigMap
