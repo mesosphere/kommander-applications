@@ -59,7 +59,7 @@ func TestApplyKustomizations(t *testing.T) {
 	fmt.Println(kustomizePath)
 
 	// create a kind cluster and install fluxcd on it
-	cluster, k8sClient, err := provisionEnv(ctx)
+	cluster, k8sClient, err := provisionEnv(ctx, nil)
 	assert.NoError(t, err)
 	defer env.Destroy(ctx)
 

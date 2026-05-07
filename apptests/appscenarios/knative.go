@@ -5,8 +5,13 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -45,13 +50,122 @@ func (k knative) Install(ctx context.Context, env *environment.Env) error {
 }
 
 func (k knative) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
-	err := k.install(ctx, env, k.appPathPreviousVersion)
-	return err
+	// Simulate the v2.17 helm-controller (Helm v3 SDK, client-side apply)
+	// before installing the previous-version chart, but only when the
+	// previous-version chart predates the v2.18 cm.yaml fix. See
+	// setHelmControllerHelm3Defaults for full rationale.
+	needsHelm3, err := k.previousVersionRequiresHelm3Defaults()
+	if err != nil {
+		return err
+	}
+	if needsHelm3 {
+		if err := setHelmControllerHelm3Defaults(ctx, env, true); err != nil {
+			return fmt.Errorf("enable %s feature gate: %w", helm3DefaultsGate, err)
+		}
+	}
+	return k.install(ctx, env, k.appPathPreviousVersion)
 }
 
 func (k knative) Upgrade(ctx context.Context, env *environment.Env) error {
-	err := k.install(ctx, env, k.appPathCurrentVersion)
-	return err
+	// Restore the v1.5.x helm-controller defaults (Helm v4 SDK, server-side
+	// apply) before applying the current-version chart, mirroring the toggle
+	// we made in InstallPreviousVersion. No-op when we never enabled the
+	// gate (i.e. previous version already had the v2.18+ cm.yaml shape).
+	needsHelm3, err := k.previousVersionRequiresHelm3Defaults()
+	if err != nil {
+		return err
+	}
+	if needsHelm3 {
+		if err := setHelmControllerHelm3Defaults(ctx, env, false); err != nil {
+			return fmt.Errorf("disable %s feature gate: %w", helm3DefaultsGate, err)
+		}
+	}
+	return k.install(ctx, env, k.appPathCurrentVersion)
+}
+
+// previousVersionRequiresHelm3Defaults reports whether the previous-version
+// knative chart predates the kommander-applications v2.18 cm.yaml fix that
+// switched eventing.manifest.spec.deployments[].podTemplate.spec.affinity to
+// the schema-aligned eventing.manifest.spec.deployments[].affinity.
+//
+// Knative <1.20.x was shipped by NKP <2.18 with the broken cm.yaml. Knative
+// 1.20.x onwards (NKP 2.18+) ships the corrected shape that passes the
+// helm-controller v1.5.x SSA path without any workaround.
+//
+// TODO(NKP-after-2.18-only): remove this helper, the
+// setHelmControllerHelm3Defaults dance, and the unconditional call in
+// InstallPreviousVersion / Upgrade once we no longer support upgrades from
+// pre-2.18 NKP releases. The whole v3-defaults block becomes dead code at
+// that point.
+func (k knative) previousVersionRequiresHelm3Defaults() (bool, error) {
+	prev, err := parseKnativeVersionFromPath(k.appPathPreviousVersion)
+	if err != nil {
+		return false, fmt.Errorf("parse previous Knative version: %w", err)
+	}
+	return prev.major == 1 && prev.minor < 20, nil
+}
+
+func (k knative) ValidateUpgradeVersionStep() error {
+	previous, err := parseKnativeVersionFromPath(k.appPathPreviousVersion)
+	if err != nil {
+		return fmt.Errorf("parse previous Knative version: %w", err)
+	}
+
+	current, err := parseKnativeVersionFromPath(k.appPathCurrentVersion)
+	if err != nil {
+		return fmt.Errorf("parse current Knative version: %w", err)
+	}
+
+	if current.major != previous.major {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: major version changes are not allowed", previous, current)
+	}
+	if current.minor < previous.minor {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: downgrade is not allowed", previous, current)
+	}
+	if current.minor-previous.minor > 1 {
+		return fmt.Errorf("unsupported Knative upgrade from %s to %s: Knative only supports one minor version upgrade at a time", previous, current)
+	}
+
+	return nil
+}
+
+type knativeVersion struct {
+	major int
+	minor int
+	patch int
+	raw   string
+}
+
+func (v knativeVersion) String() string {
+	return v.raw
+}
+
+func parseKnativeVersionFromPath(path string) (knativeVersion, error) {
+	version := strings.TrimPrefix(filepath.Base(filepath.Clean(path)), "v")
+	parts := strings.Split(version, ".")
+	if len(parts) != 3 {
+		return knativeVersion{}, fmt.Errorf("expected semantic version directory, got %q", filepath.Base(path))
+	}
+
+	major, err := strconv.Atoi(parts[0])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse major version %q: %w", parts[0], err)
+	}
+	minor, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse minor version %q: %w", parts[1], err)
+	}
+	patch, err := strconv.Atoi(parts[2])
+	if err != nil {
+		return knativeVersion{}, fmt.Errorf("parse patch version %q: %w", parts[2], err)
+	}
+
+	return knativeVersion{
+		major: major,
+		minor: minor,
+		patch: patch,
+		raw:   version,
+	}, nil
 }
 
 func (k knative) install(ctx context.Context, env *environment.Env, appPath string) error {
@@ -263,4 +377,176 @@ func (k knative) removeIstioHelmDependsOn(ctx context.Context, env *environment.
 		APIVersion: fluxhelmv2.GroupVersion.String(),
 	}
 	return genericClient.Update(ctx, hr)
+}
+
+// helm-controller deployment coordinates. helm-controller is shipped by
+// kommander-flux and runs in this namespace with this deployment name.
+const (
+	helmControllerNamespace = "kommander-flux"
+	helmControllerName      = "helm-controller"
+	helm3DefaultsGate       = "UseHelm3Defaults"
+)
+
+// setHelmControllerHelm3Defaults toggles helm-controller's `UseHelm3Defaults`
+// feature gate by patching the controller Deployment's --feature-gates arg and
+// waiting for the rollout to complete.
+//
+// Why this exists: helm-controller v1.5.0 (Feb 2026) bumped to the Helm v4 SDK
+// and flipped the default apply method to server-side apply. SSA validates
+// patches via the structured-merge-diff typed parser against the target CRD's
+// OpenAPI v3 schema. The 1.19.5 knative cm.yaml in the upgrade-from
+// kommander-applications checkout (v2.17.0) wraps eventing-webhook affinity
+// under a non-existent `podTemplate.spec.affinity` field. The 1.19.5
+// KnativeEventing CRD does not declare `podTemplate`, so SSA fails install:
+//
+//	"failed to create typed patch object (...; KnativeEventing):
+//	 .spec.deployments[0].podTemplate: field not declared in schema"
+//
+// To faithfully simulate a v2.17 -> v2.18 upgrade we install the previous
+// version under the Helm v3 defaults (client-side apply, the behavior of
+// helm-controller v1.4.x that shipped with v2.17), then restore the v1.5.x
+// defaults before the upgrade so that the upgrade exercises the SSA path that
+// v2.18 customers will use.
+//
+// This is gated by previousVersionRequiresHelm3Defaults so it only runs for
+// pre-2.18 from-versions; 2.18+ ships the schema-aligned cm.yaml and works
+// with the v1.5.x SSA default unmodified.
+//
+// Reference: https://github.com/fluxcd/helm-controller/blob/v1.5.0/CHANGELOG.md
+func setHelmControllerHelm3Defaults(ctx context.Context, env *environment.Env, enable bool) error {
+	c, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{
+		Scheme: flux.NewScheme(),
+	})
+	if err != nil {
+		return fmt.Errorf("create client for helm-controller patch: %w", err)
+	}
+
+	key := ctrlClient.ObjectKey{Name: helmControllerName, Namespace: helmControllerNamespace}
+	dep := &appsv1.Deployment{}
+	if err := c.Get(ctx, key, dep); err != nil {
+		return fmt.Errorf("get helm-controller deployment: %w", err)
+	}
+
+	if len(dep.Spec.Template.Spec.Containers) == 0 {
+		return fmt.Errorf("helm-controller deployment has no containers")
+	}
+	container := &dep.Spec.Template.Spec.Containers[0]
+
+	newArgs, changed := setFeatureGate(container.Args, helm3DefaultsGate, enable)
+	if !changed {
+		return nil
+	}
+	container.Args = newArgs
+
+	if err := c.Update(ctx, dep); err != nil {
+		return fmt.Errorf("update helm-controller deployment: %w", err)
+	}
+
+	return waitForDeploymentRollout(ctx, c, key, 3*time.Minute)
+}
+
+// setFeatureGate adds or removes a single feature gate from a Kubernetes-style
+// `--feature-gates=foo=true,bar=false` arg list. Returns the new args slice and
+// whether the slice differs from the input.
+//
+// Behavior:
+//   - enable=true:  ensure `gate=true` is present in the --feature-gates arg
+//     (adding the arg if missing).
+//   - enable=false: ensure `gate` is not present in the --feature-gates arg
+//     (and remove the arg entirely if it would otherwise be empty).
+func setFeatureGate(args []string, gate string, enable bool) ([]string, bool) {
+	const prefix = "--feature-gates="
+
+	for i, arg := range args {
+		if !strings.HasPrefix(arg, prefix) {
+			continue
+		}
+		gates := parseFeatureGates(arg[len(prefix):])
+		_, present := gates[gate]
+		switch {
+		case enable && present && gates[gate] == "true":
+			return args, false
+		case !enable && !present:
+			return args, false
+		}
+		if enable {
+			gates[gate] = "true"
+		} else {
+			delete(gates, gate)
+		}
+		out := make([]string, len(args))
+		copy(out, args)
+		if encoded := encodeFeatureGates(gates); encoded != "" {
+			out[i] = prefix + encoded
+		} else {
+			out = append(out[:i], out[i+1:]...)
+		}
+		return out, true
+	}
+
+	if !enable {
+		return args, false
+	}
+	return append(append([]string{}, args...), prefix+gate+"=true"), true
+}
+
+func parseFeatureGates(s string) map[string]string {
+	gates := make(map[string]string)
+	for _, part := range strings.Split(s, ",") {
+		if part == "" {
+			continue
+		}
+		kv := strings.SplitN(part, "=", 2)
+		if len(kv) == 2 {
+			gates[kv[0]] = kv[1]
+		}
+	}
+	return gates
+}
+
+func encodeFeatureGates(gates map[string]string) string {
+	if len(gates) == 0 {
+		return ""
+	}
+	keys := make([]string, 0, len(gates))
+	for k := range gates {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	parts := make([]string, 0, len(keys))
+	for _, k := range keys {
+		parts = append(parts, k+"="+gates[k])
+	}
+	return strings.Join(parts, ",")
+}
+
+// waitForDeploymentRollout blocks until the deployment's spec generation has
+// been observed and all replicas are updated and available, or the timeout
+// elapses.
+func waitForDeploymentRollout(ctx context.Context, c ctrlClient.Client, key ctrlClient.ObjectKey, timeout time.Duration) error {
+	waitCtx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	for {
+		dep := &appsv1.Deployment{}
+		if err := c.Get(waitCtx, key, dep); err != nil {
+			return fmt.Errorf("get deployment %s/%s: %w", key.Namespace, key.Name, err)
+		}
+		desired := int32(1)
+		if dep.Spec.Replicas != nil {
+			desired = *dep.Spec.Replicas
+		}
+		if dep.Status.ObservedGeneration >= dep.Generation &&
+			dep.Status.UpdatedReplicas == desired &&
+			dep.Status.AvailableReplicas == desired &&
+			dep.Status.Replicas == desired {
+			return nil
+		}
+		select {
+		case <-waitCtx.Done():
+			return fmt.Errorf("timed out waiting for deployment %s/%s rollout: %w",
+				key.Namespace, key.Name, waitCtx.Err())
+		case <-time.After(pollInterval):
+		}
+	}
 }

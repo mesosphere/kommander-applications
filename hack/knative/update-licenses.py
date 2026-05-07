@@ -46,7 +46,7 @@ def parse_image_reference(image_ref):
 
 def get_repository_url(image_ref):
     """Determine the appropriate GitHub repository URL for a KNative image."""
-    _, repository, _, _ = parse_image_reference(image_ref)
+    registry, repository, _, _ = parse_image_reference(image_ref)
 
     if 'knative.dev/net-istio' in repository:
         return 'https://github.com/knative/net-istio'
@@ -62,6 +62,9 @@ def get_repository_url(image_ref):
         return 'https://github.com/knative/pkg'
     elif 'knative.dev/operator' in repository:
         return 'https://github.com/knative/operator'
+    elif registry == 'docker.io' and repository == 'envoyproxy/envoy':
+        # Envoy is pulled in as the data plane for net-istio / net-kourier.
+        return 'https://github.com/envoyproxy/envoy'
     else:
         # For standalone images like aws-*, timer-source, log-sink, jsonata-transformer, transform-jsonata
         return 'https://github.com/knative/eventing'
@@ -70,7 +73,7 @@ def get_repository_url(image_ref):
 def create_license_entry_text(image_ref, version):
     """Create the text for a license entry."""
     repo_url = get_repository_url(image_ref)
-    _, _, image_tag, _ = parse_image_reference(image_ref)
+    registry, repository, image_tag, _ = parse_image_reference(image_ref)
 
     # For operator images, use ${image_tag} variable instead of hardcoded version
     if 'knative.dev/operator' in image_ref:
@@ -79,6 +82,16 @@ def create_license_entry_text(image_ref, version):
         # pkg repository uses release branches without 'v' prefix and no patch version
         major_minor = '.'.join(version.split('.')[:2])  # e.g., "1.18.1" -> "1.18"
         ref_value = f"release-{major_minor}"
+    elif registry == 'docker.io' and repository == 'envoyproxy/envoy':
+        # Envoy uses release branches like `release/v1.34`. The image tag is
+        # typically a moving tag (e.g. `v1.34-latest`) or a specific patch
+        # (e.g. `v1.34.5`); in either case, derive the major.minor branch.
+        if image_tag and image_tag.startswith('v'):
+            version_part = image_tag[1:].split('-')[0]  # 'v1.34-latest' -> '1.34'; 'v1.34.5' -> '1.34.5'
+            major_minor = '.'.join(version_part.split('.')[:2])  # '1.34'
+            ref_value = f"release/v{major_minor}"
+        else:
+            ref_value = image_tag or ""
     elif image_tag and image_tag.startswith('v') and image_tag[1:] != version:
         # Image has a different version than the global one (e.g., net-istio v1.21.1
         # when serving is v1.21.0); use the image's own tag for the git ref.
@@ -96,9 +109,18 @@ def create_license_entry_text(image_ref, version):
 def main():
     parser = argparse.ArgumentParser(description='Update licenses.d2iq.yaml with KNative images')
     parser.add_argument('version', help='KNative version (e.g., 1.19.0)')
+    parser.add_argument(
+        '--operator-version',
+        help=(
+            'KNative operator version (e.g., 1.21.0). Defaults to the same value '
+            'as `version`. Specify this when the operator is pinned to a different '
+            'version than the serving/eventing data plane.'
+        ),
+    )
     args = parser.parse_args()
 
     version = args.version
+    operator_version = args.operator_version or version
 
     # Read the extra images
     extra_images_file = Path(f"applications/knative/{version}/extra-images.txt")
@@ -113,8 +135,8 @@ def main():
 
     # Add operator images (they are not in extra-images.txt)
     operator_images = [
-        f"gcr.io/knative-releases/knative.dev/operator/cmd/operator:v{version}",
-        f"gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v{version}"
+        f"gcr.io/knative-releases/knative.dev/operator/cmd/operator:v{operator_version}",
+        f"gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v{operator_version}"
     ]
 
     # Combine all images - operator images first, then extra images
@@ -129,8 +151,9 @@ def main():
     with open(licenses_file) as f:
         licenses_content = f.read()
 
-    # Remove ALL existing KNative entries
-    knative_pattern = r'(  - container_image: gcr\.io/knative-releases/[^\n]+\n(?:    [^\n]+\n)*)'
+    # Remove ALL existing KNative entries (including the envoy data-plane image
+    # that ships with net-istio/net-kourier and lives in extra-images.txt).
+    knative_pattern = r'(  - container_image: (?:gcr\.io/knative-releases/|docker\.io/envoyproxy/envoy)[^\n]+\n(?:    [^\n]+\n)*)'
     existing_matches = list(re.finditer(knative_pattern, licenses_content))
 
     removed_count = len(existing_matches)

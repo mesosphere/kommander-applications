@@ -27,7 +27,16 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 	var k *knative
 
 	BeforeEach(OncePerOrdered, func() {
-		err := SetupKindCluster()
+		// The PDB drain spec cordons a worker and needs a sibling node so
+		// evicted pods can be rescheduled. Provision the multi-worker
+		// topology only for that Ordered child; every other Ordered child
+		// uses the default single-worker config to keep overhead minimal.
+		var err error
+		if specHasLabel("pdb-drain") {
+			err = SetupKindClusterMultiWorker()
+		} else {
+			err = SetupKindCluster()
+		}
 		Expect(err).To(BeNil())
 
 		err = env.InstallLatestFlux(ctx)
@@ -50,8 +59,8 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative Install Test", Ordered, Label("install"), func() {
 		var (
-			operatorHr    *fluxhelmv2.HelmRelease
-			deploymentHr  *fluxhelmv2.HelmRelease
+			operatorHr     *fluxhelmv2.HelmRelease
+			deploymentHr   *fluxhelmv2.HelmRelease
 			deploymentList *appsv1.DeploymentList
 		)
 
@@ -152,7 +161,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 						return 0
 					}
 					return len(jobList.Items)
-				}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(
+				}).WithPolling(pollInterval).WithTimeout(3*time.Minute).Should(
 					BeNumerically(">", 0),
 					fmt.Sprintf("expected at least 1 job in namespace %s", ns),
 				)
@@ -164,18 +173,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 		It("should have deployments running in knative namespaces", func() {
 			// Check knative-serving deployments
-			servingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/name": "knative-serving",
-				},
-			})
-			Expect(err).To(BeNil())
-
 			deploymentList = &appsv1.DeploymentList{}
 			Eventually(func() error {
 				err := k8sClient.List(ctx, deploymentList, &ctrlClient.ListOptions{
-					LabelSelector: servingSelector,
-					Namespace:     "knative-serving",
+					Namespace: "knative-serving",
 				})
 				if err != nil {
 					return err
@@ -187,18 +188,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
 
 			// Check knative-eventing deployments
-			eventingSelector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{
-				MatchLabels: map[string]string{
-					"app.kubernetes.io/name": "knative-eventing",
-				},
-			})
-			Expect(err).To(BeNil())
-
 			deploymentList = &appsv1.DeploymentList{}
 			Eventually(func() error {
 				err := k8sClient.List(ctx, deploymentList, &ctrlClient.ListOptions{
-					LabelSelector: eventingSelector,
-					Namespace:     "knative-eventing",
+					Namespace: "knative-eventing",
 				})
 				if err != nil {
 					return err
@@ -223,7 +216,7 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 					Name:      "knative-ingress-gateway",
 					Namespace: "knative-serving",
 				}, gw)
-			}).WithPolling(pollInterval).WithTimeout(3 * time.Minute).Should(Succeed(),
+			}).WithPolling(pollInterval).WithTimeout(3*time.Minute).Should(Succeed(),
 				"knative-ingress-gateway Gateway must exist in knative-serving after install (regression: NCN-105488)")
 
 			// Verify the gateway has the expected server ports configured
@@ -243,6 +236,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 			operatorHr   *fluxhelmv2.HelmRelease
 			deploymentHr *fluxhelmv2.HelmRelease
 		)
+
+		It("should only upgrade by one Knative minor version", func() {
+			Expect(k.ValidateUpgradeVersionStep()).To(Succeed())
+		})
 
 		It("should install istio-helm as a prerequisite", func() {
 			err := k.InstallIstioHelmDependency(ctx, env)
@@ -369,10 +366,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 
 	Describe("Knative PDB Drain Resilience Test", Ordered, Label("pdb-drain"), func() {
 		var (
-			clientset     *kubernetes.Clientset
-			workerNode    string
-			pdb           *policyv1.PodDisruptionBudget
-			webhookPods   *corev1.PodList
+			clientset   *kubernetes.Clientset
+			workerNode  string
+			pdb         *policyv1.PodDisruptionBudget
+			webhookPods *corev1.PodList
 		)
 
 		It("should install istio-helm as a prerequisite", func() {
@@ -452,13 +449,25 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 		})
 
 		It("should verify PDB exists with correct configuration", func() {
+			// HelmRelease=Ready only means the chart applied; the
+			// knative-operator still needs to reconcile the KnativeEventing
+			// CR into operand resources (PDB, Deployments, ...). In practice
+			// this lag is ~30s after Helm install completes. Poll the PDB
+			// until the operator creates it rather than racing it.
 			pdb = &policyv1.PodDisruptionBudget{}
-			err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
-				Name:      "eventing-webhook",
-				Namespace: "knative-eventing",
-			}, pdb)
-			Expect(err).To(BeNil())
-			Expect(pdb.Spec.MaxUnavailable).NotTo(BeNil())
+			Eventually(func() error {
+				if err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
+					Name:      "eventing-webhook",
+					Namespace: "knative-eventing",
+				}, pdb); err != nil {
+					return err
+				}
+				if pdb.Spec.MaxUnavailable == nil {
+					return fmt.Errorf("eventing-webhook PDB has no maxUnavailable set yet")
+				}
+				return nil
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
 			Expect(pdb.Spec.MaxUnavailable.IntVal).To(Equal(int32(1)))
 		})
 
@@ -525,6 +534,29 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 		})
 
 		It("should drain the worker node and respect PDB constraints", func() {
+			// The drain scenario only makes sense when at least two
+			// schedulable worker nodes exist: one to cordon, one for the
+			// evicted webhook pods to land on. With a single worker, PDB
+			// will (correctly) block all evictions and the test cannot
+			// make progress. CI uses the 2-worker kind config in
+			// apptests/kind/config/kind.yaml, but local clusters created
+			// before that change may still be single-worker.
+			schedulable := 0
+			nodeList := &corev1.NodeList{}
+			Expect(k8sClient.List(ctx, nodeList)).To(Succeed())
+			for _, n := range nodeList.Items {
+				if _, isCP := n.Labels["node-role.kubernetes.io/control-plane"]; isCP {
+					continue
+				}
+				if n.Spec.Unschedulable {
+					continue
+				}
+				schedulable++
+			}
+			if schedulable < 2 {
+				Skip(fmt.Sprintf("need >=2 schedulable worker nodes for drain test, have %d; recreate the kind cluster to pick up the multi-worker config", schedulable))
+			}
+
 			// Get webhook pods before drain
 			webhookPods = &corev1.PodList{}
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{

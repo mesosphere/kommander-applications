@@ -60,12 +60,38 @@ func TestApplications(t *testing.T) {
 	RunSpecs(t, "Application Test Suite", suiteConfig, reporterConfig)
 }
 
+// specHasLabel reports whether the currently running Ginkgo spec carries the
+// given label anywhere in its container hierarchy. Useful from outer
+// BeforeEach blocks that need to dispatch on per-Describe labels (e.g.
+// choosing a different cluster topology for the pdb-drain Describe).
+func specHasLabel(label string) bool {
+	for _, l := range CurrentSpecReport().Labels() {
+		if l == label {
+			return true
+		}
+	}
+	return false
+}
+
 func SetupKindCluster() error {
+	return setupKindCluster()
+}
+
+// SetupKindClusterMultiWorker is a SetupKindCluster variant that provisions a
+// kind cluster with two schedulable workers. Use this from BeforeEach blocks
+// of tests that intentionally cordon a worker (e.g. PDB drain) and need a
+// sibling node available for evicted pods to land on. Other tests should
+// stick to SetupKindCluster to keep per-spec resource overhead minimal.
+func SetupKindClusterMultiWorker() error {
+	return setupKindCluster(environment.WithKindConfig(kind.MultiWorkerConfig()))
+}
+
+func setupKindCluster(opts ...environment.ProvisionOption) error {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 
-	err := env.Provision(ctx)
+	err := env.Provision(ctx, opts...)
 	if err != nil {
 		return err
 	}
