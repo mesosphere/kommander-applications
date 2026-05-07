@@ -120,8 +120,6 @@ data:
               AUTH_PROXY_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/auth_proxy:v1.20.1
               DISPATCHER_IMAGE: gcr.io/knative-releases/knative.dev/eventing/cmd/in_memory/channel_dispatcher:v1.20.1
           config:
-            config-deployment:
-              queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v1.20.2
             eventing-integrations-images:
               aws-ddb-streams-source: gcr.io/knative-releases/aws-ddb-streams-source:v1.20.0
               aws-eventbridge-sink: gcr.io/knative-releases/aws-eventbridge-sink:v1.20.0
