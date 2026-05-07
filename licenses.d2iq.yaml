@@ -289,18 +289,18 @@ resources:
   - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/operator:v1.21.0
     sources:
       - license_path: LICENSE
-        ref: knative-v1.21.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/operator
   - container_image: gcr.io/knative-releases/knative.dev/operator/cmd/webhook:v1.21.0
     sources:
       - license_path: LICENSE
-        ref: knative-v1.21.0
+        ref: knative-${image_tag}
         url: https://github.com/knative/operator
   - container_image: docker.io/envoyproxy/envoy:v1.34-latest
     sources:
       - license_path: LICENSE
-        ref: knative-v1.34-latest
-        url: https://github.com/knative/eventing
+        ref: release/v1.34
+        url: https://github.com/envoyproxy/envoy
   - container_image: gcr.io/knative-releases/aws-ddb-streams-source:v1.20.0
     sources:
       - license_path: LICENSE
@@ -480,11 +480,6 @@ resources:
     sources:
       - license_path: LICENSE
         ref: knative-v1.20.0
-        url: https://github.com/knative/eventing
-  - container_image: docker.io/envoyproxy/envoy:v1.34-latest
-    sources:
-      - license_path: LICENSE
-        ref: knative-v1.34-latest
         url: https://github.com/knative/eventing
   - container_image: quay.io/brancz/kube-rbac-proxy:v0.21.1
     sources:

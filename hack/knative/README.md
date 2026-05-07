@@ -87,20 +87,21 @@ Updates the licenses.d2iq.yaml file with KNative images from the extracted image
 ### Usage
 
 ```bash
-python3 hack/knative/update-licenses.py <version>
+python3 hack/knative/update-licenses.py <version> [--operator-version <version>]
 ```
 
 ### Options
 
-- `version` (required): KNative version (e.g., 1.18.1)
+- `version` (required): KNative serving/eventing version (e.g., 1.18.1). This is also the directory name under `applications/knative/` where `extra-images.txt` lives.
+- `--operator-version` (optional): KNative operator version (e.g., 1.21.0). Defaults to `<version>`. Specify this when the operator is pinned to a different version than the serving/eventing data plane (for example, running the operator at 1.21.0 while serving/eventing are at 1.20.2).
 
 ### What it does
 
 1. Reads images from applications/knative/{version}/extra-images.txt
-2. Adds KNative operator images (not in extra-images.txt)
-3. Removes all existing KNative entries from licenses.d2iq.yaml
+2. Adds KNative operator images at `<operator-version>` (they are not in extra-images.txt)
+3. Removes all existing KNative entries (and the envoy data-plane entry) from licenses.d2iq.yaml
 4. Adds all images with proper license information and GitHub repository URLs
-5. Uses version-specific refs (knative-v{version} for regular images, knative-${image_tag} for operators)
+5. Uses version-specific refs (knative-v{version} for regular images, knative-${image_tag} for operators, release/v{major.minor} for envoy)
 
 ### Repository mapping
 
@@ -111,6 +112,7 @@ python3 hack/knative/update-licenses.py <version>
 - knative.dev/serving/* -> https://github.com/knative/serving
 - knative.dev/pkg/* -> https://github.com/knative/pkg
 - knative.dev/operator/* -> https://github.com/knative/operator
+- docker.io/envoyproxy/envoy -> https://github.com/envoyproxy/envoy (ref derived as `release/v{major.minor}` from the image tag, e.g. `v1.34-latest` -> `release/v1.34`)
 - aws-*, timer-source, log-sink, transform-jsonata -> https://github.com/knative/eventing
 
 Images with a different version tag than the global version (e.g., net-istio v1.21.1 when serving is v1.21.0) automatically use their own tag for the git ref.
@@ -125,6 +127,9 @@ mv applications/knative/1.18.1 applications/knative/1.19.6
 python3 hack/knative/extract-images.py --eventing-version 1.19.5 --serving-version 1.19.6 --ingress-version 1.19 --k-apps-version 1.19.6
 
 # 3. Update license file
+#    If the knative-operator chart is pinned to a different version than the
+#    serving/eventing data plane, pass --operator-version explicitly:
+#      python3 hack/knative/update-licenses.py 1.20.2 --operator-version 1.21.0
 python3 hack/knative/update-licenses.py 1.19.6
 
 # 4. Verify the cm.yaml has:
