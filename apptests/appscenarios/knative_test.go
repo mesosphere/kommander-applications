@@ -27,7 +27,16 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 	var k *knative
 
 	BeforeEach(OncePerOrdered, func() {
-		err := SetupKindCluster()
+		// The PDB drain spec cordons a worker and needs a sibling node so
+		// evicted pods can be rescheduled. Provision the multi-worker
+		// topology only for that Ordered child; every other Ordered child
+		// uses the default single-worker config to keep overhead minimal.
+		var err error
+		if specHasLabel("pdb-drain") {
+			err = SetupKindClusterMultiWorker()
+		} else {
+			err = SetupKindCluster()
+		}
 		Expect(err).To(BeNil())
 
 		err = env.InstallLatestFlux(ctx)
@@ -440,13 +449,25 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 		})
 
 		It("should verify PDB exists with correct configuration", func() {
+			// HelmRelease=Ready only means the chart applied; the
+			// knative-operator still needs to reconcile the KnativeEventing
+			// CR into operand resources (PDB, Deployments, ...). In practice
+			// this lag is ~30s after Helm install completes. Poll the PDB
+			// until the operator creates it rather than racing it.
 			pdb = &policyv1.PodDisruptionBudget{}
-			err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
-				Name:      "eventing-webhook",
-				Namespace: "knative-eventing",
-			}, pdb)
-			Expect(err).To(BeNil())
-			Expect(pdb.Spec.MaxUnavailable).NotTo(BeNil())
+			Eventually(func() error {
+				if err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
+					Name:      "eventing-webhook",
+					Namespace: "knative-eventing",
+				}, pdb); err != nil {
+					return err
+				}
+				if pdb.Spec.MaxUnavailable == nil {
+					return fmt.Errorf("eventing-webhook PDB has no maxUnavailable set yet")
+				}
+				return nil
+			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
 			Expect(pdb.Spec.MaxUnavailable.IntVal).To(Equal(int32(1)))
 		})
 
@@ -513,6 +534,29 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 		})
 
 		It("should drain the worker node and respect PDB constraints", func() {
+			// The drain scenario only makes sense when at least two
+			// schedulable worker nodes exist: one to cordon, one for the
+			// evicted webhook pods to land on. With a single worker, PDB
+			// will (correctly) block all evictions and the test cannot
+			// make progress. CI uses the 2-worker kind config in
+			// apptests/kind/config/kind.yaml, but local clusters created
+			// before that change may still be single-worker.
+			schedulable := 0
+			nodeList := &corev1.NodeList{}
+			Expect(k8sClient.List(ctx, nodeList)).To(Succeed())
+			for _, n := range nodeList.Items {
+				if _, isCP := n.Labels["node-role.kubernetes.io/control-plane"]; isCP {
+					continue
+				}
+				if n.Spec.Unschedulable {
+					continue
+				}
+				schedulable++
+			}
+			if schedulable < 2 {
+				Skip(fmt.Sprintf("need >=2 schedulable worker nodes for drain test, have %d; recreate the kind cluster to pick up the multi-worker config", schedulable))
+			}
+
 			// Get webhook pods before drain
 			webhookPods = &corev1.PodList{}
 			selector, err := metav1.LabelSelectorAsSelector(&metav1.LabelSelector{

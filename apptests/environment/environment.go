@@ -105,11 +105,34 @@ var calicoYamlFile []byte
 //go:embed crds/cert-manager.crds.yaml
 var certManagerCRDsYamlFile []byte
 
+// ProvisionOption customizes Env.Provision behavior. Use WithKindConfig to
+// override the embedded single-worker kind config (e.g. tests that need a
+// multi-worker topology can pass kind.MultiWorkerConfig()).
+type ProvisionOption func(*provisionOptions)
+
+type provisionOptions struct {
+	kindConfig []byte
+}
+
+// WithKindConfig overrides the kind cluster config used by Provision. When
+// nil (the default) the embedded single-worker config in apptests/kind is
+// used.
+func WithKindConfig(config []byte) ProvisionOption {
+	return func(o *provisionOptions) {
+		o.kindConfig = config
+	}
+}
+
 // Provision creates and configures the environment for application specific testings.
 // It calls the provisionEnv function and assigns the returned references to the Environment fields.
 // It returns an error if any of the steps fails.
-func (e *Env) Provision(ctx context.Context) error {
-	cluster, k8sClient, err := provisionEnv(ctx)
+func (e *Env) Provision(ctx context.Context, opts ...ProvisionOption) error {
+	o := &provisionOptions{}
+	for _, opt := range opts {
+		opt(o)
+	}
+
+	cluster, k8sClient, err := provisionEnv(ctx, o.kindConfig)
 	if err != nil {
 		return err
 	}
@@ -243,8 +266,9 @@ func (e *Env) KubeconfigForPeers() (string, error) {
 
 // provisionEnv creates a kind cluster, a Kubernetes client, and installs metallb and calico components on the cluster.
 // It returns the created cluster and client references, or an error if any of the steps fails.
-func provisionEnv(ctx context.Context) (*kind.Cluster, *typedclient.Client, error) {
-	cluster, err := kind.CreateCluster(ctx, "")
+// When kindConfig is nil the default embedded config is used.
+func provisionEnv(ctx context.Context, kindConfig []byte) (*kind.Cluster, *typedclient.Client, error) {
+	cluster, err := kind.CreateClusterWithConfig(ctx, "", kindConfig)
 	if err != nil {
 		return nil, nil, err
 	}

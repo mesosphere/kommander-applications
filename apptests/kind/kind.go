@@ -21,6 +21,18 @@ import (
 //go:embed config/kind.yaml
 var kindConfigFile []byte
 
+//go:embed config/kind-multiworker.yaml
+var kindMultiWorkerConfigFile []byte
+
+// MultiWorkerConfig returns the embedded kind config that adds a second
+// schedulable worker. Tests that need to validate behavior across multiple
+// workers (e.g. PDB-protected drains) pass this to CreateClusterWithConfig
+// or to env.Provision via WithKindConfig. Other tests should keep using the
+// default single-worker config to minimize per-spec resource overhead.
+func MultiWorkerConfig() []byte {
+	return kindMultiWorkerConfigFile
+}
+
 //go:embed scripts/*
 var hackScriptsFS embed.FS
 
@@ -35,12 +47,25 @@ const (
 	directory_for_kind_hack_scripts = "./tmp-kind-hack-scripts"
 )
 
-// CreateCluster creates a new kind cluster with the given name.
+// CreateCluster creates a new kind cluster with the given name using the
+// default single-worker config.
 func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
+	return CreateClusterWithConfig(ctx, name, kindConfigFile)
+}
+
+// CreateClusterWithConfig creates a new kind cluster with the given name and
+// raw kind config bytes. Pass MultiWorkerConfig() (or any other embedded /
+// caller-provided config) to opt out of the default single-worker topology.
+// When config is nil the default config is used.
+func CreateClusterWithConfig(ctx context.Context, name string, config []byte) (*Cluster, error) {
 	select {
 	case <-ctx.Done():
 		return nil, ctx.Err()
 	default:
+	}
+
+	if config == nil {
+		config = kindConfigFile
 	}
 
 	var err error
@@ -61,7 +86,7 @@ func CreateCluster(ctx context.Context, name string) (*Cluster, error) {
 
 	err = provider.Create(name,
 		cluster.CreateWithKubeconfigPath(kubeconfigFile.Name()),
-		cluster.CreateWithRawConfig(kindConfigFile),
+		cluster.CreateWithRawConfig(config),
 	)
 
 	if err != nil {
