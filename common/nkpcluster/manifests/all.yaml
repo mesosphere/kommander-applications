@@ -1,3 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: one-nkpcluster-per-kommander-workspace
+  namespace: kommander
+spec:
+  hard:
+    count/nkpclusters.clusters.nkp.nutanix.com: "1"
+---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
