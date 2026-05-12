@@ -13,6 +13,10 @@ data:
     # Mitigates the DirtyFrag CVE family (CVE-2026-43284, CVE-2026-43500) and
     # unblocks customer-defined Assign/AssignMetadata/AssignImage/ModifySet.
     disableMutation: false
+    # Pin failurePolicy to Ignore (matches the upstream chart default) so a
+    # gatekeeper outage cannot block pod admission cluster-wide, and so the
+    # behaviour cannot silently drift if upstream defaults change.
+    mutatingWebhookFailurePolicy: Ignore
 
     mutations:
       enablePodProxy: false
