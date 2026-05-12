@@ -23,10 +23,12 @@ data:
       excludeNamespacesFromProxy: []
       namespaceSelectorForProxy: {}
       sideEffects: "None"
-      # Default RuntimeDefault seccomp Assign shipped by the
-      # gatekeeper-proxy-mutations chart. A MustNotExist pathTest preserves any
-      # explicit Unconfined / Localhost choice. Opt out per-namespace or
-      # per-pod by setting the optOutLabel to "true".
+      # Opt Kommander into the default RuntimeDefault seccomp Assign shipped
+      # by the gatekeeper-proxy-mutations chart (chart default is
+      # enabled: false so standalone consumers see no behaviour change). A
+      # MustNotExist pathTest preserves any explicit Unconfined / Localhost
+      # choice. Opt out per-namespace or per-pod by setting the optOutLabel
+      # to "true".
       defaultSeccompProfile:
         enabled: true
         optOutLabel: kommander.d2iq.io/disable-default-seccomp
