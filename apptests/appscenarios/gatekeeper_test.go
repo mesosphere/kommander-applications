@@ -10,11 +10,21 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
+)
+
+const (
+	gatekeeperProxyMutationsHRName = "gatekeeper-proxy-mutations"
+	mutatingWebhookConfigName      = "gatekeeper-mutating-webhook-configuration"
+	defaultSeccompAssignName       = "pod-seccomp-runtime-default"
+	defaultSeccompOptOutLabel      = "kommander.d2iq.io/disable-default-seccomp"
 )
 
 var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
@@ -118,6 +128,48 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			Expect(err).ToNot(HaveOccurred())
 			ensureConstraintEnforced(projectNS.Name)
 		})
+
+		It("should install the mutating webhook configuration", func() {
+			ensureMutatingWebhookConfiguration()
+		})
+
+		It("should mutate pods without a seccomp profile to RuntimeDefault", func() {
+			By("waiting for the gatekeeper-proxy-mutations HelmRelease to be ready")
+			waitForHelmReleaseReady(gatekeeperProxyMutationsHRName)
+
+			By("waiting for the default seccomp Assign to be created by the chart")
+			waitForDefaultSeccompAssign()
+
+			ns := createNamespace("seccomp-default-test", nil)
+			DeferCleanup(deleteNamespace, ns)
+
+			pod := newPauseSeccompTestPod(ns.Name, "seccomp-default-pod")
+			admittedPod := createPodAndRefetch(pod)
+
+			Expect(admittedPod.Spec.SecurityContext).ToNot(BeNil(),
+				"expected pod-level securityContext to be added by the Assign mutation")
+			Expect(admittedPod.Spec.SecurityContext.SeccompProfile).ToNot(BeNil(),
+				"expected seccompProfile to be set by the Assign mutation")
+			Expect(admittedPod.Spec.SecurityContext.SeccompProfile.Type).To(Equal(corev1.SeccompProfileTypeRuntimeDefault))
+		})
+
+		It("should not mutate pods in namespaces labeled with the opt-out label", func() {
+			By("waiting for the default seccomp Assign to be created by the chart")
+			waitForDefaultSeccompAssign()
+
+			ns := createNamespace("seccomp-default-test-optout", map[string]string{
+				defaultSeccompOptOutLabel: "true",
+			})
+			DeferCleanup(deleteNamespace, ns)
+
+			pod := newPauseSeccompTestPod(ns.Name, "seccomp-default-pod-optout")
+			admittedPod := createPodAndRefetch(pod)
+
+			if admittedPod.Spec.SecurityContext != nil {
+				Expect(admittedPod.Spec.SecurityContext.SeccompProfile).To(BeNil(),
+					"expected Assign mutation to be skipped in opt-out namespace")
+			}
+		})
 	})
 
 	Describe("GateKeeper Upgrade Test", Ordered, Label("upgrade"), func() {
@@ -195,8 +247,110 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 		It("should enforce the default constraints after upgrade", func() {
 			ensureConstraintEnforced(projectNS.Name)
 		})
+
+		It("should have the mutating webhook configuration after upgrade", func() {
+			ensureMutatingWebhookConfiguration()
+		})
 	})
 })
+
+func ensureMutatingWebhookConfiguration() {
+	mwc := &unstructured.Unstructured{}
+	mwc.SetGroupVersionKind(schema.GroupVersionKind{
+		Group:   "admissionregistration.k8s.io",
+		Version: "v1",
+		Kind:    "MutatingWebhookConfiguration",
+	})
+
+	Eventually(func() error {
+		return k8sClient.Get(ctx, ctrlClient.ObjectKey{Name: mutatingWebhookConfigName}, mwc)
+	}).WithPolling(pollInterval).WithTimeout(2 * time.Minute).Should(Succeed(),
+		"expected MutatingWebhookConfiguration %q to exist after install", mutatingWebhookConfigName)
+
+	webhooks, found, err := unstructured.NestedSlice(mwc.Object, "webhooks")
+	Expect(err).ToNot(HaveOccurred())
+	Expect(found).To(BeTrue(), "expected MutatingWebhookConfiguration to expose webhooks")
+	Expect(webhooks).ToNot(BeEmpty(), "expected at least one webhook entry")
+}
+
+func waitForHelmReleaseReady(name string) {
+	hr := &fluxhelmv2.HelmRelease{
+		TypeMeta: metav1.TypeMeta{
+			Kind:       fluxhelmv2.HelmReleaseKind,
+			APIVersion: fluxhelmv2.GroupVersion.Version,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: kommanderNamespace,
+		},
+	}
+	Eventually(func() error {
+		if err := k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr); err != nil {
+			return err
+		}
+		for _, cond := range hr.Status.Conditions {
+			if cond.Status == metav1.ConditionTrue && cond.Type == apimeta.ReadyCondition {
+				return nil
+			}
+		}
+		return fmt.Errorf("HelmRelease %q not ready yet", name)
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+}
+
+func waitForDefaultSeccompAssign() {
+	assign := &unstructured.Unstructured{}
+	assign.SetGroupVersionKind(schema.GroupVersionKind{
+		Group:   "mutations.gatekeeper.sh",
+		Version: "v1",
+		Kind:    "Assign",
+	})
+	Eventually(func() error {
+		return k8sClient.Get(ctx, ctrlClient.ObjectKey{Name: defaultSeccompAssignName}, assign)
+	}).WithPolling(pollInterval).WithTimeout(2 * time.Minute).Should(Succeed(),
+		"expected default seccomp Assign %q to be created by the gatekeeper-proxy-mutations chart", defaultSeccompAssignName)
+}
+
+func createNamespace(name string, labels map[string]string) *corev1.Namespace {
+	ns := &corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:   name,
+			Labels: labels,
+		},
+	}
+	Expect(k8sClient.Create(ctx, ns)).To(Succeed())
+	return ns
+}
+
+func deleteNamespace(ns *corev1.Namespace) {
+	if err := k8sClient.Delete(ctx, ns); err != nil && !apierrors.IsNotFound(err) {
+		Expect(err).ToNot(HaveOccurred())
+	}
+}
+
+func newPauseSeccompTestPod(namespace, name string) *corev1.Pod {
+	return &corev1.Pod{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      name,
+			Namespace: namespace,
+		},
+		Spec: corev1.PodSpec{
+			Containers: []corev1.Container{{
+				Name:  "pause",
+				Image: "registry.k8s.io/pause:3.9",
+			}},
+			TerminationGracePeriodSeconds: ptrInt64(0),
+		},
+	}
+}
+
+func createPodAndRefetch(pod *corev1.Pod) *corev1.Pod {
+	Expect(k8sClient.Create(ctx, pod)).To(Succeed())
+	out := &corev1.Pod{}
+	Expect(k8sClient.Get(ctx, ctrlClient.ObjectKeyFromObject(pod), out)).To(Succeed())
+	return out
+}
+
+func ptrInt64(v int64) *int64 { return &v }
 
 func ensureConstraintEnforced(projectNS string) {
 	By("should require service account name defined in HelmRelease in Project")

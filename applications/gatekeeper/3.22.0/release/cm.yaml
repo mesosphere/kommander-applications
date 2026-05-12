@@ -8,7 +8,11 @@ data:
     ---
     replicas: 2
     disableValidatingWebhook: false
-    disableMutation: true
+    # Mutating webhook is enabled by default so the gatekeeper-proxy-mutations
+    # chart can apply the RuntimeDefault seccomp profile to all pods.
+    # Mitigates the DirtyFrag CVE family (CVE-2026-43284, CVE-2026-43500) and
+    # unblocks customer-defined Assign/AssignMetadata/AssignImage/ModifySet.
+    disableMutation: false
 
     mutations:
       enablePodProxy: false
@@ -19,6 +23,13 @@ data:
       excludeNamespacesFromProxy: []
       namespaceSelectorForProxy: {}
       sideEffects: "None"
+      # Default RuntimeDefault seccomp Assign shipped by the
+      # gatekeeper-proxy-mutations chart. A MustNotExist pathTest preserves any
+      # explicit Unconfined / Localhost choice. Opt out per-namespace or
+      # per-pod by setting the optOutLabel to "true".
+      defaultSeccompProfile:
+        enabled: true
+        optOutLabel: kommander.d2iq.io/disable-default-seccomp
     postInstall:
       labelNamespace:
         enabled: false
