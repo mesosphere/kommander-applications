@@ -355,7 +355,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/kubefed:0.11.1
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/mesosphere/kubefed:v0.11.1
+      - ghcr.io/mesosphere/kubefed:v0.11.2
   - name: kubernetes-dashboard
     version: 7.14.1
     images:
