@@ -8,7 +8,7 @@ spec:
   interval: 1m
   url: "oci://ghcr.io/mesosphere/charts/kubefed"
   ref:
-    tag: 0.11.1
+    tag: 0.11.2
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -28,12 +28,10 @@ spec:
       retries: 30
   targetNamespace: kube-federation-system
   upgrade:
-    serverSideApply: enabled
+    serverSideApply: auto
     crds: CreateReplace
     remediation:
       retries: 30
-  rollback:
-    serverSideApply: enabled
   releaseName: kubefed
   valuesFrom:
     - kind: ConfigMap
@@ -41,32 +39,3 @@ spec:
     - kind: ConfigMap
       name: kubefed-overrides
       optional: true
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: ValidatingWebhookConfiguration
-              name: validations.core.kubefed.io
-            patch: |
-              apiVersion: admissionregistration.k8s.io/v1
-              kind: ValidatingWebhookConfiguration
-              metadata:
-                name: validations.core.kubefed.io
-              webhooks:
-                - name: federatedtypeconfigs.core.kubefed.io
-                  failurePolicy: Ignore
-                - name: kubefedclusters.core.kubefed.io
-                  failurePolicy: Ignore
-                - name: kubefedconfigs.core.kubefed.io
-                  failurePolicy: Ignore
-          - target:
-              kind: MutatingWebhookConfiguration
-              name: mutation.core.kubefed.io
-            patch: |
-              apiVersion: admissionregistration.k8s.io/v1
-              kind: MutatingWebhookConfiguration
-              metadata:
-                name: mutation.core.kubefed.io
-              webhooks:
-                - name: kubefedconfigs.core.kubefed.io
-                  failurePolicy: Ignore
