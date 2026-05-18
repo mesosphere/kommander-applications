@@ -538,7 +538,7 @@ resources:
         ref: ${image_tag}
         url: https://github.com/kube-logging/logging-operator
         directory: /images/node-exporter
-  - container_image: ghcr.io/mesosphere/kubefed:v0.11.2
+  - container_image: ghcr.io/mesosphere/kubefed:v0.11.3
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
