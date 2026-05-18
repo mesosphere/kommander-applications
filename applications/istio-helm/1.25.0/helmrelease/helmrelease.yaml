@@ -75,6 +75,7 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
+    createNamespace: true
     serverSideApply: true
     crds: CreateReplace
     remediation:
