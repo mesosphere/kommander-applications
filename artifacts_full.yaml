@@ -353,9 +353,9 @@ applications:
   - name: kubefed
     version: 0.11.4
     images:
-      - oci://ghcr.io/mesosphere/charts/kubefed:0.11.2
+      - oci://ghcr.io/mesosphere/charts/kubefed:0.11.3
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/mesosphere/kubefed:v0.11.2
+      - ghcr.io/mesosphere/kubefed:v0.11.3
   - name: kubernetes-dashboard
     version: 7.14.1
     images:
