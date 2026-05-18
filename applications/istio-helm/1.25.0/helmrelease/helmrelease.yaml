@@ -75,7 +75,6 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
-    createNamespace: true
     serverSideApply: true
     crds: CreateReplace
     remediation:
@@ -164,7 +163,7 @@ spec:
       name: istio-helm-config-overrides
       optional: true
 ---
-# HelmRelease for istio-helm-ztunnel (depends on gateway namespace and istiod, optional for ambient mode)
+# HelmRelease for istio-helm-ztunnel (depends on istiod, optional for ambient mode)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -198,7 +197,7 @@ spec:
       name: istio-helm-config-overrides
       optional: true
 ---
-# HelmRelease for istio-helm-gateway (depends on istiod and gateway namespace)
+# HelmRelease for istio-helm-gateway (depends on istiod)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:

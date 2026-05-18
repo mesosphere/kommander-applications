@@ -26,6 +26,9 @@ overview: |-
   ### Secure Communication
   Secure service-to-service communication in a cluster with TLS encryption, strong identity-based authentication and authorization
 
+  ### Native Sidecars
+  Istio 1.29.0 uses Kubernetes native sidecars by default. The istio-proxy is injected as an init container with `restartPolicy: Always`, reducing startup ordering issues and improving pod lifecycle management.
+
   ### Automatic Load Balancing
   Automatic load balancing for HTTP, gRPC, WebSocket, and TCP traffic
 
@@ -38,37 +41,35 @@ overview: |-
   ### Automatic Traffic Metrics and Logging
   Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
 
+  ## Sidecar Injection
+
+  To enable sidecar injection for a namespace, label it with the Istio revision:
+  ```bash
+  kubectl label namespace <namespace-name> istio.io/rev=istio-helm
+  ```
+
   ## Ambient Mode Support
 
-  This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure, reducing operational complexity and resource overhead.
+  This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure (ztunnel DaemonSet), reducing operational complexity and resource overhead.
 
   ### Enabling Ambient Mode
 
-  To enable ambient mode, you need to configure three components via ConfigMap overrides:
+  To enable ambient mode, you need to configure three components via ConfigMap override named `istio-helm-config-overrides` in the `kommander` namespace:
 
   ```yaml
-  cni:
-    profile: ambient
-    cni:
-      ambient:
-        enabled: true
-
-  istiod:
-    profile: ambient
-    pilot:
-      env:
-        PILOT_ENABLE_AMBIENT: true
-        PILOT_ENABLE_AMBIENT_CONTROLLERS: true
-        PILOT_ENABLE_HBONE: true
-        CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,kube-system/ztunnel"
-
   ztunnel:
     enabled: true
-    profile: ambient
-    env:
-      CA_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
-      XDS_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
+  cni:
+    ambient:
+      enabled: true
+  istiod:
+    pilot:
+      env:
+        PILOT_ENABLE_AMBIENT: "true"
+        CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,istio-helm-system/ztunnel"
   ```
+
+  After applying, trigger reconciliation on the ztunnel, cni, and istiod HelmReleases.
 
   ### Enrolling Workloads in Ambient Mode
 
@@ -77,20 +78,56 @@ overview: |-
   kubectl label namespace <namespace-name> istio.io/dataplane-mode=ambient
   ```
 
-  **Note**: Until ztunnel is enabled, ambient mode will not be active. All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+  **Note**: All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+
+  ### Sidecar-to-Ambient Migration Hook
+
+  A migration hook is included that automatically migrates namespaces from sidecar mode to ambient mode. To trigger the migration, add `profile: ambient` to the ztunnel configuration:
+
+  ```yaml
+  ztunnel:
+    enabled: true
+    profile: ambient
+  ```
 
   ### Disabling Ambient Mode
 
-  To disable ambient mode, you need to revert back the ConfigMap overrides:
+  To disable ambient mode, you need to remove the ambient-related overrides from the ConfigMap overrides:
 
   ```yaml
-  cni:
-    cni:
-      ambient:
-        enabled: false
-
   ztunnel:
     enabled: false
+  cni:
+    ambient:
+      enabled: false
+  ```
+
+  ### Multiple Gateways
+
+  Additional gateways (e.g., egress) can be deployed alongside the default ingress gateway via ConfigMap overrides:
+
+  ```yaml
+  gateway:
+    additional_gateways:
+      - name: istio-egressgateway
+        labels:
+          istio: egressgateway
+          app: istio-egressgateway
+        revision: "istio-helm"
+        service:
+          type: ClusterIP
+          ports:
+            - name: http2
+              port: 80
+              targetPort: 8080
+              protocol: TCP
+            - name: https
+              port: 443
+              targetPort: 8443
+              protocol: TCP
+        autoscaling:
+          enabled: false
+        replicaCount: 1
   ```
 
   ## More Information
