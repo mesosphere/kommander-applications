@@ -25,12 +25,11 @@ data:
     # Istiod component configuration
     istiod:
       revision: "istio-helm"
-      pilot:
-        autoscaleEnabled: true
-        autoscaleMin: 2
-        autoscaleMax: 2
-        cni:
-          enabled: true
+      autoscaleEnabled: true
+      autoscaleMin: 2
+      autoscaleMax: 2
+      cni:
+        enabled: true
 
     prometheus-operator:
       serviceMonitor:

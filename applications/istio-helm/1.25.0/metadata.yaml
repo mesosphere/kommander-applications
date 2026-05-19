@@ -61,9 +61,8 @@ overview: |-
     profile: ambient
   istiod:
     profile: ambient
-    pilot:
-      env:
-        CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,istio-helm-system/ztunnel"
+    env:
+      CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,istio-helm-system/ztunnel"
   ```
 
   ### Enrolling Workloads in Ambient Mode
