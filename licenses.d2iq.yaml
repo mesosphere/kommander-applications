@@ -54,22 +54,22 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/proxy
-  - container_image: docker.io/istio/ztunnel:1.23.6
+  - container_image: docker.io/istio/ztunnel:1.29.0-distroless
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/install-cni:1.23.6-distroless
+  - container_image: docker.io/istio/install-cni:1.29.0-distroless
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/pilot:1.23.6-distroless
+  - container_image: docker.io/istio/pilot:1.29.0-distroless
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
         url: https://github.com/istio/istio
-  - container_image: docker.io/istio/proxyv2:1.23.6-distroless
+  - container_image: docker.io/istio/proxyv2:1.29.0-distroless
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
