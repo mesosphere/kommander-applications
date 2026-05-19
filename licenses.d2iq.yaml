@@ -74,7 +74,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
         url: https://github.com/istio/proxy
-  - container_image: docker.io/istio/ztunnel:1.23.6-distroless
+  - container_image: docker.io/istio/ztunnel:1.29.0
     sources:
       - license_path: LICENSE
         ref: ${image_tag%-distroless}
