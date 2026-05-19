@@ -9,7 +9,7 @@ data:
     global:
       priorityClassName: "dkp-critical-priority"
       hub: docker.io/istio
-      tag: 1.23.6
+      tag: 1.29.0
       imagePullPolicy: IfNotPresent
       istioNamespace: istio-helm-system
 
@@ -25,12 +25,11 @@ data:
     # Istiod component configuration
     istiod:
       revision: "istio-helm"
-      pilot:
-        autoscaleEnabled: true
-        autoscaleMin: 2
-        autoscaleMax: 2
-        cni:
-          enabled: true
+      autoscaleEnabled: true
+      autoscaleMin: 2
+      autoscaleMax: 2
+      cni:
+        enabled: true
 
     prometheus-operator:
       serviceMonitor:
@@ -72,7 +71,7 @@ data:
     ztunnel:
       enabled: false
       hub: docker.io/istio
-      tag: 1.23.6
+      tag: 1.29.0
       imagePullPolicy: IfNotPresent
       istioNamespace: istio-helm-system
       revision: "istio-helm"
