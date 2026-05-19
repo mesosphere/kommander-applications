@@ -8,7 +8,7 @@ data:
     ---
     priorityClassName: dkp-high-priority
     image:
-      registry: pullthrough.infra.nkp.sh
+      registry: docker.io
       repository: mesosphere/nkp-mcp
       pullPolicy: IfNotPresent
     server:
