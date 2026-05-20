@@ -135,7 +135,15 @@ func WaitForFluxCRDs() error {
 			}
 		}
 		if allFound {
-			GinkgoWriter.Printf("All Flux CRDs are discoverable\n")
+			GinkgoWriter.Printf("All Flux CRDs are discoverable, refreshing clients\n")
+			scheme := flux.NewScheme()
+			_ = fluxhelmv2.AddToScheme(scheme)
+			c, err := genericClient.New(Env.K8sClient.Config(), genericClient.Options{Scheme: scheme})
+			if err != nil {
+				return fmt.Errorf("recreating client after CRD discovery: %w", err)
+			}
+			Env.SetClient(c)
+			K8sClient = c
 			return nil
 		}
 
