@@ -6,8 +6,10 @@ package catalog
 import (
 	"context"
 	"flag"
+	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	"github.com/mesosphere/kommander-applications/apptests/client"
@@ -105,6 +107,44 @@ func SetupKindCluster() error {
 	}
 
 	return nil
+}
+
+// WaitForFluxCRDs polls the API server until the Flux CRDs (HelmRelease,
+// OCIRepository, Kustomization) are discoverable. Call after InstallLatestFlux
+// to avoid racing the API server's discovery cache refresh.
+func WaitForFluxCRDs() error {
+	type gvr struct{ group, version, resource string }
+	required := []gvr{
+		{"helm.toolkit.fluxcd.io", "v2", "helmreleases"},
+		{"source.toolkit.fluxcd.io", "v1", "ocirepositories"},
+		{"kustomize.toolkit.fluxcd.io", "v1", "kustomizations"},
+	}
+
+	ctx, cancel := context.WithTimeout(Ctx, 2*time.Minute)
+	defer cancel()
+
+	for {
+		allFound := true
+		for _, r := range required {
+			_, err := Env.K8sClient.Clientset().Discovery().
+				ServerResourcesForGroupVersion(r.group + "/" + r.version)
+			if err != nil {
+				GinkgoWriter.Printf("Waiting for API %s/%s: %v\n", r.group, r.version, err)
+				allFound = false
+				break
+			}
+		}
+		if allFound {
+			GinkgoWriter.Printf("All Flux CRDs are discoverable\n")
+			return nil
+		}
+
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("timed out waiting for Flux CRDs to become available")
+		case <-time.After(2 * time.Second):
+		}
+	}
 }
 
 // TeardownCluster destroys the Kind cluster unless UseExistingCluster

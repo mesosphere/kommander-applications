@@ -38,6 +38,9 @@ func RegisterDefaultTests(appName string) {
 
 				err = Env.InstallLatestFlux(Ctx)
 				Expect(err).ToNot(HaveOccurred())
+
+				err = WaitForFluxCRDs()
+				Expect(err).ToNot(HaveOccurred())
 			})
 
 			AfterAll(func() {
@@ -100,6 +103,9 @@ func RegisterDefaultTests(appName string) {
 				Expect(err).ToNot(HaveOccurred())
 
 				err = Env.InstallLatestFlux(Ctx)
+				Expect(err).ToNot(HaveOccurred())
+
+				err = WaitForFluxCRDs()
 				Expect(err).ToNot(HaveOccurred())
 			})
 
