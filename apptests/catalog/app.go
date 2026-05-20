@@ -55,9 +55,12 @@ func (a *App) Install(ctx context.Context, env *environment.Env) error {
 
 func (a *App) install(ctx context.Context, env *environment.Env, appPath string) error {
 	helmreleasePath := filepath.Join(appPath, "helmrelease")
+	version := filepath.Base(appPath)
 	return env.ApplyKustomizations(ctx, helmreleasePath, map[string]string{
-		"releaseNamespace": DefaultNamespace,
-		"releaseName":      a.Name(),
+		"releaseNamespace":   DefaultNamespace,
+		"releaseName":        a.Name(),
+		"workspaceNamespace": DefaultNamespace,
+		"appVersion":         version,
 	})
 }
 
