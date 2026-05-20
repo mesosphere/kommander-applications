@@ -40,15 +40,9 @@ applications:
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
       - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.1
       - oci://<registry-url>/kommander-applications/nkp-insights:1.8.1
-<<<<<<< nkp-pulse/bumps-main-0.4.2
-      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
+      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.2
       - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.2
       - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.2
-=======
-      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.2
-      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.1
-      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.1
->>>>>>> main
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.14
