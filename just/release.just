@@ -47,10 +47,10 @@ release-oci publish="true" tmp_dir=`mktemp --directory`: (_prepare-files-for-a-b
 release-platform-collection-artifact publish="true": install-tools
   export git_tag="{{ git_tag }}" filename="{{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar"
   envsubst -i "{{ justfile_directory() }}/releases/release-spec.yaml.tmpl" -o "{{ justfile_directory() }}/releases/release-spec.yaml"
-  {{nkp_cli_bin}} experimental catalog release --release-spec "{{ justfile_directory() }}/releases/release-spec.yaml" --repo-dir {{ justfile_directory() }}
   if {{ publish }}; then
-    {{nkp_cli_bin}} push bundle --bundle {{ justfile_directory() }}/kommander-applications-platform-collection-{{ git_tag }}.tar --to-registry {{ registry }}/{{ org_name }}
+    {{nkp_cli_bin}} experimental catalog release --release-spec "{{ justfile_directory() }}/releases/release-spec.yaml" --repo-dir {{ justfile_directory() }} --push-to-registry {{ registry }}/{{ org_name }}
   else
+    {{nkp_cli_bin}} experimental catalog release --release-spec "{{ justfile_directory() }}/releases/release-spec.yaml" --repo-dir {{ justfile_directory() }}
     echo "Skipping publish"
   fi
 
