@@ -22,7 +22,6 @@ spec:
     namespace: ${releaseNamespace}
   interval: 15s
   install:
-    disableTakeOwnership: true
     serverSideApply: false
     crds: CreateReplace
     remediation:
