@@ -273,7 +273,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.8.1
+      tag: 1.8.2
     initdb:
       resources:
         limits:
@@ -583,6 +583,9 @@ data:
         repository: mesosphere/dkp-container-images/cloudnative-pg/postgresql
         tag: 17.5-minimal-bookworm
       instances: 1
+      parameters:
+        idleInTransactionSessionTimeout: 60s
+        idleSessionTimeout: 60s
       persistence:
         size: 8Gi
       priorityClassName: dkp-critical-priority

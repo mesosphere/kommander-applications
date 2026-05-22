@@ -21,7 +21,7 @@ applications:
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.3
-      - oci://<registry-url>/kommander-applications/istio-helm:1.24.0
+      - oci://<registry-url>/kommander-applications/istio-helm:1.25.0
       - oci://<registry-url>/kommander-applications/istio:1.23.6
       - oci://<registry-url>/kommander-applications/jaeger:2.57.4
       - oci://<registry-url>/kommander-applications/karma-traefik:0.0.5
@@ -30,7 +30,7 @@ applications:
       - oci://<registry-url>/kommander-applications/knative:1.20.2
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
-      - oci://<registry-url>/kommander-applications/kommander-ui:17.234.16
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.234.20
       - oci://<registry-url>/kommander-applications/kommander:0.18.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.8
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
@@ -38,11 +38,11 @@ applications:
       - oci://<registry-url>/kommander-applications/kubernetes-dashboard:7.14.1
       - oci://<registry-url>/kommander-applications/kubetunnel:0.2.0
       - oci://<registry-url>/kommander-applications/logging-operator:6.4.0
-      - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.1
-      - oci://<registry-url>/kommander-applications/nkp-insights:1.8.1
-      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.0
-      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.1
-      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.1
+      - oci://<registry-url>/kommander-applications/nkp-insights-management:1.8.2
+      - oci://<registry-url>/kommander-applications/nkp-insights:1.8.2
+      - oci://<registry-url>/kommander-applications/nkp-mcp-server:0.1.2
+      - oci://<registry-url>/kommander-applications/nkp-pulse-management:0.4.2
+      - oci://<registry-url>/kommander-applications/nkp-pulse-workspace:0.4.2
       - oci://<registry-url>/kommander-applications/nvidia-gpu-operator:26.3.0
       - oci://<registry-url>/kommander-applications/nvidia-network-operator:26.1.0
       - oci://<registry-url>/kommander-applications/opencost:2.5.14
@@ -208,21 +208,21 @@ applications:
       - docker.io/istio/proxyv2:1.23.6
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: istio-helm
-    version: 1.24.0
+    version: 1.25.0
     images:
-      - oci://ghcr.io/mesosphere/charts/istio-helm-base:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-cni:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-gateway:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-istiod:1.24.0
-      - oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel:1.24.0
-      - docker.io/istio/install-cni:1.23.6
-      - docker.io/istio/install-cni:1.23.6-distroless
-      - docker.io/istio/pilot:1.23.6
-      - docker.io/istio/pilot:1.23.6-distroless
-      - docker.io/istio/proxyv2:1.23.6
-      - docker.io/istio/proxyv2:1.23.6-distroless
-      - docker.io/istio/ztunnel:1.23.6
-      - docker.io/istio/ztunnel:1.23.6-distroless
+      - oci://ghcr.io/mesosphere/charts/istio-helm-base:1.25.0
+      - oci://ghcr.io/mesosphere/charts/istio-helm-cni:1.25.0
+      - oci://ghcr.io/mesosphere/charts/istio-helm-gateway:1.25.0
+      - oci://ghcr.io/mesosphere/charts/istio-helm-istiod:1.25.0
+      - oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel:1.25.0
+      - docker.io/istio/install-cni:1.29.0
+      - docker.io/istio/install-cni:1.29.0-distroless
+      - docker.io/istio/pilot:1.29.0
+      - docker.io/istio/pilot:1.29.0-distroless
+      - docker.io/istio/proxyv2:1.29.0
+      - docker.io/istio/proxyv2:1.29.0-distroless
+      - docker.io/istio/ztunnel:1.29.0
+      - docker.io/istio/ztunnel:1.29.0-distroless
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: jaeger
     version: 2.57.4
@@ -324,10 +324,10 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.8.3
       - ghcr.io/fluxcd/source-controller:v1.8.2
   - name: kommander-ui
-    version: 17.234.16
+    version: 17.234.20
     images:
-      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.234.16
-      - docker.io/mesosphere/kommander:17.234.16
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.234.20
+      - docker.io/mesosphere/kommander:17.234.20
   - name: kube-oidc-proxy
     version: 0.3.8
     images:
@@ -353,9 +353,9 @@ applications:
   - name: kubefed
     version: 0.11.4
     images:
-      - oci://ghcr.io/mesosphere/charts/kubefed:0.11.1
+      - oci://ghcr.io/mesosphere/charts/kubefed:0.11.4
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
-      - ghcr.io/mesosphere/kubefed:v0.11.2
+      - ghcr.io/mesosphere/kubefed:v0.11.4
   - name: kubernetes-dashboard
     version: 7.14.1
     images:
@@ -387,11 +387,11 @@ applications:
       - ghcr.io/kube-logging/logging-operator/node-exporter:6.4.0
       - ghcr.io/kube-logging/logging-operator:6.4.0
   - name: nkp-insights
-    version: 1.8.1
+    version: 1.8.2
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-insights:1.8.1
+      - oci://ghcr.io/mesosphere/charts/nkp-insights:1.8.2
       - docker.io/aquasec/kube-bench:v0.14.0
-      - docker.io/mesosphere/insights:1.8.1
+      - docker.io/mesosphere/insights:1.8.2
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/mesosphere/trivy-bundles:0.64.1-20260324T034955Z
       - quay.io/fairwinds/nova:v3.11.9
@@ -399,27 +399,27 @@ applications:
       - registry.k8s.io/pause:3.10
       - us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5.22.6
   - name: nkp-insights-management
-    version: 1.8.1
+    version: 1.8.2
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.8.1
-      - docker.io/mesosphere/insights-management:1.8.1
+      - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.8.2
+      - docker.io/mesosphere/insights-management:1.8.2
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
   - name: nkp-mcp-server
-    version: 0.1.0
+    version: 0.1.2
     images:
-      - oci://pullthrough.infra.nkp.sh/mesosphere/nkp-mcp-server:0.0.0-dev.0
-      - pullthrough.infra.nkp.sh/mesosphere/nkp-mcp:0.0.0-dev.0
+      - oci://docker.io/mesosphere/nkp-mcp-server:0.1.2
+      - docker.io/mesosphere/nkp-mcp:0.1.2
   - name: nkp-pulse-management
-    version: 0.4.1
+    version: 0.4.2
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-pulse-management:0.4.1
+      - oci://ghcr.io/mesosphere/charts/nkp-pulse-management:0.4.2
       - docker.io/mesosphere/kubectl:v1.35.2
-      - docker.io/mesosphere/nkp-pulse-management:0.4.1
+      - docker.io/mesosphere/nkp-pulse-management:0.4.2
   - name: nkp-pulse-workspace
-    version: 0.4.1
+    version: 0.4.2
     images:
-      - oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace:0.4.1
-      - docker.io/mesosphere/nkp-pulse-workspace:0.4.1
+      - oci://ghcr.io/mesosphere/charts/nkp-pulse-workspace:0.4.2
+      - docker.io/mesosphere/nkp-pulse-workspace:0.4.2
   - name: nvidia-gpu-operator
     version: 26.3.0
     images:
@@ -427,8 +427,8 @@ applications:
       - nvcr.io/nvidia/cloud-native/dcgm:4.5.2-1-ubuntu22.04
       - nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.10.0
       - nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.14.0
-      - nvcr.io/nvidia/driver:580-5.15.0-170-generic-ubuntu22.04
-      - nvcr.io/nvidia/driver:580-6.8.0-101-generic-ubuntu24.04
+      - nvcr.io/nvidia/driver:580-5.15.0-176-generic-ubuntu22.04
+      - nvcr.io/nvidia/driver:580-6.8.0-111-generic-ubuntu24.04
       - nvcr.io/nvidia/gpu-operator:v26.3.0
       - nvcr.io/nvidia/k8s-device-plugin:v0.19.0
       - nvcr.io/nvidia/k8s/container-toolkit:v1.19.0
