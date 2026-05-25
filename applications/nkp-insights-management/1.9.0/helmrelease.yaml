@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 6h
-  path: ./applications/nkp-insights-management/1.8.2/helmrelease
+  path: ./applications/nkp-insights-management/1.9.0/helmrelease
   postBuild:
     substitute:
       appVersion: ${appVersion}
