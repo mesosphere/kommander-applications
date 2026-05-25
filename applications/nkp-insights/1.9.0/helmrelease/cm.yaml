@@ -217,6 +217,9 @@ data:
         json_include_tags_property: true
         json_output: true
         log_syslog: false
+        output_timeout: 2000
+        outputs_queue:
+          capacity: 10000
         rules:
           - disable:
               rule: '*'
@@ -273,7 +276,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.8.2
+      tag: 1.9.0-dev.2
     initdb:
       resources:
         limits:
