@@ -6,3 +6,5 @@ resources:
 - ../../../common/managementplane
 - ../../../common/nkpcluster
 - ../../../common/loggingstack
+- ../../../common/upgradeplan
+- ../../../common/release
