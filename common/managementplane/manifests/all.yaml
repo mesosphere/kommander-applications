@@ -117,33 +117,6 @@ spec:
                   - type
                   type: object
                 type: array
-              history:
-                description: History tracks version transitions in descending order
-                  (newest first).
-                items:
-                  description: Snapshot records a single version transition of the
-                    management plane.
-                  properties:
-                    completedAt:
-                      description: CompletedAt is when the transition to this version
-                        finished successfully.
-                      format: date-time
-                      type: string
-                    startedAt:
-                      description: StartedAt is when the transition to this version
-                        began.
-                      format: date-time
-                      type: string
-                    version:
-                      description: Version is the management plane version for this
-                        history entry.
-                      type: string
-                  required:
-                  - startedAt
-                  - version
-                  type: object
-                type: array
-                x-kubernetes-list-type: atomic
               version:
                 description: Version stores the current version of the management
                   plane.
