@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
