@@ -266,3 +266,31 @@ image: mesosphere/x:` + oldVer + "\n"
 	// On-disk YAML must still have two backslashes before "d" (four in a Go "..." literal).
 	assert.Contains(t, s, "[1-9]\\\\d*", "CEL pattern must keep \\\\d, not collapse to \\d")
 }
+
+func TestReplaceKommanderVersion_PreservesReleaseNamespaceExpressions(t *testing.T) {
+	tmp := t.TempDir()
+	p := filepath.Join(tmp, "flux-kustomization.yaml")
+	const (
+		oldVer = "${kommanderChartVersion:=v2.0.0-dev}"
+		newVer = "${kommanderChartVersion:=v9.9.9}"
+	)
+	content := `kind: Kustomization
+metadata:
+  labels:
+    release-namespace: "${releaseNamespace}"
+  namespace: "${releaseNamespace:-kommander}"
+  annotations:
+    managementplane.nkp.nutanix.com/version: "` + oldVer + `"
+`
+	require.NoError(t, os.WriteFile(p, []byte(content), 0o644))
+
+	subVars := map[string]string{"kommanderChartVersion": newVer}
+	require.NoError(t, replaceKommanderVersion(p, subVars))
+
+	out, err := os.ReadFile(p)
+	require.NoError(t, err)
+	s := string(out)
+	assert.Contains(t, s, newVer)
+	assert.Contains(t, s, "${releaseNamespace}")
+	assert.Contains(t, s, "${releaseNamespace:-kommander}")
+}

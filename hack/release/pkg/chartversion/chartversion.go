@@ -6,13 +6,12 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/fluxcd/pkg/envsubst"
 	"github.com/mesosphere/kommander-applications/hack/release/pkg/constants"
 )
 
 // kommanderChartVersionDefaultRegex extracts the default value from ${kommanderChartVersion:=v2.18.0-dev}.
 var kommanderChartVersionDefaultRegex = regexp.MustCompile(`\$\{kommanderChartVersion:=([^}]+)\}`)
+var kommanderChartVersionVarRegex = regexp.MustCompile(`\$\{kommanderChartVersion(?::[-=][^}]*)?\}`)
 
 const kommanderChartVersionTemplate = "${kommanderChartVersion:=%s}"
 
@@ -97,17 +96,17 @@ func UpdateChartVersions(kommanderApplicationsRepo, chartVersion string) error {
 }
 
 func replaceKommanderVersion(filePath string, subVars map[string]string) error {
-	parsedFile, err := envsubst.ParseFile(filePath)
+	content, err := os.ReadFile(filePath)
 	if err != nil {
 		return err
 	}
-	updatedFile, err := parsedFile.Execute(func(s string) (string, bool) {
-		// Match prior drone/envsubst behavior: unset keys expand to empty string.
-		return subVars[s], true
-	})
-	if err != nil {
-		return err
+
+	newVersion, ok := subVars["kommanderChartVersion"]
+	if !ok {
+		return fmt.Errorf("kommanderChartVersion substitution variable is required")
 	}
+
+	updatedFile := kommanderChartVersionVarRegex.ReplaceAllString(string(content), newVersion)
 
 	if !strings.Contains(updatedFile, subVars["kommanderChartVersion"]) {
 		return fmt.Errorf("failed to update Kommander chart version in %s", filePath)
