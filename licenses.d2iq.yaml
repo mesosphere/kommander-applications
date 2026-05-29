@@ -241,7 +241,7 @@ resources:
     sources:
       - ref: ${image_tag}
         url: https://github.com/mesosphere/kommander
-  - container_image: docker.io/mesosphere/kommander:17.238.4
+  - container_image: docker.io/mesosphere/kommander:17.238.5
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/kommander-ui
