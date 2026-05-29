@@ -28,10 +28,10 @@ applications:
       - oci://<registry-url>/kommander-applications/karma:2.0.10
       - oci://<registry-url>/kommander-applications/kiali:2.24.0
       - oci://<registry-url>/kommander-applications/knative:1.20.2
-      - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.18.0
+      - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.19.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
       - oci://<registry-url>/kommander-applications/kommander-ui:17.238.5
-      - oci://<registry-url>/kommander-applications/kommander:0.18.0
+      - oci://<registry-url>/kommander-applications/kommander:0.19.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.8
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
       - oci://<registry-url>/kommander-applications/kubefed:0.12.1
@@ -61,10 +61,7 @@ applications:
       - oci://<registry-url>/kommander-applications/traefik:39.0.7
       - oci://<registry-url>/kommander-applications/velero:12.0.0
       - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
-      - docker.io/mesosphere/cluster-observer:1.6.0
-      - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
-      - docker.io/mesosphere/kommander2-core-installer:v2.18.0-dev
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kommander2-core-installer:v2.19.0-dev
   - name: ai-navigator-app
     version: 0.8.0-dev.8
     images:
@@ -290,26 +287,26 @@ applications:
       - gcr.io/knative-releases/timer-source:v1.20.0
       - gcr.io/knative-releases/transform-jsonata:v1.20.0
   - name: kommander
-    version: 0.18.0
+    version: 0.19.0
     images:
-      - oci://docker.io/mesosphere/kommander-chart:v2.18.0-dev
+      - oci://docker.io/mesosphere/kommander-chart:v2.19.0-dev
       - docker.io/mesosphere/capimate:v0.0.0-dev.0
-      - docker.io/mesosphere/kommander2-federation-authorizedlister:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-federation-controller-manager:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-federation-webhook:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-flux-operator:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-licensing-webhook:v2.18.0-dev
-      - ghcr.io/mesosphere/kommander-applications-server:v2.18.0-dev
+      - docker.io/mesosphere/kommander2-federation-authorizedlister:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-federation-controller-manager:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-federation-webhook:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-flux-operator:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-kubetools:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-licensing-webhook:v2.19.0-dev
+      - ghcr.io/mesosphere/kommander-applications-server:v2.19.0-dev
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-appmanagement
-    version: 0.18.0
+    version: 0.19.0
     images:
-      - oci://docker.io/mesosphere/kommander-appmanagement-chart:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-appmanagement:v2.18.0-dev
-      - docker.io/mesosphere/kommander2-kubetools:v2.18.0-dev
+      - oci://docker.io/mesosphere/kommander-appmanagement-chart:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-appmanagement:v2.19.0-dev
+      - docker.io/mesosphere/kommander2-kubetools:v2.19.0-dev
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
     version: 2.8.5
