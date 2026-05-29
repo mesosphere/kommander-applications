@@ -26,6 +26,23 @@ func TestMove(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestReplaceContentInFile_BloodhoundPathVersion(t *testing.T) {
+	f := filepath.Join(t.TempDir(), ".bloodhound.yml")
+	content := `paths:
+  - applications/kommander/0.18.0/dynamic-helmreleases
+`
+	require.NoError(t, os.WriteFile(f, []byte(content), 0o644))
+
+	changes, err := replaceContentInFile(context.Background(), f, "0.99.99")
+	require.NoError(t, err)
+	assert.Equal(t, 1, changes)
+
+	got, err := os.ReadFile(f)
+	require.NoError(t, err)
+	assert.Contains(t, string(got), "applications/kommander/0.99.99/dynamic-helmreleases")
+	assert.NotContains(t, string(got), "applications/kommander/0.18.0/dynamic-helmreleases")
+}
+
 func fetchRepo(t *testing.T) string {
 	t.Helper()
 
