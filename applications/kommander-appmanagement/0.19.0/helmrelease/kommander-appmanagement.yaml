@@ -6,46 +6,35 @@ metadata:
   namespace: ${releaseNamespace}
 spec:
   interval: 1m
-  url: "oci://docker.io/mesosphere/kommander-chart"
+  url: "oci://docker.io/mesosphere/kommander-appmanagement-chart"
   ref:
-    tag: "${kommanderChartVersion:=v2.18.0-dev}"
+    tag: "${kommanderChartVersion:=v2.19.0-dev}"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kommander
+  name: kommander-appmanagement
   namespace: ${releaseNamespace}
+  annotations:
+    kustomize.toolkit.fluxcd.io/force: enabled
 spec:
-  dependsOn:
-    - namespace: ${releaseNamespace}
-      # NOTE: The `kubefed` app is not installing the HelmRelease directly.
-      # That's how its HelmRelease name is simply `kubefed`
-      name: kubefed
   chartRef:
     kind: OCIRepository
     name: ${releaseName}-${appVersion}-chart
     namespace: ${releaseNamespace}
   interval: 15s
-  # Kommander is quite a big chart and it may need some more time than
-  # other charts to get ready so setting this to 10 minutes increases
-  # the chance of the installation not timing out.
-  timeout: 10m
   install:
-    serverSideApply: true
     crds: CreateReplace
     remediation:
       retries: 30
   upgrade:
-    serverSideApply: enabled
     crds: CreateReplace
     remediation:
       retries: 30
-  rollback:
-    serverSideApply: enabled
-  releaseName: kommander
+  releaseName: kommander-appmanagement
   valuesFrom:
     - kind: ConfigMap
       name: ${releaseName}-${appVersion}-config-defaults
     - kind: ConfigMap
-      name: kommander-overrides
+      name: kommander-appmanagement-overrides
       optional: true
