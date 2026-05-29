@@ -138,3 +138,8 @@ data:
       extraLabels: {}
       tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
       airgappedDiscovery: true
+    - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-ai-applications-catalog/collection
+      catalogName: nkp-ai-applications-catalog
+      extraLabels: {}
+      tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+      airgappedDiscovery: false
