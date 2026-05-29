@@ -17,7 +17,7 @@ list-airgapped-artifacts-yaml: $(NKP_CLI_BIN) $(YQ_BIN)
 
 .PHONY: generate-artifacts-yaml
 generate-artifacts-yaml: $(NKP_CLI_BIN)
-	$(NKP_CLI_BIN) validate catalog-repository --repo-dir $(REPO_ROOT) --config $(REPO_ROOT)/.bloodhound.yml --artifacts-output $(REPO_ROOT)/$(FULL_BUNDLE_FILE)
+	$(NKP_CLI_BIN) validate catalog-repository --repo-dir $(REPO_ROOT) --config $(REPO_ROOT)/.bloodhound.yml --artifacts-output $(REPO_ROOT)/$(FULL_BUNDLE_FILE) --legacy-catalog
 	@echo "Generated $(FULL_BUNDLE_FILE):"
 	@cat $(REPO_ROOT)/$(FULL_BUNDLE_FILE)
 
