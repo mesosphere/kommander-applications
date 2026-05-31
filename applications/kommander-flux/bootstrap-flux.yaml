@@ -6,9 +6,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: allow-egress
 spec:
   egress:
@@ -28,9 +28,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: allow-scraping
 spec:
   ingress:
@@ -50,9 +50,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: allow-webhooks
 spec:
   ingress:
@@ -72,9 +72,9 @@ metadata:
     app.kubernetes.io/component: helm-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: helm-controller
 ---
 # Source: flux2/templates/image-automation-controller-sa.yaml
@@ -85,9 +85,9 @@ metadata:
     app.kubernetes.io/component: image-automation-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: image-automation-controller
 ---
 # Source: flux2/templates/image-reflector-controller-sa.yaml
@@ -98,9 +98,9 @@ metadata:
     app.kubernetes.io/component: image-reflector-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: image-reflector-controller
 ---
 # Source: flux2/templates/kustomize-controller-sa.yaml
@@ -111,9 +111,9 @@ metadata:
     app.kubernetes.io/component: kustomize-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: kustomize-controller
 ---
 # Source: flux2/templates/notification-controller-sa.yaml
@@ -124,9 +124,9 @@ metadata:
     app.kubernetes.io/component: notification-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: notification-controller
 ---
 # Source: flux2/templates/source-controller-serviceaccount.yaml
@@ -137,9 +137,9 @@ metadata:
     app.kubernetes.io/component: source-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: source-controller
 ---
 # Source: flux2/templates/helm-controller.crds.yaml
@@ -154,8 +154,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: helmreleases.helm.toolkit.fluxcd.io
 spec:
   group: helm.toolkit.fluxcd.io
@@ -908,8 +908,11 @@ spec:
                       rollback has been performed.
                     type: boolean
                   force:
-                    description: Force forces resource updates through a replacement
-                      strategy.
+                    description: |-
+                      Force forces resource updates through a replacement strategy
+                      that avoids 3-way merge conflicts on client-side apply.
+                      This field is ignored for server-side apply (which always
+                      forces conflicts with other field managers).
                     type: boolean
                   recreate:
                     description: |-
@@ -1113,8 +1116,11 @@ spec:
                       upgrade has been performed.
                     type: boolean
                   force:
-                    description: Force forces resource updates through a replacement
-                      strategy.
+                    description: |-
+                      Force forces resource updates through a replacement strategy
+                      that avoids 3-way merge conflicts on client-side apply.
+                      This field is ignored for server-side apply (which always
+                      forces conflicts with other field managers).
                     type: boolean
                   preserveValues:
                     description: |-
@@ -1604,8 +1610,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: imageupdateautomations.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -2439,8 +2445,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: imagepolicies.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -3035,8 +3041,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: imagerepositories.image.toolkit.fluxcd.io
 spec:
   group: image.toolkit.fluxcd.io
@@ -3651,8 +3657,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: kustomizations.kustomize.toolkit.fluxcd.io
 spec:
   group: kustomize.toolkit.fluxcd.io
@@ -4371,8 +4377,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: alerts.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -4769,8 +4775,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: providers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -5188,8 +5194,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: receivers.notification.toolkit.fluxcd.io
 spec:
   group: notification.toolkit.fluxcd.io
@@ -5316,8 +5322,7 @@ spec:
                   to validate the payload authenticity. The Secret must contain a 'token'
                   key. For GCR receivers, the Secret must also contain an 'email' key
                   with the IAM service account email configured on the Pub/Sub push
-                  subscription, and may optionally contain an 'audience' key with the
-                  expected OIDC token audience.
+                  subscription, and an 'audience' key with the expected OIDC token audience.
                 properties:
                   name:
                     description: Name of the referent.
@@ -5679,8 +5684,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: buckets.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -6070,8 +6075,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: externalartifacts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -6270,8 +6275,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: gitrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -6761,8 +6766,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: helmcharts.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -7124,8 +7129,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: helmrepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -7454,8 +7459,8 @@ metadata:
     app.kubernetes.io/instance: 'kommander-flux'
     app.kubernetes.io/managed-by: 'Helm'
     app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: '2.8.5'
-    helm.sh/chart: 'flux2-2.18.3'
+    app.kubernetes.io/version: '2.8.8'
+    helm.sh/chart: 'flux2-2.18.4'
   name: ocirepositories.source.toolkit.fluxcd.io
 spec:
   group: source.toolkit.fluxcd.io
@@ -7917,9 +7922,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
 rules:
 - apiGroups: ['source.toolkit.fluxcd.io']
   resources: ['*']
@@ -7998,9 +8003,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
   name: cluster-reconciler
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -8022,9 +8027,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -8059,9 +8064,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: notification-controller
 spec:
@@ -8081,9 +8086,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: webhook-receiver
 spec:
@@ -8103,9 +8108,9 @@ metadata:
   labels:
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: source-controller
 spec:
@@ -8126,9 +8131,9 @@ metadata:
     app.kubernetes.io/component: helm-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: helm-controller
 spec:
@@ -8138,7 +8143,7 @@ spec:
       app: helm-controller
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8178,7 +8183,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
+        resources: 
           limits:
             cpu: 2000m
             memory: 2Gi
@@ -8199,14 +8204,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: helm-controller
       terminationGracePeriodSeconds: 600
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector:
+      nodeSelector: 
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/image-automation-controller.yaml
@@ -8217,9 +8222,9 @@ metadata:
     app.kubernetes.io/component: image-automation-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: image-automation-controller
 spec:
@@ -8229,7 +8234,7 @@ spec:
       app: image-automation-controller
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8249,7 +8254,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/image-automation-controller:v1.1.1
+        image: ghcr.io/fluxcd/image-automation-controller:v1.1.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -8266,7 +8271,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
+        resources: 
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8287,7 +8292,7 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: image-automation-controller
       terminationGracePeriodSeconds: 10
@@ -8303,9 +8308,9 @@ metadata:
     app.kubernetes.io/component: image-reflector-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: image-reflector-controller
 spec:
@@ -8315,7 +8320,7 @@ spec:
       app: image-reflector-controller
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8335,7 +8340,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/image-reflector-controller:v1.1.1
+        image: ghcr.io/fluxcd/image-reflector-controller:v1.1.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -8352,7 +8357,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
+        resources: 
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8375,7 +8380,7 @@ spec:
         - mountPath: /data
           name: data
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: image-reflector-controller
       terminationGracePeriodSeconds: 10
@@ -8393,9 +8398,9 @@ metadata:
     app.kubernetes.io/component: kustomize-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: kustomize-controller
 spec:
@@ -8405,7 +8410,7 @@ spec:
       app: kustomize-controller
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8427,7 +8432,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/kustomize-controller:v1.8.3
+        image: ghcr.io/fluxcd/kustomize-controller:v1.8.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -8444,7 +8449,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
+        resources: 
           limits:
             cpu: 2500m
             memory: 1Gi
@@ -8465,14 +8470,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: kustomize-controller
       terminationGracePeriodSeconds: 60
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector:
+      nodeSelector: 
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/notification-controller.yaml
@@ -8483,9 +8488,9 @@ metadata:
     app.kubernetes.io/component: notification-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: notification-controller
 spec:
@@ -8495,7 +8500,7 @@ spec:
       app: notification-controller
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8514,7 +8519,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: ghcr.io/fluxcd/notification-controller:v1.8.3
+        image: ghcr.io/fluxcd/notification-controller:v1.8.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -8538,7 +8543,7 @@ spec:
           httpGet:
             path: /readyz
             port: healthz
-        resources:
+        resources: 
           limits:
             cpu: 1000m
             memory: 1Gi
@@ -8559,14 +8564,14 @@ spec:
         - mountPath: /tmp
           name: temp
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: notification-controller
       terminationGracePeriodSeconds: 10
       volumes:
       - emptyDir: {}
         name: temp
-      nodeSelector:
+      nodeSelector: 
         kubernetes.io/os: linux
 ---
 # Source: flux2/templates/source-controller.yaml
@@ -8577,9 +8582,9 @@ metadata:
     app.kubernetes.io/component: source-controller
     app.kubernetes.io/instance: "kommander-flux"
     app.kubernetes.io/managed-by: "Helm"
-    app.kubernetes.io/version: "2.8.5"
+    app.kubernetes.io/version: "2.8.8"
     app.kubernetes.io/part-of: flux
-    helm.sh/chart: flux2-2.18.3
+    helm.sh/chart: flux2-2.18.4
     control-plane: controller
   name: source-controller
 spec:
@@ -8591,7 +8596,7 @@ spec:
     type: Recreate
   template:
     metadata:
-      annotations:
+      annotations: 
         prometheus.io/port: "8080"
         prometheus.io/scrape: "true"
       labels:
@@ -8615,7 +8620,7 @@ spec:
               fieldPath: metadata.namespace
         - name: TUF_ROOT
           value: /tmp/.sigstore
-        image: ghcr.io/fluxcd/source-controller:v1.8.2
+        image: ghcr.io/fluxcd/source-controller:v1.8.5
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -8636,7 +8641,7 @@ spec:
           httpGet:
             path: /
             port: http
-        resources:
+        resources: 
           limits:
             cpu: 2000m
             memory: 1Gi
@@ -8659,7 +8664,7 @@ spec:
         - mountPath: /tmp
           name: tmp
       priorityClassName: "system-cluster-critical"
-      securityContext:
+      securityContext: 
         fsGroup: 1337
       serviceAccountName: source-controller
       terminationGracePeriodSeconds: 10
@@ -8668,5 +8673,5 @@ spec:
         name: data
       - emptyDir: {}
         name: tmp
-      nodeSelector:
+      nodeSelector: 
         kubernetes.io/os: linux
