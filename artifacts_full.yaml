@@ -20,7 +20,7 @@ applications:
       - oci://<registry-url>/kommander-applications/grafana-logging:11.3.3
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
-      - oci://<registry-url>/kommander-applications/harbor:1.18.3
+      - oci://<registry-url>/kommander-applications/harbor:1.19.1
       - oci://<registry-url>/kommander-applications/istio-helm:1.25.0
       - oci://<registry-url>/kommander-applications/istio:1.23.6
       - oci://<registry-url>/kommander-applications/jaeger:2.57.4
@@ -179,12 +179,12 @@ applications:
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
   - name: harbor
-    version: 1.18.3
+    version: 1.19.1
     images:
       - oci://ghcr.io/mesosphere/charts/cluster:0.3.1
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.8
       - oci://ghcr.io/mesosphere/charts/harbor-copy-secret:0.1.0
-      - oci://ghcr.io/mesosphere/charts/harbor:1.18.3
+      - oci://ghcr.io/mesosphere/charts/harbor:1.19.1
       - oci://ghcr.io/mesosphere/charts/valkey:3.0.22
       - docker.io/goharbor/harbor-core:v2.14.3
       - docker.io/goharbor/harbor-exporter:v2.14.3
