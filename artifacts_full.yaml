@@ -27,7 +27,7 @@ applications:
       - oci://<registry-url>/kommander-applications/karma-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/karma:2.0.10
       - oci://<registry-url>/kommander-applications/kiali:2.24.0
-      - oci://<registry-url>/kommander-applications/knative:1.20.2
+      - oci://<registry-url>/kommander-applications/knative:1.22.1
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.19.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
       - oci://<registry-url>/kommander-applications/kommander-ui:17.238.7
@@ -246,7 +246,7 @@ applications:
       - quay.io/kiali/kiali-operator:v2.24.0
       - quay.io/kiali/kiali:v2.24.0-distro
   - name: knative
-    version: 1.20.2
+    version: 1.22.1
     images:
       - oci://ghcr.io/mesosphere/charts/knative-operator:1.21.0
       - oci://ghcr.io/mesosphere/charts/knative:1.21.0
