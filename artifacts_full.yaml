@@ -54,7 +54,7 @@ applications:
       - oci://<registry-url>/kommander-applications/prometheus-thanos-traefik:0.0.5
       - oci://<registry-url>/kommander-applications/reloader:2.2.11
       - oci://<registry-url>/kommander-applications/rook-ceph-cluster:1.19.5
-      - oci://<registry-url>/kommander-applications/rook-ceph:1.19.5
+      - oci://<registry-url>/kommander-applications/rook-ceph:1.19.6
       - oci://<registry-url>/kommander-applications/thanos:17.3.2
       - oci://<registry-url>/kommander-applications/traefik-forward-auth-mgmt:0.3.18
       - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.18
@@ -505,7 +505,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/reloader:2.2.11
       - ghcr.io/stakater/reloader:v1.4.16
   - name: rook-ceph
-    version: 1.19.5
+    version: 1.19.6
     images:
       - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.19.5
       - docker.io/rook/ceph:v1.19.5
