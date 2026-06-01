@@ -28,6 +28,12 @@ var (
 			constants.SemverRegexp +
 			`(?P<suffix>(-config-defaults)|(-overrides))`,
 	)
+	// applications/kommander/0.4.0/dynamic-helmreleases
+	bloodhoundPathVersion = regexp.MustCompile(
+		`(?P<prefix>applications/kommander/)` +
+			constants.SemverRegexp +
+			`(?P<suffix>/dynamic-helmreleases)`,
+	)
 )
 
 func SetKommanderAppsVersion(ctx context.Context, dir string, version string) error {
@@ -88,7 +94,7 @@ func ReplaceContent(ctx context.Context, dir, version string) (int, error) {
 			}
 		}
 
-		if !d.Type().IsRegular() || filepath.Ext(d.Name()) != ".yaml" {
+		if !d.Type().IsRegular() || !shouldProcessFile(relPath, d.Name()) {
 			return nil
 		}
 
@@ -117,14 +123,8 @@ func replaceContentInFile(ctx context.Context, file string, version string) (int
 	for fscanner.Scan() {
 		text := fscanner.Text()
 
-		newText := varNames.ReplaceAllStringFunc(text, func(match string) string {
-			newValue, ok := replaceInString(match, version)
-			if ok {
-				changes++
-				return newValue
-			}
-			return match
-		})
+		newText := replaceVersionPattern(text, varNames, version, &changes)
+		newText = replaceVersionPattern(newText, bloodhoundPathVersion, version, &changes)
 
 		_, _ = fmt.Fprintln(output, newText)
 	}
@@ -165,14 +165,33 @@ func move(ctx context.Context, dir, oldVersion, newVersion string) error {
 	return nil
 }
 
-func replaceInString(input, replace string) (string, bool) {
-	prefixIndex := varNames.SubexpIndex("prefix")
-	suffixIndex := varNames.SubexpIndex("suffix")
+func replaceVersionPattern(input string, pattern *regexp.Regexp, version string, changes *int) string {
+	return pattern.ReplaceAllStringFunc(input, func(match string) string {
+		newValue, ok := replaceInPattern(pattern, match, version)
+		if ok {
+			(*changes)++
+			return newValue
+		}
+		return match
+	})
+}
 
-	match := varNames.FindStringSubmatch(input)
-	if len(match) < suffixIndex {
+func replaceInPattern(pattern *regexp.Regexp, input, replace string) (string, bool) {
+	prefixIndex := pattern.SubexpIndex("prefix")
+	suffixIndex := pattern.SubexpIndex("suffix")
+
+	match := pattern.FindStringSubmatch(input)
+	if len(match) <= suffixIndex || prefixIndex < 0 || suffixIndex < 0 {
 		return "", false
 	}
 
 	return match[prefixIndex] + replace + match[suffixIndex], true
+}
+
+func shouldProcessFile(relPath, fileName string) bool {
+	if relPath == ".bloodhound.yml" {
+		return true
+	}
+
+	return filepath.Ext(fileName) == ".yaml"
 }
