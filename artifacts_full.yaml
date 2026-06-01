@@ -132,7 +132,7 @@ applications:
     version: 2.5.0
     images:
       - oci://ghcr.io/external-secrets/charts/external-secrets:2.5.0
-      - ghcr.io/external-secrets/external-secrets:v2.3.0
+      - ghcr.io/external-secrets/external-secrets:v2.5.0
   - name: fluent-bit
     version: 0.57.2
     images:
