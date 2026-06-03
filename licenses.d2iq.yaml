@@ -588,13 +588,13 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag%-ubuntu20.04}
         url: https://github.com/NVIDIA/mig-parted
-  - container_image: nvcr.io/nvidia/driver:580-5.15.0-176-generic-ubuntu22.04
+  - container_image: nvcr.io/nvidia/driver:580-5.15.0-174-generic-ubuntu22.04
     sources:
       - license_path: LICENSE
         ref: main
         directory: /ubuntu22.04/precompiled
         url: https://github.com/NVIDIA/gpu-driver-container
-  - container_image: nvcr.io/nvidia/driver:580-6.8.0-111-generic-ubuntu24.04
+  - container_image: nvcr.io/nvidia/driver:580-6.8.0-107-generic-ubuntu24.04
     sources:
       - license_path: LICENSE
         ref: main
@@ -985,8 +985,13 @@ resources:
       - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
+  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.2.2-25.10-2.4.1.0-4-5.15.0-174-generic-ubuntu22.04-amd64
     sources:
-      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.3.0-26.01-1.0.0.0-0-5.15.0-170-generic-ubuntu22.04-amd64
+      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.2.2-25.10-2.4.1.0-4-5.15.0-174-generic-ubuntu22.04-amd64
+        ref: ${image_tag}
+        license_path: LICENSE
+  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.2.2-25.10-2.4.1.0-4-6.8.0-107-generic-ubuntu24.04-amd64
+    sources:
+      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.2.2-25.10-2.4.1.0-4-6.8.0-107-generic-ubuntu24.04-amd64
         ref: ${image_tag}
         license_path: LICENSE
