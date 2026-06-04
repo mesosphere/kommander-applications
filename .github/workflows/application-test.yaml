@@ -27,12 +27,16 @@ jobs:
     name: Extract app names from PR Labels
     runs-on:
       - self-hosted-nutanix-docker-xsmall
-    if: github.event_name == 'pull_request' && contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
+    if: github.event_name == 'pull_request'
+    #&& contains(join(github.event.pull_request.labels.*.name, ' '), 'applications/')
 
     outputs:
       apps: ${{ steps.pr-labels.outputs.apps }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
       - name: Collect apps to run tests from PR labels
         id: pr-labels
         run: |
@@ -45,6 +49,14 @@ jobs:
               KAPP_NAMES+=("$(echo "$label" | cut -d '/' -f 2)")
             fi
           done
+
+          # If no app labels are set on PR, run tests for all apps.
+          if [[ "${#KAPP_NAMES[@]}" -eq 0 ]]; then
+            while IFS= read -r app_name; do
+              KAPP_NAMES+=("$app_name")
+            done < <(ls -1 "applications")
+          fi
+
           json_array=$(printf '%s\n' "${KAPP_NAMES[@]}" | jq -R . | jq -c -s .)
           echo "apps=${json_array}" >> $GITHUB_OUTPUT
 
@@ -75,7 +87,6 @@ jobs:
       - self-hosted-nutanix-docker-medium
     if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.scenario == 'install' || inputs.scenario == 'pdb-drain')) }}
     outputs:
-      upgrade-versions: ${{ steps.get-matrix.outputs.result }}
       to_version: ${{ steps.prepare-upgrade-versions.outputs.to_version }}
       from_versions: ${{ steps.prepare-upgrade-versions.outputs.from_versions }}
 
