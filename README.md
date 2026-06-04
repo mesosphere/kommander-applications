@@ -1,5 +1,3 @@
-[![Coverage Status](https://coveralls.io/repos/github/mesosphere/kommander-applications/badge.svg?branch=main)](https://coveralls.io/github/mesosphere/kommander-applications?branch=main)
-
 # kommander-applications
 
 This repo is dedicated to storing the HelmRelease and other info needed for Kommander's Applications.
@@ -10,7 +8,7 @@ This repo uses https://pre-commit.com/ to run pre-commit hooks. Please install p
 
 ### Running Tests
 
-You can run tests with `make go-test`. If your tests do not meet a certain coverage threshold, your build will fail.
+You can run tests with `just go-test`. If your tests do not meet a certain coverage threshold, your build will fail.
 
 ### App Image Licenses
 

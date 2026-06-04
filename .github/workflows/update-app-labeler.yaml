@@ -8,6 +8,9 @@ on:
       - 'applications/**/*'
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   update-app-labels-yaml:
     runs-on: self-hosted-nutanix-small
@@ -37,18 +40,16 @@ jobs:
           enable-cache: 'false'
           refresh-cli: 'true'
 
+      - run: devbox run -- gh auth setup-git
+
       - name: Update .github/app-labeler.yaml
         run: make workflow-labeler-yaml-update
       - name: Commit and push changes
         run: |
-          git config user.email ci-mergebot@d2iq.com
-          git config user.name d2iq-mergebot
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com}"
+          git config user.name "${GITHUB_ACTOR}"
           git add .github/app-labeler.yaml
           if output=$(git status --porcelain) && [ ! -z "$output" ]; then
             git commit -v -m "build: Updated .github/app-labeler.yaml"
             git push --force-with-lease
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.MERGEBOT_TOKEN }}

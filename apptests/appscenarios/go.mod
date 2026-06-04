@@ -1,6 +1,6 @@
 module github.com/mesosphere/kommander-applications/appscenarios
 
-go 1.25.0
+go 1.26.3
 
 require (
 	github.com/fluxcd/helm-controller/api v1.4.3

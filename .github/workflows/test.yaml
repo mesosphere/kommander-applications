@@ -31,7 +31,7 @@ jobs:
           refresh-cli: 'true'
 
       - name: Run unit tests
-        run: devbox run -- make go-test
+        run: devbox run -- just go-test
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -49,8 +49,3 @@ jobs:
           git config --global user.name "${GITHUB_ACTOR}"
           git config --global  user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           devbox run -- just test-server
-
-      - name: Report Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          file: hack/release/coverage.out
