@@ -286,7 +286,7 @@ resources:
         notice_path: NOTICE
         ref: ${image_tag}
         url: https://github.com/open-policy-agent/gatekeeper
-  - container_image: ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph:v1.19.6
+  - container_image: ghcr.io/nutanix-cloud-native/dkp-container-images/rook/ceph:v1.19.6
     sources:
       - license_path: LICENSE
         ref: ${image_tag}
