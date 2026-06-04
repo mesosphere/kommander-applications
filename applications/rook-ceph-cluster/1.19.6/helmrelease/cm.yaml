@@ -136,6 +136,9 @@ data:
         # see https://github.com/rook/rook/blob/master/Documentation/CRDs/Object-Storage/ceph-object-store-crd.md#object-store-settings for available configuration
         spec:
           metadataPool:
+            parameters:
+              pg_num: "8"
+              pg_num_min: "8"
             failureDomain: osd
             # Must use replicated pool ONLY. Erasure coding is not supported.
             replicated:
