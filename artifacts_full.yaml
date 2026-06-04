@@ -509,7 +509,7 @@ applications:
     version: 1.19.6
     images:
       - oci://ghcr.io/mesosphere/charts/rook-ceph:v1.19.6
-      - ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph:v1.19.6
+      - ghcr.io/nutanix-cloud-native/dkp-container-images/rook/ceph:v1.19.6
   - name: rook-ceph-cluster
     version: 1.19.6
     images:
