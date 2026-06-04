@@ -9,7 +9,7 @@
     "fluxcd":          "latest",
     "github-cli":      "latest",
     "gitlint":         "latest",
-    "go":              "1.25",
+    "go":              "latest",
     "gojq":            "latest",
     "golangci-lint":   "latest",
     "just":            "latest",
@@ -20,15 +20,5 @@
     "rsync":           "latest",
     "yq-go":           "latest",
     "git":             "latest"
-  },
-  "shell": {
-    "scripts": {
-      "sync-go-version": [
-        "VERSION=$(go mod edit -json hack/release/go.mod | jq -r .Go)",
-        "tmp=$(mktemp)",
-        "jq \".packages.go = \\\"${VERSION}\\\"\" devbox.json > ${tmp}",
-        "mv ${tmp} devbox.json"
-      ]
-    }
   }
 }
