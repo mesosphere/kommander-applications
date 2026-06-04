@@ -9,8 +9,8 @@ data:
     operatorNamespace: ${releaseNamespace}
     clusterName: dkp-ceph-cluster
     cephImage:
-      repository: quay.io/ceph/ceph
-      tag: v19.2.3
+      repository: ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph
+      tag: v20.1.0
       imagePullPolicy: IfNotPresent
 
     toolbox:
