@@ -40,7 +40,6 @@ data:
       enableRBDSnapshotter: false
       enableCSIEncryption: false
       disableCsiDriver: true
-      installCsiOperator: false
       rbdFSGroupPolicy: ReadWriteOnceWithFSType
 
     monitoring:
