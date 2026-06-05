@@ -128,6 +128,8 @@ data:
         tls: []
 
     logLevel: DEBUG
+    csi:
+      installCsiOperator: false
 
     cephBlockPools: []
     cephFileSystems: []
