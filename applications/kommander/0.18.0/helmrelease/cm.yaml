@@ -136,8 +136,14 @@ data:
     - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-nutanix-product-catalog/collection
       catalogName: nkp-nutanix-product-catalog
       extraLabels: {}
-      tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+      tag: 2.18.x-airgapped
       airgappedDiscovery: true
+    # The following entry will overwrite the above entry for connected deployments.
+    - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-nutanix-product-catalog/collection
+      catalogName: nkp-nutanix-product-catalog
+      extraLabels: {}
+      tag: "" # Defaults to MAJOR.MINOR of KommanderCore when empty.
+      airgappedDiscovery: false
     - resourceURI: oci://ghcr.io/nutanix-cloud-native/nkp-ai-applications-catalog/collection
       catalogName: nkp-ai-applications-catalog
       extraLabels: {}
