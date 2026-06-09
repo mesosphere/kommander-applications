@@ -10,7 +10,7 @@ data:
     clusterName: dkp-ceph-cluster
     cephImage:
       repository: ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph
-      tag: v20.1.0
+      tag: v19.2.4
       imagePullPolicy: IfNotPresent
 
     toolbox:
