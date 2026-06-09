@@ -273,7 +273,7 @@ data:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.8.3
+      tag: 1.8.4
     initdb:
       resources:
         limits:
