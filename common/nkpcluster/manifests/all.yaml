@@ -920,6 +920,14 @@ rules:
   - patch
   - update
 - apiGroups:
+  - source.toolkit.fluxcd.io
+  resources:
+  - gitrepositories
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - authentication.k8s.io
   resources:
   - tokenreviews
@@ -1118,6 +1126,7 @@ spec:
         app.kubernetes.io/component: controller-manager
         app.kubernetes.io/name: nkp-cluster
         control-plane: nkp-cluster-controller-manager
+        kommander.mesosphere.io/flux-source-controller-ingress-access: "true"
     spec:
       containers:
       - args:
