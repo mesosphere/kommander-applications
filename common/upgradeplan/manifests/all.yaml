@@ -514,7 +514,7 @@ spec:
         - --metrics-port=8080
         command:
         - /upgradeplan
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.19.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.19.0-dev.1}
         imagePullPolicy: IfNotPresent
         name: controller-manager
         ports:
@@ -568,7 +568,7 @@ spec:
         - --tls-cert-dir=/certs/
         command:
         - /upgradeplan-webhook
-        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.19.0-dev}
+        image: mesosphere/kommander2-core-installer:${kommanderChartVersion:=v2.19.0-dev.1}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

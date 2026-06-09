@@ -4,7 +4,7 @@ metadata:
   name: upgrade-plan-operator
   namespace: "${releaseNamespace:-kommander}"
   annotations:
-    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.19.0-dev}"
+    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.19.0-dev.1}"
 spec:
   interval: 10m
   sourceRef:
