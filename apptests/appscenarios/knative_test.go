@@ -16,6 +16,7 @@ import (
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	policyv1 "k8s.io/api/policy/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -201,6 +202,10 @@ var _ = Describe("Knative Tests", Label("knative"), func() {
 				}
 				return nil
 			}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+		})
+
+		It("should override the eventing-webhook memory limit above the upstream default (NCN-115013)", func() {
+			assertEventingWebhookMemoryLimit(ctx)
 		})
 
 		It("should create the knative-ingress-gateway in knative-serving (NCN-105488)", func() {
@@ -807,6 +812,80 @@ func assertNoDigestImages(ctx context.Context, namespace string) {
 			"These images are missing registry overrides in cm.yaml and will fail in airgapped installs. "+
 			"Run hack/knative/extract-images.py to regenerate overrides.",
 			len(digestViolations), namespace))
+}
+
+// assertEventingWebhookMemoryLimit verifies that the eventing-webhook operand
+// Deployment carries the memory limit we override in cm.yaml rather than the
+// upstream Knative default. The upstream chart ships a 200Mi memory limit which
+// the webhook routinely exceeds, causing OOMKilled / CrashLoopBackOff
+// (NCN-115013). cm.yaml raises it via the KnativeEventing CR
+// (spec.deployments[].resources); this asserts the override propagates all the
+// way through the operator to the reconciled Deployment.
+func assertEventingWebhookMemoryLimit(ctx context.Context) {
+	GinkgoHelper()
+
+	// The upstream default that caused the OOMKills. The override must be
+	// strictly above this, and at least the value we configure in cm.yaml.
+	upstreamDefault := resource.MustParse("200Mi")
+	configuredFloor := resource.MustParse("500Mi")
+
+	const (
+		deploymentName = "eventing-webhook"
+		containerName  = "eventing-webhook"
+		namespace      = "knative-eventing"
+	)
+
+	webhookContainer := func(d *appsv1.Deployment) *corev1.Container {
+		for i := range d.Spec.Template.Spec.Containers {
+			if d.Spec.Template.Spec.Containers[i].Name == containerName {
+				return &d.Spec.Template.Spec.Containers[i]
+			}
+		}
+		return nil
+	}
+
+	deployment := &appsv1.Deployment{}
+	// The operator may briefly reconcile the upstream default before applying
+	// our override, so poll until the limit reflects the override.
+	Eventually(func() error {
+		if err := k8sClient.Get(ctx, ctrlClient.ObjectKey{
+			Name:      deploymentName,
+			Namespace: namespace,
+		}, deployment); err != nil {
+			return err
+		}
+
+		c := webhookContainer(deployment)
+		if c == nil {
+			return fmt.Errorf("%s container not found in %s deployment", containerName, deploymentName)
+		}
+
+		limit, ok := c.Resources.Limits[corev1.ResourceMemory]
+		if !ok {
+			return fmt.Errorf("%s has no memory limit set", deploymentName)
+		}
+		if limit.Cmp(configuredFloor) < 0 {
+			return fmt.Errorf("%s memory limit %s has not reached the configured floor %s yet",
+				deploymentName, limit.String(), configuredFloor.String())
+		}
+		return nil
+	}).WithPolling(pollInterval).WithTimeout(5 * time.Minute).Should(Succeed())
+
+	container := webhookContainer(deployment)
+	Expect(container).NotTo(BeNil(), "eventing-webhook container should exist in the deployment")
+
+	memLimit := container.Resources.Limits[corev1.ResourceMemory]
+	Expect(memLimit.Cmp(upstreamDefault)).To(BeNumerically(">", 0),
+		fmt.Sprintf("eventing-webhook memory limit (%s) must exceed the upstream %s default that causes OOMKills (NCN-115013)",
+			memLimit.String(), upstreamDefault.String()))
+	Expect(memLimit.Cmp(configuredFloor)).To(BeNumerically(">=", 0),
+		fmt.Sprintf("eventing-webhook memory limit (%s) should be at least the %s we set in cm.yaml",
+			memLimit.String(), configuredFloor.String()))
+
+	memRequest, hasRequest := container.Resources.Requests[corev1.ResourceMemory]
+	Expect(hasRequest).To(BeTrue(), "eventing-webhook should declare a memory request")
+	Expect(memRequest.Cmp(memLimit)).To(BeNumerically("<=", 0),
+		"eventing-webhook memory request should not exceed its limit")
 }
 
 // assertKnativeServiceQueueProxy deploys a minimal Knative Service and verifies
