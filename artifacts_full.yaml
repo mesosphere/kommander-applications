@@ -30,7 +30,7 @@ applications:
       - oci://<registry-url>/kommander-applications/knative:1.20.2
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.19.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
-      - oci://<registry-url>/kommander-applications/kommander-ui:17.240.2
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.241.0
       - oci://<registry-url>/kommander-applications/kommander:0.19.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.8
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
@@ -324,10 +324,10 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.8.3
       - ghcr.io/fluxcd/source-controller:v1.8.2
   - name: kommander-ui
-    version: 17.240.2
+    version: 17.241.0
     images:
-      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.240.2
-      - docker.io/mesosphere/kommander:17.240.2
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.241.0
+      - docker.io/mesosphere/kommander:17.241.0
   - name: kube-oidc-proxy
     version: 0.3.8
     images:
