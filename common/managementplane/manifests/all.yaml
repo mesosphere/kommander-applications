@@ -238,17 +238,55 @@ rules:
   - cluster.x-k8s.io
   resources:
   - clusters
+  - clusterclasses
   verbs:
+  - create
   - get
   - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - infrastructure.cluster.x-k8s.io
+  resources:
+  - awsmachinetemplates
+  - awsclustertemplates
+  - awsmanagedclustertemplates
+  - nutanixclustertemplates
+  - nutanixmachinetemplates
+  - dockermachinetemplates
+  - dockerclustertemplates
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - controlplane.cluster.x-k8s.io
   resources:
   - kubeadmcontrolplanes
+  - kubeadmcontrolplanetemplates
   verbs:
+  - create
   - get
   - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - bootstrap.cluster.x-k8s.io
+  resources:
+  - eksconfigtemplates
+  - kubeadmconfigtemplates
+  - nodeadmconfigtemplates
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - apiextensions.k8s.io
