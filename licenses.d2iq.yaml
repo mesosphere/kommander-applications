@@ -605,7 +605,7 @@ resources:
       - license_path: LICENSE
         ref: ${image_tag}
         url: https://github.com/NVIDIA/k8s-driver-manager
-  - container_image: ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph:v19.2.4
+  - container_image: ghcr.io/nutanix-cloud-native/dkp-container-images/ceph/ceph:v19.2.3
     sources:
       - license_path: COPYING
         ref: ${image_tag}
