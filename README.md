@@ -1,3 +1,4 @@
+foo
 # kommander-applications
 
 This repo is dedicated to storing the HelmRelease and other info needed for Kommander's Applications.
