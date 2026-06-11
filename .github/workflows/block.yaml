@@ -1,0 +1,12 @@
+name: Development is moved to mesosphere/kommander repository
+on:
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  block:
+    name: Block
+    runs-on: self-hosted-nutanix-xsmall
+    steps:
+      - run: exit 1
