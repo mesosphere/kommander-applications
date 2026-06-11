@@ -1,2 +1,2 @@
 hooks:
-  kubectlImage: "docker.io/mesosphere/kubectl:v1.35.2-alpine"
+  kubectlImage: "docker.io/mesosphere/kubectl:v1.36.1-alpine"

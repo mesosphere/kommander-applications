@@ -64,7 +64,7 @@ applications:
       - docker.io/mesosphere/cluster-observer:1.6.0
       - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
       - docker.io/mesosphere/kommander2-core-installer:v2.19.0-dev
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
   - name: ai-navigator-app
     version: 0.8.0-rc.2
     images:
@@ -106,7 +106,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
       - oci://ghcr.io/mesosphere/charts/cosi-driver-nutanix:0.6.0
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - ghcr.io/mesosphere/dkp-container-images/objectstorage-controller:v0.2.2
       - ghcr.io/nutanix-cloud-native/cosi-driver-nutanix:v0.6.0
       - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
@@ -116,7 +116,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/dex:2.14.0
       - docker.io/mesosphere/dex-controller:v0.16.1
       - docker.io/mesosphere/dex:v2.42.0-d2iq.0
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: dex-k8s-authenticator
     version: 1.4.8
@@ -153,9 +153,9 @@ applications:
   - name: git-operator
     version: 0.13.18
     images:
-      - docker.io/mesosphere/git-operator:v0.13.19
-      - docker.io/mesosphere/gitwebserver:v0.13.19
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/git-operator:v0.13.20
+      - docker.io/mesosphere/gitwebserver:v0.13.20
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: grafana-logging
@@ -169,14 +169,14 @@ applications:
     images:
       - oci://ghcr.io/grafana/helm-charts/loki-distributed:0.80.6
       - docker.io/grafana/loki:2.9.13
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
   - name: grafana-loki-v3
     version: 3.6.7
     images:
       - oci://ghcr.io/mesosphere/charts/loki:6.55.0
       - docker.io/grafana/loki:3.6.7
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
   - name: harbor
     version: 1.18.3
@@ -193,7 +193,7 @@ applications:
       - docker.io/goharbor/harbor-registryctl:v2.14.3
       - docker.io/goharbor/registry-photon:v2.14.3
       - docker.io/goharbor/trivy-adapter-photon:v2.14.3
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - ghcr.io/mesosphere/dkp-container-images/cloudnative-pg/postgresql:17.5-minimal-bookworm
       - ghcr.io/nutanix-cloud-native/redis-exporter:1.76.0-debian-12-r0
       - ghcr.io/nutanix-cloud-native/valkey-sentinel:8.1.3-debian-12-r3
@@ -206,7 +206,7 @@ applications:
       - docker.io/istio/operator:1.23.6
       - docker.io/istio/pilot:1.23.6
       - docker.io/istio/proxyv2:1.23.6
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
   - name: istio-helm
     version: 1.25.0
     images:
@@ -223,7 +223,7 @@ applications:
       - docker.io/istio/proxyv2:1.29.0-distroless
       - docker.io/istio/ztunnel:1.29.0
       - docker.io/istio/ztunnel:1.29.0-distroless
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
   - name: jaeger
     version: 2.57.4
     images:
@@ -340,7 +340,7 @@ applications:
       - docker.io/grafana/grafana:12.4.1
       - docker.io/kiwigrid/k8s-sidecar:2.5.4
       - docker.io/library/busybox:1
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - quay.io/brancz/kube-rbac-proxy:v0.21.1
       - quay.io/prometheus-operator/prometheus-config-reloader:v0.89.0
       - quay.io/prometheus-operator/prometheus-operator:v0.89.0
@@ -354,7 +354,7 @@ applications:
     version: 0.12.1
     images:
       - oci://ghcr.io/mesosphere/charts/kubefed:0.12.1
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - ghcr.io/mesosphere/kubefed:v0.12.1
   - name: kubernetes-dashboard
     version: 7.14.1
@@ -371,7 +371,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/kubetunnel:v0.2.0
       - docker.io/alpine/curl:8.17.0
       - docker.io/jpillora/chisel:1.11.5
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/mesosphere/kubetunnel-controller:v0.2.0
       - docker.io/mesosphere/kubetunnel-kubeconfig-webhook:v0.2.0
       - docker.io/mesosphere/kubetunnel-reverse-proxy:v0.2.0
@@ -392,7 +392,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/nkp-insights:1.8.4
       - docker.io/aquasec/kube-bench:v0.14.0
       - docker.io/mesosphere/insights:1.8.4
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/mesosphere/trivy-bundles:0.64.1-20260324T034955Z
       - quay.io/fairwinds/nova:v3.11.9
       - quay.io/fairwinds/polaris:10.1.2
@@ -403,7 +403,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/nkp-insights-management:1.8.4
       - docker.io/mesosphere/insights-management:1.8.4
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
   - name: nkp-mcp-server
     version: 0.1.2
     images:
@@ -466,7 +466,7 @@ applications:
     version: 2.5.14
     images:
       - oci://ghcr.io/opencost/charts/opencost:2.5.14
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - ghcr.io/nutanix-cloud-native/dkp-container-images/opencost/opencost-ui:1.119.2
       - ghcr.io/opencost/opencost:1.120.0
   - name: project-grafana-logging
@@ -488,7 +488,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/loki:6.55.0
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
       - docker.io/grafana/loki:3.6.7
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/nginxinc/nginx-unprivileged:1.29.5-alpine
   - name: prometheus-adapter
     version: 5.3.0
@@ -515,7 +515,7 @@ applications:
       - oci://ghcr.io/mesosphere/charts/cosi-bucket-kit:0.0.5
       - oci://ghcr.io/mesosphere/charts/object-bucket-claim:0.1.11
       - oci://ghcr.io/mesosphere/charts/rook-ceph-cluster:v1.19.5
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - quay.io/ceph/ceph:v19.2.3
       - quay.io/ceph/cosi:v0.1.4
       - registry.k8s.io/sig-storage/objectstorage-sidecar:v0.2.2
@@ -523,7 +523,7 @@ applications:
     version: 17.3.2
     images:
       - oci://ghcr.io/mesosphere/charts/thanos:17.3.1
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - quay.io/thanos/thanos:v0.41.0
   - name: traefik
     version: 39.0.7
@@ -547,7 +547,7 @@ applications:
     images:
       - oci://ghcr.io/mesosphere/charts/velero:12.0.0
       - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
-      - docker.io/mesosphere/kubectl:v1.35.2-alpine
+      - docker.io/mesosphere/kubectl:v1.36.1-alpine
       - docker.io/velero/velero-plugin-for-aws:v1.14.0
       - docker.io/velero/velero:v1.18.0
   - name: vgpu-token-operator

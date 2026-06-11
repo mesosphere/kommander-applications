@@ -243,4 +243,4 @@ data:
           cpu: "500m"
           memory: "100Mi"
 
-    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.2-alpine}
+    kubectlImage: ${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.36.1-alpine}
