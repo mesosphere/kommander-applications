@@ -1,0 +1,9 @@
+name: Fevelopment is moved to mesosphere/kommander repository
+on:
+  pull_request_target:
+
+jobs:
+  block:
+    name: Block
+    runs-on: self-hosted-nutanix-xsmall
+    run: exit 1
