@@ -180,7 +180,7 @@ resources:
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
-  - container_image: docker.io/mesosphere/insights:1.8.4
+  - container_image: docker.io/mesosphere/insights:0.0.0-unpublished
     sources:
       - ref: v${image_tag}
         url: https://github.com/mesosphere/dkp-insights
