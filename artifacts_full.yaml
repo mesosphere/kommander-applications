@@ -30,7 +30,7 @@ applications:
       - oci://<registry-url>/kommander-applications/knative:1.20.2
       - oci://<registry-url>/kommander-applications/kommander-appmanagement:0.19.0
       - oci://<registry-url>/kommander-applications/kommander-flux:2.8.5
-      - oci://<registry-url>/kommander-applications/kommander-ui:17.241.1
+      - oci://<registry-url>/kommander-applications/kommander-ui:17.242.0
       - oci://<registry-url>/kommander-applications/kommander:0.19.0
       - oci://<registry-url>/kommander-applications/kube-oidc-proxy:0.3.8
       - oci://<registry-url>/kommander-applications/kube-prometheus-stack:82.13.6
@@ -302,7 +302,6 @@ applications:
       - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.19.0-dev
       - docker.io/mesosphere/kommander2-licensing-webhook:v2.19.0-dev
       - ghcr.io/mesosphere/kommander-applications-server:v2.19.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-appmanagement
     version: 0.19.0
     images:
@@ -310,7 +309,6 @@ applications:
       - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.19.0-dev
       - docker.io/mesosphere/kommander2-appmanagement:v2.19.0-dev
       - docker.io/mesosphere/kommander2-kubetools:v2.19.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
     version: 2.8.5
     images:
@@ -324,10 +322,10 @@ applications:
       - ghcr.io/fluxcd/notification-controller:v1.8.3
       - ghcr.io/fluxcd/source-controller:v1.8.2
   - name: kommander-ui
-    version: 17.241.1
+    version: 17.242.0
     images:
-      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.241.1
-      - docker.io/mesosphere/kommander:17.241.1
+      - oci://ghcr.io/mesosphere/charts/kommander-ui:17.242.0
+      - docker.io/mesosphere/kommander:17.242.0
   - name: kube-oidc-proxy
     version: 0.3.8
     images:
