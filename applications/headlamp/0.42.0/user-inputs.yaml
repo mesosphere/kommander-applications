@@ -1,0 +1,85 @@
+schema: "catalog.nkp.nutanix.com/v1/application-user-inputs"
+groups:
+  - name: headlampConfig
+    label: Headlamp Configuration
+    description: Configure Headlamp dashboard settings
+    collapse: false
+    fields:
+      - name: enableHelm
+        label: "Helm Support"
+        type: boolean
+        default: false
+        readOnly: true
+        description: "Helm support is disabled for security reasons. Enabling Helm allows arbitrary chart installations from the Headlamp UI, bypassing NKP's GitOps workflow."
+
+      - name: pluginCatalog
+        label: "Plugin Catalog"
+        type: boolean
+        default: true
+        readOnly: true
+        description: "Plugin catalog is enabled by default. Plugins are managed through the plugin manager sidecar."
+
+  - name: headlampResources
+    label: "Resource Limits"
+    description: Configure CPU and memory limits for Headlamp
+    collapse: true
+    fields:
+      - name: cpuRequest
+        label: "CPU Request"
+        type: string
+        default: "100m"
+        description: "Minimum CPU allocated to Headlamp"
+        validations:
+          - type: pattern
+            regex: "^[0-9]+(m|$)"
+            message: "CPU must be in millicores (e.g., 100m) or cores (e.g., 1)"
+
+      - name: memoryRequest
+        label: "Memory Request"
+        type: string
+        default: "200Mi"
+        description: "Minimum memory allocated to Headlamp"
+        validations:
+          - type: pattern
+            regex: "^[0-9]+(Mi|Gi)$"
+            message: "Memory must be in Mi or Gi (e.g., 200Mi, 1Gi)"
+
+      - name: cpuLimit
+        label: "CPU Limit"
+        type: string
+        default: "500m"
+        description: "Maximum CPU allocated to Headlamp"
+        validations:
+          - type: pattern
+            regex: "^[0-9]+(m|$)"
+            message: "CPU must be in millicores (e.g., 500m) or cores (e.g., 1)"
+
+      - name: memoryLimit
+        label: "Memory Limit"
+        type: string
+        default: "1000Mi"
+        description: "Maximum memory allocated to Headlamp"
+        validations:
+          - type: pattern
+            regex: "^[0-9]+(Mi|Gi)$"
+            message: "Memory must be in Mi or Gi (e.g., 1000Mi, 2Gi)"
+
+resources:
+  - template:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: headlamp-config-overrides
+      data:
+        values.yaml: |
+          config:
+            enableHelm: {{ .headlampConfig.enableHelm }}
+          pluginsManager:
+            enabled: {{ .headlampConfig.pluginCatalog }}
+          resources:
+            requests:
+              cpu: {{ .headlampResources.cpuRequest }}
+              memory: {{ .headlampResources.memoryRequest }}
+            limits:
+              cpu: {{ .headlampResources.cpuLimit }}
+              memory: {{ .headlampResources.memoryLimit }}

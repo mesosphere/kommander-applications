@@ -13,6 +13,11 @@ resources:
       - license_path: LICENSE
         ref: v${image_tag}
         url: https://github.com/fluent/fluent-bit
+  - container_image: ghcr.io/headlamp-k8s/headlamp:v0.42.0
+    sources:
+      - license_path: LICENSE
+        ref: ${image_tag}
+        url: https://github.com/kubernetes-sigs/headlamp
   - container_image: docker.io/aquasec/kube-bench:v0.14.0
     sources:
       - url: https://github.com/aquasecurity/kube-bench
@@ -135,6 +140,11 @@ resources:
       - license_path: LICENSE
         ref: 3.9.1
         url: https://github.com/Kong/kong
+  - container_image: docker.io/library/node:22-alpine
+    sources:
+      - license_path: LICENSE
+        ref: v22.x
+        url: https://github.com/nodejs/node
   - container_image: docker.io/library/traefik:v3.6.12
     sources:
       - license_path: LICENSE.md

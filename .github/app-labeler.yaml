@@ -134,6 +134,10 @@ applications/kubernetes-dashboard:
 - changed-files:
   - any-glob-to-any-file:
     - applications/kubernetes-dashboard/**
+applications/headlamp:
+  - changed-files:
+    - any-glob-to-any-file:
+        - applications/headlamp/**
 applications/kubetunnel:
 - changed-files:
   - any-glob-to-any-file:
