@@ -79,6 +79,7 @@ data:
       defaultProApps:
       - "grafana-logging"
       - "grafana-loki-v3"
+      - "headlamp"
       - "kube-prometheus-stack"
       - "kubernetes-dashboard"
       - "kubetunnel"
@@ -118,6 +119,7 @@ data:
         - "reloader"
         - "gateway-api-crds"
         - "traefik"
+        - "headlamp"
         - "kubernetes-dashboard"
         - "opencost"
         - "kube-prometheus-stack"

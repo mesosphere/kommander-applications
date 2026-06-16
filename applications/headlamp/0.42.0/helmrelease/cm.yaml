@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${releaseName}-${appVersion}-config-defaults
+  namespace: ${releaseNamespace}
+data:
+  values.yaml: |
+    fullnameOverride: headlamp
+    priorityClassName: dkp-high-priority
+    automountServiceAccountToken: false
+    clusterRoleBinding:
+      create: true
+      clusterRoleName: headlamp-impersonation-minimal
+    config:
+      inCluster: false
+      baseURL: /dkp/headlamp
+      enableHelm: false
+      watchPlugins: true
+      extraArgs:
+        - "-kubeconfig=/etc/headlamp/kubeconfig"
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      runAsGroup: 101
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop: ["ALL"]
+    pluginsManager:
+      enabled: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000
+        runAsGroup: 2000
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
+        seccompProfile:
+          type: RuntimeDefault
+        capabilities:
+          drop: ["ALL"]
+    volumeMounts:
+      - name: kubeconfig
+        mountPath: /etc/headlamp/kubeconfig
+        subPath: kubeconfig
+        readOnly: true
+      - name: sa-token
+        mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        readOnly: true
+    volumes:
+      - name: kubeconfig
+        configMap:
+          name: headlamp-kubeconfig
+      - name: sa-token
+        projected:
+          sources:
+            - serviceAccountToken:
+                path: token
+                expirationSeconds: 3600
+                audience: https://kubernetes.default.svc
+            - configMap:
+                name: kube-root-ca.crt
+                items:
+                  - key: ca.crt
+                    path: ca.crt
+    ingress:
+      enabled: true
+      ingressClassName: kommander-traefik
+      annotations:
+        kubernetes.io/ingress.class: kommander-traefik
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: "${workspaceNamespace}-stripprefixes@kubernetescrd,${workspaceNamespace}-forwardauth-full@kubernetescrd"
+      hosts:
+        - paths:
+            - path: /dkp/headlamp
+              type: Prefix
+    resources:
+      requests:
+        cpu: 100m
+        memory: 200Mi
+      limits:
+        cpu: 500m
+        memory: 1000Mi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: headlamp-kubeconfig
+  namespace: ${releaseNamespace}
+data:
+  kubeconfig: |
+    apiVersion: v1
+    kind: Config
+    clusters:
+      - cluster:
+          certificate-authority: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          server: https://kubernetes.default.svc
+        name: main
+    contexts:
+      - context:
+          cluster: main
+          user: headlamp-sa
+        name: main
+    current-context: main
+    users:
+      - name: headlamp-sa
+        user:
+          tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token

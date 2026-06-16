@@ -1,0 +1,142 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: headlamp
+  namespace: ${releaseNamespace}
+spec:
+  interval: 1m
+  url: "oci://ghcr.io/mesosphere/charts/headlamp"
+  ref:
+    tag: 0.42.0
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: headlamp
+  namespace: ${releaseNamespace}
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: headlamp
+    namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    serverSideApply: true
+    remediation:
+      retries: 30
+  upgrade:
+    serverSideApply: true
+    remediation:
+      retries: 30
+  rollback: {}
+  releaseName: headlamp
+  valuesFrom:
+    - kind: ConfigMap
+      name: ${releaseName}-${appVersion}-config-defaults
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: headlamp-impersonation-minimal
+  labels:
+    app.kubernetes.io/name: headlamp
+    app.kubernetes.io/part-of: nkp
+    kustomize.toolkit.fluxcd.io/name: headlamp
+    kustomize.toolkit.fluxcd.io/namespace: kommander
+rules:
+  - apiGroups: [""]
+    resources: ["users", "groups", "serviceaccounts"]
+    verbs: ["impersonate"]
+  - apiGroups: ["authentication.k8s.io"]
+    resources: ["userextras/scopes", "userextras/aud", "uids"]
+    verbs: ["impersonate"]
+  - apiGroups: ["authorization.k8s.io"]
+    resources: ["selfsubjectaccessreviews", "selfsubjectrulesreviews"]
+    verbs: ["create"]
+  - nonResourceURLs: ["/api", "/apis", "/apis/*", "/version", "/openapi/v2", "/openapi/v3", "/openapi/v3/*"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: headlamp-view
+  labels:
+    app.kubernetes.io/name: headlamp
+    app.kubernetes.io/part-of: nkp
+    kustomize.toolkit.fluxcd.io/name: headlamp
+    kustomize.toolkit.fluxcd.io/namespace: kommander
+rules:
+  - apiGroups: ["authorization.k8s.io"]
+    resources: ["selfsubjectaccessreviews", "selfsubjectrulesreviews"]
+    verbs: ["create"]
+  - nonResourceURLs: ["/api", "/apis", "/version", "/openapi/v2"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-headlamp-view
+rules:
+  - nonResourceURLs:
+      - /dkp/headlamp
+      - /dkp/headlamp/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-headlamp-edit
+rules:
+  - nonResourceURLs:
+      - /dkp/headlamp
+      - /dkp/headlamp/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dkp-headlamp-admin
+rules:
+  - nonResourceURLs:
+      - /dkp/headlamp
+      - /dkp/headlamp/*
+    verbs:
+      - get
+      - head
+      - post
+      - put
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dkp-headlamp-authenticated-users
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dkp-headlamp-view
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:authenticated
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: headlamp-app-dashboard-info
+  namespace: ${releaseNamespace}
+  labels:
+    "kommander.d2iq.io/application": "headlamp"
+data:
+  name: "Headlamp"
+  dashboardLink: "/dkp/headlamp/"
+  docsLink: "https://headlamp.dev/"
+  version: "0.42.0"

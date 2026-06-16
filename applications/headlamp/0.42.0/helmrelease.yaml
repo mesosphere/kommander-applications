@@ -1,0 +1,25 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: headlamp-helmrelease
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./applications/headlamp/0.42.0/helmrelease
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  postBuild:
+    substitute:
+      releaseName: ${releaseName}
+      releaseNamespace: ${releaseNamespace}
+      appVersion: "0.42.0"
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
