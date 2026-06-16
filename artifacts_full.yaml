@@ -21,6 +21,7 @@ applications:
       - oci://<registry-url>/kommander-applications/grafana-loki-v3:3.6.7
       - oci://<registry-url>/kommander-applications/grafana-loki:0.80.6
       - oci://<registry-url>/kommander-applications/harbor:1.18.3
+      - oci://<registry-url>/kommander-applications/headlamp:0.42.0
       - oci://<registry-url>/kommander-applications/istio-helm:1.25.0
       - oci://<registry-url>/kommander-applications/istio:1.23.6
       - oci://<registry-url>/kommander-applications/jaeger:2.57.4
@@ -198,6 +199,12 @@ applications:
       - ghcr.io/nutanix-cloud-native/redis-exporter:1.76.0-debian-12-r0
       - ghcr.io/nutanix-cloud-native/valkey-sentinel:8.1.3-debian-12-r3
       - ghcr.io/nutanix-cloud-native/valkey:8.1.3-debian-12-r3
+  - name: headlamp
+    version: 0.42.0
+    images:
+      - oci://ghcr.io/mesosphere/charts/headlamp:0.42.0
+      - docker.io/library/node:22-alpine
+      - ghcr.io/headlamp-k8s/headlamp:v0.42.0
   - name: istio
     version: 1.23.6
     images:
@@ -302,7 +309,6 @@ applications:
       - docker.io/mesosphere/kommander2-licensing-controller-manager:v2.19.0-dev
       - docker.io/mesosphere/kommander2-licensing-webhook:v2.19.0-dev
       - ghcr.io/mesosphere/kommander-applications-server:v2.19.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-appmanagement
     version: 0.19.0
     images:
@@ -310,7 +316,6 @@ applications:
       - docker.io/mesosphere/kommander2-appmanagement-webhook:v2.19.0-dev
       - docker.io/mesosphere/kommander2-appmanagement:v2.19.0-dev
       - docker.io/mesosphere/kommander2-kubetools:v2.19.0-dev
-      - quay.io/brancz/kube-rbac-proxy:v0.21.1
   - name: kommander-flux
     version: 2.8.5
     images:
