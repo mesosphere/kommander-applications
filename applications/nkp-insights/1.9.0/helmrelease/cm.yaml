@@ -217,6 +217,9 @@ data:
         json_include_tags_property: true
         json_output: true
         log_syslog: false
+        output_timeout: 2000
+        outputs_queue:
+          capacity: 10000
         rules:
           - disable:
               rule: '*'
@@ -269,11 +272,28 @@ data:
           memory: 512Mi
       scc:
         create: false
+    forwarder:
+      batchSize: 20
+      fallbackInterval: 30s
+      livenessProbe:
+        failureThreshold: 6
+        periodSeconds: 30
+      parallelism: 16
+      readinessProbe:
+        failureThreshold: 3
+        periodSeconds: 10
+      resources:
+        limits:
+          cpu: 250m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 64Mi
     image:
       imagePullPolicy: IfNotPresent
       registry: docker.io
       repository: mesosphere/insights
-      tag: 1.8.4
+      tag: 1.9.0-dev.6
     initdb:
       resources:
         limits:
@@ -606,14 +626,6 @@ data:
           cpu: 100m
           memory: 256Mi
     priorityClassName: dkp-critical-priority
-    reforwarder:
-      resources:
-        limits:
-          cpu: 250m
-          memory: 128Mi
-        requests:
-          cpu: 100m
-          memory: 64Mi
     resolutionCM:
       resources:
         limits:
