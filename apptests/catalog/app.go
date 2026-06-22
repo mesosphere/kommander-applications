@@ -82,6 +82,24 @@ func (a *App) Upgrade(ctx context.Context, env *environment.Env) error {
 	return a.install(ctx, env, appPath)
 }
 
+// versionDirs returns all subdirectories of dir, sorted lexicographically.
+// os.ReadDir guarantees lexicographic ordering, so no explicit sort is needed.
+// Only directories are returned; non-directory entries such as .catalog-source.yaml
+// or README.md are skipped to avoid being mistaken for version directories.
+func versionDirs(dir string) ([]string, error) {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return nil, err
+	}
+	var dirs []string
+	for _, e := range entries {
+		if e.IsDir() {
+			dirs = append(dirs, filepath.Join(dir, e.Name()))
+		}
+	}
+	return dirs, nil
+}
+
 // HasPreviousVersion reports whether the app has a version directory that
 // sorts before the configured version, making an upgrade test meaningful.
 func (a *App) HasPreviousVersion() bool {
@@ -89,7 +107,7 @@ func (a *App) HasPreviousVersion() bool {
 	if err != nil {
 		return false
 	}
-	matches, err := filepath.Glob(filepath.Join(dir, "*"))
+	matches, err := versionDirs(dir)
 	if err != nil {
 		return false
 	}
@@ -120,7 +138,7 @@ func absolutePathTo(application, appVersion string) (string, error) {
 		return pathToApp, nil
 	}
 
-	matches, err := filepath.Glob(filepath.Join(dir, "*"))
+	matches, err := versionDirs(dir)
 	if err != nil {
 		return "", err
 	}
@@ -138,7 +156,7 @@ func getPrevVersionPath(application string) (string, error) {
 		return "", err
 	}
 
-	matches, err := filepath.Glob(filepath.Join(dir, "*"))
+	matches, err := versionDirs(dir)
 	if err != nil {
 		return "", err
 	}
