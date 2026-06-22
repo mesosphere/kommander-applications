@@ -89,13 +89,15 @@ func RegisterDefaultTests(appName string) {
 
 		Describe("Upgrading "+appName, Ordered, Label("upgrade"), func() {
 			var (
-				app *App
-				hr  *fluxhelmv2.HelmRelease
+				app     *App
+				hr      *fluxhelmv2.HelmRelease
+				skipped bool
 			)
 
 			BeforeAll(func() {
 				app = NewAppScenario(appName, *AppVersion).(*App)
 				if !app.HasPreviousVersion() {
+					skipped = true
 					Skip("skipping upgrade test: no previous version available")
 				}
 
@@ -110,6 +112,9 @@ func RegisterDefaultTests(appName string) {
 			})
 
 			AfterAll(func() {
+				if skipped {
+					return
+				}
 				Expect(TeardownCluster()).To(Succeed())
 			})
 
