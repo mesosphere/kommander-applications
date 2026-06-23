@@ -10,6 +10,7 @@ import (
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -60,6 +61,12 @@ func (p projectGrafanaLokiV3) InstallPreviousVersion(ctx context.Context, env *e
 }
 
 func (p projectGrafanaLokiV3) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// The project HelmRelease uses serviceAccountName for Flux impersonation.
+	// Create the SA and grant it cluster-admin so helm-controller can install the chart.
+	if err := p.createHelmServiceAccount(ctx, env); err != nil {
+		return fmt.Errorf("creating helm service account: %w", err)
+	}
+
 	// Create the project-level OBC secret for S3 credentials.
 	if err := p.createOBCSecret(ctx, env); err != nil {
 		return fmt.Errorf("creating OBC secret: %w", err)
@@ -97,6 +104,46 @@ func (p projectGrafanaLokiV3) install(ctx context.Context, env *environment.Env,
 	// Patch the HelmRelease to include the test overrides ConfigMap
 	if err := p.patchHelmReleaseWithOverrides(ctx, env); err != nil {
 		return fmt.Errorf("patching HelmRelease with overrides: %w", err)
+	}
+
+	return nil
+}
+
+func (p projectGrafanaLokiV3) createHelmServiceAccount(ctx context.Context, env *environment.Env) error {
+	client, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{})
+	if err != nil {
+		return err
+	}
+
+	sa := &corev1.ServiceAccount{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      kommanderNamespace,
+			Namespace: kommanderNamespace,
+		},
+	}
+	if err := ctrlClient.IgnoreAlreadyExists(client.Create(ctx, sa)); err != nil {
+		return fmt.Errorf("creating ServiceAccount: %w", err)
+	}
+
+	crb := &rbacv1.ClusterRoleBinding{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: fmt.Sprintf("%s-cluster-admin", kommanderNamespace),
+		},
+		RoleRef: rbacv1.RoleRef{
+			APIGroup: rbacv1.GroupName,
+			Kind:     "ClusterRole",
+			Name:     "cluster-admin",
+		},
+		Subjects: []rbacv1.Subject{
+			{
+				Kind:      rbacv1.ServiceAccountKind,
+				Name:      kommanderNamespace,
+				Namespace: kommanderNamespace,
+			},
+		},
+	}
+	if err := ctrlClient.IgnoreAlreadyExists(client.Create(ctx, crb)); err != nil {
+		return fmt.Errorf("creating ClusterRoleBinding: %w", err)
 	}
 
 	return nil
