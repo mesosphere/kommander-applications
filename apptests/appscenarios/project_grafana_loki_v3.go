@@ -13,6 +13,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/client-go/util/retry"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/mesosphere/kommander-applications/apptests/constants"
@@ -160,17 +161,6 @@ func (p projectGrafanaLokiV3) applyTestOverrides(ctx context.Context, env *envir
 }
 
 func (p projectGrafanaLokiV3) patchHelmReleaseWithOverrides(ctx context.Context, env *environment.Env) error {
-	hr := &fluxhelmv2.HelmRelease{
-		TypeMeta: metav1.TypeMeta{
-			Kind:       fluxhelmv2.HelmReleaseKind,
-			APIVersion: fluxhelmv2.GroupVersion.Version,
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      p.Name(),
-			Namespace: kommanderNamespace,
-		},
-	}
-
 	genericClient, err := ctrlClient.New(env.K8sClient.Config(), ctrlClient.Options{
 		Scheme: flux.NewScheme(),
 	})
@@ -178,21 +168,30 @@ func (p projectGrafanaLokiV3) patchHelmReleaseWithOverrides(ctx context.Context,
 		return fmt.Errorf("could not create the generic client: %w", err)
 	}
 
-	err = genericClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
-	if err != nil {
-		return fmt.Errorf("could not get the HelmRelease: %w", err)
-	}
+	return retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		hr := &fluxhelmv2.HelmRelease{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       fluxhelmv2.HelmReleaseKind,
+				APIVersion: fluxhelmv2.GroupVersion.Version,
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      p.Name(),
+				Namespace: kommanderNamespace,
+			},
+		}
 
-	hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2.ValuesReference{
-		Kind: "ConfigMap",
-		Name: "project-grafana-loki-v3-test-overrides",
+		err := genericClient.Get(ctx, ctrlClient.ObjectKeyFromObject(hr), hr)
+		if err != nil {
+			return fmt.Errorf("could not get the HelmRelease: %w", err)
+		}
+
+		hr.Spec.ValuesFrom = append(hr.Spec.ValuesFrom, fluxhelmv2.ValuesReference{
+			Kind: "ConfigMap",
+			Name: "project-grafana-loki-v3-test-overrides",
+		})
+
+		return genericClient.Update(ctx, hr)
 	})
-	err = genericClient.Update(ctx, hr)
-	if err != nil {
-		return fmt.Errorf("could not update the HelmRelease: %w", err)
-	}
-
-	return nil
 }
 
 func (p projectGrafanaLokiV3) waitForMinIOReady(ctx context.Context, env *environment.Env) error {
