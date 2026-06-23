@@ -931,6 +931,14 @@ rules:
   - subjectaccessreviews
   verbs:
   - create
+- apiGroups:
+  - workspaces.kommander.mesosphere.io
+  resources:
+  - workspaces
+  verbs:
+  - get
+  - list
+  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -1014,6 +1022,14 @@ rules:
   - controlplane.cluster.x-k8s.io
   resources:
   - kubeadmcontrolplanes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - workspaces.kommander.mesosphere.io
+  resources:
+  - workspaces
   verbs:
   - get
   - list
