@@ -4,7 +4,7 @@ metadata:
   name: release-operator
   namespace: "${releaseNamespace:-kommander}"
   annotations:
-    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-dev}"
+    managementplane.nkp.nutanix.com/version: "${kommanderChartVersion:=v2.18.0-rc.9}"
 spec:
   interval: 10m
   sourceRef:
