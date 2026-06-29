@@ -41,18 +41,3 @@ spec:
       name: project-grafana-loki-overrides
       optional: true
   targetNamespace: ${releaseNamespace}
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: objectbucket.io
-              version: v1alpha1
-              kind: ObjectBucketClaim
-              name: proj-loki-${releaseNamespace}
-            patch: |
-              apiVersion: objectbucket.io/v1alpha1
-              kind: ObjectBucketClaim
-              metadata:
-                name: proj-loki-${releaseNamespace}
-                annotations:
-                  helm.sh/resource-policy: keep
