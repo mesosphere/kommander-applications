@@ -1076,7 +1076,7 @@ metadata:
     app.kubernetes.io/component: controller-manager
     app.kubernetes.io/name: nkp-cluster
     control-plane: nkp-cluster-controller-manager-metrics
-    servicemonitor.kommander.mesosphere.io/path: metrics
+    servicemonitor.kommander.mesosphere.io/path: metrics-auth
   name: nkp-cluster-controller-manager-metrics
   namespace: kommander
 spec:

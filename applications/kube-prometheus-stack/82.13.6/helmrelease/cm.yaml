@@ -74,6 +74,16 @@ data:
             # Service port for external-dns
             - targetPort: 7979
               interval: 30s
+        - name: dkp-service-monitor-metrics-auth
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "metrics-auth"
+          namespaceSelector:
+            any: true
+          endpoints:
+            - port: metrics
+              interval: 30s
+              bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
         - name: dkp-service-monitor-dkp-logging-grafana-metrics
           selector:
             matchLabels:
