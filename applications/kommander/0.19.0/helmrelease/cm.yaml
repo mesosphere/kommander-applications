@@ -126,6 +126,7 @@ data:
         - "cert-manager"
         - "karma-traefik"
         - "gatekeeper"
+        - "external-secrets"
         - "kommander-flux"
         - "cilium-hubble-relay-traefik"
     catalogCollections:

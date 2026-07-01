@@ -8,7 +8,7 @@ data:
     ---
     replicas: 2
     disableValidatingWebhook: false
-    disableMutation: true
+    disableMutation: false
 
     mutations:
       enablePodProxy: false
