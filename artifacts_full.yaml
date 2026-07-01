@@ -59,7 +59,7 @@ applications:
       - oci://<registry-url>/kommander-applications/traefik-forward-auth-mgmt:0.3.18
       - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.18
       - oci://<registry-url>/kommander-applications/traefik:39.0.7
-      - oci://<registry-url>/kommander-applications/velero:12.0.0
+      - oci://<registry-url>/kommander-applications/velero:12.1.0
       - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
       - docker.io/mesosphere/cluster-observer:1.6.0
       - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
@@ -543,9 +543,9 @@ applications:
       - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
       - docker.io/mesosphere/traefik-forward-auth:v3.3.0
   - name: velero
-    version: 12.0.0
+    version: 12.1.0
     images:
-      - oci://ghcr.io/mesosphere/charts/velero:12.0.0
+      - oci://ghcr.io/mesosphere/charts/velero:12.1.0
       - docker.io/mesosphere/kubeaddons-addon-initializer:v0.8.0
       - docker.io/mesosphere/kubectl:v1.35.2-alpine
       - docker.io/velero/velero-plugin-for-aws:v1.14.0
