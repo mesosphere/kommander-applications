@@ -14,7 +14,7 @@ spec:
       namespace: ${releaseNamespace}
     - name: opencost-pre-install
       namespace: ${releaseNamespace}
-  path: ./applications/opencost/2.5.14/release
+  path: ./applications/opencost/2.5.25/release
   sourceRef:
     kind: GitRepository
     name: management
