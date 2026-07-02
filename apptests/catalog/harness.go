@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -19,6 +20,8 @@ import (
 	"github.com/mesosphere/kommander-applications/apptests/kind"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	appsv1 "k8s.io/api/apps/v1"
+	"k8s.io/apimachinery/pkg/types"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
@@ -35,6 +38,8 @@ var (
 
 	network *docker.NetworkResource
 )
+
+const fluxHelmControllerFeatureGatesEnv = "APPTESTS_HELM_CONTROLLER_FEATURE_GATES"
 
 // InitSuite registers the -app-version flag and a Ginkgo BeforeSuite that
 // initialises the cluster connection (E2E_KUBECONFIG) or Docker network
@@ -107,6 +112,61 @@ func SetupKindCluster() error {
 	}
 
 	return nil
+}
+
+// ApplyFluxHelmControllerFeatureGates patches helm-controller args when
+// APPTESTS_HELM_CONTROLLER_FEATURE_GATES is set (example:
+// DisableChartDigestTracking=true). This allows shared test-harness control
+// without per-suite custom patching.
+func ApplyFluxHelmControllerFeatureGates() error {
+	value := strings.TrimSpace(os.Getenv(fluxHelmControllerFeatureGatesEnv))
+	if value == "" {
+		value = "DisableChartDigestTracking=true"
+	}
+	if K8sClient == nil {
+		return fmt.Errorf("kubernetes client is not initialized")
+	}
+
+	featureGateArg := value
+	if !strings.HasPrefix(featureGateArg, "--feature-gates=") {
+		featureGateArg = "--feature-gates=" + value
+	}
+	GinkgoWriter.Printf("Applying helm-controller feature gates: %s\n", featureGateArg)
+
+	namespaces := []string{"flux-system", "kommander-flux"}
+	var lastErr error
+	for _, ns := range namespaces {
+		key := types.NamespacedName{Name: "helm-controller", Namespace: ns}
+		deploy := &appsv1.Deployment{}
+		if err := K8sClient.Get(Ctx, key, deploy); err != nil {
+			lastErr = err
+			continue
+		}
+		if len(deploy.Spec.Template.Spec.Containers) == 0 {
+			lastErr = fmt.Errorf("deployment %s/%s has no containers", ns, "helm-controller")
+			continue
+		}
+
+		args := deploy.Spec.Template.Spec.Containers[0].Args
+		for _, arg := range args {
+			if arg == featureGateArg {
+				GinkgoWriter.Printf("helm-controller in %s already has %s\n", ns, featureGateArg)
+				return nil
+			}
+		}
+		deploy.Spec.Template.Spec.Containers[0].Args = append(args, featureGateArg)
+		if err := K8sClient.Update(Ctx, deploy); err != nil {
+			lastErr = err
+			continue
+		}
+		GinkgoWriter.Printf("Patched helm-controller in %s with %s\n", ns, featureGateArg)
+		return nil
+	}
+
+	if lastErr != nil {
+		return fmt.Errorf("failed to patch helm-controller feature gates: %w", lastErr)
+	}
+	return fmt.Errorf("helm-controller deployment not found in namespaces: %v", namespaces)
 }
 
 // WaitForFluxCRDs polls the API server until the Flux CRDs (HelmRelease,
