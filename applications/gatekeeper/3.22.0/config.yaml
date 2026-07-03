@@ -1,0 +1,32 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gatekeeper-config
+  namespace: ${releaseNamespace}
+spec:
+  force: false
+  prune: true
+  wait: true
+  interval: 6h
+  retryInterval: 1m
+  path: ./applications/gatekeeper/3.22.0/config
+  sourceRef:
+    kind: GitRepository
+    name: management
+    namespace: kommander-flux
+  timeout: 1m
+  dependsOn:
+    - name: gatekeeper-release
+  postBuild:
+    substitute:
+      appVersion: ${appVersion}
+      releaseName: ${releaseName}
+      releaseNamespace: ${releaseNamespace}
+    substituteFrom:
+      - kind: ConfigMap
+        name: substitution-vars
+  healthChecks:
+    - apiVersion: config.gatekeeper.sh/v1alpha1
+      kind: Config
+      name: config
+      namespace: ${releaseNamespace}

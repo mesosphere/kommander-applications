@@ -85,6 +85,17 @@ spec:
               kind: ValidatingWebhookConfiguration
               name: gatekeeper-validating-webhook-configuration
               version: v1
+          # Drop the chart's hardcoded `--exempt-namespace={{ .Release.Namespace }}` so the
+          # mutating webhook runs in the release (workspace) namespace and can inject
+          # imagePullSecrets. Validation/audit/sync stay exempt via the gatekeeper Config
+          # (config/config.yaml).
+          - patch: |-
+              - op: remove
+                path: /spec/template/spec/containers/0/args/7
+            target:
+              kind: Deployment
+              name: gatekeeper-controller-manager
+              version: v1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease

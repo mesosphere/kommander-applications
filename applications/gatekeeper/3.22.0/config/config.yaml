@@ -1,0 +1,13 @@
+apiVersion: config.gatekeeper.sh/v1alpha1
+kind: Config
+metadata:
+  name: config
+  namespace: ${releaseNamespace}
+spec:
+  # Gatekeeper hardcodes `--exempt-namespace=<release namespace>`, which we drop in the
+  # HelmRelease postRenderer so the mutating webhook can inject imagePullSecrets here.
+  # Re-exempt the release namespace from validation/audit/sync only (NOT mutation-webhook).
+  match:
+    - excludedNamespaces:
+        - "${releaseNamespace}"
+      processes: ["webhook", "audit", "sync"]
