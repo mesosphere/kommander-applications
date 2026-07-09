@@ -1,0 +1,3 @@
+{
+  "prTitle": "{{{commitMessages}}} (backport to {{targetBranch}})"
+}
