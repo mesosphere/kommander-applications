@@ -1,7 +1,10 @@
 schema: catalog.nkp.nutanix.com/v1/application-metadata
 allowMultipleInstances: false
 category:
-- general
+- accelerated-infrastructure
+appScreens:
+  - general
+  - ai
 type: nkp-core-platform
 description: The NVIDIA Network Operator simplifies the provisioning and management of NVIDIA networking resources in a Kubernetes cluster.
 displayName: NVIDIA Network Operator

@@ -2,7 +2,10 @@ schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: NVIDIA GPU Operator
 description: The NVIDIA GPU Operator manages NVIDIA GPU resources in a Kubernetes cluster and automates tasks related to bootstrapping GPU nodes.
 category:
+  - accelerated-infrastructure
+appScreens:
   - general
+  - ai
 type: nkp-core-platform
 scope:
   - workspace

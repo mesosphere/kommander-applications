@@ -2,7 +2,10 @@ schema: "catalog.nkp.nutanix.com/v1/application-metadata"
 displayName: NKP MCP Server
 description: NKP MCP Server brings Kubernetes-aware tools to LLM agents via the Model Context Protocol, exposing safe, typed read operations over a streamable HTTP endpoint with RBAC-aware user impersonation.
 category:
-  - tools
+  - data-and-agents
+appScreens:
+  - general
+  - ai
 type: nkp-core-platform
 allowMultipleInstances: false
 scope:
