@@ -15,7 +15,7 @@ nkp_cli_bin := ".local/bin/nkp"
 install-nkp-cli:
     #!/usr/bin/env bash
     mkdir -p .local/bin
-    curl -fsSL https://s3.amazonaws.com/downloads.mesosphere.io/dkp/{{nkp_cli_version}}/nkp_{{nkp_cli_version}}_{{goos}}_amd64.tar.gz | tar xz -O > {{nkp_cli_bin}}
+    curl -fsSL https://s3.amazonaws.com/downloads.mesosphere.io/dkp/{{nkp_cli_version}}/nkp_{{nkp_cli_version}}_{{goos}}_amd64.tar.gz | tar xz nkp -O > {{nkp_cli_bin}}
     chmod +x {{nkp_cli_bin}}
 
 # Install all tools
