@@ -64,9 +64,6 @@ overview: |-
 
   ztunnel:
     enabled: true
-    env:
-      CA_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
-      XDS_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
   ```
 
   ### Enrolling Workloads in Ambient Mode
