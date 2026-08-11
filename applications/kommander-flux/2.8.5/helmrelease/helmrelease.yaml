@@ -4,7 +4,7 @@ metadata:
   name: nkp-flux-2.18.3
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: oci://ghcr.io/fluxcd-community/charts/flux2
   ref:
     tag: 2.18.3

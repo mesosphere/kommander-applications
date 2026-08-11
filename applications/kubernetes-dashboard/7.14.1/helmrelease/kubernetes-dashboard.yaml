@@ -4,7 +4,7 @@ metadata:
   name: kubernetes-dashboard
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/kubernetes-dashboard"
   ref:
     tag: 7.14.0

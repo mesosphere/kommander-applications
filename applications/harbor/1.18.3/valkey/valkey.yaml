@@ -4,7 +4,7 @@ metadata:
   name: ${releaseName}-${appVersion}-valkey
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/valkey"
   ref:
     tag: 3.0.22

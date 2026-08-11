@@ -5,7 +5,7 @@ metadata:
   name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://quay.io/jetstack/charts/cert-manager"
   ref:
     tag: v1.19.3
@@ -16,7 +16,7 @@ metadata:
   name: ${releaseName}-${appVersion}-crds
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/cert-manager-crds"
   ref:
     tag: v1.19.3

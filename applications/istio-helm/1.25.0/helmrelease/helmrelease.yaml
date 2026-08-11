@@ -6,7 +6,7 @@ metadata:
   name: ${releaseName}-${appVersion}-base
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-base"
   ref:
     tag: 1.25.0
@@ -18,7 +18,7 @@ metadata:
   name: ${releaseName}-${appVersion}-cni
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-cni"
   ref:
     tag: 1.25.0
@@ -30,7 +30,7 @@ metadata:
   name: ${releaseName}-${appVersion}-istiod
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-istiod"
   ref:
     tag: 1.25.0
@@ -42,7 +42,7 @@ metadata:
   name: ${releaseName}-${appVersion}-ztunnel
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-ztunnel"
   ref:
     tag: 1.25.0
@@ -54,7 +54,7 @@ metadata:
   name: ${releaseName}-${appVersion}-gateway
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/istio-helm-gateway"
   ref:
     tag: 1.25.0

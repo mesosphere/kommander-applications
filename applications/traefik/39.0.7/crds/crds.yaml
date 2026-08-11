@@ -4,7 +4,7 @@ metadata:
   name: ${releaseName}-${appVersion}-crds
   namespace: ${releaseNamespace}
 spec:
-  interval: 1m
+  interval: 24h
   url: "oci://ghcr.io/traefik/helm/traefik-crds"
   ref:
     tag: 1.11.1

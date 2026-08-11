@@ -4,7 +4,7 @@ metadata:
   name: ${releaseName}-${appVersion}-chart
   namespace: ${releaseNamespace}
 spec:
-  interval: 10m
+  interval: 24h
   url: "oci://ghcr.io/mesosphere/charts/kube-prometheus-stack"
   ref:
     tag: 82.13.6
