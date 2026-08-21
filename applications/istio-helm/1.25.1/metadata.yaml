@@ -20,7 +20,7 @@ overview: |-
   # Overview
   Istio is an open platform for providing a uniform way to integrate microservices, manage traffic flow across microservices, enforce policies and aggregate telemetry data. Istio's control plane provides an abstraction layer over the underlying cluster management platform, such as Kubernetes, Mesos, etc. A large ecosystem of contributors, partners, integrations, and distributors extend and leverage Istio for a wide variety of scenarios. To use Istio, Prometheus needs to be deployed.
 
-  This is a Helm-based installation of Istio that uses the official Istio Helm charts for deploying individual components (base, CNI, istiod, gateway).
+  This is a Helm-based installation of Istio that uses the official Istio Helm charts for deploying individual components (base, CNI, istiod, ztunnel, gateway).
 
   ## Key Features
   ### Secure Communication
@@ -38,35 +38,31 @@ overview: |-
   ### Automatic Traffic Metrics and Logging
   Automatic metrics, logs, and traces for all traffic within a cluster, including cluster ingress and egress
 
+  ## Sidecar Injection
+
+  To enable sidecar injection for a namespace, label it with the Istio revision:
+  ```bash
+  kubectl label namespace <namespace-name> istio.io/rev=istio-helm
+  ```
+
   ## Ambient Mode Support
 
-  This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure, reducing operational complexity and resource overhead.
+  This installation supports Istio Ambient Mesh mode, which provides a sidecar-less data plane option. Ambient mode moves the proxies out of the application pod and into the infrastructure (ztunnel DaemonSet), reducing operational complexity and resource overhead.
 
   ### Enabling Ambient Mode
 
   To enable ambient mode, you need to configure three components via ConfigMap overrides:
 
   ```yaml
-  cni:
-    profile: ambient
-    cni:
-      ambient:
-        enabled: true
-
-  istiod:
-    profile: ambient
-    pilot:
-      env:
-        PILOT_ENABLE_AMBIENT: true
-        PILOT_ENABLE_AMBIENT_CONTROLLERS: true
-        PILOT_ENABLE_HBONE: true
-        CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,kube-system/ztunnel"
-
   ztunnel:
     enabled: true
+    profile: ambient
+  cni:
+    profile: ambient
+  istiod:
+    profile: ambient
     env:
-      CA_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
-      XDS_ADDRESS: "istiod-istio-helm.istio-helm-system.svc:15012"
+      CA_TRUSTED_NODE_ACCOUNTS: "istio-helm-gateway-ns/ztunnel,istio-helm-system/ztunnel"
   ```
 
   ### Enrolling Workloads in Ambient Mode
@@ -76,20 +72,47 @@ overview: |-
   kubectl label namespace <namespace-name> istio.io/dataplane-mode=ambient
   ```
 
-  **Note**: Until ztunnel is enabled, ambient mode will not be active. All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+  **Note**: All three components (CNI ambient, istiod ambient, and ztunnel) must be configured for ambient mode to function properly.
+
 
   ### Disabling Ambient Mode
 
-  To disable ambient mode, you need to revert back the ConfigMap overrides:
+  To disable ambient mode, remove the ambient-related overrides:
 
   ```yaml
-  cni:
-    cni:
-      ambient:
-        enabled: false
-
   ztunnel:
     enabled: false
+  cni:
+    ambient:
+      enabled: false
+  ```
+
+  ### Multiple Gateways
+
+  Additional gateways (e.g., egress) can be deployed alongside the default ingress gateway via ConfigMap overrides:
+
+  ```yaml
+  gateway:
+    additional_gateways:
+      - name: istio-egressgateway
+        labels:
+          istio: egressgateway
+          app: istio-egressgateway
+        revision: "istio-helm"
+        service:
+          type: ClusterIP
+          ports:
+            - name: http2
+              port: 80
+              targetPort: 8080
+              protocol: TCP
+            - name: https
+              port: 443
+              targetPort: 8443
+              protocol: TCP
+        autoscaling:
+          enabled: false
+        replicaCount: 1
   ```
 
   ## More Information
