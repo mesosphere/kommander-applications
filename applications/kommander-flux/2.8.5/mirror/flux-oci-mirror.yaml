@@ -37,11 +37,7 @@ spec:
         - args:
             - -config-dir
             - /config
-<<<<<<< HEAD:applications/kommander-flux/2.8.5/mirror/flux-oci-mirror.yaml
-          image: mesosphere/flux-oci-mirror:v0.3.1
-=======
           image: mesosphere/flux-oci-mirror:v0.3.2
->>>>>>> 5ecce7783 (fix: bump flux to v0.3.2 for NCN-116967 fix):applications/kommander-flux/2.7.2/mirror/flux-oci-mirror.yaml
           imagePullPolicy: IfNotPresent
           livenessProbe:
             initialDelaySeconds: 10
