@@ -1,6 +1,6 @@
 schema: "catalog.nkp.nutanix.com/v1/application-metadata"
-displayName: Istio-Helm Service Mesh
-description: Open source service mesh that layers transparently onto existing distributed applications. Requires Prometheus.
+displayName: Istio-Helm Service Mesh (e2e-demo)
+description: '[e2e-demo] built from pawan/e2e-demo. Open source service mesh that layers transparently onto existing distributed applications. Requires Prometheus.'
 category:
   - service-mesh
 requiredDependencies:
