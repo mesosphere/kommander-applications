@@ -1,7 +1,0 @@
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: istio-helm-gateway-ns
-  labels:
-    # Enable Istio sidecar injection with specific revision
-    istio.io/rev: istio-helm
