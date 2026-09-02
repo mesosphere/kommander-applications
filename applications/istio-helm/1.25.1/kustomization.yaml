@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - pre-install.yaml
+  - istio-helm-gateway-namespace.yaml
+  - helmrelease.yaml
