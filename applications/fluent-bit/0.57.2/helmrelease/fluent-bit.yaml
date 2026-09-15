@@ -32,7 +32,7 @@ spec:
       retries: 30
   rollback:
     serverSideApply: enabled
-  timeout: 5m0s
+  timeout: 15m0s
   releaseName: kommander-fluent-bit
   valuesFrom:
     - kind: ConfigMap
