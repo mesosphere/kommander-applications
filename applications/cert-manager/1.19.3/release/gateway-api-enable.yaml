@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-manager-gateway-api-enable
+  namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cert-manager-gateway-api-enable-${releaseNamespace}
+rules:
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cert-manager-gateway-api-enable-${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cert-manager-gateway-api-enable-${releaseNamespace}
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager-gateway-api-enable
+    namespace: ${releaseNamespace}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-gateway-api-enable
+  namespace: ${releaseNamespace}
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    resourceNames: ["cert-manager-gateway-api-crds-${releaseNamespace}-overrides"]
+    verbs: ["get", "list", "watch", "update", "patch", "delete"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-gateway-api-enable
+  namespace: ${releaseNamespace}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cert-manager-gateway-api-enable
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager-gateway-api-enable
+    namespace: ${releaseNamespace}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cert-manager-gateway-api-enable
+  namespace: ${releaseNamespace}
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: cert-manager-gateway-api-enable
+          priorityClassName: system-cluster-critical
+          restartPolicy: OnFailure
+          containers:
+            - name: gateway-api-enable
+              image: "${kubetoolsImageRepository:=docker.io/mesosphere/kubectl}:${kubetoolsImageTag:=v1.35.2-alpine}"
+              command:
+                - sh
+                - -c
+                - |
+                  CM=cert-manager-gateway-api-crds-${releaseNamespace}-overrides
+                  NS=${releaseNamespace}
+                  established=""
+                  if kubectl get crd httproutes.gateway.networking.k8s.io >/dev/null 2>&1; then
+                    established=$(kubectl get crd httproutes.gateway.networking.k8s.io -o jsonpath='{.status.conditions[?(@.type=="Established")].status}')
+                  fi
+                  if [ "$established" = "True" ]; then
+                    VALUES=$(printf '%s\n' \
+                      'config:' \
+                      '  apiVersion: controller.config.cert-manager.io/v1alpha1' \
+                      '  kind: ControllerConfiguration' \
+                      '  enableGatewayAPI: true')
+                    kubectl create configmap "$CM" -n "$NS" \
+                      --from-literal=values.yaml="$VALUES" \
+                      --dry-run=client -o yaml | kubectl apply -f -
+                  else
+                    kubectl delete configmap "$CM" -n "$NS" --ignore-not-found
+                  fi
