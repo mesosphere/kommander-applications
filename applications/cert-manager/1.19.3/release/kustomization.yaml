@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - cm.yaml
   - release.yaml
+  - gateway-api-enable.yaml
