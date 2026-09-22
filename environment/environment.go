@@ -27,12 +27,12 @@ import (
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	typedclient "github.com/nutanix-cloud-native/nkp-catalog-tests/client"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/docker"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/kind"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/kustomize"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/net"
+	typedclient "github.com/mesosphere/kommander-applications/client"
+	"github.com/mesosphere/kommander-applications/docker"
+	"github.com/mesosphere/kommander-applications/flux"
+	"github.com/mesosphere/kommander-applications/kind"
+	"github.com/mesosphere/kommander-applications/kustomize"
+	"github.com/mesosphere/kommander-applications/net"
 )
 
 const (

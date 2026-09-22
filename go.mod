@@ -1,4 +1,4 @@
-module github.com/nutanix-cloud-native/nkp-catalog-tests
+module github.com/mesosphere/kommander-applications
 
 go 1.25.0
 

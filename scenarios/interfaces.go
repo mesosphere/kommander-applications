@@ -5,7 +5,7 @@ package scenarios
 import (
 	"context"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
+	"github.com/mesosphere/kommander-applications/environment"
 )
 
 // AppScenario defines the behavior and name of an application test scenario

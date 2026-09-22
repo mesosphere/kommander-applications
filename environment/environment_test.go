@@ -9,7 +9,7 @@ import (
 
 	"github.com/fluxcd/flux2/v2/pkg/manifestgen"
 	sourcev1 "github.com/fluxcd/source-controller/api/v1"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
+	"github.com/mesosphere/kommander-applications/flux"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

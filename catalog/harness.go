@@ -18,11 +18,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/client"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/docker"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/kind"
+	"github.com/mesosphere/kommander-applications/client"
+	"github.com/mesosphere/kommander-applications/docker"
+	"github.com/mesosphere/kommander-applications/environment"
+	"github.com/mesosphere/kommander-applications/flux"
+	"github.com/mesosphere/kommander-applications/kind"
 )
 
 // Exported suite state shared between the harness and per-app test files.

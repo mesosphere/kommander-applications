@@ -5,9 +5,9 @@ import (
 	"context"
 	"fmt"
 
-	typedclient "github.com/nutanix-cloud-native/nkp-catalog-tests/client"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/kind"
+	typedclient "github.com/mesosphere/kommander-applications/client"
+	"github.com/mesosphere/kommander-applications/flux"
+	"github.com/mesosphere/kommander-applications/kind"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"

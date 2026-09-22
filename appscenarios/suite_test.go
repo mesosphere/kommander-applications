@@ -15,10 +15,10 @@ import (
 	genericClient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/docker"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/kind"
+	"github.com/mesosphere/kommander-applications/docker"
+	"github.com/mesosphere/kommander-applications/environment"
+	"github.com/mesosphere/kommander-applications/flux"
+	"github.com/mesosphere/kommander-applications/kind"
 )
 
 var (

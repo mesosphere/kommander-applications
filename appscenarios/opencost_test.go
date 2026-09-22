@@ -16,8 +16,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrlClient "sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/constants"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
+	"github.com/mesosphere/kommander-applications/constants"
+	"github.com/mesosphere/kommander-applications/environment"
 )
 
 var _ = Describe("Multi-Cluster OpenCost Tests", Label(constants.OpenCost), func() {

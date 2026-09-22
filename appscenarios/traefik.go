@@ -9,10 +9,10 @@ import (
 	traefikv1a1 "github.com/traefik/traefik/v2/pkg/provider/kubernetes/crd/traefikio/v1alpha1"
 	genericCLient "sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/constants"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/flux"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/scenarios"
+	"github.com/mesosphere/kommander-applications/constants"
+	"github.com/mesosphere/kommander-applications/environment"
+	"github.com/mesosphere/kommander-applications/flux"
+	"github.com/mesosphere/kommander-applications/scenarios"
 )
 
 type traefik struct {

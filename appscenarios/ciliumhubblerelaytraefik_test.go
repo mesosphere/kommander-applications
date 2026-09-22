@@ -16,7 +16,7 @@ import (
 
 	fluxhelmv2 "github.com/fluxcd/helm-controller/api/v2"
 	apimeta "github.com/fluxcd/pkg/apis/meta"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/constants"
+	"github.com/mesosphere/kommander-applications/constants"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"

@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/constants"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/scenarios"
+	"github.com/mesosphere/kommander-applications/constants"
+	"github.com/mesosphere/kommander-applications/environment"
+	"github.com/mesosphere/kommander-applications/scenarios"
 )
 
 type karma struct {

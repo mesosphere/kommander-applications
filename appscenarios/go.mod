@@ -1,11 +1,11 @@
-module github.com/nutanix-cloud-native/nkp-catalog-tests/appscenarios
+module github.com/mesosphere/kommander-applications/appscenarios
 
 go 1.25.0
 
 require (
 	github.com/fluxcd/helm-controller/api v1.4.3
 	github.com/fluxcd/pkg/apis/meta v1.22.0
-	github.com/nutanix-cloud-native/nkp-catalog-tests v0.0.0-20250425100533-4eb047e5df6b
+	github.com/mesosphere/kommander-applications v0.0.0-20250425100533-4eb047e5df6b
 	github.com/onsi/ginkgo/v2 v2.26.0
 	github.com/onsi/gomega v1.38.2
 	github.com/open-policy-agent/frameworks/constraint v0.0.0-20240411024313-c2efb00269a8
@@ -22,7 +22,7 @@ require (
 // traefik Containous forks
 replace (
 	github.com/abbot/go-http-auth => github.com/containous/go-http-auth v0.4.1-0.20200324110947-a37a7636d23e
-	github.com/nutanix-cloud-native/nkp-catalog-tests => ../
+	github.com/mesosphere/kommander-applications => ../
 )
 
 require (

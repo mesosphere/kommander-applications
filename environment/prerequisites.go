@@ -17,8 +17,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/net"
-	"github.com/nutanix-cloud-native/nkp-catalog-tests/utils"
+	"github.com/mesosphere/kommander-applications/net"
+	"github.com/mesosphere/kommander-applications/utils"
 )
 
 //go:embed metallb-crs/*.yaml
