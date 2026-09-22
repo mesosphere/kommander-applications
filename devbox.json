@@ -1,0 +1,16 @@
+{
+  "packages": [
+    "go@latest",
+    "pre-commit@latest",
+    "golangci-lint@latest",
+    "shfmt@latest",
+    "nodejs@26.5.0"
+  ],
+  "shell": {
+    "scripts": {
+      "release-please": [
+        "npx --yes release-please@17.10.4 \"$@\""
+      ]
+    }
+  }
+}

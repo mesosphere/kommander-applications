@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: step-certificates
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: step-certificates
+      sourceRef:
+        kind: HelmRepository
+        name: smallstep.github.io-helm-charts
+        namespace: kommander-flux
+      version: v1.26.0
+  interval: 15s
+  install:
+    serverSideApply: true
+    crds: CreateReplace
+    remediation:
+      retries: 30
+    createNamespace: true
+  upgrade:
+    serverSideApply: enabled
+    crds: CreateReplace
+    remediation:
+      retries: 30
+  rollback:
+    serverSideApply: enabled
+  releaseName: step-certificates
+  targetNamespace: ${releaseNamespace}
+  valuesFrom:
+    - kind: ConfigMap
+      name: step-certificate-defaults

@@ -1,0 +1,53 @@
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    runs-on: self-hosted-nutanix-small
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v31
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          skip-nix-installation: true
+          enable-cache: "false"
+          refresh-cli: "true"
+
+      - name: Run unit tests
+        run: devbox run -- go test -short -coverprofile=coverage.out ./...
+
+      - name: Run appscenarios unit tests
+        run: devbox run -- go test -C appscenarios -short -coverprofile=coverage.out ./...
+
+      - name: Report test coverage
+        run: |
+          devbox run -- go tool cover -func=coverage.out
+          devbox run -- go -C appscenarios tool cover -func=coverage.out
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            coverage.out
+            appscenarios/coverage.out

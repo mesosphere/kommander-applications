@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kommander-thanos-query-stores
+  namespace: ${namespace}
+data:
+  stores.yaml: |
+    - targets:
+      - ${managementServiceUrl}:10901
+      - ${workloadNodeIP}:30901

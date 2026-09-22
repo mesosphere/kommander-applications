@@ -1,0 +1,61 @@
+name: Lint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - edited
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conventional-commits:
+    runs-on: self-hosted-nutanix-small
+    steps:
+      - name: Check PR title
+        uses: amannn/action-semantic-pull-request@v6
+        with:
+          types: |
+            build
+            chore
+            ci
+            docs
+            feat
+            fix
+            perf
+            refactor
+            release
+            revert
+            style
+            test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pre-commit:
+    runs-on: self-hosted-nutanix-small
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install NIX
+        uses: cachix/install-nix-action@v31
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.13.0
+        with:
+          skip-nix-installation: true
+          enable-cache: "false"
+          refresh-cli: "true"
+
+      - name: Run pre-commit
+        run: devbox run -- pre-commit run -a --show-diff-on-failure

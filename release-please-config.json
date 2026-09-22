@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "3553f57b11b75fe9b1cfc206a000aaf001f7a4a3",
+  "packages": {
+    ".": {
+      "release-type": "go",
+      "package-name": "nkp-catalog-tests",
+      "include-component-in-tag": false,
+      "pull-request-title-pattern": "release${scope}: ${component} v${version}",
+      "changelog-type": "github",
+      "initial-version": "0.1.0"
+    }
+  }
+}

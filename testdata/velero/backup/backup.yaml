@@ -1,0 +1,12 @@
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: ${BACKUP_NAME}
+  namespace: kommander
+spec:
+  defaultVolumesToFsBackup: false
+  includedNamespaces:
+    - nginx-app
+  storageLocation: default
+  volumeSnapshotLocations:
+    - default

@@ -1,0 +1,112 @@
+package appscenarios
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"path/filepath"
+
+	"github.com/nutanix-cloud-native/nkp-catalog-tests/constants"
+	"github.com/nutanix-cloud-native/nkp-catalog-tests/environment"
+	"github.com/nutanix-cloud-native/nkp-catalog-tests/scenarios"
+)
+
+type reloader struct {
+	appPathCurrentVersion  string
+	appPathPreviousVersion string
+}
+
+func (r reloader) Name() string {
+	return constants.Reloader
+}
+
+var _ scenarios.AppScenario = (*reloader)(nil)
+
+var nginxCMName = "nginx-config"
+
+func NewReloader() *reloader {
+	appPath, _ := absolutePathTo(constants.Reloader)
+	appPrevVerPath, _ := getkAppsUpgradePath(constants.Reloader)
+	return &reloader{
+		appPathCurrentVersion:  appPath,
+		appPathPreviousVersion: appPrevVerPath,
+	}
+}
+
+func (r reloader) Install(ctx context.Context, env *environment.Env) error {
+	err := r.install(ctx, env, r.appPathCurrentVersion)
+
+	return err
+}
+
+func (r reloader) InstallPreviousVersion(ctx context.Context, env *environment.Env) error {
+	err := r.install(ctx, env, r.appPathPreviousVersion)
+
+	return err
+}
+
+func (r reloader) install(ctx context.Context, env *environment.Env, appPath string) error {
+	// apply defaults config maps first
+	defaultKustomization := filepath.Join(appPath, "/defaults")
+	if _, err := os.Stat(defaultKustomization); err == nil {
+		err := env.ApplyKustomizations(ctx, defaultKustomization, map[string]string{
+			"appVersion":       "app-version-reloader",
+			"releaseNamespace": kommanderNamespace,
+		})
+		if err != nil {
+			return err
+		}
+	}
+	err := env.ApplyKustomizations(ctx, appPath, map[string]string{
+		"releaseName":      "app-deployment-name",
+		"appVersion":       "app-version",
+		"releaseNamespace": kommanderNamespace,
+	})
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func (r reloader) ApplyNginxConfigmap(ctx context.Context, env *environment.Env, nginxCMFilename string) error {
+	testDataPath, err := getTestDataDir()
+	if err != nil {
+		return err
+	}
+
+	nginxCMYamlPath := filepath.Join(testDataPath, "reloader", nginxCMFilename)
+	err = env.ApplyYAML(ctx, nginxCMYamlPath, map[string]string{
+		"namespace": kommanderNamespace,
+		"cmName":    nginxCMName,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r reloader) ApplyNginxDeployment(ctx context.Context, env *environment.Env) error {
+	testDataPath, err := getTestDataDir()
+	if err != nil {
+		return err
+	}
+
+	nginxDeploymentYamlPath := filepath.Join(testDataPath, "reloader/nginx.yaml")
+	err = env.ApplyYAML(ctx, nginxDeploymentYamlPath, map[string]string{
+		"namespace": kommanderNamespace,
+		"cmName":    nginxCMName,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r reloader) Upgrade(ctx context.Context, env *environment.Env) error {
+	return fmt.Errorf("upgrade is not yet implemented")
+}

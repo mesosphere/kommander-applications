@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kommander-traefik-tls
+  namespace: kommander
+spec:
+  dnsNames:
+    # Using an internal route to the ingres controller to avoid the need for an external DNS entry
+    # This should allow the solver to complete the challenge
+    - ingress-nginx-controller.ingress-nginx.svc.cluster.local
+  duration: 1h0m0s
+  issuerRef:
+    kind: ClusterIssuer
+    name: kommander-acme-issuer
+  secretName: kommander-traefik-tls
