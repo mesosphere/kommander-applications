@@ -26,6 +26,7 @@ spec:
   upgrade:
     serverSideApply: enabled
     remediation:
+      retries: 30
       strategy: uninstall
   rollback:
     serverSideApply: enabled
@@ -34,6 +35,8 @@ spec:
       name: nkp-pulse-workspace-0.4.2-config-defaults
   install:
     serverSideApply: true
+    remediation:
+      retries: 30
 ---
 apiVersion: v1
 kind: ConfigMap
