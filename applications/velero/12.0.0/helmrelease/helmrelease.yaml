@@ -30,6 +30,8 @@ spec:
   upgrade:
     serverSideApply: enabled
     crds: CreateReplace
+    remediation:
+      retries: 30
   rollback:
     serverSideApply: enabled
   releaseName: velero
