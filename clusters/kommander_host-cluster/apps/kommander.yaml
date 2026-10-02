@@ -12,6 +12,7 @@ spec:
       releaseNamespace: kommander
       workspaceNamespace: kommander
   prune: true
+  deletionPolicy: Orphan
   retryInterval: 1m
   sourceRef:
     kind: GitRepository
