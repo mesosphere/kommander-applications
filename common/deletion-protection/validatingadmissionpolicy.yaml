@@ -1,0 +1,77 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: nkp-deletion-protection
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    # Evaluated against both the old and the new object, so enrollment, label removal and deletion all match
+    # while updates to unlabeled objects are never evaluated.
+    objectSelector:
+      matchExpressions:
+        - key: nkp.nutanix.com/deletion-protection
+          operator: Exists
+    resourceRules:
+      - apiGroups: ["*"]
+        apiVersions: ["*"]
+        operations: ["CREATE", "UPDATE", "DELETE"]
+        resources: ["*"]
+        scope: "*"
+  variables:
+    - name: labelKey
+      expression: "'nkp.nutanix.com/deletion-protection'"
+    - name: oldState
+      expression: >-
+        oldObject != null && has(oldObject.metadata.labels) && variables.labelKey in oldObject.metadata.labels
+        ? string(oldObject.metadata.labels[variables.labelKey]) : ''
+    - name: newState
+      expression: >-
+        object != null && has(object.metadata.labels) && variables.labelKey in object.metadata.labels
+        ? string(object.metadata.labels[variables.labelKey]) : ''
+    - name: knownStates
+      expression: "['standard', 'revoked', 'strict']"
+    - name: isSystemIdentity
+      expression: "request.userInfo.username.startsWith('system:')"
+  validations:
+    - expression: "request.operation != 'DELETE' || variables.oldState == 'revoked'"
+      messageExpression: >-
+        'Deletion denied: resource is protected by ' + variables.labelKey + '=' + variables.oldState +
+        '. An authorized user must set the label to revoked before deleting.'
+      reason: Forbidden
+    - expression: >-
+        request.operation == 'DELETE' || variables.newState == variables.oldState ||
+        variables.newState == '' || variables.newState in variables.knownStates
+      messageExpression: >-
+        'Update denied: unsupported value ' + variables.labelKey + '=' + variables.newState +
+        '. Supported values are standard, revoked and strict.'
+      reason: Invalid
+    - expression: "request.operation != 'UPDATE' || variables.oldState != 'strict' || variables.newState == 'strict'"
+      messageExpression: >-
+        'Update denied: ' + variables.labelKey + '=strict is immutable and cannot be modified or removed.'
+      reason: Forbidden
+    - expression: "request.operation != 'UPDATE' || variables.oldState != 'standard' || variables.newState != ''"
+      messageExpression: >-
+        'Update denied: ' + variables.labelKey + '=standard cannot be removed. Set the label to revoked instead.' +
+        ' If this object is applied by Flux, re-apply the label with --field-manager=nkp-deletion-protection.'
+      reason: Forbidden
+    - expression: >-
+        request.operation != 'UPDATE' || variables.oldState == '' || variables.oldState in variables.knownStates ||
+        variables.newState in [variables.oldState, 'standard', 'strict']
+      messageExpression: >-
+        'Update denied: ' + variables.labelKey + '=' + variables.oldState +
+        ' is unsupported and can only be changed to standard or strict.'
+      reason: Forbidden
+    - expression: >-
+        request.operation != 'UPDATE' || variables.oldState != 'standard' || variables.newState != 'revoked' ||
+        !variables.isSystemIdentity
+      messageExpression: >-
+        'Update denied: ' + request.userInfo.username + ' is a system identity and system identities cannot revoke ' +
+        variables.labelKey + '=standard. Protection must be revoked manually by a user with update permission.'
+      reason: Forbidden
+  auditAnnotations:
+    - key: state
+      valueExpression: >-
+        request.operation + ': ' + (variables.oldState == '' ? 'none' : variables.oldState) + ' -> ' +
+        (variables.newState == '' ? 'none' : variables.newState)
