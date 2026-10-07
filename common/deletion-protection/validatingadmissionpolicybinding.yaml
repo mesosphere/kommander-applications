@@ -1,0 +1,11 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: nkp-deletion-protection
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
+spec:
+  policyName: nkp-deletion-protection
+  validationActions:
+    - Deny
+    - Audit
