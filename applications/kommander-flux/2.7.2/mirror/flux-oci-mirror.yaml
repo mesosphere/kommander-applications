@@ -37,7 +37,7 @@ spec:
         - args:
             - -config-dir
             - /config
-          image: mesosphere/flux-oci-mirror:v0.3.0
+          image: mesosphere/flux-oci-mirror:v0.3.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             initialDelaySeconds: 10
@@ -69,8 +69,8 @@ spec:
       volumes:
         - name: flux-oci-mirror-config
           secret:
-            secretName: flux-oci-mirror-config
             optional: true
+            secretName: flux-oci-mirror-config
         - name: proxy-ca
           secret:
             secretName: flux-oci-mirror-ca-secret
