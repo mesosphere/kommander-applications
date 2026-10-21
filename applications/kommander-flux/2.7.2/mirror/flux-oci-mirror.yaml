@@ -1,15 +1,4 @@
 apiVersion: v1
-data:
-  ca.crt: ""
-kind: Secret
-metadata:
-  name: flux-oci-mirror-config
-stringData:
-  config.yaml: |
-    listen_addr: ":8443"
-type: Opaque
----
-apiVersion: v1
 kind: Service
 metadata:
   name: flux-oci-mirror
@@ -48,7 +37,7 @@ spec:
         - args:
             - -config-dir
             - /config
-          image: mesosphere/flux-oci-mirror:v0.3.0
+          image: mesosphere/flux-oci-mirror:v0.3.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             initialDelaySeconds: 10
@@ -80,6 +69,7 @@ spec:
       volumes:
         - name: flux-oci-mirror-config
           secret:
+            optional: true
             secretName: flux-oci-mirror-config
         - name: proxy-ca
           secret:
