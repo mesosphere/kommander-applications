@@ -856,13 +856,14 @@ spec:
         - containerPort: 8443
           name: https
           protocol: TCP
+        # TODO: need better evidence for basing these values off of.
         resources:
           limits:
-            cpu: 500m
-            memory: 128Mi
+            cpu: "1"
+            memory: 256Mi
           requests:
-            cpu: 5m
-            memory: 64Mi
+            cpu: 10m
+            memory: 128Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -888,13 +889,14 @@ spec:
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
+        # TODO: need better evidence for basing these values off of.
         resources:
           limits:
-            cpu: 500m
-            memory: 128Mi
+            cpu: "1"
+            memory: 256Mi
           requests:
-            cpu: 10m
-            memory: 64Mi
+            cpu: 20m
+            memory: 128Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -949,13 +951,14 @@ spec:
           periodSeconds: 10
           tcpSocket:
             port: 8443
+        # TODO: need better evidence for basing these values off of.
         resources:
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: "1"
+            memory: 512Mi
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 200m
+            memory: 128Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -986,13 +989,14 @@ spec:
           tcpSocket:
             port: 9000
         name: git-server-fcgi
+        # TODO: need better evidence for basing these values off of.
         resources:
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: "1"
+            memory: 512Mi
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: 200m
+            memory: 128Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -1035,13 +1039,14 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 3
           periodSeconds: 3
+        # TODO: need better evidence for basing these values off of.
         resources:
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: "1"
+            memory: 512Mi
           requests:
-            cpu: 100m
-            memory: 256Mi
+            cpu: 200m
+            memory: 512Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

@@ -90,12 +90,13 @@ data:
         repository: ghcr.io/fluent/fluent-bit
         tag: 5.0.2
       podPriorityClassName: dkp-critical-priority
+      # TODO: need better evidence for basing these values off of.
       resources:
         limits:
-          memory: 750Mi
+          memory: 1500Mi
         requests:
-          cpu: 350m
-          memory: 350Mi
+          cpu: 700m
+          memory: 700Mi
       tolerations:
         - operator: Exists
           effect: NoSchedule
