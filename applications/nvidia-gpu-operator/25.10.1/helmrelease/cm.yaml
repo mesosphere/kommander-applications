@@ -12,33 +12,33 @@ data:
       manager:
         image: k8s-driver-manager
         repository: nvcr.io/nvidia/cloud-native
-        version: v0.9.0
+        version: v0.9.1
     devicePlugin:
       config:
         # Create a ConfigMap (default: false)
         create: false
       repository: nvcr.io/nvidia
-      version: v0.18.0
+      version: v0.18.1
     toolkit:
-      version: v1.18.0
+      version: v1.18.1
     gfd:
       # gfd is no longer published a standalone helm chart or image and instead uses
       # the k8s-device-plugin image.
       enabled: true
-      version: v0.18.0
+      version: v0.18.1
     dcgm:
       enabled: true
-      version: 4.4.1-2-ubuntu22.04
+      version: 4.4.2-1-ubuntu22.04
     dcgmExporter:
       enabled: true
       serviceMonitor:
         enabled: true
         additionalLabels:
           prometheus.kommander.d2iq.io/select: "true"
-      version: 4.4.1-4.6.0-ubuntu22.04
+      version: 4.4.2-4.7.0-ubuntu22.04
     operator:
       repository: nvcr.io/nvidia
-      version: v25.10.0
+      version: v25.10.1
     migManager:
       enabled: true
       repository: nvcr.io/nvidia/cloud-native
