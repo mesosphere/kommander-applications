@@ -121,6 +121,17 @@ data:
             # Service ports for loki-distributed
             - targetPort: http
               interval: 30s
+        - name: dkp-service-monitor-metrics-http-metrics
+          selector:
+            matchLabels:
+              servicemonitor.kommander.mesosphere.io/path: "metrics"
+              servicemonitor.kommander.mesosphere.io/port: "http-metrics"
+          namespaceSelector:
+            any: true
+          endpoints:
+            # Service ports for grafana-loki-v3 (gateway + components)
+            - port: http-metrics
+              interval: 30s
         - name: dkp-service-monitor-api-v1-metrics-prometheus
           selector:
             matchLabels:
