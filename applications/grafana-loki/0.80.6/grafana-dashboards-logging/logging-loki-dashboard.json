@@ -932,7 +932,7 @@
         "options": [],
         "query": "label_values({container=\"$container\"}, pod)",
         "refresh": 2,
-        "regex": "$container.*",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
