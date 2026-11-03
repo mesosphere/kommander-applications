@@ -136,10 +136,15 @@ data:
         external_url: http://kube-prometheus-stack-alertmanager.${releaseNamespace}.svc.cluster.local:9093
 
     # Enable distributed mode components
+    # serviceLabels feed dkp-service-monitor-metrics-http-metrics (chart uses
+    # *.serviceLabels for distributed Services, not *.service.labels).
     # Ingester configuration
     ingester:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       persistence:
         enabled: true
         size: 10Gi
@@ -151,6 +156,9 @@ data:
     distributor:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       extraEnvFrom:
         - secretRef:
             name: dkp-loki
@@ -159,6 +167,9 @@ data:
     querier:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       persistence:
         enabled: true
         size: 10Gi
@@ -170,6 +181,9 @@ data:
     queryFrontend:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       extraEnvFrom:
         - secretRef:
             name: dkp-loki
@@ -178,11 +192,17 @@ data:
     queryScheduler:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
 
     # Index Gateway configuration
     indexGateway:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       persistence:
         enabled: true
         size: 10Gi
@@ -194,6 +214,9 @@ data:
     compactor:
       replicas: 1
       priorityClassName: "dkp-critical-priority"
+      serviceLabels:
+        servicemonitor.kommander.mesosphere.io/path: "metrics"
+        servicemonitor.kommander.mesosphere.io/port: "http-metrics"
       persistence:
         enabled: true
         size: 10Gi
@@ -251,6 +274,8 @@ data:
       enabled: false
 
     # Monitoring configuration
+    # Chart ServiceMonitor/rules/dashboards stay off: kube-prometheus-stack owns
+    # scraping via dkp-service-monitor-metrics-http-metrics + serviceLabels above.
     monitoring:
       dashboards:
         enabled: false
