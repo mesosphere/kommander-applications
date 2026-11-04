@@ -722,6 +722,11 @@ data:
                 return 200 'ok';
             }
 
+            # Used by the gitsnapshot container liveness/readiness probes.
+            location /healthz/gitsnapshot {
+               proxy_pass http://127.0.0.1:8081/readyz;
+            }
+
             # The [a-z0-9]([\\-\\.a-z0-9]*[a-z0-9]) regexp matches all possible Namespace/GitClaim names
             # (that is, "lowercase RFC1123 subdomain names"),
             # but does not match special path character combinations (".", "..", etc.)
@@ -874,7 +879,7 @@ spec:
         - --leader-elect
         - --namespace=${NAMESPACE:=git-operator-system}
         - --pprof-address=127.0.0.1:8082
-        image: docker.io/mesosphere/git-operator:v0.13.24
+        image: docker.io/mesosphere/git-operator:v0.13.25
         livenessProbe:
           httpGet:
             path: /healthz
@@ -978,13 +983,20 @@ spec:
       - env:
         - name: GIT_VOLUME_PATH
           value: /volumes/git
-        image: docker.io/mesosphere/gitwebserver:v0.13.24
+        image: docker.io/mesosphere/gitwebserver:v0.13.25
         imagePullPolicy: IfNotPresent
         livenessProbe:
+          exec:
+            command:
+            - nc
+            - -z
+            - -w1
+            - 127.0.0.1
+            - "9000"
+          failureThreshold: 3
           initialDelaySeconds: 3
           periodSeconds: 3
-          tcpSocket:
-            port: 9000
+          timeoutSeconds: 10
         name: git-server-fcgi
         resources:
           limits:
@@ -1009,7 +1021,7 @@ spec:
       - command:
         - /usr/local/bin/gitsnapshot
         - --addr
-        - :8081
+        - 127.0.0.1:8081
         - --repo-url
         - file:///volumes/admin/admin.git
         - --repo-mirror-dir
@@ -1018,23 +1030,25 @@ spec:
         - /volumes/admin-tmp/snapshots
         - --snapshot-symlink
         - /volumes/admin-tmp/active-snapshot
-        image: docker.io/mesosphere/gitwebserver:v0.13.24
+        image: docker.io/mesosphere/gitwebserver:v0.13.25
         imagePullPolicy: IfNotPresent
         livenessProbe:
+          failureThreshold: 6
           httpGet:
-            path: /readyz
-            port: 8081
-            scheme: HTTP
-          initialDelaySeconds: 3
-          periodSeconds: 3
+            path: /healthz/gitsnapshot
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
         name: gitsnapshot
         readinessProbe:
+          failureThreshold: 6
           httpGet:
-            path: /readyz
-            port: 8081
-            scheme: HTTP
-          initialDelaySeconds: 3
-          periodSeconds: 3
+            path: /healthz/gitsnapshot
+            port: 8443
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
         resources:
           limits:
             cpu: 500m
@@ -1057,7 +1071,7 @@ spec:
         - /bin/bash
         - -c
         - chown 65532:65532 -R /volumes/git /volumes/admin
-        image: docker.io/mesosphere/gitwebserver:v0.13.24
+        image: docker.io/mesosphere/gitwebserver:v0.13.25
         name: change-permissions
         securityContext:
           runAsUser: 0
@@ -1073,7 +1087,7 @@ spec:
         env:
         - name: ADMIN_REPO_PATH
           value: /volumes/admin/admin.git
-        image: docker.io/mesosphere/gitwebserver:v0.13.24
+        image: docker.io/mesosphere/gitwebserver:v0.13.25
         imagePullPolicy: IfNotPresent
         name: init-admin-repo
         securityContext:
