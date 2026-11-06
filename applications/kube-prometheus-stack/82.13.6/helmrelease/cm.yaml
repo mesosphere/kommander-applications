@@ -415,6 +415,21 @@ data:
                 annotations:
                   summary: "Certificate renewed successfully"
                   description: "Certificate has been renewed successfully"
+      nutanix-k8s-ha-alerts:
+        groups:
+          - name: NutanixK8sHAAlerts
+            rules:
+              # Append further rules below.
+              - alert: NutanixK8sClusterNotFaultTolerant
+                expr: count(max by (vg_name) (nutanix_csi_multipath_degraded == 1)) > 0
+                for: 5m
+                labels:
+                  component: nutanix-csi
+                  signal: multipath_degraded
+                  severity: warning
+                annotations:
+                  summary: "Nutanix: Kubernetes cluster is not fault tolerant"
+                  description: 'Affected VGs (reason): {{ range $i, $v := (query "max by (vg_name, reason) (nutanix_csi_multipath_degraded == 1)" | sortByLabel "vg_name") }}{{ if $i }}, {{ end }}{{ $v.Labels.vg_name }} ({{ $v.Labels.reason }}){{ end }}'
     alertmanager:
       enabled: true
       config:
