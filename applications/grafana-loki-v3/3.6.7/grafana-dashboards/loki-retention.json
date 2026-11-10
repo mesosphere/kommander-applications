@@ -1420,14 +1420,15 @@
         "type": "datasource"
       },
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {
-          "text": "prod",
-          "value": "prod"
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "$datasource",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "cluster",
         "multi": false,
         "name": "cluster",
@@ -1443,14 +1444,15 @@
         "useTags": false
       },
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {
-          "text": "prod",
-          "value": "prod"
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "$datasource",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "namespace",
         "multi": false,
         "name": "namespace",

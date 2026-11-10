@@ -1,6 +1,6 @@
 {
   "annotations": {
-    "list": [ ]
+    "list": []
   },
   "editable": true,
   "gnetId": null,
@@ -27,7 +27,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -45,20 +45,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(loki_ingester_memory_chunks{cluster=\"$cluster\", namespace=~\"$namespace\"})",
+              "expr": "sum(loki_ingester_memory_chunks{cluster=~\"$cluster\", namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "series",
@@ -66,7 +66,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Series",
@@ -81,7 +81,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -103,7 +103,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -121,20 +121,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(loki_ingester_memory_chunks{cluster=\"$cluster\", namespace=~\"$namespace\"}) / sum(loki_ingester_memory_streams{cluster=\"$cluster\", namespace=~\"$namespace\"})",
+              "expr": "sum(loki_ingester_memory_chunks{cluster=~\"$cluster\", namespace=~\"$namespace\"}) / sum(loki_ingester_memory_streams{cluster=~\"$cluster\", namespace=~\"$namespace\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "chunks",
@@ -142,7 +142,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Chunks per series",
@@ -157,7 +157,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -191,7 +191,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -209,20 +209,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_utilization_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
+              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_utilization_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
@@ -230,7 +230,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_utilization_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
+              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_utilization_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
@@ -238,7 +238,7 @@
               "step": 10
             },
             {
-              "expr": "sum(rate(loki_ingester_chunk_utilization_sum{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1 / sum(rate(loki_ingester_chunk_utilization_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum(rate(loki_ingester_chunk_utilization_sum{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1 / sum(rate(loki_ingester_chunk_utilization_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
@@ -246,7 +246,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Utilization",
@@ -261,7 +261,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -283,7 +283,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -301,20 +301,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_age_seconds_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_age_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
@@ -322,7 +322,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_age_seconds_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_age_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
@@ -330,7 +330,7 @@
               "step": 10
             },
             {
-              "expr": "sum(rate(loki_ingester_chunk_age_seconds_sum{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1e3 / sum(rate(loki_ingester_chunk_age_seconds_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum(rate(loki_ingester_chunk_age_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1e3 / sum(rate(loki_ingester_chunk_age_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
@@ -338,7 +338,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Age",
@@ -353,7 +353,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -387,7 +387,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -405,20 +405,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_entries_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
+              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_entries_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
@@ -426,7 +426,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_entries_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
+              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_entries_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)) * 1",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
@@ -434,7 +434,7 @@
               "step": 10
             },
             {
-              "expr": "sum(rate(loki_ingester_chunk_entries_sum{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1 / sum(rate(loki_ingester_chunk_entries_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum(rate(loki_ingester_chunk_entries_sum{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) * 1 / sum(rate(loki_ingester_chunk_entries_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
@@ -442,7 +442,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Log Entries Per Chunk",
@@ -457,7 +457,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -479,7 +479,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -497,20 +497,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(loki_chunk_store_index_entries_per_chunk_sum{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m])) / sum(rate(loki_chunk_store_index_entries_per_chunk_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m]))",
+              "expr": "sum(rate(loki_chunk_store_index_entries_per_chunk_sum{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m])) / sum(rate(loki_chunk_store_index_entries_per_chunk_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Index Entries",
@@ -518,7 +518,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Index Entries Per Chunk",
@@ -533,7 +533,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -567,7 +567,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -585,20 +585,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "cortex_ingester_flush_queue_length{cluster=\"$cluster\", namespace=~\"$namespace\"}",
+              "expr": "cortex_ingester_flush_queue_length{cluster=~\"$cluster\", namespace=~\"$namespace\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -606,7 +606,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Queue Length",
@@ -621,7 +621,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -669,20 +669,20 @@
           },
           "lines": true,
           "linewidth": 0,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(loki_ingester_chunk_age_seconds_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(loki_ingester_chunk_age_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]),\n  \"status\", \"$${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"$${1}\", \"status_code\", \"([a-z]+)\"))\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{status}}",
@@ -690,7 +690,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Flush Rate",
@@ -705,7 +705,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -739,7 +739,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -757,20 +757,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(loki_ingester_chunks_flushed_total{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum(rate(loki_ingester_chunks_flushed_total{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{pod}}",
@@ -778,7 +778,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Chunks Flushed/Second",
@@ -793,7 +793,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -815,7 +815,7 @@
           ]
         },
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -833,20 +833,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 6,
           "stack": true,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (reason) (rate(loki_ingester_chunks_flushed_total{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) / ignoring(reason) group_left sum(rate(loki_ingester_chunks_flushed_total{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum by (reason) (rate(loki_ingester_chunks_flushed_total{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) / ignoring(reason) group_left sum(rate(loki_ingester_chunks_flushed_total{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{reason}}",
@@ -854,7 +854,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Chunk Flush Reason",
@@ -869,7 +869,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -916,7 +916,7 @@
           },
           "dataFormat": "tsbuckets",
           "datasource": "$datasource",
-          "heatmap": { },
+          "heatmap": {},
           "hideZeroBuckets": false,
           "highlightCards": true,
           "id": 11,
@@ -926,7 +926,7 @@
           "span": 12,
           "targets": [
             {
-              "expr": "sum by (le) (rate(loki_ingester_chunk_utilization_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
+              "expr": "sum by (le) (rate(loki_ingester_chunk_utilization_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval]))",
               "format": "heatmap",
               "intervalFactor": 2,
               "legendFormat": "{{le}}",
@@ -978,7 +978,7 @@
           },
           "dataFormat": "tsbuckets",
           "datasource": "$datasource",
-          "heatmap": { },
+          "heatmap": {},
           "hideZeroBuckets": false,
           "highlightCards": true,
           "id": 12,
@@ -988,7 +988,7 @@
           "span": 12,
           "targets": [
             {
-              "expr": "sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)",
+              "expr": "sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (le)",
               "format": "heatmap",
               "intervalFactor": 2,
               "legendFormat": "{{le}}",
@@ -1027,7 +1027,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -1045,20 +1045,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
+              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "p99",
@@ -1066,7 +1066,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.90, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
+              "expr": "histogram_quantile(0.90, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "p90",
@@ -1074,7 +1074,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
+              "expr": "histogram_quantile(0.50, sum(rate(loki_ingester_chunk_size_bytes_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[1m])) by (le))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "p50",
@@ -1082,7 +1082,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Chunk Size Quantiles",
@@ -1097,7 +1097,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1131,7 +1131,7 @@
       "height": "250px",
       "panels": [
         {
-          "aliasColors": { },
+          "aliasColors": {},
           "bars": false,
           "dashLength": 10,
           "dashes": false,
@@ -1149,20 +1149,20 @@
           },
           "lines": true,
           "linewidth": 1,
-          "links": [ ],
+          "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [ ],
+          "seriesOverrides": [],
           "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.5, sum(rate(loki_ingester_chunk_bounds_hours_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m])) by (le))",
+              "expr": "histogram_quantile(0.5, sum(rate(loki_ingester_chunk_bounds_hours_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m])) by (le))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "p50",
@@ -1170,7 +1170,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_bounds_hours_bucket{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m])) by (le))",
+              "expr": "histogram_quantile(0.99, sum(rate(loki_ingester_chunk_bounds_hours_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m])) by (le))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "p99",
@@ -1178,7 +1178,7 @@
               "step": 10
             },
             {
-              "expr": "sum(rate(loki_ingester_chunk_bounds_hours_sum{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m])) / sum(rate(loki_ingester_chunk_bounds_hours_count{cluster=\"$cluster\", namespace=~\"$namespace\"}[5m]))",
+              "expr": "sum(rate(loki_ingester_chunk_bounds_hours_sum{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m])) / sum(rate(loki_ingester_chunk_bounds_hours_count{cluster=~\"$cluster\", namespace=~\"$namespace\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
@@ -1186,7 +1186,7 @@
               "step": 10
             }
           ],
-          "thresholds": [ ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Chunk Duration hours (end-start)",
@@ -1201,7 +1201,7 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": [ ]
+            "values": []
           },
           "yaxes": [
             {
@@ -1247,54 +1247,56 @@
         "hide": 0,
         "label": "Data Source",
         "name": "datasource",
-        "options": [ ],
+        "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
         "type": "datasource"
       },
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {
-          "text": "prod",
-          "value": "prod"
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "$datasource",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "cluster",
         "multi": false,
         "name": "cluster",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info, cluster)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
       },
       {
-        "allValue": null,
+        "allValue": ".*",
         "current": {
-          "text": "prod",
-          "value": "prod"
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
         },
         "datasource": "$datasource",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "namespace",
         "multi": false,
         "name": "namespace",
-        "options": [ ],
+        "options": [],
         "query": "label_values(loki_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
         "sort": 2,
         "tagValuesQuery": "",
-        "tags": [ ],
+        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
