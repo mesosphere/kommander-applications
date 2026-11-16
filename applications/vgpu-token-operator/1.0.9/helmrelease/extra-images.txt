@@ -1,0 +1,1 @@
+ghcr.io/nutanix-cloud-native/vgpu-token-copier:{{ $.Chart.AppVersion }}
