@@ -104,6 +104,19 @@ var _ = Describe("GateKeeper Tests", Label("gatekeeper"), func() {
 			}
 		})
 
+		It("should enable audit-match-kind-only on the audit deployment", func() {
+			var auditDeploy *appsv1.Deployment
+			for i := range gateKeeperDeploymentList.Items {
+				if gateKeeperDeploymentList.Items[i].Name == "gatekeeper-audit" {
+					auditDeploy = &gateKeeperDeploymentList.Items[i]
+					break
+				}
+			}
+			Expect(auditDeploy).ToNot(BeNil())
+			Expect(auditDeploy.Spec.Template.Spec.Containers[0].Args).To(
+				ContainElement("--audit-match-kind-only=true"))
+		})
+
 		It("should enforce the default constraints", func() {
 			By("creating Project NS")
 			projectNS := &corev1.Namespace{

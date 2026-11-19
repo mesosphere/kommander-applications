@@ -9,6 +9,8 @@ data:
     replicas: 2
     disableValidatingWebhook: false
     disableMutation: true
+    # Falls back to full audit if any constraint omits kinds which is current behaviour.
+    auditMatchKindOnly: true
 
     mutations:
       enablePodProxy: false
