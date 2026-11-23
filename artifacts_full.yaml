@@ -6,7 +6,7 @@ applications:
       - oci://<registry-url>/kommander-applications/centralized-grafana:82.13.6
       - oci://<registry-url>/kommander-applications/centralized-opencost:2.5.14
       - oci://<registry-url>/kommander-applications/cert-manager:1.19.3
-      - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.5
+      - oci://<registry-url>/kommander-applications/cilium-hubble-relay-traefik:0.0.6
       - oci://<registry-url>/kommander-applications/cloudnative-pg:0.28.0
       - oci://<registry-url>/kommander-applications/cosi-driver-nutanix:0.6.3
       - oci://<registry-url>/kommander-applications/dex-k8s-authenticator:1.4.8
@@ -60,7 +60,7 @@ applications:
       - oci://<registry-url>/kommander-applications/traefik-forward-auth:0.3.18
       - oci://<registry-url>/kommander-applications/traefik:39.0.7
       - oci://<registry-url>/kommander-applications/velero:12.0.0
-      - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.8
+      - oci://<registry-url>/kommander-applications/vgpu-token-operator:1.0.9
       - docker.io/mesosphere/cluster-observer:1.6.0
       - docker.io/mesosphere/ghostunnel:v1.8.1-server-backend-proxy
       - docker.io/mesosphere/kommander2-core-installer:v2.18.1-dev
@@ -93,7 +93,7 @@ applications:
       - quay.io/jetstack/cert-manager-startupapicheck:v1.19.3
       - quay.io/jetstack/cert-manager-webhook:v1.19.3
   - name: cilium-hubble-relay-traefik
-    version: 0.0.5
+    version: 0.0.6
     images:
       - oci://ghcr.io/mesosphere/charts/cilium-hubble-relay-traefik:0.0.3
   - name: cloudnative-pg
@@ -552,7 +552,7 @@ applications:
       - docker.io/velero/velero-plugin-for-aws:v1.14.0
       - docker.io/velero/velero:v1.18.0
   - name: vgpu-token-operator
-    version: 1.0.8
+    version: 1.0.9
     images:
       - oci://ghcr.io/nutanix-cloud-native/vgpu-token-operator-charts/vgpu-token-operator:v1.0.7
       - ghcr.io/nutanix-cloud-native/vgpu-token-copier:v1.0.7
