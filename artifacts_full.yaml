@@ -441,7 +441,7 @@ applications:
       - ghcr.io/k8snetworkplumbingwg/network-resources-injector:v1.10.0
       - nvcr.io/nvidia/cloud-native/network-operator:v26.10.0
       - nvcr.io/nvidia/doca/doca_telemetry:1.27.7-doca3.6.0-host
-      - nvcr.io/nvidia/mellanox/doca-driver:doca3.6.0-26.10-070000-1-5.15.0-203-generic-ubuntu22.04-amd64
+      - ghcr.io/nutanix-cloud-native/doca-driver:doca3.6.0-26.10-070000-0-5.15.0-203-generic-ubuntu22.04-amd64
       - nvcr.io/nvidia/mellanox/doca-driver:doca3.6.0-26.10-070000-1-6.8.0-149-generic-ubuntu24.04-amd64
       - nvcr.io/nvidia/mellanox/ib-kubernetes:network-operator-v26.10.0
       - nvcr.io/nvidia/mellanox/ib-sriov-cni:network-operator-v26.10.0

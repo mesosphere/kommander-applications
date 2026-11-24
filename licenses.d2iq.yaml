@@ -985,9 +985,9 @@ resources:
       - url: nvcr.io/nvidia/doca/doca_telemetry:1.21.4-doca3.0.0-host
         ref: ${image_tag}
         license_path: LICENSE
-  - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.6.0-26.10-070000-1-5.15.0-203-generic-ubuntu22.04-amd64
+  - container_image: ghcr.io/nutanix-cloud-native/doca-driver:doca3.6.0-26.10-070000-0-5.15.0-203-generic-ubuntu22.04-amd64
     sources:
-      - url: nvcr.io/nvidia/mellanox/doca-driver:doca3.6.0-26.10-070000-1-5.15.0-203-generic-ubuntu22.04-amd64
+      - url: ghcr.io/nutanix-cloud-native/doca-driver:doca3.6.0-26.10-070000-0-5.15.0-203-generic-ubuntu22.04-amd64
         ref: ${image_tag}
         license_path: LICENSE
   - container_image: nvcr.io/nvidia/mellanox/doca-driver:doca3.6.0-26.10-070000-1-6.8.0-149-generic-ubuntu24.04-amd64
